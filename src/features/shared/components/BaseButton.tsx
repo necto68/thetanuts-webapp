@@ -1,25 +1,26 @@
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import styled from "styled-components";
+import { motion } from "framer-motion";
 
-export interface BaseButtonProps {
+interface BaseButtonProps {
   primaryColor?: string;
   secondaryColor?: string;
   disabled?: boolean;
   onClick?: () => void;
 }
 
-export const BaseButton = styled(motion.button).attrs<BaseButtonProps>(
+const BaseButton = styled(motion.button).attrs<Required<BaseButtonProps>>(
   ({ primaryColor, disabled }) => ({
     whileHover: !disabled && {
       scale: 1.02,
       boxShadow: `0 0 10px ${primaryColor}`,
     },
+
     whileTap: !disabled && {
       scale: 0.97,
       boxShadow: `0 0 0px ${primaryColor}`,
       opacity: 0.8,
     },
-  }),
+  })
 )<BaseButtonProps>`
   font-family: Barlow;
   font-weight: 400;
@@ -36,11 +37,14 @@ export const BaseButton = styled(motion.button).attrs<BaseButtonProps>(
   padding: 5px 24px;
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 
 BaseButton.defaultProps = {
-  primaryColor: '#ffffff',
-  secondaryColor: 'transparent',
   disabled: false,
+  primaryColor: "#ffffff",
+  secondaryColor: "transparent",
 };
+
+export type { BaseButtonProps };
+export { BaseButton };

@@ -1,3 +1,3 @@
-import { useGlobalState } from '../../shared/hooks';
+import { useGlobalState } from "../../shared/hooks";
 
-export const useModalState = () => useGlobalState('modalState');
+export const useModalState = () => useGlobalState("modalState");

@@ -1,12 +1,14 @@
-import { FC } from 'react';
-import { ChainIds } from './chains';
-import { ETH, BNB, Polygon, AVAX, FTM } from '../../logo/components';
+import type { FC } from "react";
+
+import { Eth, Bnb, Polygon, Avax, Ftm } from "../../logo/components";
+
+import { ChainId } from "./chains";
 
 export const chainLogosMap: Record<number, FC> = {
-  [ChainIds.ETHEREUM]: ETH,
-  [ChainIds.RINKEBY_TEST]: ETH,
-  [ChainIds.BSC]: BNB,
-  [ChainIds.POLYGON]: Polygon,
-  [ChainIds.AVALANCHE]: AVAX,
-  [ChainIds.FANTOM]: FTM,
+  [ChainId.ETHEREUM]: Eth,
+  [ChainId.RINKEBY]: Eth,
+  [ChainId.BSC]: Bnb,
+  [ChainId.POLYGON]: Polygon,
+  [ChainId.AVALANCHE]: Avax,
+  [ChainId.FANTOM]: Ftm,
 };

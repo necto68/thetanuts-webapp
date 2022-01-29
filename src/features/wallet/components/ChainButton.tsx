@@ -1,16 +1,10 @@
-import { FC } from 'react';
-import styled from 'styled-components';
-import { useWallet } from '@gimmixorg/use-wallet';
-import { BaseButton } from '../../shared/components';
-import { IconContainer } from '../../shared/components';
-import { ArrowIcon } from '../../shared/components';
-import { chainsMap, chainLogosMap } from '../constants';
+import type { FC } from "react";
+import { useWallet } from "@gimmixorg/use-wallet";
 
-export const ChainContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
+import { BaseButton, IconContainer, ArrowIcon } from "../../shared/components";
+import { chainsMap, chainLogosMap } from "../constants";
+
+import { ChainContainer } from "./ChainButton.styles";
 
 interface ChainButtonProps {
   onClick: () => void;
@@ -27,7 +21,7 @@ export const ChainButton: FC<ChainButtonProps> = ({ onClick, showSelect }) => {
   return selectedChain ? (
     <BaseButton onClick={onClick} primaryColor={selectedChain.color}>
       <ChainContainer>
-        <IconContainer width={25} height={25}>
+        <IconContainer height={25} width={25}>
           <LogoComponent />
         </IconContainer>
         {selectedChain.title}
@@ -35,8 +29,8 @@ export const ChainButton: FC<ChainButtonProps> = ({ onClick, showSelect }) => {
       </ChainContainer>
     </BaseButton>
   ) : (
-    <BaseButton primaryColor={'#ff0000'} onClick={onClick}>
-      {'Wrong network'}
+    <BaseButton onClick={onClick} primaryColor="#ff0000">
+      Wrong network
     </BaseButton>
   );
 };

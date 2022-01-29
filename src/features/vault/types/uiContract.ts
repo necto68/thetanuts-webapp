@@ -1,6 +1,6 @@
-import { ChainIds } from '../../wallet/constants';
+import type { ChainId } from "../../wallet/constants";
 
 export interface UIContract {
-  chainId: ChainIds;
+  chainId: ChainId;
   address: string;
 }

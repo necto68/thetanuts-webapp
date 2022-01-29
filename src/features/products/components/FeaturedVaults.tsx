@@ -1,6 +1,7 @@
-import styled from 'styled-components';
-import { Vault } from '../../vault/components';
-import { useVaults } from '../../vault/hooks';
+import { Vault } from "../../vault/components";
+import { useVaults } from "../../vault/hooks";
+
+import { Container, Title, VaultsList } from "./FeaturedVaults.styles";
 
 export const FeaturedVaults = () => {
   const vaults = useVaults();
@@ -16,21 +17,3 @@ export const FeaturedVaults = () => {
     </Container>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Title = styled.span`
-  font-family: Roboto;
-  font-weight: 700;
-  font-size: 32px;
-  color: #e5e5e5;
-`;
-
-const VaultsList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 35px;
-`;

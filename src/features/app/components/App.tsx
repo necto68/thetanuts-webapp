@@ -1,8 +1,10 @@
-import { BrowserRouter as Router } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import Big from 'big.js';
-import { Root } from '../../root/components';
-import { GlobalStyle } from './App.styles';
+import { BrowserRouter as Router } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
+import Big from "big.js";
+
+import { Root } from "../../root/components";
+
+import { GlobalStyle } from "./App.styles";
 
 Big.NE = -20;
 Big.PE = 80;
@@ -10,18 +12,16 @@ Big.PE = 80;
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
+      staleTime: Number.POSITIVE_INFINITY,
     },
   },
 });
 
-export const App = () => {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <GlobalStyle />
-        <Root />
-      </Router>
-    </QueryClientProvider>
-  );
-};
+export const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <Router>
+      <GlobalStyle />
+      <Root />
+    </Router>
+  </QueryClientProvider>
+);

@@ -1,2 +1,2 @@
-export * from './uiContracts';
-export * from './vaults';
+export * from "./uiContracts";
+export * from "./vaults";

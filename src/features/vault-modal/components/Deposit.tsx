@@ -1,30 +1,39 @@
-import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import styled from 'styled-components';
-import { useWallet } from '@gimmixorg/use-wallet';
-import { BaseButton } from '../../shared/components';
-import { addressFormatter } from '../../shared/helpers';
-import { WalletButton } from '../../wallet/components';
-import { useModalVault } from '../hooks';
-import { DepositTab } from './DepositTab';
-import { WithdrawTab } from './WithdrawTab';
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { useWallet } from "@gimmixorg/use-wallet";
 
-enum DepositTabs {
-  deposit = 'deposit',
-  withdraw = 'withdraw',
+import { addressFormatter } from "../../shared/helpers";
+import { WalletButton } from "../../wallet/components";
+import { useModalVault } from "../hooks";
+
+import { DepositTab } from "./DepositTab";
+import { WithdrawTab } from "./WithdrawTab";
+import {
+  DepositContainer,
+  TabsContainer,
+  TabButtonContainer,
+  TabButton,
+  ContentContainer,
+  FooterContainer,
+  ContractAddress,
+} from "./Deposit.styles";
+
+enum TabType {
+  deposit = "deposit",
+  withdraw = "withdraw",
 }
 
 export const Deposit = () => {
   const { account } = useWallet();
   const vault = useModalVault();
-  const [activeTab, setActiveTab] = useState(DepositTabs.deposit);
+  const [activeTab, setActiveTab] = useState(TabType.deposit);
 
   if (!vault) {
     return null;
   }
 
-  const isDepositTab = activeTab === DepositTabs.deposit;
-  const isWithdrawTab = activeTab === DepositTabs.withdraw;
+  const isDepositTab = activeTab === TabType.deposit;
+  const isWithdrawTab = activeTab === TabType.withdraw;
 
   const CurrentTab = isDepositTab ? DepositTab : WithdrawTab;
 
@@ -35,104 +44,33 @@ export const Deposit = () => {
           <TabButton
             active={isDepositTab}
             onClick={() => {
-              setActiveTab(DepositTabs.deposit);
+              setActiveTab(TabType.deposit);
             }}
           >
-            {DepositTabs.deposit}
+            {TabType.deposit}
           </TabButton>
         </TabButtonContainer>
         <TabButtonContainer active={isWithdrawTab}>
           <TabButton
             active={isWithdrawTab}
             onClick={() => {
-              setActiveTab(DepositTabs.withdraw);
+              setActiveTab(TabType.withdraw);
             }}
           >
-            {DepositTabs.withdraw}
+            {TabType.withdraw}
           </TabButton>
         </TabButtonContainer>
       </TabsContainer>
       <ContentContainer>
-        <AnimatePresence initial={false} exitBeforeEnter>
+        <AnimatePresence exitBeforeEnter initial={false}>
           {account ? <CurrentTab key={activeTab} /> : <WalletButton />}
         </AnimatePresence>
       </ContentContainer>
       <FooterContainer>
         <ContractAddress>{`Contract: ${addressFormatter(
-          vault.address,
+          vault.address
         )}`}</ContractAddress>
       </FooterContainer>
     </DepositContainer>
   );
 };
-
-const DepositContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  background-color: #32343a;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-`;
-
-const TabsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const TabButtonContainer = styled(motion.div).attrs<{
-  active: boolean;
-}>(({ active }) => ({
-  animate: {
-    backgroundColor: active ? 'rgba(71,74,83, 0)' : 'rgba(71,74,83, 1)',
-  },
-}))<{ active: boolean }>`
-  display: flex;
-  flex: 1;
-`;
-
-const TabButton = styled(BaseButton).attrs<{ active: boolean }>(
-  ({ active }) => ({
-    primaryColor: active ? '#ffffff' : '#9E9E9E',
-  }),
-)<{
-  active: boolean;
-}>`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  padding: 15px 0;
-
-  border: 0;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-
-  font-family: Roboto;
-  font-weight: 700;
-  text-transform: uppercase;
-`;
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 400px;
-`;
-
-const FooterContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 0;
-  border-top: 1px solid #5d5d5d;
-`;
-
-const ContractAddress = styled.span`
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 16px;
-  color: #9e9e9e;
-`;

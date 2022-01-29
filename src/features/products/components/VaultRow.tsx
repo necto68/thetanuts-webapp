@@ -1,39 +1,33 @@
-import { FC, useCallback } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { useVault } from '../../vault/hooks';
-import { SkeletonBox } from '../../shared/components';
+import { type FC, useCallback } from "react";
+
+import { useVault } from "../../vault/hooks";
+import { SkeletonBox } from "../../shared/components";
 import {
+  type ILVaultMode,
   ILModeTitles,
-  ILVaultModes,
   RiskLevelTitles,
-  VaultRiskLevels,
   vaultTitles,
-  VaultTypes,
-} from '../../vault/constants';
-import { useModalState } from '../../vault-modal/hooks';
-import { numberFormatter } from '../../shared/helpers';
-import { getCurrentDepositRate } from '../../vault/helpers';
+  VaultType,
+} from "../../vault/constants";
+import { useModalState } from "../../vault-modal/hooks";
+import { numberFormatter } from "../../shared/helpers";
+import { getCurrentDepositRate } from "../../vault/helpers";
+
+import { Row, Cell, CellValue, RiskLevelValue } from "./VaultRow.styles";
 
 const getStrategyTitle = (
-  vaultType: VaultTypes,
-  ILMode: ILVaultModes | null | undefined,
+  vaultType: VaultType,
+  ILMode: ILVaultMode | null | undefined
 ) => {
-  if (vaultType === VaultTypes.IL && typeof ILMode === 'number') {
+  if (vaultType === VaultType.IL && typeof ILMode === "number") {
     return ILModeTitles[ILMode];
   }
 
-  if ([VaultTypes.CALL, VaultTypes.PUT].includes(vaultType)) {
+  if ([VaultType.CALL, VaultType.PUT].includes(vaultType)) {
     return vaultTitles[vaultType];
   }
 
   return null;
-};
-
-const mapRiskLevelToColor: Record<VaultRiskLevels, string> = {
-  [VaultRiskLevels.LOW]: '#92F0A9',
-  [VaultRiskLevels.MEDIUM]: '#FFE586',
-  [VaultRiskLevels.HIGH]: '#E08585',
 };
 
 interface VaultProps {
@@ -70,23 +64,23 @@ export const VaultRow: FC<VaultProps> = ({ vaultAddress }) => {
   const currentDepositRate = getCurrentDepositRate(currentDeposit, maxDeposit);
 
   if (
-    typeof assetSymbol === 'undefined' ||
-    typeof depositSymbol === 'undefined' ||
+    typeof assetSymbol === "undefined" ||
+    typeof depositSymbol === "undefined" ||
     strategyTitle === null ||
-    typeof apy === 'undefined' ||
-    typeof maxDeposit === 'undefined' ||
-    typeof userPosition === 'undefined'
+    typeof apy === "undefined" ||
+    typeof maxDeposit === "undefined" ||
+    typeof userPosition === "undefined"
   ) {
     return (
       <Row color={color} onClick={handleRowClick}>
         <Cell>
-          <SkeletonBox width={75} height={22} />
+          <SkeletonBox height={22} width={75} />
         </Cell>
         <Cell>
-          <SkeletonBox width={90} height={22} />
+          <SkeletonBox height={22} width={90} />
         </Cell>
         <Cell>
-          <SkeletonBox width={70} height={22} />
+          <SkeletonBox height={22} width={70} />
         </Cell>
         <Cell>
           <RiskLevelValue riskLevel={riskLevel}>
@@ -94,16 +88,16 @@ export const VaultRow: FC<VaultProps> = ({ vaultAddress }) => {
           </RiskLevelValue>
         </Cell>
         <Cell>
-          <SkeletonBox width={75} height={22} />
+          <SkeletonBox height={22} width={75} />
         </Cell>
         <Cell>
-          <SkeletonBox width={100} height={22} />
+          <SkeletonBox height={22} width={100} />
         </Cell>
         <Cell>
-          <SkeletonBox width={100} height={22} />
+          <SkeletonBox height={22} width={100} />
         </Cell>
         <Cell>
-          <SkeletonBox width={100} height={22} />
+          <SkeletonBox height={22} width={100} />
         </Cell>
       </Row>
     );
@@ -128,53 +122,17 @@ export const VaultRow: FC<VaultProps> = ({ vaultAddress }) => {
       </Cell>
       <Cell>
         <CellValue>{`${numberFormatter.format(
-          maxDeposit.toNumber(),
+          maxDeposit.toNumber()
         )} ${depositSymbol}`}</CellValue>
       </Cell>
       <Cell>
-        <CellValue>{`${currentDepositRate} %`}</CellValue>
+        <CellValue>{`${currentDepositRate ?? 0} %`}</CellValue>
       </Cell>
       <Cell>
         <CellValue>{`${numberFormatter.format(
-          userPosition.round(2).toNumber(),
+          userPosition.round(2).toNumber()
         )} ${depositSymbol}`}</CellValue>
       </Cell>
     </Row>
   );
 };
-
-interface Colored {
-  color: string;
-}
-
-const Row = styled(motion.tr).attrs<Colored>(({ color }) => ({
-  layout: true,
-  whileHover: { scale: 1.02, boxShadow: `0 0 20px ${color}` },
-  whileTap: {
-    scale: 0.97,
-    boxShadow: `0 0 10px ${color}`,
-    opacity: 0.8,
-  },
-}))<Colored>`
-  cursor: pointer;
-
-  &:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-`;
-
-const Cell = styled.td`
-  vertical-align: center;
-  padding: 22px 20px;
-`;
-
-const CellValue = styled.span`
-  font-family: Barlow;
-  font-weight: 600;
-  font-size: 18px;
-  color: #ffffff;
-`;
-
-const RiskLevelValue = styled(CellValue)<{ riskLevel: VaultRiskLevels }>`
-  color: ${({ riskLevel }) => mapRiskLevelToColor[riskLevel]};
-`;

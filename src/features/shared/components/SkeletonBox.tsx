@@ -1,9 +1,10 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 const shimmer = keyframes`
-to {
-  transform: translateX(100%);
-}`;
+  to {
+    transform: translateX(100%);
+  }
+`;
 
 export const SkeletonBox = styled.div<{ width?: number; height?: number }>`
   display: flex;
@@ -29,6 +30,6 @@ export const SkeletonBox = styled.div<{ width?: number; height?: number }>`
       rgba(255, 255, 255, 0)
     );
     animation: ${shimmer} 2s infinite;
-    content: '';
+    content: "";
   }
 `;

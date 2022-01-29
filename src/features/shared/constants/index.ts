@@ -1,1 +1,1 @@
-export * from './sizes';
+export * from "./sizes";

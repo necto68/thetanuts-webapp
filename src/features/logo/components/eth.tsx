@@ -1,13 +1,13 @@
-export const ETH = () => (
+export const Eth = () => (
   <svg
-    width="100%"
+    clipRule="evenodd"
+    fillRule="evenodd"
     height="100%"
+    imageRendering="optimizeQuality"
     shapeRendering="geometricPrecision"
     textRendering="geometricPrecision"
-    imageRendering="optimizeQuality"
-    fillRule="evenodd"
-    clipRule="evenodd"
     viewBox="0 0 784.37 1277.39"
+    width="100%"
   >
     <polygon
       fill="#343434"

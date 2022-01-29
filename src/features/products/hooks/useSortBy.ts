@@ -1,44 +1,45 @@
-import { useCallback, useEffect, useState } from 'react';
-import { sort } from 'fast-sort';
+import { useCallback, useEffect, useState } from "react";
+import { sort } from "fast-sort";
 
-interface SortState<T> {
-  key: keyof T | '';
-  order?: 'ASC' | 'DESC';
+interface SortState<RowData> {
+  key: keyof RowData | "";
+  order?: "ASC" | "DESC";
 }
 
-export const useSortBy = <T>(
-  defaultArray: T[],
-  getKey: (element: T) => string,
+export const useSortBy = <RowData>(
+  defaultArray: RowData[],
+  getKey: (element: RowData) => string
 ) => {
   const [sortedArray, setSortedArray] = useState(defaultArray);
-  const [sortState, setSortState] = useState<SortState<T>>({ key: '' });
-  const effectKey = defaultArray.map(getKey).join();
+  const [sortState, setSortState] = useState<SortState<RowData>>({ key: "" });
+  const effectKey = defaultArray.map(getKey).join(",");
 
   useEffect(() => {
     setSortedArray(defaultArray);
-    setSortState({ key: '' });
+    setSortState({ key: "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [effectKey]);
 
   const updateSort = useCallback(
-    (key: keyof T, by?: (element: T) => any) => {
+    (key: keyof RowData, by?: (element: RowData) => number | string | null) => {
       let nextSortedArray = defaultArray;
       let nextSortState = sortState;
 
       if (key === sortState.key) {
-        if (sortState.order === 'ASC') {
+        if (sortState.order === "ASC") {
           nextSortedArray = sort(defaultArray).by({
             desc: by ?? key,
           });
           nextSortState = {
             key,
-            order: 'DESC',
+            order: "DESC",
           };
         }
 
-        if (sortState.order === 'DESC') {
+        if (sortState.order === "DESC") {
           nextSortedArray = defaultArray;
           nextSortState = {
-            key: '',
+            key: "",
           };
         }
       } else {
@@ -47,14 +48,14 @@ export const useSortBy = <T>(
         });
         nextSortState = {
           key,
-          order: 'ASC',
+          order: "ASC",
         };
       }
 
       setSortedArray(nextSortedArray);
       setSortState(nextSortState);
     },
-    [defaultArray, sortState],
+    [defaultArray, sortState]
   );
 
   return [sortedArray, sortState, updateSort] as const;

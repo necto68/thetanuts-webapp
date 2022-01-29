@@ -1,74 +1,54 @@
-import { useState } from 'react';
-import styled from 'styled-components';
-import { AnimatePresence } from 'framer-motion';
-import { ProductTypeButton } from './ProductTypeButton';
-import { AdvancedProducts } from './AdvancedProducts';
+import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 
-export enum ProductsTypes {
-  basic = 'basic',
-  advanced = 'advanced',
+import { ProductTypeButton } from "./ProductTypeButton";
+import { AdvancedProducts } from "./AdvancedProducts";
+import {
+  Container,
+  PageTitle,
+  ProductsContainer,
+  SwitcherContainer,
+} from "./ProductsPage.styles";
+
+enum ProductsType {
+  basic = "basic",
+  advanced = "advanced",
 }
 
 export const ProductsPage = () => {
-  const [productsType, setProductType] = useState(ProductsTypes.basic);
+  const [productsType, setProductType] = useState(ProductsType.basic);
 
   return (
     <Container>
       <PageTitle>Products</PageTitle>
-      {/*<Metrix/>*/}
+      {/* <Metrix/> */}
       <ProductsContainer>
         <SwitcherContainer>
           <ProductTypeButton
-            active={productsType === ProductsTypes.basic}
-            onClick={() => setProductType(ProductsTypes.basic)}
+            active={productsType === ProductsType.basic}
+            onClick={() => {
+              setProductType(ProductsType.basic);
+            }}
           >
             Basic
           </ProductTypeButton>
           <ProductTypeButton
-            active={productsType === ProductsTypes.advanced}
-            onClick={() => setProductType(ProductsTypes.advanced)}
+            active={productsType === ProductsType.advanced}
+            onClick={() => {
+              setProductType(ProductsType.advanced);
+            }}
           >
             Advanced
           </ProductTypeButton>
         </SwitcherContainer>
-        <AnimatePresence initial={false} exitBeforeEnter>
-          {productsType === ProductsTypes.basic ? (
-            <AdvancedProducts key={ProductsTypes.basic} />
+        <AnimatePresence exitBeforeEnter initial={false}>
+          {productsType === ProductsType.basic ? (
+            <AdvancedProducts key={ProductsType.basic} />
           ) : (
-            <AdvancedProducts key={ProductsTypes.advanced} />
+            <AdvancedProducts key={ProductsType.advanced} />
           )}
         </AnimatePresence>
       </ProductsContainer>
     </Container>
   );
 };
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 35px;
-  padding: 0 25px;
-`;
-
-const PageTitle = styled.h1`
-  font-family: Roboto;
-  font-weight: 700;
-  font-size: 48px;
-  color: #e5e5e5;
-  margin: 0;
-`;
-
-const SwitcherContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  padding: 20px;
-  border-bottom: 1px solid #4857b9;
-`;
-
-const ProductsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: #010c1a;
-  border-radius: 10px;
-`;

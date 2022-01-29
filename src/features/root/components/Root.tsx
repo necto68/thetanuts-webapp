@@ -1,11 +1,13 @@
-import React from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import styled from 'styled-components';
-import { useScreenSize } from '../hooks';
-import { Header } from './Header';
-import { ProductsPage } from '../../products/components';
-import { PortfolioPage } from '../../portfolio/components';
-import { Modal } from '../../modal/components';
+import React from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import styled from "styled-components";
+
+import { useScreenSize } from "../hooks";
+import { ProductsPage } from "../../products/components";
+import { PortfolioPage } from "../../portfolio/components";
+import { Modal } from "../../modal/components";
+
+import { Header } from "./Header";
 
 const RootContainer = styled.div<{ screenHeight: number }>`
   background: radial-gradient(
@@ -14,7 +16,7 @@ const RootContainer = styled.div<{ screenHeight: number }>`
     #010101 100%
   );
   min-height: ${(props) =>
-    props.screenHeight ? `${props.screenHeight}px` : `100vh`};
+    props.screenHeight ? `${props.screenHeight}px` : "100vh"};
 `;
 
 export const Root = () => {
@@ -25,14 +27,14 @@ export const Root = () => {
       <Modal />
       <Header />
       <Switch>
-        <Route path="/products" exact>
+        <Route exact path="/products">
           <ProductsPage />
         </Route>
-        <Route path="/portfolio" exact>
+        <Route exact path="/portfolio">
           <PortfolioPage />
         </Route>
         <Route>
-          <Redirect to={`/products`} />
+          <Redirect to="/products" />
         </Route>
       </Switch>
     </RootContainer>

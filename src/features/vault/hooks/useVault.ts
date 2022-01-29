@@ -1,4 +1,4 @@
-import { useVaults } from './useVaults';
+import { useVaults } from "./useVaults";
 
 export const useVault = (vaultAddress: string | null) => {
   const vaults = useVaults();

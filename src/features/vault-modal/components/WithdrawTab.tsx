@@ -1,11 +1,28 @@
-import { ChangeEvent } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
-import { BaseButton, SkeletonBox } from '../../shared/components';
-import { LoadingButton } from '../../shared/components';
-import { useModalVault, useWithdrawState } from '../hooks';
-import { PendingWithdrawal } from './PendingWithdrawal';
+import type { ChangeEvent } from "react";
 
+import { SkeletonBox, LoadingButton } from "../../shared/components";
+import { useModalVault, useWithdrawState } from "../hooks";
+
+import { PendingWithdrawal } from "./PendingWithdrawal";
+import {
+  CurrentPositionContainer,
+  PositionTitle,
+  PositionValue,
+  InputContainer,
+  InputWrapper,
+  MaxButton,
+  DepositInput,
+  DepositSymbol,
+  ErrorTitle,
+} from "./DepositTab.styles";
+import {
+  TabContainer,
+  WithdrawButtonContainer,
+  TitlesContainer,
+  WarningTitle,
+} from "./WithdrawTab.styles";
+
+// eslint-disable-next-line complexity
 export const WithdrawTab = () => {
   const vault = useModalVault();
   const withdrawState = useWithdrawState();
@@ -33,8 +50,8 @@ export const WithdrawTab = () => {
     initWithdraw,
   } = withdrawState;
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAmount(e.target.value);
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAmount(event.target.value);
   };
 
   const handleMaxButtonClick = () => {
@@ -42,15 +59,15 @@ export const WithdrawTab = () => {
   };
 
   if (
-    typeof userPosition === 'undefined' ||
-    typeof depositSymbol === 'undefined'
+    typeof userPosition === "undefined" ||
+    typeof depositSymbol === "undefined"
   ) {
     return (
       <TabContainer>
-        <SkeletonBox width={170} height={27} />
-        <SkeletonBox width={312} height={49} />
+        <SkeletonBox height={27} width={170} />
+        <SkeletonBox height={49} width={312} />
         <WithdrawButtonContainer>
-          <SkeletonBox width={148} height={42} />
+          <SkeletonBox height={42} width={148} />
         </WithdrawButtonContainer>
       </TabContainer>
     );
@@ -69,7 +86,7 @@ export const WithdrawTab = () => {
       </CurrentPositionContainer>
       <InputContainer>
         <InputWrapper isError={isError}>
-          <WithdrawInput value={amount} onChange={handleInputChange} />
+          <DepositInput onChange={handleInputChange} value={amount} />
           <DepositSymbol>{depositSymbol}</DepositSymbol>
         </InputWrapper>
         <MaxButton onClick={handleMaxButtonClick}>MAX</MaxButton>
@@ -94,16 +111,16 @@ export const WithdrawTab = () => {
         </TitlesContainer>
       ) : null}
       <PendingWithdrawal
-        userPendingWithdrawal={userPendingWithdrawal}
         depositSymbol={depositSymbol}
         isReadyForWithdraw={isReadyForWithdraw}
+        userPendingWithdrawal={userPendingWithdrawal}
       />
       <WithdrawButtonContainer>
         <LoadingButton
           disabled={!isValidAmount || isError || isInitiatingWithdraw}
           isLoading={isInitiatingWithdraw}
-          primaryColor="#e1a335"
           onClick={initWithdraw}
+          primaryColor="#e1a335"
         >
           {`Withdraw ${depositSymbol}`}
         </LoadingButton>
@@ -111,126 +128,3 @@ export const WithdrawTab = () => {
     </TabContainer>
   );
 };
-
-const TabContainer = styled(motion.div).attrs(() => ({
-  initial: {
-    opacity: 0,
-    x: '50%',
-  },
-  animate: {
-    opacity: 1,
-    x: 0,
-  },
-  exit: {
-    opacity: 0,
-    x: '50%',
-    transition: {
-      type: 'linear',
-    },
-  },
-}))`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  padding: 10px 20px;
-  overflow: hidden;
-`;
-
-const CurrentPositionContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-`;
-
-const PositionTitle = styled.span`
-  font-family: Barlow;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 18px;
-  color: #ffffff;
-`;
-
-const PositionValue = styled(PositionTitle)`
-  font-weight: 700;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-`;
-
-const InputWrapper = styled(motion.div).attrs<{ isError: boolean }>(
-  ({ isError }) => ({
-    animate: {
-      outlineColor: isError ? 'rgba(255, 77, 77, 1)' : 'rgba(255, 77, 77, 0)',
-    },
-  }),
-)<{ isError: boolean }>`
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 5px;
-  padding: 10px;
-  background-color: #ffffff;
-  border-radius: 5px;
-
-  outline-width: 2px;
-  outline-style: solid;
-`;
-
-const WithdrawInput = styled.input.attrs(() => ({
-  placeholder: '0',
-  type: 'number',
-}))`
-  display: flex;
-  flex: 1;
-
-  font-family: Barlow;
-  font-weight: 400;
-  font-size: 18px;
-  color: #000000;
-  border: 0;
-  text-align: right;
-
-  &::placeholder {
-    color: #9e9e9e;
-  }
-`;
-
-const DepositSymbol = styled.span`
-  font-family: Barlow;
-  font-weight: 400;
-  font-size: 18px;
-  color: #000000;
-`;
-
-const MaxButton = styled(BaseButton)`
-  padding: 9px;
-`;
-
-const TitlesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ErrorTitle = styled.span`
-  font-family: Barlow;
-  font-weight: 400;
-  font-size: 14px;
-  color: #ff4d4d;
-`;
-
-const WarningTitle = styled(ErrorTitle)`
-  color: #e1a335;
-`;
-
-const WithdrawButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: auto;
-`;

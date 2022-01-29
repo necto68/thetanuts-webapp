@@ -1,16 +1,17 @@
-import { BaseButton } from '../../shared/components';
-import { useWallet } from '@gimmixorg/use-wallet';
-import { web3ModalConfig } from '../constants';
-import { addressFormatter } from '../../shared/helpers';
+import { useWallet } from "@gimmixorg/use-wallet";
+
+import { BaseButton } from "../../shared/components";
+import { web3ModalConfig } from "../constants";
+import { addressFormatter } from "../../shared/helpers";
 
 export const WalletButton = () => {
   const { account, connect, disconnect } = useWallet();
 
-  const handleConnect = () => {
-    connect(web3ModalConfig);
+  const handleConnect = async () => {
+    await connect(web3ModalConfig);
   };
 
-  const handleDisconnect = async () => {
+  const handleDisconnect = () => {
     disconnect();
   };
 

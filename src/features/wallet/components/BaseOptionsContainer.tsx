@@ -1,56 +1,39 @@
-import { FC, MutableRefObject } from 'react';
-import styled from 'styled-components';
-import { useOutsideClickRef, useBoundingclientrect } from 'rooks';
-import { motion, AnimatePresence } from 'framer-motion';
+import type { FC, MutableRefObject } from "react";
+import { useOutsideClickRef, useBoundingclientrect } from "rooks";
+import { AnimatePresence } from "framer-motion";
+
+import { Container } from "./BaseOptionsContainer.styles";
 
 interface BaseOptionsContainerProps {
   show: boolean;
   onClose: () => void;
-  parentRef: MutableRefObject<any>;
-}
-
-interface ContainerProps {
-  top: number;
-  left: number;
+  parentRef: MutableRefObject<HTMLDivElement | null>;
 }
 
 export const BaseOptionsContainer: FC<BaseOptionsContainerProps> = ({
   show,
   onClose,
   children,
-  parentRef,
+  parentRef: parentReference,
 }) => {
-  const [containerRef] = useOutsideClickRef(onClose);
-  const getBoundingClientRect = useBoundingclientrect(parentRef);
+  const [containerReference] = useOutsideClickRef(onClose);
+  const getBoundingClientRect = useBoundingclientrect(parentReference);
 
-  const top = getBoundingClientRect?.top ?? 0;
-  const left = getBoundingClientRect?.left ?? 0;
+  const topPosition = getBoundingClientRect?.top ?? 0;
+  const leftPosition = getBoundingClientRect?.left ?? 0;
   const height = getBoundingClientRect?.height ?? 0;
 
   return (
     <AnimatePresence>
       {show ? (
-        <Container ref={containerRef} top={top + height + 10} left={left}>
+        <Container
+          leftPosition={leftPosition}
+          ref={containerReference}
+          topPosition={topPosition + height + 10}
+        >
           {children}
         </Container>
       ) : null}
     </AnimatePresence>
   );
 };
-
-const Container = styled(motion.div).attrs(() => ({
-  initial: {
-    y: 30,
-    opacity: 0,
-  },
-  animate: {
-    y: 0,
-    opacity: 1,
-  },
-  exit: { y: 30, opacity: 0 },
-}))<ContainerProps>`
-  position: absolute;
-  top: ${({ top }) => top}px;
-  left: ${({ left }) => left}px;
-  z-index: 1;
-`;

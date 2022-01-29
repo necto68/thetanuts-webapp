@@ -1,19 +1,20 @@
-import Big from 'big.js';
-import { ContractTransaction } from 'ethers';
-import { ChainIds } from '../../wallet/constants';
-import { VaultTypes, ILVaultModes, VaultRiskLevels } from '../constants';
+import type Big from "big.js";
+import type { ContractTransaction } from "ethers";
+
+import type { ChainId } from "../../wallet/constants";
+import type { VaultType, ILVaultMode, VaultRiskLevel } from "../constants";
 
 export interface LocalVault {
   address: string;
-  type: VaultTypes;
+  type: VaultType;
   title: string;
   description: string;
   color: string;
-  riskLevel: VaultRiskLevels;
+  riskLevel: VaultRiskLevel;
 }
 
 export interface Vault extends LocalVault {
-  ILMode?: ILVaultModes;
+  ILMode?: ILVaultMode;
   apy?: number;
   assetSymbol?: string;
   depositSymbol?: string;
@@ -38,6 +39,6 @@ export interface Vault extends LocalVault {
 }
 
 export interface LocalVaultsWithChainId {
-  chainId: ChainIds;
+  chainId: ChainId;
   vaults: LocalVault[];
 }

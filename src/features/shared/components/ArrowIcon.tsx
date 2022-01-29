@@ -1,6 +1,8 @@
-import { FC } from 'react';
-import { IconContainer } from './IconContainer';
-import { Arrow } from '../icons';
+import type { FC } from "react";
+
+import { Arrow } from "../icons";
+
+import { IconContainer } from "./IconContainer";
 
 interface ArrowIconProps {
   up: boolean;
@@ -9,10 +11,10 @@ interface ArrowIconProps {
 export const ArrowIcon: FC<ArrowIconProps> = ({ up }) => (
   <IconContainer
     animate={{
-      rotate: up ? '180deg' : '0deg',
+      rotate: up ? "180deg" : "0deg",
     }}
-    width={12}
     height={7}
+    width={12}
   >
     <Arrow />
   </IconContainer>

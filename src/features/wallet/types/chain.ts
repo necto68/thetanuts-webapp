@@ -1,7 +1,7 @@
-import { ChainIds } from '../constants';
+import type { ChainId } from "../constants";
 
 export interface Chain {
-  chainId: ChainIds;
+  chainId: ChainId;
   title: string;
   color: string;
 }

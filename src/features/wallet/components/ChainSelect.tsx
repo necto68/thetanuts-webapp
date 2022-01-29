@@ -1,31 +1,17 @@
-import { useRef, useState } from 'react';
-import styled from 'styled-components';
-import { useWallet } from '@gimmixorg/use-wallet';
-import { BaseButton, IconContainer } from '../../shared/components';
-import { chains, chainLogosMap } from '../constants';
-import { BaseOptionsContainer } from './BaseOptionsContainer';
-import { ChainButton, ChainContainer } from './ChainButton';
+import { useRef, useState } from "react";
+import { useWallet } from "@gimmixorg/use-wallet";
 
-export const ChainsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #ffffff;
-  background-color: #010c1a;
-`;
+import { IconContainer } from "../../shared/components";
+import { chains, chainLogosMap } from "../constants";
 
-const ChainOptionButton = styled(BaseButton)`
-  border: none;
-  box-shadow: none !important;
-  border-radius: 0;
-  border-bottom: 1px solid #9c9c9c;
-`;
+import { BaseOptionsContainer } from "./BaseOptionsContainer";
+import { ChainButton } from "./ChainButton";
+import { ChainContainer } from "./ChainButton.styles";
+import { ChainsContainer, ChainOptionButton } from "./ChainSelect.styles";
 
 export const ChainSelect = () => {
   const [isSelectShow, setSelectShow] = useState(false);
-  const chainButtonContainerRef = useRef(null);
+  const chainButtonContainerReference = useRef(null);
   const { provider, network } = useWallet();
   const selectedChainId = network?.chainId;
 
@@ -38,13 +24,14 @@ export const ChainSelect = () => {
   };
 
   const switchToChain = async (chainId: number) => {
-    await provider?.send('wallet_switchEthereumChain', [
+    await provider?.send("wallet_switchEthereumChain", [
       {
         chainId: `0x${chainId.toString(16)}`,
       },
     ]);
 
-    // TODO: add try catch for adding chain to user's wallet, if he doesnt have it
+    // TODO: add try catch for adding chain to user's wallet,
+    //  if he doesnt have it
 
     closeSelect();
   };
@@ -54,25 +41,25 @@ export const ChainSelect = () => {
   }
 
   const chainOptions = chains.filter(
-    ({ chainId }) => chainId !== selectedChainId,
+    ({ chainId }) => chainId !== selectedChainId
   );
 
   return (
     <>
-      <div ref={chainButtonContainerRef}>
+      <div ref={chainButtonContainerReference}>
         <ChainButton onClick={showSelect} showSelect={isSelectShow} />
       </div>
       <BaseOptionsContainer
-        show={isSelectShow}
-        parentRef={chainButtonContainerRef}
         onClose={closeSelect}
+        parentRef={chainButtonContainerReference}
+        show={isSelectShow}
       >
         <ChainsContainer>
           {chainOptions.map(({ chainId, title, color }) => {
             const LogoComponent = chainLogosMap[chainId];
 
-            const handleClick = () => {
-              switchToChain(chainId).then();
+            const handleClick = async () => {
+              await switchToChain(chainId);
             };
 
             return (
@@ -82,7 +69,7 @@ export const ChainSelect = () => {
                 primaryColor={color}
               >
                 <ChainContainer>
-                  <IconContainer width={25} height={25}>
+                  <IconContainer height={25} width={25}>
                     <LogoComponent />
                   </IconContainer>
                   {title}

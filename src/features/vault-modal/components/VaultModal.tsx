@@ -1,19 +1,41 @@
-import { useCallback, useEffect } from 'react';
-import styled from 'styled-components';
-import { BaseButton, SkeletonBox } from '../../shared/components';
-import { VaultCapacity } from '../../vault/components';
-import { EpochExpiration } from './EpochExpiration';
-import { Deposit } from './Deposit';
-import { vaultTitles } from '../../vault/constants';
-import { useModalState, useModalVault } from '../hooks';
-import { currencyFormatter, numberFormatter } from '../../shared/helpers';
+import { useCallback, useEffect } from "react";
+
+import { SkeletonBox } from "../../shared/components";
+import { VaultCapacity } from "../../vault/components";
+import { vaultTitles } from "../../vault/constants";
+import { useModalState, useModalVault } from "../hooks";
+import { currencyFormatter, numberFormatter } from "../../shared/helpers";
+
+import { Deposit } from "./Deposit";
+import { EpochExpiration } from "./EpochExpiration";
+import {
+  VaultModalContainer,
+  HeaderContainer,
+  TypeTitle,
+  CloseButton,
+  ContentContainer,
+  MainContentContainer,
+  InfoContainer,
+  InfoItem,
+  AssetTitle,
+  DataContainer,
+  PriceTitle,
+  PriceValue,
+  VaultDataContainer,
+  DataTitle,
+  DataValue,
+  APYValue,
+  DescriptionTitle,
+  Description,
+  DepositContainer,
+} from "./VaultModal.styles";
 
 export const VaultModal = () => {
   const [, setModalState] = useModalState();
   const vault = useModalVault();
 
   const handleCloseButtonClick = useCallback(() => {
-    setModalState((prevState) => ({ ...prevState, isShow: false }));
+    setModalState((previousState) => ({ ...previousState, isShow: false }));
   }, [setModalState]);
 
   useEffect(() => {
@@ -43,7 +65,6 @@ export const VaultModal = () => {
   } = vault;
 
   const vaultTitle = vaultTitles[type];
-
   return (
     <VaultModalContainer color={color}>
       <HeaderContainer color={color}>
@@ -58,51 +79,51 @@ export const VaultModal = () => {
               <AssetTitle>{title}</AssetTitle>
               <DataContainer>
                 <PriceTitle>{`Current ${
-                  assetSymbol ?? 'Asset'
+                  assetSymbol ?? "Asset"
                 } Price`}</PriceTitle>
-                {typeof assetPrice === 'number' ? (
+                {typeof assetPrice === "number" ? (
                   <PriceValue>
                     {currencyFormatter.format(assetPrice)}
                   </PriceValue>
                 ) : (
-                  <SkeletonBox width={70} height={39} />
+                  <SkeletonBox height={39} width={70} />
                 )}
               </DataContainer>
             </InfoItem>
             <InfoItem>
               <VaultCapacity
-                primaryColor={color}
                 currentDeposit={currentDeposit}
-                maxDeposit={maxDeposit}
                 depositSymbol={depositSymbol}
+                maxDeposit={maxDeposit}
+                primaryColor={color}
               />
             </InfoItem>
             <InfoItem>
               <VaultDataContainer>
                 <DataContainer>
                   <DataTitle>Strike Price</DataTitle>
-                  {typeof strikePrice !== 'undefined' ? (
+                  {typeof strikePrice !== "undefined" ? (
                     <DataValue>
                       {strikePrice
                         ? currencyFormatter.format(strikePrice)
-                        : 'Awaiting settlement'}
+                        : "Awaiting settlement"}
                     </DataValue>
                   ) : (
-                    <SkeletonBox width={70} height={27} />
+                    <SkeletonBox height={27} width={70} />
                   )}
                 </DataContainer>
                 <DataContainer>
                   <DataTitle>Current Projected Yield (APY)</DataTitle>
-                  {typeof apy === 'number' ? (
+                  {typeof apy === "number" ? (
                     <APYValue>{`${numberFormatter.format(apy)}%`}</APYValue>
                   ) : (
-                    <SkeletonBox width={70} height={27} />
+                    <SkeletonBox height={27} width={70} />
                   )}
                 </DataContainer>
                 <EpochExpiration
                   expiry={expiry}
-                  isEpochSettled={isEpochSettled}
                   isEpochExpired={isEpochExpired}
+                  isEpochSettled={isEpochSettled}
                 />
               </VaultDataContainer>
             </InfoItem>
@@ -143,152 +164,3 @@ export const VaultModal = () => {
     </VaultModalContainer>
   );
 };
-
-interface Colored {
-  color: string;
-}
-
-const VaultModalContainer = styled.div<Colored>`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 950px;
-  max-height: 100vh;
-  border-radius: 10px;
-  overflow: hidden;
-  border-width: 2px;
-  border-style: solid;
-  border-color: ${({ color }) => color};
-  box-shadow: 0 0 20px ${({ color }) => color};
-`;
-
-const HeaderContainer = styled.div<Colored>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: ${({ color }) => color};
-  padding: 7px;
-`;
-
-const TypeTitle = styled.h2`
-  font-family: Barlow;
-  font-weight: 700;
-  font-size: 24px;
-  color: #ffffff;
-  text-transform: uppercase;
-  margin: 0;
-`;
-
-const CloseButton = styled(BaseButton)`
-  border-radius: 50%;
-  padding: 5px 12px;
-`;
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 25px;
-  background-color: #252629;
-  overflow: auto;
-`;
-
-const MainContentContainer = styled.div`
-  display: flex;
-  gap: 30px;
-
-  @media (max-width: 950px) {
-    flex-direction: column;
-  }
-`;
-
-const InfoContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-`;
-
-const InfoItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #5d5d5d;
-  padding: 25px 0;
-
-  &:first-child {
-    padding: 0 0 25px;
-  }
-`;
-
-const AssetTitle = styled.span`
-  font-family: Roboto;
-  font-weight: 500;
-  font-size: 28px;
-  color: #ffffff;
-`;
-
-const DataContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const DataTitle = styled.span`
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 12px;
-  color: #cfcfcf;
-`;
-
-const DataValue = styled.span`
-  font-family: Barlow;
-  font-weight: 500;
-  font-size: 18px;
-  color: #ffffff;
-  text-transform: uppercase;
-`;
-
-const VaultDataContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-between;
-
-  ${DataContainer} {
-    flex: 1;
-  }
-`;
-
-const PriceTitle = styled(DataTitle)`
-  font-size: 14px;
-`;
-
-const PriceValue = styled(DataValue)`
-  font-size: 26px;
-`;
-
-const APYValue = styled(DataValue)`
-  color: #03f43e;
-`;
-
-const DescriptionTitle = styled.p`
-  font-family: Roboto;
-  font-weight: 700;
-  font-size: 15px;
-  color: #ffffff;
-  margin: 20px 0 0 0;
-`;
-
-const Description = styled.span`
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 9px;
-  color: #c4c4c4;
-`;
-
-const DepositContainer = styled.div`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;

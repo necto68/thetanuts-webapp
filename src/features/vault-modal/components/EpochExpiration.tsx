@@ -1,12 +1,15 @@
-import { FC, useState, useEffect } from 'react';
-import styled from 'styled-components';
-import moment from 'moment';
-import { SkeletonBox } from '../../shared/components';
-import { Vault } from '../../vault/types';
+import type { FC } from "react";
+import { useState, useEffect } from "react";
+import moment from "moment";
+
+import { SkeletonBox } from "../../shared/components";
+import type { Vault } from "../../vault/types";
+
+import { DataContainer, DataTitle, DataValue } from "./EpochExpiration.styles";
 
 type EpochExpirationProps = Pick<
   Vault,
-  'expiry' | 'isEpochSettled' | 'isEpochExpired'
+  "expiry" | "isEpochExpired" | "isEpochSettled"
 >;
 
 const formatExpirationString = (milliseconds: number) => {
@@ -18,17 +21,35 @@ const formatExpirationString = (milliseconds: number) => {
   const seconds = duration.seconds();
 
   return [
-    days > 0 ? `${days}d` : '',
-    hours > 0 ? `${hours}h` : '',
-    minutes > 0 ? `${minutes}m` : '',
-    seconds > 0 ? `${seconds}s` : '',
-  ].join(' ');
+    days > 0 ? `${days}d` : "",
+    hours > 0 ? `${hours}h` : "",
+    minutes > 0 ? `${minutes}m` : "",
+    seconds > 0 ? `${seconds}s` : "",
+  ].join(" ");
+};
+
+const getEpochExpirationValue = (
+  isEpochSettled: boolean,
+  isEpochExpired: boolean,
+  expiry: number,
+  initialDate: number,
+  elapsedMilliseconds: number
+): string => {
+  if (isEpochSettled) {
+    return "Settled";
+  }
+
+  if (isEpochExpired) {
+    return "Expired";
+  }
+
+  return formatExpirationString(expiry - initialDate - elapsedMilliseconds);
 };
 
 export const EpochExpiration: FC<EpochExpirationProps> = ({
   expiry,
-  isEpochSettled,
-  isEpochExpired,
+  isEpochSettled = false,
+  isEpochExpired = false,
 }) => {
   const [elapsedMilliseconds, setElapsedMilliseconds] = useState(0);
   const [initialDate, setInitialDate] = useState(Date.now());
@@ -45,50 +66,27 @@ export const EpochExpiration: FC<EpochExpirationProps> = ({
     };
   }, []);
 
-  if (typeof expiry === 'undefined') {
+  if (typeof expiry === "undefined") {
     return (
       <DataContainer>
         <DataTitle>Epoch Expiry</DataTitle>
-        <SkeletonBox width={70} height={27} />
+        <SkeletonBox height={27} width={70} />
       </DataContainer>
     );
   }
 
-  const formattedExpiration = formatExpirationString(
-    expiry - initialDate - elapsedMilliseconds,
+  const epochExpirationValue = getEpochExpirationValue(
+    isEpochSettled,
+    isEpochExpired,
+    expiry,
+    initialDate,
+    elapsedMilliseconds
   );
 
   return (
     <DataContainer>
       <DataTitle>Epoch Expiry</DataTitle>
-      <DataValue>
-        {isEpochSettled
-          ? 'Settled'
-          : isEpochExpired
-          ? 'Expired'
-          : formattedExpiration}
-      </DataValue>
+      <DataValue>{epochExpirationValue}</DataValue>
     </DataContainer>
   );
 };
-
-const DataContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-`;
-
-const DataTitle = styled.span`
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 12px;
-  color: #cfcfcf;
-`;
-
-const DataValue = styled.span`
-  font-family: Barlow;
-  font-weight: 500;
-  font-size: 18px;
-  color: #ffffff;
-  text-transform: uppercase;
-`;

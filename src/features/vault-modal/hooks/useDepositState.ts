@@ -1,22 +1,27 @@
-import { useCallback, useState } from 'react';
-import Big from 'big.js';
-import { useMutation, useQueryClient } from 'react-query';
-import { useWallet } from '@gimmixorg/use-wallet';
-import { useModalVault } from './useModalVault';
+import { useCallback, useMemo, useState } from "react";
+import Big from "big.js";
+import { useMutation, useQueryClient } from "react-query";
+import { useWallet } from "@gimmixorg/use-wallet";
 
-enum DepositMutations {
-  approvePermanentAllowance,
-  approveOneTimeAllowance,
-  deposit,
+import { useModalVault } from "./useModalVault";
+
+enum DepositMutation {
+  approvePermanentAllowance = "approvePermanentAllowance",
+  approveOneTimeAllowance = "approveOneTimeAllowance",
+  deposit = "deposit",
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const useDepositState = () => {
   const vault = useModalVault();
   const { network } = useWallet();
   const queryClient = useQueryClient();
 
-  const [stringAmount, setStringAmount] = useState('');
-  const bigNumberAmount = Big(stringAmount || 0);
+  const [stringAmount, setStringAmount] = useState("");
+  const bigNumberAmount = useMemo(
+    () => new Big(stringAmount || 0),
+    [stringAmount]
+  );
 
   const handleMutationOnSuccess = useCallback(async () => {
     if (!vault || !network) {
@@ -24,11 +29,11 @@ export const useDepositState = () => {
     }
 
     await queryClient.invalidateQueries([vault.address, network.chainId]);
-    setStringAmount('');
+    setStringAmount("");
   }, [vault, network, queryClient]);
 
   const mutateVault = useCallback(
-    async (mutationType: DepositMutations) => {
+    async (mutationType: DepositMutation) => {
       if (
         !vault ||
         !vault.approve ||
@@ -41,49 +46,61 @@ export const useDepositState = () => {
       let transaction = null;
       try {
         switch (mutationType) {
-          case DepositMutations.approvePermanentAllowance:
+          case DepositMutation.approvePermanentAllowance:
             transaction = await vault.approvePermanent();
             break;
-          case DepositMutations.approveOneTimeAllowance:
+          case DepositMutation.approveOneTimeAllowance:
             transaction = await vault.approve(bigNumberAmount.toString());
             break;
-          case DepositMutations.deposit:
+          case DepositMutation.deposit:
             transaction = await vault.deposit(bigNumberAmount.toString());
+            break;
+          default:
             break;
         }
 
         if (transaction) {
           await transaction.wait();
         }
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
       }
     },
-    [vault, bigNumberAmount],
+    [vault, bigNumberAmount]
   );
 
   const {
     mutate: approvePermanentAllowance,
     isLoading: isPermanentAllowanceApproving,
   } = useMutation(
-    () => mutateVault(DepositMutations.approvePermanentAllowance),
+    async () => {
+      await mutateVault(DepositMutation.approvePermanentAllowance);
+    },
     {
       onSuccess: handleMutationOnSuccess,
-    },
+    }
   );
 
   const {
     mutate: approveOneTimeAllowance,
     isLoading: isOneTimeAllowanceApproving,
-  } = useMutation(() => mutateVault(DepositMutations.approveOneTimeAllowance), {
-    onSuccess: handleMutationOnSuccess,
-  });
-
-  const { mutate: deposit, isLoading: isDepositing } = useMutation(
-    () => mutateVault(DepositMutations.deposit),
+  } = useMutation(
+    async () => {
+      await mutateVault(DepositMutation.approveOneTimeAllowance);
+    },
     {
       onSuccess: handleMutationOnSuccess,
+    }
+  );
+
+  const { mutate: deposit, isLoading: isDepositing } = useMutation(
+    async () => {
+      await mutateVault(DepositMutation.deposit);
     },
+    {
+      onSuccess: handleMutationOnSuccess,
+    }
   );
 
   if (!vault) {
@@ -118,8 +135,17 @@ export const useDepositState = () => {
     isPermanentAllowanceApproving,
     isOneTimeAllowanceApproving,
     isDepositing,
-    approvePermanentAllowance: () => approvePermanentAllowance(),
-    approveOneTimeAllowance: () => approveOneTimeAllowance(),
-    deposit: () => deposit(),
+
+    approvePermanentAllowance: () => {
+      approvePermanentAllowance();
+    },
+
+    approveOneTimeAllowance: () => {
+      approveOneTimeAllowance();
+    },
+
+    deposit: () => {
+      deposit();
+    },
   };
 };

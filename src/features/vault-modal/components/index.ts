@@ -1,1 +1,1 @@
-export * from './VaultModal';
+export * from "./VaultModal";

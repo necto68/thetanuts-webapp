@@ -1,31 +1,49 @@
-import Big from 'big.js';
-import { Web3Provider } from '@ethersproject/providers';
-import { Contract, ContractTransaction, ethers } from 'ethers';
+/*
+eslint-disable
+complexity,
+sonarjs/cognitive-complexity,
+@typescript-eslint/no-unsafe-call,
+@typescript-eslint/no-unsafe-assignment,
+@typescript-eslint/no-unsafe-argument,
+@typescript-eslint/no-unsafe-member-access,
+@typescript-eslint/init-declarations,
+@typescript-eslint/no-unsafe-return,
+@typescript-eslint/require-await,
+new-cap,
+unicorn/no-await-expression-member,
+unicorn/prevent-abbreviations
+*/
+
+import Big from "big.js";
+import type { Web3Provider } from "@ethersproject/providers";
+import { type ContractTransaction, Contract, ethers } from "ethers";
+
 import {
   uiContractsMap,
-  ILVaultModes,
+  ILVaultMode,
   vaultsMap,
-  VaultTypes,
-} from '../constants';
+  VaultType,
+} from "../constants";
 import {
-  UI as UI_ABI,
-  ASSET as ASSET_ABI,
-  VAULT as VAULT_ABI,
-  IL_VAULT as IL_VAULT_ABI,
-  PRICE_FEED as PRICE_FEED_ABI,
-} from '../constants/ABI';
+  uiABI,
+  assetABI,
+  vaultABI,
+  ilVaultABI,
+  priceFeedABI,
+} from "../constants/ABI";
+import type { Vault } from "../types";
 
-import { convertToBig, getApy, normalizeVaultValue } from './utils';
-import { Vault } from '../types';
+import { convertToBig, getApy, normalizeVaultValue } from "./utils";
 
 export const vaultFetcher = async (
   vaultAddress: string,
   chainId: number,
-  provider: Web3Provider | undefined,
+  provider: Web3Provider | undefined
 ): Promise<Vault | null> => {
-  const localVault = vaultsMap[chainId].vaults.find(
-    ({ address }) => address === vaultAddress,
-  );
+  const localVault =
+    vaultsMap[chainId]?.vaults.find(
+      ({ address }) => address === vaultAddress
+    ) ?? null;
 
   if (!localVault) {
     return null;
@@ -39,31 +57,35 @@ export const vaultFetcher = async (
   const userAddress = signer.getAddress();
 
   const { address: uiContractAddress } = uiContractsMap[chainId];
-  const uiContract = new Contract(uiContractAddress, UI_ABI, signer);
+  const uiContract = new Contract(uiContractAddress, uiABI, signer);
 
   const { type } = localVault;
 
-  const isILVault = type === VaultTypes.IL;
+  const isILVault = type === VaultType.IL;
 
   const vaultContract = new Contract(
     vaultAddress,
-    isILVault ? IL_VAULT_ABI : VAULT_ABI,
-    signer,
+    isILVault ? ilVaultABI : vaultABI,
+    signer
   );
 
   const vaultUI = await uiContract.getVaultInfo(vaultAddress);
   const myVaultPosition = await uiContract.myVaultPosition(vaultAddress);
 
   const epoch = convertToBig(await vaultContract.epoch()).toNumber();
-  const expiry = convertToBig(await vaultContract.expiry()).toNumber() * 1000; // needs multiply by 1000 fo JS Date
+
+  // needs multiply by 1000 fo JS Date
+  const expiry = convertToBig(await vaultContract.expiry()).toNumber() * 1000;
 
   const queuedExitEpoch = convertToBig(myVaultPosition[5]).toNumber();
 
   const isEpochSettled = expiry === 0;
   const isEpochExpired = !isEpochSettled && Date.now() > expiry;
-  const isReadyForWithdraw = isEpochSettled || epoch > queuedExitEpoch; // can be claimed only if current epoch is settled or next epoch was started
 
-  let ILMode = undefined;
+  // can be claimed only if current epoch is settled or next epoch was started
+  const isReadyForWithdraw = isEpochSettled || epoch > queuedExitEpoch;
+
+  let ILMode;
 
   if (isILVault) {
     const currentOptionType = isEpochSettled
@@ -71,25 +93,26 @@ export const vaultFetcher = async (
       : await vaultContract.optionType(epoch);
 
     ILMode =
-      currentOptionType === ILVaultModes.CALL
-        ? ILVaultModes.CALL
-        : ILVaultModes.PUT;
+      currentOptionType === ILVaultMode.CALL
+        ? ILVaultMode.CALL
+        : ILVaultMode.PUT;
   }
 
   const depositAssetAddress = await vaultContract.COLLAT();
   const depositAssetContract = new ethers.Contract(
     depositAssetAddress,
-    ASSET_ABI,
-    signer,
+    assetABI,
+    signer
   );
 
   const userBalance = await depositAssetContract.balanceOf(userAddress);
   const userAllowance = await depositAssetContract.allowance(
     userAddress,
-    vaultAddress,
+    vaultAddress
   );
 
-  const assetSymbol = (await vaultContract.name()).split(' ').splice(-2, 1)[0]; // equals to .at(-2)
+  // equals to .at(-2)
+  const [assetSymbol] = (await vaultContract.name()).split(" ").splice(-2, 1);
 
   const assetDecimals = await depositAssetContract.decimals();
   const depositSymbol = await depositAssetContract.symbol();
@@ -98,8 +121,8 @@ export const vaultFetcher = async (
   const linkAggregator = await vaultContract.LINK_AGGREGATOR();
   const priceFeedContract = new Contract(
     priceFeedAddress,
-    PRICE_FEED_ABI,
-    signer,
+    priceFeedABI,
+    signer
   );
 
   const vaultMaxDeposit = convertToBig(vaultUI.max_deposit);
@@ -109,7 +132,7 @@ export const vaultFetcher = async (
   const vaultPeriod = convertToBig(await vaultContract.PERIOD());
 
   const vaultAssetPrice = convertToBig(
-    await priceFeedContract.getLatestPriceX1e6(linkAggregator),
+    await priceFeedContract.getLatestPriceX1e6(linkAggregator)
   );
   const vaultStrikePrice = convertToBig(await vaultContract.strikeX1e6(epoch));
 
@@ -129,16 +152,18 @@ export const vaultFetcher = async (
 
   const userPosition = convertToBig(myVaultPosition[7]).div(assetDivisor);
   const userPendingWithdrawal = convertToBig(myVaultPosition[2]).div(
-    assetDivisor,
+    assetDivisor
   );
 
   const userWalletBalance = convertToBig(userBalance).div(assetDivisor);
   const userWalletAllowance = convertToBig(userAllowance).div(assetDivisor);
 
   const assetPrice = normalizeVaultValue(vaultAssetPrice, priceDivisor);
+
+  // strike price is not valid until epoch was started
   const strikePrice =
     isEpochSettled || isEpochExpired
-      ? null // strike price is not valid until epoch was started
+      ? null
       : normalizeVaultValue(vaultStrikePrice, priceDivisor);
 
   return {
@@ -159,27 +184,32 @@ export const vaultFetcher = async (
     userWalletAllowance,
     assetPrice,
     strikePrice,
-    approvePermanent: (): Promise<ContractTransaction> => {
+
+    approvePermanent: async (): Promise<ContractTransaction> => {
+      // 2^256-1
       const weiAmount =
-        '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff'; // 2^256-1
+        "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
 
       return depositAssetContract.approve(vaultAddress, weiAmount);
     },
+
     approve: async (amount: string): Promise<ContractTransaction> => {
       const weiAmount = Big(amount).mul(assetDivisor).toString();
 
       return depositAssetContract.approve(vaultAddress, weiAmount);
     },
+
     deposit: async (amount: string): Promise<ContractTransaction> => {
       const weiAmount = Big(amount).mul(assetDivisor).toString();
 
       return vaultContract.deposit(weiAmount);
     },
+
     initWithdraw: async (amount: string): Promise<ContractTransaction> => {
       const assetAmount = Big(amount);
 
       const valuePerLPX1e18 = convertToBig(
-        await vaultContract.valuePerLPX1e18(epoch),
+        await vaultContract.valuePerLPX1e18(epoch)
       );
       const valuePerLP = valuePerLPX1e18.div(Big(10).pow(18));
 
@@ -188,13 +218,14 @@ export const vaultFetcher = async (
 
       return vaultContract.initWithdraw(weiLPAmount);
     },
+
     cancelWithdraw: async (): Promise<ContractTransaction> => {
-      const weiAmount = '0';
+      const weiAmount = "0";
 
       return vaultContract.initWithdraw(weiAmount);
     },
-    withdraw: async (): Promise<ContractTransaction> => {
-      return vaultContract.withdraw();
-    },
+
+    withdraw: async (): Promise<ContractTransaction> =>
+      vaultContract.withdraw(),
   };
 };

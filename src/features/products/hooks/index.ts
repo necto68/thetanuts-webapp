@@ -1,1 +1,1 @@
-export * from './useSortBy';
+export * from "./useSortBy";

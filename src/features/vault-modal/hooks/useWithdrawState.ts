@@ -1,22 +1,27 @@
-import { useCallback, useState } from 'react';
-import Big from 'big.js';
-import { useMutation, useQueryClient } from 'react-query';
-import { useWallet } from '@gimmixorg/use-wallet';
-import { useModalVault } from './useModalVault';
+import { useCallback, useMemo, useState } from "react";
+import Big from "big.js";
+import { useMutation, useQueryClient } from "react-query";
+import { useWallet } from "@gimmixorg/use-wallet";
 
-enum WithdrawMutations {
-  initWithdraw,
-  cancelWithdraw,
-  withdraw,
+import { useModalVault } from "./useModalVault";
+
+enum WithdrawMutation {
+  initWithdraw = "initWithdraw",
+  cancelWithdraw = "cancelWithdraw",
+  withdraw = "withdraw",
 }
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const useWithdrawState = () => {
   const vault = useModalVault();
   const { network } = useWallet();
   const queryClient = useQueryClient();
 
-  const [stringAmount, setStringAmount] = useState('');
-  const bigNumberAmount = Big(stringAmount || 0);
+  const [stringAmount, setStringAmount] = useState("");
+  const bigNumberAmount = useMemo(
+    () => new Big(stringAmount || 0),
+    [stringAmount]
+  );
 
   const handleMutationOnSuccess = useCallback(async () => {
     if (!vault || !network) {
@@ -24,11 +29,11 @@ export const useWithdrawState = () => {
     }
 
     await queryClient.invalidateQueries([vault.address, network.chainId]);
-    setStringAmount('');
+    setStringAmount("");
   }, [vault, network, queryClient]);
 
   const mutateVault = useCallback(
-    async (mutationType: WithdrawMutations) => {
+    async (mutationType: WithdrawMutation) => {
       if (
         !vault ||
         !vault.initWithdraw ||
@@ -41,44 +46,56 @@ export const useWithdrawState = () => {
       let transaction = null;
       try {
         switch (mutationType) {
-          case WithdrawMutations.initWithdraw:
+          case WithdrawMutation.initWithdraw:
             transaction = await vault.initWithdraw(bigNumberAmount.toString());
             break;
-          case WithdrawMutations.cancelWithdraw:
+          case WithdrawMutation.cancelWithdraw:
             transaction = await vault.cancelWithdraw();
             break;
-          case WithdrawMutations.withdraw:
+          case WithdrawMutation.withdraw:
             transaction = await vault.withdraw();
+            break;
+          default:
             break;
         }
 
         if (transaction) {
           await transaction.wait();
         }
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
       }
     },
-    [vault, bigNumberAmount],
+    [vault, bigNumberAmount]
   );
 
   const { mutate: initWithdraw, isLoading: isInitiatingWithdraw } = useMutation(
-    () => mutateVault(WithdrawMutations.initWithdraw),
+    async () => {
+      await mutateVault(WithdrawMutation.initWithdraw);
+    },
     {
       onSuccess: handleMutationOnSuccess,
-    },
+    }
   );
 
   const { mutate: cancelWithdraw, isLoading: isCancelingWithdraw } =
-    useMutation(() => mutateVault(WithdrawMutations.cancelWithdraw), {
-      onSuccess: handleMutationOnSuccess,
-    });
+    useMutation(
+      async () => {
+        await mutateVault(WithdrawMutation.cancelWithdraw);
+      },
+      {
+        onSuccess: handleMutationOnSuccess,
+      }
+    );
 
   const { mutate: withdraw, isLoading: isWithdrawing } = useMutation(
-    () => mutateVault(WithdrawMutations.withdraw),
+    async () => {
+      await mutateVault(WithdrawMutation.withdraw);
+    },
     {
       onSuccess: handleMutationOnSuccess,
-    },
+    }
   );
 
   if (!vault) {
@@ -92,7 +109,7 @@ export const useWithdrawState = () => {
   const userBalance =
     userPosition && userPendingWithdrawal
       ? userPosition.add(userPendingWithdrawal)
-      : Big(0);
+      : new Big(0);
 
   const isExceedUserBalance = bigNumberAmount.gt(userBalance);
 
@@ -105,8 +122,17 @@ export const useWithdrawState = () => {
     isInitiatingWithdraw,
     isCancelingWithdraw,
     isWithdrawing,
-    initWithdraw: () => initWithdraw(),
-    cancelWithdraw: () => cancelWithdraw(),
-    withdraw: () => withdraw(),
+
+    initWithdraw: () => {
+      initWithdraw();
+    },
+
+    cancelWithdraw: () => {
+      cancelWithdraw();
+    },
+
+    withdraw: () => {
+      withdraw();
+    },
   };
 };

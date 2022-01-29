@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from "react";
 
 export const useScreenSize = () => {
   const [height, setHeight] = useState<number>(0);
@@ -10,7 +10,7 @@ export const useScreenSize = () => {
 
   const updateHeight = useCallback(() => {
     setHeight(
-      Math.max(window.innerHeight, document.documentElement.clientHeight),
+      Math.max(window.innerHeight, document.documentElement.clientHeight)
     );
   }, []);
 
@@ -18,7 +18,7 @@ export const useScreenSize = () => {
     updateWidth();
     updateHeight();
 
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       updateWidth();
       updateHeight();
     });
