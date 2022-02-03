@@ -10,10 +10,12 @@
     "not ios_saf < 13"
   ],
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build",
-    "lint": "eslint --ext .ts,.tsx --fix ./src",
-    "prepare": "husky install"
+    "start": "yarn generate-types && parcel",
+    "build": "yarn generate-types && yarn build:ts",
+    "build:ts": "parcel build",
+    "lint": "eslint --ext .ts,.tsx,.html --fix ./src",
+    "prepare": "husky install",
+    "generate-types": "typechain --target=ethers-v5 --out-dir=./src/features/contracts/types '**/*.abi.json'"
   },
   "dependencies": {
     "@gimmixorg/use-wallet": "^0.0.31",
@@ -36,6 +38,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
+    "@typechain/ethers-v5": "^9.0.0",
     "@types/big.js": "^6.1.2",
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
@@ -45,6 +48,7 @@
     "eslint-config-hardcore": "^23.9.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.2",
-    "parcel": "^2.2.1"
+    "parcel": "^2.2.1",
+    "typechain": "^7.0.0"
   }
 }

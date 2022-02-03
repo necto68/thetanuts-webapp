@@ -21,7 +21,6 @@ export const ProductsPage = () => {
   return (
     <Container>
       <PageTitle>Products</PageTitle>
-      {/* <Metrix/> */}
       <ProductsContainer>
         <SwitcherContainer>
           <ProductTypeButton
