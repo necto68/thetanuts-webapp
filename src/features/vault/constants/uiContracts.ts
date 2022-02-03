@@ -15,7 +15,7 @@ export const uiContracts: UIContract[] = [
     address: "0x9214AEB491Fb53115b4439d5cDcd2DB947E4e18c",
   },
   {
-    chainId: ChainId.POLYGON,
+    chainId: ChainId.MATIC,
     address: "0x9214AEB491Fb53115b4439d5cDcd2DB947E4e18c",
   },
   {

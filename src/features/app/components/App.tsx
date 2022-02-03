@@ -1,5 +1,6 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import Big from "big.js";
 
 import { Root } from "../../root/components";
@@ -23,5 +24,6 @@ export const App = () => (
       <GlobalStyle />
       <Root />
     </Router>
+    <ReactQueryDevtools />
   </QueryClientProvider>
 );

@@ -15,6 +15,8 @@
     "browser": true
   },
 
+  "ignorePatterns": ["**/contracts/types/**"],
+
   "rules": {
     "id-length": 0,
     "unicorn/no-null": 0,
@@ -43,5 +45,11 @@
     "max-params": 0,
     "@typescript-eslint/prefer-readonly-parameter-types": 0,
     "no-warning-comments": 0
-  }
+  },
+  "overrides": [{
+    "files": ["*.json", "*.html"],
+    "rules": {
+      "@typescript-eslint/naming-convention": 0
+    }
+  }]
 }
