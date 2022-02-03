@@ -1,6 +1,8 @@
 import type { FC } from "react";
+import { useCallback } from "react";
 
 import { useIndexVaultQuery } from "../hooks";
+import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
 
 import {
   Container,
@@ -22,12 +24,18 @@ interface IndexVaultProps {
 export const IndexVault: FC<IndexVaultProps> = ({ tokenSymbol }) => {
   const { isLoading } = useIndexVaultQuery(tokenSymbol);
 
+  const [, setModalState] = useIndexVaultModalState();
+
+  const handleVaultClick = useCallback(() => {
+    setModalState({ isShow: true, tokenSymbol });
+  }, [setModalState, tokenSymbol]);
+
   if (isLoading) {
     return null;
   }
 
   return (
-    <Container>
+    <Container onClick={handleVaultClick}>
       <Header>
         <TypeTitle>Put</TypeTitle>
         <AssetTitle>BTC-C</AssetTitle>

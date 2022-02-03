@@ -4,24 +4,34 @@ import { useOutsideClickRef } from "rooks";
 
 import { VaultModal } from "../../vault-modal/components";
 import { useModalState } from "../../vault-modal/hooks";
+import { IndexVaultModal } from "../../index-vault-modal/components";
+import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
 
 import { Backdrop, VaultModalContainer } from "./Modal.styles";
 
 export const Modal = () => {
-  const [{ isShow }, setModalState] = useModalState();
+  const [{ isShow: isShowModal }, setModalState] = useModalState();
+  const [{ isShow: isShowIndexVaultModal }, setIndexVaultModalState] =
+    useIndexVaultModalState();
 
   const handleClose = useCallback(() => {
     setModalState((previousState) => ({ ...previousState, isShow: false }));
-  }, [setModalState]);
+    setIndexVaultModalState((previousState) => ({
+      ...previousState,
+      isShow: false,
+    }));
+  }, [setModalState, setIndexVaultModalState]);
 
   const [containerReference] = useOutsideClickRef(handleClose);
 
+  const ModalComponent = isShowModal ? VaultModal : IndexVaultModal;
+
   return (
     <AnimatePresence>
-      {isShow ? (
+      {isShowModal || isShowIndexVaultModal ? (
         <Backdrop>
           <VaultModalContainer ref={containerReference}>
-            <VaultModal />
+            <ModalComponent />
           </VaultModalContainer>
         </Backdrop>
       ) : null}
