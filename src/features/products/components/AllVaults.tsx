@@ -58,7 +58,7 @@ const columns: Column<Vault>[] = [
       getCurrentDepositRate(currentDeposit, maxDeposit),
   },
   {
-    title: "Position",
+    title: "Positions",
     sortKey: "userPosition",
     sortBy: ({ userPosition }) => (userPosition ? userPosition.toNumber() : 0),
   },
