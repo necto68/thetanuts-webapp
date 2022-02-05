@@ -43,7 +43,7 @@ const columns: Column<Vault>[] = [
     sortKey: "riskLevel",
   },
   {
-    title: "APY",
+    title: "APYs",
     sortKey: "apy",
   },
   {
