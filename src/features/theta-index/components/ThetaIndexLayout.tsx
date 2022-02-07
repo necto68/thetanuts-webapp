@@ -1,3 +1,5 @@
+import { AllVaults } from "../../products/components/AllVaults";
+
 import { Container, Title, Description } from "./ThateIndexLayout.styles";
 import { FeaturedIndexVaultsList } from "./FeaturedIndexVaultsList";
 
@@ -21,5 +23,7 @@ export const ThetaIndexLayout = () => (
     </Description>
     <Title>Featured Theta-Index Vaults</Title>
     <FeaturedIndexVaultsList />
+
+    <AllVaults />
   </Container>
 );
