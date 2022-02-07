@@ -17,6 +17,7 @@ export const Title = styled.span`
 
 export const VaultsTable = styled.table`
   width: 100%;
+  border-collapse: collapse;
 `;
 
 export const HeaderRow = styled.tr`

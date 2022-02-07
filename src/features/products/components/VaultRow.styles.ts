@@ -40,8 +40,32 @@ export const CellValue = styled.span`
   font-weight: 600;
   font-size: 18px;
   color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
 export const RiskLevelValue = styled(CellValue)<{ riskLevel: VaultRiskLevel }>`
   color: ${({ riskLevel }) => mapRiskLevelToColor[riskLevel]};
+`;
+
+export const CenteredCell = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+`;
+
+export const SwapButton = styled.button`
+  background: transparent;
+  font-family: Barlow;
+  font-weight: 600;
+  font-size: 18px;
+  color: #ffffff;
+  border: 2px solid green;
+  border-radius: 10px;
+  padding: 10px 30px;
+  cursor: pointer;
 `;

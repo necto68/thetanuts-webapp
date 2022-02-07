@@ -8,7 +8,6 @@ import { getCurrentDepositRate } from "../../vault/helpers";
 import { VaultRow } from "./VaultRow";
 import {
   Container,
-  Title,
   VaultsTable,
   HeaderRow,
   HeaderCell,
@@ -26,7 +25,7 @@ interface Column<RowData> {
 
 const columns: Column<Vault>[] = [
   {
-    title: "Asset Type",
+    title: "Assets",
     sortKey: "assetSymbol",
   },
   {
@@ -37,10 +36,6 @@ const columns: Column<Vault>[] = [
     title: "Strategy",
     sortKey: "type",
     sortBy: ({ type }) => VaultType[type],
-  },
-  {
-    title: "Risk Level",
-    sortKey: "riskLevel",
   },
   {
     title: "APYs",
@@ -62,6 +57,10 @@ const columns: Column<Vault>[] = [
     sortKey: "userPosition",
     sortBy: ({ userPosition }) => (userPosition ? userPosition.toNumber() : 0),
   },
+  {
+    title: " ",
+    sortKey: "userPosition",
+  },
 ];
 
 export const AllVaults = () => {
@@ -73,7 +72,6 @@ export const AllVaults = () => {
 
   return (
     <Container>
-      <Title>Metavaults Performance</Title>
       <VaultsTable>
         <thead>
           <HeaderRow>
