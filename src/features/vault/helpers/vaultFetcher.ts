@@ -33,7 +33,11 @@ import {
 } from "../constants/ABI";
 import type { Vault } from "../types";
 
-import { convertToBig, getApy, normalizeVaultValue } from "./utils";
+import {
+  convertToBig,
+  getAnnualPercentageYield,
+  normalizeVaultValue,
+} from "./utils";
 
 export const vaultFetcher = async (
   vaultAddress: string,
@@ -136,9 +140,11 @@ export const vaultFetcher = async (
   );
   const vaultStrikePrice = convertToBig(await vaultContract.strikeX1e6(epoch));
 
-  //   from: '0xb8dD07Ef9Ed7090cCE388D9d2772B1291265E72F',
-
-  const apy = getApy(vaultTotalAsset, vaultPremium, vaultPeriod);
+  const apy = getAnnualPercentageYield(
+    vaultTotalAsset,
+    vaultPremium,
+    vaultPeriod
+  );
 
   const assetDivisor = Big(10).pow(assetDecimals);
   const priceDivisor = Big(10).pow(6);
