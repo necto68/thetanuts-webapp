@@ -2,7 +2,7 @@ import { useQuery, useQueries } from "react-query";
 import Big from "big.js";
 
 import { indexVaults } from "../../theta-index/constants";
-import { chainProvidersMap } from "../../wallet/constants";
+import { chainsMap, chainProvidersMap } from "../../wallet/constants";
 import {
   indexVaultFetcher,
   vaultFetcher,
@@ -16,18 +16,22 @@ export const useIndexVault = (tokenSymbol: string) => {
   const { chainId: tokenChainId = 0, tokenAddress = "" } =
     tokenConfig?.source ?? {};
 
+  const { lendingPoolAddress } = chainsMap[tokenChainId].addresses;
   const provider = chainProvidersMap[tokenChainId];
 
   const { isLoading: isIndexVaultLoading, data: indexVaultData } = useQuery({
     queryKey: [tokenSymbol, tokenChainId],
 
-    queryFn: async () => await indexVaultFetcher(tokenAddress, provider),
+    queryFn: async () =>
+      await indexVaultFetcher(tokenAddress, lendingPoolAddress, provider),
   });
 
   // use fetched vaultsAddresses for fetching sub vaults
   const {
     type = VaultType.CALL,
     assetSymbol = "",
+    assetTokenAddress = "",
+    indexTokenAddress = "",
     vaultsAddresses = [],
     vaultsInfos = [],
     totalWeight = new Big(0),
@@ -58,6 +62,8 @@ export const useIndexVault = (tokenSymbol: string) => {
     data: {
       type,
       assetSymbol,
+      assetTokenAddress,
+      indexTokenAddress,
       vaultsInfos,
       totalValueLocked,
       totalAnnualPercentageYield,

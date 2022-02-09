@@ -8,11 +8,13 @@ import { VaultType } from "../../vault/constants";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   IndexVaultAbi__factory as IndexVaultAbiFactory,
+  LendingPoolAbi__factory as LendingPoolAbiFactory,
 } from "../../contracts/types";
 import type { IndexVault, VaultInfo } from "../types";
 
 export const indexVaultFetcher = async (
   indexVaultAddress: string,
+  lendingPoolAddress: string,
   provider: Provider
 ): Promise<IndexVault> => {
   const indexVaultContract = IndexVaultAbiFactory.connect(
@@ -20,14 +22,31 @@ export const indexVaultFetcher = async (
     provider
   );
 
-  const [name, assetAddress, totalWeight, vaultsLength] = await Promise.all([
+  const lendingPoolContract = LendingPoolAbiFactory.connect(
+    lendingPoolAddress,
+    provider
+  );
+
+  const [
+    name,
+    totalWeight,
+    vaultsLength,
+    assetTokenAddress,
+    indexTokenAddress,
+  ] = await Promise.all([
     indexVaultContract.name(),
-    indexVaultContract.COLLAT(),
     indexVaultContract.totalWeight().then(convertToBig),
     indexVaultContract.vaultsLength().then((bigNumber) => bigNumber.toNumber()),
+    indexVaultContract.COLLAT(),
+    lendingPoolContract
+      .getReserveData(indexVaultAddress)
+      .then((data) => data.aTokenAddress),
   ]);
 
-  const assetContract = Erc20AbiFactory.connect(assetAddress, provider);
+  const assetTokenContract = Erc20AbiFactory.connect(
+    assetTokenAddress,
+    provider
+  );
 
   // getting vaults addresses
   const vaultsAddressesPromises: Promise<string>[] = Array.from(
@@ -41,8 +60,8 @@ export const indexVaultFetcher = async (
     number,
     ...string[]
   ] = await Promise.all([
-    assetContract.symbol(),
-    assetContract.decimals(),
+    assetTokenContract.symbol(),
+    assetTokenContract.decimals(),
     ...vaultsAddressesPromises,
   ]);
 
@@ -75,6 +94,8 @@ export const indexVaultFetcher = async (
   return {
     type,
     assetSymbol,
+    assetTokenAddress,
+    indexTokenAddress,
     vaultsAddresses,
     vaultsInfos,
     totalWeight,

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { IconContainer } from "../../shared/components";
-import { chains, chainLogosMap } from "../constants";
+import { chains, chainsMap } from "../constants";
 
 import { BaseOptionsContainer } from "./BaseOptionsContainer";
 import { ChainButton } from "./ChainButton";
@@ -56,7 +56,7 @@ export const ChainSelect = () => {
       >
         <ChainsContainer>
           {chainOptions.map(({ chainId, title, color }) => {
-            const LogoComponent = chainLogosMap[chainId];
+            const LogoComponent = chainsMap[chainId].logo;
 
             const handleClick = async () => {
               await switchToChain(chainId);

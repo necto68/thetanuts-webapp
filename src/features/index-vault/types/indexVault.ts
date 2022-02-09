@@ -11,6 +11,8 @@ export interface VaultInfo {
 export interface IndexVault {
   type: VaultType;
   assetSymbol: string;
+  assetTokenAddress: string;
+  indexTokenAddress: string;
   vaultsAddresses: string[];
   vaultsInfos: VaultInfo[];
   totalWeight: Big;
