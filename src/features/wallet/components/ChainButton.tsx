@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { BaseButton, IconContainer, ArrowIcon } from "../../shared/components";
-import { chainsMap, chainLogosMap } from "../constants";
+import { chainsMap } from "../constants";
 
 import { ChainContainer } from "./ChainButton.styles";
 
@@ -16,7 +16,7 @@ export const ChainButton: FC<ChainButtonProps> = ({ onClick, showSelect }) => {
   const chainId = network?.chainId;
 
   const selectedChain = chainId ? chainsMap[chainId] : null;
-  const LogoComponent = chainId ? chainLogosMap[chainId] : () => null;
+  const LogoComponent = chainId ? chainsMap[chainId].logo : () => null;
 
   return selectedChain ? (
     <BaseButton onClick={onClick} primaryColor={selectedChain.color}>
