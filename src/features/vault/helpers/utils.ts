@@ -12,20 +12,24 @@ export const normalizeVaultValue = (
   roundDP = 2
 ): number => value.div(divisor).round(roundDP).toNumber();
 
-export const getApy = (totalAsset: Big, premium: Big, period: Big): number => {
+export const getAnnualPercentageYield = (
+  totalAsset: Big,
+  premium: Big,
+  period: Big
+): number => {
   if (totalAsset.eq(0)) {
     return 0;
   }
 
   const secondsPerYear = new Big(60 * 60 * 24 * 365);
 
-  return new Big(1)
+  const annualPercentageYieldValue = new Big(1)
     .add(premium.div(totalAsset))
     .pow(secondsPerYear.div(period).round().toNumber())
     .sub(1)
-    .mul(100)
-    .round(2)
-    .toNumber();
+    .mul(100);
+
+  return annualPercentageYieldValue.round(2).toNumber();
 };
 
 export const getCurrentDepositRate = (

@@ -1,1 +1,1 @@
-export * from "./useIndexVaultQuery";
+export * from "./useIndexVault";
