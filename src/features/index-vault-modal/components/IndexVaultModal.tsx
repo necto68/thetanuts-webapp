@@ -10,9 +10,8 @@ export const IndexVaultModal = () => (
     <Header />
     <SwapDisplay />
     <InformationDisplay />
-    <SwapButton whileHover={{scale: 1.02, boxShadow: `0 0 10px white`,}} whileTap={{scale: 0.97,boxShadow: `0 0 0px white`, opacity: 0.8,}}>Swap</SwapButton>
+    <SwapButton>Swap</SwapButton>
     <ExpandButton>Consolidated APY% = 40.97%</ExpandButton>
     <ExpandButton>Index Information</ExpandButton>
-
   </Container>
 );

@@ -1,80 +1,88 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
 `;
 
 export const HeaderWrapper = styled.div`
-    width: 470px;
-    height: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-height: 2vh;
+  align-items: center;
 `;
 
 export const Header = styled.h5`
-    display: inline-block;
-    position: relative;
-    bottom: 20px;
+  font-family: Barlow;
+  font-weight: 500;
+  font-size: 12px;
 `;
 
 export const Balance = styled.h5`
-    display: inline-block;
-    position: relative;
-    bottom: 20px;
-    float: right;
+  font-family: Barlow;
+  font-weight: 500;
+  font-size: 12px;
+  flex-direction: row;
 `;
 
 export const SwapCard = styled.div`
-    background-color: #010c1a;
-    border-radius: 9px;
-    width: 470px;
-    height: 80px;
-    position: relative;
+  background-color: #010c1a;
+  border-radius: 9px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const DepositValueEth = styled.h2`
-    display: inline-block;
-    color: white;
-    margin: 25px 40px 0px 15px;
+  color: white;
+  padding-left: 15px;
+  font-family: Barlow;
+  font-weight: 500;
+  font-size: 22px;
 `;
 
 export const DepositValueUsd = styled.h4`
-    display: inline-block;
-    color: white;
+  color: white;
+  padding-left: 50px;
+  font-family: Barlow;
+  font-weight: lighter;
+  font-size: 16px;
 `;
 
 export const MaxButton = styled.button`
-    padding: 8px 18px;
-    background-color: #010c1a;
-    border-radius: 9px;
-    border: 1px solid #1b65de;
-    color: white;
-    font-size: 11px;
-    margin-left: 180px;
-    display: inline-block;
-`;
-
-export const AssetLogo = styled.img`
-    width: 25px;
-    height: 25px;
-    display: inline-block;
-    position: absolute;
-    left: 370px;
-    top: 30px;
+  padding: 12px 18px 8px 18px;
+  background-color: #010c1a;
+  border-radius: 9px;
+  border: 1px solid #1b65de;
+  color: white;
+  font-size: 11px;
 `;
 
 export const AssetInitials = styled.h4`
-    color: white;
-    display: inline-block;
-    font-weight: lighter;
-    position: absolute;
-    left: 400px;
-    top: 13px;
+  color: white;
+  font-family: Barlow;
+  font-weight: lighter;
+  font-size: 16px;
+  padding: 2px 20px 0px 20px;
+`;
+
+export const FlipButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: 15px;
 `;
 
 export const FlipButton = styled.button`
-    background-color: #010c1a;
-    border-radius: 50%;
-    height: 40px;
-    width: 40px;
-    margin: 18px auto 0px auto;
+  background-color: #010c1a;
+  border-radius: 50%;
+  padding: 18px;
+  cursor: pointer;
 `;

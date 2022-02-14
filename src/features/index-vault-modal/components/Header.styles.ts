@@ -1,49 +1,30 @@
 import styled from "styled-components";
 
+import { BaseButton } from "../../shared/components";
+
 export const Container = styled.div`
-  display: inline-block;
-  height: 60px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
 `;
 
 export const Title = styled.h3`
-  position: relative;
+  font-family: Barlow;
+  font-weight: 500;
+  font-size: 20px;
 `;
 
-export const ExitButton = styled.button`
-  overflow: hidden;
-  position: relative;
-  border: none;
-  padding: 0;
-  left: 430px;
-  bottom: 50px;
-  width: 2em; height: 2em;
+export const CloseButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const CloseButton = styled(BaseButton)`
   border-radius: 50%;
   border-color: black;
-  background: transparent;
+  padding: 4px 18px;
   color: black;
-  font: inherit;
-  text-indent: 100%;
-  cursor: pointer;
-
-  &:focus {
-    outline: solid 0 transparent;
-    box-shadow: 0 0 0 2px #8ed0f9
-  }
-
-  &:hover {
-    background: rgba(29, 161, 142, .1)
-  }
-
-  &:before, &:after {
-    position: absolute;
-    top: 15%; left: calc(50% - .0625em);
-    width: .125em; height: 70%;
-    border-radius: .125em;
-    transform: rotate(45deg);
-    background: currentcolor;
-    content: ''
-  }
-
-  &:after { transform: rotate(-45deg); }
-  
+  font-size: 18px;
+  max-height: 5vh;
 `;
