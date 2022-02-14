@@ -11,7 +11,7 @@ export const SwapButton = styled(motion.button).attrs(() => ({
   },
 }))`
   font-family: Barlow;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 18px;
 
   color: white;

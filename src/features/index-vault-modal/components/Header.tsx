@@ -1,15 +1,8 @@
-import {
-  Container,
-  Title,
-  CloseButton,
-  CloseButtonWrapper,
-} from "./Header.styles";
+import { Container, Title, CloseButton } from "./Header.styles";
 
 export const Header = () => (
   <Container>
     <Title>Swap Token</Title>
-    <CloseButtonWrapper>
-      <CloseButton>X</CloseButton>
-    </CloseButtonWrapper>
+    <CloseButton>✕</CloseButton>
   </Container>
 );
