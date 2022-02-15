@@ -1,9 +1,12 @@
-import { BaseButton } from "../../shared/components";
-
+import { Header } from "./Header";
+import { SwapSection } from "./SwapSection";
+import { ExpandersSection } from "./ExpandersSection";
 import { Container } from "./IndexVaultModal.styles";
 
 export const IndexVaultModal = () => (
   <Container>
-    <BaseButton primaryColor="#061F3A">Test Button</BaseButton>
+    <Header />
+    <SwapSection />
+    <ExpandersSection />
   </Container>
 );

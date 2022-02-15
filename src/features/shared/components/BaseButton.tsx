@@ -20,6 +20,9 @@ const BaseButton = styled(motion.button).attrs<Required<BaseButtonProps>>(
       boxShadow: `0 0 0px ${primaryColor}`,
       opacity: 0.8,
     },
+
+    primaryColor,
+    disabled,
   })
 )<BaseButtonProps>`
   font-family: Barlow;
