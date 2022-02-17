@@ -32,7 +32,7 @@ export const vaultFetcher = async (
     period,
   ] = await Promise.all([
     vaultContract.epoch(),
-    vaultContract.PRICE_FEED(),
+    vaultContract.priceFeed(),
     vaultContract.LINK_AGGREGATOR(),
     vaultContract.totalSupply(),
     vaultContract.currentEpochPremium().then(convertToBig),

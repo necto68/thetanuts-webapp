@@ -18,14 +18,10 @@ export const PriceInfoContainer = styled(InfoContainer)`
   justify-content: flex-end;
 `;
 
-export const InfoTitle = styled.span<{ isUnderline?: boolean }>`
+export const InfoValue = styled.span<{ isUnderline?: boolean }>`
   font-family: Roboto;
   font-weight: 400;
   font-size: 16px;
   text-decoration: ${({ isUnderline = false }) =>
     isUnderline ? "underline" : "none"};
-`;
-
-export const InfoValue = styled(InfoTitle)`
-  font-family: Barlow;
 `;
