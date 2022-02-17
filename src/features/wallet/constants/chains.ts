@@ -55,7 +55,7 @@ export const chains: ChainConfig[] = [
     title: "Matic",
     color: "#7b43d9",
     logo: Matic,
-    rpcUrl: "wss://ws-mainnet.matic.network",
+    rpcUrl: "wss://rpc-mainnet.matic.quiknode.pro",
 
     addresses: {
       routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",

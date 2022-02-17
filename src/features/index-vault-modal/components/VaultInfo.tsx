@@ -1,31 +1,98 @@
+import type { FC } from "react";
+import Big from "big.js";
+
+import type { NativeToken, Token } from "../types";
+
 import {
   Container,
   InfoContainer,
   PriceInfoContainer,
   InfoValue,
-  InfoTitle,
 } from "./VaultInfo.styles";
 
-export const VaultInfo = () => (
-  <Container>
-    <PriceInfoContainer>
-      <InfoTitle isUnderline>1 ETH = 0.9713 tETH ($2,000)</InfoTitle>
-    </PriceInfoContainer>
-    <InfoContainer>
-      <InfoTitle>Protocols</InfoTitle>
-      <InfoValue>Uniswap v2</InfoValue>
-    </InfoContainer>
-    <InfoContainer>
-      <InfoTitle>Route</InfoTitle>
-      <InfoValue>{"ETH -> tETH"}</InfoValue>
-    </InfoContainer>
-    <InfoContainer>
-      <InfoTitle>Slippage Tolerance</InfoTitle>
-      <InfoValue>0.5%</InfoValue>
-    </InfoContainer>
-    <InfoContainer>
-      <InfoTitle isUnderline>Platform fee</InfoTitle>
-      <InfoValue>0.3%</InfoValue>
-    </InfoContainer>
-  </Container>
-);
+interface VaultInfoProps {
+  isSourceTokenDataLoading: boolean;
+  isSourceValueLoading: boolean;
+  isTargetTokenDataLoading: boolean;
+  isTargetValueLoading: boolean;
+  sourceTokenData: NativeToken | Token | undefined;
+  sourceValue: string;
+  targetTokenData: NativeToken | Token | undefined;
+  targetValue: string;
+}
+
+const getSourceToTargetRatioString = (
+  sourceValue: VaultInfoProps["sourceValue"],
+  targetValue: VaultInfoProps["targetValue"],
+  isRatioLoading: boolean
+) => {
+  if (isRatioLoading) {
+    return ".....";
+  }
+
+  if (
+    sourceValue &&
+    targetValue &&
+    new Big(sourceValue).gt(0) &&
+    new Big(targetValue).gt(0)
+  ) {
+    return new Big(targetValue).div(sourceValue).round(5).toString();
+  }
+
+  return "N/A";
+};
+
+export const VaultInfo: FC<VaultInfoProps> = ({
+  isSourceTokenDataLoading,
+  isSourceValueLoading,
+  isTargetTokenDataLoading,
+  isTargetValueLoading,
+  sourceTokenData,
+  sourceValue,
+  targetTokenData,
+  targetValue,
+}) => {
+  const isTokensDataLoading =
+    isSourceTokenDataLoading || isTargetTokenDataLoading;
+  const isAnyValueLoading = isSourceValueLoading || isTargetValueLoading;
+  const isRatioLoading = isTokensDataLoading || isAnyValueLoading;
+
+  const [sourceTokenSymbol, targetTokenSymbol] = [
+    sourceTokenData,
+    targetTokenData,
+  ].map((tokenData) =>
+    !isTokensDataLoading && tokenData ? tokenData.symbol : "....."
+  );
+
+  const sourceToTargetRatio = getSourceToTargetRatioString(
+    sourceValue,
+    targetValue,
+    isRatioLoading
+  );
+
+  return (
+    <Container>
+      <PriceInfoContainer>
+        <InfoValue
+          isUnderline
+        >{`1 ${sourceTokenSymbol} = ${sourceToTargetRatio} ${targetTokenSymbol} ($2,000)`}</InfoValue>
+      </PriceInfoContainer>
+      <InfoContainer>
+        <InfoValue>Protocols</InfoValue>
+        <InfoValue>Uniswap v2</InfoValue>
+      </InfoContainer>
+      <InfoContainer>
+        <InfoValue>Route</InfoValue>
+        <InfoValue>{`${sourceTokenSymbol} ➞ ${targetTokenSymbol}`}</InfoValue>
+      </InfoContainer>
+      <InfoContainer>
+        <InfoValue>Slippage Tolerance</InfoValue>
+        <InfoValue>0.5%</InfoValue>
+      </InfoContainer>
+      <InfoContainer>
+        <InfoValue isUnderline>Platform fee</InfoValue>
+        <InfoValue>0.3%</InfoValue>
+      </InfoContainer>
+    </Container>
+  );
+};

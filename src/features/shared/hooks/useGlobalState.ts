@@ -7,7 +7,7 @@ interface ModalState {
 
 interface IndexVaultModalState {
   isShow: boolean;
-  tokenSymbol: string | null;
+  tokenSymbol: string;
 }
 
 interface GlobalState {
@@ -17,5 +17,5 @@ interface GlobalState {
 
 export const { useGlobalState } = createGlobalState<GlobalState>({
   modalState: { isShow: false, vaultAddress: null },
-  indexVaultModalState: { isShow: false, tokenSymbol: null },
+  indexVaultModalState: { isShow: false, tokenSymbol: "" },
 });

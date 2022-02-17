@@ -1,10 +1,48 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
 
 export const Container = styled.div`
   display: flex;
+  flex-direction: column;
+`;
+
+export const BalanceContainer = styled.div`
+  display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+`;
+
+export const BalanceTitle = styled.span`
+  font-family: Barlow;
+  font-weight: 400;
+  font-size: 14px;
+`;
+
+export const SwapInputCardAnimateContainer = styled(motion.div).attrs<{
+  downDirection: boolean;
+}>(({ downDirection }) => ({
+  initial: {
+    rotateX: downDirection ? "90deg" : "-90deg",
+    transformPerspective: 300,
+  },
+
+  animate: {
+    rotateX: "0deg",
+    transformPerspective: 300,
+  },
+
+  exit: {
+    rotateX: downDirection ? "90deg" : "-90deg",
+    transformPerspective: 300,
+  },
+
+  transition: { duration: 0.3, ease: "linear" },
+}))<{ downDirection: boolean }>`
+  display: flex;
   justify-content: space-between;
   gap: 20px;
   background-color: #061f3a;
@@ -36,6 +74,7 @@ export const SwapInput = styled.input.attrs(() => ({
   font-weight: 400;
   font-size: 28px;
   color: #e5e5e5;
+  width: 100%;
   border-radius: 10px;
   border: 0;
   background-color: transparent;
@@ -60,17 +99,44 @@ export const PriceTitle = styled.span`
   color: #e5e5e5;
 `;
 
-export const AssetTitle = styled.span`
+export const AssetTitle = styled(motion.span).attrs<{ selected?: boolean }>(
+  ({ selected = true }) => ({
+    initial: false,
+
+    animate: {
+      color: selected ? "#e5e5e5" : "#9e9e9e",
+    },
+  })
+)<{ selected?: boolean }>`
   font-family: Roboto;
   font-weight: 400;
   font-size: 18px;
-  color: #e5e5e5;
 `;
 
-export const MaxButton = styled(BaseButton).attrs(() => ({
-  primaryColor: "#ffffff",
-}))`
-  font-size: 14px;
+export const AssetArrow = styled(motion.span).attrs<{ isRotate: boolean }>(
+  ({ isRotate }) => ({
+    initial: false,
+
+    animate: {
+      rotate: isRotate ? "-180deg" : "0deg",
+    },
+  })
+)<{ isRotate: boolean }>`
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 18px;
+`;
+
+export const SwitchAssetButton = styled(BaseButton)`
   padding: 5px 15px;
   border-radius: 10px;
+`;
+
+export const SwitchAssetContainer = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
+export const MaxButton = styled(SwitchAssetButton)`
+  font-size: 14px;
 `;

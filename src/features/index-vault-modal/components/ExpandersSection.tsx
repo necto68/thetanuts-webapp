@@ -1,6 +1,11 @@
 import { useCallback, useState } from "react";
 
+import { useIndexVaultModalState } from "../hooks";
+import { useIndexVault } from "../../index-vault/hooks";
+
 import { Expander } from "./Expander";
+import { ConsolidatedApyInfo } from "./ConsolidatedApyInfo";
+import { IndexInfo } from "./IndexInfo";
 import { Container } from "./ExpandersSection.styles";
 
 export enum SectionType {
@@ -9,6 +14,9 @@ export enum SectionType {
 }
 
 export const ExpandersSection = () => {
+  const [{ tokenSymbol }] = useIndexVaultModalState();
+  const { isIndexVaultLoading, data } = useIndexVault(tokenSymbol);
+
   const [openedSection, setOpenedSection] = useState<SectionType | null>(null);
 
   const handleArrowClick = useCallback(
@@ -22,36 +30,19 @@ export const ExpandersSection = () => {
     [openedSection]
   );
 
+  const consolidatedAPY = !isIndexVaultLoading
+    ? data.totalAnnualPercentageYield
+    : ".....";
+
   return (
     <Container>
       <Expander
         isOpen={openedSection === SectionType.consolidatedAPY}
         onArrowClick={handleArrowClick}
-        title="Consolidated APY% = 40.97%"
+        title={`Consolidated APY% = ${consolidatedAPY}%`}
         type={SectionType.consolidatedAPY}
       >
-        <>
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-        </>
+        <ConsolidatedApyInfo />
       </Expander>
       <Expander
         isOpen={openedSection === SectionType.indexInfo}
@@ -59,28 +50,7 @@ export const ExpandersSection = () => {
         title="Index Information"
         type={SectionType.indexInfo}
       >
-        <>
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-          123
-          <br />
-        </>
+        <IndexInfo />
       </Expander>
     </Container>
   );

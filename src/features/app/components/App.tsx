@@ -10,13 +10,7 @@ import { GlobalStyle } from "./App.styles";
 Big.NE = -20;
 Big.PE = 80;
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: Number.POSITIVE_INFINITY,
-    },
-  },
-});
+const queryClient = new QueryClient({});
 
 export const App = () => (
   <QueryClientProvider client={queryClient}>

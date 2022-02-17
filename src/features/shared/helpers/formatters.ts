@@ -5,6 +5,12 @@ export const currencyFormatter = new Intl.NumberFormat("en-US", {
   currency: "USD",
 });
 
+export const currencyFormatterWithoutDecimals = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+  maximumFractionDigits: 0,
+});
+
 export const addressFormatter = (address: string) =>
   `${address.slice(0, 6)}...${address.slice(-4)}`;
 

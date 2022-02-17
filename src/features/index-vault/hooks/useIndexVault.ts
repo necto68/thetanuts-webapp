@@ -13,7 +13,7 @@ import { VaultType } from "../../vault/constants";
 
 export const useIndexVault = (tokenSymbol: string) => {
   const tokenConfig = indexVaults.find(({ symbol }) => symbol === tokenSymbol);
-  const { chainId: tokenChainId = 0, tokenAddress = "" } =
+  const { chainId: tokenChainId = 0, indexVaultAddress = "" } =
     tokenConfig?.source ?? {};
 
   const { lendingPoolAddress } = chainsMap[tokenChainId].addresses;
@@ -23,7 +23,9 @@ export const useIndexVault = (tokenSymbol: string) => {
     queryKey: [tokenSymbol, tokenChainId],
 
     queryFn: async () =>
-      await indexVaultFetcher(tokenAddress, lendingPoolAddress, provider),
+      await indexVaultFetcher(indexVaultAddress, lendingPoolAddress, provider),
+
+    staleTime: Number.POSITIVE_INFINITY,
   });
 
   // use fetched vaultsAddresses for fetching sub vaults
@@ -41,6 +43,7 @@ export const useIndexVault = (tokenSymbol: string) => {
     vaultsAddresses.map((vaultAddress) => ({
       queryKey: [vaultAddress, tokenChainId],
       queryFn: async () => await vaultFetcher(vaultAddress, provider),
+      staleTime: Number.POSITIVE_INFINITY,
     }))
   );
 
