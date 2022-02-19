@@ -1,15 +1,23 @@
 import { useRef, useState } from "react";
+import type { FC } from "react";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { IconContainer } from "../../shared/components";
-import { chains, chainsMap } from "../constants";
+import { chainsMap } from "../constants";
+import type { ChainConfig } from "../types";
 
 import { BaseOptionsContainer } from "./BaseOptionsContainer";
 import { ChainButton } from "./ChainButton";
 import { ChainContainer } from "./ChainButton.styles";
 import { ChainsContainer, ChainOptionButton } from "./ChainSelect.styles";
 
-export const ChainSelect = () => {
+interface ChainSelectProps {
+  
+  // array of chains to be shown
+  selectedChains: ChainConfig[];
+}
+
+export const ChainSelect: FC<ChainSelectProps> = ({ selectedChains }) => {
   const [isSelectShow, setSelectShow] = useState(false);
   const chainButtonContainerReference = useRef(null);
   const { provider, network } = useWallet();
@@ -40,7 +48,7 @@ export const ChainSelect = () => {
     return null;
   }
 
-  const chainOptions = chains.filter(
+  const selectedChainsWithoutCurrentChain = selectedChains.filter(
     ({ chainId }) => chainId !== selectedChainId
   );
 
@@ -55,7 +63,7 @@ export const ChainSelect = () => {
         show={isSelectShow}
       >
         <ChainsContainer>
-          {chainOptions.map(({ chainId, title, color }) => {
+          {selectedChainsWithoutCurrentChain.map(({ chainId, title, color }) => {
             const LogoComponent = chainsMap[chainId].logo;
 
             const handleClick = async () => {
