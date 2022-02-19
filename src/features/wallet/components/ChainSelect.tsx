@@ -12,7 +12,6 @@ import { ChainContainer } from "./ChainButton.styles";
 import { ChainsContainer, ChainOptionButton } from "./ChainSelect.styles";
 
 interface ChainSelectProps {
-  
   // array of chains to be shown
   selectedChains: ChainConfig[];
 }
@@ -63,28 +62,30 @@ export const ChainSelect: FC<ChainSelectProps> = ({ selectedChains }) => {
         show={isSelectShow}
       >
         <ChainsContainer>
-          {selectedChainsWithoutCurrentChain.map(({ chainId, title, color }) => {
-            const LogoComponent = chainsMap[chainId].logo;
+          {selectedChainsWithoutCurrentChain.map(
+            ({ chainId, title, color }) => {
+              const LogoComponent = chainsMap[chainId].logo;
 
-            const handleClick = async () => {
-              await switchToChain(chainId);
-            };
+              const handleClick = async () => {
+                await switchToChain(chainId);
+              };
 
-            return (
-              <ChainOptionButton
-                key={chainId}
-                onClick={handleClick}
-                primaryColor={color}
-              >
-                <ChainContainer>
-                  <IconContainer height={25} width={25}>
-                    <LogoComponent />
-                  </IconContainer>
-                  {title}
-                </ChainContainer>
-              </ChainOptionButton>
-            );
-          })}
+              return (
+                <ChainOptionButton
+                  key={chainId}
+                  onClick={handleClick}
+                  primaryColor={color}
+                >
+                  <ChainContainer>
+                    <IconContainer height={25} width={25}>
+                      <LogoComponent />
+                    </IconContainer>
+                    {title}
+                  </ChainContainer>
+                </ChainOptionButton>
+              );
+            }
+          )}
         </ChainsContainer>
       </BaseOptionsContainer>
     </>
