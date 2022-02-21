@@ -3,8 +3,8 @@ import type { FC } from "react";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { IconContainer } from "../../shared/components";
-import { chainsMap } from "../constants";
-import type { ChainConfig } from "../types";
+import type { ChainId } from "../constants";
+import { chains, chainsMap } from "../constants";
 
 import { BaseOptionsContainer } from "./BaseOptionsContainer";
 import { ChainButton } from "./ChainButton";
@@ -12,15 +12,18 @@ import { ChainContainer } from "./ChainButton.styles";
 import { ChainsContainer, ChainOptionButton } from "./ChainSelect.styles";
 
 interface ChainSelectProps {
-  // array of chains to be shown
-  selectedChains: ChainConfig[];
+  chainIds?: ChainId[];
 }
 
-export const ChainSelect: FC<ChainSelectProps> = ({ selectedChains }) => {
+export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   const [isSelectShow, setSelectShow] = useState(false);
   const chainButtonContainerReference = useRef(null);
   const { provider, network } = useWallet();
   const selectedChainId = network?.chainId;
+
+  const selectedChains = chainIds
+    ? chainIds.map((chainId) => chainsMap[chainId])
+    : chains;
 
   const showSelect = () => {
     setSelectShow(true);
