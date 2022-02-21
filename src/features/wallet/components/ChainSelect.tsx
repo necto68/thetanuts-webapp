@@ -1,7 +1,9 @@
 import { useRef, useState } from "react";
+import type { FC } from "react";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { IconContainer } from "../../shared/components";
+import type { ChainId } from "../constants";
 import { chains, chainsMap } from "../constants";
 
 import { BaseOptionsContainer } from "./BaseOptionsContainer";
@@ -9,11 +11,19 @@ import { ChainButton } from "./ChainButton";
 import { ChainContainer } from "./ChainButton.styles";
 import { ChainsContainer, ChainOptionButton } from "./ChainSelect.styles";
 
-export const ChainSelect = () => {
+interface ChainSelectProps {
+  chainIds?: ChainId[];
+}
+
+export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   const [isSelectShow, setSelectShow] = useState(false);
   const chainButtonContainerReference = useRef(null);
   const { provider, network } = useWallet();
   const selectedChainId = network?.chainId;
+
+  const selectedChains = chainIds
+    ? chainIds.map((chainId) => chainsMap[chainId])
+    : chains;
 
   const showSelect = () => {
     setSelectShow(true);
@@ -40,7 +50,7 @@ export const ChainSelect = () => {
     return null;
   }
 
-  const chainOptions = chains.filter(
+  const selectedChainsWithoutCurrentChain = selectedChains.filter(
     ({ chainId }) => chainId !== selectedChainId
   );
 
@@ -55,28 +65,30 @@ export const ChainSelect = () => {
         show={isSelectShow}
       >
         <ChainsContainer>
-          {chainOptions.map(({ chainId, title, color }) => {
-            const LogoComponent = chainsMap[chainId].logo;
+          {selectedChainsWithoutCurrentChain.map(
+            ({ chainId, title, color }) => {
+              const LogoComponent = chainsMap[chainId].logo;
 
-            const handleClick = async () => {
-              await switchToChain(chainId);
-            };
+              const handleClick = async () => {
+                await switchToChain(chainId);
+              };
 
-            return (
-              <ChainOptionButton
-                key={chainId}
-                onClick={handleClick}
-                primaryColor={color}
-              >
-                <ChainContainer>
-                  <IconContainer height={25} width={25}>
-                    <LogoComponent />
-                  </IconContainer>
-                  {title}
-                </ChainContainer>
-              </ChainOptionButton>
-            );
-          })}
+              return (
+                <ChainOptionButton
+                  key={chainId}
+                  onClick={handleClick}
+                  primaryColor={color}
+                >
+                  <ChainContainer>
+                    <IconContainer height={25} width={25}>
+                      <LogoComponent />
+                    </IconContainer>
+                    {title}
+                  </ChainContainer>
+                </ChainOptionButton>
+              );
+            }
+          )}
         </ChainsContainer>
       </BaseOptionsContainer>
     </>
