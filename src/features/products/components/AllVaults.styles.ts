@@ -32,6 +32,8 @@ export const HeaderCell = styled.th`
   &:last-child {
     border-top-right-radius: 10px;
   }
+
+
 `;
 
 export const SortContainer = styled.div`

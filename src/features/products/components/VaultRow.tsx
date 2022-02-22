@@ -68,6 +68,22 @@ export const VaultRow: FC<VaultProps> = ({ vaultAddress }) => {
     userPosition,
   } = vault;
 
+
+  // const vaults = [{
+  //   assets:'ETH',
+  //   strategy:'Call',
+  //   apy:'31.45%',
+  //   chains: ['ETH','AVAX','POLYGON']
+  // }, {
+  //   assets:'Another Eth',
+  //   strategy:'Put',
+  //   apy:'31.45%',
+  //   chains: ['ETH']
+  // }]
+
+ 
+
+
   const strategyTitle = getStrategyTitle(type, ILMode);
   const riskLevelTitle = RiskLevelTitles[riskLevel];
   const currentDepositRate = getCurrentDepositRate(currentDeposit, maxDeposit);

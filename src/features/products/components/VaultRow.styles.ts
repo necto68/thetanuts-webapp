@@ -9,20 +9,18 @@ const mapRiskLevelToColor: Record<VaultRiskLevel, string> = {
   [VaultRiskLevel.HIGH]: "#E08585",
 };
 
-interface Colored {
-  color: string;
-}
 
-export const Row = styled(motion.tr).attrs<Colored>(({ color }) => ({
+
+
+export const Row = styled(motion.tr).attrs(() => ({
   layout: true,
-  whileHover: { scale: 1.02, boxShadow: `0 0 20px ${color}` },
+  whileHover: { scale: 1.02,  },
 
   whileTap: {
     scale: 0.97,
-    boxShadow: `0 0 10px ${color}`,
     opacity: 0.8,
   },
-}))<Colored>`
+}))`
   cursor: pointer;
 
   &:nth-child(odd) {
@@ -42,12 +40,17 @@ export const CellValue = styled.span`
   color: #ffffff;
   display: flex;
   align-items: center;
+  justify-content:center;
   gap: 10px;
 `;
 
 export const RiskLevelValue = styled(CellValue)<{ riskLevel: VaultRiskLevel }>`
   color: ${({ riskLevel }) => mapRiskLevelToColor[riskLevel]};
 `;
+
+// export const ApyLevelValue = styled(CellValue)<{ apyLevel: VaultApyLevel }>`
+//   color: ${({ apyLevel }) => mapApyLevelToColor[apyLevel]};
+// `;
 
 export const CenteredCell = styled.button`
   display: flex;
