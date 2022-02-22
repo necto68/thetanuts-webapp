@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { BaseButton } from "../../shared/components";
+import { BaseButton } from "../shared/components";
 
 export const Container = styled.div`
   display: flex;
