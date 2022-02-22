@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 import {
-  InfoValue as VaultInfoValue,
   Container as VaultInfoContainer,
+  InfoValue as VaultInfoValue,
+  InfoLink as VaultInfoLink,
 } from "./VaultInfo.styles";
 
 export const Container = styled(VaultInfoContainer)`
@@ -10,5 +11,9 @@ export const Container = styled(VaultInfoContainer)`
 `;
 
 export const InfoValue = styled(VaultInfoValue)`
+  font-size: 14px;
+`;
+
+export const InfoLink = styled(VaultInfoLink)`
   font-size: 14px;
 `;

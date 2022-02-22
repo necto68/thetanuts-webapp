@@ -113,11 +113,11 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
             {!isDataLoading && isShowAssetSelector ? (
               <SwitchAssetButton onClick={handleSwitchAssetButtonClick}>
                 <SwitchAssetContainer>
-                  <AssetTitle selected={isUseNativeData}>
+                  <AssetTitle isSelected={isUseNativeData}>
                     {nativeData.symbol}
                   </AssetTitle>
-                  <AssetArrow isRotate={isUseNativeData}>➞</AssetArrow>
-                  <AssetTitle selected={!isUseNativeData}>
+                  <AssetArrow isRotated={isUseNativeData}>➞</AssetArrow>
+                  <AssetTitle isSelected={!isUseNativeData}>
                     {tokenData.symbol}
                   </AssetTitle>
                 </SwitchAssetContainer>

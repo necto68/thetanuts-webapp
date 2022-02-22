@@ -19,17 +19,15 @@ export const BaseOptionsContainer: FC<BaseOptionsContainerProps> = ({
   const [containerReference] = useOutsideClickRef(onClose);
   const getBoundingClientRect = useBoundingclientrect(parentReference);
 
-  const topPosition = getBoundingClientRect?.top ?? 0;
-  const leftPosition = getBoundingClientRect?.left ?? 0;
   const height = getBoundingClientRect?.height ?? 0;
 
   return (
     <AnimatePresence>
       {show ? (
         <Container
-          leftPosition={leftPosition}
+          leftPosition={0}
           ref={containerReference}
-          topPosition={topPosition + height + 10}
+          topPosition={height + 10}
         >
           {children}
         </Container>

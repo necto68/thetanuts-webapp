@@ -2,6 +2,7 @@ import type { FC } from "react";
 import Big from "big.js";
 
 import type { NativeToken, Token } from "../types";
+import { maxSlippageTolerance } from "../constants";
 
 import {
   Container,
@@ -70,6 +71,8 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     isRatioLoading
   );
 
+  const slippageToleranceValue = maxSlippageTolerance * 100;
+
   return (
     <Container>
       <PriceInfoContainer>
@@ -87,7 +90,7 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Slippage Tolerance</InfoValue>
-        <InfoValue>0.5%</InfoValue>
+        <InfoValue>{`${slippageToleranceValue}%`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue isUnderline>Platform fee</InfoValue>

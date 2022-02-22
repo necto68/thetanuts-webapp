@@ -1,6 +1,7 @@
+import type { MouseEventHandler } from "react";
 import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
-import { useOutsideClickRef } from "rooks";
+import { useKey } from "rooks";
 
 import { VaultModal } from "../../vault-modal/components";
 import { useModalState } from "../../vault-modal/hooks";
@@ -22,15 +23,24 @@ export const Modal = () => {
     }));
   }, [setModalState, setIndexVaultModalState]);
 
-  const [containerReference] = useOutsideClickRef(handleClose);
+  const handleBackdropClick = useCallback<MouseEventHandler<HTMLDivElement>>(
+    (event) => {
+      if (event.target === event.currentTarget) {
+        handleClose();
+      }
+    },
+    [handleClose]
+  );
+
+  useKey("Escape", handleClose);
 
   const ModalComponent = isShowModal ? VaultModal : IndexVaultModal;
 
   return (
     <AnimatePresence>
       {isShowModal || isShowIndexVaultModal ? (
-        <Backdrop>
-          <VaultModalContainer ref={containerReference}>
+        <Backdrop onClick={handleBackdropClick}>
+          <VaultModalContainer>
             <ModalComponent />
           </VaultModalContainer>
         </Backdrop>

@@ -24,6 +24,7 @@ export const uiContracts: UIContract[] = [
   },
 ];
 
-export const uiContractsMap: Record<number, UIContract> = Object.fromEntries(
-  uiContracts.map((uiContract) => [uiContract.chainId, uiContract])
-);
+export const uiContractsMap: { [key in ChainId]?: UIContract } =
+  Object.fromEntries(
+    uiContracts.map((uiContract) => [uiContract.chainId, uiContract])
+  );

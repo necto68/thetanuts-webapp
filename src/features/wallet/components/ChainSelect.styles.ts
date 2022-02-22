@@ -2,6 +2,10 @@ import styled from "styled-components";
 
 import { BaseButton } from "../../shared/components";
 
+export const Container = styled.div`
+  position: relative;
+`;
+
 export const ChainsContainer = styled.div`
   display: flex;
   flex-direction: column;

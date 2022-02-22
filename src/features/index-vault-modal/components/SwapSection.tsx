@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { IconContainer } from "../../shared/components";
 import { Flip } from "../icons";
-import { useIndexVaultModalState, useSwapRouter } from "../hooks";
+import { useSwapRouter, useSwapRouterMutations } from "../hooks";
 
 import { SwapInputCard } from "./SwapInputCard";
 import { VaultInfo } from "./VaultInfo";
@@ -15,29 +15,53 @@ import {
 } from "./SwapSection.styles";
 
 export const SwapSection = () => {
-  const [{ tokenSymbol }] = useIndexVaultModalState();
-
   const [isFlipped, setIsFlipped] = useState(false);
 
   const {
     sourceValue,
     targetValue,
+
     setSourceValue,
     setTargetValue,
+
     isSourceValueLoading,
     isTargetValueLoading,
+
     sourceData,
     targetData,
     nativeData,
+
     isSourceDataLoading,
     isTargetDataLoading,
     isNativeDataLoading,
+
     setUseSourceNativeData,
     setUseTargetNativeData,
+
     isUseNativeSourceData,
     isUseNativeTargetData,
+
+    lastUpdatedInputType,
+
     swapInputs,
-  } = useSwapRouter(tokenSymbol);
+
+    tokensQueries,
+  } = useSwapRouter();
+
+  const { rootMutation, routerMutations } = useSwapRouterMutations(
+    sourceValue,
+    targetValue,
+
+    sourceData,
+    targetData,
+
+    isUseNativeSourceData,
+    isUseNativeTargetData,
+
+    lastUpdatedInputType,
+
+    tokensQueries
+  );
 
   const handleFlipButtonClick = useCallback(() => {
     setIsFlipped((previousIsFlipped) => !previousIsFlipped);
@@ -96,7 +120,16 @@ export const SwapSection = () => {
         targetTokenData={targetTokenData}
         targetValue={targetValue}
       />
-      <SwapButton>Swap</SwapButton>
+      <SwapButton
+        isSourceValueLoading={isSourceValueLoading}
+        isTargetValueLoading={isTargetValueLoading}
+        rootMutation={rootMutation}
+        routerMutations={routerMutations}
+        sourceTokenData={sourceTokenData}
+        sourceValue={sourceValue}
+        targetTokenData={targetTokenData}
+        targetValue={targetValue}
+      />
     </Container>
   );
 };

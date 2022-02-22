@@ -9,7 +9,11 @@ import { chains, chainsMap } from "../constants";
 import { BaseOptionsContainer } from "./BaseOptionsContainer";
 import { ChainButton } from "./ChainButton";
 import { ChainContainer } from "./ChainButton.styles";
-import { ChainsContainer, ChainOptionButton } from "./ChainSelect.styles";
+import {
+  Container,
+  ChainsContainer,
+  ChainOptionButton,
+} from "./ChainSelect.styles";
 
 interface ChainSelectProps {
   chainIds?: ChainId[];
@@ -41,7 +45,7 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
     ]);
 
     // TODO: add try catch for adding chain to user's wallet,
-    //  if he doesnt have it
+    //  if they don't have it
 
     closeSelect();
   };
@@ -55,7 +59,7 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   );
 
   return (
-    <>
+    <Container>
       <div ref={chainButtonContainerReference}>
         <ChainButton onClick={showSelect} showSelect={isSelectShow} />
       </div>
@@ -91,6 +95,6 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
           )}
         </ChainsContainer>
       </BaseOptionsContainer>
-    </>
+    </Container>
   );
 };
