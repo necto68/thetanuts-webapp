@@ -21,17 +21,14 @@ export const indexVaults: IndexVault[] = [
 
     source: {
       chainId: ChainId.MATIC,
-
-      // 0x8E62e5451a7AFeD3e4703c5462797A227D9a091B
-      // indexVaultAddress: "0x2c174BC9D00C7E9ed85fa3c507ad54B1456190cA",
       indexVaultAddress: "0x8E62e5451a7AFeD3e4703c5462797A227D9a091B",
     },
 
     replications: [
       {
-        chainId: ChainId.ETHEREUM,
-        assetTokenAddress: "testAddress",
-        indexTokenAddress: "testAddress",
+        chainId: ChainId.BSC,
+        assetTokenAddress: "0x47225f6BD4a99E4099162b8674F21bB1100AA33c",
+        indexTokenAddress: "0xB404B6Bc6537d66FFadE642B0158D423E2A6De22",
       },
     ],
   },

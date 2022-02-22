@@ -86,17 +86,6 @@ const ethereumVaults: LocalVault[] = [
   },
 ];
 
-const rinkebyVaults: LocalVault[] = [
-  {
-    address: "0x9214AEB491Fb53115b4439d5cDcd2DB947E4e18c",
-    type: VaultType.CALL,
-    title: "Eth-C",
-    description: "Generates yield by running an automated Eth-CALL",
-    color: "#4C5BB2",
-    riskLevel: VaultRiskLevel.LOW,
-  },
-];
-
 const bscVaults: LocalVault[] = [
   {
     address: "0x9A17547a9499Dc7804626b937223Aa9f2E352d09",
@@ -128,10 +117,6 @@ export const vaults: LocalVaultsWithChainId[] = [
   {
     chainId: ChainId.ETHEREUM,
     vaults: ethereumVaults,
-  },
-  {
-    chainId: ChainId.RINKEBY,
-    vaults: rinkebyVaults,
   },
   {
     chainId: ChainId.BSC,

@@ -12,4 +12,8 @@ export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
+
+  .web3modal-modal-container {
+    font-family: Roboto;
+  } 
 `;

@@ -5,14 +5,10 @@ import { usePreviousImmediate } from "rooks";
 
 import { RouterV2Abi__factory as RouterV2AbiFactory } from "../../contracts/types";
 import { convertToBig } from "../../vault/helpers";
+import { InputType } from "../types";
 
 import { useTokenQuery } from "./useTokenQuery";
 import { useNativeTokenQuery } from "./useNativeTokenQuery";
-
-enum InputType {
-  source = "source",
-  target = "target",
-}
 
 export const useSwapRouterState = (
   defaultSourceAddress: string,
@@ -144,20 +140,23 @@ export const useSwapRouterState = (
     isUseNativeTargetData,
   ]);
 
-  const { data: sourceData, isLoading: isSourceDataLoading } = useTokenQuery(
+  const sourceTokenQuery = useTokenQuery(
     sourceAddress,
     routerAddress,
     provider
   );
 
-  const { data: targetData, isLoading: isTargetDataLoading } = useTokenQuery(
+  const targetTokenQuery = useTokenQuery(
     targetAddress,
     routerAddress,
     provider
   );
 
-  const { data: nativeData, isLoading: isNativeDataLoading } =
-    useNativeTokenQuery(routerAddress, provider);
+  const nativeTokenQuery = useNativeTokenQuery(routerAddress, provider);
+
+  const { data: sourceData, isLoading: isSourceDataLoading } = sourceTokenQuery;
+  const { data: targetData, isLoading: isTargetDataLoading } = targetTokenQuery;
+  const { data: nativeData, isLoading: isNativeDataLoading } = nativeTokenQuery;
 
   const getOppositeValueForInput = useCallback(
     async (inputType: InputType) => {
@@ -256,20 +255,35 @@ export const useSwapRouterState = (
   return {
     sourceValue,
     targetValue,
+
     setSourceValue,
     setTargetValue,
+
     isSourceValueLoading,
     isTargetValueLoading,
+
     sourceData,
     targetData,
     nativeData,
+
     isSourceDataLoading,
     isTargetDataLoading,
     isNativeDataLoading,
+
     setUseSourceNativeData,
     setUseTargetNativeData,
+
     isUseNativeSourceData,
     isUseNativeTargetData,
+
+    lastUpdatedInputType,
+
     swapInputs,
+
+    tokensQueries: {
+      sourceTokenQuery,
+      targetTokenQuery,
+      nativeTokenQuery,
+    },
   };
 };

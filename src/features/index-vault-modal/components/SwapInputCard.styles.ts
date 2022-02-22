@@ -63,7 +63,7 @@ export const AssetContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  gap: 10px;
+  gap: 5px;
 `;
 
 export const SwapInput = styled.input.attrs(() => ({
@@ -99,29 +99,29 @@ export const PriceTitle = styled.span`
   color: #e5e5e5;
 `;
 
-export const AssetTitle = styled(motion.span).attrs<{ selected?: boolean }>(
-  ({ selected = true }) => ({
+export const AssetTitle = styled(motion.span).attrs<{ isSelected?: boolean }>(
+  ({ isSelected = true }) => ({
     initial: false,
 
     animate: {
-      color: selected ? "#e5e5e5" : "#9e9e9e",
+      color: isSelected ? "#e5e5e5" : "#9e9e9e",
     },
   })
-)<{ selected?: boolean }>`
+)<{ isSelected?: boolean }>`
   font-family: Roboto;
   font-weight: 400;
   font-size: 18px;
 `;
 
-export const AssetArrow = styled(motion.span).attrs<{ isRotate: boolean }>(
-  ({ isRotate }) => ({
+export const AssetArrow = styled(motion.span).attrs<{ isRotated: boolean }>(
+  ({ isRotated }) => ({
     initial: false,
 
     animate: {
-      rotate: isRotate ? "-180deg" : "0deg",
+      rotate: isRotated ? "-180deg" : "0deg",
     },
   })
-)<{ isRotate: boolean }>`
+)<{ isRotated: boolean }>`
   font-family: Roboto;
   font-weight: 400;
   font-size: 18px;

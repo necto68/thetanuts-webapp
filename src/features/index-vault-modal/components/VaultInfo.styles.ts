@@ -22,6 +22,14 @@ export const InfoValue = styled.span<{ isUnderline?: boolean }>`
   font-family: Roboto;
   font-weight: 400;
   font-size: 16px;
+  color: #061f3a;
   text-decoration: ${({ isUnderline = false }) =>
     isUnderline ? "underline" : "none"};
+`;
+
+export const InfoLink = styled.a`
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 16px;
+  color: #061f3a;
 `;

@@ -8,6 +8,7 @@ export interface ChainConfig {
   logo: FC;
   color: string;
   rpcUrl: string;
+  explorerUrl: string;
   addresses: {
     routerAddress: string;
     lendingPoolAddress: string;
