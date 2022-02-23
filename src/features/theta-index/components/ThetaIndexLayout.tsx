@@ -1,5 +1,101 @@
+// import { AllVaults } from "../../products/components/AllVaults";
+
+import { TableComponent } from "../../table-component/TableComponent";
+
 import { Container, Title, Description } from "./ThateIndexLayout.styles";
 import { FeaturedIndexVaultsList } from "./FeaturedIndexVaultsList";
+
+const PortfolioColumns = [
+  {
+    title: "Assets",
+    sortKey: "assetSymbol",
+  },
+  {
+    title: "Vault",
+    sortKey: "vaultType",
+  },
+  {
+    title: "Strategy",
+    sortKey: "strategy",
+  },
+  {
+    title: "APY",
+    sortKey: "apy",
+  },
+  {
+    title: "Balance",
+    sortKey: "balance",
+  },
+  {
+    title: "Value",
+    sortKey: "value",
+  },
+  {
+    title: "Chain",
+    sortKey: "chain",
+  },
+  {
+    title: " ",
+    sortKey: "none",
+  },
+];
+
+const PortfolioVaultRows = [
+  {
+    assetSymbol: "ETH",
+    vaultType: "Theta-Index",
+    strategy: "Call",
+    apy: 31.45,
+    balance: "2500.098 tETH",
+    value: "2500.098",
+    chain: "ETH",
+  },
+  {
+    assetSymbol: "SUSHI",
+    vaultType: "Theta-Index",
+    strategy: "Put",
+    apy: 10.49,
+    balance: "1209.098 tETH",
+    value: "1600.098",
+    chain: "ETH",
+  },
+  {
+    assetSymbol: "LINK",
+    vaultType: "Theta-Index",
+    strategy: "Call",
+    apy: 17.45,
+    balance: "2800.098 tETH",
+    value: "2400.098",
+    chain: "ETH",
+  },
+  {
+    assetSymbol: "AAVE",
+    vaultType: "Theta-Index",
+    strategy: "Call",
+    apy: 22.65,
+    balance: "2800.098 tETH",
+    value: "2400.098",
+    chain: "ETH",
+  },
+  {
+    assetSymbol: "YEARN",
+    vaultType: "Theta-Index",
+    strategy: "Call",
+    apy: 8.72,
+    balance: "2800.098 tETH",
+    value: "2400.098",
+    chain: "ETH",
+  },
+  {
+    assetSymbol: "SNX",
+    vaultType: "Theta-Index",
+    strategy: "Call",
+    apy: 19.45,
+    balance: "2800.098 tETH",
+    value: "2400.098",
+    chain: "ETH",
+  },
+];
 
 export const ThetaIndexLayout = () => (
   <Container>
@@ -21,5 +117,7 @@ export const ThetaIndexLayout = () => (
     </Description>
     <Title>Featured Theta-Index Vaults</Title>
     <FeaturedIndexVaultsList />
+
+    <TableComponent columns={PortfolioColumns} rows={PortfolioVaultRows} />
   </Container>
 );

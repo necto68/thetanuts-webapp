@@ -6,9 +6,9 @@ import { VaultType } from "../../vault/constants";
 import { getCurrentDepositRate } from "../../vault/helpers";
 
 import { VaultRow } from "./VaultRow";
+
 import {
   Container,
-  Title,
   VaultsTable,
   HeaderRow,
   HeaderCell,
@@ -24,56 +24,63 @@ interface Column<RowData> {
   sortBy?: (rowData: RowData) => number | string | null;
 }
 
-const columns: Column<Vault>[] = [
-  {
-    title: "Asset Type",
-    sortKey: "assetSymbol",
-  },
-  {
-    title: "Deposit Type",
-    sortKey: "depositSymbol",
-  },
-  {
-    title: "Strategy",
-    sortKey: "type",
-    sortBy: ({ type }) => VaultType[type],
-  },
-  {
-    title: "Risk Level",
-    sortKey: "riskLevel",
-  },
-  {
-    title: "APY",
-    sortKey: "apy",
-  },
-  {
-    title: "Max Capacity",
-    sortKey: "maxDeposit",
-  },
-  {
-    title: "Vault Capacity",
-    sortKey: "currentDeposit",
 
-    sortBy: ({ currentDeposit, maxDeposit }) =>
-      getCurrentDepositRate(currentDeposit, maxDeposit),
-  },
-  {
-    title: "Position",
-    sortKey: "userPosition",
-    sortBy: ({ userPosition }) => (userPosition ? userPosition.toNumber() : 0),
-  },
-];
+// const columns: Column<Vault>[] = [
+//   {
+//     title: "Assets",
+//     sortKey: "assetSymbol",
+//   },
+//   {
+//     title: "Vault",
+//     sortKey: "depositSymbol",
+//   },
+//   {
+//     title: "Strategy",
+//     sortKey: "type",
+//     sortBy: ({ type }) => VaultType[type],
+//   },
+//   {
+//     title: "APY",
+//     sortKey: "apy",
+//   },
+//   {
+//     title: "Balance",
+//     sortKey: "maxDeposit",
+//   },
+//   {
+//     title: "Value",
+//     sortKey: "currentDeposit",
 
-export const AllVaults = () => {
-  const vaults = useVaults();
+//     sortBy: ({ currentDeposit, maxDeposit }) =>
+//       getCurrentDepositRate(currentDeposit, maxDeposit),
+//   },
+//   {
+//     title: "Chain",
+//     sortKey: "userPosition",
+//     sortBy: ({ userPosition }) => (userPosition ? userPosition.toNumber() : 0),
+//   },
+//   {
+//     title: " ",
+//     sortKey: "userPosition",
+//   },
+// ];
+
+
+
+//1.add type for columns and rows
+
+export const AllVaults = ({columns, rows}) => {
+  // const vaults = useVaults();
   const [sortedVaults, sortState, updateSort] = useSortBy(
     vaults,
     ({ address }) => address
   );
 
+  
+
   return (
     <Container>
-      <Title>Metavaults Performance</Title>
+      
       <VaultsTable>
         <thead>
           <HeaderRow>
@@ -96,8 +103,11 @@ export const AllVaults = () => {
           </HeaderRow>
         </thead>
         <tbody>
-          {sortedVaults.map(({ address }) => (
+          {/* {sortedVaults.map(({ address }) => (
             <VaultRow key={address} vaultAddress={address} />
+          ))} */}
+          {rows.map(( VaultRow ) => (
+            <GregVaultRow VaultRow={VaultRow} key={VaultRow.assets} />
           ))}
         </tbody>
       </VaultsTable>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { BaseButton } from "../../shared/components";
+import { BaseButton } from "../shared/components";
 
 export const Container = styled.div`
   display: flex;
@@ -32,8 +32,6 @@ export const HeaderCell = styled.th`
   &:last-child {
     border-top-right-radius: 10px;
   }
-
-
 `;
 
 export const SortContainer = styled.div`
@@ -63,4 +61,57 @@ export const Header = styled.span`
   font-weight: 700;
   font-size: 18px;
   color: #ffffff;
+`;
+
+export const Row = styled(motion.tr).attrs(() => ({
+  layout: true,
+  whileHover: { scale: 1.02 },
+
+  whileTap: {
+    scale: 0.97,
+    opacity: 0.8,
+  },
+}))`
+  cursor: pointer;
+
+  &:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+`;
+
+export const Cell = styled.td`
+  vertical-align: center;
+  padding: 22px 20px;
+`;
+
+export const CellValue = styled.span`
+  font-family: Barlow;
+  font-weight: 600;
+  font-size: 18px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+`;
+
+export const CenteredCell = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: transparent;
+  border: none;
+`;
+
+export const SwapButton = styled.button`
+  background: transparent;
+  font-family: Barlow;
+  font-weight: 600;
+  font-size: 18px;
+  color: #ffffff;
+  border: 2px solid green;
+  border-radius: 10px;
+  padding: 10px 30px;
+  cursor: pointer;
 `;
