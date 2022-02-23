@@ -3,12 +3,10 @@ import { motion } from "framer-motion";
 
 export const Container = styled(motion.div).attrs(() => ({
   initial: {
-    y: 50,
     opacity: 0,
   },
 
   animate: {
-    y: 0,
     opacity: 1,
   },
 

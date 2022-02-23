@@ -28,8 +28,8 @@ const getTokenExplorerUrl = (currentChainId: ChainId, tokenAddress: string) => {
 
 // eslint-disable-next-line complexity
 export const IndexInfo = () => {
-  const [{ tokenSymbol }] = useIndexVaultModalState();
-  const { isIndexVaultLoading, data } = useIndexVault(tokenSymbol);
+  const [{ indexVaultId }] = useIndexVaultModalState();
+  const { isLoading, data } = useIndexVault(indexVaultId);
   const [currentChainId, setCurrentChainId] = useState<ChainId | null>(null);
 
   const {
@@ -58,9 +58,10 @@ export const IndexInfo = () => {
     provider
   );
 
-  const formattedTVL = !isIndexVaultLoading
-    ? currencyFormatterWithoutDecimals.format(data.totalValueLocked)
-    : ".....";
+  const formattedTVL =
+    !isLoading && data
+      ? currencyFormatterWithoutDecimals.format(data.totalValueLocked)
+      : ".....";
 
   const underlyingAssetSymbol =
     !isSourceDataLoading && sourceData ? sourceData.symbol : ".....";

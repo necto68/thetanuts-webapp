@@ -14,8 +14,8 @@ export enum SectionType {
 }
 
 export const ExpandersSection = () => {
-  const [{ tokenSymbol }] = useIndexVaultModalState();
-  const { isIndexVaultLoading, data } = useIndexVault(tokenSymbol);
+  const [{ indexVaultId }] = useIndexVaultModalState();
+  const { isLoading, data } = useIndexVault(indexVaultId);
 
   const [openedSection, setOpenedSection] = useState<SectionType | null>(null);
 
@@ -30,9 +30,8 @@ export const ExpandersSection = () => {
     [openedSection]
   );
 
-  const consolidatedAPY = !isIndexVaultLoading
-    ? data.totalAnnualPercentageYield
-    : ".....";
+  const consolidatedAPY =
+    !isLoading && data ? data.totalAnnualPercentageYield : ".....";
 
   return (
     <Container>
