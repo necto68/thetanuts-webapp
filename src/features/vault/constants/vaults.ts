@@ -19,14 +19,14 @@ enum VaultRiskLevel {
 }
 
 const vaultTitles: Record<VaultType, string> = {
-  [VaultType.CALL]: "Call",
-  [VaultType.PUT]: "Put",
+  [VaultType.CALL]: "Covered Call",
+  [VaultType.PUT]: "Covered Put",
   [VaultType.IL]: "IL Vault",
 };
 
 const ILModeTitles: Record<ILVaultMode, string> = {
-  [ILVaultMode.CALL]: "Call",
-  [ILVaultMode.PUT]: "Put",
+  [ILVaultMode.CALL]: "Call-Selling",
+  [ILVaultMode.PUT]: "Put-Selling",
 };
 
 const RiskLevelTitles: Record<VaultRiskLevel, string> = {

@@ -17,7 +17,6 @@ export const Title = styled.span`
 
 export const VaultsTable = styled.table`
   width: 100%;
-  border-collapse: collapse;
 `;
 
 export const HeaderRow = styled.tr`
@@ -32,8 +31,6 @@ export const HeaderCell = styled.th`
   &:last-child {
     border-top-right-radius: 10px;
   }
-
-
 `;
 
 export const SortContainer = styled.div`
