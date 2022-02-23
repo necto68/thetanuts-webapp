@@ -13,16 +13,7 @@ import { useModalState } from "../../vault-modal/hooks";
 import { numberFormatter } from "../../shared/helpers";
 import { getCurrentDepositRate } from "../../vault/helpers";
 
-import {
-  Row,
-  Cell,
-  CellValue,
-  RiskLevelValue,
-  SwapButton,
-  CenteredCell,
-} from "./VaultRow.styles";
-
-// import EthIcon from "../../../assets/images/chains/eth.png"
+import { Row, Cell, CellValue, RiskLevelValue } from "./VaultRow.styles";
 
 const getStrategyTitle = (
   vaultType: VaultType,
@@ -67,22 +58,6 @@ export const VaultRow: FC<VaultProps> = ({ vaultAddress }) => {
     depositSymbol,
     userPosition,
   } = vault;
-
-
-  // const vaults = [{
-  //   assets:'ETH',
-  //   strategy:'Call',
-  //   apy:'31.45%',
-  //   chains: ['ETH','AVAX','POLYGON']
-  // }, {
-  //   assets:'Another Eth',
-  //   strategy:'Put',
-  //   apy:'31.45%',
-  //   chains: ['ETH']
-  // }]
-
- 
-
 
   const strategyTitle = getStrategyTitle(type, ILMode);
   const riskLevelTitle = RiskLevelTitles[riskLevel];
@@ -131,10 +106,7 @@ export const VaultRow: FC<VaultProps> = ({ vaultAddress }) => {
   return (
     <Row color={color} onClick={handleRowClick}>
       <Cell>
-        <CellValue>
-          {/* <img src={EthIcon} alt=""/> */}
-          {assetSymbol}
-        </CellValue>
+        <CellValue>{assetSymbol}</CellValue>
       </Cell>
       <Cell>
         <CellValue>{depositSymbol}</CellValue>
@@ -157,9 +129,9 @@ export const VaultRow: FC<VaultProps> = ({ vaultAddress }) => {
         <CellValue>{`${currentDepositRate ?? 0} %`}</CellValue>
       </Cell>
       <Cell>
-        <CenteredCell>
-          <SwapButton>Swap</SwapButton>
-        </CenteredCell>
+        <CellValue>{`${numberFormatter.format(
+          userPosition.round(2).toNumber()
+        )} ${depositSymbol}`}</CellValue>
       </Cell>
     </Row>
   );
