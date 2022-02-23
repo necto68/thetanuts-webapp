@@ -32,6 +32,7 @@ import {
   priceFeedABI,
 } from "../constants/ABI";
 import type { Vault } from "../types";
+import type { ChainId } from "../../wallet/constants";
 
 import {
   convertToBig,
@@ -41,7 +42,7 @@ import {
 
 export const vaultFetcher = async (
   vaultAddress: string,
-  chainId: number,
+  chainId: ChainId,
   provider: Web3Provider | undefined
 ): Promise<Vault | null> => {
   const localVault =
@@ -53,14 +54,16 @@ export const vaultFetcher = async (
     return null;
   }
 
-  if (!chainId || !provider) {
+  if (!provider) {
     return localVault;
   }
 
   const signer = provider.getSigner();
   const userAddress = signer.getAddress();
 
-  const { address: uiContractAddress } = uiContractsMap[chainId];
+  const { address: uiContractAddress } = uiContractsMap[chainId] ?? {
+    address: "",
+  };
   const uiContract = new Contract(uiContractAddress, uiABI, signer);
 
   const { type } = localVault;

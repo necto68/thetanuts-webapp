@@ -24,21 +24,24 @@ import {
 } from "./IndexVault.styles";
 
 interface IndexVaultProps {
-  tokenSymbol: string;
+  indexVaultId: string;
 }
 
-export const IndexVault: FC<IndexVaultProps> = ({ tokenSymbol }) => {
-  const { isIndexVaultLoading, areVaultsLoading, data } =
-    useIndexVault(tokenSymbol);
+export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
+  const { isLoading, data } = useIndexVault(indexVaultId);
 
   const [, setModalState] = useIndexVaultModalState();
 
   const handleVaultClick = useCallback(() => {
-    setModalState({ isShow: true, tokenSymbol });
-  }, [setModalState, tokenSymbol]);
+    setModalState({ isShow: true, indexVaultId });
+  }, [setModalState, indexVaultId]);
 
-  const { type, assetSymbol, totalAnnualPercentageYield, totalValueLocked } =
-    data;
+  const {
+    type,
+    assetSymbol = "",
+    totalAnnualPercentageYield = 0,
+    totalValueLocked = 0,
+  } = data ?? {};
 
   const assetTitle = `${assetSymbol}-${type === VaultType.CALL ? "C" : "P"}`;
   const formattedTotalAPY = numberFormatter.format(totalAnnualPercentageYield);
@@ -46,7 +49,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ tokenSymbol }) => {
 
   return (
     <Container onClick={handleVaultClick}>
-      {isIndexVaultLoading ? (
+      {isLoading ? (
         <Header>
           <SkeletonBox height={32} width={44} />
           <SkeletonBox height={27} width={75} />
@@ -60,7 +63,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ tokenSymbol }) => {
       <Content>
         <APYContainer>
           <DataTitle>APY</DataTitle>
-          {areVaultsLoading ? (
+          {isLoading ? (
             <SkeletonBox height={32} width={60} />
           ) : (
             <DataValue>{`${formattedTotalAPY} %`}</DataValue>
@@ -68,7 +71,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ tokenSymbol }) => {
         </APYContainer>
         <TVLContainer>
           <DataTitle>TVL</DataTitle>
-          {areVaultsLoading ? (
+          {isLoading ? (
             <SkeletonBox height={32} width={60} />
           ) : (
             <DataValue>{formattedTVL}</DataValue>

@@ -23,7 +23,7 @@ export const useSwapRouterMutations = (
   lastUpdatedInputType: InputType,
   tokensQueries: ReturnType<typeof useSwapRouter>["tokensQueries"]
 ) => {
-  const { routerAddress, provider, indexVaultQueries } = useSwapRouterConfig();
+  const { routerAddress, provider, indexVaultQuery } = useSwapRouterConfig();
 
   const signer = provider.getSigner();
 
@@ -126,16 +126,13 @@ export const useSwapRouterMutations = (
     const { sourceTokenQuery, targetTokenQuery, nativeTokenQuery } =
       tokensQueries;
 
-    const { indexVaultQuery, vaultsQueries } = indexVaultQueries;
-
     await Promise.all([
       sourceTokenQuery.refetch(),
       targetTokenQuery.refetch(),
       nativeTokenQuery.refetch(),
       indexVaultQuery.refetch(),
-      ...vaultsQueries.map(async (query) => await query.refetch()),
     ]);
-  }, [indexVaultQueries, tokensQueries]);
+  }, [indexVaultQuery, tokensQueries]);
 
   const rootMutation = useMutation<
     boolean,

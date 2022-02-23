@@ -11,8 +11,14 @@ import {
   LendingPoolAbi__factory as LendingPoolAbiFactory,
 } from "../../contracts/types";
 import type { IndexVault, VaultInfo } from "../types";
+import { queryClient } from "../../shared/helpers";
+import { indexVaults } from "../../theta-index/constants";
+
+import { vaultFetcher } from "./vaultFetcher";
+import { getTotalAnnualPercentageYield, getTotalValueLocked } from "./utils";
 
 export const indexVaultFetcher = async (
+  id: string,
   indexVaultAddress: string,
   lendingPoolAddress: string,
   provider: Provider
@@ -28,12 +34,14 @@ export const indexVaultFetcher = async (
   );
 
   const [
+    { chainId: tokenChainId },
     name,
     totalWeight,
     vaultsLength,
     assetTokenAddress,
     indexTokenAddress,
   ] = await Promise.all([
+    provider.getNetwork(),
     indexVaultContract.name(),
     indexVaultContract.totalWeight().then(convertToBig),
     indexVaultContract.vaultsLength().then((bigNumber) => bigNumber.toNumber()),
@@ -69,11 +77,24 @@ export const indexVaultFetcher = async (
   const indexVaultType = name.split(" ").at(-1) ?? "";
   const type = indexVaultType === "CALL" ? VaultType.CALL : VaultType.PUT;
 
-  // getting vaultsInfos
+  // getting vaultsInfosData
   const vaultsInfosData = await Promise.all(
     vaultsAddresses.map(
       // eslint-disable-next-line @typescript-eslint/promise-function-async
       (vaultAddress) => indexVaultContract.vaults(vaultAddress)
+    )
+  );
+
+  // getting vaultsData
+  const vaults = await Promise.all(
+    vaultsAddresses.map(
+      // eslint-disable-next-line @typescript-eslint/promise-function-async
+      (vaultAddress) =>
+        queryClient.fetchQuery(
+          [vaultAddress, tokenChainId],
+          // eslint-disable-next-line @typescript-eslint/promise-function-async
+          () => vaultFetcher(vaultAddress, provider)
+        )
     )
   );
 
@@ -91,13 +112,36 @@ export const indexVaultFetcher = async (
     };
   });
 
+  const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos);
+
+  const totalAnnualPercentageYield = getTotalAnnualPercentageYield(
+    vaults,
+    vaultsInfos,
+    totalWeight
+  );
+
+  const tokenConfig = indexVaults.find(
+    ({ source: { indexVaultAddress: sourceIndexVaultAddress } }) =>
+      sourceIndexVaultAddress === indexVaultAddress
+  );
+  const { replications } = tokenConfig ?? {
+    replications: [],
+  };
+  const supportedChainIds = [tokenChainId].concat(
+    replications.map(({ chainId }) => chainId)
+  );
+
   return {
+    id,
     type,
     assetSymbol,
     assetTokenAddress,
     indexTokenAddress,
-    vaultsAddresses,
+    vaults,
     vaultsInfos,
     totalWeight,
+    totalValueLocked,
+    totalAnnualPercentageYield,
+    supportedChainIds,
   };
 };

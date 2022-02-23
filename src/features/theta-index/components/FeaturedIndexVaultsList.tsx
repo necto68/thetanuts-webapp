@@ -10,8 +10,8 @@ export const FeaturedIndexVaultsList = () => {
 
   return (
     <Container>
-      {featuredIndexVaults.map(({ symbol }) => (
-        <IndexVault key={symbol} tokenSymbol={symbol} />
+      {featuredIndexVaults.map(({ id }) => (
+        <IndexVault indexVaultId={id} key={id} />
       ))}
     </Container>
   );

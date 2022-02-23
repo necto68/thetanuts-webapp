@@ -9,15 +9,18 @@ import { useIndexVaultModalState } from "./useIndexVaultModalState";
 
 // eslint-disable-next-line complexity,sonarjs/cognitive-complexity
 export const useSwapRouterConfig = () => {
-  const [{ tokenSymbol }] = useIndexVaultModalState();
-
-  const {
-    data: { assetTokenAddress, indexTokenAddress },
-    indexVaultQueries,
-  } = useIndexVault(tokenSymbol);
+  const [{ indexVaultId }] = useIndexVaultModalState();
+  const indexVaultQuery = useIndexVault(indexVaultId);
   const { account, network, provider: walletProvider } = useWallet();
 
-  const tokenConfig = indexVaults.find(({ symbol }) => symbol === tokenSymbol);
+  const { data } = indexVaultQuery;
+  const {
+    assetTokenAddress = "",
+    indexTokenAddress = "",
+    supportedChainIds = [],
+  } = data ?? {};
+
+  const tokenConfig = indexVaults.find(({ id }) => id === indexVaultId);
   const {
     source: { chainId: tokenChainId },
     replications,
@@ -25,10 +28,6 @@ export const useSwapRouterConfig = () => {
     source: { chainId: 1 },
     replications: [],
   };
-
-  const supportedChainIds = replications
-    .map(({ chainId }) => chainId)
-    .concat(tokenChainId);
 
   const userChainId: ChainId = network?.chainId ?? 0;
   const isUserOnSupportedChainId = Boolean(
@@ -66,6 +65,6 @@ export const useSwapRouterConfig = () => {
     provider,
     supportedChainIds,
     isUserOnSupportedChainId,
-    indexVaultQueries,
+    indexVaultQuery,
   };
 };

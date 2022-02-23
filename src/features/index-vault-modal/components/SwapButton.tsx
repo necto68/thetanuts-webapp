@@ -105,7 +105,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
     return (
       <BaseSwapButton
         onClick={handleResetButtonClick}
-        primaryColor="#66ff66"
+        primaryColor="#81E429"
         secondaryColor="#ffffff"
       >
         Succeed
@@ -130,7 +130,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
       <BaseSwapButton
         isLoading={isMutationLoading}
         onClick={handleApproveButtonClick}
-        primaryColor="#66ff66"
+        primaryColor="#f3ba2f"
         secondaryColor="#ffffff"
       >
         {`Approve ${sourceTokenData.symbol}`}

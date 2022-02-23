@@ -7,7 +7,7 @@ export const getTotalValueLocked = (
   vaultsInfos: IndexVault["vaultsInfos"]
 ): number => {
   const vaultAssetValues = vaults.map((vault, index) => {
-    if (!vault) {
+    if (!vault || !vaultsInfos[index]) {
       return new Big(0);
     }
 
@@ -32,7 +32,7 @@ export const getTotalAnnualPercentageYield = (
   totalWeight: IndexVault["totalWeight"]
 ): number => {
   const vaultAnnualPercentageYieldValues = vaults.map((vault, index) => {
-    if (!vault) {
+    if (!vault || !vaultsInfos[index]) {
       return new Big(0);
     }
 
