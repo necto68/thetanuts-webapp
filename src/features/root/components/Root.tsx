@@ -1,34 +1,22 @@
-import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
-import styled from "styled-components";
 
-import { useScreenSize } from "../hooks";
 import { ThetaIndexPage } from "../../theta-index/components";
-import { ProductsPage } from "../../products/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal } from "../../modal/components";
+import { Sidebar } from "../../sidebar/components";
 
 import { Header } from "./Header";
+import { Container, PageContainer } from "./Root.styles";
 
-const RootContainer = styled.div<{ screenHeight: number }>`
-  background: linear-gradient(180deg, #031a34 21.13%, #259ddf 99.41%);
-  min-height: ${(props) =>
-    props.screenHeight ? `${props.screenHeight}px` : "100vh"};
-`;
-
-export const Root = () => {
-  const { height: screenHeight } = useScreenSize();
-
-  return (
-    <RootContainer id="appRoot" screenHeight={screenHeight}>
-      <Modal />
+export const Root = () => (
+  <Container>
+    <Modal />
+    <Sidebar />
+    <PageContainer>
       <Header />
       <Switch>
         <Route exact path="/theta-index">
           <ThetaIndexPage />
-        </Route>
-        <Route exact path="/products">
-          <ProductsPage />
         </Route>
         <Route exact path="/portfolio">
           <PortfolioPage />
@@ -37,6 +25,6 @@ export const Root = () => {
           <Redirect to="/theta-index" />
         </Route>
       </Switch>
-    </RootContainer>
-  );
-};
+    </PageContainer>
+  </Container>
+);
