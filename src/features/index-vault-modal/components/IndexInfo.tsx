@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import {
   useIndexVaultModalState,
   useSwapRouterConfig,
@@ -10,41 +8,28 @@ import {
   addressFormatter,
   currencyFormatterWithoutDecimals,
 } from "../../shared/helpers";
-import type { ChainId } from "../../wallet/constants";
-import { chainsMap } from "../../wallet/constants";
+import { getExplorerUrl } from "../../wallet/helpers";
+import { PathType } from "../../wallet/types";
 
 import {
   Container,
   InfoContainer,
-  InfoValue,
   InfoLink,
+  InfoValue,
 } from "./IndexInfo.styles";
-
-const getTokenExplorerUrl = (currentChainId: ChainId, tokenAddress: string) => {
-  const { explorerUrl } = chainsMap[currentChainId];
-
-  return new URL(`/token/${tokenAddress}`, explorerUrl).toString();
-};
 
 // eslint-disable-next-line complexity
 export const IndexInfo = () => {
   const [{ indexVaultId }] = useIndexVaultModalState();
   const { isLoading, data } = useIndexVault(indexVaultId);
-  const [currentChainId, setCurrentChainId] = useState<ChainId | null>(null);
 
   const {
     defaultSourceAddress,
     defaultTargetAddress,
     routerAddress,
     provider,
+    chainId,
   } = useSwapRouterConfig();
-
-  useEffect(() => {
-    void (async () => {
-      const { chainId } = await provider.getNetwork();
-      setCurrentChainId(chainId);
-    })();
-  }, [provider]);
 
   const { data: sourceData, isLoading: isSourceDataLoading } = useTokenQuery(
     defaultSourceAddress,
@@ -67,18 +52,18 @@ export const IndexInfo = () => {
     !isSourceDataLoading && sourceData ? sourceData.symbol : ".....";
 
   const indexTokenAddress =
-    !isTargetDataLoading && targetData && currentChainId
+    !isTargetDataLoading && targetData && chainId
       ? `${targetData.symbol} (${addressFormatter(targetData.tokenAddress)})`
       : ".....";
 
   const underlyingTokenExplorerUrl =
-    currentChainId && sourceData
-      ? getTokenExplorerUrl(currentChainId, sourceData.tokenAddress)
+    chainId && sourceData
+      ? getExplorerUrl(PathType.token, chainId, sourceData.tokenAddress)
       : "";
 
   const indexTokenExplorerUrl =
-    currentChainId && targetData
-      ? getTokenExplorerUrl(currentChainId, targetData.tokenAddress)
+    chainId && targetData
+      ? getExplorerUrl(PathType.token, chainId, targetData.tokenAddress)
       : "";
 
   return (

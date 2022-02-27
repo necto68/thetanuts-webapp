@@ -1,4 +1,4 @@
-export const numberFormatter = new Intl.NumberFormat();
+export const numberFormatter = new Intl.NumberFormat("en-US");
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -9,6 +9,10 @@ export const currencyFormatterWithoutDecimals = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
   maximumFractionDigits: 0,
+});
+
+export const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "medium",
 });
 
 export const addressFormatter = (address: string) =>

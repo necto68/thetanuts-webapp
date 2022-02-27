@@ -29,13 +29,13 @@ export const useSwapRouterConfig = () => {
     replications: [],
   };
 
-  const userChainId: ChainId = network?.chainId ?? 0;
+  const walletChainId: ChainId = network?.chainId ?? 0;
   const isUserOnSupportedChainId = Boolean(
-    account && network && supportedChainIds.includes(userChainId)
+    account && network && supportedChainIds.includes(walletChainId)
   );
 
   const tokenReplication = replications.find(
-    ({ chainId }) => chainId === userChainId
+    ({ chainId }) => chainId === walletChainId
   );
 
   const defaultSourceAddress =
@@ -49,8 +49,8 @@ export const useSwapRouterConfig = () => {
       : indexTokenAddress;
 
   const routerAddress =
-    isUserOnSupportedChainId && userChainId in chainsMap
-      ? chainsMap[userChainId].addresses.routerAddress
+    isUserOnSupportedChainId && walletChainId in chainsMap
+      ? chainsMap[walletChainId].addresses.routerAddress
       : chainsMap[tokenChainId].addresses.routerAddress;
 
   const provider =
@@ -58,11 +58,14 @@ export const useSwapRouterConfig = () => {
       ? walletProvider
       : chainProvidersMap[tokenChainId];
 
+  const chainId = isUserOnSupportedChainId ? walletChainId : tokenChainId;
+
   return {
     defaultSourceAddress,
     defaultTargetAddress,
     routerAddress,
     provider,
+    chainId,
     supportedChainIds,
     isUserOnSupportedChainId,
     indexVaultQuery,
