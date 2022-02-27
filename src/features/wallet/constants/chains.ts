@@ -18,8 +18,11 @@ export const chains: ChainConfig[] = [
     title: "Ethereum",
     color: "#ffffff",
     logo: Eth,
-    rpcUrl: "wss://main-light.eth.linkpool.io/ws",
-    explorerUrl: "https://etherscan.io/",
+
+    urls: {
+      rpc: "wss://main-light.eth.linkpool.io/ws",
+      explorer: "https://etherscan.io/",
+    },
 
     addresses: {
       routerAddress: "testAddress",
@@ -31,8 +34,11 @@ export const chains: ChainConfig[] = [
     title: "BSC",
     color: "#f0b90a",
     logo: Bnb,
-    rpcUrl: "wss://bsc-ws-node.nariox.org:443",
-    explorerUrl: "https://bscscan.com/",
+
+    urls: {
+      rpc: "wss://bsc-ws-node.nariox.org:443",
+      explorer: "https://bscscan.com/",
+    },
 
     addresses: {
       routerAddress: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
@@ -44,8 +50,11 @@ export const chains: ChainConfig[] = [
     title: "Matic",
     color: "#7b43d9",
     logo: Matic,
-    rpcUrl: "wss://rpc-mainnet.matic.quiknode.pro",
-    explorerUrl: "https://polygonscan.com/",
+
+    urls: {
+      rpc: "wss://rpc-mainnet.matic.quiknode.pro",
+      explorer: "https://polygonscan.com/",
+    },
 
     addresses: {
       routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
@@ -57,8 +66,11 @@ export const chains: ChainConfig[] = [
     title: "Avalanche",
     color: "#dc3e3f",
     logo: Avax,
-    rpcUrl: "wss://api.avax.network/ext/bc/C/ws",
-    explorerUrl: "https://snowtrace.io/",
+
+    urls: {
+      rpc: "wss://api.avax.network/ext/bc/C/ws",
+      explorer: "https://snowtrace.io/",
+    },
 
     addresses: {
       routerAddress: "testAddress",
@@ -70,8 +82,11 @@ export const chains: ChainConfig[] = [
     title: "Fantom",
     color: "#3eb6e9",
     logo: Ftm,
-    rpcUrl: "wss://wsapi.fantom.network",
-    explorerUrl: "https://ftmscan.com/",
+
+    urls: {
+      rpc: "wss://wsapi.fantom.network",
+      explorer: "https://ftmscan.com/",
+    },
 
     addresses: {
       routerAddress: "testAddress",
@@ -86,5 +101,8 @@ export const chainsMap: Record<ChainId, ChainConfig> = Object.fromEntries(
 
 export const chainProvidersMap: Record<ChainId, JsonRpcProvider> =
   Object.fromEntries(
-    chains.map((chain) => [chain.chainId, new WebSocketProvider(chain.rpcUrl)])
+    chains.map(({ chainId, urls }) => [
+      chainId,
+      new WebSocketProvider(urls.rpc),
+    ])
   ) as unknown as Record<ChainId, JsonRpcProvider>;

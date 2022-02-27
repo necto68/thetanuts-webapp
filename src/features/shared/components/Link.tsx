@@ -4,9 +4,9 @@ import React from "react";
 
 type NavLinkProps = ReactRouterNavLinkProps;
 
-const Link: React.FC<NavLinkProps> = ({ children, to, ...props }) => {
+export const Link: React.FC<NavLinkProps> = ({ children, to, ...props }) => {
   const internal = typeof to === "string" ? /^\/(?!\/)/u.test(to) : true;
-  const { className } = props;
+  const { className, target } = props;
 
   if (internal || typeof to !== "string") {
     return (
@@ -17,10 +17,12 @@ const Link: React.FC<NavLinkProps> = ({ children, to, ...props }) => {
   }
 
   return (
-    <a className={typeof className === "string" ? className : ""} href={to}>
+    <a
+      className={typeof className === "string" ? className : ""}
+      href={to}
+      target={target}
+    >
       {children}
     </a>
   );
 };
-
-export default Link;

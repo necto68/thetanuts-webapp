@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import Link from "../../shared/components/Link";
+import { Link } from "../../shared/components";
 
 interface Colored {
   color: string;
