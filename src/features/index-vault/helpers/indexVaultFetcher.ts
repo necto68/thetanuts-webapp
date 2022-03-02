@@ -13,6 +13,9 @@ import {
 import type { IndexVault, VaultInfo } from "../types";
 import { queryClient } from "../../shared/helpers";
 import { indexVaults } from "../../theta-index/constants";
+import { tokenFetcher } from "../../index-vault-modal/helpers";
+import type { ChainId } from "../../wallet/constants";
+import { chainProvidersMap, chainsMap } from "../../wallet/constants";
 
 import { vaultFetcher } from "./vaultFetcher";
 import { getTotalAnnualPercentageYield, getTotalValueLocked } from "./utils";
@@ -21,7 +24,8 @@ export const indexVaultFetcher = async (
   id: string,
   indexVaultAddress: string,
   lendingPoolAddress: string,
-  provider: Provider
+  provider: Provider,
+  account: string
 ): Promise<IndexVault> => {
   const indexVaultContract = IndexVaultAbiFactory.connect(
     indexVaultAddress,
@@ -34,14 +38,14 @@ export const indexVaultFetcher = async (
   );
 
   const [
-    { chainId: tokenChainId },
+    { chainId },
     name,
     totalWeight,
     vaultsLength,
     assetTokenAddress,
     indexTokenAddress,
   ] = await Promise.all([
-    provider.getNetwork(),
+    provider.getNetwork() as Promise<{ chainId: ChainId }>,
     indexVaultContract.name(),
     indexVaultContract.totalWeight().then(convertToBig),
     indexVaultContract.vaultsLength().then((bigNumber) => bigNumber.toNumber()),
@@ -91,10 +95,52 @@ export const indexVaultFetcher = async (
       // eslint-disable-next-line @typescript-eslint/promise-function-async
       (vaultAddress) =>
         queryClient.fetchQuery(
-          [vaultAddress, tokenChainId],
+          [vaultAddress, chainId],
           // eslint-disable-next-line @typescript-eslint/promise-function-async
           () => vaultFetcher(vaultAddress, provider)
         )
+    )
+  );
+
+  const tokenConfig = indexVaults.find(
+    ({ source: { indexVaultAddress: sourceIndexVaultAddress } }) =>
+      sourceIndexVaultAddress === indexVaultAddress
+  );
+  const { replications = [] } = tokenConfig ?? {};
+
+  const indexTokensConfigs = [{ chainId, indexTokenAddress }].concat(
+    replications.map((replication) => ({
+      chainId: replication.chainId,
+      indexTokenAddress: replication.indexTokenAddress,
+    }))
+  );
+
+  const indexTokens = await Promise.all(
+    indexTokensConfigs.map(
+      // eslint-disable-next-line @typescript-eslint/promise-function-async
+      (indexTokenConfig) => {
+        const replicatedProvider = chainProvidersMap[indexTokenConfig.chainId];
+        const replicatedRouterAddress =
+          chainsMap[indexTokenConfig.chainId].addresses.routerAddress;
+
+        const queryKey = [
+          indexTokenConfig.indexTokenAddress,
+          replicatedRouterAddress,
+          account,
+        ];
+
+        return queryClient.fetchQuery(
+          queryKey,
+          // eslint-disable-next-line @typescript-eslint/promise-function-async
+          () =>
+            tokenFetcher(
+              indexTokenConfig.indexTokenAddress,
+              replicatedRouterAddress,
+              replicatedProvider,
+              account
+            )
+        );
+      }
     )
   );
 
@@ -120,15 +166,8 @@ export const indexVaultFetcher = async (
     totalWeight
   );
 
-  const tokenConfig = indexVaults.find(
-    ({ source: { indexVaultAddress: sourceIndexVaultAddress } }) =>
-      sourceIndexVaultAddress === indexVaultAddress
-  );
-  const { replications } = tokenConfig ?? {
-    replications: [],
-  };
-  const supportedChainIds = [tokenChainId].concat(
-    replications.map(({ chainId }) => chainId)
+  const supportedChainIds = [chainId].concat(
+    replications.map((replication) => replication.chainId)
   );
 
   return {
@@ -142,6 +181,8 @@ export const indexVaultFetcher = async (
     totalWeight,
     totalValueLocked,
     totalAnnualPercentageYield,
+    chainId,
     supportedChainIds,
+    indexTokens,
   };
 };

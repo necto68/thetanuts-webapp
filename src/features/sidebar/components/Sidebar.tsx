@@ -3,6 +3,7 @@ import { createElement } from "react";
 
 import { ThetaIndex, Portfolio, Discord, Twitter } from "../icons";
 import { IconContainer } from "../../shared/components";
+import { PagePathname } from "../../root/types";
 
 import {
   IconNavContainer,
@@ -21,12 +22,12 @@ export const Sidebar = () => {
   // navbar items stored here and mapped to JSX later so it is easier to add on
   const mainNavItems = [
     {
-      to: "/theta-index",
+      to: PagePathname.thetaIndex,
       linkTitle: "THETA INDEX",
       navIcon: ThetaIndex,
     },
     {
-      to: "/portfolio",
+      to: PagePathname.portfolio,
       linkTitle: "PORTFOLIO",
       navIcon: Portfolio,
     },

@@ -1,9 +1,4 @@
-import {
-  useIndexVaultModalState,
-  useSwapRouterConfig,
-  useTokenQuery,
-} from "../hooks";
-import { useIndexVault } from "../../index-vault/hooks";
+import { useSwapRouterConfig, useTokenQuery } from "../hooks";
 import {
   addressFormatter,
   currencyFormatterWithoutDecimals,
@@ -20,8 +15,8 @@ import {
 
 // eslint-disable-next-line complexity
 export const IndexInfo = () => {
-  const [{ indexVaultId }] = useIndexVaultModalState();
-  const { isLoading, data } = useIndexVault(indexVaultId);
+  const { indexVaultQuery } = useSwapRouterConfig();
+  const { isLoading, data } = indexVaultQuery;
 
   const {
     defaultSourceAddress,
