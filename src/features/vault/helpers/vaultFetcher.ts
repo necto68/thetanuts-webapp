@@ -36,7 +36,7 @@ import type { ChainId } from "../../wallet/constants";
 
 import {
   convertToBig,
-  getAnnualPercentageYield,
+  getPercentageYields,
   normalizeVaultValue,
 } from "./utils";
 
@@ -143,7 +143,7 @@ export const vaultFetcher = async (
   );
   const vaultStrikePrice = convertToBig(await vaultContract.strikeX1e6(epoch));
 
-  const apy = getAnnualPercentageYield(
+  const { annualPercentageYield } = getPercentageYields(
     vaultTotalAsset,
     vaultPremium,
     vaultPeriod
@@ -178,7 +178,7 @@ export const vaultFetcher = async (
   return {
     ...localVault,
     ILMode,
-    apy,
+    annualPercentageYield,
     expiry,
     isEpochSettled,
     isEpochExpired,
