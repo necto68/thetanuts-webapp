@@ -1,18 +1,11 @@
-import { Container, Metric, MetricTitle, MetricValue } from "./Metrics.styles";
+import { Metric } from "../../shared/components";
+
+import { Container } from "./Metrics.styles";
 
 export const Metrics = () => (
   <Container>
-    <Metric>
-      <MetricTitle>TVL</MetricTitle>
-      <MetricValue>$ 1,000,000</MetricValue>
-    </Metric>
-    <Metric>
-      <MetricTitle>Notional Sold</MetricTitle>
-      <MetricValue>$ 1,000,000</MetricValue>
-    </Metric>
-    <Metric>
-      <MetricTitle>Premium Earned</MetricTitle>
-      <MetricValue>$ 1,000,000</MetricValue>
-    </Metric>
+    <Metric title="TVL" value="$1,000,000.00" />
+    <Metric title="Notional Sold" value="$1,000,000.00" />
+    <Metric title="Premium Earned" value="$1,000,000.00" />
   </Container>
 );

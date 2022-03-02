@@ -1,10 +1,13 @@
 import { useQueries } from "react-query";
+import { useWallet } from "@gimmixorg/use-wallet";
 
 import { indexVaults } from "../../theta-index/constants";
 import { chainsMap, chainProvidersMap } from "../../wallet/constants";
 import { indexVaultFetcher } from "../helpers";
 
 export const useIndexVaults = (indexVaultIds: string[]) => {
+  const { account = "" } = useWallet();
+
   const tokensConfigs = indexVaultIds.map((indexVaultId) => {
     const tokenConfig = indexVaults.find(({ id }) => id === indexVaultId);
 
@@ -25,14 +28,15 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
   return useQueries(
     tokensConfigs.map(
       ({ id, chainId, indexVaultAddress, lendingPoolAddress, provider }) => ({
-        queryKey: [id, chainId],
+        queryKey: [id, chainId, account],
 
         queryFn: async () =>
           await indexVaultFetcher(
             id,
             indexVaultAddress,
             lendingPoolAddress,
-            provider
+            provider,
+            account
           ),
 
         staleTime: Number.POSITIVE_INFINITY,

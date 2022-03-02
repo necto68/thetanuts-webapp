@@ -18,6 +18,7 @@ import {
 interface TableProps<RowData> {
   columns: Column<RowData>[];
   rows: (RowData | undefined)[];
+  getRowKey?: (row: RowData) => string;
 }
 
 const renderCellValue = <RowData extends object>(
@@ -49,6 +50,7 @@ const renderCellValue = <RowData extends object>(
 export const Table = <RowData extends object>({
   columns,
   rows,
+  getRowKey,
 }: TableProps<RowData>) => {
   const [sortedRows, sortState, updateSort] = useSortBy(rows);
 
@@ -79,7 +81,7 @@ export const Table = <RowData extends object>({
       </thead>
       <tbody>
         {sortedRows.map((row, rowIndex) => (
-          <Row key={rowIndex.toString()}>
+          <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
             {columns.map((column, columnIndex) => (
               <Cell key={column.key?.toString() ?? columnIndex.toString()}>
                 {renderCellValue(row, column)}

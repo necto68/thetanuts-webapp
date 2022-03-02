@@ -1,7 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { useIndexVaultModalState } from "../hooks";
-import { useIndexVault } from "../../index-vault/hooks";
+import { useSwapRouterConfig } from "../hooks";
 
 import { Expander } from "./Expander";
 import { ConsolidatedApyInfo } from "./ConsolidatedApyInfo";
@@ -14,8 +13,8 @@ export enum SectionType {
 }
 
 export const ExpandersSection = () => {
-  const [{ indexVaultId }] = useIndexVaultModalState();
-  const { isLoading, data } = useIndexVault(indexVaultId);
+  const { indexVaultQuery } = useSwapRouterConfig();
+  const { isLoading, data } = indexVaultQuery;
 
   const [openedSection, setOpenedSection] = useState<SectionType | null>(null);
 

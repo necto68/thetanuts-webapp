@@ -47,11 +47,13 @@ const columns: Column<IndexVault>[] = [
   },
 ];
 
+const getRowKey = ({ id }: IndexVault) => id;
+
 export const IndexVaultsTable = () => {
   const indexVaultsIds = indexVaults.map(({ id }) => id);
-  const indexVault = useIndexVaults(indexVaultsIds);
+  const indexVaultsQueries = useIndexVaults(indexVaultsIds);
 
-  const rows = indexVault.map(({ data }) => data);
+  const rows = indexVaultsQueries.map(({ data }) => data);
 
-  return <Table columns={columns} rows={rows} />;
+  return <Table columns={columns} getRowKey={getRowKey} rows={rows} />;
 };

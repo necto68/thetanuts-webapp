@@ -1,6 +1,6 @@
 import { ChainId } from "../../wallet/constants";
 
-interface IndexVault {
+interface IndexVaultConfig {
   id: string;
   isFeatured?: boolean;
   source: {
@@ -14,7 +14,7 @@ interface IndexVault {
   }[];
 }
 
-export const indexVaults: IndexVault[] = [
+export const indexVaults: IndexVaultConfig[] = [
   {
     id: "TN-MVV1-ETH-CALL",
     isFeatured: true,
