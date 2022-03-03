@@ -29,24 +29,15 @@ export const getPercentageYields = (
   const interestRate = premium.div(totalAsset);
 
   const secondsPerDay = new Big(60 * 60 * 24);
+  const compoundingFactor = secondsPerDay.div(period);
   const getCompoundingPeriods = (days: number) =>
-    secondsPerDay.mul(days).div(period).round().toNumber();
+    compoundingFactor.mul(days).round().toNumber();
 
-  const annualYield = new Big(1)
-    .add(interestRate)
-    .pow(getCompoundingPeriods(365))
-    .sub(1);
+  const baseValue = new Big(1).add(interestRate);
 
-  const monthlyYield = new Big(1)
-    .add(interestRate)
-    .pow(getCompoundingPeriods(30))
-    .sub(1);
-
-  const weeklyYield = new Big(1)
-    .add(interestRate)
-    .pow(getCompoundingPeriods(7))
-    .sub(1);
-
+  const annualYield = baseValue.pow(getCompoundingPeriods(365)).sub(1);
+  const monthlyYield = baseValue.pow(getCompoundingPeriods(30)).sub(1);
+  const weeklyYield = baseValue.pow(getCompoundingPeriods(7)).sub(1);
   const annualRate = interestRate.div(period).mul(secondsPerDay.mul(365));
 
   const convertToPercentage = (yieldValue: Big): number =>
