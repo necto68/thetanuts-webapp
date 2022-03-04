@@ -8,6 +8,7 @@ import { getSwapTransactionParameters } from "../helpers";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   RouterV2Abi__factory as RouterV2AbiFactory,
+  DirectDepositorAbi__factory as DirectDepositorAbiFactory,
 } from "../../contracts/types";
 
 import { useSwapRouterConfig } from "./useSwapRouterConfig";
@@ -20,25 +21,38 @@ export const useSwapRouterMutations = (
   targetData: Token | undefined,
   isUseNativeSourceData: boolean,
   isUseNativeTargetData: boolean,
+  isUseDirectDepositMode: boolean,
   lastUpdatedInputType: InputType,
   tokensQueries: ReturnType<typeof useSwapRouter>["tokensQueries"]
 ) => {
-  const { routerAddress, provider, indexVaultQuery } = useSwapRouterConfig();
-
-  const signer = provider.getSigner();
+  const {
+    routerAddress,
+    directDepositorAddress,
+    walletProvider,
+    indexVaultAddress,
+    indexVaultQuery,
+  } = useSwapRouterConfig();
 
   const runMutation = useCallback(
     // eslint-disable-next-line complexity
     async (mutationType: MutationType) => {
-      if (!sourceData || !targetData) {
+      if (!sourceData || !targetData || !walletProvider) {
         return false;
       }
+
+      const signer = walletProvider.getSigner();
 
       const sourceTokenContract = Erc20AbiFactory.connect(
         sourceData.tokenAddress,
         signer
       );
+
       const routerContract = RouterV2AbiFactory.connect(routerAddress, signer);
+
+      const directDepositorContract = DirectDepositorAbiFactory.connect(
+        directDepositorAddress,
+        signer
+      );
 
       const { amountIn, amountOut, path, to, deadline } =
         await getSwapTransactionParameters(
@@ -49,7 +63,11 @@ export const useSwapRouterMutations = (
           signer
         );
 
-      const approveParameters = [routerAddress, constants.MaxUint256] as const;
+      const spenderAddress = isUseDirectDepositMode
+        ? directDepositorAddress
+        : routerAddress;
+
+      const approveParameters = [spenderAddress, constants.MaxUint256] as const;
 
       const routerAmountParameters = {
         // tokens for tokens
@@ -66,6 +84,14 @@ export const useSwapRouterMutations = (
       };
 
       const routerDefaultParameters = [path, to, deadline] as const;
+
+      const directDepositorAmountParameters = {
+        // direct deposit tokens
+        [MutationType.deposit]: [indexVaultAddress, amountIn] as const,
+
+        // direct deposit native
+        [MutationType.depositNative]: [indexVaultAddress] as const,
+      };
 
       let transaction = null;
 
@@ -109,6 +135,30 @@ export const useSwapRouterMutations = (
 
           break;
 
+        case MutationType.deposit:
+          await directDepositorContract.callStatic[mutationType](
+            ...directDepositorAmountParameters[mutationType]
+          );
+
+          transaction = await directDepositorContract[mutationType](
+            ...directDepositorAmountParameters[mutationType]
+          );
+
+          break;
+
+        case MutationType.depositNative:
+          await directDepositorContract.callStatic[mutationType](
+            ...directDepositorAmountParameters[mutationType],
+            { value: amountIn }
+          );
+
+          transaction = await directDepositorContract[mutationType](
+            ...directDepositorAmountParameters[mutationType],
+            { value: amountIn }
+          );
+
+          break;
+
         default:
           break;
       }
@@ -119,7 +169,17 @@ export const useSwapRouterMutations = (
 
       return true;
     },
-    [routerAddress, signer, sourceData, sourceValue, targetData, targetValue]
+    [
+      sourceData,
+      targetData,
+      walletProvider,
+      routerAddress,
+      directDepositorAddress,
+      sourceValue,
+      targetValue,
+      indexVaultAddress,
+      isUseDirectDepositMode,
+    ]
   );
 
   const handleMutationSuccess = useCallback(async () => {
@@ -189,6 +249,15 @@ export const useSwapRouterMutations = (
         }
 
         mutate(MutationType.swapTokensForExactTokens);
+      },
+
+      runDirectDeposit: () => {
+        if (isUseNativeSourceData) {
+          mutate(MutationType.depositNative);
+          return;
+        }
+
+        mutate(MutationType.deposit);
       },
     },
   };

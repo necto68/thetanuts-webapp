@@ -13,6 +13,7 @@ import { BaseSwapButton } from "./SwapButton.styles";
 interface SwapButtonProps {
   isSourceValueLoading: boolean;
   isTargetValueLoading: boolean;
+  isUseDirectDepositMode: boolean;
   rootMutation: ReturnType<typeof useSwapRouterMutations>["rootMutation"];
   routerMutations: ReturnType<typeof useSwapRouterMutations>["routerMutations"];
   sourceTokenData: NativeToken | Token | undefined;
@@ -25,6 +26,7 @@ interface SwapButtonProps {
 export const SwapButton: FC<SwapButtonProps> = ({
   isSourceValueLoading,
   isTargetValueLoading,
+  isUseDirectDepositMode,
   rootMutation,
   routerMutations,
   sourceTokenData,
@@ -33,11 +35,12 @@ export const SwapButton: FC<SwapButtonProps> = ({
   targetValue,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
-  const { isUserOnSupportedChainId } = useSwapRouterConfig();
+  const { isUserOnSupportedChainId, supportedChainIds } = useSwapRouterConfig();
 
   const { account, connect } = useWallet();
 
-  const { runApproveAllowance, runSwapTokensForTokens } = routerMutations;
+  const { runApproveAllowance, runSwapTokensForTokens, runDirectDeposit } =
+    routerMutations;
 
   const handleConnectWalletButtonClick = useCallback(async () => {
     await connect(web3ModalConfig);
@@ -52,8 +55,12 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }, [runApproveAllowance]);
 
   const handleSwapButtonClick = useCallback(() => {
-    runSwapTokensForTokens();
-  }, [runSwapTokensForTokens]);
+    if (isUseDirectDepositMode) {
+      runDirectDeposit();
+    } else {
+      runSwapTokensForTokens();
+    }
+  }, [isUseDirectDepositMode, runDirectDeposit, runSwapTokensForTokens]);
 
   const sourceValueBig = new Big(sourceValue || 0);
   const targetValueBig = new Big(targetValue || 0);
@@ -85,7 +92,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
     );
   }
 
-  if (!isUserOnSupportedChainId) {
+  if (!isUserOnSupportedChainId && supportedChainIds.length > 0) {
     return <BaseSwapButton disabled>Wrong Network</BaseSwapButton>;
   }
 

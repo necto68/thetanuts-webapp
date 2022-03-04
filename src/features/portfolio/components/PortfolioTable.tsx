@@ -12,6 +12,7 @@ import { indexVaults } from "../../theta-index/constants";
 import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
 import { VaultType } from "../../vault/constants";
 import type { IndexTokenRow } from "../types";
+import { useIndexTokensQueries } from "../hooks";
 
 const columns: Column<IndexTokenRow>[] = [
   {
@@ -69,11 +70,15 @@ const getRowKey = ({ tokenAddress, chainId }: IndexTokenRow) =>
 export const PortfolioTable = () => {
   const indexVaultsIds = indexVaults.map(({ id }) => id);
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
+  const indexTokensQueries = useIndexTokensQueries(indexVaultsIds);
+
   const { account } = useWallet();
 
   const rows: (IndexTokenRow | undefined)[] = indexVaultsQueries
-    .flatMap(({ data }) => {
-      if (!data) {
+    .flatMap(({ data }, vaultIndex) => {
+      const { data: indexTokens } = indexTokensQueries[vaultIndex];
+
+      if (!data || !indexTokens) {
         return undefined;
       }
 
@@ -82,7 +87,6 @@ export const PortfolioTable = () => {
         type,
         assetSymbol,
         totalAnnualPercentageYield,
-        indexTokens,
         supportedChainIds,
       } = data;
 

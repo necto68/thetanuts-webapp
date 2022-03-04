@@ -16,5 +16,6 @@ export interface ChainConfig {
   addresses: {
     routerAddress: string;
     lendingPoolAddress: string;
+    directDepositorAddress: string;
   };
 }

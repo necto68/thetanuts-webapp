@@ -1,29 +1,41 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 import { usePreviousImmediate } from "rooks";
 
-import { RouterV2Abi__factory as RouterV2AbiFactory } from "../../contracts/types";
+import {
+  DirectDepositorAbi__factory as DirectDepositorAbiFactory,
+  RouterV2Abi__factory as RouterV2AbiFactory,
+} from "../../contracts/types";
 import { convertToBig } from "../../vault/helpers";
 import { InputType } from "../types";
+import type { ChainId } from "../../wallet/constants";
 
 import { useTokenQuery } from "./useTokenQuery";
 import { useNativeTokenQuery } from "./useNativeTokenQuery";
+import type { useSwapRouterConfig } from "./useSwapRouterConfig";
 
 export const useSwapRouterState = (
+  indexVaultAddress: string,
   defaultSourceAddress: string,
   defaultTargetAddress: string,
   routerAddress: string,
-  provider: Provider
+  directDepositorAddress: string,
+  provider: Provider,
+  indexVaultProvider: Provider,
+  chainId: ChainId,
+  indexVaultQuery: ReturnType<typeof useSwapRouterConfig>["indexVaultQuery"]
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 ) => {
-  const [routerPath, setRouterPath] = useState([
-    defaultSourceAddress,
-    defaultTargetAddress,
-  ]);
+  const [isFlipped, setIsFlipped] = useState(false);
 
-  useEffect(() => {
-    setRouterPath([defaultSourceAddress, defaultTargetAddress]);
-  }, [defaultSourceAddress, defaultTargetAddress]);
+  const routerPath = useMemo(
+    () =>
+      isFlipped
+        ? [defaultTargetAddress, defaultSourceAddress]
+        : [defaultSourceAddress, defaultTargetAddress],
+    [isFlipped, defaultSourceAddress, defaultTargetAddress]
+  );
 
   const [sourceAddress, targetAddress] = routerPath;
 
@@ -60,6 +72,17 @@ export const useSwapRouterState = (
     isOppositeInputValueLoading && lastUpdatedInputType === InputType.target;
   const isTargetValueLoading =
     isOppositeInputValueLoading && lastUpdatedInputType === InputType.source;
+
+  const { chainId: indexVaultChainId = 0 } = indexVaultQuery.data ?? {};
+
+  const isUseIndexVaultChainId = indexVaultChainId === chainId;
+
+  const previousChainId = usePreviousImmediate(chainId);
+
+  const [isDirectDepositBetterThanSwap, setIsDirectDepositBetterThanSwap] =
+    useState(false);
+
+  const [isUseDirectDepositMode, setIsUseDirectDepositMode] = useState(false);
 
   // state updaters
   const updateInputsValues = useCallback(
@@ -120,7 +143,7 @@ export const useSwapRouterState = (
   );
 
   const swapInputs = useCallback(() => {
-    setRouterPath([targetAddress, sourceAddress]);
+    setIsFlipped((previousIsFlipped) => !previousIsFlipped);
     setUseNativeDataValues([isUseNativeTargetData, isUseNativeSourceData]);
 
     if (lastUpdatedInputType === InputType.source) {
@@ -129,8 +152,6 @@ export const useSwapRouterState = (
       setSourceValue(targetValue);
     }
   }, [
-    sourceAddress,
-    targetAddress,
     lastUpdatedInputType,
     sourceValue,
     setSourceValue,
@@ -140,15 +161,19 @@ export const useSwapRouterState = (
     isUseNativeTargetData,
   ]);
 
+  const spenderAddress = isUseDirectDepositMode
+    ? directDepositorAddress
+    : routerAddress;
+
   const sourceTokenQuery = useTokenQuery(
     sourceAddress,
-    routerAddress,
+    spenderAddress,
     provider
   );
 
   const targetTokenQuery = useTokenQuery(
     targetAddress,
-    routerAddress,
+    spenderAddress,
     provider
   );
 
@@ -158,13 +183,13 @@ export const useSwapRouterState = (
   const { data: targetData, isLoading: isTargetDataLoading } = targetTokenQuery;
   const { data: nativeData, isLoading: isNativeDataLoading } = nativeTokenQuery;
 
-  const getOppositeValueForInput = useCallback(
+  const getSwapValueForOppositeInput = useCallback(
     async (inputType: InputType) => {
       const inputValue =
         inputType === InputType.source ? sourceValue : targetValue;
 
       if (!inputValue || new Big(inputValue).lte(0)) {
-        return "";
+        return null;
       }
 
       const routerContract = RouterV2AbiFactory.connect(
@@ -172,7 +197,7 @@ export const useSwapRouterState = (
         provider
       );
 
-      const defaultDivisor = new Big(10).mul(18);
+      const defaultDivisor = new Big(10).pow(18);
 
       const { tokenDivisor = defaultDivisor } =
         (inputType === InputType.source ? sourceData : targetData) ?? {};
@@ -182,26 +207,18 @@ export const useSwapRouterState = (
         .toString();
 
       if (inputType === InputType.source) {
-        const amountsOut = await routerContract.getAmountsOut(
-          inputValueBigNumber,
-          routerPath
-        );
+        const amountOut = await routerContract
+          .getAmountsOut(inputValueBigNumber, routerPath)
+          .then((amountsOut) => convertToBig(amountsOut[1]));
 
-        return convertToBig(amountsOut[1])
-          .div(tokenDivisor)
-          .round(5, Big.roundDown)
-          .toString();
+        return amountOut.div(tokenDivisor).round(5, Big.roundDown);
       }
 
-      const amountsIn = await routerContract.getAmountsIn(
-        inputValueBigNumber,
-        routerPath
-      );
+      const amountIn = await routerContract
+        .getAmountsIn(inputValueBigNumber, routerPath)
+        .then((amountsIn) => convertToBig(amountsIn[0]));
 
-      return convertToBig(amountsIn[0])
-        .div(tokenDivisor)
-        .round(5, Big.roundUp)
-        .toString();
+      return amountIn.div(tokenDivisor).round(5, Big.roundUp);
     },
     [
       routerAddress,
@@ -211,6 +228,57 @@ export const useSwapRouterState = (
       targetValue,
       targetData,
       routerPath,
+    ]
+  );
+
+  const getDirectDepositValueForOppositeInput = useCallback(
+    async (inputType: InputType) => {
+      const inputValue =
+        inputType === InputType.source ? sourceValue : targetValue;
+      const isIndexTokenInTarget = defaultSourceAddress === sourceAddress;
+
+      if (!inputValue || new Big(inputValue).lte(0) || !isIndexTokenInTarget) {
+        return null;
+      }
+
+      const directDepositorContract = DirectDepositorAbiFactory.connect(
+        directDepositorAddress,
+        indexVaultProvider
+      );
+
+      const defaultDivisor = new Big(10).pow(18);
+
+      const { tokenDivisor = defaultDivisor } =
+        (inputType === InputType.source ? sourceData : targetData) ?? {};
+
+      const inputValueBigNumber = new Big(inputValue)
+        .mul(tokenDivisor)
+        .toString();
+
+      if (inputType === InputType.source) {
+        const amountOut = await directDepositorContract
+          .estimateOutput(indexVaultAddress, inputValueBigNumber)
+          .then(convertToBig);
+
+        return amountOut.div(tokenDivisor).round(5, Big.roundDown);
+      }
+
+      const amountIn = await directDepositorContract
+        .estimateInput(indexVaultAddress, inputValueBigNumber)
+        .then(convertToBig);
+
+      return amountIn.div(tokenDivisor).round(5, Big.roundUp);
+    },
+    [
+      defaultSourceAddress,
+      sourceAddress,
+      sourceValue,
+      targetValue,
+      directDepositorAddress,
+      indexVaultProvider,
+      sourceData,
+      targetData,
+      indexVaultAddress,
     ]
   );
 
@@ -225,15 +293,43 @@ export const useSwapRouterState = (
         ? [sourceValue, previousSourceValue]
         : [targetValue, previousTargetValue];
 
-    if (currentValue !== previousValue && sourceAddress && targetAddress) {
+    const valuesHaveChanged =
+      currentValue !== previousValue || chainId !== previousChainId;
+
+    if (valuesHaveChanged && sourceAddress && targetAddress) {
       void (async () => {
         try {
           setIsOppositeInputValueLoading(true);
 
-          const oppositeInputValue = await getOppositeValueForInput(
-            lastUpdatedInputType
+          const [swapValue, directDepositValue] = await Promise.all([
+            getSwapValueForOppositeInput(lastUpdatedInputType),
+            getDirectDepositValueForOppositeInput(lastUpdatedInputType),
+          ]);
+
+          const isDirectDepositValid = Boolean(
+            swapValue &&
+              directDepositValue &&
+              ((lastUpdatedInputType === InputType.source &&
+                directDepositValue.gt(swapValue)) ||
+                (lastUpdatedInputType === InputType.target &&
+                  directDepositValue.lt(swapValue)))
           );
 
+          const isUseDirectDeposit =
+            isDirectDepositValid && isUseIndexVaultChainId;
+
+          let oppositeInputValue = "";
+
+          if (isUseDirectDeposit && directDepositValue) {
+            oppositeInputValue = directDepositValue.toString();
+          } else if (swapValue) {
+            oppositeInputValue = swapValue.toString();
+          } else {
+            oppositeInputValue = "";
+          }
+
+          setIsDirectDepositBetterThanSwap(isDirectDepositValid);
+          setIsUseDirectDepositMode(isUseDirectDeposit);
           updateInputsValues(oppositeInputType, oppositeInputValue);
         } finally {
           setIsOppositeInputValueLoading(false);
@@ -248,8 +344,12 @@ export const useSwapRouterState = (
     targetValue,
     sourceAddress,
     targetAddress,
-    getOppositeValueForInput,
+    getSwapValueForOppositeInput,
+    getDirectDepositValueForOppositeInput,
     updateInputsValues,
+    isUseIndexVaultChainId,
+    previousChainId,
+    chainId,
   ]);
 
   return {
@@ -278,6 +378,10 @@ export const useSwapRouterState = (
 
     lastUpdatedInputType,
 
+    isDirectDepositBetterThanSwap,
+    isUseDirectDepositMode,
+
+    isFlipped,
     swapInputs,
 
     tokensQueries: {

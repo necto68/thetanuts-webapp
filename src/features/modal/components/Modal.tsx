@@ -23,7 +23,9 @@ export const Modal = () => {
     }));
   }, [setModalState, setIndexVaultModalState]);
 
-  const handleBackdropClick = useCallback<MouseEventHandler<HTMLDivElement>>(
+  const handleBackdropMouseDown = useCallback<
+    MouseEventHandler<HTMLDivElement>
+  >(
     (event) => {
       if (event.target === event.currentTarget) {
         handleClose();
@@ -39,7 +41,7 @@ export const Modal = () => {
   return (
     <AnimatePresence>
       {isShowModal || isShowIndexVaultModal ? (
-        <Backdrop onClick={handleBackdropClick}>
+        <Backdrop onMouseDown={handleBackdropMouseDown}>
           <VaultModalContainer>
             <ModalComponent />
           </VaultModalContainer>

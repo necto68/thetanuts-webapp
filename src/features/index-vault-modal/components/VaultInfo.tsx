@@ -16,6 +16,7 @@ interface VaultInfoProps {
   isSourceValueLoading: boolean;
   isTargetTokenDataLoading: boolean;
   isTargetValueLoading: boolean;
+  isUseDirectDepositMode: boolean;
   sourceTokenData: NativeToken | Token | undefined;
   sourceValue: string;
   targetTokenData: NativeToken | Token | undefined;
@@ -48,6 +49,7 @@ export const VaultInfo: FC<VaultInfoProps> = ({
   isSourceValueLoading,
   isTargetTokenDataLoading,
   isTargetValueLoading,
+  isUseDirectDepositMode,
   sourceTokenData,
   sourceValue,
   targetTokenData,
@@ -82,7 +84,9 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       </PriceInfoContainer>
       <InfoContainer>
         <InfoValue>Protocols</InfoValue>
-        <InfoValue>Uniswap v2</InfoValue>
+        <InfoValue>
+          {isUseDirectDepositMode ? "Direct Deposit" : "Uniswap v2"}
+        </InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Route</InfoValue>
@@ -90,11 +94,13 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Slippage Tolerance</InfoValue>
-        <InfoValue>{`${slippageToleranceValue}%`}</InfoValue>
+        <InfoValue>
+          {isUseDirectDepositMode ? "N/A" : `${slippageToleranceValue}%`}
+        </InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue isUnderline>Platform fee</InfoValue>
-        <InfoValue>0.3%</InfoValue>
+        <InfoValue>{isUseDirectDepositMode ? "0%" : "0.3%"}</InfoValue>
       </InfoContainer>
     </Container>
   );

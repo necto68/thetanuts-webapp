@@ -1,5 +1,3 @@
-import { useCallback, useState } from "react";
-
 import { IconContainer } from "../../shared/components";
 import { Flip } from "../icons";
 import { useSwapRouter, useSwapRouterMutations } from "../hooks";
@@ -15,8 +13,6 @@ import {
 } from "./SwapSection.styles";
 
 export const SwapSection = () => {
-  const [isFlipped, setIsFlipped] = useState(false);
-
   const {
     sourceValue,
     targetValue,
@@ -43,6 +39,11 @@ export const SwapSection = () => {
 
     lastUpdatedInputType,
 
+    // TODO: will use for target SwapInputCard
+    // isDirectDepositBetterThanSwap,
+    isUseDirectDepositMode,
+
+    isFlipped,
     swapInputs,
 
     tokensQueries,
@@ -58,15 +59,12 @@ export const SwapSection = () => {
     isUseNativeSourceData,
     isUseNativeTargetData,
 
+    isUseDirectDepositMode,
+
     lastUpdatedInputType,
 
     tokensQueries
   );
-
-  const handleFlipButtonClick = useCallback(() => {
-    setIsFlipped((previousIsFlipped) => !previousIsFlipped);
-    swapInputs();
-  }, [swapInputs]);
 
   const sourceTokenData = isUseNativeSourceData ? nativeData : sourceData;
   const targetTokenData = isUseNativeTargetData ? nativeData : targetData;
@@ -91,7 +89,7 @@ export const SwapSection = () => {
           tokenData={sourceData}
         />
         <FlipButtonContainer>
-          <FlipButton isFlipped={isFlipped} onClick={handleFlipButtonClick}>
+          <FlipButton isFlipped={isFlipped} onClick={swapInputs}>
             <IconContainer height={20} width={20}>
               <Flip />
             </IconContainer>
@@ -115,6 +113,7 @@ export const SwapSection = () => {
         isSourceValueLoading={isSourceValueLoading}
         isTargetTokenDataLoading={isTargetTokenDataLoading}
         isTargetValueLoading={isTargetValueLoading}
+        isUseDirectDepositMode={isUseDirectDepositMode}
         sourceTokenData={sourceTokenData}
         sourceValue={sourceValue}
         targetTokenData={targetTokenData}
@@ -123,6 +122,7 @@ export const SwapSection = () => {
       <SwapButton
         isSourceValueLoading={isSourceValueLoading}
         isTargetValueLoading={isTargetValueLoading}
+        isUseDirectDepositMode={isUseDirectDepositMode}
         rootMutation={rootMutation}
         routerMutations={routerMutations}
         sourceTokenData={sourceTokenData}
