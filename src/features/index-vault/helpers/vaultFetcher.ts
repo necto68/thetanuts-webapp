@@ -5,7 +5,7 @@ import type { Provider } from "@ethersproject/providers";
 
 import {
   convertToBig,
-  getAnnualPercentageYield,
+  getPercentageYields,
   normalizeVaultValue,
 } from "../../vault/helpers";
 import {
@@ -83,7 +83,7 @@ export const vaultFetcher = async (
   const totalAsset = convertToBig(totalSupply).mul(valuePerLP);
 
   // getting annual Percentage Yield
-  const annualPercentageYield = getAnnualPercentageYield(
+  const { annualPercentageYield } = getPercentageYields(
     totalAsset,
     premium,
     period

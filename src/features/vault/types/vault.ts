@@ -15,7 +15,7 @@ export interface LocalVault {
 
 export interface Vault extends LocalVault {
   ILMode?: ILVaultMode;
-  apy?: number;
+  annualPercentageYield?: number;
   assetSymbol?: string;
   depositSymbol?: string;
   expiry?: number;
