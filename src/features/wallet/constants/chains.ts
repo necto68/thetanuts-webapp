@@ -27,6 +27,7 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "testAddress",
       lendingPoolAddress: "testAddress",
+      directDepositorAddress: "testAddress",
     },
   },
   {
@@ -43,6 +44,7 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
       lendingPoolAddress: "testAddress",
+      directDepositorAddress: "testAddress",
     },
   },
   {
@@ -59,6 +61,7 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
       lendingPoolAddress: "0x69CB7e57FC301785aA0f933230DEE4C3E1f78e2b",
+      directDepositorAddress: "0x92555A60EA349d54b82fd56C930A653A38D58119",
     },
   },
   {
@@ -75,6 +78,7 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "testAddress",
       lendingPoolAddress: "testAddress",
+      directDepositorAddress: "testAddress",
     },
   },
   {
@@ -91,6 +95,7 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "testAddress",
       lendingPoolAddress: "testAddress",
+      directDepositorAddress: "testAddress",
     },
   },
 ];

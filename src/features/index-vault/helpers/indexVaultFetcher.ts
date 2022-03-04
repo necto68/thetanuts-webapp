@@ -13,9 +13,7 @@ import {
 import type { IndexVault, VaultInfo } from "../types";
 import { queryClient } from "../../shared/helpers";
 import { indexVaults } from "../../theta-index/constants";
-import { tokenFetcher } from "../../index-vault-modal/helpers";
 import type { ChainId } from "../../wallet/constants";
-import { chainProvidersMap, chainsMap } from "../../wallet/constants";
 
 import { vaultFetcher } from "./vaultFetcher";
 import { getTotalAnnualPercentageYield, getTotalValueLocked } from "./utils";
@@ -24,8 +22,7 @@ export const indexVaultFetcher = async (
   id: string,
   indexVaultAddress: string,
   lendingPoolAddress: string,
-  provider: Provider,
-  account: string
+  provider: Provider
 ): Promise<IndexVault> => {
   const indexVaultContract = IndexVaultAbiFactory.connect(
     indexVaultAddress,
@@ -102,48 +99,6 @@ export const indexVaultFetcher = async (
     )
   );
 
-  const tokenConfig = indexVaults.find(
-    ({ source: { indexVaultAddress: sourceIndexVaultAddress } }) =>
-      sourceIndexVaultAddress === indexVaultAddress
-  );
-  const { replications = [] } = tokenConfig ?? {};
-
-  const indexTokensConfigs = [{ chainId, indexTokenAddress }].concat(
-    replications.map((replication) => ({
-      chainId: replication.chainId,
-      indexTokenAddress: replication.indexTokenAddress,
-    }))
-  );
-
-  const indexTokens = await Promise.all(
-    indexTokensConfigs.map(
-      // eslint-disable-next-line @typescript-eslint/promise-function-async
-      (indexTokenConfig) => {
-        const replicatedProvider = chainProvidersMap[indexTokenConfig.chainId];
-        const replicatedRouterAddress =
-          chainsMap[indexTokenConfig.chainId].addresses.routerAddress;
-
-        const queryKey = [
-          indexTokenConfig.indexTokenAddress,
-          replicatedRouterAddress,
-          account,
-        ];
-
-        return queryClient.fetchQuery(
-          queryKey,
-          // eslint-disable-next-line @typescript-eslint/promise-function-async
-          () =>
-            tokenFetcher(
-              indexTokenConfig.indexTokenAddress,
-              replicatedRouterAddress,
-              replicatedProvider,
-              account
-            )
-        );
-      }
-    )
-  );
-
   const vaultsInfos: VaultInfo[] = vaultsInfosData.map((vaultInfo) => {
     const assetDivisor = new Big(10).pow(assetDecimals);
     const lpAmount = convertToBig(vaultInfo.amount).div(assetDivisor);
@@ -166,6 +121,12 @@ export const indexVaultFetcher = async (
     totalWeight
   );
 
+  const tokenConfig = indexVaults.find(
+    ({ id: indexVaultId }) => indexVaultId === id
+  );
+
+  const { replications = [] } = tokenConfig ?? {};
+
   const supportedChainIds = [chainId].concat(
     replications.map((replication) => replication.chainId)
   );
@@ -183,6 +144,5 @@ export const indexVaultFetcher = async (
     totalAnnualPercentageYield,
     chainId,
     supportedChainIds,
-    indexTokens,
   };
 };

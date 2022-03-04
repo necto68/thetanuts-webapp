@@ -6,16 +6,16 @@ import { tokenFetcher } from "../helpers";
 
 export const useTokenQuery = (
   tokenAddress: string,
-  routerAddress: string,
+  spenderAddress: string,
   provider: Provider
 ) => {
   const { account = "" } = useWallet();
 
   return useQuery({
-    queryKey: [tokenAddress, routerAddress, account],
+    queryKey: [tokenAddress, spenderAddress, account],
 
     queryFn: async () =>
-      await tokenFetcher(tokenAddress, routerAddress, provider, account),
+      await tokenFetcher(tokenAddress, spenderAddress, provider, account),
 
     enabled: Boolean(tokenAddress),
   });
