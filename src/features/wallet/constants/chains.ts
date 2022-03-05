@@ -1,8 +1,14 @@
-import type { JsonRpcProvider } from "@ethersproject/providers";
-import { WebSocketProvider } from "@ethersproject/providers";
+import type {
+  ExternalProvider,
+  JsonRpcProvider,
+} from "@ethersproject/providers";
+import { Web3Provider } from "@ethersproject/providers";
+import Web3WsProvider from "web3-providers-ws";
 
 import { Eth, Bnb, Matic, Avax, Ftm } from "../../logo/components";
 import type { ChainConfig } from "../types";
+
+import { wsProviderOptions } from "./providerOptions";
 
 export enum ChainId {
   ETHEREUM = 1,
@@ -106,8 +112,13 @@ export const chainsMap: Record<ChainId, ChainConfig> = Object.fromEntries(
 
 export const chainProvidersMap: Record<ChainId, JsonRpcProvider> =
   Object.fromEntries(
-    chains.map(({ chainId, urls }) => [
-      chainId,
-      new WebSocketProvider(urls.rpc),
-    ])
+    chains.map(({ chainId, urls }) => {
+      // @ts-expect-error Web3WsProvider doesn't have correct types
+      const wsProvider = new Web3WsProvider(
+        urls.rpc,
+        wsProviderOptions
+      ) as ExternalProvider;
+
+      return [chainId, new Web3Provider(wsProvider)];
+    })
   ) as unknown as Record<ChainId, JsonRpcProvider>;

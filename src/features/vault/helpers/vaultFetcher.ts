@@ -143,7 +143,7 @@ export const vaultFetcher = async (
   );
   const vaultStrikePrice = convertToBig(await vaultContract.strikeX1e6(epoch));
 
-  const { annualPercentageYield } = getPercentageYields(
+  const { annualPercentageYield: apy } = getPercentageYields(
     vaultTotalAsset,
     vaultPremium,
     vaultPeriod
@@ -178,7 +178,7 @@ export const vaultFetcher = async (
   return {
     ...localVault,
     ILMode,
-    annualPercentageYield,
+    apy,
     expiry,
     isEpochSettled,
     isEpochExpired,

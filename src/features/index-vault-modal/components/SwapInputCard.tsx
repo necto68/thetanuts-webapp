@@ -1,24 +1,25 @@
 import type { ChangeEvent, FC } from "react";
 import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
+import Big from "big.js";
 
 import { SkeletonBox } from "../../shared/components";
 import type { NativeToken, Token } from "../types";
 
+import { AssetSelector } from "./AssetSelector";
 import {
   Container,
   AssetContainer,
   AssetTitle,
-  AssetArrow,
   MaxButton,
   PriceTitle,
   SwapInput,
   SwapInputContainer,
   SwapInputCardAnimateContainer,
   BalanceContainer,
+  BalanceTitlesContainer,
   BalanceTitle,
-  SwitchAssetButton,
-  SwitchAssetContainer,
+  InsufficientBalanceTitle,
 } from "./SwapInputCard.styles";
 
 interface SwapInputCardProps {
@@ -78,19 +79,31 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
     }
   }, [currentData, onInputChange]);
 
-  const handleSwitchAssetButtonClick = useCallback(() => {
-    onUseNativeDataChange(!isUseNativeData);
-  }, [onUseNativeDataChange, isUseNativeData]);
-
   const balanceValue = !isTokenDataLoading
     ? getBalanceValue(currentData)
     : ".....";
 
+  const inputValueBig = new Big(inputValue || 0);
+
+  const isShowInsufficientBalanceTitle = Boolean(
+    isSource &&
+      currentData?.balance &&
+      inputValueBig.gt(0) &&
+      inputValueBig.gt(currentData.balance)
+  );
+
   return (
     <Container>
       <BalanceContainer>
-        <BalanceTitle>{isSource ? "Pay" : "Receive"}</BalanceTitle>
-        <BalanceTitle>{`Balance: ${balanceValue}`}</BalanceTitle>
+        <BalanceTitle>{isSource ? "From" : "To"}</BalanceTitle>
+        <BalanceTitlesContainer>
+          <AnimatePresence>
+            {isShowInsufficientBalanceTitle ? (
+              <InsufficientBalanceTitle>Insufficient</InsufficientBalanceTitle>
+            ) : null}
+          </AnimatePresence>
+          <BalanceTitle>{`Balance: ${balanceValue}`}</BalanceTitle>
+        </BalanceTitlesContainer>
       </BalanceContainer>
       <AnimatePresence exitBeforeEnter initial={false}>
         <SwapInputCardAnimateContainer
@@ -101,7 +114,11 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
             {isValueLoading ? (
               <SkeletonBox height={34.2} width={200} />
             ) : (
-              <SwapInput onChange={handleInputChange} value={inputValue} />
+              <SwapInput
+                isError={isShowInsufficientBalanceTitle}
+                onChange={handleInputChange}
+                value={inputValue}
+              />
             )}
             <PriceTitle>~$2,900</PriceTitle>
           </SwapInputContainer>
@@ -111,17 +128,12 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               <AssetTitle>{currentData?.symbol}</AssetTitle>
             ) : null}
             {!isDataLoading && isShowAssetSelector ? (
-              <SwitchAssetButton onClick={handleSwitchAssetButtonClick}>
-                <SwitchAssetContainer>
-                  <AssetTitle isSelected={isUseNativeData}>
-                    {nativeData.symbol}
-                  </AssetTitle>
-                  <AssetArrow isRotated={isUseNativeData}>➞</AssetArrow>
-                  <AssetTitle isSelected={!isUseNativeData}>
-                    {tokenData.symbol}
-                  </AssetTitle>
-                </SwitchAssetContainer>
-              </SwitchAssetButton>
+              <AssetSelector
+                isUseNativeData={isUseNativeData}
+                nativeData={nativeData}
+                onUseNativeDataChange={onUseNativeDataChange}
+                tokenData={tokenData}
+              />
             ) : null}
             {!isDataLoading && isShowMaxButton ? (
               <MaxButton onClick={handleMaxButtonClick}>MAX</MaxButton>
@@ -132,3 +144,5 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
     </Container>
   );
 };
+
+export type { SwapInputCardProps };

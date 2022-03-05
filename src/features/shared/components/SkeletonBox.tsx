@@ -13,7 +13,7 @@ export const SkeletonBox = styled.div<{ width?: number; height?: number }>`
   position: relative;
   overflow: hidden;
   background-color: transparent;
-  border-radius: 5px;
+  border-radius: 10px;
 
   &::after {
     position: absolute;

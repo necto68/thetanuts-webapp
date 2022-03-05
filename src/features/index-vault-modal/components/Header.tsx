@@ -5,10 +5,8 @@ import { ChainSelect } from "../../wallet/components";
 
 import {
   Container,
-  ChainSelectContainer,
-  TitleContainer,
-  CloseButtonContainer,
   Title,
+  ButtonsContainer,
   CloseButton,
 } from "./Header.styles";
 
@@ -25,15 +23,11 @@ export const Header = () => {
 
   return (
     <Container>
-      <ChainSelectContainer>
+      <Title>Swap Token</Title>
+      <ButtonsContainer>
         <ChainSelect chainIds={supportedChainIds} />
-      </ChainSelectContainer>
-      <TitleContainer>
-        <Title>Swap Token</Title>
-      </TitleContainer>
-      <CloseButtonContainer>
         <CloseButton onClick={handleCloseButtonClick}>✕</CloseButton>
-      </CloseButtonContainer>
+      </ButtonsContainer>
     </Container>
   );
 };

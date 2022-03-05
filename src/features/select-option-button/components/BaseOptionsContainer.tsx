@@ -5,13 +5,13 @@ import { AnimatePresence } from "framer-motion";
 import { Container } from "./BaseOptionsContainer.styles";
 
 interface BaseOptionsContainerProps {
-  show: boolean;
+  isShow: boolean;
   onClose: () => void;
   parentRef: MutableRefObject<HTMLDivElement | null>;
 }
 
 export const BaseOptionsContainer: FC<BaseOptionsContainerProps> = ({
-  show,
+  isShow,
   onClose,
   children,
   parentRef: parentReference,
@@ -19,13 +19,14 @@ export const BaseOptionsContainer: FC<BaseOptionsContainerProps> = ({
   const [containerReference] = useOutsideClickRef(onClose);
   const getBoundingClientRect = useBoundingclientrect(parentReference);
 
-  const height = getBoundingClientRect?.height ?? 0;
+  const { width = 0, height = 0 } = getBoundingClientRect ?? {};
 
   return (
     <AnimatePresence>
-      {show ? (
+      {isShow ? (
         <Container
           leftPosition={0}
+          minWidth={width}
           ref={containerReference}
           topPosition={height + 10}
         >
