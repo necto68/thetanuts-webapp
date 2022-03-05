@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 interface ContainerProps {
   topPosition: number;
   leftPosition: number;
+  minWidth: number;
 }
 
 export const Container = styled(motion.div).attrs(() => ({
@@ -22,5 +23,6 @@ export const Container = styled(motion.div).attrs(() => ({
   position: absolute;
   top: ${({ topPosition }) => topPosition}px;
   left: ${({ leftPosition }) => leftPosition}px;
+  min-width: ${({ minWidth }) => minWidth}px;
   z-index: 1;
 `;

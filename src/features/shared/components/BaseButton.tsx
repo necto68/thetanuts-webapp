@@ -29,7 +29,7 @@ const BaseButton = styled(motion.button).attrs<Required<BaseButtonProps>>(
   font-weight: 400;
   font-size: 18px;
 
-  border-radius: 5px;
+  border-radius: 10px;
   border-width: 2px;
   border-style: solid;
   border-color: ${({ primaryColor }) => primaryColor};

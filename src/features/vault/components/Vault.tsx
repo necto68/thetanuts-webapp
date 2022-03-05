@@ -49,7 +49,7 @@ export const Vault: FC<VaultProps> = ({ vaultAddress }) => {
     description,
     color,
     ILMode,
-    annualPercentageYield,
+    apy,
     currentDeposit,
     maxDeposit,
     depositSymbol,
@@ -84,9 +84,9 @@ export const Vault: FC<VaultProps> = ({ vaultAddress }) => {
           <APYTitle>
             Current Projected Yield <b>(APY)</b>
           </APYTitle>
-          {typeof annualPercentageYield === "number" ? (
+          {typeof apy === "number" ? (
             <APYValue color={primaryColor}>
-              {`${numberFormatter.format(annualPercentageYield)} %`}
+              {`${numberFormatter.format(apy)} %`}
             </APYValue>
           ) : (
             <SkeletonBox height={70} width={200} />

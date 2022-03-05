@@ -93,14 +93,18 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }
 
   if (!isUserOnSupportedChainId && supportedChainIds.length > 0) {
-    return <BaseSwapButton disabled>Wrong Network</BaseSwapButton>;
+    return (
+      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
+        Wrong Network
+      </BaseSwapButton>
+    );
   }
 
   if (isMutationError && mutationError) {
     return (
       <BaseSwapButton
         onClick={handleResetButtonClick}
-        primaryColor="#ff0000"
+        primaryColor="#EB5853"
         secondaryColor="#ffffff"
       >
         {mutationError.data?.message ?? mutationError.message}
@@ -125,7 +129,11 @@ export const SwapButton: FC<SwapButtonProps> = ({
     sourceValueBig.gt(0) &&
     sourceValueBig.gt(sourceTokenData.balance)
   ) {
-    return <BaseSwapButton disabled>Insufficient Funds</BaseSwapButton>;
+    return (
+      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
+        Insufficient Balance
+      </BaseSwapButton>
+    );
   }
 
   if (
