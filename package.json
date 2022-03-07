@@ -18,8 +18,13 @@
     "generate-types": "typechain --target=ethers-v5 --out-dir=./src/features/contracts/types '**/*.abi.json'"
   },
   "dependencies": {
+    "@emotion/react": "^11.8.1",
+    "@emotion/styled": "^11.8.1",
     "@ethersproject/providers": "^5.5.3",
     "@gimmixorg/use-wallet": "^0.0.31",
+    "@mui/icons-material": "^5.4.4",
+    "@mui/material": "^5.4.4",
+    "@mui/styled-engine-sc": "^5.4.2",
     "@walletconnect/web3-provider": "^1.7.1",
     "big.js": "^6.1.1",
     "ethers": "^5.5.3",
@@ -31,6 +36,7 @@
     "react-hooks-global-state": "^1.0.2",
     "react-query": "^3.34.12",
     "react-router-dom": "^5.2.0",
+    "react-tooltip": "^4.2.21",
     "rooks": "^5.10.0",
     "styled-components": "^5.3.3",
     "styled-normalize": "^8.0.7",

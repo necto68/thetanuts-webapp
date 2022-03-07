@@ -6,7 +6,7 @@ import { Container } from "./IndexVaultModal.styles";
 export const IndexVaultModal = () => (
   <Container>
     <Header />
-    <SwapSection />
+    <SwapSection  />
     <ExpandersSection />
   </Container>
 );

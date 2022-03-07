@@ -120,7 +120,7 @@ export const SwapSection = () => {
         targetTokenData={targetTokenData}
         targetValue={targetValue}
       />
-      <SwapButton
+      <SwapButton 
         isSourceValueLoading={isSourceValueLoading}
         isTargetValueLoading={isTargetValueLoading}
         rootMutation={rootMutation}
