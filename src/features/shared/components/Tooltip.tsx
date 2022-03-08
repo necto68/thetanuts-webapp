@@ -36,6 +36,7 @@ export const Tooltip: FC<TooltipProps> = ({toolTipId, data, color, type, WPY, MP
                 <TableTooltipContent><strong>{APR}%</strong> APR (annually)</TableTooltipContent>
                 <TableTooltipContent><strong>{APY}%</strong> APY (compounded)</TableTooltipContent>
             </ReactTooltip>
+            
             </div> 
             :
             <div>
