@@ -13,18 +13,18 @@ import {
   InfoValue,
 } from "./IndexInfo.styles";
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity,sonarjs/cognitive-complexity
 export const IndexInfo = () => {
-  const { indexVaultQuery } = useSwapRouterConfig();
-  const { isLoading, data } = indexVaultQuery;
-
   const {
     defaultSourceAddress,
     defaultTargetAddress,
     routerAddress,
     provider,
     chainId,
+    indexVaultQuery,
   } = useSwapRouterConfig();
+
+  const { isLoading, data } = indexVaultQuery;
 
   const { data: sourceData, isLoading: isSourceDataLoading } = useTokenQuery(
     defaultSourceAddress,
@@ -46,6 +46,9 @@ export const IndexInfo = () => {
   const underlyingAssetSymbol =
     !isSourceDataLoading && sourceData ? sourceData.symbol : ".....";
 
+  const indexValue =
+    !isLoading && data ? (data.indexPrice / data.assetPrice).toFixed(5) : "";
+
   const indexTokenAddress =
     !isTargetDataLoading && targetData && chainId
       ? `${targetData.symbol} (${addressFormatter(targetData.tokenAddress)})`
@@ -65,7 +68,7 @@ export const IndexInfo = () => {
     <Container>
       <InfoContainer>
         <InfoValue>Index Value</InfoValue>
-        <InfoValue>1.12345 ETH</InfoValue>
+        <InfoValue>{`${indexValue} ${underlyingAssetSymbol}`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue>TVL</InfoValue>

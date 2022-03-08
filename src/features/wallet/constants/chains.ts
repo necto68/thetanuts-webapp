@@ -43,7 +43,7 @@ export const chains: ChainConfig[] = [
     logo: Bnb,
 
     urls: {
-      rpc: "wss://bsc-ws-node.nariox.org:443",
+      rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/bsc/mainnet/ws",
       explorer: "https://bscscan.com/",
     },
 
@@ -60,14 +60,14 @@ export const chains: ChainConfig[] = [
     logo: Matic,
 
     urls: {
-      rpc: "wss://rpc-mainnet.matic.quiknode.pro",
+      rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/polygon/mainnet/ws",
       explorer: "https://polygonscan.com/",
     },
 
     addresses: {
       routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
       lendingPoolAddress: "0x69CB7e57FC301785aA0f933230DEE4C3E1f78e2b",
-      directDepositorAddress: "0x92555A60EA349d54b82fd56C930A653A38D58119",
+      directDepositorAddress: "0xb0bF492aa3A65b095F7243eDA87153fc604ea886",
     },
   },
   {

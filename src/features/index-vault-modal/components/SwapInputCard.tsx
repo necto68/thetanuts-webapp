@@ -7,12 +7,12 @@ import { SkeletonBox } from "../../shared/components";
 import type { NativeToken, Token } from "../types";
 
 import { AssetSelector } from "./AssetSelector";
+import { SwapInputPrice } from "./SwapInputPrice";
 import {
   Container,
   AssetContainer,
   AssetTitle,
   MaxButton,
-  PriceTitle,
   SwapInput,
   SwapInputContainer,
   SwapInputCardAnimateContainer,
@@ -34,6 +34,10 @@ interface SwapInputCardProps {
   isNativeDataLoading: boolean;
   isUseNativeData: boolean;
   onUseNativeDataChange: (value: boolean) => void;
+  priceValue: number;
+  priceImpactRate?: number;
+  isDirectModeBetterThanSwapMode?: boolean;
+  isUseDirectMode?: boolean;
 }
 
 const getBalanceValue = (tokenData: NativeToken | Token | undefined) =>
@@ -52,6 +56,10 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   isNativeDataLoading,
   isUseNativeData,
   onUseNativeDataChange,
+  priceValue,
+  priceImpactRate = 0,
+  isDirectModeBetterThanSwapMode = false,
+  isUseDirectMode = false,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   // const isShowAssetSelector = true;
@@ -120,7 +128,18 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                 value={inputValue}
               />
             )}
-            <PriceTitle>~$2,900</PriceTitle>
+            {isValueLoading ? (
+              <SkeletonBox height={16} width={100} />
+            ) : (
+              <SwapInputPrice
+                isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
+                isFlipped={isFlipped}
+                isSource={isSource}
+                isUseDirectMode={isUseDirectMode}
+                priceImpactRate={priceImpactRate}
+                priceValue={priceValue}
+              />
+            )}
           </SwapInputContainer>
           <AssetContainer>
             {isDataLoading ? <SkeletonBox height={30} width={55} /> : null}

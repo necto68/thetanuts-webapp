@@ -13,7 +13,7 @@ import { BaseSwapButton } from "./SwapButton.styles";
 interface SwapButtonProps {
   isSourceValueLoading: boolean;
   isTargetValueLoading: boolean;
-  isUseDirectDepositMode: boolean;
+  isUseDirectMode: boolean;
   rootMutation: ReturnType<typeof useSwapRouterMutations>["rootMutation"];
   routerMutations: ReturnType<typeof useSwapRouterMutations>["routerMutations"];
   sourceTokenData: NativeToken | Token | undefined;
@@ -26,7 +26,7 @@ interface SwapButtonProps {
 export const SwapButton: FC<SwapButtonProps> = ({
   isSourceValueLoading,
   isTargetValueLoading,
-  isUseDirectDepositMode,
+  isUseDirectMode,
   rootMutation,
   routerMutations,
   sourceTokenData,
@@ -55,12 +55,12 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }, [runApproveAllowance]);
 
   const handleSwapButtonClick = useCallback(() => {
-    if (isUseDirectDepositMode) {
+    if (isUseDirectMode) {
       runDirectDeposit();
     } else {
       runSwapTokensForTokens();
     }
-  }, [isUseDirectDepositMode, runDirectDeposit, runSwapTokensForTokens]);
+  }, [isUseDirectMode, runDirectDeposit, runSwapTokensForTokens]);
 
   const sourceValueBig = new Big(sourceValue || 0);
   const targetValueBig = new Big(targetValue || 0);

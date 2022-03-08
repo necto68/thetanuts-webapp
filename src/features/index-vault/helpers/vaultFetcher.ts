@@ -91,6 +91,7 @@ export const vaultFetcher = async (
 
   return {
     vaultAddress,
+    priceFeedAddress,
     assetSymbol,
     expiry,
     valuePerLP,

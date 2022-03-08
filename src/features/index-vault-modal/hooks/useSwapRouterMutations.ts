@@ -21,7 +21,7 @@ export const useSwapRouterMutations = (
   targetData: Token | undefined,
   isUseNativeSourceData: boolean,
   isUseNativeTargetData: boolean,
-  isUseDirectDepositMode: boolean,
+  isUseDirectMode: boolean,
   lastUpdatedInputType: InputType,
   tokensQueries: ReturnType<typeof useSwapRouter>["tokensQueries"]
 ) => {
@@ -63,7 +63,7 @@ export const useSwapRouterMutations = (
           signer
         );
 
-      const spenderAddress = isUseDirectDepositMode
+      const spenderAddress = isUseDirectMode
         ? directDepositorAddress
         : routerAddress;
 
@@ -178,7 +178,7 @@ export const useSwapRouterMutations = (
       sourceValue,
       targetValue,
       indexVaultAddress,
-      isUseDirectDepositMode,
+      isUseDirectMode,
     ]
   );
 

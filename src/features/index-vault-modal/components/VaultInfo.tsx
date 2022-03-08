@@ -3,6 +3,8 @@ import Big from "big.js";
 
 import type { NativeToken, Token } from "../types";
 import { maxSlippageTolerance } from "../constants";
+import { useSwapRouterConfig } from "../hooks";
+import { currencyFormatter } from "../../shared/helpers";
 
 import {
   Container,
@@ -12,11 +14,12 @@ import {
 } from "./VaultInfo.styles";
 
 interface VaultInfoProps {
+  isFlipped: boolean;
   isSourceTokenDataLoading: boolean;
   isSourceValueLoading: boolean;
   isTargetTokenDataLoading: boolean;
   isTargetValueLoading: boolean;
-  isUseDirectDepositMode: boolean;
+  isUseDirectMode: boolean;
   sourceTokenData: NativeToken | Token | undefined;
   sourceValue: string;
   targetTokenData: NativeToken | Token | undefined;
@@ -45,16 +48,21 @@ const getSourceToTargetRatioString = (
 };
 
 export const VaultInfo: FC<VaultInfoProps> = ({
+  isFlipped,
   isSourceTokenDataLoading,
   isSourceValueLoading,
   isTargetTokenDataLoading,
   isTargetValueLoading,
-  isUseDirectDepositMode,
+  isUseDirectMode,
   sourceTokenData,
   sourceValue,
   targetTokenData,
   targetValue,
 }) => {
+  const { indexVaultQuery } = useSwapRouterConfig();
+  const { data } = indexVaultQuery;
+  const { assetPrice = 0, indexPrice = 0 } = data ?? {};
+
   const isTokensDataLoading =
     isSourceTokenDataLoading || isTargetTokenDataLoading;
   const isAnyValueLoading = isSourceValueLoading || isTargetValueLoading;
@@ -73,6 +81,10 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     isRatioLoading
   );
 
+  const formattedPrice = currencyFormatter.format(
+    isFlipped ? indexPrice : assetPrice
+  );
+
   const slippageToleranceValue = maxSlippageTolerance * 100;
 
   return (
@@ -80,12 +92,12 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       <PriceInfoContainer>
         <InfoValue
           isUnderline
-        >{`1 ${sourceTokenSymbol} = ${sourceToTargetRatio} ${targetTokenSymbol} ($2,000)`}</InfoValue>
+        >{`1 ${sourceTokenSymbol} = ${sourceToTargetRatio} ${targetTokenSymbol} (${formattedPrice})`}</InfoValue>
       </PriceInfoContainer>
       <InfoContainer>
         <InfoValue>Protocols</InfoValue>
         <InfoValue>
-          {isUseDirectDepositMode ? "Direct Deposit" : "Uniswap v2"}
+          {isUseDirectMode ? "Direct Deposit" : "Uniswap v2"}
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
@@ -95,12 +107,12 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       <InfoContainer>
         <InfoValue>Slippage Tolerance</InfoValue>
         <InfoValue>
-          {isUseDirectDepositMode ? "N/A" : `${slippageToleranceValue}%`}
+          {isUseDirectMode ? "N/A" : `${slippageToleranceValue}%`}
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue isUnderline>Platform fee</InfoValue>
-        <InfoValue>{isUseDirectDepositMode ? "0%" : "0.3%"}</InfoValue>
+        <InfoValue>{isUseDirectMode ? "0%" : "0.3%"}</InfoValue>
       </InfoContainer>
     </Container>
   );
