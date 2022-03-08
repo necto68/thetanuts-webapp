@@ -3,12 +3,15 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import { convertToBig } from "../../vault/helpers";
+import { convertToBig, normalizeVaultValue } from "../../vault/helpers";
 import { VaultType } from "../../vault/constants";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   IndexVaultAbi__factory as IndexVaultAbiFactory,
   LendingPoolAbi__factory as LendingPoolAbiFactory,
+  AddressesProviderAbi__factory as AddressesProviderAbiFactory,
+  PriceOracleAbi__factory as PriceOracleAbiFactory,
+  PriceFeedAbi__factory as PriceFeedAbiFactory,
 } from "../../contracts/types";
 import type { IndexVault, VaultInfo } from "../types";
 import { queryClient } from "../../shared/helpers";
@@ -24,6 +27,8 @@ export const indexVaultFetcher = async (
   lendingPoolAddress: string,
   provider: Provider
 ): Promise<IndexVault> => {
+  const priceDivisor = new Big(10).pow(6);
+
   const indexVaultContract = IndexVaultAbiFactory.connect(
     indexVaultAddress,
     provider
@@ -41,6 +46,7 @@ export const indexVaultFetcher = async (
     vaultsLength,
     assetTokenAddress,
     indexTokenAddress,
+    addressesProviderAddress,
   ] = await Promise.all([
     provider.getNetwork() as Promise<{ chainId: ChainId }>,
     indexVaultContract.name(),
@@ -50,10 +56,16 @@ export const indexVaultFetcher = async (
     lendingPoolContract
       .getReserveData(indexVaultAddress)
       .then((data) => data.aTokenAddress),
+    lendingPoolContract.getAddressesProvider(),
   ]);
 
   const assetTokenContract = Erc20AbiFactory.connect(
     assetTokenAddress,
+    provider
+  );
+
+  const addressesProviderContract = AddressesProviderAbiFactory.connect(
+    addressesProviderAddress,
     provider
   );
 
@@ -64,29 +76,36 @@ export const indexVaultFetcher = async (
     (element, index) => indexVaultContract.vaultAddress(index)
   );
 
-  const [assetSymbol, assetDecimals, ...vaultsAddresses]: [
-    string,
-    number,
-    ...string[]
-  ] = await Promise.all([
-    assetTokenContract.symbol(),
-    assetTokenContract.decimals(),
-    ...vaultsAddressesPromises,
-  ]);
+  const [assetSymbol, assetDecimals, priceOracleAddress, ...vaultsAddresses] =
+    await Promise.all([
+      assetTokenContract.symbol(),
+      assetTokenContract.decimals(),
+      addressesProviderContract.getPriceOracle(),
+      ...vaultsAddressesPromises,
+    ] as const);
 
   // getting type
   const indexVaultType = name.split(" ").at(-1) ?? "";
   const type = indexVaultType === "CALL" ? VaultType.CALL : VaultType.PUT;
 
-  // getting vaultsInfosData
-  const vaultsInfosData = await Promise.all(
-    vaultsAddresses.map(
-      // eslint-disable-next-line @typescript-eslint/promise-function-async
-      (vaultAddress) => indexVaultContract.vaults(vaultAddress)
-    )
+  // creating vaultsInfosDataPromises
+  const vaultsInfosDataPromises = vaultsAddresses.map(
+    // eslint-disable-next-line @typescript-eslint/promise-function-async
+    (vaultAddress) => indexVaultContract.vaults(vaultAddress)
   );
 
-  // getting vaultsData
+  // getting indexLinkAggregator and vaultsInfosData
+  const priceOracleContract = PriceOracleAbiFactory.connect(
+    priceOracleAddress,
+    provider
+  );
+
+  const [indexLinkAggregator, ...vaultsInfosData] = await Promise.all([
+    priceOracleContract.getSourceOfAsset(indexVaultAddress),
+    ...vaultsInfosDataPromises,
+  ] as const);
+
+  // getting vaults
   const vaults = await Promise.all(
     vaultsAddresses.map(
       // eslint-disable-next-line @typescript-eslint/promise-function-async
@@ -113,6 +132,19 @@ export const indexVaultFetcher = async (
     };
   });
 
+  // getting assetPrice and indexPrice
+  const [{ priceFeedAddress, assetPrice }] = vaults;
+
+  const priceFeedContract = PriceFeedAbiFactory.connect(
+    priceFeedAddress,
+    provider
+  );
+
+  const indexPrice = await priceFeedContract
+    .getLatestPriceX1e6(indexLinkAggregator)
+    .then(convertToBig)
+    .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor));
+
   const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos);
 
   const totalAnnualPercentageYield = getTotalAnnualPercentageYield(
@@ -135,7 +167,9 @@ export const indexVaultFetcher = async (
     id,
     type,
     assetSymbol,
+    assetPrice,
     assetTokenAddress,
+    indexPrice,
     indexTokenAddress,
     vaults,
     vaultsInfos,

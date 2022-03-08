@@ -21,7 +21,7 @@ export const indexVaults: IndexVaultConfig[] = [
 
     source: {
       chainId: ChainId.MATIC,
-      indexVaultAddress: "0x8E62e5451a7AFeD3e4703c5462797A227D9a091B",
+      indexVaultAddress: "0xa0759c71Bf30eA958D7C67D280314f0655aee5Bc",
     },
 
     replications: [

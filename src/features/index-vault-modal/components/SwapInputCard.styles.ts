@@ -117,13 +117,6 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
   -moz-appearance: textfield;
 `;
 
-export const PriceTitle = styled.span`
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 14px;
-  color: #e5e5e5;
-`;
-
 export const AssetTitle = styled(motion.span).attrs<{ isSelected?: boolean }>(
   ({ isSelected = true }) => ({
     initial: false,

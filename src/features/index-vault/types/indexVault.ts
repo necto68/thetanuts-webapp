@@ -15,7 +15,9 @@ export interface IndexVault {
   id: string;
   type: VaultType;
   assetSymbol: string;
+  assetPrice: number;
   assetTokenAddress: string;
+  indexPrice: number;
   indexTokenAddress: string;
   vaults: Vault[];
   vaultsInfos: VaultInfo[];

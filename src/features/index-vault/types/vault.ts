@@ -2,6 +2,7 @@ import type Big from "big.js";
 
 export interface Vault {
   vaultAddress: string;
+  priceFeedAddress: string;
   assetSymbol: string;
   expiry: number;
   valuePerLP: Big;

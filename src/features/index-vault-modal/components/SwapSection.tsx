@@ -39,9 +39,12 @@ export const SwapSection = () => {
 
     lastUpdatedInputType,
 
-    // TODO: will use for target SwapInputCard
-    // isDirectDepositBetterThanSwap,
-    isUseDirectDepositMode,
+    isDirectModeBetterThanSwapMode,
+    isUseDirectMode,
+
+    sourcePrice,
+    targetPrice,
+    priceImpactRate,
 
     isFlipped,
     swapInputs,
@@ -59,7 +62,7 @@ export const SwapSection = () => {
     isUseNativeSourceData,
     isUseNativeTargetData,
 
-    isUseDirectDepositMode,
+    isUseDirectMode,
 
     lastUpdatedInputType,
 
@@ -86,6 +89,7 @@ export const SwapSection = () => {
           nativeData={nativeData}
           onInputChange={setSourceValue}
           onUseNativeDataChange={setUseSourceNativeData}
+          priceValue={sourcePrice}
           tokenData={sourceData}
         />
         <FlipButtonContainer>
@@ -97,23 +101,28 @@ export const SwapSection = () => {
         </FlipButtonContainer>
         <SwapInputCard
           inputValue={targetValue}
+          isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
           isFlipped={isFlipped}
           isNativeDataLoading={isNativeDataLoading}
           isTokenDataLoading={isTargetDataLoading}
+          isUseDirectMode={isUseDirectMode}
           isUseNativeData={isUseNativeTargetData}
           isValueLoading={isTargetValueLoading}
           nativeData={nativeData}
           onInputChange={setTargetValue}
           onUseNativeDataChange={setUseTargetNativeData}
+          priceImpactRate={priceImpactRate}
+          priceValue={targetPrice}
           tokenData={targetData}
         />
       </SwapInputsContainer>
       <VaultInfo
+        isFlipped={isFlipped}
         isSourceTokenDataLoading={isSourceTokenDataLoading}
         isSourceValueLoading={isSourceValueLoading}
         isTargetTokenDataLoading={isTargetTokenDataLoading}
         isTargetValueLoading={isTargetValueLoading}
-        isUseDirectDepositMode={isUseDirectDepositMode}
+        isUseDirectMode={isUseDirectMode}
         sourceTokenData={sourceTokenData}
         sourceValue={sourceValue}
         targetTokenData={targetTokenData}
@@ -122,7 +131,7 @@ export const SwapSection = () => {
       <SwapButton
         isSourceValueLoading={isSourceValueLoading}
         isTargetValueLoading={isTargetValueLoading}
-        isUseDirectDepositMode={isUseDirectDepositMode}
+        isUseDirectMode={isUseDirectMode}
         rootMutation={rootMutation}
         routerMutations={routerMutations}
         sourceTokenData={sourceTokenData}
