@@ -29,14 +29,12 @@ const columns: Column<IndexVault>[] = [
       <div style={{display:'flex',alignItems:'center'}}>
          <APYCellValue>{`${totalAnnualPercentageYield}%`}</APYCellValue>
          <Tooltip 
-          color="white"
           type="table"
           toolTipId="tableToolTip" 
           WPY='0.82'
           MPY='3.61'
           APR='42.8'
           APY='53.1'
-          
           />
       </div>
      

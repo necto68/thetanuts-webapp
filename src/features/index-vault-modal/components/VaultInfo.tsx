@@ -97,8 +97,7 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       <InfoContainer>
         <TooltipContainer>
           <InfoValue isUnderline>Index Value</InfoValue>
-          <Tooltip 
-          color="black"
+          <Tooltip
           type="popup"
           toolTipId="popupPlatformFeeTooltip" 
           data='This fee is taken by DEX to perform the swap. The amount displayed in "Receive" takes into account all fees post settlements.'  />

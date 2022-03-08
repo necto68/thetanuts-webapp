@@ -2,8 +2,6 @@ import { ArrowIcon, SkeletonBox } from "../../shared/components";
 import { useSortBy } from "../hooks";
 import type { Column } from "../types";
 
-import {Tooltip} from '../../shared/components/Tooltip' 
-
 import {
   Header,
   HeaderCell,
