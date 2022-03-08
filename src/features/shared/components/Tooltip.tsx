@@ -28,7 +28,7 @@ export const Tooltip: FC<TooltipProps> = ({toolTipId, data, color, type, WPY, MP
       <div>
           {type==='table'? 
             <div>
-            <InfoOutlinedIcon data-tip data-for={toolTipId} style={{color:'white', cursor:'pointer',width:'20px'}} />
+            <InfoOutlinedIcon data-tip data-for={toolTipId} style={{color:'white', cursor:'pointer',width:'20px',marginTop:'2px'}} />
             <ReactTooltip id="tableToolTip" place="right" type="light" effect="solid">
                 <TableTooltipHeader>Extrapolated yields</TableTooltipHeader>
                 <TableTooltipContent><strong>{WPY}%</strong> WPY (7-days)</TableTooltipContent>

@@ -58,16 +58,6 @@ export const Table = <RowData extends object>({
 
   return (
     <TableContainer>
-      <Tooltip 
-          color="white"
-          type="table"
-          toolTipId="tableToolTip" 
-          WPY='0.82'
-          MPY='3.61'
-          APR='42.8'
-          APY='53.1'
-      />
-
       <thead>
         <HeaderRow>
           {columns.map(({ title, key, sortBy }, columnIndex) => (

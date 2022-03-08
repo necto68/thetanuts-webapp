@@ -76,4 +76,6 @@ export const CellValue = styled.span`
 
 export const APYCellValue = styled(CellValue)`
   color: #81e429;
+  margin-right:5px;
+  
 `;
