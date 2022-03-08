@@ -21,7 +21,7 @@ export const InfoIconDiv = styled(InfoOutlinedIcon)`
   color:white;
   cursor:pointer;
   width:20px;
-  margin-top:2px
+  margin-bottom:4px
 `;
 
 export const InfoIconDivPopup = styled(InfoOutlinedIcon)`
