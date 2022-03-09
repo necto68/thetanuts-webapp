@@ -3,6 +3,10 @@ import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
 
+export const TableContainerDiv = styled.div`
+  overflow-x:auto
+`;
+
 export const TableContainer = styled.table`
   width: 100%;
   border-collapse: collapse;
