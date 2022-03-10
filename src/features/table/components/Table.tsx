@@ -10,6 +10,7 @@ import {
   SortButton,
   SortContainer,
   TableContainer,
+  TableContainerDiv,
   Row,
   Cell,
   CellValue,
@@ -55,41 +56,44 @@ export const Table = <RowData extends object>({
   const [sortedRows, sortState, updateSort] = useSortBy(rows);
 
   return (
-    <TableContainer>
-      <thead>
-        <HeaderRow>
-          {columns.map(({ title, key, sortBy }, columnIndex) => (
-            <HeaderCell key={title ?? columnIndex.toString()}>
-              {title ? (
-                <SortButton
-                  onClick={() => {
-                    // @ts-expect-error key type should be fixed
-                    updateSort(key, sortBy);
-                  }}
-                >
-                  <SortContainer>
-                    <Header>{title}</Header>
-                    <SortArrowContainer show={sortState.key === key}>
-                      <ArrowIcon up={sortState.order === "ASC"} />
-                    </SortArrowContainer>
-                  </SortContainer>
-                </SortButton>
-              ) : null}
-            </HeaderCell>
-          ))}
-        </HeaderRow>
-      </thead>
-      <tbody>
-        {sortedRows.map((row, rowIndex) => (
-          <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
-            {columns.map((column, columnIndex) => (
-              <Cell key={column.key?.toString() ?? columnIndex.toString()}>
-                {renderCellValue(row, column)}
-              </Cell>
+    <TableContainerDiv>
+      <TableContainer>
+        <thead>
+          <HeaderRow>
+            {columns.map(({ title, key, sortBy }, columnIndex) => (
+              <HeaderCell key={title ?? columnIndex.toString()}>
+                {title ? (
+                  <SortButton
+                    onClick={() => {
+                      // @ts-expect-error key type should be fixed
+                      updateSort(key, sortBy);
+                    }}
+                  >
+                    <SortContainer>
+                      <Header>{title}</Header>
+                      <SortArrowContainer show={sortState.key === key}>
+                        <ArrowIcon up={sortState.order === "ASC"} />
+                      </SortArrowContainer>
+                    </SortContainer>
+                  </SortButton>
+                ) : null}
+              </HeaderCell>
             ))}
-          </Row>
-        ))}
-      </tbody>
-    </TableContainer>
+          </HeaderRow>
+        </thead>
+        <tbody>
+          {sortedRows.map((row, rowIndex) => (
+            <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
+              {columns.map((column, columnIndex) => (
+                <Cell key={column.key?.toString() ?? columnIndex.toString()}>
+                  {renderCellValue(row, column)}
+                  
+                </Cell>
+              ))}
+            </Row>
+          ))}
+        </tbody>
+      </TableContainer>
+    </TableContainerDiv>
   );
 };

@@ -10,7 +10,7 @@ import type { IndexVault } from "../../index-vault/types";
 import { indexVaults } from "../constants";
 import { VaultType } from "../../vault/constants";
 import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
-
+import {Tooltip} from '../../shared/components/Tooltip' 
 const columns: Column<IndexVault>[] = [
   {
     key: "assetSymbol",
@@ -26,7 +26,18 @@ const columns: Column<IndexVault>[] = [
     title: "Consolidated APY",
 
     render: ({ totalAnnualPercentageYield }) => (
-      <APYCellValue>{`${totalAnnualPercentageYield}%`}</APYCellValue>
+      <div style={{display:'flex',alignItems:'center'}}>
+         <APYCellValue>{`${totalAnnualPercentageYield}%`}</APYCellValue>
+         <Tooltip 
+          type="table"
+          toolTipId="tableToolTip" 
+          WPY='0.82'
+          MPY='3.61'
+          APR='42.8'
+          APY='53.1'
+          />
+      </div>
+     
     ),
   },
   {

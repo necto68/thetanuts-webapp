@@ -6,11 +6,14 @@ import {
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
 
+import {Tooltip} from '../../shared/components/Tooltip' 
+
 import {
   Container,
   InfoContainer,
   InfoLink,
   InfoValue,
+  TooltipContainer
 } from "./IndexInfo.styles";
 
 // eslint-disable-next-line complexity,sonarjs/cognitive-complexity
@@ -67,8 +70,15 @@ export const IndexInfo = () => {
   return (
     <Container>
       <InfoContainer>
-        <InfoValue>Index Value</InfoValue>
-        <InfoValue>{`${indexValue} ${underlyingAssetSymbol}`}</InfoValue>
+        <TooltipContainer>
+            <InfoValue isUnderline>Index Value</InfoValue>
+            <Tooltip 
+            color="black"
+            type="popup"
+            toolTipId="popupIndexValueTooltip" 
+            data='Refers to price of Theta-Assets if all consituent vaults settle at this time'  />
+          </TooltipContainer>
+        <InfoValue>1.12345 ETH</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue>TVL</InfoValue>
@@ -81,7 +91,14 @@ export const IndexInfo = () => {
         </InfoLink>
       </InfoContainer>
       <InfoContainer>
-        <InfoValue>Index Token Address</InfoValue>
+        <TooltipContainer>
+          <InfoValue isUnderline>Index Token Address</InfoValue>
+          <Tooltip 
+          color="black"
+          type="popup"
+          toolTipId="popupIndexTokenAccessTooltip" 
+          data=' A token that represents a share of ownership in the vault'  />
+        </TooltipContainer>
         <InfoLink href={indexTokenExplorerUrl} target="_blank">
           {indexTokenAddress}
         </InfoLink>
