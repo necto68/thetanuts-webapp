@@ -30,7 +30,9 @@ export const ExpandersSection = () => {
   );
 
   const consolidatedAPY =
-    !isLoading && data ? data.totalAnnualPercentageYield : ".....";
+    !isLoading && data
+      ? data.totalPercentageYields.annualPercentageYield
+      : ".....";
 
   return (
     <Container>

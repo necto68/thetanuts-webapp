@@ -19,7 +19,7 @@ import { indexVaults } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
 
 import { vaultFetcher } from "./vaultFetcher";
-import { getTotalAnnualPercentageYield, getTotalValueLocked } from "./utils";
+import { getTotalPercentageYields, getTotalValueLocked } from "./utils";
 
 export const indexVaultFetcher = async (
   id: string,
@@ -147,7 +147,7 @@ export const indexVaultFetcher = async (
 
   const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos);
 
-  const totalAnnualPercentageYield = getTotalAnnualPercentageYield(
+  const totalPercentageYields = getTotalPercentageYields(
     vaults,
     vaultsInfos,
     totalWeight
@@ -175,7 +175,7 @@ export const indexVaultFetcher = async (
     vaultsInfos,
     totalWeight,
     totalValueLocked,
-    totalAnnualPercentageYield,
+    totalPercentageYields,
     chainId,
     supportedChainIds,
   };

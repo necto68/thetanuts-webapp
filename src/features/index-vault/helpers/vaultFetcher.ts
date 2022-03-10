@@ -83,11 +83,9 @@ export const vaultFetcher = async (
   const totalAsset = convertToBig(totalSupply).mul(valuePerLP);
 
   // getting annual Percentage Yield
-  const { annualPercentageYield } = getPercentageYields(
-    totalAsset,
-    premium,
-    period
-  );
+  const percentageYields = getPercentageYields(totalAsset, premium, period);
+
+  const { annualPercentageYield } = percentageYields;
 
   return {
     vaultAddress,
@@ -97,6 +95,7 @@ export const vaultFetcher = async (
     valuePerLP,
     assetPrice,
     strikePrice,
+    percentageYields,
     annualPercentageYield,
     isSettled,
     isExpired,

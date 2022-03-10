@@ -39,12 +39,14 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
   const {
     type,
     assetSymbol = "",
-    totalAnnualPercentageYield = 0,
+    totalPercentageYields,
     totalValueLocked = 0,
   } = data ?? {};
 
+  const { annualPercentageYield = 0 } = totalPercentageYields ?? {};
+
   const assetTitle = `${assetSymbol}-${type === VaultType.CALL ? "C" : "P"}`;
-  const formattedTotalAPY = numberFormatter.format(totalAnnualPercentageYield);
+  const formattedTotalAPY = numberFormatter.format(annualPercentageYield);
   const formattedTVL = totalValueLockedFormatter(totalValueLocked);
 
   return (

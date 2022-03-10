@@ -32,4 +32,15 @@ export const indexVaults: IndexVaultConfig[] = [
       },
     ],
   },
+  {
+    id: "TN-MVV1-MATIC-CALL",
+    isFeatured: true,
+
+    source: {
+      chainId: ChainId.MATIC,
+      indexVaultAddress: "0x354E37ca9FE751246C28C9EC07de30845a9b61C2",
+    },
+
+    replications: [],
+  },
 ];

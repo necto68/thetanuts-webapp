@@ -15,6 +15,43 @@ import { useTokenQuery } from "./useTokenQuery";
 import { useNativeTokenQuery } from "./useNativeTokenQuery";
 import type { useSwapRouterConfig } from "./useSwapRouterConfig";
 
+const getPrices = (
+  sourceValue: string,
+  targetValue: string,
+  indexVaultQuery: ReturnType<typeof useSwapRouterConfig>["indexVaultQuery"],
+  isIndexTokenInTarget: boolean
+) => {
+  const { assetPrice = 0, indexPrice = 0 } = indexVaultQuery.data ?? {};
+
+  const sourceValueBig = new Big(sourceValue || 0);
+  const targetValueBig = new Big(targetValue || 0);
+
+  const sourcePriceBig = sourceValueBig.mul(
+    isIndexTokenInTarget ? assetPrice : indexPrice
+  );
+  const targetPriceBig = targetValueBig.mul(
+    isIndexTokenInTarget ? indexPrice : assetPrice
+  );
+
+  const priceImpactRate = sourcePriceBig.gt(0)
+    ? targetPriceBig
+        .sub(sourcePriceBig)
+        .div(sourcePriceBig)
+        .mul(100)
+        .round(2)
+        .toNumber()
+    : 0;
+
+  const sourcePrice = sourcePriceBig.round(2).toNumber();
+  const targetPrice = targetPriceBig.round(2).toNumber();
+
+  return {
+    sourcePrice,
+    targetPrice,
+    priceImpactRate,
+  };
+};
+
 export const useSwapRouterState = (
   indexVaultAddress: string,
   defaultSourceAddress: string,
@@ -50,9 +87,6 @@ export const useSwapRouterState = (
   const sourceValue = inputsValues[InputType.source];
   const targetValue = inputsValues[InputType.target];
 
-  const sourceValueBig = new Big(sourceValue || 0);
-  const targetValueBig = new Big(targetValue || 0);
-
   const previousSourceValue = usePreviousImmediate(sourceValue);
   const previousTargetValue = usePreviousImmediate(targetValue);
 
@@ -79,11 +113,7 @@ export const useSwapRouterState = (
     isOppositeInputValueLoading && lastUpdatedInputType === InputType.source;
 
   // getting isUseIndexVaultChainId
-  const {
-    chainId: indexVaultChainId = 0,
-    assetPrice = 0,
-    indexPrice = 0,
-  } = indexVaultQuery.data ?? {};
+  const { chainId: indexVaultChainId = 0 } = indexVaultQuery.data ?? {};
 
   const isUseIndexVaultChainId = indexVaultChainId === chainId;
 
@@ -96,24 +126,13 @@ export const useSwapRouterState = (
   const [isUseDirectMode, setIsUseDirectMode] = useState(false);
 
   // prices
-  const sourcePriceBig = sourceValueBig.mul(
-    isIndexTokenInTarget ? assetPrice : indexPrice
-  );
-  const targetPriceBig = targetValueBig.mul(
-    isIndexTokenInTarget ? indexPrice : assetPrice
-  );
 
-  const priceImpactRate = sourcePriceBig.gt(0)
-    ? targetPriceBig
-        .sub(sourcePriceBig)
-        .div(sourcePriceBig)
-        .mul(100)
-        .round(2)
-        .toNumber()
-    : 0;
-
-  const sourcePrice = sourcePriceBig.round(2).toNumber();
-  const targetPrice = targetPriceBig.round(2).toNumber();
+  const { sourcePrice, targetPrice, priceImpactRate } = getPrices(
+    sourceValue,
+    targetValue,
+    indexVaultQuery,
+    isIndexTokenInTarget
+  );
 
   // state updaters
   const updateInputsValues = useCallback(
@@ -345,14 +364,8 @@ export const useSwapRouterState = (
                   directDepositValue.lt(swapValue)))
           );
 
-          const isDirectWithdrawValid = priceImpactRate < -10;
-
           const isUseDirectDeposit =
             isDirectDepositValid && isUseIndexVaultChainId;
-
-          const isDirectModeValid = isIndexTokenInTarget
-            ? isDirectDepositValid
-            : isDirectWithdrawValid;
 
           let oppositeInputValue = "";
 
@@ -363,6 +376,23 @@ export const useSwapRouterState = (
           } else {
             oppositeInputValue = "";
           }
+
+          const { priceImpactRate: currentPriceImpactRate } = getPrices(
+            lastUpdatedInputType === InputType.source
+              ? sourceValue
+              : oppositeInputValue,
+            lastUpdatedInputType === InputType.source
+              ? oppositeInputValue
+              : targetValue,
+            indexVaultQuery,
+            isIndexTokenInTarget
+          );
+
+          const isDirectWithdrawValid = currentPriceImpactRate < -10;
+
+          const isDirectModeValid = isIndexTokenInTarget
+            ? isDirectDepositValid
+            : isDirectWithdrawValid;
 
           setIsUseDirectMode(isUseDirectDeposit);
           setIsDirectModeBetterThanSwapMode(isDirectModeValid);
@@ -387,7 +417,7 @@ export const useSwapRouterState = (
     previousChainId,
     chainId,
     isIndexTokenInTarget,
-    priceImpactRate,
+    indexVaultQuery,
   ]);
 
   return {

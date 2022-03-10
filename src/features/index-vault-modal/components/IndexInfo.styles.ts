@@ -1,3 +1,3 @@
 export { Container, InfoValue, InfoLink } from "./ConsolidatedApyInfo.styles";
 
-export { InfoContainer } from "./VaultInfo.styles";
+export { InfoContainer, InfoValueContainer } from "./VaultInfo.styles";

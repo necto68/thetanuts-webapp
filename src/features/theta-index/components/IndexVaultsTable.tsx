@@ -1,5 +1,6 @@
 import {
   Table,
+  APYCellContainer,
   APYCellValue,
   Chains,
   SwapButton,
@@ -10,6 +11,9 @@ import type { IndexVault } from "../../index-vault/types";
 import { indexVaults } from "../constants";
 import { VaultType } from "../../vault/constants";
 import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
+import { InfoIcon, Tooltip } from "../../shared/components";
+
+import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
 const columns: Column<IndexVault>[] = [
   {
@@ -22,11 +26,20 @@ const columns: Column<IndexVault>[] = [
     render: ({ type }) => (type === VaultType.CALL ? "Call" : "Put"),
   },
   {
-    key: "totalAnnualPercentageYield",
+    key: "totalPercentageYields",
     title: "Consolidated APY",
 
-    render: ({ totalAnnualPercentageYield }) => (
-      <APYCellValue>{`${totalAnnualPercentageYield}%`}</APYCellValue>
+    render: ({ id, totalPercentageYields }) => (
+      <APYCellContainer>
+        <APYCellValue>{`${totalPercentageYields.annualPercentageYield}%`}</APYCellValue>
+        <Tooltip
+          content={
+            <PercentageYieldsTooltip percentageYields={totalPercentageYields} />
+          }
+          id={id}
+          root={<InfoIcon theme="light" />}
+        />
+      </APYCellContainer>
     ),
   },
   {
@@ -40,6 +53,7 @@ const columns: Column<IndexVault>[] = [
     key: "supportedChainIds",
     title: "Chains",
     render: ({ supportedChainIds }) => <Chains chainIds={supportedChainIds} />,
+    sortBy: ({ supportedChainIds }) => supportedChainIds.length,
   },
   {
     key: "id",

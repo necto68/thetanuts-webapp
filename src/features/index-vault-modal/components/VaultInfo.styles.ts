@@ -18,6 +18,12 @@ export const PriceInfoContainer = styled(InfoContainer)`
   justify-content: flex-end;
 `;
 
+export const InfoValueContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
 export const InfoValue = styled.span<{ isUnderline?: boolean }>`
   font-family: Roboto;
   font-weight: 400;

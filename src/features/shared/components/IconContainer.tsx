@@ -1,9 +1,10 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
 export interface IconContainerProps {
   width: number;
   height: number;
+  color?: string;
 }
 
 export const IconContainer = styled(motion.div)<IconContainerProps>`
@@ -12,4 +13,12 @@ export const IconContainer = styled(motion.div)<IconContainerProps>`
   align-items: center;
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
+
+  ${({ color }) =>
+    color &&
+    css`
+      * {
+        fill: ${color};
+      }
+    `}
 `;
