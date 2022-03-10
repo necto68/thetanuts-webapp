@@ -3,14 +3,14 @@ import Big from "big.js";
 
 import type { NativeToken, Token } from "../types";
 import { maxSlippageTolerance } from "../constants";
-import {Tooltip} from '../../shared/components/Tooltip' 
+import { useSwapRouterConfig } from "../hooks";
+import { currencyFormatter } from "../../shared/helpers";
 
 import {
   Container,
   InfoContainer,
   PriceInfoContainer,
   InfoValue,
-  TooltipContainer
 } from "./VaultInfo.styles";
 
 interface VaultInfoProps {
@@ -111,14 +111,8 @@ export const VaultInfo: FC<VaultInfoProps> = ({
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <TooltipContainer>
-          <InfoValue isUnderline>Index Value</InfoValue>
-          <Tooltip
-          type="popup"
-          toolTipId="popupPlatformFeeTooltip" 
-          data='This fee is taken by DEX to perform the swap. The amount displayed in "Receive" takes into account all fees post settlements.'  />
-        </TooltipContainer>
-        <InfoValue>0.3%</InfoValue>
+        <InfoValue isUnderline>Platform fee</InfoValue>
+        <InfoValue>{isUseDirectMode ? "0%" : "0.3%"}</InfoValue>
       </InfoContainer>
     </Container>
   );

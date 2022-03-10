@@ -23,7 +23,6 @@ export const InfoValue = styled.span<{ isUnderline?: boolean }>`
   font-weight: 400;
   font-size: 16px;
   color: #061f3a;
-  margin-right:5px;
   text-decoration: ${({ isUnderline = false }) =>
     isUnderline ? "underline" : "none"};
 `;
@@ -34,9 +33,3 @@ export const InfoLink = styled.a`
   font-size: 16px;
   color: #061f3a;
 `;
-
-export const TooltipContainer = styled.div`
-  display:flex;
-  align-items:center;
-
-`
