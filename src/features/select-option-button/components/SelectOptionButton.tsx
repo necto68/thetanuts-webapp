@@ -39,6 +39,16 @@ export const SelectOptionButton = <OptionType extends Option>({
   const [isShowOptions, setIsShowOptions] = useState(false);
   const chainButtonContainerReference = useRef(null);
 
+  const handleSelectButtonClick = useCallback(() => {
+    if (options.length > 0) {
+      setIsShowOptions(!isShowOptions);
+    }
+  }, [isShowOptions, options.length]);
+
+  const handleOptionsContainerClose = useCallback(() => {
+    setIsShowOptions(false);
+  }, []);
+
   const handleOptionClick = useCallback(
     async (id: Option["id"]) => {
       await onOptionClick(id);
@@ -54,9 +64,7 @@ export const SelectOptionButton = <OptionType extends Option>({
       <div ref={chainButtonContainerReference}>
         <SelectButton
           isSmall={isSmall}
-          onClick={() => {
-            setIsShowOptions(!isShowOptions);
-          }}
+          onClick={handleSelectButtonClick}
           primaryColor={color}
           secondaryColor="#061f3a"
         >
@@ -73,9 +81,7 @@ export const SelectOptionButton = <OptionType extends Option>({
       </div>
       <BaseOptionsContainer
         isShow={isShowOptions}
-        onClose={() => {
-          setIsShowOptions(false);
-        }}
+        onClose={handleOptionsContainerClose}
         parentRef={chainButtonContainerReference}
       >
         <OptionsContainer>

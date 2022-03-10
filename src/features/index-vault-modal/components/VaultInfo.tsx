@@ -5,11 +5,13 @@ import type { NativeToken, Token } from "../types";
 import { maxSlippageTolerance } from "../constants";
 import { useSwapRouterConfig } from "../hooks";
 import { currencyFormatter } from "../../shared/helpers";
+import { InfoIcon, Tooltip } from "../../shared/components";
 
 import {
   Container,
   InfoContainer,
   PriceInfoContainer,
+  InfoValueContainer,
   InfoValue,
 } from "./VaultInfo.styles";
 
@@ -111,7 +113,16 @@ export const VaultInfo: FC<VaultInfoProps> = ({
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoValue isUnderline>Platform fee</InfoValue>
+        <InfoValueContainer>
+          <InfoValue isUnderline>Platform fee</InfoValue>
+          <Tooltip
+            content={
+              'This fee is taken by DEX to perform the swap. The amount displayed in "To" takes into account all fees post settlement.'
+            }
+            id="platformFee"
+            root={<InfoIcon />}
+          />
+        </InfoValueContainer>
         <InfoValue>{isUseDirectMode ? "0%" : "0.3%"}</InfoValue>
       </InfoContainer>
     </Container>

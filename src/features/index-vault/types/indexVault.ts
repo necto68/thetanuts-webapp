@@ -2,6 +2,7 @@ import type Big from "big.js";
 
 import type { VaultType } from "../../vault/constants";
 import type { ChainId } from "../../wallet/constants";
+import type { PercentageYields } from "../../vault/types";
 
 import type { Vault } from "./vault";
 
@@ -23,7 +24,7 @@ export interface IndexVault {
   vaultsInfos: VaultInfo[];
   totalWeight: Big;
   totalValueLocked: number;
-  totalAnnualPercentageYield: number;
+  totalPercentageYields: PercentageYields;
   chainId: ChainId;
   supportedChainIds: ChainId[];
 }

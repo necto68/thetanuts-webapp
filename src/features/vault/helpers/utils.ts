@@ -1,7 +1,7 @@
 import Big from "big.js";
 import type { BigNumber } from "ethers";
 
-import type { Vault } from "../types";
+import type { PercentageYields, Vault } from "../types";
 
 export const convertToBig = (value: BigNumber): Big =>
   new Big(value.toString());
@@ -16,7 +16,7 @@ export const getPercentageYields = (
   totalAsset: Big,
   premium: Big,
   period: Big
-): Record<string, number> => {
+): PercentageYields => {
   if (totalAsset.eq(0)) {
     return {
       annualPercentageYield: 0,

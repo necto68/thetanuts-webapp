@@ -72,6 +72,13 @@ export const CellValue = styled.span`
   font-weight: 400;
   font-size: 16px;
   color: #ffffff;
+  line-height: 1;
+`;
+
+export const APYCellContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
 `;
 
 export const APYCellValue = styled(CellValue)`

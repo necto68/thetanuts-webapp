@@ -13,6 +13,7 @@ import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
 import { VaultType } from "../../vault/constants";
 import type { IndexTokenRow } from "../types";
 import { useIndexTokensQueries } from "../hooks";
+import { currencyFormatter } from "../../shared/helpers";
 
 const columns: Column<IndexTokenRow>[] = [
   {
@@ -30,11 +31,11 @@ const columns: Column<IndexTokenRow>[] = [
     render: ({ type }) => (type === VaultType.CALL ? "Call" : "Put"),
   },
   {
-    key: "totalAnnualPercentageYield",
-    title: "Consolidated APY",
+    key: "annualPercentageYield",
+    title: "APY",
 
-    render: ({ totalAnnualPercentageYield }) => (
-      <APYCellValue>{`${totalAnnualPercentageYield}%`}</APYCellValue>
+    render: ({ annualPercentageYield }) => (
+      <APYCellValue>{`${annualPercentageYield}%`}</APYCellValue>
     ),
   },
   {
@@ -47,10 +48,21 @@ const columns: Column<IndexTokenRow>[] = [
     sortBy: ({ balance }) => (balance ? balance.toNumber() : 0),
   },
   {
-    // TODO: use key: price
-    key: "tokenAddress",
+    key: "indexPrice",
     title: "Value",
-    render: () => "$9999.99",
+
+    render: ({ balance, indexPrice }) => {
+      if (!balance) {
+        return "";
+      }
+
+      const price = balance.mul(indexPrice).round(2).toNumber();
+
+      return currencyFormatter.format(price);
+    },
+
+    sortBy: ({ balance, indexPrice }) =>
+      balance ? balance.mul(indexPrice).toNumber() : 0,
   },
   {
     key: "chainId",
@@ -86,7 +98,8 @@ export const PortfolioTable = () => {
         id,
         type,
         assetSymbol,
-        totalAnnualPercentageYield,
+        indexPrice,
+        totalPercentageYields: { annualPercentageYield },
         supportedChainIds,
       } = data;
 
@@ -97,7 +110,8 @@ export const PortfolioTable = () => {
         // TODO: add more different vault types
         vaultType: "THETA-INDEX",
         assetSymbol,
-        totalAnnualPercentageYield,
+        indexPrice,
+        annualPercentageYield,
         symbol,
         balance,
         tokenAddress,

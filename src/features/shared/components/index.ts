@@ -5,3 +5,5 @@ export * from "./IconContainer";
 export * from "./SkeletonBox";
 export * from "./LoadingButton";
 export * from "./Metric";
+export * from "./Tooltip";
+export * from "./InfoIcon";
