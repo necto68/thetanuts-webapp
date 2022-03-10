@@ -3,19 +3,20 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import { convertToBig } from "../../vault/helpers";
+import { convertToBig, normalizeVaultValue } from "../../vault/helpers";
 import { VaultType } from "../../vault/constants";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   IndexVaultAbi__factory as IndexVaultAbiFactory,
   LendingPoolAbi__factory as LendingPoolAbiFactory,
+  AddressesProviderAbi__factory as AddressesProviderAbiFactory,
+  PriceOracleAbi__factory as PriceOracleAbiFactory,
+  PriceFeedAbi__factory as PriceFeedAbiFactory,
 } from "../../contracts/types";
 import type { IndexVault, VaultInfo } from "../types";
 import { queryClient } from "../../shared/helpers";
 import { indexVaults } from "../../theta-index/constants";
-import { tokenFetcher } from "../../index-vault-modal/helpers";
 import type { ChainId } from "../../wallet/constants";
-import { chainProvidersMap, chainsMap } from "../../wallet/constants";
 
 import { vaultFetcher } from "./vaultFetcher";
 import { getTotalAnnualPercentageYield, getTotalValueLocked } from "./utils";
@@ -24,9 +25,10 @@ export const indexVaultFetcher = async (
   id: string,
   indexVaultAddress: string,
   lendingPoolAddress: string,
-  provider: Provider,
-  account: string
+  provider: Provider
 ): Promise<IndexVault> => {
+  const priceDivisor = new Big(10).pow(6);
+
   const indexVaultContract = IndexVaultAbiFactory.connect(
     indexVaultAddress,
     provider
@@ -44,6 +46,7 @@ export const indexVaultFetcher = async (
     vaultsLength,
     assetTokenAddress,
     indexTokenAddress,
+    addressesProviderAddress,
   ] = await Promise.all([
     provider.getNetwork() as Promise<{ chainId: ChainId }>,
     indexVaultContract.name(),
@@ -53,10 +56,16 @@ export const indexVaultFetcher = async (
     lendingPoolContract
       .getReserveData(indexVaultAddress)
       .then((data) => data.aTokenAddress),
+    lendingPoolContract.getAddressesProvider(),
   ]);
 
   const assetTokenContract = Erc20AbiFactory.connect(
     assetTokenAddress,
+    provider
+  );
+
+  const addressesProviderContract = AddressesProviderAbiFactory.connect(
+    addressesProviderAddress,
     provider
   );
 
@@ -67,29 +76,36 @@ export const indexVaultFetcher = async (
     (element, index) => indexVaultContract.vaultAddress(index)
   );
 
-  const [assetSymbol, assetDecimals, ...vaultsAddresses]: [
-    string,
-    number,
-    ...string[]
-  ] = await Promise.all([
-    assetTokenContract.symbol(),
-    assetTokenContract.decimals(),
-    ...vaultsAddressesPromises,
-  ]);
+  const [assetSymbol, assetDecimals, priceOracleAddress, ...vaultsAddresses] =
+    await Promise.all([
+      assetTokenContract.symbol(),
+      assetTokenContract.decimals(),
+      addressesProviderContract.getPriceOracle(),
+      ...vaultsAddressesPromises,
+    ] as const);
 
   // getting type
   const indexVaultType = name.split(" ").at(-1) ?? "";
   const type = indexVaultType === "CALL" ? VaultType.CALL : VaultType.PUT;
 
-  // getting vaultsInfosData
-  const vaultsInfosData = await Promise.all(
-    vaultsAddresses.map(
-      // eslint-disable-next-line @typescript-eslint/promise-function-async
-      (vaultAddress) => indexVaultContract.vaults(vaultAddress)
-    )
+  // creating vaultsInfosDataPromises
+  const vaultsInfosDataPromises = vaultsAddresses.map(
+    // eslint-disable-next-line @typescript-eslint/promise-function-async
+    (vaultAddress) => indexVaultContract.vaults(vaultAddress)
   );
 
-  // getting vaultsData
+  // getting indexLinkAggregator and vaultsInfosData
+  const priceOracleContract = PriceOracleAbiFactory.connect(
+    priceOracleAddress,
+    provider
+  );
+
+  const [indexLinkAggregator, ...vaultsInfosData] = await Promise.all([
+    priceOracleContract.getSourceOfAsset(indexVaultAddress),
+    ...vaultsInfosDataPromises,
+  ] as const);
+
+  // getting vaults
   const vaults = await Promise.all(
     vaultsAddresses.map(
       // eslint-disable-next-line @typescript-eslint/promise-function-async
@@ -99,48 +115,6 @@ export const indexVaultFetcher = async (
           // eslint-disable-next-line @typescript-eslint/promise-function-async
           () => vaultFetcher(vaultAddress, provider)
         )
-    )
-  );
-
-  const tokenConfig = indexVaults.find(
-    ({ source: { indexVaultAddress: sourceIndexVaultAddress } }) =>
-      sourceIndexVaultAddress === indexVaultAddress
-  );
-  const { replications = [] } = tokenConfig ?? {};
-
-  const indexTokensConfigs = [{ chainId, indexTokenAddress }].concat(
-    replications.map((replication) => ({
-      chainId: replication.chainId,
-      indexTokenAddress: replication.indexTokenAddress,
-    }))
-  );
-
-  const indexTokens = await Promise.all(
-    indexTokensConfigs.map(
-      // eslint-disable-next-line @typescript-eslint/promise-function-async
-      (indexTokenConfig) => {
-        const replicatedProvider = chainProvidersMap[indexTokenConfig.chainId];
-        const replicatedRouterAddress =
-          chainsMap[indexTokenConfig.chainId].addresses.routerAddress;
-
-        const queryKey = [
-          indexTokenConfig.indexTokenAddress,
-          replicatedRouterAddress,
-          account,
-        ];
-
-        return queryClient.fetchQuery(
-          queryKey,
-          // eslint-disable-next-line @typescript-eslint/promise-function-async
-          () =>
-            tokenFetcher(
-              indexTokenConfig.indexTokenAddress,
-              replicatedRouterAddress,
-              replicatedProvider,
-              account
-            )
-        );
-      }
     )
   );
 
@@ -158,6 +132,19 @@ export const indexVaultFetcher = async (
     };
   });
 
+  // getting assetPrice and indexPrice
+  const [{ priceFeedAddress, assetPrice }] = vaults;
+
+  const priceFeedContract = PriceFeedAbiFactory.connect(
+    priceFeedAddress,
+    provider
+  );
+
+  const indexPrice = await priceFeedContract
+    .getLatestPriceX1e6(indexLinkAggregator)
+    .then(convertToBig)
+    .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor));
+
   const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos);
 
   const totalAnnualPercentageYield = getTotalAnnualPercentageYield(
@@ -165,6 +152,12 @@ export const indexVaultFetcher = async (
     vaultsInfos,
     totalWeight
   );
+
+  const tokenConfig = indexVaults.find(
+    ({ id: indexVaultId }) => indexVaultId === id
+  );
+
+  const { replications = [] } = tokenConfig ?? {};
 
   const supportedChainIds = [chainId].concat(
     replications.map((replication) => replication.chainId)
@@ -174,7 +167,9 @@ export const indexVaultFetcher = async (
     id,
     type,
     assetSymbol,
+    assetPrice,
     assetTokenAddress,
+    indexPrice,
     indexTokenAddress,
     vaults,
     vaultsInfos,
@@ -183,6 +178,5 @@ export const indexVaultFetcher = async (
     totalAnnualPercentageYield,
     chainId,
     supportedChainIds,
-    indexTokens,
   };
 };

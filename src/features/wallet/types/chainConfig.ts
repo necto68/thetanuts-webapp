@@ -1,11 +1,11 @@
-import type { FC } from "react";
+import type { ComponentType } from "react";
 
 import type { ChainId } from "../constants";
 
 export interface ChainConfig {
   chainId: ChainId;
   title: string;
-  logo: FC;
+  logo: ComponentType;
   color: string;
 
   urls: {
@@ -16,5 +16,6 @@ export interface ChainConfig {
   addresses: {
     routerAddress: string;
     lendingPoolAddress: string;
+    directDepositorAddress: string;
   };
 }

@@ -1,8 +1,14 @@
-import type { JsonRpcProvider } from "@ethersproject/providers";
-import { WebSocketProvider } from "@ethersproject/providers";
+import type {
+  ExternalProvider,
+  JsonRpcProvider,
+} from "@ethersproject/providers";
+import { Web3Provider } from "@ethersproject/providers";
+import Web3WsProvider from "web3-providers-ws";
 
 import { Eth, Bnb, Matic, Avax, Ftm } from "../../logo/components";
 import type { ChainConfig } from "../types";
+
+import { wsProviderOptions } from "./providerOptions";
 
 export enum ChainId {
   ETHEREUM = 1,
@@ -27,6 +33,7 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "testAddress",
       lendingPoolAddress: "testAddress",
+      directDepositorAddress: "testAddress",
     },
   },
   {
@@ -36,13 +43,14 @@ export const chains: ChainConfig[] = [
     logo: Bnb,
 
     urls: {
-      rpc: "wss://bsc-ws-node.nariox.org:443",
+      rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/bsc/mainnet/ws",
       explorer: "https://bscscan.com/",
     },
 
     addresses: {
       routerAddress: "0x10ED43C718714eb63d5aA57B78B54704E256024E",
       lendingPoolAddress: "testAddress",
+      directDepositorAddress: "testAddress",
     },
   },
   {
@@ -52,13 +60,14 @@ export const chains: ChainConfig[] = [
     logo: Matic,
 
     urls: {
-      rpc: "wss://rpc-mainnet.matic.quiknode.pro",
+      rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/polygon/mainnet/ws",
       explorer: "https://polygonscan.com/",
     },
 
     addresses: {
       routerAddress: "0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff",
       lendingPoolAddress: "0x69CB7e57FC301785aA0f933230DEE4C3E1f78e2b",
+      directDepositorAddress: "0xb0bF492aa3A65b095F7243eDA87153fc604ea886",
     },
   },
   {
@@ -75,6 +84,7 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "testAddress",
       lendingPoolAddress: "testAddress",
+      directDepositorAddress: "testAddress",
     },
   },
   {
@@ -91,6 +101,7 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "testAddress",
       lendingPoolAddress: "testAddress",
+      directDepositorAddress: "testAddress",
     },
   },
 ];
@@ -101,8 +112,13 @@ export const chainsMap: Record<ChainId, ChainConfig> = Object.fromEntries(
 
 export const chainProvidersMap: Record<ChainId, JsonRpcProvider> =
   Object.fromEntries(
-    chains.map(({ chainId, urls }) => [
-      chainId,
-      new WebSocketProvider(urls.rpc),
-    ])
+    chains.map(({ chainId, urls }) => {
+      // @ts-expect-error Web3WsProvider doesn't have correct types
+      const wsProvider = new Web3WsProvider(
+        urls.rpc,
+        wsProviderOptions
+      ) as ExternalProvider;
+
+      return [chainId, new Web3Provider(wsProvider)];
+    })
   ) as unknown as Record<ChainId, JsonRpcProvider>;

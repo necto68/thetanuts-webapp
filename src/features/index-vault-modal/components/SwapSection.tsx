@@ -1,5 +1,3 @@
-import { useCallback, useState } from "react";
-
 import { IconContainer } from "../../shared/components";
 import { Flip } from "../icons";
 import { useSwapRouter, useSwapRouterMutations } from "../hooks";
@@ -15,8 +13,6 @@ import {
 } from "./SwapSection.styles";
 
 export const SwapSection = () => {
-  const [isFlipped, setIsFlipped] = useState(false);
-
   const {
     sourceValue,
     targetValue,
@@ -43,6 +39,14 @@ export const SwapSection = () => {
 
     lastUpdatedInputType,
 
+    isDirectModeBetterThanSwapMode,
+    isUseDirectMode,
+
+    sourcePrice,
+    targetPrice,
+    priceImpactRate,
+
+    isFlipped,
     swapInputs,
 
     tokensQueries,
@@ -58,15 +62,12 @@ export const SwapSection = () => {
     isUseNativeSourceData,
     isUseNativeTargetData,
 
+    isUseDirectMode,
+
     lastUpdatedInputType,
 
     tokensQueries
   );
-
-  const handleFlipButtonClick = useCallback(() => {
-    setIsFlipped((previousIsFlipped) => !previousIsFlipped);
-    swapInputs();
-  }, [swapInputs]);
 
   const sourceTokenData = isUseNativeSourceData ? nativeData : sourceData;
   const targetTokenData = isUseNativeTargetData ? nativeData : targetData;
@@ -88,10 +89,11 @@ export const SwapSection = () => {
           nativeData={nativeData}
           onInputChange={setSourceValue}
           onUseNativeDataChange={setUseSourceNativeData}
+          priceValue={sourcePrice}
           tokenData={sourceData}
         />
         <FlipButtonContainer>
-          <FlipButton isFlipped={isFlipped} onClick={handleFlipButtonClick}>
+          <FlipButton isFlipped={isFlipped} onClick={swapInputs}>
             <IconContainer height={20} width={20}>
               <Flip />
             </IconContainer>
@@ -99,22 +101,28 @@ export const SwapSection = () => {
         </FlipButtonContainer>
         <SwapInputCard
           inputValue={targetValue}
+          isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
           isFlipped={isFlipped}
           isNativeDataLoading={isNativeDataLoading}
           isTokenDataLoading={isTargetDataLoading}
+          isUseDirectMode={isUseDirectMode}
           isUseNativeData={isUseNativeTargetData}
           isValueLoading={isTargetValueLoading}
           nativeData={nativeData}
           onInputChange={setTargetValue}
           onUseNativeDataChange={setUseTargetNativeData}
+          priceImpactRate={priceImpactRate}
+          priceValue={targetPrice}
           tokenData={targetData}
         />
       </SwapInputsContainer>
       <VaultInfo
+        isFlipped={isFlipped}
         isSourceTokenDataLoading={isSourceTokenDataLoading}
         isSourceValueLoading={isSourceValueLoading}
         isTargetTokenDataLoading={isTargetTokenDataLoading}
         isTargetValueLoading={isTargetValueLoading}
+        isUseDirectMode={isUseDirectMode}
         sourceTokenData={sourceTokenData}
         sourceValue={sourceValue}
         targetTokenData={targetTokenData}
@@ -123,6 +131,7 @@ export const SwapSection = () => {
       <SwapButton 
         isSourceValueLoading={isSourceValueLoading}
         isTargetValueLoading={isTargetValueLoading}
+        isUseDirectMode={isUseDirectMode}
         rootMutation={rootMutation}
         routerMutations={routerMutations}
         sourceTokenData={sourceTokenData}

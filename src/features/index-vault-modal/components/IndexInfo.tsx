@@ -16,18 +16,18 @@ import {
   TooltipContainer
 } from "./IndexInfo.styles";
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity,sonarjs/cognitive-complexity
 export const IndexInfo = () => {
-  const { indexVaultQuery } = useSwapRouterConfig();
-  const { isLoading, data } = indexVaultQuery;
-
   const {
     defaultSourceAddress,
     defaultTargetAddress,
     routerAddress,
     provider,
     chainId,
+    indexVaultQuery,
   } = useSwapRouterConfig();
+
+  const { isLoading, data } = indexVaultQuery;
 
   const { data: sourceData, isLoading: isSourceDataLoading } = useTokenQuery(
     defaultSourceAddress,
@@ -48,6 +48,9 @@ export const IndexInfo = () => {
 
   const underlyingAssetSymbol =
     !isSourceDataLoading && sourceData ? sourceData.symbol : ".....";
+
+  const indexValue =
+    !isLoading && data ? (data.indexPrice / data.assetPrice).toFixed(5) : "";
 
   const indexTokenAddress =
     !isTargetDataLoading && targetData && chainId

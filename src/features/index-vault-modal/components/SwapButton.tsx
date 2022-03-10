@@ -13,6 +13,7 @@ import { BaseSwapButton } from "./SwapButton.styles";
 interface SwapButtonProps {
   isSourceValueLoading: boolean;
   isTargetValueLoading: boolean;
+  isUseDirectMode: boolean;
   rootMutation: ReturnType<typeof useSwapRouterMutations>["rootMutation"];
   routerMutations: ReturnType<typeof useSwapRouterMutations>["routerMutations"];
   sourceTokenData: NativeToken | Token | undefined;
@@ -25,6 +26,7 @@ interface SwapButtonProps {
 export const SwapButton: FC<SwapButtonProps> = ({
   isSourceValueLoading,
   isTargetValueLoading,
+  isUseDirectMode,
   rootMutation,
   routerMutations,
   sourceTokenData,
@@ -33,11 +35,12 @@ export const SwapButton: FC<SwapButtonProps> = ({
   targetValue,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
-  const { isUserOnSupportedChainId } = useSwapRouterConfig();
+  const { isUserOnSupportedChainId, supportedChainIds } = useSwapRouterConfig();
 
   const { account, connect } = useWallet();
 
-  const { runApproveAllowance, runSwapTokensForTokens } = routerMutations;
+  const { runApproveAllowance, runSwapTokensForTokens, runDirectDeposit } =
+    routerMutations;
 
   const handleConnectWalletButtonClick = useCallback(async () => {
     await connect(web3ModalConfig);
@@ -52,8 +55,12 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }, [runApproveAllowance]);
 
   const handleSwapButtonClick = useCallback(() => {
-    runSwapTokensForTokens();
-  }, [runSwapTokensForTokens]);
+    if (isUseDirectMode) {
+      runDirectDeposit();
+    } else {
+      runSwapTokensForTokens();
+    }
+  }, [isUseDirectMode, runDirectDeposit, runSwapTokensForTokens]);
 
   const sourceValueBig = new Big(sourceValue || 0);
   const targetValueBig = new Big(targetValue || 0);
@@ -85,15 +92,19 @@ export const SwapButton: FC<SwapButtonProps> = ({
     );
   }
 
-  if (!isUserOnSupportedChainId) {
-    return <BaseSwapButton disabled>Wrong Network</BaseSwapButton>;
+  if (!isUserOnSupportedChainId && supportedChainIds.length > 0) {
+    return (
+      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
+        Wrong Network
+      </BaseSwapButton>
+    );
   }
 
   if (isMutationError && mutationError) {
     return (
       <BaseSwapButton
         onClick={handleResetButtonClick}
-        primaryColor="#ff0000"
+        primaryColor="#EB5853"
         secondaryColor="#ffffff"
       >
         {mutationError.data?.message ?? mutationError.message}
@@ -118,7 +129,11 @@ export const SwapButton: FC<SwapButtonProps> = ({
     sourceValueBig.gt(0) &&
     sourceValueBig.gt(sourceTokenData.balance)
   ) {
-    return <BaseSwapButton disabled>Insufficient Funds</BaseSwapButton>;
+    return (
+      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
+        Insufficient Balance
+      </BaseSwapButton>
+    );
   }
 
   if (

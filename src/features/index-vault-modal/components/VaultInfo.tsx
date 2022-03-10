@@ -14,10 +14,12 @@ import {
 } from "./VaultInfo.styles";
 
 interface VaultInfoProps {
+  isFlipped: boolean;
   isSourceTokenDataLoading: boolean;
   isSourceValueLoading: boolean;
   isTargetTokenDataLoading: boolean;
   isTargetValueLoading: boolean;
+  isUseDirectMode: boolean;
   sourceTokenData: NativeToken | Token | undefined;
   sourceValue: string;
   targetTokenData: NativeToken | Token | undefined;
@@ -46,15 +48,21 @@ const getSourceToTargetRatioString = (
 };
 
 export const VaultInfo: FC<VaultInfoProps> = ({
+  isFlipped,
   isSourceTokenDataLoading,
   isSourceValueLoading,
   isTargetTokenDataLoading,
   isTargetValueLoading,
+  isUseDirectMode,
   sourceTokenData,
   sourceValue,
   targetTokenData,
   targetValue,
 }) => {
+  const { indexVaultQuery } = useSwapRouterConfig();
+  const { data } = indexVaultQuery;
+  const { assetPrice = 0, indexPrice = 0 } = data ?? {};
+
   const isTokensDataLoading =
     isSourceTokenDataLoading || isTargetTokenDataLoading;
   const isAnyValueLoading = isSourceValueLoading || isTargetValueLoading;
@@ -73,6 +81,10 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     isRatioLoading
   );
 
+  const formattedPrice = currencyFormatter.format(
+    isFlipped ? indexPrice : assetPrice
+  );
+
   const slippageToleranceValue = maxSlippageTolerance * 100;
 
   return (
@@ -80,11 +92,13 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       <PriceInfoContainer>
         <InfoValue
           isUnderline
-        >{`1 ${sourceTokenSymbol} = ${sourceToTargetRatio} ${targetTokenSymbol} ($2,000)`}</InfoValue>
+        >{`1 ${sourceTokenSymbol} = ${sourceToTargetRatio} ${targetTokenSymbol} (${formattedPrice})`}</InfoValue>
       </PriceInfoContainer>
       <InfoContainer>
         <InfoValue>Protocols</InfoValue>
-        <InfoValue>Uniswap v2</InfoValue>
+        <InfoValue>
+          {isUseDirectMode ? "Direct Deposit" : "Uniswap v2"}
+        </InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Route</InfoValue>
@@ -92,7 +106,9 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Slippage Tolerance</InfoValue>
-        <InfoValue>{`${slippageToleranceValue}%`}</InfoValue>
+        <InfoValue>
+          {isUseDirectMode ? "N/A" : `${slippageToleranceValue}%`}
+        </InfoValue>
       </InfoContainer>
       <InfoContainer>
         <TooltipContainer>
@@ -102,7 +118,6 @@ export const VaultInfo: FC<VaultInfoProps> = ({
           toolTipId="popupPlatformFeeTooltip" 
           data='This fee is taken by DEX to perform the swap. The amount displayed in "Receive" takes into account all fees post settlements.'  />
         </TooltipContainer>
-        
         <InfoValue>0.3%</InfoValue>
       </InfoContainer>
     </Container>

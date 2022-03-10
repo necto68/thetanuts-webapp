@@ -7,7 +7,7 @@ import { convertToBig } from "../../vault/helpers";
 
 export const tokenFetcher = async (
   tokenAddress: string,
-  routerAddress: string,
+  spenderAddress: string,
   provider: Provider,
   account: string
 ): Promise<Token> => {
@@ -18,7 +18,7 @@ export const tokenFetcher = async (
     tokenContract.decimals(),
     account ? tokenContract.balanceOf(account).then(convertToBig) : null,
     account
-      ? tokenContract.allowance(account, routerAddress).then(convertToBig)
+      ? tokenContract.allowance(account, spenderAddress).then(convertToBig)
       : new Big(0),
   ]);
 

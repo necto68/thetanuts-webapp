@@ -15,7 +15,7 @@ interface VaultLinkButtonProps {
 export const VaultLinkButton: FC<VaultLinkButtonProps> = ({ vaultAddress }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { data } = indexVaultQuery;
-  const { chainId = 0 } = data ?? {};
+  const { chainId = 1 } = data ?? {};
   const link = getExplorerUrl(PathType.address, chainId, vaultAddress);
 
   return (

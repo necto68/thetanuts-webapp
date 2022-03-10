@@ -9,7 +9,7 @@ interface BaseSwapButtonProps {
 }
 
 export const BaseSwapButton = styled(motion.button).attrs<BaseSwapButtonProps>(
-  ({ primaryColor = "", secondaryColor = "", isLoading, disabled }) => ({
+  ({ primaryColor = "", secondaryColor = "", disabled }) => ({
     whileHover: !disabled && {
       scale: 1.02,
       boxShadow: `0 0 10px ${primaryColor}`,
@@ -21,26 +21,10 @@ export const BaseSwapButton = styled(motion.button).attrs<BaseSwapButtonProps>(
       opacity: 0.8,
     },
 
-    animate: isLoading
-      ? {
-          background: `repeating-linear-gradient(to left, ${primaryColor}, ${secondaryColor} 116px, ${primaryColor} 232px)`,
-          backgroundPosition: "232px center",
-
-          color: secondaryColor,
-
-          transition: {
-            duration: 1.5,
-            repeat: Number.POSITIVE_INFINITY,
-          },
-        }
-      : {
-          background: disabled
-            ? "repeating-linear-gradient(to left, #dddddd, #dddddd)"
-            : `repeating-linear-gradient(to left, ${primaryColor}, ${primaryColor})`,
-
-          backgroundPosition: "0% 0%",
-          color: disabled ? "#9f9f9f" : secondaryColor,
-        },
+    animate: {
+      backgroundColor: disabled && !primaryColor ? "#dddddd" : primaryColor,
+      color: disabled && !secondaryColor ? "#9f9f9f" : secondaryColor,
+    },
   })
 )<BaseSwapButtonProps>`
   font-family: Barlow;
