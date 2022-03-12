@@ -1,21 +1,22 @@
 import { useSwapRouterConfig } from "../hooks";
 import { VaultType } from "../../vault/constants";
 import type { IndexVault, Vault } from "../../index-vault/types";
+import { ExternalLinkButton } from "../../shared/components";
 import {
   currencyFormatterWithoutDecimals,
   dateFormatter,
 } from "../../shared/helpers";
+import { PathType } from "../../wallet/types";
 
 import {
-  TableContainer,
-  HeaderRow,
+  CellSubValue,
+  CellValue,
   HeaderCell,
   HeaderCellValue,
-  CellValue,
-  CellSubValue,
+  HeaderRow,
   PortfolioCellContainer,
+  TableContainer,
 } from "./VaultsTable.styles";
-import { VaultLinkButton } from "./VaultLinkButton";
 
 const getVaultTitle = (
   type: IndexVault["type"],
@@ -48,7 +49,12 @@ const getVaultSubTitle = (
 export const VaultsTable = () => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { isLoading, data } = indexVaultQuery;
-  const { type = VaultType.CALL, vaults = [], vaultsInfos = [] } = data ?? {};
+  const {
+    type = VaultType.CALL,
+    chainId = 1,
+    vaults = [],
+    vaultsInfos = [],
+  } = data ?? {};
 
   return (
     <TableContainer>
@@ -120,7 +126,11 @@ export const VaultsTable = () => {
               </td>
               <td>
                 <CellValue>
-                  <VaultLinkButton vaultAddress={vaultAddress} />
+                  <ExternalLinkButton
+                    chainId={chainId}
+                    id={vaultAddress}
+                    pathType={PathType.address}
+                  />
                 </CellValue>
               </td>
             </tr>

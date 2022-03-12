@@ -1,5 +1,3 @@
-import { useWallet } from "@gimmixorg/use-wallet";
-
 import type { Column } from "../../table/types";
 import {
   Table,
@@ -13,7 +11,7 @@ import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
 import { VaultType } from "../../vault/constants";
 import type { IndexTokenRow } from "../types";
 import { useIndexTokensQueries } from "../hooks";
-import { currencyFormatter } from "../../shared/helpers";
+import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 
 const columns: Column<IndexTokenRow>[] = [
   {
@@ -43,7 +41,7 @@ const columns: Column<IndexTokenRow>[] = [
     title: "Balance",
 
     render: ({ symbol, balance }) =>
-      balance ? `${balance.round(3).toString()}  ${symbol}` : "",
+      balance ? `${numberFormatter.format(balance.toNumber())}  ${symbol}` : "",
 
     sortBy: ({ balance }) => (balance ? balance.toNumber() : 0),
   },
@@ -79,12 +77,10 @@ const columns: Column<IndexTokenRow>[] = [
 const getRowKey = ({ tokenAddress, chainId }: IndexTokenRow) =>
   `${tokenAddress}${chainId}`;
 
-export const PortfolioTable = () => {
+export const PositionsTable = () => {
   const indexVaultsIds = indexVaults.map(({ id }) => id);
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
   const indexTokensQueries = useIndexTokensQueries(indexVaultsIds);
-
-  const { account } = useWallet();
 
   const rows: (IndexTokenRow | undefined)[] = indexVaultsQueries
     .flatMap(({ data }, vaultIndex) => {
@@ -119,10 +115,6 @@ export const PortfolioTable = () => {
       }));
     })
     .filter((row) => (row ? row.balance?.gt(0) : true));
-
-  if (!account) {
-    return <CellValue>Please, connect wallet</CellValue>;
-  }
 
   if (rows.length === 0) {
     return <CellValue>You don&apos;t have any funds, yet</CellValue>;
