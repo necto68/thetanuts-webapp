@@ -28,12 +28,17 @@ export const chains: ChainConfig[] = [
     urls: {
       rpc: "wss://main-light.eth.linkpool.io/ws",
       explorer: "https://etherscan.io/",
+      explorerApi: "https://api.etherscan.io/",
     },
 
     addresses: {
       routerAddress: "testAddress",
       lendingPoolAddress: "testAddress",
       directDepositorAddress: "testAddress",
+    },
+
+    keys: {
+      explorerApi: "H9YG861JU9VGXZXDBTR2C6CE23J8NSXSGC",
     },
   },
   {
@@ -45,6 +50,11 @@ export const chains: ChainConfig[] = [
     urls: {
       rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/bsc/mainnet/ws",
       explorer: "https://bscscan.com/",
+      explorerApi: "https://api.bscscan.com/",
+    },
+
+    keys: {
+      explorerApi: "DY28MH5SJCHAJ16DAKHD8YJXM37WUTSJYP",
     },
 
     addresses: {
@@ -62,6 +72,11 @@ export const chains: ChainConfig[] = [
     urls: {
       rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/polygon/mainnet/ws",
       explorer: "https://polygonscan.com/",
+      explorerApi: "https://api.polygonscan.com/",
+    },
+
+    keys: {
+      explorerApi: "PJMV9MU5ZK43D5JWZTJ28YJWJ51G76Q9U2",
     },
 
     addresses: {
@@ -79,6 +94,11 @@ export const chains: ChainConfig[] = [
     urls: {
       rpc: "wss://api.avax.network/ext/bc/C/ws",
       explorer: "https://snowtrace.io/",
+      explorerApi: "https://api.snowtrace.io/",
+    },
+
+    keys: {
+      explorerApi: "FWE95HNDKYITDAQCHIHMR3IIA4FFNN5WEH",
     },
 
     addresses: {
@@ -96,6 +116,11 @@ export const chains: ChainConfig[] = [
     urls: {
       rpc: "wss://wsapi.fantom.network",
       explorer: "https://ftmscan.com/",
+      explorerApi: "https://api.ftmscan.com/",
+    },
+
+    keys: {
+      explorerApi: "YAVSTA9H2BUE21X9XGDTK6V4149YN58VM1",
     },
 
     addresses: {

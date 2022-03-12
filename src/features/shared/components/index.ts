@@ -7,3 +7,4 @@ export * from "./LoadingButton";
 export * from "./Metric";
 export * from "./Tooltip";
 export * from "./InfoIcon";
+export * from "./ExternalLinkButton";

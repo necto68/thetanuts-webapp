@@ -11,11 +11,16 @@ export interface ChainConfig {
   urls: {
     rpc: string;
     explorer: string;
+    explorerApi?: string;
   };
 
   addresses: {
     routerAddress: string;
     lendingPoolAddress: string;
     directDepositorAddress: string;
+  };
+
+  keys: {
+    explorerApi?: string;
   };
 }
