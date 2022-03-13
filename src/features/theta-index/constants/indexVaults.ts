@@ -1,18 +1,5 @@
 import { ChainId } from "../../wallet/constants";
-
-interface IndexVaultConfig {
-  id: string;
-  isFeatured?: boolean;
-  source: {
-    chainId: ChainId;
-    indexVaultAddress: string;
-  };
-  replications: {
-    chainId: ChainId;
-    assetTokenAddress: string;
-    indexTokenAddress: string;
-  }[];
-}
+import type { IndexVaultConfig } from "../types";
 
 export const indexVaults: IndexVaultConfig[] = [
   {
@@ -44,3 +31,10 @@ export const indexVaults: IndexVaultConfig[] = [
     replications: [],
   },
 ];
+
+export const indexVaultsMap: Record<
+  IndexVaultConfig["id"],
+  IndexVaultConfig | undefined
+> = Object.fromEntries(
+  indexVaults.map((indexVault) => [indexVault.id, indexVault])
+);

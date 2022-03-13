@@ -1,14 +1,15 @@
 import type { Column } from "../../table/types";
 import { APYCellValue, CellValue, Chains, Table } from "../../table/components";
-import { indexVaults } from "../../theta-index/constants";
-import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
 import { VaultType } from "../../vault/constants";
 import type { HistoryTransactionRow } from "../types";
-import { TransactionType } from "../types";
-import { useIndexPairsHistoryQueries } from "../hooks";
+import { TransactionTypeTitle } from "../types";
 import { dateFormatter, numberFormatter } from "../../shared/helpers";
 import { ExternalLinkButton } from "../../shared/components";
 import { PathType } from "../../wallet/types";
+import {
+  useIndexPairsHistoryRows,
+  useIndexDepositsHistoryRows,
+} from "../hooks";
 
 const columns: Column<HistoryTransactionRow>[] = [
   {
@@ -32,9 +33,7 @@ const columns: Column<HistoryTransactionRow>[] = [
     title: "Activity",
 
     render: ({ type }) => (
-      <APYCellValue>
-        {type === TransactionType.swappedIn ? "Swapped In" : "Swapped Out"}
-      </APYCellValue>
+      <APYCellValue>{TransactionTypeTitle[type]}</APYCellValue>
     ),
   },
   {
@@ -75,42 +74,11 @@ const columns: Column<HistoryTransactionRow>[] = [
 const getRowKey = ({ id, chainId }: HistoryTransactionRow) => `${id}${chainId}`;
 
 export const TransactionHistoryTable = () => {
-  const indexVaultsIds = indexVaults.map(({ id }) => id);
-  const indexVaultsQueries = useIndexVaults(indexVaultsIds);
-  const indexPairsHistoryQueries = useIndexPairsHistoryQueries(indexVaultsIds);
+  const indexPairsHistoryRows = useIndexPairsHistoryRows();
+  const indexDepositsHistoryRows = useIndexDepositsHistoryRows();
 
-  const rows: (HistoryTransactionRow | undefined)[] =
-    indexVaultsQueries.flatMap(({ data }, vaultIndex) => {
-      const { data: historyTransactions } =
-        indexPairsHistoryQueries[vaultIndex];
-
-      if (!data || !historyTransactions) {
-        return undefined;
-      }
-
-      const { type: indexVaultType, assetSymbol } = data;
-
-      return historyTransactions.map(
-        ({ id, type, timestamp, amountIn, amountOut, chainId }) => ({
-          id,
-          type,
-          timestamp,
-
-          balance:
-            type === TransactionType.swappedIn ? amountIn.mul(-1) : amountOut,
-
-          chainId,
-
-          // TODO: add more different vault types
-          vaultType: "THETA-INDEX",
-          indexVaultType,
-          assetSymbol,
-        })
-      );
-    });
-
-  const sortedRows = rows
-    .map((row) => row)
+  const sortedRows = indexPairsHistoryRows
+    .concat(indexDepositsHistoryRows)
     .sort((a, b) => {
       if (b && a) {
         return b.timestamp - a.timestamp;
@@ -119,7 +87,7 @@ export const TransactionHistoryTable = () => {
       return 0;
     });
 
-  if (rows.length === 0) {
+  if (sortedRows.length === 0) {
     return <CellValue>You don&apos;t have transaction history, yet</CellValue>;
   }
 

@@ -1,7 +1,7 @@
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { useIndexVault } from "../../index-vault/hooks";
-import { indexVaults } from "../../theta-index/constants";
+import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
 import { chainProvidersMap, chainsMap } from "../../wallet/constants";
 
@@ -20,7 +20,7 @@ export const useSwapRouterConfig = () => {
     supportedChainIds = [],
   } = data ?? {};
 
-  const tokenConfig = indexVaults.find(({ id }) => id === indexVaultId);
+  const tokenConfig = indexVaultsMap[indexVaultId];
   const {
     source: { chainId: indexVaultChainId = 1, indexVaultAddress = "" },
     replications = [],
