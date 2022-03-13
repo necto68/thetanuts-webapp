@@ -1,2 +1,3 @@
 export * from "./useIndexTokensQueries";
-export * from "./useIndexPairsHistoryQueries";
+export * from "./useIndexPairsHistoryRows";
+export * from "./useIndexDepositsHistoryRows";

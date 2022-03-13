@@ -2,7 +2,7 @@ import type { ChainId } from "../../wallet/constants";
 import { chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { queryClient } from "../../shared/helpers";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
-import { indexVaults } from "../../theta-index/constants";
+import { indexVaultsMap } from "../../theta-index/constants";
 import type { Token } from "../../index-vault-modal/types";
 
 export const indexTokensFetcher = async (
@@ -10,7 +10,7 @@ export const indexTokensFetcher = async (
   indexTokenAddress: string,
   account: string
 ): Promise<Token[]> => {
-  const tokenConfig = indexVaults.find(({ id }) => id === indexVaultId);
+  const tokenConfig = indexVaultsMap[indexVaultId];
   const {
     replications = [],
     source: { chainId = 0 as ChainId },

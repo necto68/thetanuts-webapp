@@ -1,12 +1,12 @@
 import { useQueries } from "react-query";
 
-import { indexVaults } from "../../theta-index/constants";
+import { indexVaultsMap } from "../../theta-index/constants";
 import { chainsMap, chainProvidersMap } from "../../wallet/constants";
 import { indexVaultFetcher } from "../helpers";
 
 export const useIndexVaults = (indexVaultIds: string[]) => {
   const tokensConfigs = indexVaultIds.map((indexVaultId) => {
-    const tokenConfig = indexVaults.find(({ id }) => id === indexVaultId);
+    const tokenConfig = indexVaultsMap[indexVaultId];
 
     const { chainId = 1, indexVaultAddress = "" } = tokenConfig?.source ?? {};
 

@@ -8,12 +8,13 @@ import {
 } from "../../contracts/types";
 import { convertToBig } from "../../vault/helpers";
 import type { ChainId } from "../../wallet/constants";
-import { chainsMap } from "../../wallet/constants";
-import type { ChainExplorerResponse, Transaction } from "../types";
+import type { Transaction } from "../types";
 import { TransactionType } from "../types";
 import type { SwapEvent } from "../../contracts/types/PairAbi";
 import { queryClient } from "../../shared/helpers";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
+
+import { fetchChainExplorerData } from "./fetchChainExplorerData";
 
 export const pairHistoryFetcher = async (
   assetTokenAddress: string,
@@ -21,7 +22,6 @@ export const pairHistoryFetcher = async (
   routerAddress: string,
   provider: Provider,
   account: string
-  // eslint-disable-next-line sonarjs/cognitive-complexity
 ): Promise<Transaction[]> => {
   const sortedAddresses = [assetTokenAddress, indexTokenAddress].sort((a, b) =>
     convertToBig(BigNumber.from(a)).cmp(convertToBig(BigNumber.from(b)))
@@ -55,44 +55,19 @@ export const pairHistoryFetcher = async (
   const pairContract = PairAbiFactory.connect(pairAddress, provider);
   const pairInterface = PairAbiFactory.createInterface();
 
-  const { address: filterAddress, topics: filterTopics = [] } =
+  const { address: filterAddress, topics: filterTopics } =
     // eslint-disable-next-line new-cap
     pairContract.filters.Swap(routerAddress, null, null, null, null, account);
-
-  const { explorerApi: explorerApiUrl } = chainsMap[chainId].urls;
-  const { explorerApi: explorerApiKey } = chainsMap[chainId].keys;
-
-  if (!explorerApiUrl) {
-    return [];
-  }
-
-  const apiUrl = new URL("/api", explorerApiUrl);
-
-  apiUrl.searchParams.set("module", "logs");
-  apiUrl.searchParams.set("action", "getLogs");
-  apiUrl.searchParams.set("fromBlock", "0");
-  apiUrl.searchParams.set("toBlock", "latest");
-  apiUrl.searchParams.set("address", filterAddress ?? "");
-
-  if (explorerApiKey) {
-    apiUrl.searchParams.set("apikey", explorerApiKey);
-  }
-
-  filterTopics.forEach((topic, index) => {
-    apiUrl.searchParams.set(`topic${index}`, topic.toString());
-  });
 
   let responseData = null;
 
   try {
-    responseData = await fetch(apiUrl.toString()).then(
-      async (response) => (await response.json()) as ChainExplorerResponse
+    responseData = await fetchChainExplorerData(
+      chainId,
+      filterAddress,
+      filterTopics
     );
   } catch {
-    return [];
-  }
-
-  if (responseData.status !== "1") {
     return [];
   }
 

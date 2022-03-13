@@ -15,7 +15,7 @@ import {
 } from "../../contracts/types";
 import type { IndexVault, VaultInfo } from "../types";
 import { queryClient } from "../../shared/helpers";
-import { indexVaults } from "../../theta-index/constants";
+import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
 
 import { vaultFetcher } from "./vaultFetcher";
@@ -153,9 +153,7 @@ export const indexVaultFetcher = async (
     totalWeight
   );
 
-  const tokenConfig = indexVaults.find(
-    ({ id: indexVaultId }) => indexVaultId === id
-  );
+  const tokenConfig = indexVaultsMap[id];
 
   const { replications = [] } = tokenConfig ?? {};
 
