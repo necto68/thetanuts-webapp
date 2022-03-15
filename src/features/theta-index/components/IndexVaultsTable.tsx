@@ -6,7 +6,7 @@ import {
   SwapButton,
 } from "../../table/components";
 import type { Column } from "../../table/types";
-import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
+import { useIndexVaults } from "../../index-vault/hooks";
 import type { IndexVault } from "../../index-vault/types";
 import { indexVaults } from "../constants";
 import { VaultType } from "../../vault/constants";

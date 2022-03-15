@@ -10,12 +10,14 @@
     "not ios_saf < 13"
   ],
   "scripts": {
-    "start": "yarn generate-types && parcel",
-    "build": "yarn generate-types && yarn build:ts",
+    "start": "yarn build:contracts && parcel",
+    "build": "yarn build:contracts && yarn build:ts",
+    "build:contracts": "typechain --target=ethers-v5 --out-dir=./src/features/contracts/types '**/*.abi.json'",
     "build:ts": "parcel build",
-    "lint": "eslint --ext .ts,.tsx,.html --fix ./src",
-    "prepare": "husky install",
-    "generate-types": "typechain --target=ethers-v5 --out-dir=./src/features/contracts/types '**/*.abi.json'"
+    "lint": "yarn lint:ts && yarn lint:eslint",
+    "lint:ts": "tsc --noEmit",
+    "lint:eslint": "eslint --ext .ts,.tsx,.html --fix ./src",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ethersproject/providers": "^5.5.3",

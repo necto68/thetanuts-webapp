@@ -23,7 +23,17 @@ export const SwapTitle = styled.span`
   text-align: center;
 `;
 
+export const RatioTitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+`;
+
 export const RatioTitle = styled(SwapTitle)`
   font-size: 30px;
   color: #061f3a;
+`;
+
+export const ToTitle = styled(RatioTitle)`
+  font-weight: 300;
 `;

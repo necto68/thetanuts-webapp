@@ -1,6 +1,4 @@
 export enum MutationType {
-  approveAllowance = "approveAllowance",
-
   swapExactTokensForTokens = "swapExactTokensForTokens",
   swapTokensForExactTokens = "swapTokensForExactTokens",
 
@@ -12,4 +10,9 @@ export enum MutationType {
 
   deposit = "deposit",
   depositNative = "depositNative",
+}
+
+export interface MutationError {
+  message: string;
+  data?: { code: number; message: string };
 }

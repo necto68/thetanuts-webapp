@@ -1,6 +1,6 @@
 import { IconContainer } from "../../shared/components";
 import { Flip } from "../icons";
-import { useSwapRouter, useSwapRouterMutations } from "../hooks";
+import { useSwapRouterState } from "../hooks";
 
 import { SwapInputCard } from "./SwapInputCard";
 import { VaultInfo } from "./VaultInfo";
@@ -37,8 +37,6 @@ export const SwapSection = () => {
     isUseNativeSourceData,
     isUseNativeTargetData,
 
-    lastUpdatedInputType,
-
     isDirectModeBetterThanSwapMode,
     isUseDirectMode,
 
@@ -48,26 +46,7 @@ export const SwapSection = () => {
 
     isFlipped,
     swapInputs,
-
-    tokensQueries,
-  } = useSwapRouter();
-
-  const { rootMutation, routerMutations } = useSwapRouterMutations(
-    sourceValue,
-    targetValue,
-
-    sourceData,
-    targetData,
-
-    isUseNativeSourceData,
-    isUseNativeTargetData,
-
-    isUseDirectMode,
-
-    lastUpdatedInputType,
-
-    tokensQueries
-  );
+  } = useSwapRouterState();
 
   const sourceTokenData = isUseNativeSourceData ? nativeData : sourceData;
   const targetTokenData = isUseNativeTargetData ? nativeData : targetData;
@@ -131,13 +110,8 @@ export const SwapSection = () => {
       <SwapButton
         isSourceValueLoading={isSourceValueLoading}
         isTargetValueLoading={isTargetValueLoading}
-        isUseDirectMode={isUseDirectMode}
-        rootMutation={rootMutation}
-        routerMutations={routerMutations}
         sourceTokenData={sourceTokenData}
-        sourceValue={sourceValue}
         targetTokenData={targetTokenData}
-        targetValue={targetValue}
       />
     </Container>
   );

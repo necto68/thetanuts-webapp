@@ -7,7 +7,7 @@ import {
   CellValue,
 } from "../../table/components";
 import { indexVaults } from "../../theta-index/constants";
-import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
+import { useIndexVaults } from "../../index-vault/hooks";
 import { VaultType } from "../../vault/constants";
 import type { IndexTokenRow } from "../types";
 import { useIndexTokensQueries } from "../hooks";

@@ -2,7 +2,7 @@ import { useQueries } from "react-query";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { indexTokensFetcher } from "../helpers";
-import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
+import { useIndexVaults } from "../../index-vault/hooks";
 
 export const useIndexTokensQueries = (indexVaultIds: string[]) => {
   const { account = "" } = useWallet();
