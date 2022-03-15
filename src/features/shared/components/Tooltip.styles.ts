@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import ReactTooltip from "react-tooltip";
 
+export const RootContainer = styled.div`
+  cursor: pointer;
+`;
+
 export const StyledTooltip = styled(ReactTooltip)`
   max-width: 250px;
   opacity: 1 !important;

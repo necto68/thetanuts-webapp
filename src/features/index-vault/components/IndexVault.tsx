@@ -18,6 +18,7 @@ import {
   DataTitle,
   DataValue,
   Header,
+  SwapContainer,
   SwapTitle,
   TVLContainer,
   TypeTitle,
@@ -80,7 +81,9 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
           )}
         </TVLContainer>
       </Content>
-      <SwapTitle>Swap</SwapTitle>
+      <SwapContainer>
+        <SwapTitle>Swap</SwapTitle>
+      </SwapContainer>
     </Container>
   );
 };

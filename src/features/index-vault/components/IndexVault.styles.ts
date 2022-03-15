@@ -21,7 +21,7 @@ export const Container = styled(motion.div).attrs(() => ({
   display: flex;
   flex-direction: column;
   width: 340px;
-  padding: 8px;
+  padding: 0 8px;
   border-radius: 10px;
   overflow: hidden;
   background: linear-gradient(180deg, #2c2c2c 0%, #101010 100%);
@@ -54,7 +54,7 @@ export const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 8px;
+  padding: 15px 8px 20px;
   border-top: 1px solid #5d5d5d;
   border-bottom: 1px solid #5d5d5d;
 `;
@@ -86,6 +86,13 @@ export const DataValue = styled.span`
   font-weight: 600;
   font-size: 28px;
   color: #ffffff;
+`;
+
+export const SwapContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 0;
 `;
 
 export const SwapTitle = styled.span`
