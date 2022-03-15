@@ -1,5 +1,5 @@
 import { indexVaults } from "../../theta-index/constants";
-import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
+import { useIndexVaults } from "../../index-vault/hooks";
 import type { HistoryTransactionRow } from "../types";
 
 import { useIndexDepositsHistoryQueries } from "./useIndexDepositsHistoryQueries";

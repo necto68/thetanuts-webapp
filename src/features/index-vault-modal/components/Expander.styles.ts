@@ -33,6 +33,8 @@ export const Title = styled.span`
 export const ExpandableContainer = styled(motion.div).attrs<{
   isOpen: boolean;
 }>(({ isOpen }) => ({
+  initial: false,
+
   animate: {
     height: isOpen ? "auto" : 0,
   },

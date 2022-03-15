@@ -1,6 +1,6 @@
 import { Metric } from "../../shared/components";
 import { indexVaults } from "../../theta-index/constants";
-import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
+import { useIndexVaults } from "../../index-vault/hooks";
 import { useIndexTokensQueries } from "../hooks";
 import { currencyFormatter } from "../../shared/helpers";
 

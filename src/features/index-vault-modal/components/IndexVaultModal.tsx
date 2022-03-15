@@ -1,14 +1,12 @@
-import { Header } from "./Header";
-import { SwapSection } from "./SwapSection";
-import { ExpandersSection } from "./ExpandersSection";
-import { Container, ContentContainer } from "./IndexVaultModal.styles";
+import { SwapRouterStateProvider } from "../providers/SwapRouterStateProvider";
+import { SwapRouterMutationsProvider } from "../providers/SwapRouterMutationsProvider";
+
+import { ModalContent } from "./ModalContent";
 
 export const IndexVaultModal = () => (
-  <Container>
-    <Header />
-    <ContentContainer>
-      <SwapSection />
-      <ExpandersSection />
-    </ContentContainer>
-  </Container>
+  <SwapRouterStateProvider>
+    <SwapRouterMutationsProvider>
+      <ModalContent />
+    </SwapRouterMutationsProvider>
+  </SwapRouterStateProvider>
 );

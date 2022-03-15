@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import Big from "big.js";
 
-import type { NativeToken, Token } from "../types";
+import type { SwapRouterState, Token, NativeToken } from "../types";
 import { maxSlippageTolerance } from "../constants";
-import { useSwapRouterConfig } from "../hooks";
+import { useSwapRouterConfig, useSwapRouterState } from "../hooks";
 import { currencyFormatter } from "../../shared/helpers";
 import { InfoIcon, Tooltip } from "../../shared/components";
 
@@ -16,21 +16,15 @@ import {
 } from "./VaultInfo.styles";
 
 interface VaultInfoProps {
-  isFlipped: boolean;
   isSourceTokenDataLoading: boolean;
-  isSourceValueLoading: boolean;
   isTargetTokenDataLoading: boolean;
-  isTargetValueLoading: boolean;
-  isUseDirectMode: boolean;
   sourceTokenData: NativeToken | Token | undefined;
-  sourceValue: string;
   targetTokenData: NativeToken | Token | undefined;
-  targetValue: string;
 }
 
 const getSourceToTargetRatioString = (
-  sourceValue: VaultInfoProps["sourceValue"],
-  targetValue: VaultInfoProps["targetValue"],
+  sourceValue: SwapRouterState["sourceValue"],
+  targetValue: SwapRouterState["targetValue"],
   isRatioLoading: boolean
 ) => {
   if (isRatioLoading) {
@@ -50,18 +44,22 @@ const getSourceToTargetRatioString = (
 };
 
 export const VaultInfo: FC<VaultInfoProps> = ({
-  isFlipped,
   isSourceTokenDataLoading,
-  isSourceValueLoading,
   isTargetTokenDataLoading,
-  isTargetValueLoading,
-  isUseDirectMode,
   sourceTokenData,
-  sourceValue,
   targetTokenData,
-  targetValue,
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
+
+  const {
+    isFlipped,
+    isSourceValueLoading,
+    isTargetValueLoading,
+    isUseDirectMode,
+    sourceValue,
+    targetValue,
+  } = useSwapRouterState();
+
   const { data } = indexVaultQuery;
   const { assetPrice = 0, indexPrice = 0 } = data ?? {};
 

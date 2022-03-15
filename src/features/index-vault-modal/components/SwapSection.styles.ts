@@ -24,6 +24,8 @@ export const FlipButton = styled(BaseButton).attrs<{ isFlipped: boolean }>(
     primaryColor: "#061F3A",
     secondaryColor: "#061F3A",
 
+    initial: false,
+
     animate: {
       rotate: isFlipped ? "-180deg" : 0,
       transition: { duration: 0.6 },

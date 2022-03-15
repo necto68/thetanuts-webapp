@@ -4,8 +4,11 @@ import { useCallback } from "react";
 import Big from "big.js";
 
 import { web3ModalConfig } from "../../wallet/constants";
-import type { useSwapRouterMutations } from "../hooks";
-import { useSwapRouterConfig } from "../hooks";
+import {
+  useSwapRouterMutations,
+  useSwapRouterConfig,
+  useSwapRouterState,
+} from "../hooks";
 import type { NativeToken, Token } from "../types";
 
 import { BaseSwapButton } from "./SwapButton.styles";
@@ -13,42 +16,43 @@ import { BaseSwapButton } from "./SwapButton.styles";
 interface SwapButtonProps {
   isSourceValueLoading: boolean;
   isTargetValueLoading: boolean;
-  isUseDirectMode: boolean;
-  rootMutation: ReturnType<typeof useSwapRouterMutations>["rootMutation"];
-  routerMutations: ReturnType<typeof useSwapRouterMutations>["routerMutations"];
   sourceTokenData: NativeToken | Token | undefined;
-  sourceValue: string;
   targetTokenData: NativeToken | Token | undefined;
-  targetValue: string;
 }
 
 // eslint-disable-next-line complexity
 export const SwapButton: FC<SwapButtonProps> = ({
   isSourceValueLoading,
   isTargetValueLoading,
-  isUseDirectMode,
-  rootMutation,
-  routerMutations,
   sourceTokenData,
-  sourceValue,
   targetTokenData,
-  targetValue,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const { isUserOnSupportedChainId, supportedChainIds } = useSwapRouterConfig();
+  const { sourceValue, targetValue, isUseDirectMode } = useSwapRouterState();
+  const {
+    approveAllowanceMutation,
+    swapMutation,
+    runApproveAllowance,
+    runSwapTokensForTokens,
+    runDirectDeposit,
+  } = useSwapRouterMutations();
 
   const { account, connect } = useWallet();
-
-  const { runApproveAllowance, runSwapTokensForTokens, runDirectDeposit } =
-    routerMutations;
 
   const handleConnectWalletButtonClick = useCallback(async () => {
     await connect(web3ModalConfig);
   }, [connect]);
 
   const handleResetButtonClick = useCallback(() => {
-    rootMutation.reset();
-  }, [rootMutation]);
+    if (approveAllowanceMutation) {
+      approveAllowanceMutation.reset();
+    }
+
+    if (swapMutation) {
+      swapMutation.reset();
+    }
+  }, [approveAllowanceMutation, swapMutation]);
 
   const handleApproveButtonClick = useCallback(() => {
     runApproveAllowance();
@@ -74,11 +78,20 @@ export const SwapButton: FC<SwapButtonProps> = ({
     targetValueBig.lte(0);
 
   const {
-    isLoading: isMutationLoading,
-    isError: isMutationError,
-    data: isMutationSucceeded,
-    error: mutationError,
-  } = rootMutation;
+    isLoading: isApproveAllowanceLoading,
+    isError: isApproveAllowanceError,
+    error: approveAllowanceError,
+    data: isApproveAllowanceSuccessful,
+  } = approveAllowanceMutation ?? {};
+
+  const {
+    isLoading: isSwapLoading,
+    isError: isSwapError,
+    error: swapError,
+  } = swapMutation ?? {};
+
+  const isError = isApproveAllowanceError ?? isSwapError;
+  const error = approveAllowanceError ?? swapError;
 
   if (!account) {
     return (
@@ -100,26 +113,26 @@ export const SwapButton: FC<SwapButtonProps> = ({
     );
   }
 
-  if (isMutationError && mutationError) {
+  if (isError && error) {
     return (
       <BaseSwapButton
         onClick={handleResetButtonClick}
         primaryColor="#EB5853"
         secondaryColor="#ffffff"
       >
-        {mutationError.data?.message ?? mutationError.message}
+        {error.data?.message ?? error.message}
       </BaseSwapButton>
     );
   }
 
-  if (isMutationSucceeded) {
+  if (isApproveAllowanceSuccessful) {
     return (
       <BaseSwapButton
         onClick={handleResetButtonClick}
         primaryColor="#81E429"
         secondaryColor="#ffffff"
       >
-        Succeed
+        Approve Successful
       </BaseSwapButton>
     );
   }
@@ -136,6 +149,14 @@ export const SwapButton: FC<SwapButtonProps> = ({
     );
   }
 
+  if (isApproveAllowanceLoading && sourceTokenData) {
+    return (
+      <BaseSwapButton disabled>
+        {`Approving ${sourceTokenData.symbol}...`}
+      </BaseSwapButton>
+    );
+  }
+
   if (
     sourceTokenData?.allowance &&
     sourceValueBig.gt(0) &&
@@ -143,7 +164,6 @@ export const SwapButton: FC<SwapButtonProps> = ({
   ) {
     return (
       <BaseSwapButton
-        isLoading={isMutationLoading}
         onClick={handleApproveButtonClick}
         primaryColor="#f3ba2f"
         secondaryColor="#ffffff"
@@ -153,10 +173,16 @@ export const SwapButton: FC<SwapButtonProps> = ({
     );
   }
 
+  if (isSwapLoading) {
+    return <BaseSwapButton disabled>Swapping...</BaseSwapButton>;
+  }
+
+  if (isSwapButtonDisabled) {
+    return <BaseSwapButton disabled>Swap</BaseSwapButton>;
+  }
+
   return (
     <BaseSwapButton
-      disabled={isSwapButtonDisabled}
-      isLoading={isMutationLoading}
       onClick={handleSwapButtonClick}
       primaryColor="#259DDF"
       secondaryColor="#ffffff"

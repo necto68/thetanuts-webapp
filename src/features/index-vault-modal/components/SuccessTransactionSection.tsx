@@ -1,22 +1,44 @@
-import type { FC } from "react";
+import { useCallback } from "react";
 
 import { BaseButton } from "../../shared/components";
+import { useSwapRouterMutations, useSwapRouterState } from "../hooks";
 
 import {
   Container,
   ContentContainer,
   SwapTitle,
+  RatioTitleContainer,
   RatioTitle,
+  ToTitle,
 } from "./SuccessTransactionSection.styles";
 
-export const SuccessTransactionSection: FC = () => (
-  <Container>
-    <ContentContainer>
-      <SwapTitle>Swap Successful</SwapTitle>
-      <RatioTitle>
-        <b>1 ETH</b> to <b>1.95317 indexETH</b>
-      </RatioTitle>
-    </ContentContainer>
-    <BaseButton primaryColor="#5D5D5D">Close</BaseButton>
-  </Container>
-);
+export const SuccessTransactionSection = () => {
+  const { sourceValue, targetValue, sourceData, targetData } =
+    useSwapRouterState();
+  const { swapMutation } = useSwapRouterMutations();
+
+  const handleCloseButtonClick = useCallback(() => {
+    if (swapMutation) {
+      swapMutation.reset();
+    }
+  }, [swapMutation]);
+
+  const { symbol: sourceSymbol = "" } = sourceData ?? {};
+  const { symbol: targetSymbol = "" } = targetData ?? {};
+
+  return (
+    <Container>
+      <ContentContainer>
+        <SwapTitle>Swap Successful</SwapTitle>
+        <RatioTitleContainer>
+          <RatioTitle>{`${sourceValue} ${sourceSymbol}`}</RatioTitle>
+          <ToTitle>to</ToTitle>
+          <RatioTitle>{`${targetValue} ${targetSymbol}`}</RatioTitle>
+        </RatioTitleContainer>
+      </ContentContainer>
+      <BaseButton onClick={handleCloseButtonClick} primaryColor="#5D5D5D">
+        Close
+      </BaseButton>
+    </Container>
+  );
+};

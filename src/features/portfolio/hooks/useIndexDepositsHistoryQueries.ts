@@ -4,7 +4,7 @@ import { useWallet } from "@gimmixorg/use-wallet";
 import { indexDepositsHistoryFetcher } from "../helpers";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { chainsMap, chainProvidersMap } from "../../wallet/constants";
-import { useIndexVaults } from "../../index-vault/hooks/useIndexVaults";
+import { useIndexVaults } from "../../index-vault/hooks";
 
 export const useIndexDepositsHistoryQueries = (indexVaultIds: string[]) => {
   const { account = "" } = useWallet();
