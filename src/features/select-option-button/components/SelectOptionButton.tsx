@@ -1,7 +1,7 @@
-import type { ComponentType } from "react";
-import { createElement, useCallback, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import { IconContainer, ArrowIcon } from "../../shared/components";
+import { getLogoBySymbol } from "../../logo/helpers";
 
 import { BaseOptionsContainer } from "./BaseOptionsContainer";
 import {
@@ -14,13 +14,13 @@ import {
 
 interface Option {
   id: number | string;
-  logo?: ComponentType | null;
+  symbol?: string;
   title?: string;
   color?: string;
 }
 
 interface SelectOptionButtonProps<OptionType extends Option> {
-  logo?: ComponentType | null;
+  symbol?: string;
   title?: string;
   color?: string;
   options?: OptionType[];
@@ -29,7 +29,7 @@ interface SelectOptionButtonProps<OptionType extends Option> {
 }
 
 export const SelectOptionButton = <OptionType extends Option>({
-  logo = null,
+  symbol,
   title = "",
   color = "#ffffff",
   options = [],
@@ -57,6 +57,8 @@ export const SelectOptionButton = <OptionType extends Option>({
     [onOptionClick]
   );
 
+  const buttonLogo = getLogoBySymbol(symbol);
+
   const logoSize = isSmall ? 18 : 25;
 
   return (
@@ -69,9 +71,9 @@ export const SelectOptionButton = <OptionType extends Option>({
           secondaryColor="#061f3a"
         >
           <ButtonContentContainer isSmall={isSmall}>
-            {logo ? (
+            {symbol ? (
               <IconContainer height={logoSize} width={logoSize}>
-                {createElement(logo)}
+                {buttonLogo}
               </IconContainer>
             ) : null}
             {title}
@@ -88,7 +90,7 @@ export const SelectOptionButton = <OptionType extends Option>({
           {options.map(
             ({
               id,
-              logo: optionLogo,
+              symbol: optionSymbol,
               title: optionTitle = "",
               color: optionColor = "#ffffff",
             }) => (
@@ -101,9 +103,9 @@ export const SelectOptionButton = <OptionType extends Option>({
                 primaryColor={optionColor}
               >
                 <ButtonContentContainer isSmall={isSmall}>
-                  {optionLogo ? (
+                  {optionSymbol ? (
                     <IconContainer height={logoSize} width={logoSize}>
-                      {createElement(optionLogo)}
+                      {getLogoBySymbol(optionSymbol)}
                     </IconContainer>
                   ) : null}
                   {optionTitle}

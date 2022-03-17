@@ -32,7 +32,7 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   const selectedChain =
     selectedChainId in chainsMap ? chainsMap[selectedChainId] : null;
 
-  const buttonLogo = selectedChain?.logo;
+  const buttonSymbol = selectedChain?.symbol;
   const buttonTitle = selectedChain?.title ?? "Wrong network";
   const buttonColor = isSelectedChainIdValid ? selectedChain?.color : "#EB5853";
 
@@ -48,10 +48,10 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   };
 
   const options = selectedChainsWithoutCurrentChain.map(
-    ({ chainId, title, logo, color }) => ({
+    ({ chainId, title, symbol, color }) => ({
       id: chainId,
       title,
-      logo,
+      symbol,
       color,
     })
   );
@@ -59,9 +59,9 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   return (
     <SelectOptionButton
       color={buttonColor}
-      logo={buttonLogo}
       onOptionClick={switchToChain}
       options={options}
+      symbol={buttonSymbol}
       title={buttonTitle}
     />
   );

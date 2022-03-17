@@ -5,6 +5,7 @@ import {
   Chains,
   SwapButton,
   CellValue,
+  AssetCell,
 } from "../../table/components";
 import { indexVaults } from "../../theta-index/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
@@ -17,6 +18,7 @@ const columns: Column<IndexTokenRow>[] = [
   {
     key: "assetSymbol",
     title: "Asset",
+    render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
   },
   {
     key: "vaultType",

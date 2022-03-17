@@ -5,7 +5,6 @@ import type {
 import { Web3Provider } from "@ethersproject/providers";
 import Web3WsProvider from "web3-providers-ws";
 
-import { Eth, Bnb, Matic, Avax, Ftm } from "../../logo/components";
 import type { ChainConfig } from "../types";
 
 import { wsProviderOptions } from "./providerOptions";
@@ -23,7 +22,7 @@ export const chains: ChainConfig[] = [
     chainId: ChainId.ETHEREUM,
     title: "Ethereum",
     color: "#ffffff",
-    logo: Eth,
+    symbol: "ETH",
 
     urls: {
       rpc: "wss://main-light.eth.linkpool.io/ws",
@@ -45,7 +44,7 @@ export const chains: ChainConfig[] = [
     chainId: ChainId.BSC,
     title: "BSC",
     color: "#f0b90a",
-    logo: Bnb,
+    symbol: "BNB",
 
     urls: {
       rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/bsc/mainnet/ws",
@@ -67,7 +66,7 @@ export const chains: ChainConfig[] = [
     chainId: ChainId.MATIC,
     title: "Matic",
     color: "#7b43d9",
-    logo: Matic,
+    symbol: "MATIC",
 
     urls: {
       rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/polygon/mainnet/ws",
@@ -89,7 +88,7 @@ export const chains: ChainConfig[] = [
     chainId: ChainId.AVALANCHE,
     title: "Avalanche",
     color: "#dc3e3f",
-    logo: Avax,
+    symbol: "AVAX",
 
     urls: {
       rpc: "wss://api.avax.network/ext/bc/C/ws",
@@ -111,7 +110,7 @@ export const chains: ChainConfig[] = [
     chainId: ChainId.FANTOM,
     title: "Fantom",
     color: "#3eb6e9",
-    logo: Ftm,
+    symbol: "FTM",
 
     urls: {
       rpc: "wss://wsapi.fantom.network",

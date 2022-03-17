@@ -1,5 +1,11 @@
 import type { Column } from "../../table/types";
-import { APYCellValue, CellValue, Chains, Table } from "../../table/components";
+import {
+  APYCellValue,
+  AssetCell,
+  CellValue,
+  Chains,
+  Table,
+} from "../../table/components";
 import { VaultType } from "../../vault/constants";
 import type { HistoryTransactionRow } from "../types";
 import { TransactionTypeTitle } from "../types";
@@ -15,6 +21,7 @@ const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "assetSymbol",
     title: "Asset",
+    render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
   },
   {
     key: "vaultType",

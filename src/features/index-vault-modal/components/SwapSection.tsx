@@ -96,16 +96,10 @@ export const SwapSection = () => {
         />
       </SwapInputsContainer>
       <VaultInfo
-        isFlipped={isFlipped}
         isSourceTokenDataLoading={isSourceTokenDataLoading}
-        isSourceValueLoading={isSourceValueLoading}
         isTargetTokenDataLoading={isTargetTokenDataLoading}
-        isTargetValueLoading={isTargetValueLoading}
-        isUseDirectMode={isUseDirectMode}
         sourceTokenData={sourceTokenData}
-        sourceValue={sourceValue}
         targetTokenData={targetTokenData}
-        targetValue={targetValue}
       />
       <SwapButton
         isSourceValueLoading={isSourceValueLoading}

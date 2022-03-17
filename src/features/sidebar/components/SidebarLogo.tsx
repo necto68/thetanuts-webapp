@@ -1,10 +1,13 @@
-import logo from "../../../assets/images/logo.png";
+import { IconContainer } from "../../shared/components";
+import { AppLogo } from "../icons";
 
 import { AppName, SidebarLogoContainer } from "./SidebarLogo.styles";
 
 export const SidebarLogo = () => (
   <SidebarLogoContainer>
-    <img alt="Logo" height="46px" src={logo} width="49px" />
+    <IconContainer height={35} width={35}>
+      <AppLogo />
+    </IconContainer>
     <AppName>
       <strong>Theta</strong>Nuts
     </AppName>
