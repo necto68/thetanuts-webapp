@@ -30,14 +30,17 @@ export const Backdrop = styled(motion.div).attrs(() => ({
 
 export const VaultModalContainer = styled(motion.div).attrs(() => ({
   initial: {
-    y: "-100%",
+    y: "-50%",
+    opacity: 0,
   },
 
   animate: {
     y: 0,
+    opacity: 1,
   },
 
   exit: {
-    y: "-120%",
+    y: "-50%",
+    opacity: 0,
   },
 }))``;

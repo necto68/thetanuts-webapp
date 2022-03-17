@@ -4,6 +4,7 @@ import {
   APYCellValue,
   Chains,
   SwapButton,
+  AssetCell,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useIndexVaults } from "../../index-vault/hooks";
@@ -19,6 +20,7 @@ const columns: Column<IndexVault>[] = [
   {
     key: "assetSymbol",
     title: "Asset",
+    render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
   },
   {
     key: "type",

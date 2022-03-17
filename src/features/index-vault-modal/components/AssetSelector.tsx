@@ -2,7 +2,6 @@ import type { FC } from "react";
 import { useCallback } from "react";
 
 import { SelectOptionButton } from "../../select-option-button/components";
-import { Eth } from "../../logo/components";
 
 import type { SwapInputCardProps } from "./SwapInputCard";
 
@@ -25,22 +24,30 @@ export const AssetSelector: FC<AssetSelectorProps> = ({
     return null;
   }
 
-  const selectedAsset = isUseNativeData ? nativeData : tokenData;
-  const optionAsset = isUseNativeData ? tokenData : nativeData;
+  const { symbol: selectedAssetSymbol } = isUseNativeData
+    ? nativeData
+    : tokenData;
+
+  const { symbol: optionAssetSymbol } = isUseNativeData
+    ? tokenData
+    : nativeData;
 
   // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
   const options = [
-    // TODO: remove ETH logo for real logos
-    { id: optionAsset.symbol, logo: Eth, title: optionAsset.symbol },
+    {
+      id: optionAssetSymbol,
+      symbol: optionAssetSymbol,
+      title: optionAssetSymbol,
+    },
   ];
 
   return (
     <SelectOptionButton
       isSmall
-      logo={Eth}
       onOptionClick={handleOptionClick}
       options={options}
-      title={selectedAsset.symbol}
+      symbol={selectedAssetSymbol}
+      title={selectedAssetSymbol}
     />
   );
 };

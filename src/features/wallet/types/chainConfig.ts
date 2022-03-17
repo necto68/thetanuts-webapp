@@ -1,11 +1,9 @@
-import type { ComponentType } from "react";
-
 import type { ChainId } from "../constants";
 
 export interface ChainConfig {
   chainId: ChainId;
   title: string;
-  logo: ComponentType;
+  symbol: string;
   color: string;
 
   urls: {

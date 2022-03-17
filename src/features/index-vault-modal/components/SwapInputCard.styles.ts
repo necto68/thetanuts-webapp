@@ -117,18 +117,17 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
   -moz-appearance: textfield;
 `;
 
-export const AssetTitle = styled(motion.span).attrs<{ isSelected?: boolean }>(
-  ({ isSelected = true }) => ({
-    initial: false,
+export const AssetTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
 
-    animate: {
-      color: isSelected ? "#e5e5e5" : "#9e9e9e",
-    },
-  })
-)<{ isSelected?: boolean }>`
+export const AssetTitle = styled.span`
   font-family: Roboto;
   font-weight: 400;
   font-size: 18px;
+  color: #ffffff;
 `;
 
 export const MaxButton = styled(BaseButton)`

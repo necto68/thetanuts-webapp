@@ -3,8 +3,9 @@ import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import Big from "big.js";
 
-import { SkeletonBox } from "../../shared/components";
+import { IconContainer, SkeletonBox } from "../../shared/components";
 import type { NativeToken, Token } from "../types";
+import { getLogoBySymbol } from "../../logo/helpers";
 
 import { AssetSelector } from "./AssetSelector";
 import { SwapInputPrice } from "./SwapInputPrice";
@@ -12,6 +13,7 @@ import {
   Container,
   AssetContainer,
   AssetTitle,
+  AssetTitleContainer,
   MaxButton,
   SwapInput,
   SwapInputContainer,
@@ -62,8 +64,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   isUseDirectMode = false,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
-  // const isShowAssetSelector = true;
-
   const isShowAssetSelector =
     tokenData &&
     nativeData &&
@@ -99,6 +99,8 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       inputValueBig.gt(0) &&
       inputValueBig.gt(currentData.balance)
   );
+
+  const assetLogo = getLogoBySymbol(currentData?.symbol);
 
   return (
     <Container>
@@ -144,7 +146,12 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
           <AssetContainer>
             {isDataLoading ? <SkeletonBox height={30} width={55} /> : null}
             {!isDataLoading && !isShowAssetSelector ? (
-              <AssetTitle>{currentData?.symbol}</AssetTitle>
+              <AssetTitleContainer>
+                <IconContainer height={20} width={20}>
+                  {assetLogo}
+                </IconContainer>
+                <AssetTitle>{currentData?.symbol}</AssetTitle>
+              </AssetTitleContainer>
             ) : null}
             {!isDataLoading && isShowAssetSelector ? (
               <AssetSelector

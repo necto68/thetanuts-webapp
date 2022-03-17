@@ -8,11 +8,13 @@ import {
   numberFormatter,
   totalValueLockedFormatter,
 } from "../../shared/helpers";
-import { SkeletonBox } from "../../shared/components";
+import { SkeletonBox, IconContainer } from "../../shared/components";
+import { getLogoBySymbol } from "../../logo/helpers";
 
 import {
   APYContainer,
   AssetTitle,
+  AssetTitleContainer,
   Container,
   Content,
   DataTitle,
@@ -50,6 +52,8 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
   const formattedTotalAPY = numberFormatter.format(annualPercentageYield);
   const formattedTVL = totalValueLockedFormatter(totalValueLocked);
 
+  const assetLogo = getLogoBySymbol(assetSymbol);
+
   return (
     <Container onClick={handleVaultClick}>
       {isLoading ? (
@@ -59,8 +63,13 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
         </Header>
       ) : (
         <Header>
+          <AssetTitleContainer>
+            <IconContainer height={25} width={25}>
+              {assetLogo}
+            </IconContainer>
+            <AssetTitle>{assetTitle}</AssetTitle>
+          </AssetTitleContainer>
           <TypeTitle>{type === VaultType.CALL ? "Call" : "Put"}</TypeTitle>
-          <AssetTitle>{assetTitle}</AssetTitle>
         </Header>
       )}
       <Content>

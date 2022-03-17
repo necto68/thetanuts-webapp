@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 export const Container = styled(motion.div).attrs(() => ({
   initial: {
     opacity: 0,
+    y: 50,
   },
 
   animate: {
     opacity: 1,
+    y: 0,
   },
 
   whileHover: { y: -10, boxShadow: "0 0 20px #81E429" },
@@ -41,6 +43,12 @@ export const TypeTitle = styled.span`
   font-weight: 500;
   font-size: 28px;
   color: #ffffff;
+`;
+
+export const AssetTitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 `;
 
 export const AssetTitle = styled.span`
