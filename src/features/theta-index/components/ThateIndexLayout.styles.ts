@@ -1,12 +1,19 @@
 import styled from "styled-components";
 
+import { sizes } from "../../shared/constants";
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 25px;
-  padding: 40px;
   background-color: rgba(1, 12, 26, 0.7);
   border-radius: 10px;
+
+  padding: 40px;
+
+  @media (max-width: ${sizes.md}px) {
+    padding: 20px;
+  }
 `;
 
 export const Title = styled.span`

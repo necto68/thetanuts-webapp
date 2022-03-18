@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { createElement } from "react";
 
 import { IconContainer } from "../../shared/components";
+import { useSidebarState } from "../hooks";
 
 import { SidebarItemContainer, SidebarLink } from "./SidebarItem.styles";
 
@@ -20,9 +21,11 @@ export const SidebarItem: FC<SidebarItemProps> = ({
 }) => {
   const color = active ? "#81e429" : "#fff";
 
+  const { toggleIsShow } = useSidebarState();
+
   return (
     <SidebarItemContainer active={active}>
-      <SidebarLink color={color} to={to}>
+      <SidebarLink color={color} onClick={toggleIsShow} to={to}>
         <IconContainer height={29} width={29}>
           {createElement(navIcon)}
         </IconContainer>

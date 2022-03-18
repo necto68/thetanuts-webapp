@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { PagePathname } from "../types";
+import { sizes } from "../../shared/constants";
 
 const mapPathnameToBackground = {
   [PagePathname.thetaIndex]:
@@ -29,4 +30,8 @@ export const PageContainer = styled(motion.div).attrs<{
   gap: 20px;
   overflow: auto;
   padding: 20px;
+
+  @media (max-width: ${sizes.md}px) {
+    padding: 20px 10px 10px;
+  }
 `;

@@ -77,15 +77,21 @@ export const IndexInfo = () => {
             root={<InfoIcon />}
           />
         </InfoValueContainer>
-        <InfoValue>{`${indexValue} ${underlyingAssetSymbol}`}</InfoValue>
+        <InfoValue
+          isAlignRight
+        >{`${indexValue} ${underlyingAssetSymbol}`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue>TVL</InfoValue>
-        <InfoValue>{formattedTVL}</InfoValue>
+        <InfoValue isAlignRight>{formattedTVL}</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Underlying Asset</InfoValue>
-        <InfoLink href={underlyingTokenExplorerUrl} target="_blank">
+        <InfoLink
+          href={underlyingTokenExplorerUrl}
+          isAlignRight
+          target="_blank"
+        >
           {underlyingAssetSymbol}
         </InfoLink>
       </InfoContainer>
@@ -98,7 +104,7 @@ export const IndexInfo = () => {
             root={<InfoIcon />}
           />
         </InfoValueContainer>
-        <InfoLink href={indexTokenExplorerUrl} target="_blank">
+        <InfoLink href={indexTokenExplorerUrl} isAlignRight target="_blank">
           {indexTokenAddress}
         </InfoLink>
       </InfoContainer>

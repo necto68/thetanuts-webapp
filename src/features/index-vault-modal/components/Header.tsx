@@ -2,13 +2,9 @@ import { useCallback } from "react";
 
 import { useIndexVaultModalState, useSwapRouterConfig } from "../hooks";
 import { ChainSelect } from "../../wallet/components";
+import { CircleButton, CircleButtonIconType } from "../../shared/components";
 
-import {
-  Container,
-  Title,
-  ButtonsContainer,
-  CloseButton,
-} from "./Header.styles";
+import { ButtonsContainer, Container, Title } from "./Header.styles";
 
 export const Header = () => {
   const [, setIndexVaultModalState] = useIndexVaultModalState();
@@ -26,7 +22,12 @@ export const Header = () => {
       <Title>Swap Token</Title>
       <ButtonsContainer>
         <ChainSelect chainIds={supportedChainIds} />
-        <CloseButton onClick={handleCloseButtonClick}>✕</CloseButton>
+        <CircleButton
+          iconSize={16}
+          iconType={CircleButtonIconType.cross}
+          onClick={handleCloseButtonClick}
+          primaryColor="#5D5D5D"
+        />
       </ButtonsContainer>
     </Container>
   );

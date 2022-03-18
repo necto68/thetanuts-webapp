@@ -67,11 +67,11 @@ export const PortfolioLayout = () => {
         <TabContainer>
           <AnimatePresence exitBeforeEnter initial={false}>
             {isPositionsTab ? (
-              <PositionsTabContainer>
+              <PositionsTabContainer key={isPositionsTab.toString()}>
                 <PositionsTable />
               </PositionsTabContainer>
             ) : (
-              <TransactionHistoryTabContainer>
+              <TransactionHistoryTabContainer key={isPositionsTab.toString()}>
                 <TransactionHistoryTable />
               </TransactionHistoryTabContainer>
             )}

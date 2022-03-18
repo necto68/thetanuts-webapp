@@ -1,18 +1,21 @@
 import styled from "styled-components";
 
+import { sizes } from "../../shared/constants";
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
+  height: min(640px, 85vh);
 `;
 
 export const ContentContainer = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 30px;
-  padding: 185px 0;
 `;
 
 export const SwapTitle = styled.span`
@@ -21,6 +24,10 @@ export const SwapTitle = styled.span`
   font-size: 70px;
   color: #81e429;
   text-align: center;
+
+  @media (max-width: ${sizes.md}px) {
+    font-size: 60px;
+  }
 `;
 
 export const RatioTitleContainer = styled.div`

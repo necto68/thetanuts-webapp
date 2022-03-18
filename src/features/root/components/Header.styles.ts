@@ -2,9 +2,8 @@ import styled from "styled-components";
 
 import { sizes } from "../../shared/constants";
 
-export const HeaderContainer = styled.div`
+export const Container = styled.div`
   display: flex;
-  align-items: center;
   justify-content: flex-end;
   gap: 25px;
 
@@ -14,7 +13,26 @@ export const HeaderContainer = styled.div`
   }
 `;
 
+export const LogoContainer = styled.div`
+  display: none;
+
+  @media (max-width: ${sizes.md}px) {
+    display: flex;
+    justify-content: center;
+  }
+`;
+
+export const CircleButtonContainer = styled.div`
+  display: flex;
+  flex: 1;
+`;
+
+export const AppSidebarLogoContainer = styled(CircleButtonContainer)`
+  justify-content: center;
+`;
+
 export const ButtonsContainer = styled.div`
   display: flex;
+  justify-content: center;
   gap: 10px;
 `;

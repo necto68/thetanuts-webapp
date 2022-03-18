@@ -19,12 +19,8 @@ export const Backdrop = styled(motion.div).attrs(() => ({
   justify-content: center;
   align-items: center;
   z-index: 1;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
   background-color: rgba(0, 0, 0, 0.6);
 `;
 
@@ -32,15 +28,22 @@ export const VaultModalContainer = styled(motion.div).attrs(() => ({
   initial: {
     y: "-50%",
     opacity: 0,
+    scale: 0.8,
   },
 
   animate: {
     y: 0,
     opacity: 1,
+    scale: 1,
   },
 
   exit: {
     y: "-50%",
     opacity: 0,
+    scale: 0.8,
   },
-}))``;
+}))`
+  display: flex;
+  max-width: 95vw;
+  max-height: 98vh;
+`;
