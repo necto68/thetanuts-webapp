@@ -12,6 +12,7 @@ export const InfoContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;
 `;
 
 export const PriceInfoContainer = styled(InfoContainer)`
@@ -24,18 +25,27 @@ export const InfoValueContainer = styled.div`
   gap: 8px;
 `;
 
-export const InfoValue = styled.span<{ isUnderline?: boolean }>`
+export const InfoValue = styled.span<{
+  isUnderline?: boolean;
+  isAlignRight?: boolean;
+}>`
   font-family: Roboto;
   font-weight: 400;
   font-size: 16px;
   color: #061f3a;
+  text-align: ${({ isAlignRight = false }) =>
+    isAlignRight ? "right" : "left"};
   text-decoration: ${({ isUnderline = false }) =>
     isUnderline ? "underline" : "none"};
 `;
 
-export const InfoLink = styled.a`
+export const InfoLink = styled.a<{
+  isAlignRight?: boolean;
+}>`
   font-family: Roboto;
   font-weight: 400;
   font-size: 16px;
   color: #061f3a;
+  text-align: ${({ isAlignRight = false }) =>
+    isAlignRight ? "right" : "left"};
 `;

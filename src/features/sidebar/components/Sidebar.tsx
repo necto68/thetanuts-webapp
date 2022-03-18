@@ -2,22 +2,29 @@ import { useLocation } from "react-router-dom";
 import { createElement } from "react";
 
 import { ThetaIndex, Portfolio, Discord, Twitter } from "../icons";
-import { IconContainer } from "../../shared/components";
+import {
+  CircleButton,
+  CircleButtonIconType,
+  IconContainer,
+} from "../../shared/components";
 import { PagePathname } from "../../root/types";
+import { useSidebarState } from "../hooks";
 
 import {
+  CircleButtonContainer,
   IconNavContainer,
   LogoContainer,
   MainNavContainer,
   SecondaryNavContainer,
   SidebarContainer,
 } from "./Sidebar.styles";
-import { SidebarLogo } from "./SidebarLogo";
+import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
 import { SidebarItemSecondary } from "./SidebarItemSecondary";
 
 export const Sidebar = () => {
   const { pathname } = useLocation();
+  const { isShow, toggleIsShow } = useSidebarState();
 
   // navbar items stored here and mapped to JSX later so it is easier to add on
   const mainNavItems = [
@@ -58,9 +65,17 @@ export const Sidebar = () => {
   ];
 
   return (
-    <SidebarContainer>
+    <SidebarContainer isShow={isShow}>
       <LogoContainer>
-        <SidebarLogo />
+        <AppSidebarLogo />
+        <CircleButtonContainer>
+          <CircleButton
+            iconSize={13}
+            iconType={CircleButtonIconType.cross}
+            onClick={toggleIsShow}
+            primaryColor="#FFFFFF"
+          />
+        </CircleButtonContainer>
       </LogoContainer>
       <MainNavContainer>
         {mainNavItems.map((navItem) => (

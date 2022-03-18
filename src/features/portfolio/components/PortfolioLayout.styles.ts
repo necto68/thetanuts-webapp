@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+import { sizes } from "../../shared/constants";
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,8 +12,13 @@ export const Container = styled.div`
 export const TabsHeaderContainer = styled.div`
   display: flex;
   gap: 25px;
-  padding: 0 40px;
   border-bottom: 1px solid #9e9e9e;
+
+  padding: 0 40px;
+
+  @media (max-width: ${sizes.md}px) {
+    padding: 0 20px;
+  }
 `;
 
 export const TabsLayout = styled.div`
@@ -22,8 +29,13 @@ export const TabsLayout = styled.div`
 `;
 
 export const TabContainer = styled.div`
-  padding: 40px;
   overflow: hidden;
+
+  padding: 40px;
+
+  @media (max-width: ${sizes.md}px) {
+    padding: 20px;
+  }
 `;
 
 export {

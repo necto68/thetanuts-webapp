@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { BaseButton } from "../../shared/components";
+import { sizes } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -18,13 +18,8 @@ export const Title = styled.span`
 export const ButtonsContainer = styled.div`
   display: flex;
   gap: 30px;
-`;
 
-export const CloseButton = styled(BaseButton).attrs(() => ({
-  primaryColor: "#5D5D5D",
-}))`
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border-radius: 50%;
+  @media (max-width: ${sizes.md}px) {
+    gap: 10px;
+  }
 `;

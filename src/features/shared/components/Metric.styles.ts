@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { sizes } from "../constants";
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -7,6 +9,10 @@ export const Container = styled.div`
   min-width: 260px;
   background-color: #010c1a;
   border-radius: 10px;
+
+  @media (max-width: ${sizes.md}px) {
+    min-width: 160px;
+  }
 `;
 
 export const MetricTitle = styled.span`

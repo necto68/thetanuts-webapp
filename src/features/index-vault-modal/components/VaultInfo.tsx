@@ -91,22 +91,25 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     <Container>
       <PriceInfoContainer>
         <InfoValue
+          isAlignRight
           isUnderline
         >{`1 ${sourceTokenSymbol} = ${sourceToTargetRatio} ${targetTokenSymbol} (${formattedPrice})`}</InfoValue>
       </PriceInfoContainer>
       <InfoContainer>
         <InfoValue>Protocols</InfoValue>
-        <InfoValue>
+        <InfoValue isAlignRight>
           {isUseDirectMode ? "Direct Deposit" : "Uniswap v2"}
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Route</InfoValue>
-        <InfoValue>{`${sourceTokenSymbol} ➞ ${targetTokenSymbol}`}</InfoValue>
+        <InfoValue
+          isAlignRight
+        >{`${sourceTokenSymbol} ➞ ${targetTokenSymbol}`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Slippage Tolerance</InfoValue>
-        <InfoValue>
+        <InfoValue isAlignRight>
           {isUseDirectMode ? "N/A" : `${slippageToleranceValue}%`}
         </InfoValue>
       </InfoContainer>
@@ -121,7 +124,7 @@ export const VaultInfo: FC<VaultInfoProps> = ({
             root={<InfoIcon />}
           />
         </InfoValueContainer>
-        <InfoValue>{isUseDirectMode ? "0%" : "0.3%"}</InfoValue>
+        <InfoValue isAlignRight>{isUseDirectMode ? "0%" : "0.3%"}</InfoValue>
       </InfoContainer>
     </Container>
   );

@@ -122,7 +122,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
         >
           <SwapInputContainer>
             {isValueLoading ? (
-              <SkeletonBox height={34.2} width={200} />
+              <SkeletonBox height={34.2} width={130} />
             ) : (
               <SwapInput
                 isError={isShowInsufficientBalanceTitle}

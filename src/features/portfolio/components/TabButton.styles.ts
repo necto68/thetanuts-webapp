@@ -16,6 +16,9 @@ export const Container = styled(motion.div).attrs<IsActiveProps>(
     },
   })
 )<IsActiveProps>`
+  display: flex;
+  align-items: center;
+
   transform: translateY(2px);
   border-bottom-width: 3px;
   border-bottom-style: solid;
