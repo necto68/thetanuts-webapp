@@ -7,7 +7,7 @@ export const indexVaults: IndexVaultConfig[] = [
     isFeatured: true,
 
     source: {
-      chainId: ChainId.MATIC,
+      chainId: ChainId.POLYGON,
       indexVaultAddress: "0xa0759c71Bf30eA958D7C67D280314f0655aee5Bc",
     },
 
@@ -24,7 +24,7 @@ export const indexVaults: IndexVaultConfig[] = [
     isFeatured: true,
 
     source: {
-      chainId: ChainId.MATIC,
+      chainId: ChainId.POLYGON,
       indexVaultAddress: "0x354E37ca9FE751246C28C9EC07de30845a9b61C2",
     },
 

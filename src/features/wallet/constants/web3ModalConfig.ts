@@ -1,14 +1,18 @@
 import type Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 
+import { chains } from "./chains";
+
+const rpc = Object.fromEntries(
+  chains.map(({ chainId, urls }) => [chainId, urls.rpc])
+);
+
 const providerOptions = {
   walletconnect: {
-    // required
     package: WalletConnectProvider,
 
     options: {
-      // required
-      infuraId: "INFURA_ID",
+      rpc,
     },
   },
 };

@@ -8,6 +8,7 @@ export interface ChainConfig {
 
   urls: {
     rpc: string;
+    wsRpc: string;
     explorer: string;
     explorerApi?: string;
   };

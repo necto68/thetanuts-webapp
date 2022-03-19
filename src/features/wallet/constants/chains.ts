@@ -12,7 +12,7 @@ import { wsProviderOptions } from "./providerOptions";
 export enum ChainId {
   ETHEREUM = 1,
   BSC = 56,
-  MATIC = 137,
+  POLYGON = 137,
   AVALANCHE = 43_114,
   FANTOM = 250,
 }
@@ -25,7 +25,11 @@ export const chains: ChainConfig[] = [
     symbol: "ETH",
 
     urls: {
-      rpc: "wss://main-light.eth.linkpool.io/ws",
+      rpc: "https://rpc.ankr.com/eth",
+
+      wsRpc:
+        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/eth/mainnet/ws",
+
       explorer: "https://etherscan.io/",
       explorerApi: "https://api.etherscan.io/",
     },
@@ -47,7 +51,11 @@ export const chains: ChainConfig[] = [
     symbol: "BNB",
 
     urls: {
-      rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/bsc/mainnet/ws",
+      rpc: "https://rpc.ankr.com/bsc",
+
+      wsRpc:
+        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/bsc/mainnet/ws",
+
       explorer: "https://bscscan.com/",
       explorerApi: "https://api.bscscan.com/",
     },
@@ -63,13 +71,17 @@ export const chains: ChainConfig[] = [
     },
   },
   {
-    chainId: ChainId.MATIC,
-    title: "Matic",
+    chainId: ChainId.POLYGON,
+    title: "Polygon",
     color: "#7b43d9",
     symbol: "MATIC",
 
     urls: {
-      rpc: "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/polygon/mainnet/ws",
+      rpc: "https://rpc.ankr.com/polygon",
+
+      wsRpc:
+        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/polygon/mainnet/ws",
+
       explorer: "https://polygonscan.com/",
       explorerApi: "https://api.polygonscan.com/",
     },
@@ -91,7 +103,11 @@ export const chains: ChainConfig[] = [
     symbol: "AVAX",
 
     urls: {
-      rpc: "wss://api.avax.network/ext/bc/C/ws",
+      rpc: "https://rpc.ankr.com/avalanche",
+
+      wsRpc:
+        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/avalanche/mainnet/ws",
+
       explorer: "https://snowtrace.io/",
       explorerApi: "https://api.snowtrace.io/",
     },
@@ -113,7 +129,11 @@ export const chains: ChainConfig[] = [
     symbol: "FTM",
 
     urls: {
-      rpc: "wss://wsapi.fantom.network",
+      rpc: "https://rpc.ankr.com/fantom",
+
+      wsRpc:
+        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/fantom/mainnet/ws",
+
       explorer: "https://ftmscan.com/",
       explorerApi: "https://api.ftmscan.com/",
     },
@@ -139,7 +159,7 @@ export const chainProvidersMap: Record<ChainId, JsonRpcProvider> =
     chains.map(({ chainId, urls }) => {
       // @ts-expect-error Web3WsProvider doesn't have correct types
       const wsProvider = new Web3WsProvider(
-        urls.rpc,
+        urls.wsRpc,
         wsProviderOptions
       ) as ExternalProvider;
 

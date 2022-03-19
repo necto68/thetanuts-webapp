@@ -36,15 +36,39 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   const buttonTitle = selectedChain?.title ?? "Wrong network";
   const buttonColor = isSelectedChainIdValid ? selectedChain?.color : "#EB5853";
 
-  const switchToChain = async (chainId: number) => {
-    await provider?.send("wallet_switchEthereumChain", [
-      {
-        chainId: `0x${chainId.toString(16)}`,
-      },
-    ]);
+  const switchToChain = async (chainId: ChainId) => {
+    const chainIdHex = `0x${chainId.toString(16)}`;
 
-    // TODO: add try catch for adding chain to user's wallet,
-    //  if they don't have it
+    try {
+      await provider?.send("wallet_switchEthereumChain", [
+        {
+          chainId: chainIdHex,
+        },
+      ]);
+    } catch (error: unknown) {
+      const { code } = error as { code: number };
+
+      if (code === 4902) {
+        const chainConfig = chainsMap[chainId];
+        const { title, symbol, urls } = chainConfig;
+
+        await provider?.send("wallet_addEthereumChain", [
+          {
+            chainId: chainIdHex,
+            chainName: title,
+
+            nativeCurrency: {
+              name: symbol,
+              symbol,
+              decimals: 18,
+            },
+
+            rpcUrls: [urls.rpc],
+            blockExplorerUrls: [urls.explorer],
+          },
+        ]);
+      }
+    }
   };
 
   const options = selectedChainsWithoutCurrentChain.map(
