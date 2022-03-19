@@ -94,6 +94,7 @@ export const AssetContainer = styled.div`
 export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
   placeholder: "0",
   type: "number",
+  inputMode: "decimal",
 }))<{ isError: boolean }>`
   font-family: Roboto;
   font-weight: 400;
@@ -101,6 +102,7 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
   color: ${({ isError }) => (isError ? "#EB5853" : "#e5e5e5")};
   width: 100%;
   border-radius: 10px;
+  padding: 0;
   border: 0;
   background-color: transparent;
   outline: none;

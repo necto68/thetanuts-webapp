@@ -39,11 +39,13 @@ export const SelectOptionButton = <OptionType extends Option>({
   const [isShowOptions, setIsShowOptions] = useState(false);
   const chainButtonContainerReference = useRef(null);
 
+  const hasOptions = options.length > 0;
+
   const handleSelectButtonClick = useCallback(() => {
-    if (options.length > 0) {
+    if (hasOptions) {
       setIsShowOptions(!isShowOptions);
     }
-  }, [isShowOptions, options.length]);
+  }, [hasOptions, isShowOptions]);
 
   const handleOptionsContainerClose = useCallback(() => {
     setIsShowOptions(false);
@@ -77,7 +79,7 @@ export const SelectOptionButton = <OptionType extends Option>({
               </IconContainer>
             ) : null}
             {title}
-            <ArrowIcon up={isShowOptions} />
+            {hasOptions ? <ArrowIcon up={isShowOptions} /> : null}
           </ButtonContentContainer>
         </SelectButton>
       </div>

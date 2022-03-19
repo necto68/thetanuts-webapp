@@ -9,6 +9,7 @@ import {
 } from "../../shared/components";
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
+import { useViewportHeight } from "../../shared/hooks";
 
 import {
   CircleButtonContainer,
@@ -25,6 +26,8 @@ import { SidebarItemSecondary } from "./SidebarItemSecondary";
 export const Sidebar = () => {
   const { pathname } = useLocation();
   const { isShow, toggleIsShow } = useSidebarState();
+
+  const containerHeight = useViewportHeight();
 
   // navbar items stored here and mapped to JSX later so it is easier to add on
   const mainNavItems = [
@@ -65,7 +68,7 @@ export const Sidebar = () => {
   ];
 
   return (
-    <SidebarContainer isShow={isShow}>
+    <SidebarContainer height={containerHeight} isShow={isShow}>
       <LogoContainer>
         <AppSidebarLogo />
         <CircleButtonContainer>

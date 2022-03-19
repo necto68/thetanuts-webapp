@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import Div100vh from "react-div-100vh";
 
-export const Backdrop = styled(motion.div).attrs(() => ({
+export const Backdrop = styled(motion(Div100vh)).attrs(() => ({
   initial: {
     opacity: 0,
   },
@@ -19,12 +20,15 @@ export const Backdrop = styled(motion.div).attrs(() => ({
   justify-content: center;
   align-items: center;
   z-index: 1;
-  height: 100vh;
   width: 100vw;
   background-color: rgba(0, 0, 0, 0.6);
+
+  // height: 100vh; - by default because of Div100vh
 `;
 
-export const VaultModalContainer = styled(motion.div).attrs(() => ({
+export const VaultModalContainer = styled(motion.div).attrs<{
+  maxHeight: string;
+}>(() => ({
   initial: {
     y: "-50%",
     opacity: 0,
@@ -42,8 +46,10 @@ export const VaultModalContainer = styled(motion.div).attrs(() => ({
     opacity: 0,
     scale: 0.8,
   },
-}))`
+}))<{
+  maxHeight: string;
+}>`
   display: flex;
   max-width: 95vw;
-  max-height: 98vh;
+  max-height: ${({ maxHeight }) => maxHeight};
 `;

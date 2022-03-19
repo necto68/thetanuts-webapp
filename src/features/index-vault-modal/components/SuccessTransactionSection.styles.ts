@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 import { sizes } from "../../shared/constants";
 
-export const Container = styled.div`
+export const Container = styled.div<{ height: string }>`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: min(640px, 85vh);
+  height: min(640px, ${({ height }) => height});
 `;
 
 export const ContentContainer = styled.div`
