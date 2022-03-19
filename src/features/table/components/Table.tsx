@@ -12,7 +12,9 @@ import {
   TableContainer,
   Row,
   Cell,
+  CellContentContainer,
   CellValue,
+  CellTitle,
 } from "./Table.styles";
 
 interface TableProps<RowData> {
@@ -21,7 +23,7 @@ interface TableProps<RowData> {
   getRowKey?: (row: RowData) => string;
 }
 
-const renderCellValue = <RowData extends object>(
+const renderCellContent = <RowData extends object>(
   row: RowData | undefined,
   column: Column<RowData>
 ) => {
@@ -29,22 +31,34 @@ const renderCellValue = <RowData extends object>(
     return <SkeletonBox height={22} width={50} />;
   }
 
+  const cellTitle = column.title ? (
+    <CellTitle>{`${column.title}:`}</CellTitle>
+  ) : null;
+
+  let cellValue = null;
+
   if (column.render) {
     // eslint-disable-next-line testing-library/render-result-naming-convention
-    const cellValue = column.render(row);
+    const renderedValue = column.render(row);
 
-    return typeof cellValue === "string" ? (
-      <CellValue>{cellValue}</CellValue>
-    ) : (
-      cellValue
-    );
+    cellValue =
+      typeof renderedValue === "string" ? (
+        <CellValue>{renderedValue}</CellValue>
+      ) : (
+        renderedValue
+      );
+  } else if (column.key) {
+    cellValue = <CellValue>{row[column.key]}</CellValue>;
+  } else {
+    cellValue = null;
   }
 
-  if (column.key) {
-    return <CellValue>{row[column.key]}</CellValue>;
-  }
-
-  return null;
+  return (
+    <CellContentContainer>
+      {cellTitle}
+      {cellValue}
+    </CellContentContainer>
+  );
 };
 
 export const Table = <RowData extends object>({
@@ -84,7 +98,7 @@ export const Table = <RowData extends object>({
           <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
             {columns.map((column, columnIndex) => (
               <Cell key={column.key?.toString() ?? columnIndex.toString()}>
-                {renderCellValue(row, column)}
+                {renderCellContent(row, column)}
               </Cell>
             ))}
           </Row>
