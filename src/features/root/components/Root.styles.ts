@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import Div100vh from "react-div-100vh";
 
 import { PagePathname } from "../types";
 import { sizes } from "../../shared/constants";
@@ -12,9 +13,10 @@ const mapPathnameToBackground = {
     "linear-gradient(180deg, #031A34 14.49%, #B6509E 99.41%)",
 };
 
-export const Container = styled.div`
+export const Container = styled(Div100vh)`
   display: flex;
-  height: 100vh;
+
+  // height: 100vh; - by default because of Div100vh
 `;
 
 export const PageContainer = styled(motion.div).attrs<{

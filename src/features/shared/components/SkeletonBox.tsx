@@ -14,6 +14,7 @@ export const SkeletonBox = styled.div<{ width?: number; height?: number }>`
   overflow: hidden;
   background-color: transparent;
   border-radius: 10px;
+  will-change: transform;
 
   &::after {
     position: absolute;

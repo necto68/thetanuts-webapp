@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import { BaseButton } from "../../shared/components";
 import { useSwapRouterMutations, useSwapRouterState } from "../hooks";
+import { useViewportHeight } from "../../shared/hooks";
 
 import {
   Container,
@@ -17,6 +18,8 @@ export const SuccessTransactionSection = () => {
     useSwapRouterState();
   const { swapMutation } = useSwapRouterMutations();
 
+  const containerHeight = useViewportHeight(0.85);
+
   const handleCloseButtonClick = useCallback(() => {
     if (swapMutation) {
       swapMutation.reset();
@@ -27,7 +30,7 @@ export const SuccessTransactionSection = () => {
   const { symbol: targetSymbol = "" } = targetData ?? {};
 
   return (
-    <Container>
+    <Container height={containerHeight}>
       <ContentContainer>
         <SwapTitle>Swap Successful</SwapTitle>
         <RatioTitleContainer>

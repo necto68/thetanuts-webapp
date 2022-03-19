@@ -3,29 +3,30 @@ import { motion } from "framer-motion";
 
 import { sizes } from "../../shared/constants";
 
-export const SidebarContainer = styled(motion.div).attrs<{ isShow: boolean }>(
-  ({ isShow }) => ({
-    initial: false,
+export const SidebarContainer = styled(motion.div).attrs<{
+  isShow: boolean;
+  height: string;
+}>(({ isShow }) => ({
+  initial: false,
 
-    animate: {
-      x: isShow ? 0 : "-100%",
+  animate: {
+    x: isShow ? 0 : "-100%",
 
-      transition: {
-        type: "linear",
-      },
+    transition: {
+      type: "linear",
     },
-  })
-)<{ isShow: boolean }>`
+  },
+}))<{ isShow: boolean; height: string }>`
   display: flex;
   flex-direction: column;
   gap: 50px;
   padding: 50px 0;
   background-color: #010c1a;
+  height: ${({ height }) => height};
 
   @media (max-width: ${sizes.md}px) {
     position: fixed;
     z-index: 1;
-    height: 100vh;
     width: 100vw;
   }
 `;
