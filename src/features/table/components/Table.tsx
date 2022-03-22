@@ -53,11 +53,13 @@ const renderCellContent = <RowData extends object>(
     cellValue = null;
   }
 
-  return (
+  return cellTitle ? (
     <CellContentContainer>
       {cellTitle}
       {cellValue}
     </CellContentContainer>
+  ) : (
+    cellValue
   );
 };
 

@@ -65,7 +65,7 @@ export const InputWrapper = styled(motion.div).attrs<{ isError: boolean }>(
 )<{ isError: boolean }>`
   display: flex;
   flex: 1;
-  justify-content: flex-end;
+  justify-content: end;
   align-items: center;
   gap: 5px;
   padding: 10px;

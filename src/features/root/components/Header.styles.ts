@@ -4,7 +4,7 @@ import { sizes } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
   gap: 25px;
 
   @media (max-width: ${sizes.md}px) {
@@ -18,17 +18,8 @@ export const LogoContainer = styled.div`
 
   @media (max-width: ${sizes.md}px) {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
   }
-`;
-
-export const CircleButtonContainer = styled.div`
-  display: flex;
-  flex: 1;
-`;
-
-export const AppSidebarLogoContainer = styled(CircleButtonContainer)`
-  justify-content: center;
 `;
 
 export const ButtonsContainer = styled.div`

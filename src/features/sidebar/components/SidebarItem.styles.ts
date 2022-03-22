@@ -8,6 +8,7 @@ interface Colored {
 
 export const SidebarItemContainer = styled.div<{ active: boolean }>`
   display: flex;
+  padding: 0 25px;
   border-right-width: 2px;
   border-right-style: solid;
   border-right-color: ${({ active }) => (active ? "#81e429" : "transparent")};

@@ -87,7 +87,7 @@ export const AssetContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: end;
   gap: 5px;
 `;
 

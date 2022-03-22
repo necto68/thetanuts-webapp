@@ -21,7 +21,7 @@ export const useIndexDepositsHistoryRows = (): (
       return undefined;
     }
 
-    const { type: indexVaultType, assetSymbol } = data;
+    const { assetSymbol } = data;
 
     return historyTransactions.map(
       ({ id, type, timestamp, amountIn, chainId }) => ({
@@ -33,7 +33,6 @@ export const useIndexDepositsHistoryRows = (): (
 
         // TODO: add more different vault types
         vaultType: "THETA-INDEX",
-        indexVaultType,
         assetSymbol,
       })
     );

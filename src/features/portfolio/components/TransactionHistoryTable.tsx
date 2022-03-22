@@ -6,7 +6,6 @@ import {
   Chains,
   Table,
 } from "../../table/components";
-import { VaultType } from "../../vault/constants";
 import type { HistoryTransactionRow } from "../types";
 import { TransactionTypeTitle } from "../types";
 import { dateFormatter, numberFormatter } from "../../shared/helpers";
@@ -27,13 +26,6 @@ const columns: Column<HistoryTransactionRow>[] = [
     key: "vaultType",
     title: "Vault",
     render: () => "Theta-Index",
-  },
-  {
-    key: "indexVaultType",
-    title: "Strategy",
-
-    render: ({ indexVaultType }) =>
-      indexVaultType === VaultType.CALL ? "Call" : "Put",
   },
   {
     key: "type",

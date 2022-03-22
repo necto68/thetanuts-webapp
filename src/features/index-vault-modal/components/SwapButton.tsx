@@ -90,7 +90,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
     error: swapError,
   } = swapMutation ?? {};
 
-  const isError = isApproveAllowanceError ?? isSwapError;
+  const isError = Boolean(isApproveAllowanceError) || Boolean(isSwapError);
   const error = approveAllowanceError ?? swapError;
 
   if (!account) {
@@ -151,7 +151,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   if (isApproveAllowanceLoading && sourceTokenData) {
     return (
-      <BaseSwapButton disabled>
+      <BaseSwapButton disabled isLoading>
         {`Approving ${sourceTokenData.symbol}...`}
       </BaseSwapButton>
     );
@@ -174,7 +174,11 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }
 
   if (isSwapLoading) {
-    return <BaseSwapButton disabled>Swapping...</BaseSwapButton>;
+    return (
+      <BaseSwapButton disabled isLoading>
+        Swapping...
+      </BaseSwapButton>
+    );
   }
 
   if (isSwapButtonDisabled) {

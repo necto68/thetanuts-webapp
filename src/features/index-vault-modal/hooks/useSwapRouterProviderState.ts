@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Big from "big.js";
 import { usePreviousImmediate } from "rooks";
 
@@ -134,6 +134,9 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     indexVaultQuery,
     isIndexTokenInTarget
   );
+
+  // timeout ref for debounce
+  const timeoutReference = useRef<NodeJS.Timeout | null>(null);
 
   // state updaters
   const updateInputsValues = useCallback(
@@ -346,8 +349,10 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
       currentValue !== previousValue || chainId !== previousChainId;
 
     if (valuesHaveChanged && sourceAddress && targetAddress) {
+      setIsOppositeInputValueLoading(true);
+
       // eslint-disable-next-line complexity
-      void (async () => {
+      const updateValues = async () => {
         try {
           setIsOppositeInputValueLoading(true);
 
@@ -401,7 +406,16 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
         } finally {
           setIsOppositeInputValueLoading(false);
         }
-      })();
+      };
+
+      // debounce
+      if (timeoutReference.current) {
+        clearTimeout(timeoutReference.current);
+      }
+
+      timeoutReference.current = setTimeout(() => {
+        void updateValues();
+      }, 1000);
     }
   }, [
     lastUpdatedInputType,
