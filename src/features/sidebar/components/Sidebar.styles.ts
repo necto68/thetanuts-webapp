@@ -49,7 +49,10 @@ export const MainNavContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 0 0 0 25px;
+
+  @media (max-width: ${sizes.md}px) {
+    align-items: end;
+  }
 `;
 
 export const SecondaryNavContainer = styled.div`
@@ -57,10 +60,18 @@ export const SecondaryNavContainer = styled.div`
   flex-direction: column;
   gap: 10px;
   padding: 0 25px;
+
+  @media (max-width: ${sizes.md}px) {
+    align-items: end;
+  }
 `;
 
 export const IconNavContainer = styled.div`
   display: flex;
   gap: 16px;
   padding: 0 25px;
+
+  @media (max-width: ${sizes.md}px) {
+    justify-content: end;
+  }
 `;

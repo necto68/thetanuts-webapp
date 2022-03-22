@@ -75,11 +75,11 @@ export const DataContainer = styled.div`
 `;
 
 export const APYContainer = styled(DataContainer)`
-  align-items: flex-start;
+  align-items: start;
 `;
 
 export const TVLContainer = styled(DataContainer)`
-  align-items: flex-end;
+  align-items: end;
 `;
 
 export const DataTitle = styled.span`

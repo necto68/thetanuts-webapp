@@ -9,7 +9,6 @@ import {
 } from "../../table/components";
 import { indexVaults } from "../../theta-index/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
-import { VaultType } from "../../vault/constants";
 import type { IndexTokenRow } from "../types";
 import { useIndexTokensQueries } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
@@ -24,11 +23,6 @@ const columns: Column<IndexTokenRow>[] = [
     key: "vaultType",
     title: "Vault",
     render: () => "Theta-Index",
-  },
-  {
-    key: "type",
-    title: "Strategy",
-    render: ({ type }) => (type === VaultType.CALL ? "Call" : "Put"),
   },
   {
     key: "annualPercentageYield",
@@ -94,7 +88,6 @@ export const PositionsTable = () => {
 
       const {
         id,
-        type,
         assetSymbol,
         indexPrice,
         totalPercentageYields: { annualPercentageYield },
@@ -103,7 +96,6 @@ export const PositionsTable = () => {
 
       return indexTokens.map(({ symbol, balance, tokenAddress }, index) => ({
         id,
-        type,
 
         // TODO: add more different vault types
         vaultType: "THETA-INDEX",

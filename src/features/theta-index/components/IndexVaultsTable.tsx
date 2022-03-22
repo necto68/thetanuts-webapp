@@ -10,7 +10,6 @@ import type { Column } from "../../table/types";
 import { useIndexVaults } from "../../index-vault/hooks";
 import type { IndexVault } from "../../index-vault/types";
 import { indexVaults } from "../constants";
-import { VaultType } from "../../vault/constants";
 import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
 import { InfoIcon, Tooltip } from "../../shared/components";
 
@@ -21,11 +20,6 @@ const columns: Column<IndexVault>[] = [
     key: "assetSymbol",
     title: "Asset",
     render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
-  },
-  {
-    key: "type",
-    title: "Strategy",
-    render: ({ type }) => (type === VaultType.CALL ? "Call" : "Put"),
   },
   {
     key: "totalPercentageYields",

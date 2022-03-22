@@ -16,7 +16,7 @@ export const InfoContainer = styled.div`
 `;
 
 export const PriceInfoContainer = styled(InfoContainer)`
-  justify-content: flex-end;
+  justify-content: end;
 `;
 
 export const InfoValueContainer = styled.div`
