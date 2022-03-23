@@ -15,17 +15,20 @@ import {
   useIndexPairsHistoryRows,
   useIndexDepositsHistoryRows,
 } from "../hooks";
+import { chainsMap } from "../../wallet/constants";
 
 const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "assetSymbol",
     title: "Asset",
     render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
+    filterBy: true,
   },
   {
     key: "vaultType",
     title: "Vault",
     render: () => "Theta-Index",
+    filterBy: true,
   },
   {
     key: "type",
@@ -34,6 +37,8 @@ const columns: Column<HistoryTransactionRow>[] = [
     render: ({ type }) => (
       <APYCellValue>{TransactionTypeTitle[type]}</APYCellValue>
     ),
+
+    filterBy: ({ type }) => TransactionTypeTitle[type],
   },
   {
     key: "timestamp",
@@ -59,6 +64,8 @@ const columns: Column<HistoryTransactionRow>[] = [
     title: "Chain",
     // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
     render: ({ chainId }) => <Chains chainIds={[chainId]} />,
+
+    filterBy: ({ chainId }) => chainsMap[chainId].title,
   },
   {
     key: "id",
@@ -90,5 +97,12 @@ export const TransactionHistoryTable = () => {
     return <CellValue>You don&apos;t have transaction history, yet</CellValue>;
   }
 
-  return <Table columns={columns} getRowKey={getRowKey} rows={sortedRows} />;
+  return (
+    <Table
+      columns={columns}
+      filterInputPlaceholder="Filter by asset, vault, activity or chain"
+      getRowKey={getRowKey}
+      rows={sortedRows}
+    />
+  );
 };

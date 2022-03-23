@@ -12,17 +12,20 @@ import { useIndexVaults } from "../../index-vault/hooks";
 import type { IndexTokenRow } from "../types";
 import { useIndexTokensQueries } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
+import { chainsMap } from "../../wallet/constants";
 
 const columns: Column<IndexTokenRow>[] = [
   {
     key: "assetSymbol",
     title: "Asset",
     render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
+    filterBy: true,
   },
   {
     key: "vaultType",
     title: "Vault",
     render: () => "Theta-Index",
+    filterBy: true,
   },
   {
     key: "annualPercentageYield",
@@ -63,6 +66,7 @@ const columns: Column<IndexTokenRow>[] = [
     title: "Chain",
     // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
     render: ({ chainId }) => <Chains chainIds={[chainId]} />,
+    filterBy: ({ chainId }) => chainsMap[chainId].title,
   },
   {
     key: "id",
@@ -114,5 +118,12 @@ export const PositionsTable = () => {
     return <CellValue>You don&apos;t have any funds, yet</CellValue>;
   }
 
-  return <Table columns={columns} getRowKey={getRowKey} rows={rows} />;
+  return (
+    <Table
+      columns={columns}
+      filterInputPlaceholder="Filter by asset, vault or chain"
+      getRowKey={getRowKey}
+      rows={rows}
+    />
+  );
 };

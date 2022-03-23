@@ -4,8 +4,13 @@ import { motion } from "framer-motion";
 import { BaseButton } from "../../shared/components";
 import { sizes } from "../../shared/constants";
 
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
+
 export const TableContainer = styled.table`
-  width: 100%;
   border-collapse: collapse;
 `;
 
@@ -70,6 +75,18 @@ export const Header = styled.span`
 
 export const Row = styled(motion.tr).attrs(() => ({
   layout: true,
+
+  initial: {
+    scaleY: 0,
+  },
+
+  animate: {
+    scaleY: 1,
+  },
+
+  exit: {
+    scaleY: 0,
+  },
 }))`
   &:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.3);
