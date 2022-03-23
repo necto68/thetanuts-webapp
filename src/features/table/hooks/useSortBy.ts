@@ -57,5 +57,5 @@ export const useSortBy = <RowData>(rows: RowData[]) => {
     });
   }
 
-  return [sortedRows, sortState, updateSort] as const;
+  return { sortedRows, sortState, updateSort };
 };

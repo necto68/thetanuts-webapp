@@ -1,8 +1,12 @@
-import { ArrowIcon, SkeletonBox } from "../../shared/components";
-import { useSortBy } from "../hooks";
-import type { Column } from "../types";
+import { AnimatePresence } from "framer-motion";
 
+import { ArrowIcon, SkeletonBox } from "../../shared/components";
+import { useSortBy, useFilteredBy } from "../hooks";
+import type { Column, TableProps } from "../types";
+
+import { FilterInput } from "./FilterInput";
 import {
+  Container,
   Header,
   HeaderCell,
   HeaderRow,
@@ -16,12 +20,6 @@ import {
   CellValue,
   CellTitle,
 } from "./Table.styles";
-
-interface TableProps<RowData> {
-  columns: Column<RowData>[];
-  rows: (RowData | undefined)[];
-  getRowKey?: (row: RowData) => string;
-}
 
 const renderCellContent = <RowData extends object>(
   row: RowData | undefined,
@@ -67,45 +65,59 @@ export const Table = <RowData extends object>({
   columns,
   rows,
   getRowKey,
+  filterInputPlaceholder = "",
 }: TableProps<RowData>) => {
-  const [sortedRows, sortState, updateSort] = useSortBy(rows);
+  const { filteredRows, filterInputValue, setFilterInputValue } = useFilteredBy(
+    columns,
+    rows
+  );
+  const { sortedRows, sortState, updateSort } = useSortBy(filteredRows);
 
   return (
-    <TableContainer>
-      <thead>
-        <HeaderRow>
-          {columns.map(({ title, key, sortBy }, columnIndex) => (
-            <HeaderCell key={title ?? columnIndex.toString()}>
-              {title ? (
-                <SortButton
-                  onClick={() => {
-                    // @ts-expect-error key type should be fixed
-                    updateSort(key, sortBy);
-                  }}
-                >
-                  <SortContainer>
-                    <Header>{title}</Header>
-                    <SortArrowContainer show={sortState.key === key}>
-                      <ArrowIcon up={sortState.order === "ASC"} />
-                    </SortArrowContainer>
-                  </SortContainer>
-                </SortButton>
-              ) : null}
-            </HeaderCell>
-          ))}
-        </HeaderRow>
-      </thead>
-      <tbody>
-        {sortedRows.map((row, rowIndex) => (
-          <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
-            {columns.map((column, columnIndex) => (
-              <Cell key={column.key?.toString() ?? columnIndex.toString()}>
-                {renderCellContent(row, column)}
-              </Cell>
+    <Container>
+      <FilterInput
+        onChange={setFilterInputValue}
+        placeholder={filterInputPlaceholder}
+        value={filterInputValue}
+      />
+      <TableContainer>
+        <thead>
+          <HeaderRow>
+            {columns.map(({ title, key, sortBy }, columnIndex) => (
+              <HeaderCell key={title ?? columnIndex.toString()}>
+                {title ? (
+                  <SortButton
+                    onClick={() => {
+                      // @ts-expect-error key type should be fixed
+                      updateSort(key, sortBy);
+                    }}
+                  >
+                    <SortContainer>
+                      <Header>{title}</Header>
+                      <SortArrowContainer show={sortState.key === key}>
+                        <ArrowIcon up={sortState.order === "ASC"} />
+                      </SortArrowContainer>
+                    </SortContainer>
+                  </SortButton>
+                ) : null}
+              </HeaderCell>
             ))}
-          </Row>
-        ))}
-      </tbody>
-    </TableContainer>
+          </HeaderRow>
+        </thead>
+        <tbody>
+          <AnimatePresence initial={false}>
+            {sortedRows.map((row, rowIndex) => (
+              <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
+                {columns.map((column, columnIndex) => (
+                  <Cell key={column.key?.toString() ?? columnIndex.toString()}>
+                    {renderCellContent(row, column)}
+                  </Cell>
+                ))}
+              </Row>
+            ))}
+          </AnimatePresence>
+        </tbody>
+      </TableContainer>
+    </Container>
   );
 };

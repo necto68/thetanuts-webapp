@@ -12,6 +12,7 @@ import type { IndexVault } from "../../index-vault/types";
 import { indexVaults } from "../constants";
 import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
 import { InfoIcon, Tooltip } from "../../shared/components";
+import { chainsMap } from "../../wallet/constants";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
@@ -20,6 +21,7 @@ const columns: Column<IndexVault>[] = [
     key: "assetSymbol",
     title: "Asset",
     render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
+    filterBy: true,
   },
   {
     key: "totalPercentageYields",
@@ -50,6 +52,9 @@ const columns: Column<IndexVault>[] = [
     title: "Chains",
     render: ({ supportedChainIds }) => <Chains chainIds={supportedChainIds} />,
     sortBy: ({ supportedChainIds }) => supportedChainIds.length,
+
+    filterBy: ({ supportedChainIds }) =>
+      supportedChainIds.map((chain) => chainsMap[chain].title),
   },
   {
     key: "id",
@@ -65,5 +70,12 @@ export const IndexVaultsTable = () => {
 
   const rows = indexVaultsQueries.map(({ data }) => data);
 
-  return <Table columns={columns} getRowKey={getRowKey} rows={rows} />;
+  return (
+    <Table
+      columns={columns}
+      filterInputPlaceholder="Filter by asset or chain"
+      getRowKey={getRowKey}
+      rows={rows}
+    />
+  );
 };
