@@ -7,8 +7,9 @@ import { Sidebar } from "../../sidebar/components";
 import { SidebarStateProvider } from "../../sidebar/providers";
 import { PagePathname } from "../types";
 
+import { MobileHeader } from "./MobileHeader";
 import { Header } from "./Header";
-import { Container, PageContainer } from "./Root.styles";
+import { Container, LayoutContainer, PageContainer } from "./Root.styles";
 
 export const Root = () => {
   const { pathname } = useLocation();
@@ -18,20 +19,23 @@ export const Root = () => {
       <Container>
         <Modal />
         <Sidebar />
-        <PageContainer pathname={pathname as PagePathname}>
-          <Header />
-          <Switch>
-            <Route exact path={PagePathname.thetaIndex}>
-              <ThetaIndexPage />
-            </Route>
-            <Route exact path={PagePathname.portfolio}>
-              <PortfolioPage />
-            </Route>
-            <Route>
-              <Redirect to={PagePathname.thetaIndex} />
-            </Route>
-          </Switch>
-        </PageContainer>
+        <LayoutContainer>
+          <MobileHeader />
+          <PageContainer pathname={pathname as PagePathname}>
+            <Header />
+            <Switch>
+              <Route exact path={PagePathname.thetaIndex}>
+                <ThetaIndexPage />
+              </Route>
+              <Route exact path={PagePathname.portfolio}>
+                <PortfolioPage />
+              </Route>
+              <Route>
+                <Redirect to={PagePathname.thetaIndex} />
+              </Route>
+            </Switch>
+          </PageContainer>
+        </LayoutContainer>
       </Container>
     </SidebarStateProvider>
   );

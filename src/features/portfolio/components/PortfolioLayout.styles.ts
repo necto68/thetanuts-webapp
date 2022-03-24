@@ -17,7 +17,7 @@ export const TabsHeaderContainer = styled.div`
   padding: 0 40px;
 
   @media (max-width: ${sizes.md}px) {
-    padding: 0 20px;
+    padding: 0 15px;
   }
 `;
 
@@ -34,13 +34,14 @@ export const TabContainer = styled.div`
   padding: 40px;
 
   @media (max-width: ${sizes.md}px) {
-    padding: 20px;
+    padding: 15px;
   }
 `;
 
 export {
   Title,
   Container as TitleContainer,
+  Description,
 } from "../../theta-index/components/ThateIndexLayout.styles";
 
 export const PositionsTabContainer = styled(motion.div).attrs(() => ({

@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 import { Link } from "../../shared/components";
+import { sizes } from "../../shared/constants";
 
 interface Colored {
   color: string;
@@ -8,10 +10,12 @@ interface Colored {
 
 export const SidebarItemContainer = styled.div<{ active: boolean }>`
   display: flex;
-  padding: 0 25px;
-  border-right-width: 2px;
-  border-right-style: solid;
-  border-right-color: ${({ active }) => (active ? "#81e429" : "transparent")};
+
+  justify-content: space-between;
+
+  @media (max-width: ${sizes.md}px) {
+    justify-content: start;
+  }
 
   > * {
     fill: ${({ active }) => (active ? "#81e429" : "#ffffff")};
@@ -22,6 +26,21 @@ export const SidebarItemContainer = styled.div<{ active: boolean }>`
     fill: #81e429;
     text-decoration: none;
   }
+`;
+
+export const Underline = styled(motion.div).attrs<{ active: boolean }>(
+  ({ active }) => ({
+    initial: false,
+
+    animate: {
+      opacity: active ? 1 : 0,
+    },
+  })
+)<{ active: boolean }>`
+  width: 2px;
+  border-radius: 1px;
+  background-color: #81e429;
+  transform: translateX(26px);
 `;
 
 export const SidebarLink = styled(Link)<Colored>`

@@ -20,21 +20,27 @@ export const SidebarContainer = styled(motion.div).attrs<{
   display: flex;
   flex-direction: column;
   gap: 50px;
-  padding: 50px 0;
   background-color: #010c1a;
+
   height: ${({ height }) => height};
+  padding: 50px 25px;
 
   @media (max-width: ${sizes.md}px) {
     position: fixed;
     z-index: 1;
     width: 100vw;
+    padding: 25px 25px 25px 50px;
   }
 `;
 
 export const LogoContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 0 25px;
+
+  justify-content: center;
+
+  @media (max-width: ${sizes.md}px) {
+    justify-content: space-between;
+  }
 `;
 
 export const CircleButtonContainer = styled.div`
@@ -49,29 +55,15 @@ export const MainNavContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-
-  @media (max-width: ${sizes.md}px) {
-    align-items: end;
-  }
 `;
 
 export const SecondaryNavContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 0 25px;
-
-  @media (max-width: ${sizes.md}px) {
-    align-items: end;
-  }
 `;
 
 export const IconNavContainer = styled.div`
   display: flex;
   gap: 16px;
-  padding: 0 25px;
-
-  @media (max-width: ${sizes.md}px) {
-    justify-content: end;
-  }
 `;

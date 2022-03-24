@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { Container, Button } from "./TabButton.styles";
+import { Container, Button, Underline } from "./TabButton.styles";
 
 interface TabButtonProps {
   isActive: boolean;
@@ -12,9 +12,10 @@ export const TabButton: FC<TabButtonProps> = ({
   onClick,
   children,
 }) => (
-  <Container isActive={isActive}>
+  <Container>
     <Button onClick={onClick} primaryColor={isActive ? "#81e429" : "#ffffff"}>
       {children}
     </Button>
+    <Underline isActive={isActive} />
   </Container>
 );
