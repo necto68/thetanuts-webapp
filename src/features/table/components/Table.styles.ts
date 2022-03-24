@@ -7,7 +7,7 @@ import { sizes } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 25px;
 `;
 
 export const TableContainer = styled.table`

@@ -12,21 +12,31 @@ export const Container = styled.div`
   padding: 40px;
 
   @media (max-width: ${sizes.md}px) {
-    padding: 20px;
+    padding: 15px;
   }
 `;
 
 export const Title = styled.span`
   font-family: Roboto;
   font-weight: 700;
-  font-size: 32px;
   color: #e5e5e5;
+
+  font-size: 32px;
+
+  @media (max-width: ${sizes.md}px) {
+    font-size: 26px;
+  }
 `;
 
 export const Description = styled.p`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 18px;
   color: #e5e5e5;
   margin: 0;
+
+  font-size: 18px;
+
+  @media (max-width: ${sizes.md}px) {
+    font-size: 14px;
+  }
 `;

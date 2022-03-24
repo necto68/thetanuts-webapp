@@ -1,24 +1,22 @@
-import { ChainSelect, WalletButton } from "../../wallet/components";
-import { CircleButton, CircleButtonIconType } from "../../shared/components";
-import { AppSidebarLogo } from "../../sidebar/components/AppSidebarLogo";
-import { useSidebarState } from "../../sidebar/hooks";
+import { useWallet } from "@gimmixorg/use-wallet";
 
-import { Container, LogoContainer, ButtonsContainer } from "./Header.styles";
+import { ChainSelect, WalletButton } from "../../wallet/components";
+
+import { Container, ButtonsContainer } from "./Header.styles";
 
 export const Header = () => {
-  const { toggleIsShow } = useSidebarState();
+  const { network } = useWallet();
+
+  if (!network) {
+    return (
+      <Container>
+        <WalletButton />
+      </Container>
+    );
+  }
 
   return (
     <Container>
-      <LogoContainer>
-        <AppSidebarLogo />
-        <CircleButton
-          iconSize={13}
-          iconType={CircleButtonIconType.hamburger}
-          onClick={toggleIsShow}
-          primaryColor="#FFFFFF"
-        />
-      </LogoContainer>
       <ButtonsContainer>
         <ChainSelect />
         <WalletButton />

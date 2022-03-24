@@ -4,7 +4,11 @@ import { createElement } from "react";
 import { IconContainer } from "../../shared/components";
 import { useSidebarState } from "../hooks";
 
-import { SidebarItemContainer, SidebarLink } from "./SidebarItem.styles";
+import {
+  SidebarItemContainer,
+  SidebarLink,
+  Underline,
+} from "./SidebarItem.styles";
 
 interface SidebarItemProps {
   to: string;
@@ -31,6 +35,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({
         </IconContainer>
         {linkTitle}
       </SidebarLink>
+      <Underline active={active} />
     </SidebarItemContainer>
   );
 };

@@ -19,6 +19,13 @@ export const Container = styled(Div100vh)`
   // height: 100vh; - by default because of Div100vh
 `;
 
+export const LayoutContainer = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: auto;
+`;
+
 export const PageContainer = styled(motion.div).attrs<{
   pathname: PagePathname;
 }>(({ pathname }) => ({
@@ -30,10 +37,9 @@ export const PageContainer = styled(motion.div).attrs<{
   flex-direction: column;
   flex: 1;
   gap: 20px;
-  overflow: auto;
   padding: 20px;
 
   @media (max-width: ${sizes.md}px) {
-    padding: 20px 10px 10px;
+    padding: 15px;
   }
 `;

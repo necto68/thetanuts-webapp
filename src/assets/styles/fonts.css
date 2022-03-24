@@ -1,0 +1,11 @@
+@font-face {
+  font-family: "Sofia Sans";
+  src: url("../fonts/sofia-sans-300.ttf") format("opentype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Sofia Sans";
+  src: url("../fonts/sofia-sans-900.ttf") format("opentype");
+  font-weight: 900;
+}

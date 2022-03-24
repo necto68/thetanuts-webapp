@@ -3,7 +3,6 @@ import { AnimatePresence } from "framer-motion";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { TabType } from "../types";
-import { CellValue } from "../../table/components";
 
 import { TabButton } from "./TabButton";
 import { PositionsTable } from "./PositionsTable";
@@ -16,6 +15,7 @@ import {
   TitleContainer,
   PositionsTabContainer,
   TransactionHistoryTabContainer,
+  Description,
 } from "./PortfolioLayout.styles";
 import { TransactionHistoryTable } from "./TransactionHistoryTable";
 
@@ -33,7 +33,7 @@ export const PortfolioLayout = () => {
         </TitleContainer>
         <TabsLayout>
           <TabContainer>
-            <CellValue>Please, connect wallet</CellValue>
+            <Description>Please, connect wallet</Description>
           </TabContainer>
         </TabsLayout>
       </Container>

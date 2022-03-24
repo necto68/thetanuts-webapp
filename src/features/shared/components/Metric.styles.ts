@@ -5,26 +5,38 @@ import { sizes } from "../constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 7px 14px;
-  min-width: 260px;
   background-color: #010c1a;
   border-radius: 10px;
 
+  padding: 7px 15px;
+  min-width: 260px;
+
   @media (max-width: ${sizes.md}px) {
-    min-width: 160px;
+    padding: 10px;
+    min-width: 120px;
   }
 `;
 
 export const MetricTitle = styled.span`
   font-family: Barlow;
   font-weight: 500;
-  font-size: 18px;
   color: #ffffff;
+
+  font-size: 18px;
+
+  @media (max-width: ${sizes.md}px) {
+    font-size: 12px;
+  }
 `;
 
 export const MetricValue = styled.span`
   font-family: Barlow;
   font-weight: 700;
-  font-size: 22px;
   color: #259ddf;
+
+  font-size: 22px;
+
+  @media (max-width: ${sizes.md}px) {
+    font-size: 16px;
+  }
 `;

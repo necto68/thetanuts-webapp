@@ -7,21 +7,10 @@ interface IsActiveProps {
   isActive: boolean;
 }
 
-export const Container = styled(motion.div).attrs<IsActiveProps>(
-  ({ isActive }) => ({
-    animate: {
-      borderBottomColor: isActive
-        ? "rgba(129, 228, 41, 1)"
-        : "rgba(129, 228, 41, 0)",
-    },
-  })
-)<IsActiveProps>`
+export const Container = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-
-  transform: translateY(2px);
-  border-bottom-width: 3px;
-  border-bottom-style: solid;
 `;
 
 export const Button = styled(BaseButton)`
@@ -30,4 +19,20 @@ export const Button = styled(BaseButton)`
   box-shadow: none !important;
   padding: 15px 0;
   text-transform: uppercase;
+`;
+
+export const Underline = styled(motion.div).attrs<IsActiveProps>(
+  ({ isActive }) => ({
+    initial: false,
+
+    animate: {
+      opacity: isActive ? 1 : 0,
+    },
+  })
+)<IsActiveProps>`
+  width: 100%;
+  height: 3px;
+  border-radius: 1px;
+  background-color: #81e429;
+  transform: translateY(2px);
 `;
