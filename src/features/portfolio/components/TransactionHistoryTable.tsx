@@ -27,6 +27,7 @@ const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "vaultType",
     title: "Vault",
+    showTitleInCell: true,
     render: () => "Theta-Index",
     filterBy: true,
   },
@@ -49,6 +50,7 @@ const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "balance",
     title: "Balance",
+    showTitleInCell: true,
 
     render: ({ balance, assetSymbol }) => {
       const prefix = balance.gt(0) ? "+" : "";

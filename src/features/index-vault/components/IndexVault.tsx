@@ -19,11 +19,11 @@ import {
   Content,
   DataTitle,
   DataValue,
+  APYDataValue,
   Header,
   SwapContainer,
   SwapTitle,
   TVLContainer,
-  TypeTitle,
 } from "./IndexVault.styles";
 
 interface IndexVaultProps {
@@ -56,29 +56,25 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
 
   return (
     <Container onClick={handleVaultClick}>
-      {isLoading ? (
-        <Header>
-          <SkeletonBox height={32} width={44} />
-          <SkeletonBox height={27} width={75} />
-        </Header>
-      ) : (
-        <Header>
+      <Header>
+        {isLoading ? (
+          <SkeletonBox height={32} width={120} />
+        ) : (
           <AssetTitleContainer>
             <IconContainer height={25} width={25}>
               {assetLogo}
             </IconContainer>
             <AssetTitle>{assetTitle}</AssetTitle>
           </AssetTitleContainer>
-          <TypeTitle>{type === VaultType.CALL ? "Call" : "Put"}</TypeTitle>
-        </Header>
-      )}
+        )}
+      </Header>
       <Content>
         <APYContainer>
           <DataTitle>APY</DataTitle>
           {isLoading ? (
             <SkeletonBox height={32} width={60} />
           ) : (
-            <DataValue>{`${formattedTotalAPY} %`}</DataValue>
+            <APYDataValue>{`${formattedTotalAPY} %`}</APYDataValue>
           )}
         </APYContainer>
         <TVLContainer>

@@ -19,20 +19,20 @@ export const Container = styled(Div100vh)`
   // height: 100vh; - by default because of Div100vh
 `;
 
-export const LayoutContainer = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  overflow: auto;
-`;
-
-export const PageContainer = styled(motion.div).attrs<{
+export const LayoutContainer = styled(motion.div).attrs<{
   pathname: PagePathname;
 }>(({ pathname }) => ({
   animate: {
     background: mapPathnameToBackground[pathname],
   },
 }))<{ pathname: PagePathname }>`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  overflow: auto;
+`;
+
+export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;

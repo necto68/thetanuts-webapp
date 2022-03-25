@@ -14,7 +14,7 @@ export const AssetCell: FC<AssetCellProps> = ({ assetSymbol }) => {
 
   return (
     <Container>
-      <IconContainer height={30} width={30}>
+      <IconContainer height={25} width={25}>
         {assetLogo}
       </IconContainer>
       <CellValue>{assetSymbol}</CellValue>

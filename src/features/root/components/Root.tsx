@@ -19,9 +19,9 @@ export const Root = () => {
       <Container>
         <Modal />
         <Sidebar />
-        <LayoutContainer>
+        <LayoutContainer pathname={pathname as PagePathname}>
           <MobileHeader />
-          <PageContainer pathname={pathname as PagePathname}>
+          <PageContainer>
             <Header />
             <Switch>
               <Route exact path={PagePathname.thetaIndex}>

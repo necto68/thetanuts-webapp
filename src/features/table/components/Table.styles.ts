@@ -12,6 +12,14 @@ export const Container = styled.div`
 
 export const TableContainer = styled.table`
   border-collapse: collapse;
+
+  @media (max-width: ${sizes.md}px) {
+    & > tbody {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
 `;
 
 export const HeaderRow = styled.tr`
@@ -99,16 +107,10 @@ export const Row = styled(motion.tr).attrs(() => ({
   @media (max-width: ${sizes.md}px) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-
-    &:first-child {
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-    }
-
-    &:last-child {
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
+    gap: 10px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background-color: rgba(1, 12, 26, 0.9) !important;
   }
 `;
 
@@ -124,20 +126,32 @@ export const Cell = styled.td`
   }
 
   @media (max-width: ${sizes.md}px) {
-    padding: 10px 15px;
-  }
-`;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: 0 !important;
 
-export const CellContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
+    &:nth-child(odd) {
+      align-items: start;
+    }
+
+    &:nth-child(even) {
+      align-items: end;
+      text-align: right;
+    }
+
+    &:last-child {
+      grid-column: 1 / span 2;
+      align-items: stretch;
+    }
+  }
 `;
 
 export const CellTitle = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 14px;
   color: #ffffff;
   line-height: 1;
 

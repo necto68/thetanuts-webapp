@@ -1,12 +1,19 @@
 import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
+import { sizes } from "../../shared/constants";
+
 export const GlobalStyle = createGlobalStyle`
   ${normalize}
 
   body {
-    background-color: black;
     -webkit-font-smoothing: antialiased;
+
+    background-color: #031a34;
+
+    @media (max-width: ${sizes.md}px) {
+      background-color: #000000;
+    }
   }
 
   * {

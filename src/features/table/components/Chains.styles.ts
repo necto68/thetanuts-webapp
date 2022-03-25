@@ -14,3 +14,17 @@ export const ChainLogoContainer = styled.div`
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.8);
 `;
+
+export const HiddenChainsContainer = styled(ChainLogoContainer)`
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background-color: #4857b9;
+`;
+
+export const HiddenChainsTitle = styled.div`
+  font-family: Roboto;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffffff;
+`;
