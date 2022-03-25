@@ -33,16 +33,8 @@ export const Container = styled(motion.div).attrs(() => ({
 
 export const Header = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 8px;
-`;
-
-export const TypeTitle = styled.span`
-  font-family: Barlow;
-  font-weight: 500;
-  font-size: 28px;
-  color: #ffffff;
 `;
 
 export const AssetTitleContainer = styled.div`
@@ -94,6 +86,10 @@ export const DataValue = styled.span`
   font-weight: 600;
   font-size: 28px;
   color: #ffffff;
+`;
+
+export const APYDataValue = styled(DataValue)`
+  font-family: Barlow;
 `;
 
 export const SwapContainer = styled.div`

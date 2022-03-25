@@ -24,8 +24,17 @@ const columns: Column<IndexVault>[] = [
     filterBy: true,
   },
   {
+    key: "totalValueLocked",
+    title: "TVL",
+    showTitleInCell: true,
+
+    render: ({ totalValueLocked }) =>
+      currencyFormatterWithoutDecimals.format(totalValueLocked),
+  },
+  {
     key: "totalPercentageYields",
     title: "Consolidated APY",
+    showTitleInCell: true,
 
     render: ({ id, totalPercentageYields }) => (
       <APYCellContainer>
@@ -39,13 +48,6 @@ const columns: Column<IndexVault>[] = [
         />
       </APYCellContainer>
     ),
-  },
-  {
-    key: "totalValueLocked",
-    title: "TVL",
-
-    render: ({ totalValueLocked }) =>
-      currencyFormatterWithoutDecimals.format(totalValueLocked),
   },
   {
     key: "supportedChainIds",

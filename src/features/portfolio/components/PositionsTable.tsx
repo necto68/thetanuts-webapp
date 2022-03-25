@@ -24,12 +24,14 @@ const columns: Column<IndexTokenRow>[] = [
   {
     key: "vaultType",
     title: "Vault",
+    showTitleInCell: true,
     render: () => "Theta-Index",
     filterBy: true,
   },
   {
     key: "annualPercentageYield",
     title: "APY",
+    showTitleInCell: true,
 
     render: ({ annualPercentageYield }) => (
       <APYCellValue>{`${annualPercentageYield}%`}</APYCellValue>
@@ -38,6 +40,7 @@ const columns: Column<IndexTokenRow>[] = [
   {
     key: "balance",
     title: "Balance",
+    showTitleInCell: true,
 
     render: ({ symbol, balance }) =>
       balance ? `${numberFormatter.format(balance.toNumber())}  ${symbol}` : "",
@@ -47,6 +50,7 @@ const columns: Column<IndexTokenRow>[] = [
   {
     key: "indexPrice",
     title: "Value",
+    showTitleInCell: true,
 
     render: ({ balance, indexPrice }) => {
       if (!balance) {
