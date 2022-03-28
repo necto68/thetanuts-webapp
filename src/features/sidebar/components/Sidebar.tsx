@@ -10,6 +10,7 @@ import {
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
+import { SwitchToV0Button } from "../../root/components/SwitchToV0Button";
 
 import {
   CircleButtonContainer,
@@ -18,6 +19,7 @@ import {
   MainNavContainer,
   SecondaryNavContainer,
   SidebarContainer,
+  SwitchToV0ButtonContainer,
 } from "./Sidebar.styles";
 import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
@@ -91,6 +93,9 @@ export const Sidebar = () => {
           />
         ))}
       </MainNavContainer>
+      <SwitchToV0ButtonContainer>
+        <SwitchToV0Button secondaryColor="#010c1a" />
+      </SwitchToV0ButtonContainer>
       <SecondaryNavContainer>
         {secondaryNavItems.map((navItem) => (
           <SidebarItemSecondary
