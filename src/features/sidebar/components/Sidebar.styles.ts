@@ -63,6 +63,14 @@ export const SecondaryNavContainer = styled.div`
   gap: 10px;
 `;
 
+export const SwitchToV0ButtonContainer = styled.div`
+  display: none;
+
+  @media (max-width: ${sizes.md}px) {
+    display: flex;
+  }
+`;
+
 export const IconNavContainer = styled.div`
   display: flex;
   gap: 16px;

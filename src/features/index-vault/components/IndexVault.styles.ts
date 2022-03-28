@@ -107,6 +107,7 @@ export const SwapTitle = styled.span`
   background: linear-gradient(180deg, #2699da 0%, #63b22d 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
 
   text-transform: uppercase;
   text-align: center;

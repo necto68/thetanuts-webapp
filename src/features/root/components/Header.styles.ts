@@ -5,9 +5,18 @@ import { sizes } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   justify-content: end;
+  gap: 25px;
 
   @media (max-width: ${sizes.md}px) {
     justify-content: center;
+  }
+`;
+
+export const SwitchToV0ButtonContainer = styled.div`
+  display: flex;
+
+  @media (max-width: ${sizes.md}px) {
+    display: none;
   }
 `;
 
