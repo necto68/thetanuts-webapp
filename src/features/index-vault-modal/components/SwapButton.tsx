@@ -81,7 +81,6 @@ export const SwapButton: FC<SwapButtonProps> = ({
     isLoading: isApproveAllowanceLoading,
     isError: isApproveAllowanceError,
     error: approveAllowanceError,
-    data: isApproveAllowanceSuccessful,
   } = approveAllowanceMutation ?? {};
 
   const {
@@ -121,18 +120,6 @@ export const SwapButton: FC<SwapButtonProps> = ({
         secondaryColor="#ffffff"
       >
         {error.data?.message ?? error.message}
-      </BaseSwapButton>
-    );
-  }
-
-  if (isApproveAllowanceSuccessful) {
-    return (
-      <BaseSwapButton
-        onClick={handleResetButtonClick}
-        primaryColor="#81E429"
-        secondaryColor="#ffffff"
-      >
-        Approve Successful
       </BaseSwapButton>
     );
   }

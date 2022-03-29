@@ -5,7 +5,7 @@ import { constants } from "ethers";
 import type { MutationError, SwapRouterMutations } from "../types";
 import { InputType, MutationType } from "../types";
 import { getSwapTransactionParameters } from "../helpers";
-import { delay } from "../../shared/helpers";
+import { delay, processTransaction } from "../../shared/helpers";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   RouterV2Abi__factory as RouterV2AbiFactory,
@@ -57,7 +57,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
     await sourceTokenContract.callStatic.approve(...approveParameters);
     const transaction = await sourceTokenContract.approve(...approveParameters);
 
-    await transaction.wait();
+    await processTransaction(transaction);
 
     return true;
   }, [
@@ -181,7 +181,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       }
 
       if (transaction) {
-        await transaction.wait();
+        await processTransaction(transaction);
       }
 
       return true;
