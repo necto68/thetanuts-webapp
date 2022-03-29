@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
 import { BaseButton } from "../../shared/components";
-import { useSwapRouterMutations, useSwapRouterState } from "../hooks";
+import { useIndexVaultModalState, useSwapRouterState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
 
 import {
@@ -14,17 +14,18 @@ import {
 } from "./SuccessTransactionSection.styles";
 
 export const SuccessTransactionSection = () => {
+  const [, setIndexVaultModalState] = useIndexVaultModalState();
   const { sourceValue, targetValue, sourceData, targetData } =
     useSwapRouterState();
-  const { swapMutation } = useSwapRouterMutations();
 
   const containerHeight = useViewportHeight(0.85);
 
   const handleCloseButtonClick = useCallback(() => {
-    if (swapMutation) {
-      swapMutation.reset();
-    }
-  }, [swapMutation]);
+    setIndexVaultModalState((previousState) => ({
+      ...previousState,
+      isShow: false,
+    }));
+  }, [setIndexVaultModalState]);
 
   const { symbol: sourceSymbol = "" } = sourceData ?? {};
   const { symbol: targetSymbol = "" } = targetData ?? {};

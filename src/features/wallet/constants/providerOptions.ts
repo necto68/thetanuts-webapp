@@ -1,13 +1,15 @@
 export const wsProviderOptions = {
+  timeout: 5000,
+
   clientConfig: {
     keepalive: true,
-    keepaliveInterval: 60_000,
+    keepaliveInterval: 5000,
   },
 
   reconnect: {
     auto: true,
-    delay: 5000,
-    maxAttempts: 5,
-    onTimeout: false,
+    delay: 2000,
+    maxAttempts: 100,
+    onTimeout: true,
   },
 };
