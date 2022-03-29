@@ -5,6 +5,7 @@ import { indexDepositsHistoryFetcher } from "../helpers";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { chainsMap, chainProvidersMap } from "../../wallet/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
+import { QueryType } from "../../shared/types";
 
 export const useIndexDepositsHistoryQueries = (indexVaultIds: string[]) => {
   const { account = "" } = useWallet();
@@ -31,6 +32,7 @@ export const useIndexDepositsHistoryQueries = (indexVaultIds: string[]) => {
 
       return {
         queryKey: [
+          QueryType.indexDepositsHistory,
           id,
           assetTokenAddress,
           indexTokenAddress,

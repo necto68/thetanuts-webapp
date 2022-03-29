@@ -12,6 +12,7 @@ import type { Transaction } from "../types";
 import { TransactionType } from "../types";
 import type { SwapEvent } from "../../contracts/types/PairAbi";
 import { queryClient } from "../../shared/helpers";
+import { QueryType } from "../../shared/types";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
 
 import { fetchChainExplorerData } from "./fetchChainExplorerData";
@@ -37,7 +38,7 @@ export const pairHistoryFetcher = async (
         // eslint-disable-next-line @typescript-eslint/promise-function-async
         (tokenAddress) =>
           queryClient.fetchQuery(
-            [tokenAddress, routerAddress, account],
+            [QueryType.token, tokenAddress, routerAddress, account],
             // eslint-disable-next-line max-len
             // eslint-disable-next-line @typescript-eslint/promise-function-async
             () => tokenFetcher(tokenAddress, routerAddress, provider, account)

@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { tokenFetcher } from "../helpers";
+import { QueryType } from "../../shared/types";
 
 export const useTokenQuery = (
   tokenAddress: string,
@@ -12,7 +13,7 @@ export const useTokenQuery = (
   const { account = "" } = useWallet();
 
   return useQuery({
-    queryKey: [tokenAddress, spenderAddress, account],
+    queryKey: [QueryType.token, tokenAddress, spenderAddress, account],
 
     queryFn: async () =>
       await tokenFetcher(tokenAddress, spenderAddress, provider, account),

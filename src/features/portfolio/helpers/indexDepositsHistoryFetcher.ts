@@ -8,6 +8,7 @@ import type { Transaction } from "../types";
 import { TransactionType } from "../types";
 import type { DepositEvent } from "../../contracts/types/DirectDepositorAbi";
 import { queryClient } from "../../shared/helpers";
+import { QueryType } from "../../shared/types";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
 
 import { fetchChainExplorerData } from "./fetchChainExplorerData";
@@ -32,7 +33,7 @@ export const indexDepositsHistoryFetcher = async (
       // eslint-disable-next-line @typescript-eslint/promise-function-async
       (tokenAddress) =>
         queryClient.fetchQuery(
-          [tokenAddress, directDepositorAddress, account],
+          [QueryType.token, tokenAddress, directDepositorAddress, account],
           // eslint-disable-next-line @typescript-eslint/promise-function-async
           () =>
             tokenFetcher(

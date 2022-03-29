@@ -3,6 +3,7 @@ import { useWallet } from "@gimmixorg/use-wallet";
 
 import { indexPairsHistoryFetcher } from "../helpers";
 import { useIndexVaults } from "../../index-vault/hooks";
+import { QueryType } from "../../shared/types";
 
 export const useIndexPairsHistoryQueries = (indexVaultIds: string[]) => {
   const { account = "" } = useWallet();
@@ -18,7 +19,13 @@ export const useIndexPairsHistoryQueries = (indexVaultIds: string[]) => {
       } = data ?? {};
 
       return {
-        queryKey: [id, assetTokenAddress, indexTokenAddress, account],
+        queryKey: [
+          QueryType.indexPairsHistory,
+          id,
+          assetTokenAddress,
+          indexTokenAddress,
+          account,
+        ],
 
         queryFn: async () =>
           await indexPairsHistoryFetcher(
