@@ -1,6 +1,7 @@
 import type { ChainId } from "../../wallet/constants";
 import { chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { queryClient } from "../../shared/helpers";
+import { QueryType } from "../../shared/types";
 import { indexVaultsMap } from "../../theta-index/constants";
 import type { Transaction } from "../types";
 
@@ -41,6 +42,7 @@ export const indexPairsHistoryFetcher = async (
           chainsMap[indexPairConfig.chainId].addresses.routerAddress;
 
         const queryKey = [
+          QueryType.pairHistory,
           indexPairConfig.assetTokenAddress,
           indexPairConfig.indexTokenAddress,
           replicatedRouterAddress,

@@ -7,10 +7,8 @@ import {
   CellValue,
   AssetCell,
 } from "../../table/components";
-import { indexVaults } from "../../theta-index/constants";
-import { useIndexVaults } from "../../index-vault/hooks";
 import type { IndexTokenRow } from "../types";
-import { useIndexTokensQueries } from "../hooks";
+import { useIndexPositionsRows } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import { chainsMap } from "../../wallet/constants";
 
@@ -82,43 +80,13 @@ const getRowKey = ({ tokenAddress, chainId }: IndexTokenRow) =>
   `${tokenAddress}${chainId}`;
 
 export const PositionsTable = () => {
-  const indexVaultsIds = indexVaults.map(({ id }) => id);
-  const indexVaultsQueries = useIndexVaults(indexVaultsIds);
-  const indexTokensQueries = useIndexTokensQueries(indexVaultsIds);
+  const indexPositionsRows = useIndexPositionsRows();
 
-  const rows: (IndexTokenRow | undefined)[] = indexVaultsQueries
-    .flatMap(({ data }, vaultIndex) => {
-      const { data: indexTokens } = indexTokensQueries[vaultIndex];
+  const filteredRows = indexPositionsRows.filter((row) =>
+    row ? row.balance?.gt(0) : true
+  );
 
-      if (!data || !indexTokens) {
-        return undefined;
-      }
-
-      const {
-        id,
-        assetSymbol,
-        indexPrice,
-        totalPercentageYields: { annualPercentageYield },
-        supportedChainIds,
-      } = data;
-
-      return indexTokens.map(({ symbol, balance, tokenAddress }, index) => ({
-        id,
-
-        // TODO: add more different vault types
-        vaultType: "THETA-INDEX",
-        assetSymbol,
-        indexPrice,
-        annualPercentageYield,
-        symbol,
-        balance,
-        tokenAddress,
-        chainId: supportedChainIds[index],
-      }));
-    })
-    .filter((row) => (row ? row.balance?.gt(0) : true));
-
-  if (rows.length === 0) {
+  if (filteredRows.length === 0) {
     return <CellValue>You don&apos;t have any funds, yet</CellValue>;
   }
 
@@ -127,7 +95,7 @@ export const PositionsTable = () => {
       columns={columns}
       filterInputPlaceholder="Filter by asset, vault or chain"
       getRowKey={getRowKey}
-      rows={rows}
+      rows={filteredRows}
     />
   );
 };

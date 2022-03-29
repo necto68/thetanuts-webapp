@@ -15,6 +15,7 @@ import {
 } from "../../contracts/types";
 import type { IndexVault, VaultInfo } from "../types";
 import { queryClient } from "../../shared/helpers";
+import { QueryType } from "../../shared/types";
 import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
 
@@ -111,7 +112,7 @@ export const indexVaultFetcher = async (
       // eslint-disable-next-line @typescript-eslint/promise-function-async
       (vaultAddress) =>
         queryClient.fetchQuery(
-          [vaultAddress, chainId],
+          [QueryType.vault, vaultAddress, chainId],
           // eslint-disable-next-line @typescript-eslint/promise-function-async
           () => vaultFetcher(vaultAddress, provider)
         )

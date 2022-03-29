@@ -3,6 +3,7 @@ import { useQueries } from "react-query";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { chainsMap, chainProvidersMap } from "../../wallet/constants";
 import { indexVaultFetcher } from "../helpers";
+import { QueryType } from "../../shared/types";
 
 export const useIndexVaults = (indexVaultIds: string[]) => {
   const tokensConfigs = indexVaultIds.map((indexVaultId) => {
@@ -25,7 +26,7 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
   return useQueries(
     tokensConfigs.map(
       ({ id, chainId, indexVaultAddress, lendingPoolAddress, provider }) => ({
-        queryKey: [id, chainId],
+        queryKey: [QueryType.indexVault, id, chainId],
 
         queryFn: async () =>
           await indexVaultFetcher(
