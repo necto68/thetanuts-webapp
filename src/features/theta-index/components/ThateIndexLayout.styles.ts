@@ -16,6 +16,24 @@ export const Container = styled.div`
   }
 `;
 
+export const ContentContainer = styled.div`
+  display: flex;
+  gap: 25px;
+`;
+
+export const DescriptionContainer = styled(ContentContainer)`
+  flex-direction: column;
+`;
+
+export const BasketIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  @media (max-width: ${sizes.md}px) {
+    display: none;
+  }
+`;
+
 export const Title = styled.span`
   font-family: Roboto;
   font-weight: 700;

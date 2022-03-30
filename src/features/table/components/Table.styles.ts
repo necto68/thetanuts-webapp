@@ -85,15 +85,18 @@ export const Row = styled(motion.tr).attrs(() => ({
   layout: true,
 
   initial: {
-    scaleY: 0,
+    y: -50,
+    opacity: 0,
   },
 
   animate: {
-    scaleY: 1,
+    y: 0,
+    opacity: 1,
   },
 
   exit: {
-    scaleY: 0,
+    y: -50,
+    opacity: 0,
   },
 }))`
   &:nth-child(odd) {
