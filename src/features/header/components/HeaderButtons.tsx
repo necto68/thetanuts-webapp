@@ -7,15 +7,15 @@ import {
   Container,
   ButtonsContainer,
   SwitchToV0ButtonContainer,
-} from "./Header.styles";
+} from "./HeaderButtons.styles";
 
-export const Header = () => {
+export const HeaderButtons = () => {
   const { network } = useWallet();
 
   return (
     <Container>
       <SwitchToV0ButtonContainer>
-        <SwitchToV0Button secondaryColor="#031a34" />
+        <SwitchToV0Button />
       </SwitchToV0ButtonContainer>
       {network ? (
         <ButtonsContainer>

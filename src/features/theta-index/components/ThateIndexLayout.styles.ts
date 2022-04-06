@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import type { AnchorHTMLAttributes } from "react";
 
 import { sizes } from "../../shared/constants";
 
@@ -56,5 +57,14 @@ export const Description = styled.p`
 
   @media (max-width: ${sizes.md}px) {
     font-size: 14px;
+  }
+`;
+
+export const DescriptionLink = styled(Description).attrs(() => ({
+  as: "a",
+  target: "_blank",
+}))<AnchorHTMLAttributes<HTMLAnchorElement>>`
+  &:hover {
+    color: #1fffab;
   }
 `;

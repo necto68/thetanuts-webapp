@@ -18,12 +18,12 @@ export const SidebarItemContainer = styled.div<{ active: boolean }>`
   }
 
   > * {
-    fill: ${({ active }) => (active ? "#81e429" : "#ffffff")};
+    fill: ${({ active }) => (active ? "#1fffab" : "#ffffff")};
   }
 
   > *:hover {
-    color: #81e429;
-    fill: #81e429;
+    color: #1fffab;
+    fill: #1fffab;
     text-decoration: none;
   }
 `;
@@ -39,7 +39,7 @@ export const Underline = styled(motion.div).attrs<{ active: boolean }>(
 )<{ active: boolean }>`
   width: 2px;
   border-radius: 1px;
-  background-color: #81e429;
+  background-color: #1fffab;
   transform: translateX(26px);
 `;
 
@@ -52,6 +52,7 @@ export const SidebarLink = styled(Link)<Colored>`
   align-items: center;
   gap: 15px;
   color: ${({ color }) => color};
+  text-transform: uppercase;
 
   :hover {
     text-decoration: none;

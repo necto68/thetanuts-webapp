@@ -36,7 +36,6 @@ export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 20px;
   padding: 20px;
 
   @media (max-width: ${sizes.md}px) {

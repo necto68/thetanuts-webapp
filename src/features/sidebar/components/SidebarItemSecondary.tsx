@@ -16,7 +16,7 @@ export const SidebarItemSecondary: FC<SidebarItemProps> = ({
   linkTitle,
   active,
 }) => {
-  const color = active ? "#81e429" : "#fff";
+  const color = active ? "#1fffab" : "#fff";
 
   return (
     <SidebarItemSecondaryContainer>
