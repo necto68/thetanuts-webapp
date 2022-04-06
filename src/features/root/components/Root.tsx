@@ -8,7 +8,6 @@ import { SidebarStateProvider } from "../../sidebar/providers";
 import { PagePathname } from "../types";
 
 import { MobileHeader } from "./MobileHeader";
-import { Header } from "./Header";
 import { Container, LayoutContainer, PageContainer } from "./Root.styles";
 
 export const Root = () => {
@@ -22,7 +21,6 @@ export const Root = () => {
         <LayoutContainer pathname={pathname as PagePathname}>
           <MobileHeader />
           <PageContainer>
-            <Header />
             <Switch>
               <Route exact path={PagePathname.thetaIndex}>
                 <ThetaIndexPage />

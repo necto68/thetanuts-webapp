@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import { useOutsideClick } from "rooks";
 
 import { IconContainer, ArrowIcon } from "../../shared/components";
 import { getLogoBySymbol } from "../../logo/helpers";
@@ -59,34 +60,32 @@ export const SelectOptionButton = <OptionType extends Option>({
     [onOptionClick]
   );
 
-  const buttonLogo = getLogoBySymbol(symbol);
+  useOutsideClick(chainButtonContainerReference, handleOptionsContainerClose);
 
+  const buttonLogo = getLogoBySymbol(symbol);
   const logoSize = isSmall ? 18 : 25;
 
   return (
-    <Container>
-      <div ref={chainButtonContainerReference}>
-        <SelectButton
-          isSmall={isSmall}
-          onClick={handleSelectButtonClick}
-          primaryColor={color}
-          secondaryColor="#061f3a"
-        >
-          <ButtonContentContainer isSmall={isSmall}>
-            {symbol ? (
-              <IconContainer height={logoSize} width={logoSize}>
-                {buttonLogo}
-              </IconContainer>
-            ) : null}
-            {title}
-            {hasOptions ? <ArrowIcon up={isShowOptions} /> : null}
-          </ButtonContentContainer>
-        </SelectButton>
-      </div>
+    <Container ref={chainButtonContainerReference}>
+      <SelectButton
+        isSmall={isSmall}
+        onClick={handleSelectButtonClick}
+        primaryColor={color}
+        secondaryColor="#061f3a"
+      >
+        <ButtonContentContainer isSmall={isSmall}>
+          {symbol ? (
+            <IconContainer height={logoSize} width={logoSize}>
+              {buttonLogo}
+            </IconContainer>
+          ) : null}
+          {title}
+          {hasOptions ? <ArrowIcon up={isShowOptions} /> : null}
+        </ButtonContentContainer>
+      </SelectButton>
       <BaseOptionsContainer
         isShow={isShowOptions}
-        onClose={handleOptionsContainerClose}
-        parentRef={chainButtonContainerReference}
+        parentReference={chainButtonContainerReference}
       >
         <OptionsContainer>
           {options.map(

@@ -5,5 +5,3 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 20px;
 `;
-
-export { Container as MetricsContainer } from "../../theta-index/components/Metrics.styles";

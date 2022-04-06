@@ -10,8 +10,8 @@ export const SidebarItemSecondaryContainer = styled.div`
   display: flex;
 
   > *:hover {
-    color: #81e429;
-    fill: #81e429;
+    color: #1fffab;
+    fill: #1fffab;
     text-decoration: none;
   }
 `;

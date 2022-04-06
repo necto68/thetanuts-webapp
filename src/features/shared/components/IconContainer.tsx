@@ -5,6 +5,7 @@ export interface IconContainerProps {
   width: number;
   height: number;
   color?: string;
+  hoverColor?: string;
 }
 
 export const IconContainer = styled(motion.div)<IconContainerProps>`
@@ -19,6 +20,14 @@ export const IconContainer = styled(motion.div)<IconContainerProps>`
     css`
       * {
         fill: ${color};
+      }
+    `}
+
+  ${({ hoverColor }) =>
+    hoverColor &&
+    css`
+      &:hover * {
+        fill: ${hoverColor};
       }
     `}
 `;

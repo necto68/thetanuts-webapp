@@ -14,7 +14,6 @@ export const SelectButton = styled(BaseButton)<IsSmallProps>`
   ${({ isSmall }) =>
     isSmall &&
     css`
-      padding: 4px 12px;
       font-size: 16px;
     `}
 `;
@@ -23,10 +22,7 @@ export const OptionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  border-width: 2px;
-  border-style: solid;
-  border-color: #ffffff;
-  background-color: #061f3a;
+  background-color: #232738;
 `;
 
 export const ButtonContentContainer = styled.div<IsSmallProps>`
@@ -39,5 +35,5 @@ export const OptionButton = styled(SelectButton)`
   border: none;
   box-shadow: none !important;
   border-radius: 0;
-  border-bottom: 1px solid #9c9c9c;
+  padding: 12px 18px;
 `;

@@ -1,17 +1,16 @@
 import styled from "styled-components";
 
-import { sizes } from "../../shared/constants";
+import { Link } from "../../shared/components";
 
 export const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 7px;
+`;
 
-  flex-direction: column;
-
-  @media (max-width: ${sizes.md}px) {
-    flex-direction: row;
-  }
+export const LogoLink = styled(Link)`
+  display: flex;
+  text-decoration: none;
 `;
 
 export const AppTitle = styled.span`
@@ -25,32 +24,17 @@ export const TitleContainer = styled.div`
 `;
 
 export const Theta = styled(AppTitle)`
+  font-size: 17px;
   font-weight: 900;
-
-  font-size: 21px;
-
-  @media (max-width: ${sizes.md}px) {
-    font-size: 17px;
-  }
 `;
 
 export const Nuts = styled(AppTitle)`
+  font-size: 17px;
   font-weight: 300;
-  color: #1bf9a7;
-
-  font-size: 21px;
-
-  @media (max-width: ${sizes.md}px) {
-    font-size: 17px;
-  }
+  color: #1fffab;
 `;
 
 export const Finance = styled(AppTitle)`
+  font-size: 12px;
   font-weight: 300;
-
-  font-size: 15px;
-
-  @media (max-width: ${sizes.md}px) {
-    font-size: 12px;
-  }
 `;

@@ -10,6 +10,7 @@ import {
   BasketIconContainer,
   Title,
   Description,
+  DescriptionLink,
 } from "./ThateIndexLayout.styles";
 
 export const ThetaIndexLayout = () => (
@@ -18,19 +19,25 @@ export const ThetaIndexLayout = () => (
       <DescriptionContainer>
         <Title>Theta-Index</Title>
         <Description>
-          A Theta-Index earns yield by running an automated portfolio of either
-          covered call or put-selling strategies. When you swap in your assets,
-          you will receive a tokenized version of your asset which represents
-          your pro-rata ownership of that Theta-Index. Your swapped assets are
-          auto-compounded. The option strikes and expirations of each covered
-          call or put selling strategy is algorithmically determined to maximize
-          yield while reducing the risks of having the options exercised. You
-          can swap in and out anytime & Thetanuts does not collect any fees.
+          Theta-Index earns yields by running an automated basket of options
+          strategies. Earnings are auto-compounded. When you swap your assets,
+          you will receive a Theta-Index token representing your pro-rata
+          ownership of that Theta-Index. The strike prices and expirations of
+          each strategy within the index are algorithmically determined to
+          generate the highest risk adjusted yield. You can swap between your
+          assets and Theta-Index tokens anytime at the market rate. Thetanuts
+          does not collect any performance fees.
         </Description>
         <Description>
-          For a more detailed understanding of how a Theta-Index work, read the
-          Thetanuts Docs. If you have any other questions, feel free to post
-          them on Thetanuts Discord.
+          Read the{" "}
+          <DescriptionLink href="https://docs.thetanuts.finance">
+            Thetanuts Docs
+          </DescriptionLink>{" "}
+          for a more detailed overview of Thetanuts Theta-Index or contact us on{" "}
+          <DescriptionLink href="https://discord.com/invite/fzWKJSy9v9">
+            Thetanuts Discord
+          </DescriptionLink>
+          .
         </Description>
       </DescriptionContainer>
       <BasketIconContainer>

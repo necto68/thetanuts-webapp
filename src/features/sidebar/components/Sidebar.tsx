@@ -1,7 +1,14 @@
 import { useLocation } from "react-router-dom";
 import { createElement } from "react";
 
-import { ThetaIndex, Portfolio, Discord, Twitter } from "../icons";
+import {
+  ThetaIndex,
+  Portfolio,
+  Twitter,
+  Medium,
+  Discord,
+  Substack,
+} from "../icons";
 import {
   CircleButton,
   CircleButtonIconType,
@@ -10,7 +17,7 @@ import {
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
-import { SwitchToV0Button } from "../../root/components/SwitchToV0Button";
+import { SwitchToV0Button } from "../../header/components/SwitchToV0Button";
 
 import {
   CircleButtonContainer,
@@ -35,37 +42,43 @@ export const Sidebar = () => {
   const mainNavItems = [
     {
       to: PagePathname.thetaIndex,
-      linkTitle: "THETA INDEX",
+      linkTitle: "Theta Index",
       navIcon: ThetaIndex,
     },
     {
       to: PagePathname.portfolio,
-      linkTitle: "PORTFOLIO",
+      linkTitle: "Portfolio",
       navIcon: Portfolio,
     },
   ];
 
   const secondaryNavItems = [
     {
-      to: "https://thetanuts.gitbook.io/thetanuts/",
+      to: "https://docs.thetanuts.finance",
       linkTitle: "Docs",
-    },
-    {
-      to: "https://discord.gg/PUjVgMjUPG",
-      linkTitle: "Community",
     },
   ];
 
   const iconNavItems = [
     {
-      to: "https://discord.gg/PUjVgMjUPG",
+      to: "https://twitter.com/ThetanutsFi",
+      navIcon: Twitter,
+      alt: "Twitter",
+    },
+    {
+      to: "https://thetanutsfinance.medium.com",
+      navIcon: Medium,
+      alt: "Medium",
+    },
+    {
+      to: "https://discord.com/invite/fzWKJSy9v9",
       navIcon: Discord,
       alt: "Discord",
     },
     {
-      to: "https://twitter.com/ThetanutsFi",
-      navIcon: Twitter,
-      alt: "Twitter",
+      to: "https://thetanuts.substack.com",
+      navIcon: Substack,
+      alt: "Substack",
     },
   ];
 
@@ -94,7 +107,7 @@ export const Sidebar = () => {
         ))}
       </MainNavContainer>
       <SwitchToV0ButtonContainer>
-        <SwitchToV0Button secondaryColor="#010c1a" />
+        <SwitchToV0Button />
       </SwitchToV0ButtonContainer>
       <SecondaryNavContainer>
         {secondaryNavItems.map((navItem) => (
@@ -109,7 +122,12 @@ export const Sidebar = () => {
       <IconNavContainer>
         {iconNavItems.map(({ to, navIcon }) => (
           <a href={to} key={to} rel="noreferrer" target="_blank">
-            <IconContainer height={22} width={22}>
+            <IconContainer
+              color="#ffffff"
+              height={22}
+              hoverColor="#1fffab"
+              width={22}
+            >
               {createElement(navIcon)}
             </IconContainer>
           </a>
