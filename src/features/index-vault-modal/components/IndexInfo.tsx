@@ -70,9 +70,9 @@ export const IndexInfo = () => {
     <Container>
       <InfoContainer>
         <InfoValueContainer>
-          <InfoValue isUnderline>Index Value</InfoValue>
+          <InfoValue>Index Value</InfoValue>
           <Tooltip
-            content="Refers to price of Theta-Assets if all constituent vaults settle at this time."
+            content="Refers to the price of the Theta-Index if all constituent vaults are settled at this time."
             id="indexValue"
             root={<InfoIcon />}
           />
@@ -97,9 +97,9 @@ export const IndexInfo = () => {
       </InfoContainer>
       <InfoContainer>
         <InfoValueContainer>
-          <InfoValue isUnderline>Index Token Address</InfoValue>
+          <InfoValue>Index Token Address</InfoValue>
           <Tooltip
-            content="A token that represents a share of ownership in the vault."
+            content="This represents a pro-rata share of ownership in the constituent vaults that make up the Index."
             id="indexTokenAddress"
             root={<InfoIcon />}
           />

@@ -6,18 +6,18 @@ import type { PercentageYields } from "../../vault/types";
 
 import type { Transaction } from "./transaction";
 
-// TODO: add more different vault types (in vaultType)
+// TODO: add more different vault types (in productType)
 
 export interface IndexTokenRow
   extends Pick<IndexVault, "assetSymbol" | "chainId" | "id" | "indexPrice">,
     Pick<Token, "balance" | "symbol" | "tokenAddress">,
     Pick<PercentageYields, "annualPercentageYield"> {
-  vaultType: string;
+  productType: string;
 }
 
 export interface HistoryTransactionRow
   extends Pick<IndexVault, "assetSymbol">,
     Pick<Transaction, "chainId" | "id" | "timestamp" | "type"> {
   balance: Big;
-  vaultType: string;
+  productType: string;
 }

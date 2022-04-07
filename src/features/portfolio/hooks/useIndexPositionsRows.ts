@@ -28,7 +28,7 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
       id,
 
       // TODO: add more different vault types
-      vaultType: "THETA-INDEX",
+      productType: "THETA-INDEX",
       assetSymbol,
       indexPrice,
       annualPercentageYield,

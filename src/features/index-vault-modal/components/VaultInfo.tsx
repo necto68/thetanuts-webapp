@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import Big from "big.js";
+import { useCallback, useEffect, useState } from "react";
 
 import type { SwapRouterState, Token, NativeToken } from "../types";
 import { maxSlippageTolerance } from "../constants";
@@ -10,7 +11,6 @@ import { InfoIcon, Tooltip } from "../../shared/components";
 import {
   Container,
   InfoContainer,
-  PriceInfoContainer,
   InfoValueContainer,
   InfoValue,
 } from "./VaultInfo.styles";
@@ -22,32 +22,34 @@ interface VaultInfoProps {
   targetTokenData: NativeToken | Token | undefined;
 }
 
-const getSourceToTargetRatioString = (
-  sourceValue: SwapRouterState["sourceValue"],
-  targetValue: SwapRouterState["targetValue"],
-  isRatioLoading: boolean
+const getRateString = (
+  rateSourceValue: SwapRouterState["sourceValue"],
+  rateTargetValue: SwapRouterState["targetValue"],
+  isRateLoading: boolean
 ) => {
-  if (isRatioLoading) {
+  if (isRateLoading) {
     return ".....";
   }
 
   if (
-    sourceValue &&
-    targetValue &&
-    new Big(sourceValue).gt(0) &&
-    new Big(targetValue).gt(0)
+    rateSourceValue &&
+    rateTargetValue &&
+    new Big(rateSourceValue).gt(0) &&
+    new Big(rateTargetValue).gt(0)
   ) {
-    return new Big(targetValue).div(sourceValue).round(5).toString();
+    return new Big(rateTargetValue).div(rateSourceValue).round(5).toString();
   }
 
   return "N/A";
 };
 
+// eslint-disable-next-line complexity
 export const VaultInfo: FC<VaultInfoProps> = ({
   isSourceTokenDataLoading,
   isTargetTokenDataLoading,
   sourceTokenData,
   targetTokenData,
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
 
@@ -60,14 +62,25 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     targetValue,
   } = useSwapRouterState();
 
+  const [isRateFlipped, setIsRateFlipped] = useState(false);
+
+  useEffect(() => {
+    setIsRateFlipped(false);
+  }, [isFlipped]);
+
+  const handleRateClick = useCallback(() => {
+    setIsRateFlipped(!isRateFlipped);
+  }, [isRateFlipped]);
+
   const { data } = indexVaultQuery;
   const { assetPrice = 0, indexPrice = 0 } = data ?? {};
 
   const isTokensDataLoading =
     isSourceTokenDataLoading || isTargetTokenDataLoading;
   const isAnyValueLoading = isSourceValueLoading || isTargetValueLoading;
-  const isRatioLoading = isTokensDataLoading || isAnyValueLoading;
+  const isRateLoading = isTokensDataLoading || isAnyValueLoading;
 
+  // symbols
   const [sourceTokenSymbol, targetTokenSymbol] = [
     sourceTokenData,
     targetTokenData,
@@ -75,28 +88,44 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     !isTokensDataLoading && tokenData ? tokenData.symbol : "....."
   );
 
-  const sourceToTargetRatio = getSourceToTargetRatioString(
-    sourceValue,
-    targetValue,
-    isRatioLoading
+  const [rateSourceSymbol, rateTargetSymbol] = isRateFlipped
+    ? [targetTokenSymbol, sourceTokenSymbol]
+    : [sourceTokenSymbol, targetTokenSymbol];
+
+  // rate
+  const [rateSourceValue, rateTargetValue] = isRateFlipped
+    ? [targetValue, sourceValue]
+    : [sourceValue, targetValue];
+
+  const rateString = getRateString(
+    rateSourceValue,
+    rateTargetValue,
+    isRateLoading
   );
 
+  // token price
+  const [sourceTokenPrice, targetTokenPrice] = isFlipped
+    ? [indexPrice, assetPrice]
+    : [assetPrice, indexPrice];
+
   const formattedPrice = currencyFormatter.format(
-    isFlipped ? indexPrice : assetPrice
+    isRateFlipped ? targetTokenPrice : sourceTokenPrice
   );
 
   const slippageToleranceValue = maxSlippageTolerance * 100;
 
   return (
     <Container>
-      <PriceInfoContainer>
+      <InfoContainer>
+        <InfoValue>Rate ↔</InfoValue>
         <InfoValue
           isAlignRight
           isUnderline
-        >{`1 ${sourceTokenSymbol} = ${sourceToTargetRatio} ${targetTokenSymbol} (${formattedPrice})`}</InfoValue>
-      </PriceInfoContainer>
+          onClick={handleRateClick}
+        >{`1 ${rateSourceSymbol} = ${rateString} ${rateTargetSymbol} (${formattedPrice})`}</InfoValue>
+      </InfoContainer>
       <InfoContainer>
-        <InfoValue>Protocols</InfoValue>
+        <InfoValue>Protocol</InfoValue>
         <InfoValue isAlignRight>
           {isUseDirectMode ? "Direct Deposit" : "Uniswap v2"}
         </InfoValue>
@@ -108,23 +137,21 @@ export const VaultInfo: FC<VaultInfoProps> = ({
         >{`${sourceTokenSymbol} ➞ ${targetTokenSymbol}`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoValue>Slippage Tolerance</InfoValue>
-        <InfoValue isAlignRight>
-          {isUseDirectMode ? "N/A" : `${slippageToleranceValue}%`}
-        </InfoValue>
-      </InfoContainer>
-      <InfoContainer>
         <InfoValueContainer>
-          <InfoValue isUnderline>Platform fee</InfoValue>
+          <InfoValue>Protocol fee</InfoValue>
           <Tooltip
-            content={
-              'This fee is taken by DEX to perform the swap. The amount displayed in "To" takes into account all fees post settlement.'
-            }
-            id="platformFee"
+            content="The protocol receives swap fees conducted between Theta-Index tokens and the underlying."
+            id="protocolFee"
             root={<InfoIcon />}
           />
         </InfoValueContainer>
         <InfoValue isAlignRight>{isUseDirectMode ? "0%" : "0.3%"}</InfoValue>
+      </InfoContainer>
+      <InfoContainer>
+        <InfoValue>Slippage Tolerance</InfoValue>
+        <InfoValue isAlignRight>
+          {isUseDirectMode ? "N/A" : `${slippageToleranceValue}%`}
+        </InfoValue>
       </InfoContainer>
     </Container>
   );

@@ -25,8 +25,8 @@ const columns: Column<HistoryTransactionRow>[] = [
     filterBy: true,
   },
   {
-    key: "vaultType",
-    title: "Vault",
+    key: "productType",
+    title: "Product",
     showTitleInCell: true,
     render: () => "Theta-Index",
     filterBy: true,
@@ -63,7 +63,7 @@ const columns: Column<HistoryTransactionRow>[] = [
   },
   {
     key: "chainId",
-    title: "Chain",
+    title: "Network",
     // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
     render: ({ chainId }) => <Chains chainIds={[chainId]} />,
 
@@ -102,7 +102,7 @@ export const TransactionHistoryTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset, vault, activity or chain"
+      filterInputPlaceholder="Filter by asset, vault, activity or network"
       getRowKey={getRowKey}
       rows={sortedRows}
     />

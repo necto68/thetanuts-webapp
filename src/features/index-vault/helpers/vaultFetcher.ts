@@ -44,7 +44,10 @@ export const vaultFetcher = async (
     vaultContract.LINK_AGGREGATOR(),
     vaultContract.totalSupply(),
     vaultContract.currentEpochPremium().then(convertToBig),
-    vaultContract.PERIOD().then(convertToBig),
+    vaultContract
+      .PERIOD()
+      .then(convertToBig)
+      .then((periodBig) => periodBig.toNumber()),
   ]);
 
   const assetTokenContract = Erc20AbiFactory.connect(
@@ -92,6 +95,7 @@ export const vaultFetcher = async (
     priceFeedAddress,
     assetSymbol,
     expiry,
+    period,
     valuePerLP,
     assetPrice,
     strikePrice,

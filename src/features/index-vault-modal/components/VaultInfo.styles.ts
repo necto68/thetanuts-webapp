@@ -15,10 +15,6 @@ export const InfoContainer = styled.div`
   gap: 10px;
 `;
 
-export const PriceInfoContainer = styled(InfoContainer)`
-  justify-content: end;
-`;
-
 export const InfoValueContainer = styled.div`
   display: flex;
   align-items: center;
@@ -37,6 +33,7 @@ export const InfoValue = styled.span<{
     isAlignRight ? "right" : "left"};
   text-decoration: ${({ isUnderline = false }) =>
     isUnderline ? "underline" : "none"};
+  cursor: ${({ isUnderline = false }) => (isUnderline ? "pointer" : "auto")};
 `;
 
 export const InfoLink = styled.a<{

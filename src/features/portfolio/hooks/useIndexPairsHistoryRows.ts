@@ -34,7 +34,7 @@ export const useIndexPairsHistoryRows = (): (
         chainId,
 
         // TODO: add more different vault types
-        vaultType: "THETA-INDEX",
+        productType: "THETA-INDEX",
         assetSymbol,
       })
     );

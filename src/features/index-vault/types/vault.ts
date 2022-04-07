@@ -7,6 +7,7 @@ export interface Vault {
   priceFeedAddress: string;
   assetSymbol: string;
   expiry: number;
+  period: number;
   valuePerLP: Big;
   assetPrice: number;
   strikePrice: number | null;

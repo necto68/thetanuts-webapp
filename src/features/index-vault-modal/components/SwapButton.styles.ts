@@ -16,14 +16,12 @@ export const BaseSwapButton = styled(motion.button).attrs<BaseSwapButtonProps>(
     isLoading = false,
   }) => ({
     whileHover: !disabled && {
-      scale: 1.02,
-      boxShadow: `0 0 10px ${primaryColor}`,
+      scale: 1.03,
     },
 
     whileTap: !disabled && {
-      scale: 0.97,
-      boxShadow: `0 0 0px ${primaryColor}`,
-      opacity: 0.8,
+      scale: 0.95,
+      opacity: 0.6,
     },
 
     animate: isLoading
