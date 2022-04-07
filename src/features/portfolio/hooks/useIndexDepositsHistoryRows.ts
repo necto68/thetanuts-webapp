@@ -32,7 +32,7 @@ export const useIndexDepositsHistoryRows = (): (
         chainId,
 
         // TODO: add more different vault types
-        vaultType: "THETA-INDEX",
+        productType: "THETA-INDEX",
         assetSymbol,
       })
     );

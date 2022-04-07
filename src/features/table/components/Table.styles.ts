@@ -48,6 +48,7 @@ export const HeaderCell = styled.th`
 
   &:last-child {
     border-top-right-radius: 10px;
+    width: 30%;
 
     ${SortContainer} {
       padding-right: 15px;
@@ -125,6 +126,8 @@ export const Cell = styled.td`
   }
 
   &:last-child {
+    display: flex;
+    justify-content: end;
     padding-right: 15px;
   }
 

@@ -15,7 +15,7 @@ export const normalizeVaultValue = (
 export const getPercentageYields = (
   totalAsset: Big,
   premium: Big,
-  period: Big
+  period: number
 ): PercentageYields => {
   if (totalAsset.eq(0)) {
     return {

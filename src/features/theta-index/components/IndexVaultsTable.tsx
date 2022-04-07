@@ -24,16 +24,8 @@ const columns: Column<IndexVault>[] = [
     filterBy: true,
   },
   {
-    key: "totalValueLocked",
-    title: "TVL",
-    showTitleInCell: true,
-
-    render: ({ totalValueLocked }) =>
-      currencyFormatterWithoutDecimals.format(totalValueLocked),
-  },
-  {
     key: "totalPercentageYields",
-    title: "Consolidated APY",
+    title: "Index APY%",
     showTitleInCell: true,
 
     render: ({ id, totalPercentageYields }) => (
@@ -50,8 +42,16 @@ const columns: Column<IndexVault>[] = [
     ),
   },
   {
+    key: "totalValueLocked",
+    title: "TVL",
+    showTitleInCell: true,
+
+    render: ({ totalValueLocked }) =>
+      currencyFormatterWithoutDecimals.format(totalValueLocked),
+  },
+  {
     key: "supportedChainIds",
-    title: "Chains",
+    title: "Networks",
     render: ({ supportedChainIds }) => <Chains chainIds={supportedChainIds} />,
     sortBy: ({ supportedChainIds }) => supportedChainIds.length,
 
@@ -75,7 +75,7 @@ export const IndexVaultsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset or chain"
+      filterInputPlaceholder="Filter by asset or network"
       getRowKey={getRowKey}
       rows={rows}
     />

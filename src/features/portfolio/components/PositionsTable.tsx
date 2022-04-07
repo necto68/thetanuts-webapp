@@ -20,8 +20,8 @@ const columns: Column<IndexTokenRow>[] = [
     filterBy: true,
   },
   {
-    key: "vaultType",
-    title: "Vault",
+    key: "productType",
+    title: "Product",
     showTitleInCell: true,
     render: () => "Theta-Index",
     filterBy: true,
@@ -65,7 +65,7 @@ const columns: Column<IndexTokenRow>[] = [
   },
   {
     key: "chainId",
-    title: "Chain",
+    title: "Network",
     // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
     render: ({ chainId }) => <Chains chainIds={[chainId]} />,
     filterBy: ({ chainId }) => chainsMap[chainId].title,
@@ -93,7 +93,7 @@ export const PositionsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset, vault or chain"
+      filterInputPlaceholder="Filter by asset, product or network"
       getRowKey={getRowKey}
       rows={filteredRows}
     />

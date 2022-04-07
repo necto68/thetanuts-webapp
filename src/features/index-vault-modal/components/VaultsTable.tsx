@@ -21,29 +21,41 @@ import {
 const getVaultTitle = (
   type: IndexVault["type"],
   assetSymbol: Vault["assetSymbol"],
-  strikePrice: Vault["strikePrice"]
+  period: Vault["period"]
 ) => {
-  const formattedStrikePrice = strikePrice
-    ? currencyFormatterWithoutDecimals.format(strikePrice)
-    : "";
+  const mapPeriodToTitle = new Map([
+    [7, "Weekly"],
+    [14, "Bi-Weekly"],
+    [30, "Monthly"],
+  ]);
+  const secondsInDay = 60 * 60 * 24;
+  const daysInPeriod = Math.floor(period / secondsInDay);
+
+  const formattedPeriod =
+    mapPeriodToTitle.get(daysInPeriod) ?? `${daysInPeriod}-Day`;
+
   const formattedType = type === VaultType.CALL ? "Call" : "Put";
-  return `${assetSymbol} ${formattedStrikePrice} ${formattedType}`;
+
+  return `${formattedPeriod} ${assetSymbol} ${formattedType}`;
 };
 
 const getVaultSubTitle = (
+  strikePrice: Vault["strikePrice"],
   expiry: Vault["expiry"],
   isSettled: Vault["isSettled"],
   isExpired: Vault["isExpired"]
 ) => {
-  if (isSettled) {
-    return "Settled";
+  if (isSettled || isExpired) {
+    return "Auction In Progress";
   }
 
-  if (isExpired) {
-    return "Expired";
-  }
+  const formattedStrikePrice = strikePrice
+    ? currencyFormatterWithoutDecimals.format(strikePrice)
+    : "";
 
-  return dateFormatter.format(new Date(expiry));
+  const formattedExpiryDate = dateFormatter.format(new Date(expiry));
+
+  return `${formattedStrikePrice} ${formattedExpiryDate}`;
 };
 
 export const VaultsTable = () => {
@@ -61,13 +73,13 @@ export const VaultsTable = () => {
       <thead>
         <HeaderRow>
           <HeaderCell>
-            <HeaderCellValue>Portfolio</HeaderCellValue>
+            <HeaderCellValue>Basket</HeaderCellValue>
           </HeaderCell>
           <HeaderCell>
             <HeaderCellValue>APY %</HeaderCellValue>
           </HeaderCell>
           <HeaderCell>
-            <HeaderCellValue>Allocation</HeaderCellValue>
+            <HeaderCellValue>Weight</HeaderCellValue>
           </HeaderCell>
           <HeaderCell>
             <HeaderCellValue>Tx</HeaderCellValue>
@@ -101,6 +113,7 @@ export const VaultsTable = () => {
               assetSymbol,
               strikePrice,
               expiry,
+              period,
               annualPercentageYield,
               isSettled,
               isExpired,
@@ -111,10 +124,15 @@ export const VaultsTable = () => {
               <td>
                 <PortfolioCellContainer>
                   <CellValue>
-                    {getVaultTitle(type, assetSymbol, strikePrice)}
+                    {getVaultTitle(type, assetSymbol, period)}
                   </CellValue>
                   <CellSubValue>
-                    {getVaultSubTitle(expiry, isSettled, isExpired)}
+                    {getVaultSubTitle(
+                      strikePrice,
+                      expiry,
+                      isSettled,
+                      isExpired
+                    )}
                   </CellSubValue>
                 </PortfolioCellContainer>
               </td>

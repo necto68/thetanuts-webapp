@@ -3,12 +3,12 @@ import { useCallback, useState } from "react";
 import { useSwapRouterConfig } from "../hooks";
 
 import { Expander } from "./Expander";
-import { ConsolidatedApyInfo } from "./ConsolidatedApyInfo";
+import { IndexApyInfo } from "./IndexApyInfo";
 import { IndexInfo } from "./IndexInfo";
 import { Container } from "./ExpandersSection.styles";
 
 export enum SectionType {
-  consolidatedAPY = "consolidatedAPY",
+  indexAPY = "indexAPY",
   indexInfo = "indexInfo",
 }
 
@@ -29,7 +29,7 @@ export const ExpandersSection = () => {
     [openedSection]
   );
 
-  const consolidatedAPY =
+  const indexAPY =
     !isLoading && data
       ? data.totalPercentageYields.annualPercentageYield
       : ".....";
@@ -37,12 +37,12 @@ export const ExpandersSection = () => {
   return (
     <Container>
       <Expander
-        isOpen={openedSection === SectionType.consolidatedAPY}
+        isOpen={openedSection === SectionType.indexAPY}
         onArrowClick={handleArrowClick}
-        title={`Consolidated APY% = ${consolidatedAPY}%`}
-        type={SectionType.consolidatedAPY}
+        title={`Index APY% = ${indexAPY}%`}
+        type={SectionType.indexAPY}
       >
-        <ConsolidatedApyInfo />
+        <IndexApyInfo />
       </Expander>
       <Expander
         isOpen={openedSection === SectionType.indexInfo}
