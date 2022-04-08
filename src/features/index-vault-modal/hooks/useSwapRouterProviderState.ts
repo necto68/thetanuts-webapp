@@ -253,6 +253,10 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
 
       const defaultDivisor = new Big(10).pow(18);
 
+      // defaultAmountIn is equal to 99999999
+      const defaultAmountIn = new Big("99999999");
+      const defaultAmountOut = new Big(0);
+
       const { tokenDivisor = defaultDivisor } =
         (inputType === InputType.source ? sourceData : targetData) ?? {};
 
@@ -261,18 +265,26 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
         .toString();
 
       if (inputType === InputType.source) {
-        const amountOut = await routerContract
-          .getAmountsOut(inputValueBigNumber, routerPath)
-          .then((amountsOut) => convertToBig(amountsOut[1]));
+        try {
+          const amountOut = await routerContract
+            .getAmountsOut(inputValueBigNumber, routerPath)
+            .then((amountsOut) => convertToBig(amountsOut[1]));
 
-        return amountOut.div(tokenDivisor).round(5, Big.roundDown);
+          return amountOut.div(tokenDivisor).round(5, Big.roundDown);
+        } catch {
+          return defaultAmountOut;
+        }
       }
 
-      const amountIn = await routerContract
-        .getAmountsIn(inputValueBigNumber, routerPath)
-        .then((amountsIn) => convertToBig(amountsIn[0]));
+      try {
+        const amountIn = await routerContract
+          .getAmountsIn(inputValueBigNumber, routerPath)
+          .then((amountsIn) => convertToBig(amountsIn[0]));
 
-      return amountIn.div(tokenDivisor).round(5, Big.roundUp);
+        return amountIn.div(tokenDivisor).round(5, Big.roundUp);
+      } catch {
+        return defaultAmountIn;
+      }
     },
     [
       routerAddress,

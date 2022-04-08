@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { IconContainer, Tooltip } from "../../shared/components";
+import { IconContainer } from "../../shared/components";
 import { currencyFormatter } from "../../shared/helpers";
 import { Warning } from "../icons";
 import { useSwapRouterConfig } from "../hooks";
@@ -8,8 +8,11 @@ import { chainsMap } from "../../wallet/constants";
 
 import {
   Container,
-  PriceImpactTitle,
+  ContentContainer,
   PriceTitle,
+  PriceImpactTitle,
+  WarningTitle,
+  WarningLink,
 } from "./SwapInputPrice.styles";
 
 interface SwapInputPriceProps {
@@ -49,26 +52,33 @@ export const SwapInputPrice: FC<SwapInputPriceProps> = ({
     isShowDirectDepositProposal || isShowDirectWithdrawProposal;
 
   const chainTitle = chainId ? chainsMap[chainId].title : "";
-  const tooltipContent = isShowDirectDepositProposal
-    ? `High Price Impact! Advise to deposit on ${chainTitle} for better pricing`
-    : "High Price Impact! Advise to contact us for optimised withdrawal.";
 
   return (
     <Container>
-      <PriceTitle>{`~${formattedPrice}`}</PriceTitle>
-      {isShowPriceImpact ? (
-        <>
+      <ContentContainer>
+        <PriceTitle>{`~${formattedPrice}`}</PriceTitle>
+        {isShowPriceImpact ? (
           <PriceImpactTitle>{`(${priceImpactRate}%)`}</PriceImpactTitle>
-          <Tooltip
-            content={tooltipContent}
-            id="priceImpactWarning"
-            root={
-              <IconContainer height={16} width={18}>
-                <Warning />
-              </IconContainer>
-            }
-          />
-        </>
+        ) : null}
+      </ContentContainer>
+      {isShowPriceImpact ? (
+        <ContentContainer>
+          <IconContainer height={14} width={16}>
+            <Warning />
+          </IconContainer>
+          {isShowDirectDepositProposal ? (
+            <WarningTitle>
+              High Price Impact! Advise to swap on{" "}
+              <WarningLink>{chainTitle}</WarningLink> network for optimal swap.
+            </WarningTitle>
+          ) : (
+            <WarningTitle>
+              High Price Impact! Advise to{" "}
+              <WarningLink href="https://google.com">contact us</WarningLink>{" "}
+              for optimised swap.
+            </WarningTitle>
+          )}
+        </ContentContainer>
       ) : null}
     </Container>
   );
