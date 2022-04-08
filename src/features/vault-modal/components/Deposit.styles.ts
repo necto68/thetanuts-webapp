@@ -43,7 +43,6 @@ export const TabButton = styled(BaseButton).attrs<{ active: boolean }>(
   padding: 15px 0;
 
   border: 0;
-  box-shadow: none !important;
   border-radius: 0 !important;
 
   font-family: Roboto;

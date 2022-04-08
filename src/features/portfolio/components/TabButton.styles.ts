@@ -16,7 +16,6 @@ export const Container = styled.div`
 export const Button = styled(BaseButton)`
   font-size: 24px;
   border: 0;
-  box-shadow: none !important;
   padding: 15px 0;
   text-transform: uppercase;
 `;

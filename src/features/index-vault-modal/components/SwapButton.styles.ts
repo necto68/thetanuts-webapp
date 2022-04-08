@@ -49,3 +49,10 @@ export const BaseSwapButton = styled(motion.button).attrs<BaseSwapButtonProps>(
   padding: 16px 0;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+`;

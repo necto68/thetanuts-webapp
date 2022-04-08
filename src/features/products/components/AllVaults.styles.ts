@@ -42,7 +42,6 @@ export const SortContainer = styled.div`
 
 export const SortButton = styled(BaseButton)`
   border: none;
-  box-shadow: none !important;
   border-radius: 0;
   padding: 0;
 `;

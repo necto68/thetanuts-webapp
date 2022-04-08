@@ -8,3 +8,4 @@ export * from "./Tooltip";
 export * from "./InfoIcon";
 export * from "./ExternalLinkButton";
 export * from "./CircleButton";
+export * from "./LoadingSpinner";

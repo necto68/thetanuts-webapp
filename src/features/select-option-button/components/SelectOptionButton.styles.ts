@@ -23,6 +23,7 @@ export const OptionsContainer = styled.div`
   flex-direction: column;
   border-radius: 10px;
   background-color: #232738;
+  overflow: hidden;
 `;
 
 export const ButtonContentContainer = styled.div<IsSmallProps>`
@@ -33,7 +34,10 @@ export const ButtonContentContainer = styled.div<IsSmallProps>`
 
 export const OptionButton = styled(SelectButton)`
   border: none;
-  box-shadow: none !important;
   border-radius: 0;
   padding: 12px 18px;
+
+  &:hover {
+    background-color: #2e5989;
+  }
 `;

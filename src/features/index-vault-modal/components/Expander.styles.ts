@@ -19,7 +19,6 @@ export const HeaderButton = styled(BaseButton).attrs(() => ({
   justify-content: space-between;
   align-items: center;
   border: 0;
-  box-shadow: none !important;
   padding: 15px 0;
 `;
 

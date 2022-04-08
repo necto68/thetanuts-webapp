@@ -60,7 +60,6 @@ export const SortButton = styled(BaseButton)`
   display: flex;
   flex: 1;
   border: none;
-  box-shadow: none !important;
   border-radius: 0;
   padding: 0;
 `;

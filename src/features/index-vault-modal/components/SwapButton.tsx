@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { useCallback } from "react";
 import Big from "big.js";
 
+import { LoadingSpinner } from "../../shared/components";
 import { web3ModalConfig } from "../../wallet/constants";
 import {
   useSwapRouterMutations,
@@ -11,7 +12,7 @@ import {
 } from "../hooks";
 import type { NativeToken, Token } from "../types";
 
-import { BaseSwapButton } from "./SwapButton.styles";
+import { BaseSwapButton, ContentContainer } from "./SwapButton.styles";
 
 interface SwapButtonProps {
   isSourceValueLoading: boolean;
@@ -138,8 +139,11 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   if (isApproveAllowanceLoading && sourceTokenData) {
     return (
-      <BaseSwapButton disabled isLoading>
-        {`Approving ${sourceTokenData.symbol}...`}
+      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
+        <ContentContainer>
+          {`Approving ${sourceTokenData.symbol}...`}
+          <LoadingSpinner />
+        </ContentContainer>
       </BaseSwapButton>
     );
   }
@@ -152,7 +156,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
     return (
       <BaseSwapButton
         onClick={handleApproveButtonClick}
-        primaryColor="#f3ba2f"
+        primaryColor="#12CC86"
         secondaryColor="#ffffff"
       >
         {`Approve ${sourceTokenData.symbol}`}
@@ -162,8 +166,11 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   if (isSwapLoading) {
     return (
-      <BaseSwapButton disabled isLoading>
-        Swapping...
+      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
+        <ContentContainer>
+          Swapping...
+          <LoadingSpinner />
+        </ContentContainer>
       </BaseSwapButton>
     );
   }
@@ -175,7 +182,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
   return (
     <BaseSwapButton
       onClick={handleSwapButtonClick}
-      primaryColor="#259DDF"
+      primaryColor="#12CC86"
       secondaryColor="#ffffff"
     >
       Swap

@@ -5,7 +5,11 @@ import { constants } from "ethers";
 import type { MutationError, SwapRouterMutations } from "../types";
 import { InputType, MutationType } from "../types";
 import { getSwapTransactionParameters } from "../helpers";
-import { delay, processTransaction } from "../../shared/helpers";
+import {
+  delay,
+  processWalletError,
+  processTransactionError,
+} from "../../shared/helpers";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   RouterV2Abi__factory as RouterV2AbiFactory,
@@ -14,6 +18,7 @@ import {
 
 import { useSwapRouterConfig } from "./useSwapRouterConfig";
 import { useSwapRouterState } from "./useSwapRouterState";
+import { useResetMutationError } from "./useResetMutationError";
 
 export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
   const {
@@ -57,7 +62,11 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
     await sourceTokenContract.callStatic.approve(...approveParameters);
     const transaction = await sourceTokenContract.approve(...approveParameters);
 
-    await processTransaction(transaction);
+    try {
+      await transaction.wait();
+    } catch (transactionError) {
+      processTransactionError(transactionError);
+    }
 
     return true;
   }, [
@@ -119,69 +128,77 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
 
       let transaction = null;
 
-      switch (mutationType) {
-        case MutationType.swapExactTokensForTokens:
-        case MutationType.swapTokensForExactTokens:
-        case MutationType.swapExactTokensForETH:
-        case MutationType.swapTokensForExactETH:
-          await routerContract.callStatic[mutationType](
-            ...routerAmountParameters[mutationType],
-            ...routerDefaultParameters
-          );
+      try {
+        switch (mutationType) {
+          case MutationType.swapExactTokensForTokens:
+          case MutationType.swapTokensForExactTokens:
+          case MutationType.swapExactTokensForETH:
+          case MutationType.swapTokensForExactETH:
+            await routerContract.callStatic[mutationType](
+              ...routerAmountParameters[mutationType],
+              ...routerDefaultParameters
+            );
 
-          transaction = await routerContract[mutationType](
-            ...routerAmountParameters[mutationType],
-            ...routerDefaultParameters
-          );
+            transaction = await routerContract[mutationType](
+              ...routerAmountParameters[mutationType],
+              ...routerDefaultParameters
+            );
 
-          break;
+            break;
 
-        case MutationType.swapExactETHForTokens:
-        case MutationType.swapETHForExactTokens:
-          await routerContract.callStatic[mutationType](
-            ...routerAmountParameters[mutationType],
-            ...routerDefaultParameters,
-            { value: amountIn }
-          );
+          case MutationType.swapExactETHForTokens:
+          case MutationType.swapETHForExactTokens:
+            await routerContract.callStatic[mutationType](
+              ...routerAmountParameters[mutationType],
+              ...routerDefaultParameters,
+              { value: amountIn }
+            );
 
-          transaction = await routerContract[mutationType](
-            ...routerAmountParameters[mutationType],
-            ...routerDefaultParameters,
-            { value: amountIn }
-          );
+            transaction = await routerContract[mutationType](
+              ...routerAmountParameters[mutationType],
+              ...routerDefaultParameters,
+              { value: amountIn }
+            );
 
-          break;
+            break;
 
-        case MutationType.deposit:
-          await directDepositorContract.callStatic[mutationType](
-            ...directDepositorAmountParameters[mutationType]
-          );
+          case MutationType.deposit:
+            await directDepositorContract.callStatic[mutationType](
+              ...directDepositorAmountParameters[mutationType]
+            );
 
-          transaction = await directDepositorContract[mutationType](
-            ...directDepositorAmountParameters[mutationType]
-          );
+            transaction = await directDepositorContract[mutationType](
+              ...directDepositorAmountParameters[mutationType]
+            );
 
-          break;
+            break;
 
-        case MutationType.depositNative:
-          await directDepositorContract.callStatic[mutationType](
-            ...directDepositorAmountParameters[mutationType],
-            { value: amountIn }
-          );
+          case MutationType.depositNative:
+            await directDepositorContract.callStatic[mutationType](
+              ...directDepositorAmountParameters[mutationType],
+              { value: amountIn }
+            );
 
-          transaction = await directDepositorContract[mutationType](
-            ...directDepositorAmountParameters[mutationType],
-            { value: amountIn }
-          );
+            transaction = await directDepositorContract[mutationType](
+              ...directDepositorAmountParameters[mutationType],
+              { value: amountIn }
+            );
 
-          break;
+            break;
 
-        default:
-          break;
+          default:
+            break;
+        }
+      } catch (walletError) {
+        processWalletError(walletError);
       }
 
       if (transaction) {
-        await processTransaction(transaction);
+        try {
+          await transaction.wait();
+        } catch (transactionError) {
+          processTransactionError(transactionError);
+        }
       }
 
       return true;
@@ -225,6 +242,9 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       onSuccess: handleMutationSuccess,
     }
   );
+
+  useResetMutationError(approveAllowanceMutation);
+  useResetMutationError(swapMutation);
 
   return {
     approveAllowanceMutation,
