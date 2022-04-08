@@ -136,7 +136,7 @@ export const vaultFetcher = async (
   const vaultTotalDeposit = convertToBig(vaultUI.total_deposit);
   const vaultTotalAsset = convertToBig(vaultUI.total_asset);
   const vaultPremium = convertToBig(vaultUI.premium);
-  const vaultPeriod = convertToBig(await vaultContract.PERIOD());
+  const vaultPeriod = convertToBig(await vaultContract.PERIOD()).toNumber();
 
   const vaultAssetPrice = convertToBig(
     await priceFeedContract.getLatestPriceX1e6(linkAggregator)
