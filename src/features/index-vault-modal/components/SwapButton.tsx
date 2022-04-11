@@ -78,6 +78,11 @@ export const SwapButton: FC<SwapButtonProps> = ({
     sourceValueBig.lte(0) ||
     targetValueBig.lte(0);
 
+  const isNeedApprove =
+    sourceTokenData?.allowance &&
+    sourceValueBig.gt(0) &&
+    sourceValueBig.gt(sourceTokenData.allowance);
+
   const {
     isLoading: isApproveAllowanceLoading,
     isError: isApproveAllowanceError,
@@ -148,18 +153,26 @@ export const SwapButton: FC<SwapButtonProps> = ({
     );
   }
 
-  if (
-    sourceTokenData?.allowance &&
-    sourceValueBig.gt(0) &&
-    sourceValueBig.gt(sourceTokenData.allowance)
-  ) {
+  if (isNeedApprove && isUseDirectMode) {
     return (
       <BaseSwapButton
         onClick={handleApproveButtonClick}
         primaryColor="#12CC86"
         secondaryColor="#ffffff"
       >
-        {`Approve ${sourceTokenData.symbol}`}
+        {`Approve ${sourceTokenData.symbol} for Direct Deposit`}
+      </BaseSwapButton>
+    );
+  }
+
+  if (isNeedApprove) {
+    return (
+      <BaseSwapButton
+        onClick={handleApproveButtonClick}
+        primaryColor="#12CC86"
+        secondaryColor="#ffffff"
+      >
+        {`Approve ${sourceTokenData.symbol} for Swap`}
       </BaseSwapButton>
     );
   }
@@ -177,6 +190,18 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   if (isSwapButtonDisabled) {
     return <BaseSwapButton disabled>Swap</BaseSwapButton>;
+  }
+
+  if (isUseDirectMode) {
+    return (
+      <BaseSwapButton
+        onClick={handleSwapButtonClick}
+        primaryColor="#12CC86"
+        secondaryColor="#ffffff"
+      >
+        Direct Deposit
+      </BaseSwapButton>
+    );
   }
 
   return (
