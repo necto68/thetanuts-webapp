@@ -1,5 +1,4 @@
-import type { MouseEventHandler } from "react";
-import { createElement, useCallback } from "react";
+import { createElement } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useKey } from "rooks";
 
@@ -12,23 +11,12 @@ export const Modal = () => {
   const { modalComponent, handleClose } = useCurrentModalState();
   const containerMaxHeight = useViewportHeight(0.98);
 
-  const handleBackdropMouseDown = useCallback<
-    MouseEventHandler<HTMLDivElement>
-  >(
-    (event) => {
-      if (event.target === event.currentTarget) {
-        handleClose();
-      }
-    },
-    [handleClose]
-  );
-
   useKey("Escape", handleClose);
 
   return (
     <AnimatePresence>
       {modalComponent ? (
-        <Backdrop onMouseDown={handleBackdropMouseDown}>
+        <Backdrop>
           <ModalContainer maxHeight={containerMaxHeight}>
             {createElement(modalComponent)}
           </ModalContainer>
