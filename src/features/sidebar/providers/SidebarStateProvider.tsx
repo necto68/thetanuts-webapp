@@ -6,10 +6,9 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useMediaMatch } from "rooks";
 
+import { useIsMobile } from "../../shared/hooks";
 import type { SidebarState } from "../types";
-import { sizes } from "../../shared/constants";
 
 const defaultSidebarState: SidebarState = {
   isShow: false,
@@ -21,7 +20,7 @@ export const SidebarStateContext =
   createContext<SidebarState>(defaultSidebarState);
 
 export const SidebarStateProvider: FC = ({ children }) => {
-  const isMobile = useMediaMatch(`(max-width: ${sizes.md}px)`);
+  const isMobile = useIsMobile();
   const [isShow, setIsShow] = useState(!isMobile);
 
   useEffect(() => {
