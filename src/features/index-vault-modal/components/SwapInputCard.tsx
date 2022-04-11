@@ -4,11 +4,12 @@ import { AnimatePresence } from "framer-motion";
 import Big from "big.js";
 
 import { IconContainer, SkeletonBox } from "../../shared/components";
+import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
 import { getLogoBySymbol } from "../../logo/helpers";
 
 import { AssetSelector } from "./AssetSelector";
-import { SwapInputPrice } from "./SwapInputPrice";
+import { PriceWarning } from "./PriceWarning";
 import {
   Container,
   AssetContainer,
@@ -18,10 +19,14 @@ import {
   SwapInput,
   SwapInputContainer,
   SwapInputCardAnimateContainer,
+  SwapInputCardContentContainer,
   BalanceContainer,
   BalanceTitlesContainer,
   BalanceTitle,
   InsufficientBalanceTitle,
+  PriceContainer,
+  PriceValue,
+  PriceImpactValue,
 } from "./SwapInputCard.styles";
 
 interface SwapInputCardProps {
@@ -93,12 +98,26 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   const inputValueBig = new Big(inputValue || 0);
 
+  const formattedPrice = currencyFormatter.format(priceValue);
+
   const isShowInsufficientBalanceTitle = Boolean(
     isSource &&
       currentData?.balance &&
       inputValueBig.gt(0) &&
       inputValueBig.gt(currentData.balance)
   );
+
+  const isShowDirectDepositProposal =
+    !isSource &&
+    !isFlipped &&
+    isDirectModeBetterThanSwapMode &&
+    !isUseDirectMode;
+
+  const isShowDirectWithdrawProposal =
+    !isSource && isFlipped && isDirectModeBetterThanSwapMode;
+
+  const isShowPriceImpact =
+    isShowDirectDepositProposal || isShowDirectWithdrawProposal;
 
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
@@ -120,51 +139,57 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
           downDirection={isSource ? isFlipped : !isFlipped}
           key={isFlipped.toString()}
         >
-          <SwapInputContainer>
-            {isValueLoading ? (
-              <SkeletonBox height={34.2} width={130} />
-            ) : (
-              <SwapInput
-                isError={isShowInsufficientBalanceTitle}
-                onChange={handleInputChange}
-                value={inputValue}
-              />
-            )}
-            {isValueLoading ? (
-              <SkeletonBox height={16} width={100} />
-            ) : (
-              <SwapInputPrice
-                isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
-                isFlipped={isFlipped}
-                isSource={isSource}
-                isUseDirectMode={isUseDirectMode}
-                priceImpactRate={priceImpactRate}
-                priceValue={priceValue}
-              />
-            )}
-          </SwapInputContainer>
-          <AssetContainer>
-            {isDataLoading ? <SkeletonBox height={30} width={55} /> : null}
-            {!isDataLoading && !isShowAssetSelector ? (
-              <AssetTitleContainer>
-                <IconContainer height={20} width={20}>
-                  {assetLogo}
-                </IconContainer>
-                <AssetTitle>{currentData?.symbol}</AssetTitle>
-              </AssetTitleContainer>
-            ) : null}
-            {!isDataLoading && isShowAssetSelector ? (
-              <AssetSelector
-                isUseNativeData={isUseNativeData}
-                nativeData={nativeData}
-                onUseNativeDataChange={onUseNativeDataChange}
-                tokenData={tokenData}
-              />
-            ) : null}
-            {!isDataLoading && isShowMaxButton ? (
-              <MaxButton onClick={handleMaxButtonClick}>MAX</MaxButton>
-            ) : null}
-          </AssetContainer>
+          <SwapInputCardContentContainer>
+            <SwapInputContainer>
+              {isValueLoading ? (
+                <SkeletonBox height={34.2} width={130} />
+              ) : (
+                <SwapInput
+                  isError={isShowInsufficientBalanceTitle}
+                  onChange={handleInputChange}
+                  value={inputValue}
+                />
+              )}
+              {isValueLoading ? (
+                <SkeletonBox height={16} width={100} />
+              ) : (
+                <PriceContainer>
+                  <PriceValue>{`~${formattedPrice}`}</PriceValue>
+                  {isShowPriceImpact ? (
+                    <PriceImpactValue>{`(${priceImpactRate}%)`}</PriceImpactValue>
+                  ) : null}
+                </PriceContainer>
+              )}
+            </SwapInputContainer>
+            <AssetContainer>
+              {isDataLoading ? <SkeletonBox height={30} width={55} /> : null}
+              {!isDataLoading && !isShowAssetSelector ? (
+                <AssetTitleContainer>
+                  <IconContainer height={20} width={20}>
+                    {assetLogo}
+                  </IconContainer>
+                  <AssetTitle>{currentData?.symbol}</AssetTitle>
+                </AssetTitleContainer>
+              ) : null}
+              {!isDataLoading && isShowAssetSelector ? (
+                <AssetSelector
+                  isUseNativeData={isUseNativeData}
+                  nativeData={nativeData}
+                  onUseNativeDataChange={onUseNativeDataChange}
+                  tokenData={tokenData}
+                />
+              ) : null}
+              {!isDataLoading && isShowMaxButton ? (
+                <MaxButton onClick={handleMaxButtonClick}>MAX</MaxButton>
+              ) : null}
+            </AssetContainer>
+          </SwapInputCardContentContainer>
+          {isShowPriceImpact ? (
+            <PriceWarning
+              isShowDirectDepositProposal={isShowDirectDepositProposal}
+              isShowDirectWithdrawProposal={isShowDirectWithdrawProposal}
+            />
+          ) : null}
         </SwapInputCardAnimateContainer>
       </AnimatePresence>
     </Container>

@@ -68,11 +68,17 @@ export const SwapInputCardAnimateContainer = styled(motion.div).attrs<{
   transition: { duration: 0.3, ease: "linear" },
 }))<{ downDirection: boolean }>`
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  background-color: #061f3a;
+  flex-direction: column;
+  gap: 10px;
   border-radius: 10px;
   padding: 15px;
+  background-color: #061f3a;
+`;
+
+export const SwapInputCardContentContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
 `;
 
 export const SwapInputContainer = styled.div`
@@ -117,6 +123,24 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
     margin: 0;
   }
   -moz-appearance: textfield;
+`;
+
+export const PriceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const PriceValue = styled.span`
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 14px;
+  color: #e5e5e5;
+`;
+
+export const PriceImpactValue = styled(PriceValue)`
+  font-weight: 600;
+  color: #eb5853;
 `;
 
 export const AssetTitleContainer = styled.div`
