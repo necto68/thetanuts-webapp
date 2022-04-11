@@ -34,7 +34,7 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
 
   const buttonSymbol = selectedChain?.symbol;
   const buttonTitle = selectedChain?.title ?? "Wrong network";
-  const buttonColor = isSelectedChainIdValid ? selectedChain?.color : "#EB5853";
+  const buttonColor = isSelectedChainIdValid ? "#FFFFFF" : "#EB5853";
 
   const switchToChain = async (chainId: ChainId) => {
     const chainIdHex = `0x${chainId.toString(16)}`;
@@ -72,11 +72,11 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   };
 
   const options = selectedChainsWithoutCurrentChain.map(
-    ({ chainId, title, symbol, color }) => ({
+    ({ chainId, title, symbol }) => ({
       id: chainId,
       title,
       symbol,
-      color,
+      color: "#FFFFFF",
     })
   );
 
