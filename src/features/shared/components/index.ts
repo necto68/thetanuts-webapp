@@ -9,3 +9,4 @@ export * from "./InfoIcon";
 export * from "./ExternalLinkButton";
 export * from "./CircleButton";
 export * from "./LoadingSpinner";
+export * from "./GradientButton";

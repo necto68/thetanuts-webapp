@@ -26,7 +26,7 @@ export const Backdrop = styled(motion(Div100vh)).attrs(() => ({
   // height: 100vh; - by default because of Div100vh
 `;
 
-export const VaultModalContainer = styled(motion.div).attrs<{
+export const ModalContainer = styled(motion.div).attrs<{
   maxHeight: string;
 }>(() => ({
   initial: {

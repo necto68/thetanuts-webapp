@@ -12,12 +12,12 @@ import {
 import {
   CircleButton,
   CircleButtonIconType,
+  GradientButton,
   IconContainer,
 } from "../../shared/components";
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
-import { SwitchToV0Button } from "../../header/components/SwitchToV0Button";
 
 import {
   CircleButtonContainer,
@@ -27,6 +27,7 @@ import {
   SecondaryNavContainer,
   SidebarContainer,
   SwitchToV0ButtonContainer,
+  SwitchToV0Link,
 } from "./Sidebar.styles";
 import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
@@ -107,7 +108,9 @@ export const Sidebar = () => {
         ))}
       </MainNavContainer>
       <SwitchToV0ButtonContainer>
-        <SwitchToV0Button />
+        <SwitchToV0Link target="_blank" to="https://thetanuts.finance/vaults">
+          <GradientButton backgroundColor="#0A1026" title="Thetanuts v0" />
+        </SwitchToV0Link>
       </SwitchToV0ButtonContainer>
       <SecondaryNavContainer>
         {secondaryNavItems.map((navItem) => (

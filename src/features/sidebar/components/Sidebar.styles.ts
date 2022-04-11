@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { sizes } from "../../shared/constants";
+import { Link } from "../../shared/components";
 
 export const SidebarContainer = styled(motion.div).attrs<{
   isShow: boolean;
@@ -69,6 +70,11 @@ export const SwitchToV0ButtonContainer = styled.div`
   @media (max-width: ${sizes.md}px) {
     display: flex;
   }
+`;
+
+export const SwitchToV0Link = styled(Link)`
+  display: flex;
+  text-decoration: none;
 `;
 
 export const IconNavContainer = styled.div`
