@@ -19,6 +19,6 @@ export const BaseSwitchToV0Button = styled(BaseButton)`
     )
     border-box;
 
-  font-family: Sofia Sans;
+  font-family: "Sofia Sans";
   font-weight: 900;
 `;

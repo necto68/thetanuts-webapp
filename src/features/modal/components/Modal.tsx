@@ -1,26 +1,16 @@
 import type { MouseEventHandler } from "react";
-import { useCallback } from "react";
+import { createElement, useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useKey } from "rooks";
 
-import { IndexVaultModal } from "../../index-vault-modal/components";
-import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
 import { useViewportHeight } from "../../shared/hooks";
+import { useCurrentModalState } from "../hooks";
 
-import { Backdrop, VaultModalContainer } from "./Modal.styles";
+import { Backdrop, ModalContainer } from "./Modal.styles";
 
 export const Modal = () => {
-  const [{ isShow: isShowIndexVaultModal }, setIndexVaultModalState] =
-    useIndexVaultModalState();
-
+  const { modalComponent, handleClose } = useCurrentModalState();
   const containerMaxHeight = useViewportHeight(0.98);
-
-  const handleClose = useCallback(() => {
-    setIndexVaultModalState((previousState) => ({
-      ...previousState,
-      isShow: false,
-    }));
-  }, [setIndexVaultModalState]);
 
   const handleBackdropMouseDown = useCallback<
     MouseEventHandler<HTMLDivElement>
@@ -35,15 +25,13 @@ export const Modal = () => {
 
   useKey("Escape", handleClose);
 
-  const ModalComponent = IndexVaultModal;
-
   return (
     <AnimatePresence>
-      {isShowIndexVaultModal ? (
+      {modalComponent ? (
         <Backdrop onMouseDown={handleBackdropMouseDown}>
-          <VaultModalContainer maxHeight={containerMaxHeight}>
-            <ModalComponent />
-          </VaultModalContainer>
+          <ModalContainer maxHeight={containerMaxHeight}>
+            {createElement(modalComponent)}
+          </ModalContainer>
         </Backdrop>
       ) : null}
     </AnimatePresence>
