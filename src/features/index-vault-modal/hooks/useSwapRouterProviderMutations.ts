@@ -1,5 +1,5 @@
 import { useMutation } from "react-query";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { constants } from "ethers";
 
 import type { MutationError, SwapRouterMutations } from "../types";
@@ -40,6 +40,8 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
     lastUpdatedInputType,
     tokensQueries,
   } = useSwapRouterState();
+
+  const [swapMutationHash, setSwapMutationHash] = useState<string>();
 
   const runApproveAllowanceMutation = useCallback(async () => {
     if (!sourceData || !walletProvider) {
@@ -194,6 +196,8 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       }
 
       if (transaction) {
+        setSwapMutationHash(transaction.hash);
+
         try {
           await transaction.wait();
         } catch (transactionError) {
@@ -219,7 +223,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
     const { sourceTokenQuery, targetTokenQuery, nativeTokenQuery } =
       tokensQueries;
 
-    await delay(5000);
+    await delay(3000);
 
     await Promise.all([
       sourceTokenQuery ? sourceTokenQuery.refetch() : null,
@@ -249,6 +253,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
   return {
     approveAllowanceMutation,
     swapMutation,
+    swapMutationHash,
 
     runApproveAllowance: () => {
       approveAllowanceMutation.mutate();

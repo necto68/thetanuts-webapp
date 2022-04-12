@@ -30,6 +30,15 @@ export const FlipButton = styled(BaseButton).attrs<{ isFlipped: boolean }>(
       rotate: isFlipped ? "-180deg" : 0,
       transition: { duration: 0.6 },
     },
+
+    whileHover: {
+      scale: 1.02,
+    },
+
+    whileTap: {
+      scale: 0.97,
+      opacity: 0.8,
+    },
   })
 )<{ isFlipped: boolean }>`
   padding: 8px;

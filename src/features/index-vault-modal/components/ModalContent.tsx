@@ -2,33 +2,23 @@ import { AnimatePresence } from "framer-motion";
 
 import { useSwapRouterMutations } from "../hooks";
 
-import { Container, ContentAnimatedContainer } from "./ModalContent.styles";
 import { Header } from "./Header";
-import { SwapSection } from "./SwapSection";
-import { ExpandersSection } from "./ExpandersSection";
-import { SuccessTransactionSection } from "./SuccessTransactionSection";
+import { SwappingContent } from "./SwappingContent";
+import { SwapContent } from "./SwapContent";
+import { Container, ContentAnimatedContainer } from "./ModalContent.styles";
 
 export const ModalContent = () => {
-  const { swapMutation } = useSwapRouterMutations();
+  const { swapMutationHash } = useSwapRouterMutations();
 
-  const { data: isSwapSuccessful = false } = swapMutation ?? {};
+  const isSwapping = Boolean(swapMutationHash);
+  const theme = isSwapping ? "dark" : "light";
 
   return (
-    <Container>
-      <Header />
+    <Container theme={theme}>
+      <Header theme={theme} />
       <AnimatePresence exitBeforeEnter initial={false}>
-        <ContentAnimatedContainer
-          downDirection={isSwapSuccessful}
-          key={isSwapSuccessful.toString()}
-        >
-          {isSwapSuccessful ? (
-            <SuccessTransactionSection />
-          ) : (
-            <>
-              <SwapSection />
-              <ExpandersSection />
-            </>
-          )}
+        <ContentAnimatedContainer key={isSwapping.toString()}>
+          {isSwapping ? <SwappingContent /> : <SwapContent />}
         </ContentAnimatedContainer>
       </AnimatePresence>
     </Container>

@@ -76,7 +76,6 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
       id: chainId,
       title,
       symbol,
-      color: "#FFFFFF",
     })
   );
 

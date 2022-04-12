@@ -7,6 +7,8 @@ export interface SwapRouterMutations {
 
   swapMutation?: UseMutationResult<boolean, MutationError, MutationType>;
 
+  swapMutationHash?: string;
+
   runApproveAllowance: () => void;
   runSwapTokensForTokens: () => void;
   runDirectDeposit: () => void;
