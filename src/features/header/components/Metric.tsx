@@ -12,17 +12,18 @@ import {
 
 interface MetricProps {
   title: string;
-  value: string | undefined;
+  value: string;
+  isLoading?: boolean;
 }
 
-export const Metric: FC<MetricProps> = ({ title, value }) => (
+export const Metric: FC<MetricProps> = ({ title, value, isLoading }) => (
   <Container>
     <MetricTitleContainer>
       <MetricTitle>{title}</MetricTitle>
     </MetricTitleContainer>
     <MetricValueContainer>
-      {typeof value === "undefined" ? (
-        <SkeletonBox height={25} width={100} />
+      {isLoading ? (
+        <SkeletonBox height={25} width={90} />
       ) : (
         <MetricValue>{value}</MetricValue>
       )}
