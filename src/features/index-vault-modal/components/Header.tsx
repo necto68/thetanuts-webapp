@@ -1,12 +1,21 @@
+import type { FC } from "react";
 import { useCallback } from "react";
 
 import { useIndexVaultModalState, useSwapRouterConfig } from "../hooks";
 import { ChainSelect } from "../../wallet/components";
 import { CircleButton, CircleButtonIconType } from "../../shared/components";
+import type { ThemeType } from "../types";
 
-import { ButtonsContainer, Container, Title } from "./Header.styles";
+import {
+  Container,
+  Title,
+  ButtonsContainer,
+  ChainSelectContainer,
+} from "./Header.styles";
 
-export const Header = () => {
+type HeaderProps = ThemeType;
+
+export const Header: FC<HeaderProps> = ({ theme = "light" }) => {
   const [, setIndexVaultModalState] = useIndexVaultModalState();
   const { supportedChainIds } = useSwapRouterConfig();
 
@@ -19,14 +28,16 @@ export const Header = () => {
 
   return (
     <Container>
-      <Title>Swap Token</Title>
+      <Title theme={theme}>Swap</Title>
       <ButtonsContainer>
-        <ChainSelect chainIds={supportedChainIds} />
+        <ChainSelectContainer isShow={theme === "light"}>
+          <ChainSelect chainIds={supportedChainIds} />
+        </ChainSelectContainer>
         <CircleButton
           iconSize={16}
           iconType={CircleButtonIconType.cross}
           onClick={handleCloseButtonClick}
-          primaryColor="#5D5D5D"
+          primaryColor={theme === "dark" ? "#FFFFFF" : "#5D5D5D"}
         />
       </ButtonsContainer>
     </Container>
