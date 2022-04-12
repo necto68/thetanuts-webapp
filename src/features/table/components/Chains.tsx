@@ -1,11 +1,10 @@
 import type { FC } from "react";
-import { useMediaMatch } from "rooks";
 
 import type { ChainId } from "../../wallet/constants";
 import { IconContainer, Tooltip } from "../../shared/components";
+import { useIsMobile } from "../../shared/hooks";
 import { chainsMap } from "../../wallet/constants";
 import { getLogoBySymbol } from "../../logo/helpers";
-import { sizes } from "../../shared/constants";
 
 import {
   Container,
@@ -19,7 +18,7 @@ interface ChainsProps {
 }
 
 export const Chains: FC<ChainsProps> = ({ chainIds }) => {
-  const isMobile = useMediaMatch(`(max-width: ${sizes.md}px)`);
+  const isMobile = useIsMobile();
   const isShowShortenedChains = isMobile && chainIds.length > 3;
 
   const visibleChains = isShowShortenedChains ? chainIds.slice(0, 3) : chainIds;

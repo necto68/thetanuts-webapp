@@ -68,3 +68,11 @@ export const DescriptionLink = styled(Description).attrs(() => ({
     color: #1fffab;
   }
 `;
+
+export const ExpandDescriptionLink = styled(DescriptionLink)`
+  color: #0ddbe7;
+
+  &:hover {
+    color: #e5e5e5;
+  }
+`;

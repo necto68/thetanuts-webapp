@@ -1,4 +1,6 @@
 export enum QueryType {
+  metrics = "metrics",
+
   vault = "vault",
   indexVault = "indexVault",
 
