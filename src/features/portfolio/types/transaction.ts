@@ -22,3 +22,8 @@ export interface Transaction {
   amountOut: Big;
   chainId: ChainId;
 }
+
+export interface SwapTransaction extends Omit<Transaction, "type"> {
+  assetIn: string;
+  assetOut: string;
+}

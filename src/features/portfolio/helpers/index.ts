@@ -1,5 +1,4 @@
 export * from "./fetchChainExplorerData";
 export * from "./indexTokensFetcher";
-export * from "./indexPairsHistoryFetcher";
-export * from "./pairHistoryFetcher";
+export * from "./chainIndexSwapsHistoryFetcher";
 export * from "./indexDepositsHistoryFetcher";

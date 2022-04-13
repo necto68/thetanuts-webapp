@@ -9,7 +9,6 @@ export enum QueryType {
 
   indexTokens = "indexTokens",
 
-  indexPairsHistory = "indexPairsHistory",
+  chainIndexSwapsHistory = "chainIndexSwapsHistory",
   indexDepositsHistory = "indexDepositsHistory",
-  pairHistory = "pairHistory",
 }
