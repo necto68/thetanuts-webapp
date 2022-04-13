@@ -14,6 +14,7 @@ interface ExpanderProps {
   type: SectionType;
   title: string;
   isOpen: boolean;
+  maxHeight?: number;
   onArrowClick: (sectionType: SectionType) => void;
 }
 
@@ -21,6 +22,7 @@ export const Expander: FC<ExpanderProps> = ({
   type,
   title,
   isOpen,
+  maxHeight,
   onArrowClick,
   children,
 }) => (
@@ -33,6 +35,8 @@ export const Expander: FC<ExpanderProps> = ({
       <Title>{title}</Title>
       <ArrowIcon up={isOpen} />
     </HeaderButton>
-    <ExpandableContainer isOpen={isOpen}>{children}</ExpandableContainer>
+    <ExpandableContainer isOpen={isOpen} maxHeight={maxHeight}>
+      {children}
+    </ExpandableContainer>
   </Container>
 );

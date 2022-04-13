@@ -3,7 +3,6 @@ import { useCallback } from "react";
 
 import { useIndexVault } from "../hooks";
 import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
-import { VaultType } from "../../vault/constants";
 import {
   numberFormatter,
   totalValueLockedFormatter,
@@ -14,6 +13,7 @@ import { getLogoBySymbol } from "../../logo/helpers";
 import {
   APYContainer,
   AssetTitle,
+  VaultTypeTitle,
   AssetTitleContainer,
   Container,
   Content,
@@ -40,7 +40,6 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
   }, [setModalState, indexVaultId]);
 
   const {
-    type,
     assetSymbol = "",
     totalPercentageYields,
     totalValueLocked = 0,
@@ -48,7 +47,6 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
 
   const { annualPercentageYield = 0 } = totalPercentageYields ?? {};
 
-  const assetTitle = `${assetSymbol}-${type === VaultType.CALL ? "C" : "P"}`;
   const formattedTotalAPY = numberFormatter.format(annualPercentageYield);
   const formattedTVL = totalValueLockedFormatter(totalValueLocked);
 
@@ -56,21 +54,25 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
 
   return (
     <Container onClick={handleVaultClick}>
-      <Header>
-        {isLoading ? (
-          <SkeletonBox height={32} width={120} />
-        ) : (
+      {isLoading ? (
+        <Header>
+          <SkeletonBox height={27} width={90} />
+          <SkeletonBox height={27} width={90} />
+        </Header>
+      ) : (
+        <Header>
           <AssetTitleContainer>
             <IconContainer height={25} width={25}>
               {assetLogo}
             </IconContainer>
-            <AssetTitle>{assetTitle}</AssetTitle>
+            <AssetTitle>{assetSymbol}</AssetTitle>
           </AssetTitleContainer>
-        )}
-      </Header>
+          <VaultTypeTitle>Theta-Index</VaultTypeTitle>
+        </Header>
+      )}
       <Content>
         <APYContainer>
-          <DataTitle>APY</DataTitle>
+          <DataTitle>Index APY</DataTitle>
           {isLoading ? (
             <SkeletonBox height={32} width={60} />
           ) : (

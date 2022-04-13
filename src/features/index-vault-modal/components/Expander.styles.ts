@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
@@ -31,6 +31,7 @@ export const Title = styled.span`
 
 export const ExpandableContainer = styled(motion.div).attrs<{
   isOpen: boolean;
+  maxHeight?: number;
 }>(({ isOpen }) => ({
   initial: false,
 
@@ -39,6 +40,12 @@ export const ExpandableContainer = styled(motion.div).attrs<{
   },
 }))<{
   isOpen: boolean;
+  maxHeight?: number;
 }>`
-  overflow: hidden;
+  overflow: auto;
+  ${({ maxHeight }) =>
+    maxHeight &&
+    css`
+      max-height: ${maxHeight}px;
+    `}
 `;

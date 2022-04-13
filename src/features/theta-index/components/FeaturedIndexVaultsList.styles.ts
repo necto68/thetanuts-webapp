@@ -4,7 +4,7 @@ import { sizes } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 10px;
   flex-wrap: wrap;
 
   @media (max-width: ${sizes.md}px) {

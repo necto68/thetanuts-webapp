@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { BaseButton } from "../../shared/components";
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -154,9 +152,4 @@ export const AssetTitle = styled.span`
   font-weight: 400;
   font-size: 18px;
   color: #ffffff;
-`;
-
-export const MaxButton = styled(BaseButton)`
-  padding: 4px 12px;
-  font-size: 16px;
 `;

@@ -38,6 +38,7 @@ export const ExpandersSection = () => {
     <Container>
       <Expander
         isOpen={openedSection === SectionType.indexAPY}
+        maxHeight={285}
         onArrowClick={handleArrowClick}
         title={`Index APY% = ${indexAPY}%`}
         type={SectionType.indexAPY}
