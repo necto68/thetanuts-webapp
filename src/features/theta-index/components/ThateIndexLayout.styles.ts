@@ -19,11 +19,13 @@ export const Container = styled.div`
 
 export const ContentContainer = styled.div`
   display: flex;
-  gap: 25px;
+  gap: 100px;
 `;
 
-export const DescriptionContainer = styled(ContentContainer)`
+export const DescriptionContainer = styled.div`
+  display: flex;
   flex-direction: column;
+  gap: 25px;
 `;
 
 export const BasketIconContainer = styled.div`

@@ -5,6 +5,7 @@ interface BaseButtonProps {
   primaryColor?: string;
   secondaryColor?: string;
   disabled?: boolean;
+  isSmall?: boolean;
   onClick?: () => void;
 }
 
@@ -25,17 +26,17 @@ const BaseButton = styled(motion.button).attrs<Required<BaseButtonProps>>(
 )<BaseButtonProps>`
   font-family: Barlow;
   font-weight: 400;
-  font-size: 18px;
+  font-size: ${({ isSmall }) => (isSmall ? "16px" : "18px")};
 
   border-radius: 10px;
-  border-width: 2px;
+  border-width: ${({ isSmall }) => (isSmall ? "1px" : "2px")};
   border-style: solid;
   border-color: ${({ primaryColor }) => primaryColor};
 
   color: ${({ primaryColor }) => primaryColor};
   background-color: ${({ secondaryColor }) => secondaryColor};
 
-  padding: 5px 24px;
+  padding: ${({ isSmall }) => (isSmall ? "4px 12px" : "5px 24px")};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
@@ -43,6 +44,7 @@ const BaseButton = styled(motion.button).attrs<Required<BaseButtonProps>>(
 
 BaseButton.defaultProps = {
   disabled: false,
+  isSmall: false,
   primaryColor: "#ffffff",
   secondaryColor: "transparent",
 };

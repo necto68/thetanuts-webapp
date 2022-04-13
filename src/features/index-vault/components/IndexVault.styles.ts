@@ -33,6 +33,7 @@ export const Container = styled(motion.div).attrs(() => ({
 
 export const Header = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 8px;
 `;
@@ -45,9 +46,13 @@ export const AssetTitleContainer = styled.div`
 
 export const AssetTitle = styled.span`
   font-family: Roboto;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 24px;
   color: #e5e5e5;
+`;
+
+export const VaultTypeTitle = styled(AssetTitle)`
+  color: #ffffff;
 `;
 
 export const Content = styled.div`

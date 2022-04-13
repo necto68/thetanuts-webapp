@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 import { BaseButton } from "../../shared/components";
 
@@ -8,14 +8,6 @@ interface IsSmallProps {
 
 export const Container = styled.div`
   position: relative;
-`;
-
-export const SelectButton = styled(BaseButton)<IsSmallProps>`
-  ${({ isSmall }) =>
-    isSmall &&
-    css`
-      font-size: 16px;
-    `}
 `;
 
 export const OptionsContainer = styled.div`
@@ -32,7 +24,7 @@ export const ButtonContentContainer = styled.div<IsSmallProps>`
   gap: ${({ isSmall }) => (isSmall ? "5px" : "10px")};
 `;
 
-export const OptionButton = styled(SelectButton)`
+export const OptionButton = styled(BaseButton)`
   border: none;
   border-radius: 0;
   padding: 12px 18px;

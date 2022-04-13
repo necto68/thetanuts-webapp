@@ -73,12 +73,12 @@ export const ThetaIndexLayout = () => {
           )}
         </DescriptionContainer>
         <BasketIconContainer>
-          <IconContainer height={190} width={163}>
+          <IconContainer height={261} width={247}>
             <Basket />
           </IconContainer>
         </BasketIconContainer>
       </ContentContainer>
-      <Title>Featured Theta-Index Vaults</Title>
+      <Title>Featured Theta-Indexes</Title>
       <FeaturedIndexVaultsList />
       <IndexVaultsTable />
     </Container>

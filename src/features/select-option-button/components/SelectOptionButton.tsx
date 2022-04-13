@@ -1,12 +1,11 @@
 import { useCallback, useRef, useState } from "react";
 import { useOutsideClick } from "rooks";
 
-import { IconContainer, ArrowIcon } from "../../shared/components";
+import { IconContainer, ArrowIcon, BaseButton } from "../../shared/components";
 import { getLogoBySymbol } from "../../logo/helpers";
 
 import { BaseOptionsContainer } from "./BaseOptionsContainer";
 import {
-  SelectButton,
   OptionButton,
   OptionsContainer,
   ButtonContentContainer,
@@ -67,7 +66,7 @@ export const SelectOptionButton = <OptionType extends Option>({
 
   return (
     <Container ref={chainButtonContainerReference}>
-      <SelectButton
+      <BaseButton
         isSmall={isSmall}
         onClick={handleSelectButtonClick}
         primaryColor={color}
@@ -82,7 +81,7 @@ export const SelectOptionButton = <OptionType extends Option>({
           {title}
           {hasOptions ? <ArrowIcon up={isShowOptions} /> : null}
         </ButtonContentContainer>
-      </SelectButton>
+      </BaseButton>
       <BaseOptionsContainer
         isShow={isShowOptions}
         parentReference={chainButtonContainerReference}

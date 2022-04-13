@@ -36,8 +36,10 @@ export const PriceWarning: FC<PriceWarningProps> = ({
       {isShowDirectWithdrawProposal ? (
         <WarningTitle>
           High Price Impact! Advise to{" "}
-          <WarningLink href="https://google.com">contact us</WarningLink> for
-          optimised swap.
+          <WarningLink href="https://t.me/officialThetanutsFinance">
+            contact us
+          </WarningLink>{" "}
+          for optimised swap.
         </WarningTitle>
       ) : null}
     </Container>

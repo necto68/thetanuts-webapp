@@ -3,7 +3,11 @@ import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import Big from "big.js";
 
-import { IconContainer, SkeletonBox } from "../../shared/components";
+import {
+  BaseButton,
+  IconContainer,
+  SkeletonBox,
+} from "../../shared/components";
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
 import { getLogoBySymbol } from "../../logo/helpers";
@@ -15,7 +19,6 @@ import {
   AssetContainer,
   AssetTitle,
   AssetTitleContainer,
-  MaxButton,
   SwapInput,
   SwapInputContainer,
   SwapInputCardAnimateContainer,
@@ -180,7 +183,9 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                 />
               ) : null}
               {!isDataLoading && isShowMaxButton ? (
-                <MaxButton onClick={handleMaxButtonClick}>MAX</MaxButton>
+                <BaseButton isSmall onClick={handleMaxButtonClick}>
+                  MAX
+                </BaseButton>
               ) : null}
             </AssetContainer>
           </SwapInputCardContentContainer>
