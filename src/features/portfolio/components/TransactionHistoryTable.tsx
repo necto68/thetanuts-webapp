@@ -12,7 +12,7 @@ import { dateFormatter, numberFormatter } from "../../shared/helpers";
 import { ExternalLinkButton } from "../../shared/components";
 import { PathType } from "../../wallet/types";
 import {
-  useIndexPairsHistoryRows,
+  useIndexSwapsHistoryRows,
   useIndexDepositsHistoryRows,
 } from "../hooks";
 import { chainsMap } from "../../wallet/constants";
@@ -82,10 +82,10 @@ const columns: Column<HistoryTransactionRow>[] = [
 const getRowKey = ({ id, chainId }: HistoryTransactionRow) => `${id}${chainId}`;
 
 export const TransactionHistoryTable = () => {
-  const indexPairsHistoryRows = useIndexPairsHistoryRows();
+  const indexSwapsHistoryRows = useIndexSwapsHistoryRows();
   const indexDepositsHistoryRows = useIndexDepositsHistoryRows();
 
-  const sortedRows = indexPairsHistoryRows
+  const sortedRows = indexSwapsHistoryRows
     .concat(indexDepositsHistoryRows)
     .sort((a, b) => {
       if (b && a) {

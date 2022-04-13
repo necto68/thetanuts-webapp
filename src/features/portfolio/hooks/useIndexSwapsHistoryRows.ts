@@ -3,20 +3,21 @@ import { useIndexVaults } from "../../index-vault/hooks";
 import type { HistoryTransactionRow } from "../types";
 import { TransactionType } from "../types";
 
-import { useIndexPairsHistoryQueries } from "./useIndexPairsHistoryQueries";
+import { useIndexSwapsHistoryTransactions } from "./useIndexSwapsHistoryTransactions";
 
-export const useIndexPairsHistoryRows = (): (
+export const useIndexSwapsHistoryRows = (): (
   | HistoryTransactionRow
   | undefined
 )[] => {
   const indexVaultsIds = indexVaults.map(({ id }) => id);
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
-  const indexPairsHistoryQueries = useIndexPairsHistoryQueries(indexVaultsIds);
+  const indexSwapsHistoryTransactions =
+    useIndexSwapsHistoryTransactions(indexVaultsIds);
 
   return indexVaultsQueries.flatMap(({ data }, vaultIndex) => {
-    const { data: historyTransactions } = indexPairsHistoryQueries[vaultIndex];
+    const historyTransactions = indexSwapsHistoryTransactions[vaultIndex];
 
-    if (!data || !historyTransactions) {
+    if (!data) {
       return undefined;
     }
 

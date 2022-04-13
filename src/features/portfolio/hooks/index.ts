@@ -1,4 +1,4 @@
 export * from "./useIndexPositionsRows";
 export * from "./useIndexTokensQueries";
-export * from "./useIndexPairsHistoryRows";
+export * from "./useIndexSwapsHistoryRows";
 export * from "./useIndexDepositsHistoryRows";
