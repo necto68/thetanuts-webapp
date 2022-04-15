@@ -75,6 +75,7 @@ export const chains: ChainConfig[] = [
     title: "Polygon",
     color: "#7b43d9",
     symbol: "MATIC",
+    minGasPrice: 30_000_000_000,
 
     urls: {
       rpc: "https://rpc.ankr.com/polygon",

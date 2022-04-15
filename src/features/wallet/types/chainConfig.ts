@@ -5,6 +5,7 @@ export interface ChainConfig {
   title: string;
   symbol: string;
   color: string;
+  minGasPrice?: number;
 
   urls: {
     rpc: string;

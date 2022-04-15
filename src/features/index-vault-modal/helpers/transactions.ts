@@ -1,17 +1,21 @@
 import type { Signer } from "ethers";
 import Big from "big.js";
+import type { CallOverrides } from "@ethersproject/contracts";
 
 import type { Token } from "../types";
 import { MutationType } from "../types";
+import { convertToBig } from "../../vault/helpers";
+import type { ChainId } from "../../wallet/constants";
+import { chainsMap } from "../../wallet/constants";
 
 export const getSwapTransactionParameters = async (
+  mutationType: MutationType,
   sourceValue: string,
   targetValue: string,
   sourceData: Token,
   targetData: Token,
   slippageToleranceValue: string,
-  signer: Signer,
-  mutationType: MutationType
+  signer: Signer
 ) => {
   const isExactAmountIn = [
     MutationType.swapExactTokensForTokens,
@@ -49,4 +53,37 @@ export const getSwapTransactionParameters = async (
     to,
     deadline,
   };
+};
+
+export const getTransactionOptions = async (
+  signer: Signer,
+  mutationType?: MutationType,
+  amountIn?: string
+) => {
+  const transactionOptions: CallOverrides = {};
+
+  const [chainId, gasPrice] = await Promise.all([
+    signer.getChainId() as Promise<ChainId>,
+    signer.getGasPrice().then(convertToBig),
+  ] as const);
+
+  const { minGasPrice } = chainsMap[chainId];
+
+  const isNativeAssetTransaction =
+    mutationType &&
+    [
+      MutationType.swapExactETHForTokens,
+      MutationType.swapETHForExactTokens,
+      MutationType.depositNative,
+    ].includes(mutationType);
+
+  if (minGasPrice && gasPrice.lt(minGasPrice)) {
+    transactionOptions.gasPrice = minGasPrice.toString();
+  }
+
+  if (isNativeAssetTransaction && amountIn) {
+    transactionOptions.value = amountIn;
+  }
+
+  return transactionOptions;
 };
