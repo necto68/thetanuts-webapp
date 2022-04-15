@@ -36,6 +36,10 @@ export interface SwapRouterState {
   targetPrice: number;
   priceImpactRate: number;
 
+  slippageToleranceValue: string;
+  slippageToleranceInputValue: string;
+  setSlippageToleranceInputValue: (value: string) => void;
+
   isFlipped: boolean;
   swapInputs: () => void;
 

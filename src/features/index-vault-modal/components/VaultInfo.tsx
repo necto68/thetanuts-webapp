@@ -3,11 +3,11 @@ import Big from "big.js";
 import { useCallback, useEffect, useState } from "react";
 
 import type { SwapRouterState, Token, NativeToken } from "../types";
-import { maxSlippageTolerance } from "../constants";
 import { useSwapRouterConfig, useSwapRouterState } from "../hooks";
 import { currencyFormatter } from "../../shared/helpers";
 import { InfoIcon, Tooltip } from "../../shared/components";
 
+import { SlippageTolerance } from "./SlippageTolerance";
 import {
   Container,
   InfoContainer,
@@ -112,8 +112,6 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     isRateFlipped ? targetTokenPrice : sourceTokenPrice
   );
 
-  const slippageToleranceValue = maxSlippageTolerance * 100;
-
   return (
     <Container>
       <InfoContainer>
@@ -149,9 +147,11 @@ export const VaultInfo: FC<VaultInfoProps> = ({
       </InfoContainer>
       <InfoContainer>
         <InfoValue>Slippage Tolerance</InfoValue>
-        <InfoValue isAlignRight>
-          {isUseDirectMode ? "N/A" : `${slippageToleranceValue}%`}
-        </InfoValue>
+        {isUseDirectMode ? (
+          <InfoValue isAlignRight>N/A</InfoValue>
+        ) : (
+          <SlippageTolerance />
+        )}
       </InfoContainer>
     </Container>
   );

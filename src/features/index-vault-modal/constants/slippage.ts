@@ -1,1 +1,1 @@
-export const maxSlippageTolerance = 0.005;
+export const defaultSlippageToleranceValue = "0.5";

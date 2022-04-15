@@ -38,6 +38,10 @@ const defaultSwapRouterState: SwapRouterState = {
   targetPrice: 0,
   priceImpactRate: 0,
 
+  slippageToleranceValue: "0",
+  slippageToleranceInputValue: "0",
+  setSlippageToleranceInputValue: () => undefined,
+
   isFlipped: false,
   swapInputs: () => undefined,
 

@@ -9,6 +9,7 @@ import {
 import { convertToBig } from "../../vault/helpers";
 import type { SwapRouterState } from "../types";
 import { InputType } from "../types";
+import { defaultSlippageToleranceValue } from "../constants";
 
 import { useTokenQuery } from "./useTokenQuery";
 import { useNativeTokenQuery } from "./useNativeTokenQuery";
@@ -133,6 +134,17 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     targetValue,
     indexVaultQuery,
     isIndexTokenInTarget
+  );
+
+  // slippage tolerance value
+  const [slippageToleranceInputValue, setSlippageToleranceInputValue] =
+    useState(defaultSlippageToleranceValue);
+
+  const slippageToleranceValue =
+    slippageToleranceInputValue || defaultSlippageToleranceValue;
+
+  const previousSlippageToleranceValue = usePreviousImmediate(
+    slippageToleranceValue
   );
 
   // timeout ref for debounce
@@ -281,19 +293,27 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
           .getAmountsIn(inputValueBigNumber, routerPath)
           .then((amountsIn) => convertToBig(amountsIn[0]));
 
-        return amountIn.div(tokenDivisor).round(5, Big.roundUp);
+        const amountInMultiplier = new Big(slippageToleranceValue)
+          .div(100)
+          .add(1);
+
+        return amountIn
+          .mul(amountInMultiplier)
+          .div(tokenDivisor)
+          .round(5, Big.roundUp);
       } catch {
         return defaultAmountIn;
       }
     },
     [
+      sourceValue,
+      targetValue,
       routerAddress,
       provider,
-      sourceValue,
       sourceData,
-      targetValue,
       targetData,
       routerPath,
+      slippageToleranceValue,
     ]
   );
 
@@ -357,10 +377,20 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
         ? [sourceValue, previousSourceValue]
         : [targetValue, previousTargetValue];
 
-    const valuesHaveChanged =
-      currentValue !== previousValue || chainId !== previousChainId;
+    const isInputValueChanged = currentValue !== previousValue;
+    const isChainIdValueChanged = chainId !== previousChainId;
+    const isSlippageToleranceValueChanged =
+      lastUpdatedInputType === InputType.target &&
+      slippageToleranceValue !== previousSlippageToleranceValue;
 
-    if (valuesHaveChanged && sourceAddress && targetAddress) {
+    const valuesHaveChanged =
+      isInputValueChanged ||
+      isChainIdValueChanged ||
+      isSlippageToleranceValueChanged;
+
+    const areTokensAddressesValid = sourceAddress && targetAddress;
+
+    if (valuesHaveChanged && areTokensAddressesValid) {
       setIsOppositeInputValueLoading(true);
 
       // eslint-disable-next-line complexity
@@ -445,6 +475,8 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     chainId,
     isIndexTokenInTarget,
     indexVaultQuery,
+    slippageToleranceValue,
+    previousSlippageToleranceValue,
   ]);
 
   return {
@@ -479,6 +511,10 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     sourcePrice,
     targetPrice,
     priceImpactRate,
+
+    slippageToleranceValue,
+    slippageToleranceInputValue,
+    setSlippageToleranceInputValue,
 
     isFlipped,
     swapInputs,
