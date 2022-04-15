@@ -4,7 +4,10 @@ import { constants } from "ethers";
 
 import type { MutationError, SwapRouterMutations } from "../types";
 import { InputType, MutationType } from "../types";
-import { getSwapTransactionParameters } from "../helpers";
+import {
+  getSwapTransactionParameters,
+  getTransactionOptions,
+} from "../helpers";
 import {
   delay,
   processWalletError,
@@ -62,8 +65,17 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
 
     const approveParameters = [spenderAddress, constants.MaxUint256] as const;
 
-    await sourceTokenContract.callStatic.approve(...approveParameters);
-    const transaction = await sourceTokenContract.approve(...approveParameters);
+    const transactionOptions = await getTransactionOptions(signer);
+
+    await sourceTokenContract.callStatic.approve(
+      ...approveParameters,
+      transactionOptions
+    );
+
+    const transaction = await sourceTokenContract.approve(
+      ...approveParameters,
+      transactionOptions
+    );
 
     try {
       await transaction.wait();
@@ -98,13 +110,13 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
 
       const { amountIn, amountOut, path, to, deadline } =
         await getSwapTransactionParameters(
+          mutationType,
           sourceValue,
           targetValue,
           sourceData,
           targetData,
           slippageToleranceValue,
-          signer,
-          mutationType
+          signer
         );
 
       const routerAmountParameters = {
@@ -115,7 +127,9 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
         // tokens for native
         [MutationType.swapExactTokensForETH]: [amountIn, amountOut] as const,
         [MutationType.swapTokensForExactETH]: [amountOut, amountIn] as const,
+      };
 
+      const routerNativeAmountParameters = {
         // native for tokens (needs to add msg.value)
         [MutationType.swapExactETHForTokens]: [amountOut] as const,
         [MutationType.swapETHForExactTokens]: [amountOut] as const,
@@ -126,10 +140,18 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       const directDepositorAmountParameters = {
         // direct deposit tokens
         [MutationType.deposit]: [indexVaultAddress, amountIn] as const,
+      };
 
+      const directDepositorNativeAmountParameters = {
         // direct deposit native
         [MutationType.depositNative]: [indexVaultAddress] as const,
       };
+
+      const transactionOptions = await getTransactionOptions(
+        signer,
+        mutationType,
+        amountIn
+      );
 
       let transaction = null;
 
@@ -141,12 +163,14 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
           case MutationType.swapTokensForExactETH:
             await routerContract.callStatic[mutationType](
               ...routerAmountParameters[mutationType],
-              ...routerDefaultParameters
+              ...routerDefaultParameters,
+              transactionOptions
             );
 
             transaction = await routerContract[mutationType](
               ...routerAmountParameters[mutationType],
-              ...routerDefaultParameters
+              ...routerDefaultParameters,
+              transactionOptions
             );
 
             break;
@@ -154,39 +178,41 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
           case MutationType.swapExactETHForTokens:
           case MutationType.swapETHForExactTokens:
             await routerContract.callStatic[mutationType](
-              ...routerAmountParameters[mutationType],
+              ...routerNativeAmountParameters[mutationType],
               ...routerDefaultParameters,
-              { value: amountIn }
+              transactionOptions
             );
 
             transaction = await routerContract[mutationType](
-              ...routerAmountParameters[mutationType],
+              ...routerNativeAmountParameters[mutationType],
               ...routerDefaultParameters,
-              { value: amountIn }
+              transactionOptions
             );
 
             break;
 
           case MutationType.deposit:
             await directDepositorContract.callStatic[mutationType](
-              ...directDepositorAmountParameters[mutationType]
+              ...directDepositorAmountParameters[mutationType],
+              transactionOptions
             );
 
             transaction = await directDepositorContract[mutationType](
-              ...directDepositorAmountParameters[mutationType]
+              ...directDepositorAmountParameters[mutationType],
+              transactionOptions
             );
 
             break;
 
           case MutationType.depositNative:
             await directDepositorContract.callStatic[mutationType](
-              ...directDepositorAmountParameters[mutationType],
-              { value: amountIn }
+              ...directDepositorNativeAmountParameters[mutationType],
+              transactionOptions
             );
 
             transaction = await directDepositorContract[mutationType](
-              ...directDepositorAmountParameters[mutationType],
-              { value: amountIn }
+              ...directDepositorNativeAmountParameters[mutationType],
+              transactionOptions
             );
 
             break;
