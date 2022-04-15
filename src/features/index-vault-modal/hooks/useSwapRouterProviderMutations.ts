@@ -38,6 +38,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
     isUseNativeTargetData,
     isUseDirectMode,
     lastUpdatedInputType,
+    slippageToleranceValue,
     tokensQueries,
   } = useSwapRouterState();
 
@@ -101,7 +102,9 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
           targetValue,
           sourceData,
           targetData,
-          signer
+          slippageToleranceValue,
+          signer,
+          mutationType
         );
 
       const routerAmountParameters = {
@@ -215,6 +218,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       directDepositorAddress,
       sourceValue,
       targetValue,
+      slippageToleranceValue,
       indexVaultAddress,
     ]
   );
