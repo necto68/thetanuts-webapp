@@ -5,7 +5,7 @@ import { sizes } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   justify-content: end;
-  gap: 25px;
+  gap: 20px;
 
   @media (max-width: ${sizes.md}px) {
     flex: 1;
@@ -23,7 +23,7 @@ export const SwitchToV0ButtonContainer = styled.div`
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 20px;
 
   @media (max-width: ${sizes.md}px) {
     flex: 1;

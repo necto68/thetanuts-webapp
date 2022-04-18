@@ -17,20 +17,24 @@ export const SidebarContainer = styled(motion.div).attrs<{
       type: "linear",
     },
   },
-}))<{ isShow: boolean; height: string }>`
+}))<{ isShow: boolean; mobileHeight: string }>`
   display: flex;
   flex-direction: column;
   gap: 50px;
-  background-color: #010c1a;
 
-  height: ${({ height }) => height};
+  background-color: rgba(1, 12, 26, 0.7);
+  border-radius: 10px;
   padding: 50px 25px;
 
   @media (max-width: ${sizes.md}px) {
+    background-color: #010c1a;
+    border-radius: 0;
+    padding: 25px 25px 25px 50px;
+
     position: fixed;
     z-index: 1;
     width: 100vw;
-    padding: 25px 25px 25px 50px;
+    height: ${({ mobileHeight }) => mobileHeight};
   }
 `;
 

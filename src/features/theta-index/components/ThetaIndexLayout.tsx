@@ -15,7 +15,7 @@ import {
   Description,
   DescriptionLink,
   ExpandDescriptionLink,
-} from "./ThateIndexLayout.styles";
+} from "./ThetaIndexLayout.styles";
 
 export const ThetaIndexLayout = () => {
   const isMobile = useIsMobile();
