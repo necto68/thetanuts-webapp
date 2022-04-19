@@ -21,13 +21,13 @@ export const OptionsContainer = styled.div`
 export const ButtonContentContainer = styled.div<IsSmallProps>`
   display: flex;
   align-items: center;
-  gap: ${({ isSmall }) => (isSmall ? "5px" : "10px")};
+  gap: ${({ isSmall }) => (isSmall ? "0.5rem" : "1rem")};
 `;
 
 export const OptionButton = styled(BaseButton)`
   border: none;
   border-radius: 0;
-  padding: 12px 18px;
+  padding: 1.2rem 1.8rem;
 
   &:hover {
     background-color: #2e5989;

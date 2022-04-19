@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+import { sizes } from "../../shared/constants";
+
 export const Container = styled(motion.div).attrs(() => ({
   initial: {
     opacity: 0,
@@ -22,44 +24,56 @@ export const Container = styled(motion.div).attrs(() => ({
 }))`
   display: flex;
   flex-direction: column;
-  flex-basis: 340px;
-  padding: 0 8px;
+  padding: 0 0.6rem;
   border-radius: 10px;
   overflow: hidden;
   background: linear-gradient(180deg, #2c2c2c 0%, #101010 100%);
   border: 2px solid #81e429;
   cursor: pointer;
+
+  flex-basis: 27.5rem;
+
+  @media (max-width: ${sizes.md}px) {
+    flex-basis: 34rem;
+  }
 `;
 
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px;
+  padding: 0.8rem;
 `;
 
 export const AssetTitleContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.8rem;
 `;
 
 export const AssetTitle = styled.span`
   font-family: Roboto;
-  font-weight: 600;
-  font-size: 24px;
   color: #e5e5e5;
+
+  font-weight: 700;
+  font-size: 1.9rem;
+
+  @media (max-width: ${sizes.md}px) {
+    font-weight: 400;
+    font-size: 2.4rem;
+  }
 `;
 
 export const VaultTypeTitle = styled(AssetTitle)`
   color: #ffffff;
+  text-align: right;
 `;
 
 export const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 8px 20px;
+  padding: 1.2rem 0.8rem 1.6rem;
   border-top: 1px solid #5d5d5d;
   border-bottom: 1px solid #5d5d5d;
 `;
@@ -67,7 +81,7 @@ export const Content = styled.div`
 export const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.5rem;
   justify-content: center;
 `;
 
@@ -82,15 +96,25 @@ export const TVLContainer = styled(DataContainer)`
 export const DataTitle = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 14px;
   color: #ffffff;
+
+  font-size: 1.1rem;
+
+  @media (max-width: ${sizes.md}px) {
+    font-size: 1.4rem;
+  }
 `;
 
 export const DataValue = styled.span`
   font-family: Roboto;
   font-weight: 600;
-  font-size: 28px;
   color: #ffffff;
+
+  font-size: 2.2rem;
+
+  @media (max-width: ${sizes.md}px) {
+    font-size: 2.8rem;
+  }
 `;
 
 export const APYDataValue = styled(DataValue)`
@@ -101,19 +125,23 @@ export const SwapContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px 0;
+  padding: 0.4rem 0;
 `;
 
 export const SwapTitle = styled.span`
   font-family: Roboto;
   font-weight: 600;
-  font-size: 22px;
 
   background: linear-gradient(180deg, #2699da 0%, #63b22d 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-
   text-transform: uppercase;
   text-align: center;
+
+  font-size: 1.7rem;
+
+  @media (max-width: ${sizes.md}px) {
+    font-size: 2.2rem;
+  }
 `;

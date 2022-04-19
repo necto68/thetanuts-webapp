@@ -6,10 +6,10 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
-  padding: 5px 10px;
+  gap: 0.2rem;
+  padding: 0.5rem 1rem;
   background-color: #ffffff;
-  border-radius: 10px;
+  border-radius: 5px;
 `;
 
 export const Input = styled.input.attrs(() => ({
@@ -22,10 +22,10 @@ export const Input = styled.input.attrs(() => ({
 }))<{ isError?: boolean }>`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 1.2rem;
   color: ${({ isError }) => (isError ? "#EB5853" : "#061f3a")};
 
-  width: 23px;
+  width: 2rem;
   padding: 0;
   border: 0;
   background-color: transparent;
@@ -47,6 +47,6 @@ export const Input = styled.input.attrs(() => ({
 export const Title = styled.span<{ isError?: boolean }>`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 1.2rem;
   color: ${({ isError }) => (isError ? "#EB5853" : "#061f3a")};
 `;

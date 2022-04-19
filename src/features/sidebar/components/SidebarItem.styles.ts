@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { Link } from "../../shared/components";
 import { sizes } from "../../shared/constants";
 
-interface Colored {
+interface LinkProps {
+  fontWeight: number;
   color: string;
 }
 
@@ -40,17 +41,17 @@ export const Underline = styled(motion.div).attrs<{ active: boolean }>(
   width: 2px;
   border-radius: 1px;
   background-color: #1fffab;
-  transform: translateX(26px);
+  transform: translateX(2.1rem);
 `;
 
-export const SidebarLink = styled(Link)<Colored>`
+export const SidebarLink = styled(Link)<LinkProps>`
   font-family: Barlow;
-  font-weight: 400;
-  font-size: 20px;
+  font-weight: ${({ fontWeight }) => fontWeight};
+  font-size: 1.4rem;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
   color: ${({ color }) => color};
   text-transform: uppercase;
 

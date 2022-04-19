@@ -8,11 +8,11 @@ import { TabButton } from "./TabButton";
 import { PositionsTable } from "./PositionsTable";
 import {
   Container,
+  TitleContainer,
   TabContainer,
   TabsHeaderContainer,
   TabsLayout,
   Title,
-  TitleContainer,
   PositionsTabContainer,
   TransactionHistoryTabContainer,
   Description,

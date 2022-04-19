@@ -14,7 +14,7 @@ export const TabButton: FC<TabButtonProps> = ({
 }) => (
   <Container>
     <div />
-    <Button onClick={onClick} primaryColor={isActive ? "#81e429" : "#ffffff"}>
+    <Button onClick={onClick} primaryColor={isActive ? "#1fffab" : "#ffffff"}>
       {children}
     </Button>
     <Underline isActive={isActive} />

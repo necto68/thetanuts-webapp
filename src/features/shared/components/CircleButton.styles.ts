@@ -8,7 +8,7 @@ export const BaseCircleButton = styled(BaseButton).attrs<BaseButtonProps>(
     primaryColor,
   })
 )<BaseButtonProps>`
-  padding: 10px;
+  padding: 1rem;
   border-radius: 50%;
 `;
 

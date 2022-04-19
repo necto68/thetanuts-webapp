@@ -6,7 +6,7 @@ import { BaseButton } from "../../shared/components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 15px;
+  padding: 0 1.5rem;
   border-radius: 20px;
   border: 1px solid #9e9e9e;
 `;
@@ -19,13 +19,13 @@ export const HeaderButton = styled(BaseButton).attrs(() => ({
   justify-content: space-between;
   align-items: center;
   border: 0;
-  padding: 15px 0;
+  padding: 1.5rem 0;
 `;
 
 export const Title = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 1.2rem;
   color: #061f3a;
 `;
 

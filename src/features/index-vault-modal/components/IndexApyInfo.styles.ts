@@ -7,13 +7,13 @@ import {
 } from "./VaultInfo.styles";
 
 export const Container = styled(VaultInfoContainer)`
-  padding: 0 0 15px;
+  padding: 0 0 1.5rem;
 `;
 
 export const InfoValue = styled(VaultInfoValue)`
-  font-size: 14px;
+  font-size: 1rem;
 `;
 
 export const InfoLink = styled(VaultInfoLink)`
-  font-size: 14px;
+  font-size: 1rem;
 `;

@@ -23,7 +23,7 @@ export const BaseGradientButton = styled(BaseButton)<{
 export const ButtonTitle = styled.span`
   font-family: "Sofia Sans";
   font-weight: 900;
-  font-size: 20px;
+  font-size: 2rem;
 
   background: linear-gradient(
     90deg,

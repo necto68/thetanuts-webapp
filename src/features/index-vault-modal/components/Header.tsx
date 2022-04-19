@@ -34,7 +34,7 @@ export const Header: FC<HeaderProps> = ({ theme = "light" }) => {
           <ChainSelect chainIds={supportedChainIds} />
         </ChainSelectContainer>
         <CircleButton
-          iconSize={16}
+          iconSize={12}
           iconType={CircleButtonIconType.cross}
           onClick={handleCloseButtonClick}
           primaryColor={theme === "dark" ? "#FFFFFF" : "#5D5D5D"}

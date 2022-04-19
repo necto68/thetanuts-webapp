@@ -19,11 +19,11 @@ export const SidebarItemSecondaryContainer = styled.div`
 export const SidebarLink = styled(Link)<Colored>`
   font-family: Barlow;
   font-weight: 400;
-  font-size: 20px;
+  font-size: 1.4rem;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 2rem;
   color: ${({ color }) => color};
 
   :hover {

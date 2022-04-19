@@ -62,7 +62,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
       ) : (
         <Header>
           <AssetTitleContainer>
-            <IconContainer height={25} width={25}>
+            <IconContainer height={22} width={22}>
               {assetLogo}
             </IconContainer>
             <AssetTitle>{assetSymbol}</AssetTitle>

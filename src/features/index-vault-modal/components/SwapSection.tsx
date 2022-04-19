@@ -73,7 +73,7 @@ export const SwapSection = () => {
         />
         <FlipButtonContainer>
           <FlipButton isFlipped={isFlipped} onClick={swapInputs}>
-            <IconContainer height={20} width={20}>
+            <IconContainer height={14} width={14}>
               <Flip />
             </IconContainer>
           </FlipButton>

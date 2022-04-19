@@ -12,8 +12,8 @@ export const Container = styled(motion.div).attrs<ThemeType>(({ theme }) => ({
 }))<ThemeType>`
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 535px;
+  gap: 2rem;
+  width: 43rem;
   border-radius: 10px;
   overflow-x: hidden;
   overflow-y: auto;

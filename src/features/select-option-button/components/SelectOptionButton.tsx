@@ -62,7 +62,9 @@ export const SelectOptionButton = <OptionType extends Option>({
   useOutsideClick(chainButtonContainerReference, handleOptionsContainerClose);
 
   const buttonLogo = getLogoBySymbol(symbol);
-  const logoSize = isSmall ? 18 : 25;
+
+  const buttonLogoSize = isSmall ? 11 : 18;
+  const optionLogoSize = buttonLogoSize + 7;
 
   return (
     <Container ref={chainButtonContainerReference}>
@@ -74,7 +76,7 @@ export const SelectOptionButton = <OptionType extends Option>({
       >
         <ButtonContentContainer isSmall={isSmall}>
           {symbol ? (
-            <IconContainer height={logoSize} width={logoSize}>
+            <IconContainer height={buttonLogoSize} width={buttonLogoSize}>
               {buttonLogo}
             </IconContainer>
           ) : null}
@@ -104,7 +106,10 @@ export const SelectOptionButton = <OptionType extends Option>({
               >
                 <ButtonContentContainer isSmall={isSmall}>
                   {optionSymbol ? (
-                    <IconContainer height={logoSize} width={logoSize}>
+                    <IconContainer
+                      height={optionLogoSize}
+                      width={optionLogoSize}
+                    >
                       {getLogoBySymbol(optionSymbol)}
                     </IconContainer>
                   ) : null}

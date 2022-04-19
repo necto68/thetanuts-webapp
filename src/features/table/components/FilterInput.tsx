@@ -26,7 +26,7 @@ export const FilterInput: FC<FilterInputProps> = ({
 
   return (
     <Container>
-      <IconContainer height={25} width={25}>
+      <IconContainer height={23} width={23}>
         <Search />
       </IconContainer>
       <Input

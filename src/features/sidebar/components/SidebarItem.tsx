@@ -23,13 +23,19 @@ export const SidebarItem: FC<SidebarItemProps> = ({
   linkTitle,
   active,
 }) => {
+  const fontWeight = active ? 600 : 400;
   const color = active ? "#1fffab" : "#fff";
 
   const { toggleIsShow } = useSidebarState();
 
   return (
     <SidebarItemContainer active={active}>
-      <SidebarLink color={color} onClick={toggleIsShow} to={to}>
+      <SidebarLink
+        color={color}
+        fontWeight={fontWeight}
+        onClick={toggleIsShow}
+        to={to}
+      >
         <IconContainer height={29} width={29}>
           {createElement(navIcon)}
         </IconContainer>

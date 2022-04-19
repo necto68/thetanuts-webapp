@@ -5,7 +5,7 @@ import { BaseButton } from "../../shared/components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.5rem;
 `;
 
 export const SwapInputsContainer = styled.div`
@@ -16,7 +16,7 @@ export const SwapInputsContainer = styled.div`
 export const FlipButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-  padding-top: 25px;
+  padding-top: 1.9rem;
 `;
 
 export const FlipButton = styled(BaseButton).attrs<{ isFlipped: boolean }>(
@@ -41,6 +41,6 @@ export const FlipButton = styled(BaseButton).attrs<{ isFlipped: boolean }>(
     },
   })
 )<{ isFlipped: boolean }>`
-  padding: 8px;
+  padding: 0.6rem;
   border-radius: 50%;
 `;

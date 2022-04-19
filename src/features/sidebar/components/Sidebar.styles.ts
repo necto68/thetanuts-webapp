@@ -20,16 +20,16 @@ export const SidebarContainer = styled(motion.div).attrs<{
 }))<{ isShow: boolean; mobileHeight: string }>`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 7.5rem;
 
   background-color: rgba(1, 12, 26, 0.7);
   border-radius: 10px;
-  padding: 50px 25px;
+  padding: 2.5rem 2rem 2.5rem 2.5rem;
 
   @media (max-width: ${sizes.md}px) {
-    background-color: #010c1a;
+    background-color: #0a1026;
     border-radius: 0;
-    padding: 25px 25px 25px 50px;
+    padding: 2.5rem 2.5rem 2.5rem 5rem;
 
     position: fixed;
     z-index: 1;
@@ -59,13 +59,13 @@ export const CircleButtonContainer = styled.div`
 export const MainNavContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 2rem;
 `;
 
 export const SecondaryNavContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
 `;
 
 export const SwitchToV0ButtonContainer = styled.div`
@@ -83,5 +83,5 @@ export const SwitchToV0Link = styled(Link)`
 
 export const IconNavContainer = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 2rem;
 `;

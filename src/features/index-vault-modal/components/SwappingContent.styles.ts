@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { BaseButton } from "../../shared/components";
 import { sizes } from "../../shared/constants";
 
-export const Container = styled.div<{ height: string }>`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: end;
-  height: min(640px, ${({ height }) => height});
+  min-height: 57.5rem;
 `;
 
 export const BackgroundAnimationContainer = styled.div`
@@ -23,10 +22,10 @@ export const ContentContainer = styled.div`
   justify-content: end;
   z-index: 2;
 
-  padding: 0 35px 25px;
+  padding: 0 2.5rem 1.5rem;
 
   @media (max-width: ${sizes.md}px) {
-    padding: 0 15px 15px;
+    padding: 0 1.5rem 1.5rem;
   }
 `;
 
@@ -36,13 +35,13 @@ export const SwapInfoContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 2.5rem;
 `;
 
 export const SwapTitle = styled.span`
   font-family: Barlow;
   font-weight: 700;
-  font-size: 50px;
+  font-size: 4rem;
   color: #ffffff;
   text-align: center;
 `;
@@ -56,27 +55,23 @@ export const AnimationContainer = styled(motion.div).attrs<{ isShow: boolean }>(
     },
   })
 )<{ isShow: boolean }>`
-  width: 140px;
-  height: 140px;
+  width: 12rem;
+  height: 12rem;
 `;
 
 export const RatioTitleContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 1rem;
 `;
 
 export const RatioTitle = styled(SwapTitle)`
-  font-size: 30px;
+  font-size: 2.3rem;
   color: #ffffff;
 `;
 
 export const ToTitle = styled(RatioTitle)`
   font-weight: 300;
-`;
-
-export const CloseButton = styled(BaseButton)`
-  padding: 12px 24px;
 `;
 
 export const TransactionLink = styled(motion.a).attrs<{
@@ -90,5 +85,5 @@ export const TransactionLink = styled(motion.a).attrs<{
 }))<{ isSwapSuccessful: boolean }>`
   font-family: Barlow;
   font-weight: 700;
-  font-size: 20px;
+  font-size: 1.7rem;
 `;

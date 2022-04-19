@@ -6,26 +6,26 @@ import { sizes } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 2.5rem;
   background-color: rgba(1, 12, 26, 0.7);
   border-radius: 10px;
 
-  padding: 40px;
+  padding: 3.5rem;
 
   @media (max-width: ${sizes.md}px) {
-    padding: 15px;
+    padding: 1.5rem;
   }
 `;
 
 export const ContentContainer = styled.div`
   display: flex;
-  gap: 100px;
+  gap: 10rem;
 `;
 
 export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 2.5rem;
 `;
 
 export const BasketIconContainer = styled.div`
@@ -40,26 +40,16 @@ export const BasketIconContainer = styled.div`
 export const Title = styled.span`
   font-family: Roboto;
   font-weight: 700;
+  font-size: 2.4rem;
   color: #e5e5e5;
-
-  font-size: 32px;
-
-  @media (max-width: ${sizes.md}px) {
-    font-size: 26px;
-  }
 `;
 
 export const Description = styled.p`
   font-family: Roboto;
   font-weight: 400;
+  font-size: 1.4rem;
   color: #e5e5e5;
   margin: 0;
-
-  font-size: 18px;
-
-  @media (max-width: ${sizes.md}px) {
-    font-size: 14px;
-  }
 `;
 
 export const DescriptionLink = styled(Description).attrs(() => ({

@@ -11,18 +11,18 @@ export const BalanceContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 15px;
+  padding: 0 1.5rem 0.5rem;
 `;
 
 export const BalanceTitlesContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 1rem;
 `;
 
 export const BalanceTitle = styled.span`
   font-family: Barlow;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 1.2rem;
   color: #061f3a;
 `;
 
@@ -41,7 +41,7 @@ export const InsufficientBalanceTitle = styled(motion.span).attrs(() => ({
 }))`
   font-family: Barlow;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 1.2rem;
   color: #eb5853;
 `;
 
@@ -67,16 +67,16 @@ export const SwapInputCardAnimateContainer = styled(motion.div).attrs<{
 }))<{ downDirection: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
   border-radius: 10px;
-  padding: 15px;
+  padding: 1.5rem;
   background-color: #061f3a;
 `;
 
 export const SwapInputCardContentContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 20px;
+  gap: 1.5rem;
 `;
 
 export const SwapInputContainer = styled.div`
@@ -84,7 +84,7 @@ export const SwapInputContainer = styled.div`
   flex: 1;
   flex-direction: column;
   justify-content: center;
-  gap: 5px;
+  gap: 0.5rem;
 `;
 
 export const AssetContainer = styled.div`
@@ -92,7 +92,7 @@ export const AssetContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: end;
-  gap: 5px;
+  gap: 0.5rem;
 `;
 
 export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
@@ -104,7 +104,7 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
 }))<{ isError: boolean }>`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 28px;
+  font-size: 2.2rem;
   color: ${({ isError }) => (isError ? "#EB5853" : "#e5e5e5")};
   width: 100%;
   border-radius: 10px;
@@ -128,13 +128,13 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
 export const PriceContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.5rem;
 `;
 
 export const PriceValue = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 14px;
+  font-size: 1.2rem;
   color: #e5e5e5;
 `;
 
@@ -146,12 +146,12 @@ export const PriceImpactValue = styled(PriceValue)`
 export const AssetTitleContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.5rem;
 `;
 
 export const AssetTitle = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 1.4rem;
   color: #ffffff;
 `;
