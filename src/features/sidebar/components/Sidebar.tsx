@@ -37,7 +37,7 @@ export const Sidebar = () => {
   const { pathname } = useLocation();
   const { isShow, toggleIsShow } = useSidebarState();
 
-  const containerHeight = useViewportHeight();
+  const mobileHeight = useViewportHeight();
 
   // navbar items stored here and mapped to JSX later so it is easier to add on
   const mainNavItems = [
@@ -84,7 +84,7 @@ export const Sidebar = () => {
   ];
 
   return (
-    <SidebarContainer height={containerHeight} isShow={isShow}>
+    <SidebarContainer isShow={isShow} mobileHeight={mobileHeight}>
       <LogoContainer>
         <AppSidebarLogo />
         <CircleButtonContainer>

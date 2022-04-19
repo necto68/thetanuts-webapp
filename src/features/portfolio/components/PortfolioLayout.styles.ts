@@ -6,7 +6,7 @@ import { sizes } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 `;
 
 export const TabsHeaderContainer = styled.div`
@@ -42,7 +42,7 @@ export {
   Title,
   Container as TitleContainer,
   Description,
-} from "../../theta-index/components/ThateIndexLayout.styles";
+} from "../../theta-index/components/ThetaIndexLayout.styles";
 
 export const PositionsTabContainer = styled(motion.div).attrs(() => ({
   initial: {

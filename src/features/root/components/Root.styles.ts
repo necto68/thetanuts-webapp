@@ -19,7 +19,7 @@ export const Container = styled(Div100vh)`
   // height: 100vh; - by default because of Div100vh
 `;
 
-export const LayoutContainer = styled(motion.div).attrs<{
+export const BackgroundContainer = styled(motion.div).attrs<{
   pathname: PagePathname;
 }>(({ pathname }) => ({
   animate: {
@@ -28,15 +28,63 @@ export const LayoutContainer = styled(motion.div).attrs<{
 }))<{ pathname: PagePathname }>`
   display: flex;
   flex: 1;
-  flex-direction: column;
+  justify-content: center;
   overflow: auto;
 `;
 
+export const LayoutContainer = styled.div`
+  display: flex;
+  flex-basis: 1440px;
+
+  height: max-content;
+  min-height: 100%;
+
+  padding: 20px;
+
+  @media (max-width: ${sizes.md}px) {
+    padding: 0;
+  }
+`;
+
+export const GridContainer = styled.div`
+  display: grid;
+  width: 100%;
+
+  grid-template-areas: "sidebar page";
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
+  gap: 20px;
+
+  @media (max-width: ${sizes.md}px) {
+    grid-template-areas:
+      "sidebar mobile-header"
+      "sidebar page";
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    gap: 0;
+  }
+`;
+
+export const SidebarContainer = styled.div`
+  grid-area: sidebar;
+  display: flex;
+`;
+
+export const MobileHeaderContainer = styled.div`
+  grid-area: mobile-header;
+  display: none;
+
+  @media (max-width: ${sizes.md}px) {
+    display: initial;
+  }
+`;
+
 export const PageContainer = styled.div`
+  grid-area: page;
   display: flex;
   flex-direction: column;
-  flex: 1;
-  padding: 20px;
+
+  padding: 0;
 
   @media (max-width: ${sizes.md}px) {
     padding: 15px;

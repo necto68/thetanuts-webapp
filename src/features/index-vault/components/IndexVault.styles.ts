@@ -22,7 +22,7 @@ export const Container = styled(motion.div).attrs(() => ({
 }))`
   display: flex;
   flex-direction: column;
-  width: 340px;
+  flex-basis: 340px;
   padding: 0 8px;
   border-radius: 10px;
   overflow: hidden;

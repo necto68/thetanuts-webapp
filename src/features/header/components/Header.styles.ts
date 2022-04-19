@@ -10,7 +10,7 @@ export const HeaderContainer = styled.div`
   gap: 20px;
 
   @media (max-width: ${sizes.md}px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: initial;
   }
 `;
