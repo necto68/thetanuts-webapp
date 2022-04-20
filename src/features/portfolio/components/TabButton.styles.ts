@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 interface IsActiveProps {
   isActive: boolean;
@@ -21,7 +21,7 @@ export const Button = styled(BaseButton)`
 
   padding: 2rem 0;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 1rem 0;
   }
 `;

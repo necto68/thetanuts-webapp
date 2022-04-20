@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ export const Container = styled.div`
 
   min-width: 17.6rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     min-width: 12rem;
   }
 `;

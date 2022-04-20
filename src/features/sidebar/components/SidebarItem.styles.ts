@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { Link } from "../../shared/components";
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 interface LinkProps {
   fontWeight: number;
@@ -14,7 +14,7 @@ export const SidebarItemContainer = styled.div<{ active: boolean }>`
 
   justify-content: space-between;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     justify-content: start;
   }
 

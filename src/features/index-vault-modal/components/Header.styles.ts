@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 import type { ThemeType } from "../types";
 
 export const Container = styled.div`
@@ -13,7 +13,7 @@ export const Container = styled.div`
 
   padding: 1.5rem 2.5rem 0;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 1.5rem 1.5rem 0;
   }
 `;
@@ -35,7 +35,7 @@ export const ButtonsContainer = styled.div`
   display: flex;
   gap: 3rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     gap: 1rem;
   }
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import type { AnchorHTMLAttributes } from "react";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -12,7 +12,7 @@ export const Container = styled.div`
 
   padding: 3.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 1.5rem;
   }
 `;
@@ -32,7 +32,7 @@ export const BasketIconContainer = styled.div`
   display: flex;
   align-items: center;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: none;
   }
 `;

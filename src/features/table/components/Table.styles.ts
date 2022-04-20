@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -10,7 +10,7 @@ export const Container = styled.div`
 
   gap: 2.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     gap: 1.5rem;
   }
 `;
@@ -18,7 +18,7 @@ export const Container = styled.div`
 export const TableContainer = styled.table`
   border-collapse: collapse;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     & > tbody {
       display: flex;
       flex-direction: column;
@@ -30,7 +30,7 @@ export const TableContainer = styled.table`
 export const HeaderRow = styled.tr`
   background-color: #010c1a;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: none;
   }
 `;
@@ -112,7 +112,7 @@ export const Row = styled(motion.tr).attrs(() => ({
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
@@ -135,7 +135,7 @@ export const Cell = styled.td`
     padding-right: 1.5rem;
   }
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -161,7 +161,7 @@ export const Cell = styled.td`
 export const CellTitle = styled.span`
   display: none;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: initial;
 
     font-family: Roboto;
@@ -179,7 +179,7 @@ export const CellValue = styled.span`
   color: #ffffff;
   line-height: 1;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     font-size: 1.6rem;
   }
 `;

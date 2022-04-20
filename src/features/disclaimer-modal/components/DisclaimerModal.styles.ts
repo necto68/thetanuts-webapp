@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ export const Container = styled.div`
   gap: 3rem;
   padding: 3rem 4rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     gap: 2rem;
     padding: 1.5rem;
   }
@@ -29,7 +29,7 @@ export const Title = styled.h1`
 
   font-size: 2rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     font-size: 1.6rem;
   }
 `;

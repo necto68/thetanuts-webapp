@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 import { Container as ThetaIndexLayoutContainer } from "../../theta-index/components/ThetaIndexLayout.styles";
 
 export const Container = styled.div`
@@ -13,7 +13,7 @@ export const Container = styled.div`
 export const TitleContainer = styled(ThetaIndexLayoutContainer)`
   padding: 2rem 3.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 1.5rem;
   }
 `;
@@ -25,7 +25,7 @@ export const TabsHeaderContainer = styled.div`
 
   padding: 0 3.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 0 1.5rem;
   }
 `;
@@ -42,7 +42,7 @@ export const TabContainer = styled.div`
 
   padding: 3rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 1.5rem;
   }
 `;

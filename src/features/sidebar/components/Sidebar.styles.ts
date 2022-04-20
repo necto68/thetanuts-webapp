@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 import { Link } from "../../shared/components";
 
 export const SidebarContainer = styled(motion.div).attrs<{
@@ -26,7 +26,7 @@ export const SidebarContainer = styled(motion.div).attrs<{
   border-radius: 10px;
   padding: 2.5rem 2rem 2.5rem 2.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     background-color: #0a1026;
     border-radius: 0;
     padding: 2.5rem 2.5rem 2.5rem 5rem;
@@ -43,7 +43,7 @@ export const LogoContainer = styled.div`
 
   justify-content: center;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     justify-content: space-between;
   }
 `;
@@ -51,7 +51,7 @@ export const LogoContainer = styled.div`
 export const CircleButtonContainer = styled.div`
   display: none;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: flex;
   }
 `;
@@ -71,7 +71,7 @@ export const SecondaryNavContainer = styled.div`
 export const SwitchToV0ButtonContainer = styled.div`
   display: none;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: flex;
   }
 `;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled(motion.div).attrs(() => ({
   initial: {
@@ -33,7 +33,7 @@ export const Container = styled(motion.div).attrs(() => ({
 
   flex-basis: 27.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     flex-basis: 34rem;
   }
 `;
@@ -58,7 +58,7 @@ export const AssetTitle = styled.span`
   font-weight: 700;
   font-size: 1.9rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     font-weight: 400;
     font-size: 2.4rem;
   }
@@ -100,7 +100,7 @@ export const DataTitle = styled.span`
 
   font-size: 1.1rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     font-size: 1.4rem;
   }
 `;
@@ -112,7 +112,7 @@ export const DataValue = styled.span`
 
   font-size: 2.2rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     font-size: 2.8rem;
   }
 `;
@@ -141,7 +141,7 @@ export const SwapTitle = styled.span`
 
   font-size: 1.7rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     font-size: 2.2rem;
   }
 `;

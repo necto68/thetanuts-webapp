@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -9,7 +9,7 @@ export const HeaderContainer = styled.div`
   flex-wrap: wrap;
   gap: 1.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     flex-direction: column-reverse;
     align-items: initial;
   }

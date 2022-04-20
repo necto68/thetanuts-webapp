@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Div100vh from "react-div-100vh";
 
 import { PagePathname } from "../types";
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 const mapPathnameToBackground = {
   [PagePathname.thetaIndex]:
@@ -41,7 +41,7 @@ export const LayoutContainer = styled.div`
 
   padding: 1.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 0;
   }
 `;
@@ -55,7 +55,7 @@ export const GridContainer = styled.div`
   grid-template-rows: 1fr;
   gap: 1.5rem;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     grid-template-areas:
       "sidebar mobile-header"
       "sidebar page";
@@ -74,7 +74,7 @@ export const MobileHeaderContainer = styled.div`
   grid-area: mobile-header;
   display: none;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: initial;
   }
 `;
@@ -86,7 +86,7 @@ export const PageContainer = styled.div`
 
   padding: 0;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 1.5rem;
   }
 `;
