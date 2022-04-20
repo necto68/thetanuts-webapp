@@ -50,6 +50,7 @@ export const Description = styled.p`
   font-size: 14px;
   color: #e5e5e5;
   margin: 0;
+  line-height: 20px;
 `;
 
 export const ItalicDescription = styled(Description)`

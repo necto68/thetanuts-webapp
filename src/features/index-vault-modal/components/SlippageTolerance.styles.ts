@@ -28,10 +28,10 @@ export const Input = styled.input.attrs(() => ({
 }))<{ isError?: boolean }>`
   font-family: Barlow;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 12px;
   color: ${({ isError }) => (isError ? "#EB5853" : "#061f3a")};
 
-  width: 22px;
+  width: 20px;
   padding: 0;
   border: 0;
   background-color: transparent;
@@ -53,5 +53,5 @@ export const Input = styled.input.attrs(() => ({
 export const Title = styled.span`
   font-family: Barlow;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 12px;
 `;

@@ -72,7 +72,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
       )}
       <Content>
         <APYContainer>
-          <DataTitle>Index APY</DataTitle>
+          <DataTitle>APY</DataTitle>
           {isLoading ? (
             <SkeletonBox height={25} width={60} />
           ) : (
