@@ -17,6 +17,7 @@ export interface IndexTokenRow
 
 export interface HistoryTransactionRow
   extends Pick<IndexVault, "assetSymbol">,
+    Pick<Token, "symbol">,
     Pick<Transaction, "chainId" | "id" | "timestamp" | "type"> {
   balance: Big;
   productType: string;

@@ -3,7 +3,6 @@ import Lottie from "react-lottie-player";
 
 import swapping from "../animations/swapping.json";
 import wave from "../animations/wave.json";
-import { useViewportHeight } from "../../shared/hooks";
 import {
   useIndexVaultModalState,
   useSwapRouterConfig,
@@ -12,6 +11,7 @@ import {
 } from "../hooks";
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
+import { BaseButton } from "../../shared/components";
 
 import {
   Container,
@@ -24,7 +24,6 @@ import {
   RatioTitle,
   ToTitle,
   TransactionLink,
-  CloseButton,
 } from "./SwappingContent.styles";
 
 export const SwappingContent = () => {
@@ -57,8 +56,6 @@ export const SwappingContent = () => {
     }));
   }, [setIndexVaultModalState]);
 
-  const containerHeight = useViewportHeight(0.85);
-
   const { data: isSwapSuccessful = false } = swapMutation ?? {};
 
   const transactionUrl = getExplorerUrl(PathType.tx, chainId, swapMutationHash);
@@ -67,7 +64,7 @@ export const SwappingContent = () => {
   const { symbol: targetSymbol = "" } = targetData ?? {};
 
   return (
-    <Container height={containerHeight}>
+    <Container>
       {isSwapSuccessful ? (
         <BackgroundAnimationContainer>
           <Lottie
@@ -100,9 +97,9 @@ export const SwappingContent = () => {
             View Transaction in Explorer
           </TransactionLink>
         </SwapInfoContainer>
-        <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
+        <BaseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
           Close
-        </CloseButton>
+        </BaseButton>
       </ContentContainer>
     </Container>
   );

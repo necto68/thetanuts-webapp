@@ -2,18 +2,23 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+
   gap: 25px;
+
+  ${screens.md} {
+    gap: 15px;
+  }
 `;
 
 export const TableContainer = styled.table`
   border-collapse: collapse;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     & > tbody {
       display: flex;
       flex-direction: column;
@@ -25,7 +30,7 @@ export const TableContainer = styled.table`
 export const HeaderRow = styled.tr`
   background-color: #010c1a;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: none;
   }
 `;
@@ -77,7 +82,7 @@ export const SortArrowContainer = styled(motion.div).attrs<{ show: boolean }>(
 export const Header = styled.span`
   font-family: Roboto;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 13px;
   color: #ffffff;
 `;
 
@@ -107,7 +112,7 @@ export const Row = styled(motion.tr).attrs(() => ({
     background-color: rgba(0, 0, 0, 0.5);
   }
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
@@ -130,7 +135,7 @@ export const Cell = styled.td`
     padding-right: 15px;
   }
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -154,33 +159,48 @@ export const Cell = styled.td`
 `;
 
 export const CellTitle = styled.span`
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 14px;
-  color: #ffffff;
-  line-height: 1;
-
   display: none;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: initial;
+
+    font-family: Roboto;
+    font-weight: 400;
+    font-size: 14px;
+    color: #ffffff;
+    line-height: 1;
   }
 `;
 
 export const CellValue = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 16px;
+  font-size: 13px;
   color: #ffffff;
   line-height: 1;
+
+  ${screens.md} {
+    font-size: 16px;
+  }
 `;
 
-export const APYCellValue = styled(CellValue)`
+export const GreenCellValue = styled(CellValue)`
   color: #81e429;
+`;
+
+export const GreenCellSubValue = styled(CellValue)`
+  font-size: 10px;
+  color: #81e429;
+`;
+
+export const CellValueContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 export const APYCellContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 `;

@@ -43,7 +43,7 @@ export const BaseSwapButton = styled(motion.button).attrs<BaseSwapButtonProps>(
 )<BaseSwapButtonProps>`
   font-family: Barlow;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 14px;
   border-radius: 10px;
   border: 0;
   padding: 16px 0;

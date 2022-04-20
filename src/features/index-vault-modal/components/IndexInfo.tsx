@@ -10,9 +10,10 @@ import { InfoIcon, Tooltip } from "../../shared/components";
 import {
   Container,
   InfoContainer,
-  InfoLink,
+  InfoTitle,
   InfoValue,
-  InfoValueContainer,
+  InfoLink,
+  InfoTitleContainer,
 } from "./IndexInfo.styles";
 
 // eslint-disable-next-line complexity,sonarjs/cognitive-complexity
@@ -69,24 +70,24 @@ export const IndexInfo = () => {
   return (
     <Container>
       <InfoContainer>
-        <InfoValueContainer>
-          <InfoValue>Index Value</InfoValue>
+        <InfoTitleContainer>
+          <InfoTitle>Stronghold Token Value</InfoTitle>
           <Tooltip
-            content="Refers to the price of the Theta-Index if all constituent vaults are settled at this time."
+            content="Refers to the price of the Stronghold token if all constituent vaults are settled at this time."
             id="indexValue"
             root={<InfoIcon />}
           />
-        </InfoValueContainer>
+        </InfoTitleContainer>
         <InfoValue
           isAlignRight
         >{`${indexValue} ${underlyingAssetSymbol}`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoValue>TVL</InfoValue>
+        <InfoTitle>TVL</InfoTitle>
         <InfoValue isAlignRight>{formattedTVL}</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoValue>Underlying Asset</InfoValue>
+        <InfoTitle>Underlying Asset</InfoTitle>
         <InfoLink
           href={underlyingTokenExplorerUrl}
           isAlignRight
@@ -96,14 +97,14 @@ export const IndexInfo = () => {
         </InfoLink>
       </InfoContainer>
       <InfoContainer>
-        <InfoValueContainer>
-          <InfoValue>Index Token Address</InfoValue>
+        <InfoTitleContainer>
+          <InfoTitle>Stronghold Token Address</InfoTitle>
           <Tooltip
-            content="This represents a pro-rata share of ownership in the constituent vaults that make up the Index."
+            content="This represents a pro-rata share of ownership in the constituent vaults that make up the Stronghold."
             id="indexTokenAddress"
             root={<InfoIcon />}
           />
-        </InfoValueContainer>
+        </InfoTitleContainer>
         <InfoLink href={indexTokenExplorerUrl} isAlignRight target="_blank">
           {indexTokenAddress}
         </InfoLink>

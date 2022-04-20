@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
 
     background-color: #031a34;
 
-    @media (max-width: ${sizes.md}px) {
+    ${screens.md} {
       background-color: #000000;
     }
   }

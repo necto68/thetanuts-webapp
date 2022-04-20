@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: end;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 15px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     flex-direction: column-reverse;
     align-items: initial;
   }
@@ -18,10 +18,5 @@ export const HeaderContainer = styled.div`
 export const MetricsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-
-  gap: 20px;
-
-  @media (max-width: ${sizes.md}px) {
-    gap: 10px;
-  }
+  gap: 15px;
 `;

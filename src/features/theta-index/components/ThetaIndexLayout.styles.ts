@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import type { AnchorHTMLAttributes } from "react";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -10,9 +10,9 @@ export const Container = styled.div`
   background-color: rgba(1, 12, 26, 0.7);
   border-radius: 10px;
 
-  padding: 40px;
+  padding: 35px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 15px;
   }
 `;
@@ -32,7 +32,7 @@ export const BasketIconContainer = styled.div`
   display: flex;
   align-items: center;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: none;
   }
 `;
@@ -40,26 +40,20 @@ export const BasketIconContainer = styled.div`
 export const Title = styled.span`
   font-family: Roboto;
   font-weight: 700;
+  font-size: 24px;
   color: #e5e5e5;
-
-  font-size: 32px;
-
-  @media (max-width: ${sizes.md}px) {
-    font-size: 26px;
-  }
 `;
 
 export const Description = styled.p`
   font-family: Roboto;
   font-weight: 400;
+  font-size: 14px;
   color: #e5e5e5;
   margin: 0;
+`;
 
-  font-size: 18px;
-
-  @media (max-width: ${sizes.md}px) {
-    font-size: 14px;
-  }
+export const ItalicDescription = styled(Description)`
+  font-style: italic;
 `;
 
 export const DescriptionLink = styled(Description).attrs(() => ({

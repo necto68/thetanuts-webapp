@@ -1,15 +1,15 @@
 import styled from "styled-components";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 
-  padding: 0 35px 25px;
+  padding: 0 25px 15px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 0 15px 15px;
   }
 `;

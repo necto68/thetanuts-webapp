@@ -4,12 +4,18 @@ import { defaultSlippageToleranceValue } from "../constants";
 
 export const Container = styled.div`
   display: flex;
+  gap: 5px;
+  align-items: center;
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
-  padding: 5px 10px;
-  background-color: #ffffff;
-  border-radius: 10px;
+  gap: 2px;
+  padding: 2px 5px;
+  border-radius: 4px;
+  border: 1px solid #061f3a;
 `;
 
 export const Input = styled.input.attrs(() => ({
@@ -20,12 +26,12 @@ export const Input = styled.input.attrs(() => ({
   max: "1",
   step: "0.1",
 }))<{ isError?: boolean }>`
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 16px;
+  font-family: Barlow;
+  font-weight: 500;
+  font-size: 14px;
   color: ${({ isError }) => (isError ? "#EB5853" : "#061f3a")};
 
-  width: 23px;
+  width: 22px;
   padding: 0;
   border: 0;
   background-color: transparent;
@@ -44,9 +50,8 @@ export const Input = styled.input.attrs(() => ({
   -moz-appearance: textfield;
 `;
 
-export const Title = styled.span<{ isError?: boolean }>`
-  font-family: Roboto;
-  font-weight: 400;
-  font-size: 16px;
-  color: ${({ isError }) => (isError ? "#EB5853" : "#061f3a")};
+export const Title = styled.span`
+  font-family: Barlow;
+  font-weight: 500;
+  font-size: 14px;
 `;

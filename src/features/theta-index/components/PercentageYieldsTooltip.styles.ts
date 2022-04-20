@@ -16,7 +16,7 @@ export const Title = styled.span`
 export const ContentContainer = styled(Container)`
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 10px;
 `;
 
 export const YieldContainer = styled.div`

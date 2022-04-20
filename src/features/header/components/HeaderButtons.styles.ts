@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
   justify-content: end;
-  gap: 20px;
+  gap: 15px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     flex: 1;
     justify-content: center;
   }
@@ -16,16 +16,16 @@ export const Container = styled.div`
 export const SwitchToV0ButtonContainer = styled.div`
   display: flex;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: none;
   }
 `;
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 15px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     flex: 1;
     justify-content: space-between;
   }

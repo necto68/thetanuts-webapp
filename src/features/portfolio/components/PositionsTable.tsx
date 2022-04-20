@@ -1,7 +1,7 @@
 import type { Column } from "../../table/types";
 import {
   Table,
-  APYCellValue,
+  GreenCellValue,
   Chains,
   SwapButton,
   CellValue,
@@ -23,7 +23,7 @@ const columns: Column<IndexTokenRow>[] = [
     key: "productType",
     title: "Product",
     showTitleInCell: true,
-    render: () => "Theta-Index",
+    render: () => "Stronghold",
     filterBy: true,
   },
   {
@@ -32,7 +32,7 @@ const columns: Column<IndexTokenRow>[] = [
     showTitleInCell: true,
 
     render: ({ annualPercentageYield }) => (
-      <APYCellValue>{`${annualPercentageYield}%`}</APYCellValue>
+      <GreenCellValue>{`${annualPercentageYield}%`}</GreenCellValue>
     ),
   },
   {

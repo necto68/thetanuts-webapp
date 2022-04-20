@@ -1,22 +1,22 @@
 import styled from "styled-components";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 550px;
+  width: 420px;
   border-radius: 10px;
   background-color: #283841;
   overflow-x: hidden;
   overflow-y: auto;
 
-  gap: 40px;
-  padding: 25px 35px;
+  gap: 30px;
+  padding: 30px 40px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     gap: 20px;
-    padding: 15px 15px;
+    padding: 15px;
   }
 `;
 
@@ -27,9 +27,9 @@ export const Title = styled.h1`
   text-align: center;
   margin: 0;
 
-  font-size: 28px;
+  font-size: 20px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     font-size: 16px;
   }
 `;
@@ -37,18 +37,14 @@ export const Title = styled.h1`
 export const UnorderedList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 20px;
+  padding-left: 20px;
   margin: 0;
 `;
 
 export const ListItem = styled.li`
   font-family: "Sofia Sans";
   font-weight: 300;
+  font-size: 14px;
   color: #ffffff;
-
-  font-size: 22px;
-
-  @media (max-width: ${sizes.md}px) {
-    font-size: 14px;
-  }
 `;

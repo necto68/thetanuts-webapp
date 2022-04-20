@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 import { Link } from "../../shared/components";
 
 export const SidebarContainer = styled(motion.div).attrs<{
@@ -20,14 +20,14 @@ export const SidebarContainer = styled(motion.div).attrs<{
 }))<{ isShow: boolean; mobileHeight: string }>`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 75px;
 
   background-color: rgba(1, 12, 26, 0.7);
   border-radius: 10px;
-  padding: 50px 25px;
+  padding: 25px 20px 25px 25px;
 
-  @media (max-width: ${sizes.md}px) {
-    background-color: #010c1a;
+  ${screens.md} {
+    background-color: #0a1026;
     border-radius: 0;
     padding: 25px 25px 25px 50px;
 
@@ -43,7 +43,7 @@ export const LogoContainer = styled.div`
 
   justify-content: center;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     justify-content: space-between;
   }
 `;
@@ -51,7 +51,7 @@ export const LogoContainer = styled.div`
 export const CircleButtonContainer = styled.div`
   display: none;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: flex;
   }
 `;
@@ -59,7 +59,7 @@ export const CircleButtonContainer = styled.div`
 export const MainNavContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
 `;
 
 export const SecondaryNavContainer = styled.div`
@@ -71,7 +71,7 @@ export const SecondaryNavContainer = styled.div`
 export const SwitchToV0ButtonContainer = styled.div`
   display: none;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     display: flex;
   }
 `;
@@ -83,5 +83,5 @@ export const SwitchToV0Link = styled(Link)`
 
 export const IconNavContainer = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 20px;
 `;

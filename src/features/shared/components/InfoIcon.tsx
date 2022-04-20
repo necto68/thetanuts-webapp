@@ -12,7 +12,7 @@ export const InfoIcon: FC<InfoIconProps> = ({ theme = "dark" }) => {
   const color = theme === "dark" ? "#061F3A" : "#FFFFFF";
 
   return (
-    <IconContainer color={color} height={16} width={16}>
+    <IconContainer color={color} height={14} width={14}>
       <Info />
     </IconContainer>
   );

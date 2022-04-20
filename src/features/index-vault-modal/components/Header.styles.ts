@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
 import type { ThemeType } from "../types";
 
 export const Container = styled.div`
@@ -11,9 +11,9 @@ export const Container = styled.div`
   align-items: center;
   z-index: 2;
 
-  padding: 25px 35px 0;
+  padding: 15px 25px 0;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 15px 15px 0;
   }
 `;
@@ -26,8 +26,8 @@ export const Title = styled(motion.span).attrs<ThemeType>(({ theme }) => ({
   },
 }))<ThemeType>`
   font-family: Barlow;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 14px;
   text-transform: uppercase;
 `;
 
@@ -35,7 +35,7 @@ export const ButtonsContainer = styled.div`
   display: flex;
   gap: 30px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     gap: 10px;
   }
 `;

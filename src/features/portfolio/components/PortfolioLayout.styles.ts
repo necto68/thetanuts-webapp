@@ -1,22 +1,31 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { sizes } from "../../shared/constants";
+import { screens } from "../../shared/constants";
+import { Container as ThetaIndexLayoutContainer } from "../../theta-index/components/ThetaIndexLayout.styles";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
+`;
+
+export const TitleContainer = styled(ThetaIndexLayoutContainer)`
+  padding: 20px 35px;
+
+  ${screens.md} {
+    padding: 15px;
+  }
 `;
 
 export const TabsHeaderContainer = styled.div`
   display: flex;
-  gap: 25px;
+  gap: 30px;
   border-bottom: 1px solid #9e9e9e;
 
-  padding: 0 40px;
+  padding: 0 35px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 0 15px;
   }
 `;
@@ -31,16 +40,15 @@ export const TabsLayout = styled.div`
 export const TabContainer = styled.div`
   overflow: hidden;
 
-  padding: 40px;
+  padding: 30px;
 
-  @media (max-width: ${sizes.md}px) {
+  ${screens.md} {
     padding: 15px;
   }
 `;
 
 export {
   Title,
-  Container as TitleContainer,
   Description,
 } from "../../theta-index/components/ThetaIndexLayout.styles";
 

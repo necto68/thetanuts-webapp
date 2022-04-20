@@ -10,7 +10,7 @@ export const Container = styled.div`
 export const WarningTitle = styled.span`
   font-family: Roboto;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 11px;
   color: #eb5853;
 `;
 

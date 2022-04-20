@@ -23,7 +23,7 @@ export const Metric: FC<MetricProps> = ({ title, value, isLoading }) => (
     </MetricTitleContainer>
     <MetricValueContainer>
       {isLoading ? (
-        <SkeletonBox height={25} width={90} />
+        <SkeletonBox height={19} width={80} />
       ) : (
         <MetricValue>{value}</MetricValue>
       )}

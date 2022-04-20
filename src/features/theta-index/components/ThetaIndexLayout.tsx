@@ -13,6 +13,7 @@ import {
   BasketIconContainer,
   Title,
   Description,
+  ItalicDescription,
   DescriptionLink,
   ExpandDescriptionLink,
 } from "./ThetaIndexLayout.styles";
@@ -30,10 +31,10 @@ export const ThetaIndexLayout = () => {
     <Container>
       <ContentContainer>
         <DescriptionContainer>
-          <Title>Theta-Index</Title>
+          <Title>Stronghold</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              Theta-Index earns yields by running an automated basket of options
+              Stronghold earns yields by running an automated index of options
               strategies. Earnings are auto-compounded.{" "}
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
@@ -42,28 +43,28 @@ export const ThetaIndexLayout = () => {
           ) : (
             <>
               <Description>
-                Theta-Index earns yields by running an automated basket of
-                options strategies. Earnings are auto-compounded. When you swap
-                your assets, you will receive a Theta-Index token representing
-                your pro-rata ownership of that Theta-Index. The strike prices
-                and expirations of each strategy within the index are
+                Stronghold earns yields by running an automated index of options
+                strategies. Earnings are auto-compounded. When you swap your
+                assets, you will receive a Stronghold token representing your
+                pro-rata ownership of that Stronghold. The strike prices and
+                expirations of each strategy within the Stronghold are
                 algorithmically determined to generate the highest risk adjusted
-                yield. You can swap between your assets and Theta-Index tokens
+                yield. You can swap between your assets and Stronghold tokens
                 anytime at the market rate. Thetanuts does not collect any
                 performance fees.
               </Description>
-              <Description>
+              <ItalicDescription>
                 Read the{" "}
                 <DescriptionLink href="https://docs.thetanuts.finance">
                   Thetanuts Docs
                 </DescriptionLink>{" "}
-                for a more detailed overview of Thetanuts Theta-Index or contact
+                for a more detailed overview of Thetanuts Stronghold or contact
                 us on{" "}
                 <DescriptionLink href="https://discord.com/invite/fzWKJSy9v9">
                   Thetanuts Discord
                 </DescriptionLink>
                 .
-              </Description>
+              </ItalicDescription>
               {isMobile ? (
                 <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                   (show less)
@@ -73,12 +74,12 @@ export const ThetaIndexLayout = () => {
           )}
         </DescriptionContainer>
         <BasketIconContainer>
-          <IconContainer height={261} width={247}>
+          <IconContainer height={195} width={184}>
             <Basket />
           </IconContainer>
         </BasketIconContainer>
       </ContentContainer>
-      <Title>Featured Theta-Indexes</Title>
+      <Title>Featured Strongholds</Title>
       <FeaturedIndexVaultsList />
       <IndexVaultsTable />
     </Container>

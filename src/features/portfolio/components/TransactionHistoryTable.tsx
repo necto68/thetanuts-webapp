@@ -1,13 +1,15 @@
 import type { Column } from "../../table/types";
 import {
-  APYCellValue,
-  AssetCell,
-  CellValue,
-  Chains,
   Table,
+  Chains,
+  AssetCell,
+  CellValueContainer,
+  CellValue,
+  GreenCellValue,
+  GreenCellSubValue,
 } from "../../table/components";
 import type { HistoryTransactionRow } from "../types";
-import { TransactionTypeTitle } from "../types";
+import { TransactionType, TransactionTypeTitle } from "../types";
 import { dateFormatter, numberFormatter } from "../../shared/helpers";
 import { ExternalLinkButton } from "../../shared/components";
 import { PathType } from "../../wallet/types";
@@ -28,24 +30,38 @@ const columns: Column<HistoryTransactionRow>[] = [
     key: "productType",
     title: "Product",
     showTitleInCell: true,
-    render: () => "Theta-Index",
+    render: () => "Stronghold",
     filterBy: true,
   },
   {
     key: "type",
     title: "Activity",
 
-    render: ({ type }) => (
-      <APYCellValue>{TransactionTypeTitle[type]}</APYCellValue>
-    ),
+    render: ({ type, assetSymbol, symbol }) =>
+      type === TransactionType.depositedDirectly ? (
+        <GreenCellValue>{TransactionTypeTitle[type]}</GreenCellValue>
+      ) : (
+        <CellValueContainer>
+          <GreenCellValue>{TransactionTypeTitle[type]}</GreenCellValue>
+          <GreenCellSubValue>
+            {type === TransactionType.swappedIn
+              ? `${assetSymbol} to ${symbol}`
+              : `${symbol} to ${assetSymbol}`}
+          </GreenCellSubValue>
+        </CellValueContainer>
+      ),
 
-    filterBy: ({ type }) => TransactionTypeTitle[type],
+    filterBy: ({ type }) => type,
   },
   {
     key: "timestamp",
     title: "Date",
 
-    render: ({ timestamp }) => dateFormatter.format(new Date(timestamp)),
+    render: ({ timestamp }) => (
+      <GreenCellValue>
+        {dateFormatter.format(new Date(timestamp))}
+      </GreenCellValue>
+    ),
   },
   {
     key: "balance",

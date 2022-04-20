@@ -1,3 +1,8 @@
-export { Container, InfoValue, InfoLink } from "./IndexApyInfo.styles";
+export {
+  Container,
+  InfoTitle,
+  InfoValue,
+  InfoLink,
+} from "./IndexApyInfo.styles";
 
-export { InfoContainer, InfoValueContainer } from "./VaultInfo.styles";
+export { InfoContainer, InfoTitleContainer } from "./VaultInfo.styles";

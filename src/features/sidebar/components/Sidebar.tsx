@@ -43,7 +43,7 @@ export const Sidebar = () => {
   const mainNavItems = [
     {
       to: PagePathname.thetaIndex,
-      linkTitle: "Theta Index",
+      linkTitle: "Stronghold",
       navIcon: ThetaIndex,
     },
     {

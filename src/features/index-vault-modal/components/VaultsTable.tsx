@@ -73,7 +73,7 @@ export const VaultsTable = () => {
       <thead>
         <HeaderRow>
           <HeaderCell>
-            <HeaderCellValue>Basket</HeaderCellValue>
+            <HeaderCellValue>Individual Options</HeaderCellValue>
           </HeaderCell>
           <HeaderCell>
             <HeaderCellValue>APY %</HeaderCellValue>
