@@ -31,6 +31,6 @@ export const CellValue = styled(HeaderCellValue)`
 `;
 
 export const CellSubValue = styled(CellValue)`
-  font-weight: 400;
-  font-size: 10px;
+  font-weight: 500;
+  font-size: 11px;
 `;

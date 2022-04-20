@@ -36,9 +36,7 @@ export const InfoTitle = styled.span<{
   cursor: ${({ isUnderline = false }) => (isUnderline ? "pointer" : "auto")};
 `;
 
-export const InfoValue = styled(InfoTitle)`
-  font-size: 14px;
-`;
+export const InfoValue = styled(InfoTitle)``;
 
 export const InfoLink = styled.a<{
   isAlignRight?: boolean;

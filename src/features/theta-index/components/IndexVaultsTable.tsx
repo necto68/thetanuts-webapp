@@ -25,7 +25,7 @@ const columns: Column<IndexVault>[] = [
   },
   {
     key: "totalPercentageYields",
-    title: "Index APY%",
+    title: "APY",
     showTitleInCell: true,
 
     render: ({ id, totalPercentageYields }) => (
