@@ -9,8 +9,8 @@ export enum TransactionType {
 }
 
 export const TransactionTypeTitle = {
-  [TransactionType.swappedIn]: "Swapped In",
-  [TransactionType.swappedOut]: "Swapped Out",
+  [TransactionType.swappedIn]: "Swap",
+  [TransactionType.swappedOut]: "Swap",
   [TransactionType.depositedDirectly]: "Deposited Directly",
 };
 

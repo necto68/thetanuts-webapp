@@ -1,7 +1,7 @@
 import {
   Table,
   APYCellContainer,
-  APYCellValue,
+  GreenCellValue,
   Chains,
   SwapButton,
   AssetCell,
@@ -30,7 +30,7 @@ const columns: Column<IndexVault>[] = [
 
     render: ({ id, totalPercentageYields }) => (
       <APYCellContainer>
-        <APYCellValue>{`${totalPercentageYields.annualPercentageYield}%`}</APYCellValue>
+        <GreenCellValue>{`${totalPercentageYields.annualPercentageYield}%`}</GreenCellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={totalPercentageYields} />

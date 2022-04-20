@@ -2,12 +2,13 @@ import type { Provider } from "@ethersproject/providers";
 import { constants } from "ethers";
 import Big from "big.js";
 
-import type { NativeToken } from "../types";
 import {
   RouterV2Abi__factory as RouterV2AbiFactory,
   Erc20Abi__factory as Erc20AbiFactory,
 } from "../../contracts/types";
 import { convertToBig } from "../../vault/helpers";
+import type { ChainId } from "../../wallet/constants";
+import type { NativeToken } from "../types";
 
 export const nativeTokenFetcher = async (
   routerAddress: string,
@@ -16,7 +17,8 @@ export const nativeTokenFetcher = async (
 ): Promise<NativeToken> => {
   const routerContract = RouterV2AbiFactory.connect(routerAddress, provider);
 
-  const [wrappedNativeTokenAddress, balance] = await Promise.all([
+  const [{ chainId }, wrappedNativeTokenAddress, balance] = await Promise.all([
+    provider.getNetwork() as Promise<{ chainId: ChainId }>,
     // eslint-disable-next-line new-cap
     routerContract.WETH(),
     account ? provider.getBalance(account).then(convertToBig) : null,
@@ -45,5 +47,6 @@ export const nativeTokenFetcher = async (
     allowance: allowance.div(tokenDivisor),
     tokenDivisor,
     wrappedNativeTokenAddress,
+    chainId,
   };
 };

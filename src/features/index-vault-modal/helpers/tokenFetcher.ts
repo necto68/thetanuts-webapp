@@ -1,9 +1,10 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import type { Token } from "../types";
 import { Erc20Abi__factory as Erc20AbiFactory } from "../../contracts/types";
 import { convertToBig } from "../../vault/helpers";
+import type { ChainId } from "../../wallet/constants";
+import type { Token } from "../types";
 
 export const tokenFetcher = async (
   tokenAddress: string,
@@ -13,14 +14,17 @@ export const tokenFetcher = async (
 ): Promise<Token> => {
   const tokenContract = Erc20AbiFactory.connect(tokenAddress, provider);
 
-  const [symbol, decimals, balance, allowance] = await Promise.all([
-    tokenContract.symbol(),
-    tokenContract.decimals(),
-    account ? tokenContract.balanceOf(account).then(convertToBig) : null,
-    account
-      ? tokenContract.allowance(account, spenderAddress).then(convertToBig)
-      : new Big(0),
-  ]);
+  const [{ chainId }, symbol, decimals, balance, allowance] = await Promise.all(
+    [
+      provider.getNetwork() as Promise<{ chainId: ChainId }>,
+      tokenContract.symbol(),
+      tokenContract.decimals(),
+      account ? tokenContract.balanceOf(account).then(convertToBig) : null,
+      account
+        ? tokenContract.allowance(account, spenderAddress).then(convertToBig)
+        : new Big(0),
+    ]
+  );
 
   const tokenDivisor = new Big(10).pow(decimals);
 
@@ -30,5 +34,6 @@ export const tokenFetcher = async (
     allowance: allowance.div(tokenDivisor),
     tokenDivisor,
     tokenAddress,
+    chainId,
   };
 };

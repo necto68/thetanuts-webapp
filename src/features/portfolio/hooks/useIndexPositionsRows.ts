@@ -21,10 +21,9 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
       assetSymbol,
       indexPrice,
       totalPercentageYields: { annualPercentageYield },
-      supportedChainIds,
     } = data;
 
-    return indexTokens.map(({ symbol, balance, tokenAddress }, index) => ({
+    return indexTokens.map(({ symbol, balance, tokenAddress, chainId }) => ({
       id,
 
       // TODO: add more different vault types
@@ -35,7 +34,7 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
       symbol,
       balance,
       tokenAddress,
-      chainId: supportedChainIds[index],
+      chainId,
     }));
   });
 };

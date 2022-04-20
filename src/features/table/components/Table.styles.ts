@@ -184,8 +184,19 @@ export const CellValue = styled.span`
   }
 `;
 
-export const APYCellValue = styled(CellValue)`
+export const GreenCellValue = styled(CellValue)`
   color: #81e429;
+`;
+
+export const GreenCellSubValue = styled(CellValue)`
+  font-size: 10px;
+  color: #81e429;
+`;
+
+export const CellValueContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 export const APYCellContainer = styled.div`
