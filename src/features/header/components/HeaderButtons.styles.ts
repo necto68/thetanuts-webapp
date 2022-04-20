@@ -5,7 +5,7 @@ import { screens } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   justify-content: end;
-  gap: 1.5rem;
+  gap: 15px;
 
   ${screens.md} {
     flex: 1;
@@ -23,7 +23,7 @@ export const SwitchToV0ButtonContainer = styled.div`
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  gap: 1.5rem;
+  gap: 15px;
 
   ${screens.md} {
     flex: 1;

@@ -6,13 +6,13 @@ export const RootContainer = styled.div`
 `;
 
 export const StyledTooltip = styled(ReactTooltip)`
-  max-width: 25rem;
+  max-width: 250px;
   opacity: 1 !important;
 `;
 
 export const TooltipText = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 1.4rem;
+  font-size: 14px;
   color: #000000;
 `;

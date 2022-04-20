@@ -15,14 +15,14 @@ export const Container = styled.div`
 `;
 
 export const Button = styled(BaseButton)`
-  font-size: 2rem;
+  font-size: 20px;
   border: 0;
   text-transform: uppercase;
 
-  padding: 2rem 0;
+  padding: 20px 0;
 
   ${screens.md} {
-    padding: 1rem 0;
+    padding: 10px 0;
   }
 `;
 

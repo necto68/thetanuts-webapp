@@ -5,35 +5,35 @@ import { screens } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 5px;
 
-  min-width: 17.6rem;
+  min-width: 176px;
 
   ${screens.md} {
-    min-width: 12rem;
+    min-width: 120px;
   }
 `;
 
 export const MetricTitleContainer = styled.div`
-  padding: 0 1rem;
+  padding: 0 10px;
 `;
 
 export const MetricValueContainer = styled(MetricTitleContainer)`
   background-color: #010c1a;
   border-radius: 10px;
-  padding: 1rem;
+  padding: 10px;
 `;
 
 export const MetricTitle = styled.span`
   font-family: Barlow;
   font-weight: 500;
-  font-size: 1.4rem;
+  font-size: 14px;
   color: #ffffff;
 `;
 
 export const MetricValue = styled.span`
   font-family: Barlow;
   font-weight: 700;
-  font-size: 1.6rem;
+  font-size: 16px;
   color: #1fffab;
 `;

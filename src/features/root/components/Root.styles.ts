@@ -39,7 +39,7 @@ export const LayoutContainer = styled.div`
   height: max-content;
   min-height: 100%;
 
-  padding: 1.5rem;
+  padding: 15px;
 
   ${screens.md} {
     padding: 0;
@@ -53,7 +53,7 @@ export const GridContainer = styled.div`
   grid-template-areas: "sidebar page";
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
-  gap: 1.5rem;
+  gap: 15px;
 
   ${screens.md} {
     grid-template-areas:
@@ -87,6 +87,6 @@ export const PageContainer = styled.div`
   padding: 0;
 
   ${screens.md} {
-    padding: 1.5rem;
+    padding: 15px;
   }
 `;

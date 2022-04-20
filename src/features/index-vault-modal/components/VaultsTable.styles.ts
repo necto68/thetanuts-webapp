@@ -16,14 +16,14 @@ export const HeaderCell = styled.th`
 export const HeaderCellValue = styled.span`
   font-family: Roboto;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 12px;
   color: #000000;
 `;
 
 export const PortfolioCellContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0.5rem 0;
+  padding: 5px 0;
 `;
 
 export const CellValue = styled(HeaderCellValue)`
@@ -31,5 +31,5 @@ export const CellValue = styled(HeaderCellValue)`
 `;
 
 export const CellSubValue = styled(CellValue)`
-  font-size: 0.9rem;
+  font-size: 9px;
 `;

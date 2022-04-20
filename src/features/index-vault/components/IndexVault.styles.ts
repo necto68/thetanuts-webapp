@@ -24,17 +24,17 @@ export const Container = styled(motion.div).attrs(() => ({
 }))`
   display: flex;
   flex-direction: column;
-  padding: 0 0.6rem;
+  padding: 0 6px;
   border-radius: 10px;
   overflow: hidden;
   background: linear-gradient(180deg, #2c2c2c 0%, #101010 100%);
   border: 2px solid #81e429;
   cursor: pointer;
 
-  flex-basis: 27.5rem;
+  flex-basis: 275px;
 
   ${screens.md} {
-    flex-basis: 34rem;
+    flex-basis: 340px;
   }
 `;
 
@@ -42,13 +42,13 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem;
+  padding: 8px;
 `;
 
 export const AssetTitleContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 8px;
 `;
 
 export const AssetTitle = styled.span`
@@ -56,11 +56,11 @@ export const AssetTitle = styled.span`
   color: #e5e5e5;
 
   font-weight: 700;
-  font-size: 1.9rem;
+  font-size: 19px;
 
   ${screens.md} {
     font-weight: 400;
-    font-size: 2.4rem;
+    font-size: 24px;
   }
 `;
 
@@ -73,7 +73,7 @@ export const Content = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.2rem 0.8rem 1.6rem;
+  padding: 12px 8px 16px;
   border-top: 1px solid #5d5d5d;
   border-bottom: 1px solid #5d5d5d;
 `;
@@ -81,7 +81,7 @@ export const Content = styled.div`
 export const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 5px;
   justify-content: center;
 `;
 
@@ -98,10 +98,10 @@ export const DataTitle = styled.span`
   font-weight: 400;
   color: #ffffff;
 
-  font-size: 1.1rem;
+  font-size: 11px;
 
   ${screens.md} {
-    font-size: 1.4rem;
+    font-size: 14px;
   }
 `;
 
@@ -110,10 +110,10 @@ export const DataValue = styled.span`
   font-weight: 600;
   color: #ffffff;
 
-  font-size: 2.2rem;
+  font-size: 22px;
 
   ${screens.md} {
-    font-size: 2.8rem;
+    font-size: 28px;
   }
 `;
 
@@ -125,7 +125,7 @@ export const SwapContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.4rem 0;
+  padding: 4px 0;
 `;
 
 export const SwapTitle = styled.span`
@@ -139,9 +139,9 @@ export const SwapTitle = styled.span`
   text-transform: uppercase;
   text-align: center;
 
-  font-size: 1.7rem;
+  font-size: 17px;
 
   ${screens.md} {
-    font-size: 2.2rem;
+    font-size: 22px;
   }
 `;

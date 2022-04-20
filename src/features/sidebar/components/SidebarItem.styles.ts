@@ -41,17 +41,17 @@ export const Underline = styled(motion.div).attrs<{ active: boolean }>(
   width: 2px;
   border-radius: 1px;
   background-color: #1fffab;
-  transform: translateX(2.1rem);
+  transform: translateX(21px);
 `;
 
 export const SidebarLink = styled(Link)<LinkProps>`
   font-family: Barlow;
   font-weight: ${({ fontWeight }) => fontWeight};
-  font-size: 1.4rem;
+  font-size: 14px;
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 10px;
   color: ${({ color }) => color};
   text-transform: uppercase;
 

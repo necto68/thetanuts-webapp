@@ -7,7 +7,7 @@ export const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: end;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 15px;
 
   ${screens.md} {
     flex-direction: column-reverse;
@@ -18,5 +18,5 @@ export const HeaderContainer = styled.div`
 export const MetricsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 15px;
 `;

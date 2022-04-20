@@ -5,18 +5,18 @@ import { screens } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 42rem;
+  width: 420px;
   border-radius: 10px;
   background-color: #283841;
   overflow-x: hidden;
   overflow-y: auto;
 
-  gap: 3rem;
-  padding: 3rem 4rem;
+  gap: 30px;
+  padding: 30px 40px;
 
   ${screens.md} {
-    gap: 2rem;
-    padding: 1.5rem;
+    gap: 20px;
+    padding: 15px;
   }
 `;
 
@@ -27,24 +27,24 @@ export const Title = styled.h1`
   text-align: center;
   margin: 0;
 
-  font-size: 2rem;
+  font-size: 20px;
 
   ${screens.md} {
-    font-size: 1.6rem;
+    font-size: 16px;
   }
 `;
 
 export const UnorderedList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding-left: 2rem;
+  gap: 20px;
+  padding-left: 20px;
   margin: 0;
 `;
 
 export const ListItem = styled.li`
   font-family: "Sofia Sans";
   font-weight: 300;
-  font-size: 1.4rem;
+  font-size: 14px;
   color: #ffffff;
 `;

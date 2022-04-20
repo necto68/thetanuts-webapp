@@ -7,7 +7,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: end;
-  min-height: 57.5rem;
+  min-height: 575px;
 `;
 
 export const BackgroundAnimationContainer = styled.div`
@@ -22,10 +22,10 @@ export const ContentContainer = styled.div`
   justify-content: end;
   z-index: 2;
 
-  padding: 0 2.5rem 1.5rem;
+  padding: 0 25px 15px;
 
   ${screens.md} {
-    padding: 0 1.5rem 1.5rem;
+    padding: 0 15px 15px;
   }
 `;
 
@@ -35,13 +35,13 @@ export const SwapInfoContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2.5rem;
+  gap: 25px;
 `;
 
 export const SwapTitle = styled.span`
   font-family: Barlow;
   font-weight: 700;
-  font-size: 4rem;
+  font-size: 40px;
   color: #ffffff;
   text-align: center;
 `;
@@ -55,18 +55,18 @@ export const AnimationContainer = styled(motion.div).attrs<{ isShow: boolean }>(
     },
   })
 )<{ isShow: boolean }>`
-  width: 12rem;
-  height: 12rem;
+  width: 120px;
+  height: 120px;
 `;
 
 export const RatioTitleContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 10px;
 `;
 
 export const RatioTitle = styled(SwapTitle)`
-  font-size: 2.3rem;
+  font-size: 23px;
   color: #ffffff;
 `;
 
@@ -85,5 +85,5 @@ export const TransactionLink = styled(motion.a).attrs<{
 }))<{ isSwapSuccessful: boolean }>`
   font-family: Barlow;
   font-weight: 700;
-  font-size: 1.7rem;
+  font-size: 17px;
 `;

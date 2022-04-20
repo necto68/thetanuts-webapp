@@ -8,10 +8,10 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-  gap: 2.5rem;
+  gap: 25px;
 
   ${screens.md} {
-    gap: 1.5rem;
+    gap: 15px;
   }
 `;
 
@@ -22,7 +22,7 @@ export const TableContainer = styled.table`
     & > tbody {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 10px;
     }
   }
 `;
@@ -37,9 +37,9 @@ export const HeaderRow = styled.tr`
 
 export const SortContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 10px;
   align-items: center;
-  padding: 2rem 0.5rem;
+  padding: 20px 5px;
 `;
 
 export const HeaderCell = styled.th`
@@ -47,7 +47,7 @@ export const HeaderCell = styled.th`
     border-top-left-radius: 10px;
 
     ${SortContainer} {
-      padding-left: 1.5rem;
+      padding-left: 15px;
     }
   }
 
@@ -56,7 +56,7 @@ export const HeaderCell = styled.th`
     width: 30%;
 
     ${SortContainer} {
-      padding-right: 1.5rem;
+      padding-right: 15px;
     }
   }
 `;
@@ -82,7 +82,7 @@ export const SortArrowContainer = styled(motion.div).attrs<{ show: boolean }>(
 export const Header = styled.span`
   font-family: Roboto;
   font-weight: 600;
-  font-size: 1.3rem;
+  font-size: 13px;
   color: #ffffff;
 `;
 
@@ -115,31 +115,31 @@ export const Row = styled(motion.tr).attrs(() => ({
   ${screens.md} {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: 1rem 1.5rem;
+    gap: 10px;
+    padding: 10px 15px;
     border-radius: 10px;
     background-color: rgba(1, 12, 26, 0.9) !important;
   }
 `;
 
 export const Cell = styled.td`
-  padding: 1rem 0.5rem;
+  padding: 10px 5px;
 
   &:first-child {
-    padding-left: 1.5rem;
+    padding-left: 15px;
   }
 
   &:last-child {
     display: flex;
     justify-content: end;
-    padding-right: 1.5rem;
+    padding-right: 15px;
   }
 
   ${screens.md} {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 0.3rem;
+    gap: 3px;
     padding: 0 !important;
 
     &:nth-child(odd) {
@@ -166,7 +166,7 @@ export const CellTitle = styled.span`
 
     font-family: Roboto;
     font-weight: 400;
-    font-size: 1.4rem;
+    font-size: 14px;
     color: #ffffff;
     line-height: 1;
   }
@@ -175,12 +175,12 @@ export const CellTitle = styled.span`
 export const CellValue = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 1.3rem;
+  font-size: 13px;
   color: #ffffff;
   line-height: 1;
 
   ${screens.md} {
-    font-size: 1.6rem;
+    font-size: 16px;
   }
 `;
 
@@ -191,5 +191,5 @@ export const APYCellValue = styled(CellValue)`
 export const APYCellContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 10px;
 `;

@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   display: flex;
-  gap: 2rem;
-  padding: 1.2rem 1.5rem;
+  gap: 20px;
+  padding: 12px 15px;
   border: 1px solid #ffffff;
   border-radius: 10px;
 `;
@@ -11,7 +11,7 @@ export const Container = styled.div`
 export const Input = styled.input`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 12px;
   color: #ffffff;
   width: 100%;
   padding: 0;

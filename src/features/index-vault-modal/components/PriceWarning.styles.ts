@@ -4,13 +4,13 @@ import type { AnchorHTMLAttributes } from "react";
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 5px;
 `;
 
 export const WarningTitle = styled.span`
   font-family: Roboto;
   font-weight: 600;
-  font-size: 1.1rem;
+  font-size: 11px;
   color: #eb5853;
 `;
 

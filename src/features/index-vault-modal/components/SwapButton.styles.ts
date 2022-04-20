@@ -43,10 +43,10 @@ export const BaseSwapButton = styled(motion.button).attrs<BaseSwapButtonProps>(
 )<BaseSwapButtonProps>`
   font-family: Barlow;
   font-weight: 600;
-  font-size: 1.4rem;
+  font-size: 14px;
   border-radius: 10px;
   border: 0;
-  padding: 1.6rem 0;
+  padding: 16px 0;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 
@@ -54,5 +54,5 @@ export const ContentContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 5px;
 `;

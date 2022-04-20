@@ -3,8 +3,8 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding: 0 1rem;
+  gap: 10px;
+  padding: 0 10px;
 `;
 
 export const InfoContainer = styled.div`
@@ -12,13 +12,13 @@ export const InfoContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 10px;
 `;
 
 export const InfoValueContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 8px;
 `;
 
 export const InfoValue = styled.span<{
@@ -27,7 +27,7 @@ export const InfoValue = styled.span<{
 }>`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 12px;
   color: #061f3a;
   text-align: ${({ isAlignRight = false }) =>
     isAlignRight ? "right" : "left"};
@@ -41,7 +41,7 @@ export const InfoLink = styled.a<{
 }>`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 12px;
   color: #061f3a;
   text-align: ${({ isAlignRight = false }) =>
     isAlignRight ? "right" : "left"};

@@ -19,16 +19,6 @@ export const GlobalStyle = createGlobalStyle`
   * {
     box-sizing: border-box;
   }
-  
-  :root {
-    // 1 rem = 10px
-    font-size: 62.5%;
-
-    ${screens.md} {
-      // 1 rem = 12.5px
-      font-size: 78.125%
-    }
-  }
 
   .web3modal-modal-container {
     font-family: Roboto;

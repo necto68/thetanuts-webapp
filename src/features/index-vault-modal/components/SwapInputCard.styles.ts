@@ -11,18 +11,18 @@ export const BalanceContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem 0.5rem;
+  padding: 0 15px 5px;
 `;
 
 export const BalanceTitlesContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 10px;
 `;
 
 export const BalanceTitle = styled.span`
   font-family: Barlow;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 12px;
   color: #061f3a;
 `;
 
@@ -41,7 +41,7 @@ export const InsufficientBalanceTitle = styled(motion.span).attrs(() => ({
 }))`
   font-family: Barlow;
   font-weight: 700;
-  font-size: 1.2rem;
+  font-size: 12px;
   color: #eb5853;
 `;
 
@@ -67,16 +67,16 @@ export const SwapInputCardAnimateContainer = styled(motion.div).attrs<{
 }))<{ downDirection: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 10px;
   border-radius: 10px;
-  padding: 1.5rem;
+  padding: 15px;
   background-color: #061f3a;
 `;
 
 export const SwapInputCardContentContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 15px;
 `;
 
 export const SwapInputContainer = styled.div`
@@ -84,7 +84,7 @@ export const SwapInputContainer = styled.div`
   flex: 1;
   flex-direction: column;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 5px;
 `;
 
 export const AssetContainer = styled.div`
@@ -92,7 +92,7 @@ export const AssetContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: end;
-  gap: 0.5rem;
+  gap: 5px;
 `;
 
 export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
@@ -104,7 +104,7 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
 }))<{ isError: boolean }>`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 2.2rem;
+  font-size: 22px;
   color: ${({ isError }) => (isError ? "#EB5853" : "#e5e5e5")};
   width: 100%;
   border-radius: 10px;
@@ -128,13 +128,13 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
 export const PriceContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 5px;
 `;
 
 export const PriceValue = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 12px;
   color: #e5e5e5;
 `;
 
@@ -146,12 +146,12 @@ export const PriceImpactValue = styled(PriceValue)`
 export const AssetTitleContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 5px;
 `;
 
 export const AssetTitle = styled.span`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 1.4rem;
+  font-size: 14px;
   color: #ffffff;
 `;

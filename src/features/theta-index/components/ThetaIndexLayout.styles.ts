@@ -6,26 +6,26 @@ import { screens } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 25px;
   background-color: rgba(1, 12, 26, 0.7);
   border-radius: 10px;
 
-  padding: 3.5rem;
+  padding: 35px;
 
   ${screens.md} {
-    padding: 1.5rem;
+    padding: 15px;
   }
 `;
 
 export const ContentContainer = styled.div`
   display: flex;
-  gap: 10rem;
+  gap: 100px;
 `;
 
 export const DescriptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 25px;
 `;
 
 export const BasketIconContainer = styled.div`
@@ -40,14 +40,14 @@ export const BasketIconContainer = styled.div`
 export const Title = styled.span`
   font-family: Roboto;
   font-weight: 700;
-  font-size: 2.4rem;
+  font-size: 24px;
   color: #e5e5e5;
 `;
 
 export const Description = styled.p`
   font-family: Roboto;
   font-weight: 400;
-  font-size: 1.4rem;
+  font-size: 14px;
   color: #e5e5e5;
   margin: 0;
 `;

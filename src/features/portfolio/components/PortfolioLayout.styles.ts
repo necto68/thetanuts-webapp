@@ -7,26 +7,26 @@ import { Container as ThetaIndexLayoutContainer } from "../../theta-index/compon
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 15px;
 `;
 
 export const TitleContainer = styled(ThetaIndexLayoutContainer)`
-  padding: 2rem 3.5rem;
+  padding: 20px 35px;
 
   ${screens.md} {
-    padding: 1.5rem;
+    padding: 15px;
   }
 `;
 
 export const TabsHeaderContainer = styled.div`
   display: flex;
-  gap: 3rem;
+  gap: 30px;
   border-bottom: 1px solid #9e9e9e;
 
-  padding: 0 3.5rem;
+  padding: 0 35px;
 
   ${screens.md} {
-    padding: 0 1.5rem;
+    padding: 0 15px;
   }
 `;
 
@@ -40,10 +40,10 @@ export const TabsLayout = styled.div`
 export const TabContainer = styled.div`
   overflow: hidden;
 
-  padding: 3rem;
+  padding: 30px;
 
   ${screens.md} {
-    padding: 1.5rem;
+    padding: 15px;
   }
 `;
 

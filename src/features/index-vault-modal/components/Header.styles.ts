@@ -11,10 +11,10 @@ export const Container = styled.div`
   align-items: center;
   z-index: 2;
 
-  padding: 1.5rem 2.5rem 0;
+  padding: 15px 25px 0;
 
   ${screens.md} {
-    padding: 1.5rem 1.5rem 0;
+    padding: 15px 15px 0;
   }
 `;
 
@@ -27,16 +27,16 @@ export const Title = styled(motion.span).attrs<ThemeType>(({ theme }) => ({
 }))<ThemeType>`
   font-family: Barlow;
   font-weight: 600;
-  font-size: 1.4rem;
+  font-size: 14px;
   text-transform: uppercase;
 `;
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  gap: 3rem;
+  gap: 30px;
 
   ${screens.md} {
-    gap: 1rem;
+    gap: 10px;
   }
 `;
 

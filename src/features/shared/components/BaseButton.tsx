@@ -26,7 +26,7 @@ const BaseButton = styled(motion.button).attrs<Required<BaseButtonProps>>(
 )<BaseButtonProps>`
   font-family: Barlow;
   font-weight: 400;
-  font-size: ${({ isSmall }) => (isSmall ? "1.2rem" : "1.6rem")};
+  font-size: ${({ isSmall }) => (isSmall ? "12px" : "16px")};
 
   border-radius: 5px;
   border-width: 1px;
@@ -36,7 +36,7 @@ const BaseButton = styled(motion.button).attrs<Required<BaseButtonProps>>(
   color: ${({ primaryColor }) => primaryColor};
   background-color: ${({ secondaryColor }) => secondaryColor};
 
-  padding: ${({ isSmall }) => (isSmall ? "0.4rem 1.2rem" : "0.7rem 2.4rem")};
+  padding: ${({ isSmall }) => (isSmall ? "4px 12px" : "7px 24px")};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
 
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};

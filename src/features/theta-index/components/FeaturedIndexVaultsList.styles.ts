@@ -4,7 +4,7 @@ import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
-  gap: 1.5rem;
+  gap: 15px;
   flex-wrap: wrap;
 
   ${screens.md} {
