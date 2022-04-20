@@ -25,7 +25,7 @@ export const ExternalLinkButton: FC<ExternalLinkButtonProps> = ({
   return (
     <Link target="_blank" to={link}>
       <IconButton primaryColor="transparent" secondaryColor="transparent">
-        <IconContainer height={17} width={17}>
+        <IconContainer height={15} width={15}>
           <NewTab />
         </IconContainer>
       </IconButton>

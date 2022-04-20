@@ -23,7 +23,7 @@ const columns: Column<IndexTokenRow>[] = [
     key: "productType",
     title: "Product",
     showTitleInCell: true,
-    render: () => "Theta-Index",
+    render: () => "Stronghold",
     filterBy: true,
   },
   {

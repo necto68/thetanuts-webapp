@@ -14,7 +14,7 @@ export const HeaderCell = styled.th`
 `;
 
 export const HeaderCellValue = styled.span`
-  font-family: Roboto;
+  font-family: Barlow;
   font-weight: 600;
   font-size: 12px;
   color: #000000;
@@ -27,9 +27,10 @@ export const PortfolioCellContainer = styled.div`
 `;
 
 export const CellValue = styled(HeaderCellValue)`
-  font-weight: 400;
+  font-weight: 500;
 `;
 
 export const CellSubValue = styled(CellValue)`
-  font-size: 9px;
+  font-weight: 400;
+  font-size: 10px;
 `;

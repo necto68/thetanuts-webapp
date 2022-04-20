@@ -11,7 +11,8 @@ import { SlippageTolerance } from "./SlippageTolerance";
 import {
   Container,
   InfoContainer,
-  InfoValueContainer,
+  InfoTitleContainer,
+  InfoTitle,
   InfoValue,
 } from "./VaultInfo.styles";
 
@@ -115,7 +116,7 @@ export const VaultInfo: FC<VaultInfoProps> = ({
   return (
     <Container>
       <InfoContainer>
-        <InfoValue>Rate ↔</InfoValue>
+        <InfoTitle>Rate ↔</InfoTitle>
         <InfoValue
           isAlignRight
           isUnderline
@@ -123,35 +124,43 @@ export const VaultInfo: FC<VaultInfoProps> = ({
         >{`1 ${rateSourceSymbol} = ${rateString} ${rateTargetSymbol} (${formattedPrice})`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoValue>Protocol</InfoValue>
+        <InfoTitle>Protocol</InfoTitle>
         <InfoValue isAlignRight>
           {isUseDirectMode ? "Direct Deposit" : "Uniswap v2"}
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoValue>Route</InfoValue>
+        <InfoTitle>Route</InfoTitle>
         <InfoValue
           isAlignRight
         >{`${sourceTokenSymbol} ➞ ${targetTokenSymbol}`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoValueContainer>
-          <InfoValue>Protocol fee</InfoValue>
+        <InfoTitleContainer>
+          <InfoTitle>Protocol fee</InfoTitle>
           <Tooltip
-            content="The protocol receives swap fees conducted between Theta-Index tokens and the underlying."
+            content="The protocol receives swap fees conducted between the stronghold tokens and the underlying assets."
             id="protocolFee"
             root={<InfoIcon />}
           />
-        </InfoValueContainer>
-        <InfoValue isAlignRight>{isUseDirectMode ? "0%" : "0.3%"}</InfoValue>
+        </InfoTitleContainer>
+        <InfoValue isAlignRight>{isUseDirectMode ? "0.0%" : "0.3%"}</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoValue>Slippage Tolerance</InfoValue>
+        <InfoTitle>Slippage Tolerance</InfoTitle>
         {isUseDirectMode ? (
           <InfoValue isAlignRight>N/A</InfoValue>
         ) : (
           <SlippageTolerance />
         )}
+      </InfoContainer>
+      <InfoContainer>
+        <InfoTitle>Management Fee</InfoTitle>
+        <InfoValue isAlignRight>0.0%</InfoValue>
+      </InfoContainer>
+      <InfoContainer>
+        <InfoTitle>Performance Fee</InfoTitle>
+        <InfoValue isAlignRight>0.0%</InfoValue>
       </InfoContainer>
     </Container>
   );

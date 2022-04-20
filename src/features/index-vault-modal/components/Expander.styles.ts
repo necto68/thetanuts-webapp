@@ -23,8 +23,8 @@ export const HeaderButton = styled(BaseButton).attrs(() => ({
 `;
 
 export const Title = styled.span`
-  font-family: Roboto;
-  font-weight: 400;
+  font-family: Barlow;
+  font-weight: 500;
   font-size: 12px;
   color: #061f3a;
 `;

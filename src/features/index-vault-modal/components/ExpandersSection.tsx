@@ -40,7 +40,7 @@ export const ExpandersSection = () => {
         isOpen={openedSection === SectionType.indexAPY}
         maxHeight={285}
         onArrowClick={handleArrowClick}
-        title={`Index APY% = ${indexAPY}%`}
+        title={`Stronghold APY% = ${indexAPY}%`}
         type={SectionType.indexAPY}
       >
         <IndexApyInfo />
@@ -48,7 +48,7 @@ export const ExpandersSection = () => {
       <Expander
         isOpen={openedSection === SectionType.indexInfo}
         onArrowClick={handleArrowClick}
-        title="Index Information"
+        title="Stronghold Information"
         type={SectionType.indexInfo}
       >
         <IndexInfo />

@@ -28,7 +28,7 @@ const columns: Column<HistoryTransactionRow>[] = [
     key: "productType",
     title: "Product",
     showTitleInCell: true,
-    render: () => "Theta-Index",
+    render: () => "Stronghold",
     filterBy: true,
   },
   {

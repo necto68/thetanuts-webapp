@@ -52,6 +52,10 @@ export const Description = styled.p`
   margin: 0;
 `;
 
+export const ItalicDescription = styled(Description)`
+  font-style: italic;
+`;
+
 export const DescriptionLink = styled(Description).attrs(() => ({
   as: "a",
   target: "_blank",

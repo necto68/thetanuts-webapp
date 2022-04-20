@@ -25,6 +25,7 @@ export const SidebarLink = styled(Link)<Colored>`
   align-items: center;
   gap: 20px;
   color: ${({ color }) => color};
+  text-transform: uppercase;
 
   :hover {
     text-decoration: none;

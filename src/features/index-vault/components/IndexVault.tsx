@@ -67,7 +67,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
             </IconContainer>
             <AssetTitle>{assetSymbol}</AssetTitle>
           </AssetTitleContainer>
-          <VaultTypeTitle>Theta-Index</VaultTypeTitle>
+          <VaultTypeTitle>Stronghold</VaultTypeTitle>
         </Header>
       )}
       <Content>

@@ -1,4 +1,4 @@
 export enum PagePathname {
-  thetaIndex = "/theta-index",
+  thetaIndex = "/",
   portfolio = "/portfolio",
 }
