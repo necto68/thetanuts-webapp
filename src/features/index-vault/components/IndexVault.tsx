@@ -56,8 +56,8 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
     <Container onClick={handleVaultClick}>
       {isLoading ? (
         <Header>
-          <SkeletonBox height={27} width={90} />
-          <SkeletonBox height={27} width={90} />
+          <SkeletonBox height={22} width={90} />
+          <SkeletonBox height={22} width={90} />
         </Header>
       ) : (
         <Header>
@@ -74,7 +74,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
         <APYContainer>
           <DataTitle>Index APY</DataTitle>
           {isLoading ? (
-            <SkeletonBox height={32} width={60} />
+            <SkeletonBox height={25} width={60} />
           ) : (
             <APYDataValue>{`${formattedTotalAPY} %`}</APYDataValue>
           )}
@@ -82,7 +82,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
         <TVLContainer>
           <DataTitle>TVL</DataTitle>
           {isLoading ? (
-            <SkeletonBox height={32} width={60} />
+            <SkeletonBox height={25} width={60} />
           ) : (
             <DataValue>{formattedTVL}</DataValue>
           )}

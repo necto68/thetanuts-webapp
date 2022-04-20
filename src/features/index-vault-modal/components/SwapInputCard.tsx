@@ -145,7 +145,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
           <SwapInputCardContentContainer>
             <SwapInputContainer>
               {isValueLoading ? (
-                <SkeletonBox height={34.2} width={130} />
+                <SkeletonBox height={25.3} width={120} />
               ) : (
                 <SwapInput
                   isError={isShowInsufficientBalanceTitle}
@@ -154,7 +154,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                 />
               )}
               {isValueLoading ? (
-                <SkeletonBox height={16} width={100} />
+                <SkeletonBox height={13.8} width={90} />
               ) : (
                 <PriceContainer>
                   <PriceValue>{`~${formattedPrice}`}</PriceValue>
@@ -165,7 +165,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               )}
             </SwapInputContainer>
             <AssetContainer>
-              {isDataLoading ? <SkeletonBox height={30} width={55} /> : null}
+              {isDataLoading ? <SkeletonBox height={20} width={55} /> : null}
               {!isDataLoading && !isShowAssetSelector ? (
                 <AssetTitleContainer>
                   <IconContainer height={20} width={20}>
