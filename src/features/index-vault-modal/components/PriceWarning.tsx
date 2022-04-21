@@ -29,8 +29,15 @@ export const PriceWarning: FC<PriceWarningProps> = ({
       </IconContainer>
       {isShowDirectDepositProposal ? (
         <WarningTitle>
-          High Price Impact! Advise to swap on{" "}
-          <WarningLink>{chainTitle}</WarningLink> network for optimal swap.
+          High Price Impact!{" "}
+          <WarningLink
+            href="https://portalbridge.com/#/transfer"
+            target="_blank"
+          >
+            Click here
+          </WarningLink>{" "}
+          to bridge to <WarningLink>{`${chainTitle} network`}</WarningLink> for
+          optimal swap.
         </WarningTitle>
       ) : null}
       {isShowDirectWithdrawProposal ? (
