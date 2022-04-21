@@ -1,50 +1,43 @@
 import type { FC } from "react";
-import { useCallback } from "react";
 
-import { useIndexVault } from "../hooks";
-import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
 import {
   numberFormatter,
   totalValueLockedFormatter,
 } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
+import { demoIndexVaults } from "../../theta-index/constants";
 
-interface IndexVaultProps {
-  indexVaultId: string;
+interface DemoIndexVaultProps {
+  demoIndexVaultId: string;
 }
 
-export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
-  const { isLoading, data } = useIndexVault(indexVaultId);
-
-  const [, setModalState] = useIndexVaultModalState();
-
-  const handleVaultClick = useCallback(() => {
-    setModalState({ isShow: true, indexVaultId });
-  }, [setModalState, indexVaultId]);
+export const DemoIndexVault: FC<DemoIndexVaultProps> = ({
+  demoIndexVaultId,
+}) => {
+  const data = demoIndexVaults.find(({ id }) => id === demoIndexVaultId);
 
   const {
     assetSymbol = "",
     totalPercentageYields,
     totalValueLocked = 0,
   } = data ?? {};
-
   const { annualPercentageYield = 0 } = totalPercentageYields ?? {};
 
   const formattedTotalAPY = numberFormatter.format(annualPercentageYield);
-  const formattedTVL = totalValueLockedFormatter(totalValueLocked);
+  const formattedTVL =
+    totalValueLocked > 0 ? totalValueLockedFormatter(totalValueLocked) : "-";
 
   const assetLogo = getLogoBySymbol(assetSymbol);
 
   return (
     <VaultCard
       borderColor="#81e429"
-      buttonTitle="SWAP"
+      buttonTitle="Coming Soon"
+      disabled
       icon={assetLogo}
-      isLoading={isLoading}
       leftDataTitle="APY"
       leftDataValue={`${formattedTotalAPY} %`}
-      onClick={handleVaultClick}
       rightDataTitle="TVL"
       rightDataValue={formattedTVL}
       subTitle="Stronghold"

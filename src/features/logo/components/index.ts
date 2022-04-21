@@ -3,3 +3,7 @@ export * from "./bnb";
 export * from "./eth";
 export * from "./ftm";
 export * from "./matic";
+export * from "./usdc";
+export * from "./ust";
+export * from "./frax";
+export * from "./btc";
