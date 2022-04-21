@@ -3,9 +3,8 @@ import { BigNumber } from "ethers";
 
 import { RouterV2Abi__factory as RouterV2AbiFactory } from "../../contracts/types";
 import type { SwapEvent } from "../../contracts/types/RouterV2Abi";
-import { convertToBig } from "../../vault/helpers";
+import { convertToBig, queryClient } from "../../shared/helpers";
 import type { SwapTransaction } from "../types";
-import { queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
 

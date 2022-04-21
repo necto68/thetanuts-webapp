@@ -1,6 +1,11 @@
 import type Big from "big.js";
 
-import type { PercentageYields } from "../../vault/types";
+export interface PercentageYields {
+  annualPercentageYield: number;
+  monthlyPercentageYield: number;
+  weeklyPercentageYield: number;
+  annualPercentageRate: number;
+}
 
 export interface Vault {
   vaultAddress: string;

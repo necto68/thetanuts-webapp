@@ -2,12 +2,11 @@ import type { Provider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
 
 import { DirectDepositorAbi__factory as DirectDepositorAbiFactory } from "../../contracts/types";
-import { convertToBig } from "../../vault/helpers";
+import { convertToBig, queryClient } from "../../shared/helpers";
 import type { ChainId } from "../../wallet/constants";
 import type { Transaction } from "../types";
 import { TransactionType } from "../types";
 import type { DepositEvent } from "../../contracts/types/DirectDepositorAbi";
-import { queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
 

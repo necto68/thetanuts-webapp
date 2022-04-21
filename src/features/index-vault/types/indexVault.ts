@@ -1,10 +1,14 @@
 import type Big from "big.js";
 
-import type { VaultType } from "../../vault/constants";
 import type { ChainId } from "../../wallet/constants";
-import type { PercentageYields } from "../../vault/types";
 
-import type { Vault } from "./vault";
+import type { Vault, PercentageYields } from "./vault";
+
+export enum VaultType {
+  CALL = "CALL",
+  PUT = "PUT",
+  IL = "IL",
+}
 
 export interface VaultInfo {
   lpAmount: Big;

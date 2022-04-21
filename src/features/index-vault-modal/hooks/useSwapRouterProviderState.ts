@@ -6,7 +6,7 @@ import {
   DirectDepositorAbi__factory as DirectDepositorAbiFactory,
   RouterV2Abi__factory as RouterV2AbiFactory,
 } from "../../contracts/types";
-import { convertToBig } from "../../vault/helpers";
+import { convertToBig } from "../../shared/helpers";
 import type { SwapRouterState } from "../types";
 import { InputType } from "../types";
 import { defaultSlippageToleranceValue } from "../constants";
