@@ -42,7 +42,10 @@ export const SortContainer = styled.div`
   padding: 20px 5px;
 `;
 
-export const HeaderCell = styled.th`
+export const HeaderCell = styled.th.withConfig({
+  shouldForwardProp: (property, defaultValidatorFunction) =>
+    ["align"].includes(property) || defaultValidatorFunction(property),
+})`
   &:first-child {
     border-top-left-radius: 10px;
 

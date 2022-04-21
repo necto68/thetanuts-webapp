@@ -84,7 +84,10 @@ export const Table = <RowData extends object>({
         <thead>
           <HeaderRow>
             {columns.map(({ title, key, sortBy }, columnIndex) => (
-              <HeaderCell key={title ?? columnIndex.toString()}>
+              <HeaderCell
+                align={columnIndex === columns.length - 1 ? "right" : undefined}
+                key={title ?? columnIndex.toString()}
+              >
                 {title ? (
                   <SortButton
                     onClick={() => {

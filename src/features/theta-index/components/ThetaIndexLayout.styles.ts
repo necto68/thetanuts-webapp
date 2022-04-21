@@ -10,7 +10,7 @@ export const Container = styled.div`
   background-color: rgba(1, 12, 26, 0.7);
   border-radius: 10px;
 
-  padding: 35px;
+  padding: 25px;
 
   ${screens.md} {
     padding: 15px;

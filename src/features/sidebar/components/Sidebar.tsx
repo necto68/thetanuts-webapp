@@ -109,7 +109,10 @@ export const Sidebar = () => {
       </MainNavContainer>
       <SwitchToV0ButtonContainer>
         <SwitchToV0Link target="_blank" to="https://thetanuts.finance/vaults">
-          <GradientButton backgroundColor="#0A1026" title="Thetanuts v0" />
+          <GradientButton
+            backgroundColor="#0A1026"
+            title="Switch to Thetanuts Basic"
+          />
         </SwitchToV0Link>
       </SwitchToV0ButtonContainer>
       <SecondaryNavContainer>

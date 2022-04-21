@@ -4,19 +4,23 @@ import {
   GreenCellValue,
   Chains,
   SwapButton,
+  DemoButton,
   AssetCell,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useIndexVaults } from "../../index-vault/hooks";
 import type { IndexVault } from "../../index-vault/types";
-import { indexVaults } from "../constants";
+import { demoIndexVaults, indexVaults } from "../constants";
 import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
 import { InfoIcon, Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
+import type { DemoIndexVaultConfig } from "../types";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
-const columns: Column<IndexVault>[] = [
+type IndexVaultRow = DemoIndexVaultConfig | IndexVault;
+
+const columns: Column<IndexVaultRow>[] = [
   {
     key: "assetSymbol",
     title: "Asset",
@@ -47,7 +51,9 @@ const columns: Column<IndexVault>[] = [
     showTitleInCell: true,
 
     render: ({ totalValueLocked }) =>
-      currencyFormatterWithoutDecimals.format(totalValueLocked),
+      totalValueLocked > 0
+        ? currencyFormatterWithoutDecimals.format(totalValueLocked)
+        : "-",
   },
   {
     key: "supportedChainIds",
@@ -60,17 +66,30 @@ const columns: Column<IndexVault>[] = [
   },
   {
     key: "id",
-    render: ({ id }) => <SwapButton indexVaultId={id} />,
+
+    render: (row) => {
+      if ("isDemo" in row) {
+        return <DemoButton />;
+      }
+
+      return <SwapButton indexVaultId={row.id} />;
+    },
   },
 ];
 
-const getRowKey = ({ id }: IndexVault) => id;
+const getRowKey = ({ id }: IndexVaultRow) => id;
 
 export const IndexVaultsTable = () => {
   const indexVaultsIds = indexVaults.map(({ id }) => id);
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
 
-  const rows = indexVaultsQueries.map(({ data }) => data);
+  const indexVaultsRows = indexVaultsQueries.map(({ data }) => data);
+  const demoIndexVaultsRows = demoIndexVaults;
+  // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+  const rows: (IndexVaultRow | undefined)[] = [
+    ...indexVaultsRows,
+    ...demoIndexVaultsRows,
+  ];
 
   return (
     <Table

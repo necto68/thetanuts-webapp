@@ -8,4 +8,5 @@ export {
 } from "./Table.styles";
 export * from "./Chains";
 export * from "./SwapButton";
+export * from "./DemoButton";
 export * from "./AssetCell";

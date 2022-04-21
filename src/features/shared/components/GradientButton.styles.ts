@@ -6,6 +6,7 @@ export const BaseGradientButton = styled(BaseButton)<{
   backgroundColor: string;
 }>`
   border: 2px solid transparent;
+  padding: 7px 20px;
 
   background: ${({ backgroundColor }) =>
       `linear-gradient(${backgroundColor}, ${backgroundColor}) padding-box`},

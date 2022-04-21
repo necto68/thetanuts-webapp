@@ -11,7 +11,7 @@ export const Container = styled.div`
 `;
 
 export const TitleContainer = styled(ThetaIndexLayoutContainer)`
-  padding: 20px 35px;
+  padding: 25px;
 
   ${screens.md} {
     padding: 15px;
@@ -23,7 +23,7 @@ export const TabsHeaderContainer = styled.div`
   gap: 30px;
   border-bottom: 1px solid #9e9e9e;
 
-  padding: 0 35px;
+  padding: 0 25px;
 
   ${screens.md} {
     padding: 0 15px;
@@ -40,7 +40,7 @@ export const TabsLayout = styled.div`
 export const TabContainer = styled.div`
   overflow: hidden;
 
-  padding: 30px;
+  padding: 25px;
 
   ${screens.md} {
     padding: 15px;
