@@ -1,5 +1,5 @@
 import { useSwapRouterConfig } from "../hooks";
-import { VaultType } from "../../vault/constants";
+import { VaultType } from "../../index-vault/types";
 import type { IndexVault, Vault } from "../../index-vault/types";
 import { ExternalLinkButton } from "../../shared/components";
 import {

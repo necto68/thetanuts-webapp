@@ -4,16 +4,14 @@ import Big from "big.js";
 import type { Provider } from "@ethersproject/providers";
 
 import {
-  convertToBig,
-  getPercentageYields,
-  normalizeVaultValue,
-} from "../../vault/helpers";
-import {
   Erc20Abi__factory as Erc20AbiFactory,
   PriceFeedAbi__factory as PriceFeedAbiFactory,
   VaultAbi__factory as VaultAbiFactory,
 } from "../../contracts/types";
 import type { Vault } from "../types";
+import { convertToBig } from "../../shared/helpers";
+
+import { getPercentageYields, normalizeVaultValue } from "./utils";
 
 export const vaultFetcher = async (
   vaultAddress: string,

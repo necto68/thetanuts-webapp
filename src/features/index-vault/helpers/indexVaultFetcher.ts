@@ -3,8 +3,7 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import { convertToBig, normalizeVaultValue } from "../../vault/helpers";
-import { VaultType } from "../../vault/constants";
+import { VaultType } from "../types";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   IndexVaultAbi__factory as IndexVaultAbiFactory,
@@ -14,13 +13,17 @@ import {
   PriceFeedAbi__factory as PriceFeedAbiFactory,
 } from "../../contracts/types";
 import type { IndexVault, VaultInfo } from "../types";
-import { queryClient } from "../../shared/helpers";
+import { queryClient, convertToBig } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
 
+import {
+  normalizeVaultValue,
+  getTotalPercentageYields,
+  getTotalValueLocked,
+} from "./utils";
 import { vaultFetcher } from "./vaultFetcher";
-import { getTotalPercentageYields, getTotalValueLocked } from "./utils";
 
 export const indexVaultFetcher = async (
   id: string,

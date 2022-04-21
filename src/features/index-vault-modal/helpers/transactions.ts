@@ -4,7 +4,7 @@ import type { CallOverrides } from "@ethersproject/contracts";
 
 import type { Token } from "../types";
 import { MutationType } from "../types";
-import { convertToBig } from "../../vault/helpers";
+import { convertToBig } from "../../shared/helpers";
 import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 

@@ -6,7 +6,7 @@ import {
   RouterV2Abi__factory as RouterV2AbiFactory,
   Erc20Abi__factory as Erc20AbiFactory,
 } from "../../contracts/types";
-import { convertToBig } from "../../vault/helpers";
+import { convertToBig } from "../../shared/helpers";
 import type { ChainId } from "../../wallet/constants";
 import type { NativeToken } from "../types";
 

@@ -2,7 +2,7 @@ import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
 import { Erc20Abi__factory as Erc20AbiFactory } from "../../contracts/types";
-import { convertToBig } from "../../vault/helpers";
+import { convertToBig } from "../../shared/helpers";
 import type { ChainId } from "../../wallet/constants";
 import type { Token } from "../types";
 
