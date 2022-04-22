@@ -21,4 +21,8 @@ export interface Web3ModalContextData {
   web3Modal: Web3Modal;
 }
 
-export const web3ModalConfig = { providerOptions, theme: "dark" };
+export const web3ModalConfig = {
+  providerOptions,
+  theme: "dark",
+  cacheProvider: true,
+};

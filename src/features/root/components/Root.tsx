@@ -6,6 +6,7 @@ import { Modal } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
 import { SidebarStateProvider } from "../../sidebar/providers";
 import { PagePathname } from "../types";
+import { useWalletAutoConnect } from "../hooks";
 
 import { MobileHeader } from "./MobileHeader";
 import {
@@ -20,6 +21,8 @@ import {
 
 export const Root = () => {
   const { pathname } = useLocation();
+
+  useWalletAutoConnect();
 
   return (
     <SidebarStateProvider>
