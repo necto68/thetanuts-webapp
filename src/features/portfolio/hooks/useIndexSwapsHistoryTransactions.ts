@@ -16,20 +16,9 @@ export const useIndexSwapsHistoryTransactions = (
 
   const indexVaultsQueries = useIndexVaults(indexVaultIds);
 
-  const indexVaultsChainIds = indexVaultIds.flatMap((indexVaultId) => {
-    const indexVaultConfig = indexVaultsMap[indexVaultId];
-
-    if (!indexVaultConfig) {
-      return [];
-    }
-
-    const sourceChainId = indexVaultConfig.source.chainId;
-    const replicationsChainIds = indexVaultConfig.replications.map(
-      ({ chainId }) => chainId
-    );
-
-    return [sourceChainId].concat(replicationsChainIds);
-  });
+  const indexVaultsChainIds = indexVaultsQueries.flatMap(
+    ({ data }) => data?.supportedChainIds ?? []
+  );
 
   const uniqIndexVaultsChainIds = Array.from(new Set(indexVaultsChainIds));
 
@@ -69,9 +58,10 @@ export const useIndexSwapsHistoryTransactions = (
     const { replications = [] } = tokenConfig ?? {};
 
     const indexTokensConfigs = [
-      { assetTokenAddress, indexTokenAddress },
+      { chainId: indexVaultChainId, assetTokenAddress, indexTokenAddress },
     ].concat(
       replications.map((replication) => ({
+        chainId: replication.chainId,
         assetTokenAddress: replication.assetTokenAddress,
         indexTokenAddress: replication.indexTokenAddress,
       }))
@@ -81,7 +71,7 @@ export const useIndexSwapsHistoryTransactions = (
       (historyTransaction) =>
         indexTokensConfigs.some(
           (indexTokenConfig) =>
-            historyTransaction.chainId === indexVaultChainId &&
+            historyTransaction.chainId === indexTokenConfig.chainId &&
             historyTransaction.assetIn === indexTokenConfig.assetTokenAddress
         )
     );
@@ -90,7 +80,7 @@ export const useIndexSwapsHistoryTransactions = (
       (historyTransaction) =>
         indexTokensConfigs.some(
           (indexTokenConfig) =>
-            historyTransaction.chainId === indexVaultChainId &&
+            historyTransaction.chainId === indexTokenConfig.chainId &&
             historyTransaction.assetIn === indexTokenConfig.indexTokenAddress
         )
     );
