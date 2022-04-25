@@ -3,8 +3,7 @@ import Big from "big.js";
 import { useCallback, useEffect, useState } from "react";
 
 import type { SwapRouterState, Token, NativeToken } from "../types";
-import { useSwapRouterConfig, useSwapRouterState } from "../hooks";
-import { currencyFormatter } from "../../shared/helpers";
+import { useSwapRouterState } from "../hooks";
 import { InfoIcon, Tooltip } from "../../shared/components";
 
 import { SlippageTolerance } from "./SlippageTolerance";
@@ -44,16 +43,12 @@ const getRateString = (
   return "N/A";
 };
 
-// eslint-disable-next-line complexity
 export const VaultInfo: FC<VaultInfoProps> = ({
   isSourceTokenDataLoading,
   isTargetTokenDataLoading,
   sourceTokenData,
   targetTokenData,
-  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
-  const { indexVaultQuery } = useSwapRouterConfig();
-
   const {
     isFlipped,
     isSourceValueLoading,
@@ -72,9 +67,6 @@ export const VaultInfo: FC<VaultInfoProps> = ({
   const handleRateClick = useCallback(() => {
     setIsRateFlipped(!isRateFlipped);
   }, [isRateFlipped]);
-
-  const { data } = indexVaultQuery;
-  const { assetPrice = 0, indexPrice = 0 } = data ?? {};
 
   const isTokensDataLoading =
     isSourceTokenDataLoading || isTargetTokenDataLoading;
@@ -104,15 +96,6 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     isRateLoading
   );
 
-  // token price
-  const [sourceTokenPrice, targetTokenPrice] = isFlipped
-    ? [indexPrice, assetPrice]
-    : [assetPrice, indexPrice];
-
-  const formattedPrice = currencyFormatter.format(
-    isRateFlipped ? targetTokenPrice : sourceTokenPrice
-  );
-
   return (
     <Container>
       <InfoContainer>
@@ -121,7 +104,7 @@ export const VaultInfo: FC<VaultInfoProps> = ({
           isAlignRight
           isUnderline
           onClick={handleRateClick}
-        >{`1 ${rateSourceSymbol} = ${rateString} ${rateTargetSymbol} (${formattedPrice})`}</InfoValue>
+        >{`1 ${rateSourceSymbol} = ${rateString} ${rateTargetSymbol}`}</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoTitle>Protocol</InfoTitle>
