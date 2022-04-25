@@ -58,7 +58,16 @@ const columns: Column<IndexVaultRow>[] = [
   {
     key: "supportedChainIds",
     title: "Networks",
-    render: ({ supportedChainIds }) => <Chains chainIds={supportedChainIds} />,
+
+    render: ({ supportedChainIds }) => {
+      const chains = supportedChainIds.map((chainId, index) => ({
+        chainId,
+        isHighlighted: index === 0,
+      }));
+
+      return <Chains chains={chains} />;
+    },
+
     sortBy: ({ supportedChainIds }) => supportedChainIds.length,
 
     filterBy: ({ supportedChainIds }) =>

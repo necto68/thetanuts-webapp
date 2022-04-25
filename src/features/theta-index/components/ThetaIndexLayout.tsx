@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { IconContainer } from "../../shared/components";
 import { useIsMobile } from "../../shared/hooks";
-import { Basket } from "../icons";
+import { Castle } from "../icons";
 
 import { FeaturedIndexVaultsList } from "./FeaturedIndexVaultsList";
 import { IndexVaultsTable } from "./IndexVaultsTable";
@@ -74,8 +74,8 @@ export const ThetaIndexLayout = () => {
           )}
         </DescriptionContainer>
         <BasketIconContainer>
-          <IconContainer height={195} width={184}>
-            <Basket />
+          <IconContainer height={225} width={181}>
+            <Castle />
           </IconContainer>
         </BasketIconContainer>
       </ContentContainer>

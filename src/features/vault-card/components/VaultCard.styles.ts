@@ -15,7 +15,7 @@ export const Container = styled(motion.div).attrs<ContainerProps>(
     },
 
     animate: {
-      opacity: 1,
+      opacity: disabled ? 0.6 : 1,
       y: 0,
     },
 
@@ -35,7 +35,7 @@ export const Container = styled(motion.div).attrs<ContainerProps>(
   overflow: hidden;
   background: linear-gradient(180deg, #2c2c2c 0%, #101010 100%);
   border: 2px solid ${({ borderColor }) => borderColor};
-  cursor: ${({ disabled }) => (disabled ? "wait" : "pointer")};
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 
   flex-basis: 270px;
 
