@@ -7,7 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 5px;
 
-  min-width: 176px;
+  min-width: 128px;
 
   ${screens.md} {
     min-width: 120px;
@@ -21,7 +21,7 @@ export const MetricTitleContainer = styled.div`
 export const MetricValueContainer = styled(MetricTitleContainer)`
   background-color: #010c1a;
   border-radius: 10px;
-  padding: 10px;
+  padding: 6px 10px;
 `;
 
 export const MetricTitle = styled.span`

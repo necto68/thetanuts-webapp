@@ -29,6 +29,7 @@ export const vaultFetcher = async (
     priceFeedAddress,
     linkAggregator,
     totalSupply,
+    collatCapWei,
     premium,
     period,
   ] = await Promise.all([
@@ -41,6 +42,7 @@ export const vaultFetcher = async (
     vaultContract.priceFeed(),
     vaultContract.LINK_AGGREGATOR(),
     vaultContract.totalSupply(),
+    vaultContract.collatCap().then(convertToBig),
     vaultContract.currentEpochPremium().then(convertToBig),
     vaultContract
       .PERIOD()
@@ -59,22 +61,30 @@ export const vaultFetcher = async (
   );
 
   // getting assetSymbol, currentStrikePrice, valuePerLP and assetPrice
-  const [assetSymbol, currentStrikePrice, valuePerLP, assetPrice] =
-    await Promise.all([
-      assetTokenContract.symbol(),
-      vaultContract
-        .strikeX1e6(epoch)
-        .then(convertToBig)
-        .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor)),
-      vaultContract
-        .valuePerLPX1e18(epoch)
-        .then(convertToBig)
-        .then((value) => value.div(lpDivisor)),
-      priceFeedContract
-        .getLatestPriceX1e6(linkAggregator)
-        .then(convertToBig)
-        .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor)),
-    ]);
+  const [
+    assetSymbol,
+    decimals,
+    balanceWei,
+    currentStrikePrice,
+    valuePerLP,
+    assetPrice,
+  ] = await Promise.all([
+    assetTokenContract.symbol(),
+    assetTokenContract.decimals(),
+    assetTokenContract.balanceOf(vaultAddress).then(convertToBig),
+    vaultContract
+      .strikeX1e6(epoch)
+      .then(convertToBig)
+      .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor)),
+    vaultContract
+      .valuePerLPX1e18(epoch)
+      .then(convertToBig)
+      .then((value) => value.div(lpDivisor)),
+    priceFeedContract
+      .getLatestPriceX1e6(linkAggregator)
+      .then(convertToBig)
+      .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor)),
+  ]);
 
   const isSettled = expiry === 0;
   const isExpired = !isSettled && Date.now() > expiry;
@@ -82,6 +92,11 @@ export const vaultFetcher = async (
   const strikePrice = isSettled || isExpired ? null : currentStrikePrice;
 
   const totalAsset = convertToBig(totalSupply).mul(valuePerLP);
+
+  // getting balance and collatCap
+  const balanceDivisor = new Big(10).pow(decimals);
+  const balance = balanceWei.div(balanceDivisor);
+  const collatCap = collatCapWei.div(balanceDivisor);
 
   // getting annual Percentage Yield
   const percentageYields = getPercentageYields(totalAsset, premium, period);
@@ -95,6 +110,8 @@ export const vaultFetcher = async (
     expiry,
     period,
     valuePerLP,
+    balance,
+    collatCap,
     assetPrice,
     strikePrice,
     percentageYields,

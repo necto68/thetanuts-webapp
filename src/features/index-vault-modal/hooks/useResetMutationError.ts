@@ -13,7 +13,7 @@ export const useResetMutationError = <
     if (mutation.isError) {
       const timeoutId = setTimeout(() => {
         mutation.reset();
-      }, 3000);
+      }, 2000);
 
       return () => {
         clearTimeout(timeoutId);

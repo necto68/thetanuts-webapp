@@ -7,13 +7,16 @@ export const Container = styled.div`
   gap: 2px;
 `;
 
-export const ChainLogoContainer = styled.div`
+export const ChainLogoContainer = styled.div<{ isHighlighted?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 5px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.8);
+  border-width: ${({ isHighlighted }) => (isHighlighted ? "1px" : 0)};
+  border-style: solid;
+  border-color: #1fffab;
 `;
 
 export const HiddenChainsContainer = styled(ChainLogoContainer)`

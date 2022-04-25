@@ -10,15 +10,21 @@ import { Container, WarningTitle, WarningLink } from "./PriceWarning.styles";
 interface PriceWarningProps {
   isShowDirectDepositProposal: boolean;
   isShowDirectWithdrawProposal: boolean;
+  isShowMaxVaultCapReachedTitle: boolean;
 }
 
 export const PriceWarning: FC<PriceWarningProps> = ({
   isShowDirectDepositProposal,
   isShowDirectWithdrawProposal,
+  isShowMaxVaultCapReachedTitle = true,
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { data } = indexVaultQuery;
-  const { chainId = null } = data ?? {};
+  const {
+    chainId = null,
+    totalRemainder = Number.POSITIVE_INFINITY,
+    assetSymbol = "",
+  } = data ?? {};
 
   const chainTitle = chainId ? chainsMap[chainId].title : "";
 
@@ -47,6 +53,19 @@ export const PriceWarning: FC<PriceWarningProps> = ({
             contact us
           </WarningLink>{" "}
           for optimised swap.
+        </WarningTitle>
+      ) : null}
+      {isShowMaxVaultCapReachedTitle ? (
+        <WarningTitle>
+          You can only deposit{" "}
+          <WarningLink>
+            {totalRemainder} {assetSymbol}
+          </WarningLink>
+          . If you want to swap more - please{" "}
+          <WarningLink href="https://t.me/officialThetanutsFinance">
+            contact us
+          </WarningLink>
+          .
         </WarningTitle>
       ) : null}
     </Container>

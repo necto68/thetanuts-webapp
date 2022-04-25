@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 
 import { IconContainer } from "../../shared/components";
 import { useIsMobile } from "../../shared/hooks";
-import { Basket } from "../icons";
+import { Castle } from "../icons";
 
 import { FeaturedIndexVaultsList } from "./FeaturedIndexVaultsList";
 import { IndexVaultsTable } from "./IndexVaultsTable";
@@ -51,7 +51,7 @@ export const ThetaIndexLayout = () => {
                 algorithmically determined to generate the highest risk adjusted
                 yield. You can swap between your assets and Stronghold tokens
                 anytime at the market rate. Thetanuts does not collect any
-                performance fees.
+                performance or management fees.
               </Description>
               <ItalicDescription>
                 Read the{" "}
@@ -74,8 +74,8 @@ export const ThetaIndexLayout = () => {
           )}
         </DescriptionContainer>
         <BasketIconContainer>
-          <IconContainer height={195} width={184}>
-            <Basket />
+          <IconContainer height={225} width={181}>
+            <Castle />
           </IconContainer>
         </BasketIconContainer>
       </ContentContainer>

@@ -44,21 +44,40 @@ const columns: Column<IndexVaultRow>[] = [
         />
       </APYCellContainer>
     ),
+
+    sortBy: ({ totalPercentageYields }) =>
+      totalPercentageYields.annualPercentageYield,
   },
   {
     key: "totalValueLocked",
     title: "TVL",
     showTitleInCell: true,
 
-    render: ({ totalValueLocked }) =>
-      totalValueLocked > 0
-        ? currencyFormatterWithoutDecimals.format(totalValueLocked)
-        : "-",
+    render: (row) => {
+      if ("isDemo" in row) {
+        return "-";
+      }
+
+      return currencyFormatterWithoutDecimals.format(row.totalValueLocked);
+    },
   },
   {
     key: "supportedChainIds",
     title: "Networks",
-    render: ({ supportedChainIds }) => <Chains chainIds={supportedChainIds} />,
+
+    render: (row) => {
+      if ("isDemo" in row) {
+        return "-";
+      }
+
+      const chains = row.supportedChainIds.map((chainId, index) => ({
+        chainId,
+        isHighlighted: index === 0,
+      }));
+
+      return <Chains chains={chains} />;
+    },
+
     sortBy: ({ supportedChainIds }) => supportedChainIds.length,
 
     filterBy: ({ supportedChainIds }) =>

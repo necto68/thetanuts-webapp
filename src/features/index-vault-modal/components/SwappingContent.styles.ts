@@ -61,6 +61,7 @@ export const AnimationContainer = styled(motion.div).attrs<{ isShow: boolean }>(
 
 export const RatioTitleContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: 10px;
 `;

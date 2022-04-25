@@ -28,6 +28,7 @@ export interface IndexVault {
   vaultsInfos: VaultInfo[];
   totalWeight: Big;
   totalValueLocked: number;
+  totalRemainder: number;
   totalPercentageYields: PercentageYields;
   chainId: ChainId;
   supportedChainIds: ChainId[];

@@ -100,7 +100,7 @@ export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
   inputMode: "decimal",
   placeholder: "0",
   min: "0",
-  step: "0.1",
+  step: "any",
 }))<{ isError: boolean }>`
   font-family: Roboto;
   font-weight: 400;

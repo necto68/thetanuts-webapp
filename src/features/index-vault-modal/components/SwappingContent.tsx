@@ -86,7 +86,7 @@ export const SwappingContent = () => {
           </SwapTitle>
           <RatioTitleContainer>
             <RatioTitle>{`${sourceValue} ${sourceSymbol}`}</RatioTitle>
-            <ToTitle>to</ToTitle>
+            <ToTitle>↓</ToTitle>
             <RatioTitle>{`${targetValue} ${targetSymbol}`}</RatioTitle>
           </RatioTitleContainer>
           <TransactionLink
