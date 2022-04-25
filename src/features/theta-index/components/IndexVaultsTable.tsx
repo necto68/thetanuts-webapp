@@ -44,6 +44,9 @@ const columns: Column<IndexVaultRow>[] = [
         />
       </APYCellContainer>
     ),
+
+    sortBy: ({ totalPercentageYields }) =>
+      totalPercentageYields.annualPercentageYield,
   },
   {
     key: "totalValueLocked",
