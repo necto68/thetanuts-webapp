@@ -50,17 +50,24 @@ const columns: Column<IndexVaultRow>[] = [
     title: "TVL",
     showTitleInCell: true,
 
-    render: ({ totalValueLocked }) =>
-      totalValueLocked > 0
-        ? currencyFormatterWithoutDecimals.format(totalValueLocked)
-        : "-",
+    render: (row) => {
+      if ("isDemo" in row) {
+        return "-";
+      }
+
+      return currencyFormatterWithoutDecimals.format(row.totalValueLocked);
+    },
   },
   {
     key: "supportedChainIds",
     title: "Networks",
 
-    render: ({ supportedChainIds }) => {
-      const chains = supportedChainIds.map((chainId, index) => ({
+    render: (row) => {
+      if ("isDemo" in row) {
+        return "-";
+      }
+
+      const chains = row.supportedChainIds.map((chainId, index) => ({
         chainId,
         isHighlighted: index === 0,
       }));

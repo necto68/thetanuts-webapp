@@ -1,5 +1,4 @@
 import type { DemoIndexVaultConfig } from "../types";
-import { ChainId } from "../../wallet/constants";
 
 export const demoIndexVaults: DemoIndexVaultConfig[] = [
   {
@@ -10,19 +9,13 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
 
     totalValueLocked: 0,
 
-    supportedChainIds: [
-      ChainId.ETHEREUM,
-      ChainId.BSC,
-      ChainId.POLYGON,
-      ChainId.AVALANCHE,
-      ChainId.FANTOM,
-    ],
+    supportedChainIds: [],
 
     totalPercentageYields: {
-      annualPercentageYield: 43.15,
-      monthlyPercentageYield: 43.15,
-      weeklyPercentageYield: 43.15,
-      annualPercentageRate: 43.15,
+      annualPercentageYield: 50.63,
+      monthlyPercentageYield: 3.28,
+      weeklyPercentageYield: 0.75,
+      annualPercentageRate: 39.16,
     },
   },
   {
@@ -33,18 +26,13 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
 
     totalValueLocked: 0,
 
-    supportedChainIds: [
-      ChainId.ETHEREUM,
-      ChainId.BSC,
-      ChainId.POLYGON,
-      ChainId.AVALANCHE,
-    ],
+    supportedChainIds: [],
 
     totalPercentageYields: {
-      annualPercentageYield: 115.5,
-      monthlyPercentageYield: 115.5,
-      weeklyPercentageYield: 115.5,
-      annualPercentageRate: 115.5,
+      annualPercentageYield: 137.33,
+      monthlyPercentageYield: 8.91,
+      weeklyPercentageYield: 2.05,
+      annualPercentageRate: 106.23,
     },
   },
   {
@@ -55,13 +43,13 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
 
     totalValueLocked: 0,
 
-    supportedChainIds: [ChainId.ETHEREUM, ChainId.AVALANCHE],
+    supportedChainIds: [],
 
     totalPercentageYields: {
-      annualPercentageYield: 43.15,
-      monthlyPercentageYield: 43.15,
-      weeklyPercentageYield: 43.15,
-      annualPercentageRate: 43.15,
+      annualPercentageYield: 139.25,
+      monthlyPercentageYield: 9.02,
+      weeklyPercentageYield: 2.08,
+      annualPercentageRate: 107.72,
     },
   },
   {
@@ -72,18 +60,13 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
 
     totalValueLocked: 0,
 
-    supportedChainIds: [
-      ChainId.ETHEREUM,
-      ChainId.BSC,
-      ChainId.POLYGON,
-      ChainId.AVALANCHE,
-    ],
+    supportedChainIds: [],
 
     totalPercentageYields: {
-      annualPercentageYield: 43.15,
-      monthlyPercentageYield: 43.15,
-      weeklyPercentageYield: 43.15,
-      annualPercentageRate: 43.15,
+      annualPercentageYield: 23.16,
+      monthlyPercentageYield: 1.51,
+      weeklyPercentageYield: 0.34,
+      annualPercentageRate: 17.91,
     },
   },
   {
@@ -94,13 +77,13 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
 
     totalValueLocked: 0,
 
-    supportedChainIds: [ChainId.ETHEREUM, ChainId.AVALANCHE],
+    supportedChainIds: [],
 
     totalPercentageYields: {
-      annualPercentageYield: 43.15,
-      monthlyPercentageYield: 43.15,
-      weeklyPercentageYield: 43.15,
-      annualPercentageRate: 43.15,
+      annualPercentageYield: 19.21,
+      monthlyPercentageYield: 1.24,
+      weeklyPercentageYield: 0.28,
+      annualPercentageRate: 14.86,
     },
   },
 ];
