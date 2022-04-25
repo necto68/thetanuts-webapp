@@ -51,7 +51,7 @@ export const ThetaIndexLayout = () => {
                 algorithmically determined to generate the highest risk adjusted
                 yield. You can swap between your assets and Stronghold tokens
                 anytime at the market rate. Thetanuts does not collect any
-                performance fees.
+                performance or management fees.
               </Description>
               <ItalicDescription>
                 Read the{" "}
