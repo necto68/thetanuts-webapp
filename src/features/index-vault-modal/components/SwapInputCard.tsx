@@ -11,6 +11,7 @@ import {
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
 import { getLogoBySymbol } from "../../logo/helpers";
+import { useSwapRouterConfig } from "../hooks";
 
 import { AssetSelector } from "./AssetSelector";
 import { PriceWarning } from "./PriceWarning";
@@ -72,6 +73,10 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   isUseDirectMode = false,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
+  const { indexVaultQuery } = useSwapRouterConfig();
+  const { data } = indexVaultQuery;
+  const { totalRemainder = Number.POSITIVE_INFINITY } = data ?? {};
+
   const isShowAssetSelector =
     tokenData &&
     nativeData &&
@@ -110,6 +115,14 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       inputValueBig.gt(currentData.balance)
   );
 
+  const isShowMaxVaultCapReachedTitle = Boolean(
+    !isShowInsufficientBalanceTitle &&
+      isSource &&
+      !isFlipped &&
+      inputValueBig.gt(0) &&
+      inputValueBig.gt(totalRemainder)
+  );
+
   const isShowDirectDepositProposal =
     !isSource &&
     !isFlipped &&
@@ -121,6 +134,11 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   const isShowPriceImpact =
     isShowDirectDepositProposal || isShowDirectWithdrawProposal;
+
+  const isShowPriceWarning =
+    isShowDirectDepositProposal ||
+    isShowDirectWithdrawProposal ||
+    isShowMaxVaultCapReachedTitle;
 
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
@@ -148,7 +166,10 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                 <SkeletonBox height={25.3} width={120} />
               ) : (
                 <SwapInput
-                  isError={isShowInsufficientBalanceTitle}
+                  isError={
+                    isShowInsufficientBalanceTitle ||
+                    isShowMaxVaultCapReachedTitle
+                  }
                   onChange={handleInputChange}
                   value={inputValue}
                 />
@@ -189,10 +210,11 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               ) : null}
             </AssetContainer>
           </SwapInputCardContentContainer>
-          {isShowPriceImpact ? (
+          {isShowPriceWarning ? (
             <PriceWarning
               isShowDirectDepositProposal={isShowDirectDepositProposal}
               isShowDirectWithdrawProposal={isShowDirectWithdrawProposal}
+              isShowMaxVaultCapReachedTitle={isShowMaxVaultCapReachedTitle}
             />
           ) : null}
         </SwapInputCardAnimateContainer>

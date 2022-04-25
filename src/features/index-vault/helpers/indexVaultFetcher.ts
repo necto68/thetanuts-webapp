@@ -22,6 +22,7 @@ import {
   normalizeVaultValue,
   getTotalPercentageYields,
   getTotalValueLocked,
+  getTotalRemainder,
 } from "./utils";
 import { vaultFetcher } from "./vaultFetcher";
 
@@ -157,6 +158,8 @@ export const indexVaultFetcher = async (
     totalWeight
   );
 
+  const totalRemainder = getTotalRemainder(vaults);
+
   const tokenConfig = indexVaultsMap[id];
 
   const { replications = [] } = tokenConfig ?? {};
@@ -177,6 +180,7 @@ export const indexVaultFetcher = async (
     vaultsInfos,
     totalWeight,
     totalValueLocked,
+    totalRemainder,
     totalPercentageYields,
     chainId,
     supportedChainIds,

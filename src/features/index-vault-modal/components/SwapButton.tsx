@@ -29,8 +29,10 @@ export const SwapButton: FC<SwapButtonProps> = ({
   targetTokenData,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
-  const { isUserOnSupportedChainId, supportedChainIds } = useSwapRouterConfig();
-  const { sourceValue, targetValue, isUseDirectMode } = useSwapRouterState();
+  const { isUserOnSupportedChainId, supportedChainIds, indexVaultQuery } =
+    useSwapRouterConfig();
+  const { sourceValue, targetValue, isUseDirectMode, isFlipped } =
+    useSwapRouterState();
   const {
     approveAllowanceMutation,
     swapMutation,
@@ -66,6 +68,9 @@ export const SwapButton: FC<SwapButtonProps> = ({
       runSwapTokensForTokens();
     }
   }, [isUseDirectMode, runDirectDeposit, runSwapTokensForTokens]);
+
+  const { data } = indexVaultQuery;
+  const { totalRemainder = Number.POSITIVE_INFINITY } = data ?? {};
 
   const sourceValueBig = new Big(sourceValue || 0);
   const targetValueBig = new Big(targetValue || 0);
@@ -138,6 +143,14 @@ export const SwapButton: FC<SwapButtonProps> = ({
     return (
       <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
         Insufficient Balance
+      </BaseSwapButton>
+    );
+  }
+
+  if (!isFlipped && sourceValueBig.gt(totalRemainder)) {
+    return (
+      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
+        Max Vault Cap Reached
       </BaseSwapButton>
     );
   }

@@ -154,3 +154,30 @@ export const getPercentageYields = (
     annualPercentageRate,
   };
 };
+
+export const getTotalRemainder = (vaults: (Vault | undefined)[]) => {
+  const vaultsBalances = vaults.map((vault) =>
+    vault ? vault.balance : new Big(0)
+  );
+
+  const vaultsRemainders = vaults.map((vault) =>
+    vault ? vault.collatCap.sub(vault.balance) : new Big(0)
+  );
+
+  const totalBalance = vaultsBalances.reduce(
+    (accumulator, current) => accumulator.add(current),
+    new Big(0)
+  );
+
+  const remaindersValues = vaultsRemainders.map((remainder, index) =>
+    vaultsBalances[index].gt(0)
+      ? remainder.div(vaultsBalances[index].div(totalBalance))
+      : remainder
+  );
+
+  const sortedRemaindersValues = Array.from(remaindersValues).sort((a, b) =>
+    a.cmp(b)
+  );
+
+  return sortedRemaindersValues[0].round(0, Big.roundDown).toNumber();
+};

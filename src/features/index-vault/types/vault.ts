@@ -14,6 +14,8 @@ export interface Vault {
   expiry: number;
   period: number;
   valuePerLP: Big;
+  balance: Big;
+  collatCap: Big;
   assetPrice: number;
   strikePrice: number | null;
   percentageYields: PercentageYields;
