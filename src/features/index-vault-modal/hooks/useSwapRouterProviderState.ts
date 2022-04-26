@@ -52,6 +52,34 @@ const getPrices = (
   };
 };
 
+const getTokensDivisors = async (
+  inputType: InputType,
+  sourceTokenQuery: ReturnType<typeof useTokenQuery>,
+  targetTokenQuery: ReturnType<typeof useTokenQuery>
+) => {
+  const defaultDivisor = new Big(10).pow(18);
+
+  const [inputQuery, outputQuery] =
+    inputType === InputType.source
+      ? [sourceTokenQuery, targetTokenQuery]
+      : [targetTokenQuery, sourceTokenQuery];
+
+  const [inputTokenData, outputTokenData] =
+    inputQuery.isLoading || outputQuery.isLoading
+      ? await Promise.all([inputQuery.refetch(), outputQuery.refetch()]).then(
+          (queries) => queries.map(({ data }) => data)
+        )
+      : [inputQuery.data, outputQuery.data];
+
+  const inputTokenDivisor = inputTokenData?.tokenDivisor ?? defaultDivisor;
+  const outputTokenDivisor = outputTokenData?.tokenDivisor ?? defaultDivisor;
+
+  return {
+    inputTokenDivisor,
+    outputTokenDivisor,
+  };
+};
+
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const useSwapRouterProviderState = (): SwapRouterState => {
   const {
@@ -263,17 +291,19 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
         provider
       );
 
-      const defaultDivisor = new Big(10).pow(18);
-
       // defaultAmountIn is equal to 99999999
       const defaultAmountIn = new Big("99999999");
       const defaultAmountOut = new Big(0);
 
-      const { tokenDivisor = defaultDivisor } =
-        (inputType === InputType.source ? sourceData : targetData) ?? {};
+      // getting token divisor
+      const { inputTokenDivisor, outputTokenDivisor } = await getTokensDivisors(
+        inputType,
+        sourceTokenQuery,
+        targetTokenQuery
+      );
 
       const inputValueBigNumber = new Big(inputValue)
-        .mul(tokenDivisor)
+        .mul(inputTokenDivisor)
         .toString();
 
       if (inputType === InputType.source) {
@@ -282,7 +312,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
             .getAmountsOut(inputValueBigNumber, routerPath)
             .then((amountsOut) => convertToBig(amountsOut[1]));
 
-          return amountOut.div(tokenDivisor).round(5, Big.roundDown);
+          return amountOut.div(outputTokenDivisor).round(5, Big.roundDown);
         } catch {
           return defaultAmountOut;
         }
@@ -299,7 +329,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
 
         return amountIn
           .mul(amountInMultiplier)
-          .div(tokenDivisor)
+          .div(outputTokenDivisor)
           .round(5, Big.roundUp);
       } catch {
         return defaultAmountIn;
@@ -310,8 +340,8 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
       targetValue,
       routerAddress,
       provider,
-      sourceData,
-      targetData,
+      sourceTokenQuery,
+      targetTokenQuery,
       routerPath,
       slippageToleranceValue,
     ]
@@ -331,13 +361,15 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
         indexVaultProvider
       );
 
-      const defaultDivisor = new Big(10).pow(18);
-
-      const { tokenDivisor = defaultDivisor } =
-        (inputType === InputType.source ? sourceData : targetData) ?? {};
+      // getting token divisor
+      const { inputTokenDivisor, outputTokenDivisor } = await getTokensDivisors(
+        inputType,
+        sourceTokenQuery,
+        targetTokenQuery
+      );
 
       const inputValueBigNumber = new Big(inputValue)
-        .mul(tokenDivisor)
+        .mul(inputTokenDivisor)
         .toString();
 
       if (inputType === InputType.source) {
@@ -345,14 +377,14 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
           .estimateOutput(indexVaultAddress, inputValueBigNumber)
           .then(convertToBig);
 
-        return amountOut.div(tokenDivisor).round(5, Big.roundDown);
+        return amountOut.div(outputTokenDivisor).round(5, Big.roundDown);
       }
 
       const amountIn = await directDepositorContract
         .estimateInput(indexVaultAddress, inputValueBigNumber)
         .then(convertToBig);
 
-      return amountIn.div(tokenDivisor).round(5, Big.roundUp);
+      return amountIn.div(outputTokenDivisor).round(5, Big.roundUp);
     },
     [
       sourceValue,
@@ -360,8 +392,8 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
       isIndexTokenInTarget,
       directDepositorAddress,
       indexVaultProvider,
-      sourceData,
-      targetData,
+      sourceTokenQuery,
+      targetTokenQuery,
       indexVaultAddress,
     ]
   );
@@ -403,7 +435,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
             getDirectDepositValueForOppositeInput(lastUpdatedInputType),
           ]);
 
-          const isDirectDepositValid = Boolean(
+          const isDirectDepositBetterThanSwap = Boolean(
             swapValue &&
               directDepositValue &&
               ((lastUpdatedInputType === InputType.source &&
@@ -413,7 +445,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
           );
 
           const isUseDirectDeposit =
-            isDirectDepositValid && isUseIndexVaultChainId;
+            isDirectDepositBetterThanSwap && isUseIndexVaultChainId;
 
           let oppositeInputValue = "";
 
@@ -436,6 +468,8 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
             isIndexTokenInTarget
           );
 
+          const isDirectDepositValid =
+            isDirectDepositBetterThanSwap && currentPriceImpactRate < -2;
           const isDirectWithdrawValid = currentPriceImpactRate < -10;
 
           const isDirectModeValid = isIndexTokenInTarget

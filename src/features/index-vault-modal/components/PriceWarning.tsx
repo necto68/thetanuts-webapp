@@ -22,7 +22,7 @@ export const PriceWarning: FC<PriceWarningProps> = ({
   const { data } = indexVaultQuery;
   const {
     chainId = null,
-    totalRemainder = Number.POSITIVE_INFINITY,
+    totalRemainder = Number.MAX_SAFE_INTEGER,
     assetSymbol = "",
   } = data ?? {};
 

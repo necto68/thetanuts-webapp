@@ -23,7 +23,8 @@ export const vaultFetcher = async (
   const priceDivisor = new Big(10).pow(6);
 
   const [
-    assetTokenAddress,
+    collateralTokenAddress,
+    name,
     epoch,
     expiry,
     priceFeedAddress,
@@ -34,12 +35,13 @@ export const vaultFetcher = async (
     period,
   ] = await Promise.all([
     vaultContract.COLLAT(),
+    vaultContract.name(),
     vaultContract.epoch(),
     vaultContract
       .expiry()
       .then(convertToBig)
       .then((expiryBig) => expiryBig.mul(1000).toNumber()),
-    vaultContract.priceFeed(),
+    vaultContract.priceReader(),
     vaultContract.LINK_AGGREGATOR(),
     vaultContract.totalSupply(),
     vaultContract.collatCap().then(convertToBig),
@@ -50,8 +52,8 @@ export const vaultFetcher = async (
       .then((periodBig) => periodBig.toNumber()),
   ]);
 
-  const assetTokenContract = Erc20AbiFactory.connect(
-    assetTokenAddress,
+  const collateralTokenContract = Erc20AbiFactory.connect(
+    collateralTokenAddress,
     provider
   );
 
@@ -62,16 +64,16 @@ export const vaultFetcher = async (
 
   // getting assetSymbol, currentStrikePrice, valuePerLP and assetPrice
   const [
-    assetSymbol,
+    collateralSymbol,
     decimals,
     balanceWei,
     currentStrikePrice,
     valuePerLP,
     assetPrice,
   ] = await Promise.all([
-    assetTokenContract.symbol(),
-    assetTokenContract.decimals(),
-    assetTokenContract.balanceOf(vaultAddress).then(convertToBig),
+    collateralTokenContract.symbol(),
+    collateralTokenContract.decimals(),
+    collateralTokenContract.balanceOf(vaultAddress).then(convertToBig),
     vaultContract
       .strikeX1e6(epoch)
       .then(convertToBig)
@@ -85,6 +87,14 @@ export const vaultFetcher = async (
       .then(convertToBig)
       .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor)),
   ]);
+
+  // only for PUT vaults
+  const splitName = name.split(" ");
+  const putVaultAssetSymbol = splitName.at(-2);
+  const assetSymbol =
+    splitName.at(-4) === "Put" && putVaultAssetSymbol
+      ? putVaultAssetSymbol
+      : collateralSymbol;
 
   const isSettled = expiry === 0;
   const isExpired = !isSettled && Date.now() > expiry;
