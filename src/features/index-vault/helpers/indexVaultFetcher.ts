@@ -105,10 +105,12 @@ export const indexVaultFetcher = async (
     provider
   );
 
-  const [indexLinkAggregator, ...vaultsInfosData] = await Promise.all([
-    priceOracleContract.getSourceOfAsset(indexVaultAddress),
-    ...vaultsInfosDataPromises,
-  ] as const);
+  const [assetLinkAggregator, indexLinkAggregator, ...vaultsInfosData] =
+    await Promise.all([
+      priceOracleContract.getSourceOfAsset(assetTokenAddress),
+      priceOracleContract.getSourceOfAsset(indexVaultAddress),
+      ...vaultsInfosDataPromises,
+    ] as const);
 
   // getting vaults
   const vaults = await Promise.all(
@@ -138,17 +140,21 @@ export const indexVaultFetcher = async (
   });
 
   // getting assetPrice and indexPrice
-  const [{ priceFeedAddress, assetPrice }] = vaults;
+  const [{ priceFeedAddress }] = vaults;
 
   const priceFeedContract = PriceFeedAbiFactory.connect(
     priceFeedAddress,
     provider
   );
 
-  const indexPrice = await priceFeedContract
-    .getLatestPriceX1e6(indexLinkAggregator)
-    .then(convertToBig)
-    .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor));
+  const [assetPrice, indexPrice] = await Promise.all([
+    priceFeedContract.getLatestPriceX1e6(assetLinkAggregator),
+    priceFeedContract.getLatestPriceX1e6(indexLinkAggregator),
+  ]).then((priceValues) =>
+    priceValues
+      .map(convertToBig)
+      .map((priceValue) => normalizeVaultValue(priceValue, priceDivisor))
+  );
 
   const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos);
 

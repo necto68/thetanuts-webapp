@@ -7,3 +7,4 @@ export * from "./usdc";
 export * from "./ust";
 export * from "./frax";
 export * from "./btc";
+export * from "./busd";

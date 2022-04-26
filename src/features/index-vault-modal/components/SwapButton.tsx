@@ -70,7 +70,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }, [isUseDirectMode, runDirectDeposit, runSwapTokensForTokens]);
 
   const { data } = indexVaultQuery;
-  const { totalRemainder = Number.POSITIVE_INFINITY } = data ?? {};
+  const { totalRemainder = Number.MAX_SAFE_INTEGER } = data ?? {};
 
   const sourceValueBig = new Big(sourceValue || 0);
   const targetValueBig = new Big(targetValue || 0);

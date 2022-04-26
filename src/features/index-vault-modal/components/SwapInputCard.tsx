@@ -75,7 +75,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { data } = indexVaultQuery;
-  const { totalRemainder = Number.POSITIVE_INFINITY } = data ?? {};
+  const { totalRemainder = Number.MAX_SAFE_INTEGER } = data ?? {};
 
   const isShowAssetSelector =
     tokenData &&
