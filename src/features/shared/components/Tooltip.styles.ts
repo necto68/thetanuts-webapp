@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ReactTooltip from "react-tooltip";
 
 export const RootContainer = styled.div`
+  display: flex;
   cursor: pointer;
 `;
 

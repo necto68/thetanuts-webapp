@@ -137,11 +137,6 @@ export const PriceValue = styled.span`
   color: #e5e5e5;
 `;
 
-export const PriceImpactValue = styled(PriceValue)`
-  font-weight: 600;
-  color: #eb5853;
-`;
-
 export const AssetTitleContainer = styled.div`
   display: flex;
   align-items: center;
