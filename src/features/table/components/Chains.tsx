@@ -14,28 +14,29 @@ import {
 } from "./Chains.styles";
 
 interface ChainsProps {
-  chains: {
-    chainId: ChainId;
-    isHighlighted?: boolean;
-  }[];
+  chainIds: ChainId[];
+  highlightedChainId?: ChainId;
 }
 
-export const Chains: FC<ChainsProps> = ({ chains }) => {
+export const Chains: FC<ChainsProps> = ({ chainIds, highlightedChainId }) => {
   const isMobile = useIsMobile();
-  const isShowShortenedChains = isMobile && chains.length > 3;
+  const isShowShortenedChains = isMobile && chainIds.length > 3;
 
-  const visibleChains = isShowShortenedChains ? chains.slice(0, 3) : chains;
-  const hiddenChains = isShowShortenedChains ? chains.slice(3) : [];
+  const visibleChains = isShowShortenedChains ? chainIds.slice(0, 3) : chainIds;
+  const hiddenChains = isShowShortenedChains ? chainIds.slice(3) : [];
 
   const tooltipId = hiddenChains.join("");
   const tooltipContent = hiddenChains
-    .map(({ chainId }) => chainsMap[chainId].title)
+    .map((chainId) => chainsMap[chainId].title)
     .join(", ");
 
   return (
     <Container>
-      {visibleChains.map(({ chainId, isHighlighted }) => (
-        <ChainLogoContainer isHighlighted={isHighlighted} key={chainId}>
+      {visibleChains.map((chainId) => (
+        <ChainLogoContainer
+          isHighlighted={chainId === highlightedChainId}
+          key={chainId}
+        >
           <IconContainer height={18} width={18}>
             {getLogoBySymbol(chainsMap[chainId].symbol)}
           </IconContainer>

@@ -14,6 +14,7 @@ import { getLogoBySymbol } from "../../logo/helpers";
 import { useSwapRouterConfig } from "../hooks";
 
 import { AssetSelector } from "./AssetSelector";
+import { PriceImpact } from "./PriceImpact";
 import { PriceWarning } from "./PriceWarning";
 import {
   Container,
@@ -30,7 +31,6 @@ import {
   InsufficientBalanceTitle,
   PriceContainer,
   PriceValue,
-  PriceImpactValue,
 } from "./SwapInputCard.styles";
 
 interface SwapInputCardProps {
@@ -132,7 +132,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   const isShowDirectWithdrawProposal =
     !isSource && isFlipped && isDirectModeBetterThanSwapMode;
 
-  const isShowPriceImpact =
+  const isPriceImpactError =
     isShowDirectDepositProposal || isShowDirectWithdrawProposal;
 
   const isShowPriceWarning =
@@ -179,8 +179,11 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               ) : (
                 <PriceContainer>
                   <PriceValue>{`~${formattedPrice}`}</PriceValue>
-                  {isShowPriceImpact ? (
-                    <PriceImpactValue>{`(${priceImpactRate}%)`}</PriceImpactValue>
+                  {!isSource ? (
+                    <PriceImpact
+                      isError={isPriceImpactError}
+                      priceImpactRate={priceImpactRate}
+                    />
                   ) : null}
                 </PriceContainer>
               )}

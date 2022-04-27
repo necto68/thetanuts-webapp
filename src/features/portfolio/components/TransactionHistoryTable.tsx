@@ -81,8 +81,7 @@ const columns: Column<HistoryTransactionRow>[] = [
     key: "chainId",
     title: "Network",
     // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
-    render: ({ chainId }) => <Chains chains={[{ chainId }]} />,
-
+    render: ({ chainId }) => <Chains chainIds={[chainId]} />,
     filterBy: ({ chainId }) => chainsMap[chainId].title,
   },
   {

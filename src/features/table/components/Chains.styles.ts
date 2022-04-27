@@ -14,9 +14,7 @@ export const ChainLogoContainer = styled.div<{ isHighlighted?: boolean }>`
   padding: 5px;
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.8);
-  border-width: ${({ isHighlighted }) => (isHighlighted ? "1px" : 0)};
-  border-style: solid;
-  border-color: #1fffab;
+  outline: ${({ isHighlighted }) => (isHighlighted ? "1px solid #1fffab" : 0)};
 `;
 
 export const HiddenChainsContainer = styled(ChainLogoContainer)`

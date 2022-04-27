@@ -70,12 +70,11 @@ const columns: Column<IndexVaultRow>[] = [
         return "-";
       }
 
-      const chains = row.supportedChainIds.map((chainId, index) => ({
-        chainId,
-        isHighlighted: index === 0,
-      }));
+      const { supportedChainIds, chainId } = row;
 
-      return <Chains chains={chains} />;
+      return (
+        <Chains chainIds={supportedChainIds} highlightedChainId={chainId} />
+      );
     },
 
     sortBy: ({ supportedChainIds }) => supportedChainIds.length,

@@ -17,6 +17,7 @@ import { queryClient, convertToBig } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
+import { chains } from "../../wallet/constants";
 
 import {
   normalizeVaultValue,
@@ -156,7 +157,7 @@ export const indexVaultFetcher = async (
       .map((priceValue) => normalizeVaultValue(priceValue, priceDivisor))
   );
 
-  const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos);
+  const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos, assetPrice);
 
   const totalPercentageYields = getTotalPercentageYields(
     vaults,
@@ -170,9 +171,14 @@ export const indexVaultFetcher = async (
 
   const { replications = [] } = tokenConfig ?? {};
 
-  const supportedChainIds = [chainId].concat(
-    replications.map((replication) => replication.chainId)
-  );
+  const supportedChainIds = [chainId]
+    .concat(replications.map((replication) => replication.chainId))
+    .sort((a, b) => {
+      const aChainIdIndex = chains.findIndex((chain) => chain.chainId === a);
+      const bChainIdIndex = chains.findIndex((chain) => chain.chainId === b);
+
+      return aChainIdIndex - bChainIdIndex;
+    });
 
   return {
     id,

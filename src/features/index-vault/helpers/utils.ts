@@ -4,7 +4,8 @@ import type { IndexVault, Vault, PercentageYields } from "../types";
 
 export const getTotalValueLocked = (
   vaults: (Vault | undefined)[],
-  vaultsInfos: IndexVault["vaultsInfos"]
+  vaultsInfos: IndexVault["vaultsInfos"],
+  assetPrice: number
 ): number => {
   const vaultAssetValues = vaults.map((vault, index) => {
     if (!vault || !vaultsInfos[index]) {
@@ -12,7 +13,7 @@ export const getTotalValueLocked = (
     }
 
     const { lpAmount } = vaultsInfos[index];
-    const { valuePerLP, assetPrice } = vault;
+    const { valuePerLP } = vault;
 
     // lpAmount * valuePerLP * assetPrice
     return lpAmount.mul(valuePerLP).mul(assetPrice);
