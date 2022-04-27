@@ -4,7 +4,10 @@ import {
 } from "./SwitchToV0Button.styles";
 
 export const SwitchToV0Button = () => (
-  <BaseSwitchToV0Link target="_blank" to="https://thetanuts.finance/vaults">
+  <BaseSwitchToV0Link
+    target="_blank"
+    to="https://thetanuts.finance/basic/vaults"
+  >
     <BaseSwitchToV0Button primaryColor="#283841">
       Thetanuts Basic
     </BaseSwitchToV0Button>
