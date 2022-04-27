@@ -157,7 +157,7 @@ export const indexVaultFetcher = async (
       .map((priceValue) => normalizeVaultValue(priceValue, priceDivisor))
   );
 
-  const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos);
+  const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos, assetPrice);
 
   const totalPercentageYields = getTotalPercentageYields(
     vaults,
