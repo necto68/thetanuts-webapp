@@ -67,20 +67,28 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
 
     const transactionOptions = await getTransactionOptions(signer);
 
-    await sourceTokenContract.callStatic.approve(
-      ...approveParameters,
-      transactionOptions
-    );
-
-    const transaction = await sourceTokenContract.approve(
-      ...approveParameters,
-      transactionOptions
-    );
+    let transaction = null;
 
     try {
-      await transaction.wait();
-    } catch (transactionError) {
-      processTransactionError(transactionError);
+      await sourceTokenContract.callStatic.approve(
+        ...approveParameters,
+        transactionOptions
+      );
+
+      transaction = await sourceTokenContract.approve(
+        ...approveParameters,
+        transactionOptions
+      );
+    } catch (walletError) {
+      processWalletError(walletError);
+    }
+
+    if (transaction) {
+      try {
+        await transaction.wait();
+      } catch (transactionError) {
+        processTransactionError(transactionError);
+      }
     }
 
     return true;

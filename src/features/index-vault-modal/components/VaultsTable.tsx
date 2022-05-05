@@ -3,6 +3,7 @@ import { VaultType } from "../../index-vault/types";
 import type { IndexVault, Vault } from "../../index-vault/types";
 import { ExternalLinkButton } from "../../shared/components";
 import {
+  currencyFormatter,
   currencyFormatterWithoutDecimals,
   dateFormatter,
 } from "../../shared/helpers";
@@ -49,8 +50,12 @@ const getVaultSubTitle = (
     return "Auction In Progress";
   }
 
+  const strikePriceFormatter = Number.isInteger(strikePrice)
+    ? currencyFormatterWithoutDecimals
+    : currencyFormatter;
+
   const formattedStrikePrice = strikePrice
-    ? currencyFormatterWithoutDecimals.format(strikePrice)
+    ? strikePriceFormatter.format(strikePrice)
     : "";
 
   const formattedExpiryDate = dateFormatter.format(new Date(expiry));
