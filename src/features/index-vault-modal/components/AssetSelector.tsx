@@ -32,7 +32,6 @@ export const AssetSelector: FC<AssetSelectorProps> = ({
     ? tokenData
     : nativeData;
 
-  // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
   const options = [
     {
       id: optionAssetSymbol,

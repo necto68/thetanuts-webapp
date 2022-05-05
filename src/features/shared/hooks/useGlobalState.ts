@@ -1,5 +1,7 @@
 import { createGlobalState } from "react-hooks-global-state";
 
+import type { ChainId } from "../../wallet/constants";
+
 interface ModalState {
   isShow: boolean;
   vaultAddress: string | null;
@@ -8,6 +10,7 @@ interface ModalState {
 interface IndexVaultModalState {
   isShow: boolean;
   indexVaultId: string;
+  chainId?: ChainId | null;
 }
 
 interface GlobalState {
