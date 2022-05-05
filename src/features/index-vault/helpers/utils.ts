@@ -15,16 +15,16 @@ export const getTotalValueLocked = (
     const { lpAmount } = vaultsInfos[index];
     const { valuePerLP } = vault;
 
-    // lpAmount * valuePerLP * assetPrice
-    return lpAmount.mul(valuePerLP).mul(assetPrice);
+    // lpAmount * valuePerLP
+    return lpAmount.mul(valuePerLP);
   });
 
-  const totalValueLocked = vaultAssetValues.reduce(
+  const vaultAssetValuesSum = vaultAssetValues.reduce(
     (accumulator, current) => accumulator.add(current),
     new Big(0)
   );
 
-  return totalValueLocked.round(0).toNumber();
+  return vaultAssetValuesSum.mul(assetPrice).round(0).toNumber();
 };
 
 export const normalizeVaultValue = (

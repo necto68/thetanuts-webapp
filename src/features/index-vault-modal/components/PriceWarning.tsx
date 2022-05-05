@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { IconContainer } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import { Warning } from "../icons";
-import { useSwapRouterConfig } from "../hooks";
+import { useSwapRouterConfig, useSwapRouterState } from "../hooks";
 
 import { Container, WarningTitle, WarningLink } from "./PriceWarning.styles";
 
@@ -19,12 +19,18 @@ export const PriceWarning: FC<PriceWarningProps> = ({
   isShowMaxVaultCapReachedTitle = true,
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
+  const { sourceData } = useSwapRouterState();
+
   const { data } = indexVaultQuery;
   const {
     chainId = null,
     totalRemainder = Number.MAX_SAFE_INTEGER,
     assetSymbol = "",
   } = data ?? {};
+
+  const { symbol = "" } = sourceData ?? {};
+
+  const isStableCoin = ["USDC", "BUSD"].includes(symbol);
 
   const chainTitle = chainId ? chainsMap[chainId].title : "";
 
@@ -37,13 +43,17 @@ export const PriceWarning: FC<PriceWarningProps> = ({
         <WarningTitle>
           High Price Impact!{" "}
           <WarningLink
-            href="https://portalbridge.com/#/transfer"
+            href={
+              isStableCoin
+                ? "https://stargate.finance/transfer"
+                : "https://portalbridge.com/#/transfer"
+            }
             target="_blank"
           >
             Click here
-          </WarningLink>{" "}
-          to bridge to <WarningLink>{`${chainTitle} network`}</WarningLink> for
-          optimal swap.
+          </WarningLink>
+          {` to bridge your ${symbol} over to `}
+          <WarningLink>{`${chainTitle} network`}</WarningLink> for optimal swap.
         </WarningTitle>
       ) : null}
       {isShowDirectWithdrawProposal ? (
