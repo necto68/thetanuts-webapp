@@ -63,6 +63,7 @@ export const useSwapRouterConfig = () => {
   const chainId = isUserOnSupportedChainId ? walletChainId : indexVaultChainId;
 
   return {
+    walletChainId,
     indexVaultAddress,
 
     defaultSourceAddress,

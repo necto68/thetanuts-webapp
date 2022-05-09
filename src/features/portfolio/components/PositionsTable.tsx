@@ -66,13 +66,19 @@ const columns: Column<IndexTokenRow>[] = [
   {
     key: "chainId",
     title: "Network",
-    // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
-    render: ({ chainId }) => <Chains chainIds={[chainId]} />,
+
+    render: ({ id, chainId }) => (
+      <Chains chainIds={[chainId]} indexVaultId={id} />
+    ),
+
     filterBy: ({ chainId }) => chainsMap[chainId].title,
   },
   {
     key: "id",
-    render: ({ id }) => <SwapButton indexVaultId={id} />,
+
+    render: ({ id, chainId }) => (
+      <SwapButton chainId={chainId} indexVaultId={id} />
+    ),
   },
 ];
 

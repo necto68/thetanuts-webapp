@@ -7,7 +7,10 @@ export const Container = styled.div`
   gap: 2px;
 `;
 
-export const ChainLogoContainer = styled.div<{ isHighlighted?: boolean }>`
+export const ChainLogoContainer = styled.div<{
+  isHighlighted?: boolean;
+  isClickable?: boolean;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,6 +18,7 @@ export const ChainLogoContainer = styled.div<{ isHighlighted?: boolean }>`
   border-radius: 50%;
   background-color: rgba(0, 0, 0, 0.8);
   outline: ${({ isHighlighted }) => (isHighlighted ? "1px solid #1fffab" : 0)};
+  cursor: ${({ isClickable }) => (isClickable ? "pointer" : "default")};
 `;
 
 export const HiddenChainsContainer = styled(ChainLogoContainer)`

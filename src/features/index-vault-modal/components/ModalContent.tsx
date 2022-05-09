@@ -1,6 +1,11 @@
 import { AnimatePresence } from "framer-motion";
 
-import { useSwapRouterMutations } from "../hooks";
+import {
+  useIndexVaultModalState,
+  useSwapRouterConfig,
+  useSwapRouterMutations,
+} from "../hooks";
+import { switchToChain } from "../../wallet/helpers";
 
 import { Header } from "./Header";
 import { SwappingContent } from "./SwappingContent";
@@ -13,11 +18,32 @@ export const ModalContent = () => {
   const isSwapping = Boolean(swapMutationHash);
   const theme = isSwapping ? "dark" : "light";
 
+  const { walletChainId, walletProvider } = useSwapRouterConfig();
+  const [indexVaultModalState, setIndexVaultModalState] =
+    useIndexVaultModalState();
+
+  const onAnimationComplete = () => {
+    if (
+      indexVaultModalState.chainId &&
+      indexVaultModalState.chainId !== walletChainId
+    ) {
+      void switchToChain(indexVaultModalState.chainId, walletProvider);
+    }
+
+    setIndexVaultModalState({
+      ...indexVaultModalState,
+      chainId: null,
+    });
+  };
+
   return (
     <Container theme={theme}>
       <Header theme={theme} />
-      <AnimatePresence exitBeforeEnter initial={false}>
-        <ContentAnimatedContainer key={isSwapping.toString()}>
+      <AnimatePresence exitBeforeEnter>
+        <ContentAnimatedContainer
+          key={isSwapping.toString()}
+          onAnimationComplete={onAnimationComplete}
+        >
           {isSwapping ? <SwappingContent /> : <SwapContent />}
         </ContentAnimatedContainer>
       </AnimatePresence>

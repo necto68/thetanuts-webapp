@@ -29,6 +29,7 @@
     }],
     "react-perf/jsx-no-new-function-as-prop": 0,
     "react-perf/jsx-no-new-object-as-prop": 0,
+    "react-perf/jsx-no-new-array-as-prop": 0,
     "react-perf/jsx-no-jsx-as-prop": 0,
     "react/jsx-no-bind": 0,
     "etc/no-enum": 0,

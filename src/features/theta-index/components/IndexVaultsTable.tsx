@@ -70,10 +70,14 @@ const columns: Column<IndexVaultRow>[] = [
         return "-";
       }
 
-      const { supportedChainIds, chainId } = row;
+      const { id, supportedChainIds, chainId } = row;
 
       return (
-        <Chains chainIds={supportedChainIds} highlightedChainId={chainId} />
+        <Chains
+          chainIds={supportedChainIds}
+          highlightedChainId={chainId}
+          indexVaultId={id}
+        />
       );
     },
 
@@ -102,11 +106,9 @@ export const IndexVaultsTable = () => {
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
 
   const indexVaultsRows = indexVaultsQueries.map(({ data }) => data);
-  const demoIndexVaultsRows = demoIndexVaults;
-  // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
   const rows: (IndexVaultRow | undefined)[] = [
     ...indexVaultsRows,
-    ...demoIndexVaultsRows,
+    ...demoIndexVaults,
   ];
 
   return (
