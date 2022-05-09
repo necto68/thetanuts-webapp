@@ -457,7 +457,11 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
             oppositeInputValue = "";
           }
 
-          const { priceImpactRate: currentPriceImpactRate } = getPrices(
+          const {
+            sourcePrice: currentSourcePrice,
+            targetPrice: currentTargetPrice,
+            priceImpactRate: currentPriceImpactRate,
+          } = getPrices(
             lastUpdatedInputType === InputType.source
               ? sourceValue
               : oppositeInputValue,
@@ -469,7 +473,8 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
           );
 
           const isDirectDepositValid =
-            isDirectDepositBetterThanSwap && currentPriceImpactRate < -2;
+            isDirectDepositBetterThanSwap &&
+            currentSourcePrice - currentTargetPrice > 100;
           const isDirectWithdrawValid = currentPriceImpactRate < -10;
 
           const isDirectModeValid = isIndexTokenInTarget
