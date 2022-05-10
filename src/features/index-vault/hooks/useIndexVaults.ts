@@ -11,13 +11,14 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
 
     const { chainId = 1, indexVaultAddress = "" } = tokenConfig?.source ?? {};
 
-    const { lendingPoolAddress } = chainsMap[chainId].addresses;
+    const { routerAddress, lendingPoolAddress } = chainsMap[chainId].addresses;
     const provider = chainProvidersMap[chainId];
 
     return {
       id: indexVaultId,
       chainId,
       indexVaultAddress,
+      routerAddress,
       lendingPoolAddress,
       provider,
     };
@@ -25,13 +26,21 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
 
   return useQueries(
     tokensConfigs.map(
-      ({ id, chainId, indexVaultAddress, lendingPoolAddress, provider }) => ({
+      ({
+        id,
+        chainId,
+        indexVaultAddress,
+        routerAddress,
+        lendingPoolAddress,
+        provider,
+      }) => ({
         queryKey: [QueryType.indexVault, id, chainId],
 
         queryFn: async () =>
           await indexVaultFetcher(
             id,
             indexVaultAddress,
+            routerAddress,
             lendingPoolAddress,
             provider
           ),

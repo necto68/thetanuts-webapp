@@ -16,7 +16,7 @@ import {
   InfoTitleContainer,
 } from "./IndexInfo.styles";
 
-// eslint-disable-next-line complexity,sonarjs/cognitive-complexity
+// eslint-disable-next-line complexity
 export const IndexInfo = () => {
   const {
     defaultSourceAddress,
@@ -49,9 +49,6 @@ export const IndexInfo = () => {
   const underlyingAssetSymbol =
     !isSourceDataLoading && sourceData ? sourceData.symbol : ".....";
 
-  const indexValue =
-    !isLoading && data ? (data.indexPrice / data.assetPrice).toFixed(5) : "";
-
   const indexTokenAddress =
     !isTargetDataLoading && targetData && chainId
       ? `${targetData.symbol} (${addressFormatter(targetData.tokenAddress)})`
@@ -69,19 +66,6 @@ export const IndexInfo = () => {
 
   return (
     <Container>
-      <InfoContainer>
-        <InfoTitleContainer>
-          <InfoTitle>Stronghold Token Value</InfoTitle>
-          <Tooltip
-            content="Refers to the price of the Stronghold token if all constituent vaults are settled at this time."
-            id="indexValue"
-            root={<InfoIcon />}
-          />
-        </InfoTitleContainer>
-        <InfoValue
-          isAlignRight
-        >{`${indexValue} ${underlyingAssetSymbol}`}</InfoValue>
-      </InfoContainer>
       <InfoContainer>
         <InfoTitle>TVL</InfoTitle>
         <InfoValue isAlignRight>{formattedTVL}</InfoValue>

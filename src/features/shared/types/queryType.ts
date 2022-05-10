@@ -3,6 +3,7 @@ export enum QueryType {
 
   vault = "vault",
   indexVault = "indexVault",
+  middleIndexPrice = "middleIndexPrice",
 
   token = "token",
   nativeToken = "nativeToken",

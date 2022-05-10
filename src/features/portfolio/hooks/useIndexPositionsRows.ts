@@ -19,7 +19,7 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
     const {
       id,
       assetSymbol,
-      indexPrice,
+      middleIndexPrice,
       totalPercentageYields: { annualPercentageYield },
     } = data;
 
@@ -29,7 +29,7 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
       // TODO: add more different vault types
       productType: "THETA-INDEX",
       assetSymbol,
-      indexPrice,
+      middleIndexPrice,
       annualPercentageYield,
       symbol,
       balance,
