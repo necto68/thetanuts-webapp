@@ -26,10 +26,12 @@ import {
   getTotalRemainder,
 } from "./utils";
 import { vaultFetcher } from "./vaultFetcher";
+import { middleIndexPriceFetcher } from "./middleIndexPriceFetcher";
 
 export const indexVaultFetcher = async (
   id: string,
   indexVaultAddress: string,
+  routerAddress: string,
   lendingPoolAddress: string,
   provider: Provider
 ): Promise<IndexVault> => {
@@ -140,7 +142,7 @@ export const indexVaultFetcher = async (
     };
   });
 
-  // getting assetPrice and indexPrice
+  // getting assetPrice, oracleIndexPrice and middleIndexPrice
   const [{ priceFeedAddress }] = vaults;
 
   const priceFeedContract = PriceFeedAbiFactory.connect(
@@ -148,13 +150,31 @@ export const indexVaultFetcher = async (
     provider
   );
 
-  const [assetPrice, indexPrice] = await Promise.all([
+  const [assetPrice, oracleIndexPrice] = await Promise.all([
     priceFeedContract.getLatestPriceX1e6(assetLinkAggregator),
     priceFeedContract.getLatestPriceX1e6(indexLinkAggregator),
   ]).then((priceValues) =>
     priceValues
       .map(convertToBig)
       .map((priceValue) => normalizeVaultValue(priceValue, priceDivisor))
+  );
+
+  const middleIndexPrice = await queryClient.fetchQuery(
+    [
+      QueryType.middleIndexPrice,
+      assetPrice,
+      assetTokenAddress,
+      indexTokenAddress,
+      routerAddress,
+    ],
+    async () =>
+      await middleIndexPriceFetcher(
+        assetPrice,
+        assetTokenAddress,
+        indexTokenAddress,
+        routerAddress,
+        provider
+      )
   );
 
   const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos, assetPrice);
@@ -186,7 +206,8 @@ export const indexVaultFetcher = async (
     assetSymbol,
     assetPrice,
     assetTokenAddress,
-    indexPrice,
+    oracleIndexPrice,
+    middleIndexPrice,
     indexTokenAddress,
     vaults,
     vaultsInfos,

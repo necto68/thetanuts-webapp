@@ -8,7 +8,10 @@ import type { Transaction } from "./transaction";
 // TODO: add more different vault types (in productType)
 
 export interface IndexTokenRow
-  extends Pick<IndexVault, "assetSymbol" | "chainId" | "id" | "indexPrice">,
+  extends Pick<
+      IndexVault,
+      "assetSymbol" | "chainId" | "id" | "middleIndexPrice"
+    >,
     Pick<Token, "balance" | "symbol" | "tokenAddress">,
     Pick<PercentageYields, "annualPercentageYield"> {
   productType: string;

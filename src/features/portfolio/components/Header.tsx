@@ -21,10 +21,10 @@ export const Header = () => {
       return 0;
     }
 
-    const { indexPrice } = data;
+    const { middleIndexPrice } = data;
 
     return indexTokens.map(
-      (token) => token.balance?.mul(indexPrice).toNumber() ?? 0
+      (token) => token.balance?.mul(middleIndexPrice).toNumber() ?? 0
     );
   });
 

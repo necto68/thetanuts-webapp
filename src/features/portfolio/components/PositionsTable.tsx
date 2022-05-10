@@ -46,22 +46,22 @@ const columns: Column<IndexTokenRow>[] = [
     sortBy: ({ balance }) => (balance ? balance.toNumber() : 0),
   },
   {
-    key: "indexPrice",
+    key: "middleIndexPrice",
     title: "Value",
     showTitleInCell: true,
 
-    render: ({ balance, indexPrice }) => {
+    render: ({ balance, middleIndexPrice }) => {
       if (!balance) {
         return "";
       }
 
-      const price = balance.mul(indexPrice).round(2).toNumber();
+      const price = balance.mul(middleIndexPrice).round(2).toNumber();
 
       return currencyFormatter.format(price);
     },
 
-    sortBy: ({ balance, indexPrice }) =>
-      balance ? balance.mul(indexPrice).toNumber() : 0,
+    sortBy: ({ balance, middleIndexPrice }) =>
+      balance ? balance.mul(middleIndexPrice).toNumber() : 0,
   },
   {
     key: "chainId",

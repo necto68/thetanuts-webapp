@@ -10,6 +10,7 @@ import { convertToBig } from "../../shared/helpers";
 import type { SwapRouterState } from "../types";
 import { InputType } from "../types";
 import { defaultSlippageToleranceValue } from "../constants";
+import { useMiddleIndexPrice } from "../../index-vault/hooks";
 
 import { useTokenQuery } from "./useTokenQuery";
 import { useNativeTokenQuery } from "./useNativeTokenQuery";
@@ -18,11 +19,10 @@ import { useSwapRouterConfig } from "./useSwapRouterConfig";
 const getPrices = (
   sourceValue: string,
   targetValue: string,
-  indexVaultQuery: ReturnType<typeof useSwapRouterConfig>["indexVaultQuery"],
+  assetPrice: number,
+  indexPrice: number,
   isIndexTokenInTarget: boolean
 ) => {
-  const { assetPrice = 0, indexPrice = 0 } = indexVaultQuery.data ?? {};
-
   const sourceValueBig = new Big(sourceValue || 0);
   const targetValueBig = new Big(targetValue || 0);
 
@@ -143,7 +143,11 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     isOppositeInputValueLoading && lastUpdatedInputType === InputType.source;
 
   // getting isUseIndexVaultChainId
-  const { chainId: indexVaultChainId = 0 } = indexVaultQuery.data ?? {};
+  const {
+    chainId: indexVaultChainId = 0,
+    assetPrice = 0,
+    assetTokenAddress = "",
+  } = indexVaultQuery.data ?? {};
 
   const isUseIndexVaultChainId = indexVaultChainId === chainId;
 
@@ -156,11 +160,21 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
   const [isUseDirectMode, setIsUseDirectMode] = useState(false);
 
   // prices
+  const middleIndexPriceQuery = useMiddleIndexPrice(
+    assetPrice,
+    defaultSourceAddress,
+    defaultTargetAddress,
+    routerAddress,
+    provider
+  );
+
+  const middleIndexPrice = middleIndexPriceQuery.data ?? 0;
 
   const { sourcePrice, targetPrice, priceImpactRate } = getPrices(
     sourceValue,
     targetValue,
-    indexVaultQuery,
+    assetPrice,
+    middleIndexPrice,
     isIndexTokenInTarget
   );
 
@@ -258,6 +272,12 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
   const spenderAddress = isUseDirectMode
     ? directDepositorAddress
     : routerAddress;
+
+  const directDepositorAssetTokenQuery = useTokenQuery(
+    assetTokenAddress,
+    directDepositorAddress,
+    indexVaultProvider
+  );
 
   const sourceTokenQuery = useTokenQuery(
     sourceAddress,
@@ -364,7 +384,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
       // getting token divisor
       const { inputTokenDivisor, outputTokenDivisor } = await getTokensDivisors(
         inputType,
-        sourceTokenQuery,
+        directDepositorAssetTokenQuery,
         targetTokenQuery
       );
 
@@ -392,7 +412,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
       isIndexTokenInTarget,
       directDepositorAddress,
       indexVaultProvider,
-      sourceTokenQuery,
+      directDepositorAssetTokenQuery,
       targetTokenQuery,
       indexVaultAddress,
     ]
@@ -457,24 +477,32 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
             oppositeInputValue = "";
           }
 
-          const {
-            sourcePrice: currentSourcePrice,
-            targetPrice: currentTargetPrice,
-            priceImpactRate: currentPriceImpactRate,
-          } = getPrices(
+          const currentMiddleIndexPrice = middleIndexPriceQuery.isLoading
+            ? await middleIndexPriceQuery.refetch().then(({ data }) => data)
+            : middleIndexPriceQuery.data;
+
+          const { priceImpactRate: currentPriceImpactRate } = getPrices(
             lastUpdatedInputType === InputType.source
               ? sourceValue
               : oppositeInputValue,
             lastUpdatedInputType === InputType.source
               ? oppositeInputValue
               : targetValue,
-            indexVaultQuery,
+            assetPrice,
+            currentMiddleIndexPrice ?? 0,
             isIndexTokenInTarget
           );
 
-          const isDirectDepositValid =
+          const isDirectDepositValid = Boolean(
             isDirectDepositBetterThanSwap &&
-            currentSourcePrice - currentTargetPrice > 100;
+              directDepositValue &&
+              swapValue &&
+              currentMiddleIndexPrice &&
+              directDepositValue
+                .sub(swapValue)
+                .mul(currentMiddleIndexPrice)
+                .gt(100)
+          );
           const isDirectWithdrawValid = currentPriceImpactRate < -10;
 
           const isDirectModeValid = isIndexTokenInTarget
@@ -513,9 +541,11 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     previousChainId,
     chainId,
     isIndexTokenInTarget,
-    indexVaultQuery,
     slippageToleranceValue,
     previousSlippageToleranceValue,
+    assetPrice,
+    middleIndexPrice,
+    middleIndexPriceQuery,
   ]);
 
   return {

@@ -22,7 +22,8 @@ export interface IndexVault {
   assetSymbol: string;
   assetPrice: number;
   assetTokenAddress: string;
-  indexPrice: number;
+  oracleIndexPrice: number;
+  middleIndexPrice: number;
   indexTokenAddress: string;
   vaults: Vault[];
   vaultsInfos: VaultInfo[];
