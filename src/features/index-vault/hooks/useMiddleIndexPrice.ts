@@ -28,4 +28,6 @@ export const useMiddleIndexPrice = (
         routerAddress,
         provider
       ),
+
+    staleTime: Number.POSITIVE_INFINITY,
   });
