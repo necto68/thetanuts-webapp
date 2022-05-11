@@ -2,23 +2,6 @@ import type { DemoIndexVaultConfig } from "../types";
 
 export const demoIndexVaults: DemoIndexVaultConfig[] = [
   {
-    id: "UST-DEMO",
-    isDemo: true,
-    isFeatured: true,
-    assetSymbol: "UST",
-
-    totalValueLocked: 0,
-
-    supportedChainIds: [],
-
-    totalPercentageYields: {
-      annualPercentageYield: 137.33,
-      monthlyPercentageYield: 8.91,
-      weeklyPercentageYield: 2.05,
-      annualPercentageRate: 106.23,
-    },
-  },
-  {
     id: "FRAX-DEMO",
     isDemo: true,
     isFeatured: true,
@@ -55,7 +38,7 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
   {
     id: "ETH-DEMO",
     isDemo: true,
-    isFeatured: false,
+    isFeatured: true,
     assetSymbol: "ETH",
 
     totalValueLocked: 0,
