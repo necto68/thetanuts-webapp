@@ -5,6 +5,7 @@ import { convertToBig, queryClient } from "../../shared/helpers";
 import { RouterV2Abi__factory as RouterV2AbiFactory } from "../../contracts/types";
 import { QueryType } from "../../shared/types";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
+import type { Token } from "../../index-vault-modal/types";
 
 export const middleIndexPriceFetcher = async (
   assetPrice: number,
@@ -27,31 +28,35 @@ export const middleIndexPriceFetcher = async (
 
   const routerContract = RouterV2AbiFactory.connect(routerAddress, provider);
 
-  const inputAssetTokenValue = assetToken.tokenDivisor.toString();
-  const inputIndexTokenValue = indexToken.tokenDivisor.toString();
+  const getAmountOut = async (
+    inputValue: Big,
+    inputToken: Token,
+    outputToken: Token
+  ) => {
+    try {
+      const amountOut = await routerContract
+        .getAmountsOut(inputValue.toString(), [
+          inputToken.tokenAddress,
+          outputToken.tokenAddress,
+        ])
+        .then((amountsOut) => amountsOut[1]);
+
+      return convertToBig(amountOut).div(outputToken.tokenDivisor);
+    } catch {
+      return new Big(0);
+    }
+  };
 
   const [outputIndexValue, outputAssetValue] = await Promise.all([
-    await routerContract
-      .getAmountsOut(inputAssetTokenValue, [
-        assetTokenAddress,
-        indexTokenAddress,
-      ])
-      .then((amountsOut) =>
-        convertToBig(amountsOut[1]).div(indexToken.tokenDivisor)
-      ),
-    await routerContract
-      .getAmountsOut(inputIndexTokenValue, [
-        indexTokenAddress,
-        assetTokenAddress,
-      ])
-      .then((amountsOut) =>
-        convertToBig(amountsOut[1]).div(assetToken.tokenDivisor)
-      ),
+    getAmountOut(assetToken.tokenDivisor, assetToken, indexToken),
+    getAmountOut(indexToken.tokenDivisor, indexToken, assetToken),
   ]);
 
   const assetPriceBig = new Big(assetPrice);
 
-  const depositingPrice = assetPriceBig.div(outputIndexValue);
+  const depositingPrice = outputIndexValue.gt(0)
+    ? assetPriceBig.div(outputIndexValue)
+    : new Big(0);
   const withdrawingPrice = assetPriceBig.mul(outputAssetValue);
 
   const middlePrice = depositingPrice.add(withdrawingPrice).div(2).round(2);

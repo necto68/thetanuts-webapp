@@ -28,7 +28,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/eth",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/eth/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/eth/mainnet/ws",
 
       explorer: "https://etherscan.io/",
       explorerApi: "https://api.etherscan.io/",
@@ -54,7 +54,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/bsc",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/bsc/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/bsc/mainnet/ws",
 
       explorer: "https://bscscan.com/",
       explorerApi: "https://api.bscscan.com/",
@@ -81,7 +81,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/polygon",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/polygon/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/polygon/mainnet/ws",
 
       explorer: "https://polygonscan.com/",
       explorerApi: "https://api.polygonscan.com/",
@@ -107,7 +107,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/avalanche",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/avalanche/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/avalanche/mainnet/ws",
 
       explorer: "https://snowtrace.io/",
       explorerApi: "https://api.snowtrace.io/",
@@ -133,7 +133,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/fantom",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/fb7d03d686b1dfff5442704f/fantom/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/fantom/mainnet/ws",
 
       explorer: "https://ftmscan.com/",
       explorerApi: "https://api.ftmscan.com/",
