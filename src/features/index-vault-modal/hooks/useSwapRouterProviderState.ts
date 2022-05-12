@@ -16,6 +16,9 @@ import { useTokenQuery } from "./useTokenQuery";
 import { useNativeTokenQuery } from "./useNativeTokenQuery";
 import { useSwapRouterConfig } from "./useSwapRouterConfig";
 
+// TODO: remove variable
+const isDirectDepositingEnabled = false;
+
 const getPrices = (
   sourceValue: string,
   targetValue: string,
@@ -456,7 +459,10 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
           ]);
 
           const isDirectDepositBetterThanSwap = Boolean(
-            swapValue &&
+            // eslint-disable-next-line max-len
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            isDirectDepositingEnabled &&
+              swapValue &&
               directDepositValue &&
               ((lastUpdatedInputType === InputType.source &&
                 directDepositValue.gt(swapValue)) ||
