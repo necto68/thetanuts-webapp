@@ -29,6 +29,7 @@ export const vaultFetcher = async (
     expiry,
     priceFeedAddress,
     linkAggregator,
+    totalLPExit,
     totalSupply,
     collatCapWei,
     premium,
@@ -43,7 +44,8 @@ export const vaultFetcher = async (
       .then((expiryBig) => expiryBig.mul(1000).toNumber()),
     vaultContract.priceReader(),
     vaultContract.LINK_AGGREGATOR(),
-    vaultContract.totalSupply(),
+    vaultContract.totalLPExit().then(convertToBig),
+    vaultContract.totalSupply().then(convertToBig),
     vaultContract.collatCap().then(convertToBig),
     vaultContract.currentEpochPremium().then(convertToBig),
     vaultContract
@@ -101,7 +103,7 @@ export const vaultFetcher = async (
 
   const strikePrice = isSettled || isExpired ? null : currentStrikePrice;
 
-  const totalAsset = convertToBig(totalSupply).mul(valuePerLP);
+  const totalAsset = totalLPExit.add(totalSupply).mul(valuePerLP);
 
   // getting balance and collatCap
   const balanceDivisor = new Big(10).pow(decimals);
