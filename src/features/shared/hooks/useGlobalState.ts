@@ -7,13 +7,14 @@ interface ModalState {
   vaultAddress: string | null;
 }
 
-interface IndexVaultModalState {
+export interface IndexVaultModalState {
   isShow: boolean;
   indexVaultId: string;
-  chainId?: ChainId | null;
+  chainId?: ChainId | null | undefined;
+  isRouterModal?: boolean;
 }
 
-interface GlobalState {
+export interface GlobalState {
   modalState: ModalState;
   indexVaultModalState: IndexVaultModalState;
 }

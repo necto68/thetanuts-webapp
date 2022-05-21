@@ -10,7 +10,7 @@ export const Link: React.FC<NavLinkProps> = ({ children, to, ...props }) => {
 
   if (internal || typeof to !== "string") {
     return (
-      <ReactRouterNavLink to={to} {...props}>
+      <ReactRouterNavLink to={to} {...{ className, target }}>
         {children}
       </ReactRouterNavLink>
     );

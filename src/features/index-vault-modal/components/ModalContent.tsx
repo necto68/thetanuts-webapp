@@ -30,10 +30,10 @@ export const ModalContent = () => {
       void switchToChain(indexVaultModalState.chainId, walletProvider);
     }
 
-    setIndexVaultModalState({
-      ...indexVaultModalState,
+    setIndexVaultModalState((previousState) => ({
+      ...previousState,
       chainId: null,
-    });
+    }));
   };
 
   return (

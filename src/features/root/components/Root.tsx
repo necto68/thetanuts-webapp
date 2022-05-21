@@ -1,4 +1,4 @@
-import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 
 import { ThetaIndexPage } from "../../theta-index/components";
 import { PortfolioPage } from "../../portfolio/components";
@@ -45,8 +45,8 @@ export const Root = () => {
                   <Route exact path={PagePathname.portfolio}>
                     <PortfolioPage />
                   </Route>
-                  <Route>
-                    <Redirect to={PagePathname.thetaIndex} />
+                  <Route path="*">
+                    <ThetaIndexPage />
                   </Route>
                 </Switch>
               </PageContainer>
