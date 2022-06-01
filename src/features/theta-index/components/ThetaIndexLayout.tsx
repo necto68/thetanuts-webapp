@@ -74,7 +74,7 @@ export const ThetaIndexLayout = () => {
           )}
         </DescriptionContainer>
         <BasketIconContainer>
-          <IconContainer height={225} width={181}>
+          <IconContainer height={225} width={195}>
             <Castle />
           </IconContainer>
         </BasketIconContainer>
