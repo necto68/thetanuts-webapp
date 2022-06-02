@@ -18,38 +18,4 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
       annualPercentageRate: 107.72,
     },
   },
-  {
-    id: "BTC-DEMO",
-    isDemo: true,
-    isFeatured: true,
-    assetSymbol: "BTC",
-
-    totalValueLocked: 0,
-
-    supportedChainIds: [],
-
-    totalPercentageYields: {
-      annualPercentageYield: 23.16,
-      monthlyPercentageYield: 1.51,
-      weeklyPercentageYield: 0.34,
-      annualPercentageRate: 17.91,
-    },
-  },
-  {
-    id: "ETH-DEMO",
-    isDemo: true,
-    isFeatured: true,
-    assetSymbol: "ETH",
-
-    totalValueLocked: 0,
-
-    supportedChainIds: [],
-
-    totalPercentageYields: {
-      annualPercentageYield: 19.21,
-      monthlyPercentageYield: 1.24,
-      weeklyPercentageYield: 0.28,
-      annualPercentageRate: 14.86,
-    },
-  },
 ];
