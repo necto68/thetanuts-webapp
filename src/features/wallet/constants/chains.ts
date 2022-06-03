@@ -1,8 +1,5 @@
-import type {
-  ExternalProvider,
-  JsonRpcProvider,
-} from "@ethersproject/providers";
-import { Web3Provider } from "@ethersproject/providers";
+import type { ExternalProvider } from "@ethersproject/providers";
+import { Web3Provider, JsonRpcProvider } from "@ethersproject/providers";
 import Web3WsProvider from "web3-providers-ws";
 
 import type { ChainConfig } from "../types";
@@ -28,7 +25,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/eth",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/eth/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/eth/mainnet/ws",
 
       explorer: "https://etherscan.io/",
       explorerApi: "https://api.etherscan.io/",
@@ -54,7 +51,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/bsc",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/bsc/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/bsc/mainnet/ws",
 
       explorer: "https://bscscan.com/",
       explorerApi: "https://api.bscscan.com/",
@@ -81,7 +78,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/polygon",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/polygon/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/polygon/mainnet/ws",
 
       explorer: "https://polygonscan.com/",
       explorerApi: "https://api.polygonscan.com/",
@@ -107,7 +104,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/avalanche",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/avalanche/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/avalanche/mainnet/ws",
 
       explorer: "https://snowtrace.io/",
       explorerApi: "https://api.snowtrace.io/",
@@ -133,7 +130,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/fantom",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/345af90c1a18e96a38c3c1cc/fantom/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/fantom/mainnet/ws",
 
       explorer: "https://ftmscan.com/",
       explorerApi: "https://api.ftmscan.com/",
@@ -163,6 +160,11 @@ export const chainProvidersMap: Record<ChainId, JsonRpcProvider> =
         urls.wsRpc,
         wsProviderOptions
       ) as ExternalProvider;
+
+      // TODO: remove later when AVALANCHE will work better on ws provider
+      if (chainId === ChainId.AVALANCHE) {
+        return [chainId, new JsonRpcProvider(urls.rpc)];
+      }
 
       return [chainId, new Web3Provider(wsProvider)];
     })
