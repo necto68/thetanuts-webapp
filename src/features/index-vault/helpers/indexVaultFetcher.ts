@@ -114,7 +114,7 @@ export const indexVaultFetcher = async (
     const lpAmount = convertToBig(vaultInfo.amount).div(assetDivisor);
     const weight = convertToBig(vaultInfo.weight);
 
-    const allocation = weight.div(totalWeight).mul(100).round(2).toNumber();
+    const allocation = weight.div(totalWeight).mul(100).round(6).toNumber();
 
     return {
       lpAmount,

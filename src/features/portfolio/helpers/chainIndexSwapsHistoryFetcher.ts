@@ -64,7 +64,6 @@ export const chainIndexSwapsHistoryFetcher = async (
             queryClient.fetchQuery(
               [QueryType.token, tokenAddress, routerAddress, account],
 
-              // eslint-disable-next-line max-len
               // eslint-disable-next-line @typescript-eslint/promise-function-async
               () => tokenFetcher(tokenAddress, routerAddress, provider, account)
             )

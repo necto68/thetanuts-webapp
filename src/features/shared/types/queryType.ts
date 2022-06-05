@@ -12,4 +12,8 @@ export enum QueryType {
 
   chainIndexSwapsHistory = "chainIndexSwapsHistory",
   indexDepositsHistory = "indexDepositsHistory",
+  indexWithdrawalsHistory = "indexWithdrawalsHistory",
+  indexRedeemsHistory = "indexRedeemsHistory",
+  directWithdrawData = "directWithdrawData",
+  unclaimedBalance = "unclaimedBalance",
 }

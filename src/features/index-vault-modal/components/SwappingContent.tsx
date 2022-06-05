@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import Lottie from "react-lottie-player";
+import { useHistory } from "react-router-dom";
 
 import swapping from "../animations/swapping.json";
 import wave from "../animations/wave.json";
@@ -12,6 +13,7 @@ import {
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
 import { BaseButton } from "../../shared/components";
+import { PagePathname } from "../../root/types";
 
 import {
   Container,
@@ -27,8 +29,9 @@ import {
 } from "./SwappingContent.styles";
 
 export const SwappingContent = () => {
-  const [, setIndexVaultModalState] = useIndexVaultModalState();
-
+  const [indexVaultModalState, setIndexVaultModalState] =
+    useIndexVaultModalState();
+  const routerHistory = useHistory();
   const { swapMutation, swapMutationHash = "" } = useSwapRouterMutations();
   const { sourceValue, targetValue, sourceData, targetData } =
     useSwapRouterState();
@@ -50,11 +53,15 @@ export const SwappingContent = () => {
 
   // close button
   const handleCloseButtonClick = useCallback(() => {
+    if (indexVaultModalState.isRouterModal) {
+      routerHistory.push(PagePathname.thetaIndex);
+    }
+
     setIndexVaultModalState((previousState) => ({
       ...previousState,
       isShow: false,
     }));
-  }, [setIndexVaultModalState]);
+  }, [indexVaultModalState, setIndexVaultModalState, routerHistory]);
 
   const { data: isSwapSuccessful = false } = swapMutation ?? {};
 
