@@ -1,10 +1,7 @@
-import type { ExternalProvider } from "@ethersproject/providers";
-import { Web3Provider, JsonRpcProvider } from "@ethersproject/providers";
-import Web3WsProvider from "web3-providers-ws";
+import { JsonRpcProvider } from "@ethersproject/providers";
+import { providers as multiCallProviders } from "@0xsequence/multicall";
 
 import type { ChainConfig } from "../types";
-
-import { wsProviderOptions } from "./providerOptions";
 
 export enum ChainId {
   ETHEREUM = 1,
@@ -25,7 +22,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/eth",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/eth/mainnet/ws",
+        "wss://eth-mainnet.alchemyapi.io/v2/1eG2Zv-Q4-2GtMPfzp5MAg0gpaFJiAvl",
 
       explorer: "https://etherscan.io/",
       explorerApi: "https://api.etherscan.io/",
@@ -51,7 +48,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/bsc",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/bsc/mainnet/ws",
+        "wss://speedy-nodes-nyc.moralis.io/679f96c84d2846b6858638cd/bsc/mainnet",
 
       explorer: "https://bscscan.com/",
       explorerApi: "https://api.bscscan.com/",
@@ -78,7 +75,7 @@ export const chains: ChainConfig[] = [
       rpc: "https://rpc.ankr.com/polygon",
 
       wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/polygon/mainnet/ws",
+        "wss://polygon-mainnet.g.alchemy.com/v2/yXAUOrzEFQG2SQC7L7hI-u72mkoOPl53",
 
       explorer: "https://polygonscan.com/",
       explorerApi: "https://api.polygonscan.com/",
@@ -148,6 +145,8 @@ export const chains: ChainConfig[] = [
   },
 ];
 
+export const chainsWithMulticall = [ChainId.ETHEREUM, ChainId.POLYGON];
+
 export const chainsMap: Record<ChainId, ChainConfig> = Object.fromEntries(
   chains.map((chain) => [chain.chainId, chain])
 ) as unknown as Record<ChainId, ChainConfig>;
@@ -155,17 +154,15 @@ export const chainsMap: Record<ChainId, ChainConfig> = Object.fromEntries(
 export const chainProvidersMap: Record<ChainId, JsonRpcProvider> =
   Object.fromEntries(
     chains.map(({ chainId, urls }) => {
-      // @ts-expect-error Web3WsProvider doesn't have correct types
-      const wsProvider = new Web3WsProvider(
-        urls.wsRpc,
-        wsProviderOptions
-      ) as ExternalProvider;
+      const jsonRpcProvider = new JsonRpcProvider(urls.rpc);
 
-      // TODO: remove later when AVALANCHE will work better on ws provider
-      if (chainId === ChainId.AVALANCHE) {
-        return [chainId, new JsonRpcProvider(urls.rpc)];
+      if (chainsWithMulticall.includes(chainId)) {
+        return [
+          chainId,
+          new multiCallProviders.MulticallProvider(jsonRpcProvider),
+        ];
       }
 
-      return [chainId, new Web3Provider(wsProvider)];
+      return [chainId, jsonRpcProvider];
     })
   ) as unknown as Record<ChainId, JsonRpcProvider>;
