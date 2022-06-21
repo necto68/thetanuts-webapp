@@ -113,11 +113,11 @@ export const getTotalPercentageYields = (
 };
 
 export const getPercentageYields = (
-  totalAsset: Big,
+  amount: Big,
   premium: Big,
   period: number
 ): PercentageYields => {
-  if (totalAsset.eq(0)) {
+  if (amount.eq(0)) {
     return {
       annualPercentageYield: 0,
       monthlyPercentageYield: 0,
@@ -126,7 +126,7 @@ export const getPercentageYields = (
     };
   }
 
-  const interestRate = premium.div(totalAsset);
+  const interestRate = premium.div(amount);
 
   const secondsPerDay = new Big(60 * 60 * 24);
   const compoundingFactor = secondsPerDay.div(period);

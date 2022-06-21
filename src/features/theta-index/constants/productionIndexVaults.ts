@@ -33,6 +33,11 @@ export const productionIndexVaults: IndexVaultConfig[] = [
         indexTokenAddress: "0x29b662dE10ceAA7cb254E475622277B6Fc25DA71",
       },
     ],
+
+    priceFeeds: {
+      assetPriceFeedAddress: "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
+      indexPriceFeedAddress: "0xC78a979CEA97BCa6d07a91d021E9635C91425B84",
+    },
   },
   {
     id: "TN-IDX-WBTC-CALL",
@@ -65,6 +70,11 @@ export const productionIndexVaults: IndexVaultConfig[] = [
         indexTokenAddress: "0x328f8Fb3FF6F7709D50dd1d3A33BCe423b7d0997",
       },
     ],
+
+    priceFeeds: {
+      assetPriceFeedAddress: "0xF4030086522a5bEEa4988F8cA5B36dbC97BeE88c",
+      indexPriceFeedAddress: "0x52e3B657F71823CE383f839772A0bd378dE5f017",
+    },
   },
   {
     id: "TN-IDX-WETH-CALL",
@@ -97,5 +107,10 @@ export const productionIndexVaults: IndexVaultConfig[] = [
         indexTokenAddress: "0xdfB107Acf857874c964e0C3c1b3CC4f69F50De98",
       },
     ],
+
+    priceFeeds: {
+      assetPriceFeedAddress: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+      indexPriceFeedAddress: "0x169ccdD0706833001A576CFdc4adC7D29d8B6771",
+    },
   },
 ];

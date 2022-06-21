@@ -10,6 +10,8 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
     const tokenConfig = indexVaultsMap[indexVaultId];
 
     const { chainId = 1, indexVaultAddress = "" } = tokenConfig?.source ?? {};
+    const { assetPriceFeedAddress = "", indexPriceFeedAddress = "" } =
+      tokenConfig?.priceFeeds ?? {};
 
     const { routerAddress, lendingPoolAddress } = chainsMap[chainId].addresses;
     const provider = chainProvidersMap[chainId];
@@ -20,6 +22,8 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
       indexVaultAddress,
       routerAddress,
       lendingPoolAddress,
+      assetPriceFeedAddress,
+      indexPriceFeedAddress,
       provider,
     };
   });
@@ -32,6 +36,8 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
         indexVaultAddress,
         routerAddress,
         lendingPoolAddress,
+        assetPriceFeedAddress,
+        indexPriceFeedAddress,
         provider,
       }) => ({
         queryKey: [QueryType.indexVault, id, chainId],
@@ -42,6 +48,8 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
             indexVaultAddress,
             routerAddress,
             lendingPoolAddress,
+            assetPriceFeedAddress,
+            indexPriceFeedAddress,
             provider
           ),
 

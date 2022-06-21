@@ -33,23 +33,10 @@ export const developIndexVaults: IndexVaultConfig[] = [
         indexTokenAddress: "0xa08363813fFE8aAFDce8859A96993839F6c15f26",
       },
     ],
-  },
 
-  // {
-  //   id: "TN-MVV1-MATIC-CALL",
-  //   isFeatured: true,
-  //
-  //   source: {
-  //     chainId: ChainId.POLYGON,
-  //     indexVaultAddress: "0x354E37ca9FE751246C28C9EC07de30845a9b61C2",
-  //   },
-  //
-  //   replications: [
-  //     {
-  //       chainId: ChainId.BSC,
-  //       assetTokenAddress: "0xCC42724C6683B7E57334c4E856f4c9965ED682bD",
-  //       indexTokenAddress: "0xbed758d321bb24f98ef958873cf624d7a81ae610",
-  //     },
-  //   ],
-  // },
+    priceFeeds: {
+      assetPriceFeedAddress: "0xF9680D99D6C9589e2a93a78A04A279e509205945",
+      indexPriceFeedAddress: "0xA8459eC6DF0D9a61058C43a308dD8A2CEc9d550E",
+    },
+  },
 ];
