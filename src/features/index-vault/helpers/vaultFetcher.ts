@@ -29,10 +29,9 @@ export const vaultFetcher = async (
     expiry,
     priceFeedAddress,
     linkAggregator,
-    totalLPExit,
-    totalSupply,
     collatCapWei,
-    premium,
+    currentEpochAmount,
+    currentEpochPremium,
     period,
   ] = await Promise.all([
     vaultContract.COLLAT(),
@@ -44,9 +43,8 @@ export const vaultFetcher = async (
       .then((expiryBig) => expiryBig.mul(1000).toNumber()),
     vaultContract.priceReader(),
     vaultContract.LINK_AGGREGATOR(),
-    vaultContract.totalLPExit().then(convertToBig),
-    vaultContract.totalSupply().then(convertToBig),
     vaultContract.collatCap().then(convertToBig),
+    vaultContract.currentEpochAmount().then(convertToBig),
     vaultContract.currentEpochPremium().then(convertToBig),
     vaultContract
       .PERIOD()
@@ -103,15 +101,17 @@ export const vaultFetcher = async (
 
   const strikePrice = isSettled || isExpired ? null : currentStrikePrice;
 
-  const totalAsset = totalLPExit.add(totalSupply).mul(valuePerLP);
-
   // getting balance and collatCap
   const balanceDivisor = new Big(10).pow(decimals);
   const balance = balanceWei.div(balanceDivisor);
   const collatCap = collatCapWei.div(balanceDivisor);
 
   // getting annual Percentage Yield
-  const percentageYields = getPercentageYields(totalAsset, premium, period);
+  const percentageYields = getPercentageYields(
+    currentEpochAmount,
+    currentEpochPremium,
+    period
+  );
 
   const { annualPercentageYield } = percentageYields;
 

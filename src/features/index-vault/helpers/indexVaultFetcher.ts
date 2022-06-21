@@ -8,8 +8,6 @@ import {
   Erc20Abi__factory as Erc20AbiFactory,
   IndexVaultAbi__factory as IndexVaultAbiFactory,
   LendingPoolAbi__factory as LendingPoolAbiFactory,
-  AddressesProviderAbi__factory as AddressesProviderAbiFactory,
-  PriceOracleAbi__factory as PriceOracleAbiFactory,
   PriceFeedAbi__factory as PriceFeedAbiFactory,
 } from "../../contracts/types";
 import type { IndexVault, VaultInfo } from "../types";
@@ -33,6 +31,8 @@ export const indexVaultFetcher = async (
   indexVaultAddress: string,
   routerAddress: string,
   lendingPoolAddress: string,
+  assetPriceFeedAddress: string,
+  indexPriceFeedAddress: string,
   provider: Provider
 ): Promise<IndexVault> => {
   const priceDivisor = new Big(10).pow(6);
@@ -54,7 +54,6 @@ export const indexVaultFetcher = async (
     vaultsLength,
     assetTokenAddress,
     indexTokenAddress,
-    addressesProviderAddress,
   ] = await Promise.all([
     provider.getNetwork() as Promise<{ chainId: ChainId }>,
     indexVaultContract.name(),
@@ -64,16 +63,10 @@ export const indexVaultFetcher = async (
     lendingPoolContract
       .getReserveData(indexVaultAddress)
       .then((data) => data.aTokenAddress),
-    lendingPoolContract.getAddressesProvider(),
   ]);
 
   const assetTokenContract = Erc20AbiFactory.connect(
     assetTokenAddress,
-    provider
-  );
-
-  const addressesProviderContract = AddressesProviderAbiFactory.connect(
-    addressesProviderAddress,
     provider
   );
 
@@ -84,13 +77,11 @@ export const indexVaultFetcher = async (
     (element, index) => indexVaultContract.vaultAddress(index)
   );
 
-  const [assetSymbol, assetDecimals, priceOracleAddress, ...vaultsAddresses] =
-    await Promise.all([
-      assetTokenContract.symbol(),
-      assetTokenContract.decimals(),
-      addressesProviderContract.getPriceOracle(),
-      ...vaultsAddressesPromises,
-    ] as const);
+  const [assetSymbol, assetDecimals, ...vaultsAddresses] = await Promise.all([
+    assetTokenContract.symbol(),
+    assetTokenContract.decimals(),
+    ...vaultsAddressesPromises,
+  ] as const);
 
   // getting type
   const indexVaultType = name.split(" ").at(-1) ?? "";
@@ -102,18 +93,8 @@ export const indexVaultFetcher = async (
     (vaultAddress) => indexVaultContract.vaults(vaultAddress)
   );
 
-  // getting indexLinkAggregator and vaultsInfosData
-  const priceOracleContract = PriceOracleAbiFactory.connect(
-    priceOracleAddress,
-    provider
-  );
-
-  const [assetLinkAggregator, indexLinkAggregator, ...vaultsInfosData] =
-    await Promise.all([
-      priceOracleContract.getSourceOfAsset(assetTokenAddress),
-      priceOracleContract.getSourceOfAsset(indexVaultAddress),
-      ...vaultsInfosDataPromises,
-    ] as const);
+  // getting vaultsInfosData
+  const vaultsInfosData = await Promise.all(vaultsInfosDataPromises);
 
   // getting vaults
   const vaults = await Promise.all(
@@ -151,8 +132,8 @@ export const indexVaultFetcher = async (
   );
 
   const [assetPrice, oracleIndexPrice] = await Promise.all([
-    priceFeedContract.getLatestPriceX1e6(assetLinkAggregator),
-    priceFeedContract.getLatestPriceX1e6(indexLinkAggregator),
+    priceFeedContract.getLatestPriceX1e6(assetPriceFeedAddress),
+    priceFeedContract.getLatestPriceX1e6(indexPriceFeedAddress),
   ]).then((priceValues) =>
     priceValues
       .map(convertToBig)
