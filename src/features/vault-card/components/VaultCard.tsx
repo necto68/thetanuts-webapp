@@ -13,13 +13,13 @@ import {
   SymbolTitle,
   APYTitle,
   SubTitle,
+  CardLink,
   DataContent,
 } from "./VaultCard.styles";
 
 export interface VaultCardProps {
   isLoading?: boolean;
   disabled?: boolean;
-  onClick?: () => void;
   title: string;
   icon: ReactNode;
   symbol: string;
@@ -29,12 +29,13 @@ export interface VaultCardProps {
   shadowColor?: string;
   content?: ReactNode;
   footerContent?: ReactNode;
+  indexVaultId?: string;
 }
 
 export const VaultCard: FC<VaultCardProps> = ({
   isLoading = false,
   disabled = false,
-  onClick,
+  indexVaultId,
   title,
   icon,
   symbol,
@@ -48,48 +49,53 @@ export const VaultCard: FC<VaultCardProps> = ({
   <Container
     backgroundColor={backgroundColor}
     disabled={disabled}
-    onClick={onClick}
     shadowColor={shadowColor}
   >
-    <Header>
-      {isLoading ? (
-        <SkeletonBox height={14} width={60} />
-      ) : (
-        <Title>{title}</Title>
-      )}
-    </Header>
-    <Content>
-      <DataContainer>
-        <DataContent>
-          <IconContainer height={35} width={24}>
-            {icon}
-          </IconContainer>
-          {isLoading ? (
-            <SymbolContainer>
-              <SkeletonBox height={18} width={60} />
-              <SkeletonBox height={14} width={60} />
-            </SymbolContainer>
-          ) : (
-            <SymbolContainer>
-              <SymbolTitle>{symbol}</SymbolTitle>
-              <SubTitle>{subTitle}</SubTitle>
-            </SymbolContainer>
-          )}
-          {isLoading ? (
-            <APYContainer>
-              <SkeletonBox height={18} width={60} />
-              <SkeletonBox height={14} width={60} />
-            </APYContainer>
-          ) : (
-            <APYContainer>
-              <APYTitle backgroundColor={backgroundColor}>{`${apy}%`}</APYTitle>
-              <SubTitle>APY%</SubTitle>
-            </APYContainer>
-          )}
-        </DataContent>
-        {content}
-      </DataContainer>
-      {footerContent}
-    </Content>
+    <CardLink
+      to={disabled ? {} : { pathname: `/stronghold/${indexVaultId ?? ""}` }}
+    >
+      <Header>
+        {isLoading ? (
+          <SkeletonBox height={14} width={60} />
+        ) : (
+          <Title>{title}</Title>
+        )}
+      </Header>
+      <Content>
+        <DataContainer>
+          <DataContent>
+            <IconContainer height={35} width={24}>
+              {icon}
+            </IconContainer>
+            {isLoading ? (
+              <SymbolContainer>
+                <SkeletonBox height={18} width={60} />
+                <SkeletonBox height={14} width={60} />
+              </SymbolContainer>
+            ) : (
+              <SymbolContainer>
+                <SymbolTitle>{symbol}</SymbolTitle>
+                <SubTitle>{subTitle}</SubTitle>
+              </SymbolContainer>
+            )}
+            {isLoading ? (
+              <APYContainer>
+                <SkeletonBox height={18} width={60} />
+                <SkeletonBox height={14} width={60} />
+              </APYContainer>
+            ) : (
+              <APYContainer>
+                <APYTitle
+                  backgroundColor={backgroundColor}
+                >{`${apy}%`}</APYTitle>
+                <SubTitle>APY%</SubTitle>
+              </APYContainer>
+            )}
+          </DataContent>
+          {content}
+        </DataContainer>
+        {footerContent}
+      </Content>
+    </CardLink>
   </Container>
 );

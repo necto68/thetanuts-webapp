@@ -3,7 +3,11 @@ import { useCallback } from "react";
 
 import { useIndexVaultModalState, useSwapRouterConfig } from "../hooks";
 import { ChainSelect } from "../../wallet/components";
-import { CircleButton, CircleButtonIconType } from "../../shared/components";
+import {
+  CircleButton,
+  CircleButtonIconType,
+  Link,
+} from "../../shared/components";
 import type { ThemeType } from "../types";
 
 import {
@@ -16,8 +20,12 @@ import {
 type HeaderProps = ThemeType;
 
 export const Header: FC<HeaderProps> = ({ theme = "light" }) => {
-  const [, setIndexVaultModalState] = useIndexVaultModalState();
+  const [indexVaultModalState, setIndexVaultModalState] =
+    useIndexVaultModalState();
   const { supportedChainIds } = useSwapRouterConfig();
+
+  const { isRouterModal } = indexVaultModalState;
+  const indexVaultRoute = isRouterModal ? { pathname: "/" } : {};
 
   const handleCloseButtonClick = useCallback(() => {
     setIndexVaultModalState((previousState) => ({
@@ -33,12 +41,14 @@ export const Header: FC<HeaderProps> = ({ theme = "light" }) => {
         <ChainSelectContainer isShow={theme === "light"}>
           <ChainSelect chainIds={supportedChainIds} />
         </ChainSelectContainer>
-        <CircleButton
-          iconSize={12}
-          iconType={CircleButtonIconType.cross}
-          onClick={handleCloseButtonClick}
-          primaryColor={theme === "dark" ? "#FFFFFF" : "#5D5D5D"}
-        />
+        <Link to={indexVaultRoute}>
+          <CircleButton
+            iconSize={12}
+            iconType={CircleButtonIconType.cross}
+            onClick={handleCloseButtonClick}
+            primaryColor={theme === "dark" ? "#FFFFFF" : "#5D5D5D"}
+          />
+        </Link>
       </ButtonsContainer>
     </Container>
   );

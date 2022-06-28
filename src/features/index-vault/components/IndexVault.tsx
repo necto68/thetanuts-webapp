@@ -1,8 +1,6 @@
 import type { FC } from "react";
-import { useCallback } from "react";
 
 import { useIndexVault } from "../hooks";
-import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
 import { numberFormatter } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
@@ -16,12 +14,6 @@ interface IndexVaultProps {
 
 export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
   const { isLoading, data } = useIndexVault(indexVaultId);
-
-  const [, setModalState] = useIndexVaultModalState();
-
-  const handleVaultClick = useCallback(() => {
-    setModalState({ isShow: true, indexVaultId });
-  }, [setModalState, indexVaultId]);
 
   const {
     type = VaultType.CALL,
@@ -45,8 +37,8 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
       backgroundColor={backgroundColor}
       footerContent={<IndexVaultFooter title="SWAP" />}
       icon={assetLogo}
+      indexVaultId={indexVaultId}
       isLoading={isLoading}
-      onClick={handleVaultClick}
       shadowColor="#ecd236"
       subTitle="Stronghold"
       symbol={assetSymbol}

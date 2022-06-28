@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useCallback } from "react";
 
 import type { ChainId } from "../../wallet/constants";
-import { IconContainer, Tooltip } from "../../shared/components";
+import { IconContainer, Link, Tooltip } from "../../shared/components";
 import { useIsMobile } from "../../shared/hooks";
 import { chainsMap } from "../../wallet/constants";
 import { getLogoBySymbol } from "../../logo/helpers";
@@ -17,8 +17,8 @@ import {
 
 interface ChainsProps {
   chainIds: ChainId[];
-  highlightedChainId?: ChainId;
   indexVaultId?: string;
+  highlightedChainId?: ChainId;
 }
 
 export const Chains: FC<ChainsProps> = ({
@@ -27,6 +27,9 @@ export const Chains: FC<ChainsProps> = ({
   indexVaultId,
 }) => {
   const isMobile = useIsMobile();
+  const [indexVaultModalState, setIndexVaultModalState] =
+    useIndexVaultModalState();
+  const { isRouterModal } = indexVaultModalState;
 
   const isShowShortenedChains = isMobile && chainIds.length > 3;
   const visibleChains = isShowShortenedChains ? chainIds.slice(0, 3) : chainIds;
@@ -38,32 +41,46 @@ export const Chains: FC<ChainsProps> = ({
     .map((chainId) => chainsMap[chainId].title)
     .join(", ");
 
-  const [, setModalState] = useIndexVaultModalState();
-
   const handleChainClick = useCallback(
     (chainId: ChainId) => {
       if (indexVaultId) {
-        setModalState({ isShow: true, indexVaultId, chainId });
+        setIndexVaultModalState((previousState) => ({
+          ...previousState,
+          indexVaultId,
+          chainId,
+          isShow: true,
+        }));
       }
     },
-    [setModalState, indexVaultId]
+    [indexVaultId, setIndexVaultModalState]
   );
 
   return (
     <Container>
       {visibleChains.map((chainId) => (
-        <ChainLogoContainer
-          isClickable={Boolean(indexVaultId)}
-          isHighlighted={chainId === highlightedChainId}
+        <Link
           key={chainId}
-          onClick={() => {
-            handleChainClick(chainId);
-          }}
+          to={
+            isRouterModal && indexVaultId
+              ? {
+                  pathname: `/stronghold/${indexVaultId}`,
+                  search: `?chain=${chainId}`,
+                }
+              : {}
+          }
         >
-          <IconContainer height={18} width={18}>
-            {getLogoBySymbol(chainsMap[chainId].symbol)}
-          </IconContainer>
-        </ChainLogoContainer>
+          <ChainLogoContainer
+            isClickable={Boolean(indexVaultId)}
+            isHighlighted={chainId === highlightedChainId}
+            onClick={() => {
+              handleChainClick(chainId);
+            }}
+          >
+            <IconContainer height={18} width={18}>
+              {getLogoBySymbol(chainsMap[chainId].symbol)}
+            </IconContainer>
+          </ChainLogoContainer>
+        </Link>
       ))}
       {isShowShortenedChains ? (
         <Tooltip

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+import { Link } from "../../shared/components";
+
 import type { VaultCardProps } from "./VaultCard";
 
 type ContainerProps = Pick<
@@ -37,7 +39,6 @@ export const Container = styled(motion.div).attrs<ContainerProps>(
   border-radius: 8px;
   background: ${({ backgroundColor }) => backgroundColor};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-
   flex-basis: 254px;
 `;
 
@@ -110,4 +111,13 @@ export const SubTitle = styled.span`
   font-weight: 400;
   font-size: 12px;
   color: #ffffff;
+`;
+
+export const CardLink = styled(Link)`
+  text-decoration: none;
+  &:visited,
+  &:link {
+    text-decoration: none;
+    color: inherit;
+  }
 `;

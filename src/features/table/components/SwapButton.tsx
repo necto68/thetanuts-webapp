@@ -3,6 +3,7 @@ import { useCallback } from "react";
 
 import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
 import type { ChainId } from "../../wallet/constants";
+import { Link } from "../../shared/components";
 
 import { BaseSwapButton } from "./SwapButton.styles";
 
@@ -12,15 +13,26 @@ interface SwapButtonProps {
 }
 
 export const SwapButton: FC<SwapButtonProps> = ({ indexVaultId, chainId }) => {
-  const [, setModalState] = useIndexVaultModalState();
+  const [indexVaultModalState, setIndexVaultModalState] =
+    useIndexVaultModalState();
+
+  const { isRouterModal } = indexVaultModalState;
+  const indexVaultRoute = isRouterModal ? { pathname: "/" } : {};
 
   const handleButtonClick = useCallback(() => {
-    setModalState({ isShow: true, indexVaultId, chainId });
-  }, [setModalState, indexVaultId, chainId]);
+    setIndexVaultModalState({
+      ...indexVaultModalState,
+      isShow: true,
+      indexVaultId,
+      chainId,
+    });
+  }, [indexVaultId, chainId, indexVaultModalState, setIndexVaultModalState]);
 
   return (
-    <BaseSwapButton onClick={handleButtonClick} primaryColor="#81E429">
-      Swap
-    </BaseSwapButton>
+    <Link to={indexVaultRoute}>
+      <BaseSwapButton onClick={handleButtonClick} primaryColor="#81E429">
+        Swap
+      </BaseSwapButton>
+    </Link>
   );
 };
