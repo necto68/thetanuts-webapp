@@ -17,7 +17,9 @@ export const SwapButton: FC<SwapButtonProps> = ({ indexVaultId, chainId }) => {
     useIndexVaultModalState();
 
   const { isRouterModal } = indexVaultModalState;
-  const indexVaultRoute = isRouterModal ? { pathname: "/" } : {};
+  const indexVaultRoute = isRouterModal
+    ? { pathname: `/stronghold/${indexVaultId}` }
+    : {};
 
   const handleButtonClick = useCallback(() => {
     setIndexVaultModalState({
