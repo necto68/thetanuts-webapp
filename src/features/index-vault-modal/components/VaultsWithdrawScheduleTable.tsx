@@ -1,13 +1,12 @@
-import { useSwapRouterConfig } from "../hooks";
+import Big from "big.js";
+
+import { useSwapRouterConfig, useSwapRouterState } from "../hooks";
 import { VaultType } from "../../index-vault/types";
-import type { IndexVault, Vault } from "../../index-vault/types";
+import type { Vault, VaultInfo } from "../../index-vault/types";
 import { ExternalLinkButton } from "../../shared/components";
-import {
-  currencyFormatter,
-  currencyFormatterWithoutDecimals,
-  dateFormatter,
-} from "../../shared/helpers";
+import { utcDateFormatter, utcTimeFormatter } from "../../shared/helpers";
 import { PathType } from "../../wallet/types";
+import { useWithdrawDataQuery } from "../hooks/useWithdrawDataQuery";
 
 import {
   CellSubValue,
@@ -18,60 +17,62 @@ import {
   PortfolioCellContainer,
   TableContainer,
 } from "./VaultsTable.styles";
+import { getVaultSubTitle, getVaultTitle } from "./VaultsTable";
 
-export const getVaultTitle = (
-  type: IndexVault["type"],
-  assetSymbol: Vault["assetSymbol"],
-  period: Vault["period"]
-) => {
-  const mapPeriodToTitle = new Map([
-    [7, "Weekly"],
-    [14, "Bi-Weekly"],
-    [30, "Monthly"],
-  ]);
-  const secondsInDay = 60 * 60 * 24;
-  const daysInPeriod = Math.floor(period / secondsInDay);
-
-  const formattedPeriod =
-    mapPeriodToTitle.get(daysInPeriod) ?? `${daysInPeriod}-Day`;
-
-  const formattedType = type === VaultType.CALL ? "Call" : "Put";
-
-  return `${formattedPeriod} ${assetSymbol} ${formattedType}`;
-};
-
-export const getVaultSubTitle = (
-  strikePrice: Vault["strikePrice"],
-  expiry: Vault["expiry"],
-  isSettled: Vault["isSettled"],
-  isExpired: Vault["isExpired"]
-) => {
-  if (isSettled || isExpired) {
-    return "Auction In Progress";
+const getVaultExpiry = (expiry: Vault["expiry"]) => {
+  if (!expiry) {
+    return "-";
   }
 
-  const strikePriceFormatter = Number.isInteger(strikePrice)
-    ? currencyFormatterWithoutDecimals
-    : currencyFormatter;
+  const formattedExpiryTimeUTC = utcTimeFormatter.format(new Date(expiry));
+  const formattedExpiryDateUTC = utcDateFormatter.format(new Date(expiry));
 
-  const formattedStrikePrice = strikePrice
-    ? strikePriceFormatter.format(strikePrice)
-    : "";
-
-  const formattedExpiryDate = dateFormatter.format(new Date(expiry));
-
-  return `${formattedStrikePrice} ${formattedExpiryDate}`;
+  return `${formattedExpiryTimeUTC} UTC ${formattedExpiryDateUTC}`;
 };
 
-export const VaultsTable = () => {
+export const VaultsWithdrawScheduleTable = () => {
   const { indexVaultQuery } = useSwapRouterConfig();
+  const { sourceData } = useSwapRouterState();
+  const { data: withdrawData } = useWithdrawDataQuery();
+  const { vaultsClaimed = {}, vaultsExpected = {} } = withdrawData ?? {};
+
   const { isLoading, data } = indexVaultQuery;
   const {
     type = VaultType.CALL,
+    assetSymbol: indexAssetSymbol = "",
+    middleIndexPrice = 1,
+    assetPrice = 1,
     chainId = 1,
     vaults = [],
     vaultsInfos = [],
   } = data ?? {};
+
+  // Set exchange rate.
+  const exchangeRate = new Big(middleIndexPrice).div(assetPrice).round(5);
+
+  const getVaultPosition = (vaultsInfo: VaultInfo): string | undefined => {
+    const value = sourceData?.balance
+      ?.mul(exchangeRate)
+      .mul(new Big(vaultsInfo.allocation).div(100))
+      .toFixed(3);
+    return `${value ?? 0} ${indexAssetSymbol}`;
+  };
+
+  const getCurrentVaultPosition = (vaultAddress: string): string => {
+    const value = vaultsClaimed[vaultAddress] ?? vaultsExpected[vaultAddress];
+    return value ? `${value} ${indexAssetSymbol}` : "-";
+  };
+
+  const getVaultStatusText = (
+    vaultAddress: string,
+    isExpired: boolean
+  ): string => {
+    if (vaultsClaimed[vaultAddress]) {
+      return "Claimed";
+    }
+
+    return isExpired ? "Expired" : "Pending";
+  };
 
   return (
     <TableContainer>
@@ -81,10 +82,10 @@ export const VaultsTable = () => {
             <HeaderCellValue>Individual Options</HeaderCellValue>
           </HeaderCell>
           <HeaderCell>
-            <HeaderCellValue>APY %</HeaderCellValue>
+            <HeaderCellValue>Schedule</HeaderCellValue>
           </HeaderCell>
           <HeaderCell>
-            <HeaderCellValue>Weight</HeaderCellValue>
+            <HeaderCellValue>Status</HeaderCellValue>
           </HeaderCell>
           <HeaderCell>
             <HeaderCellValue>Tx</HeaderCellValue>
@@ -119,7 +120,6 @@ export const VaultsTable = () => {
               strikePrice,
               expiry,
               period,
-              annualPercentageYield,
               isSettled,
               isExpired,
             },
@@ -142,12 +142,16 @@ export const VaultsTable = () => {
                 </PortfolioCellContainer>
               </td>
               <td>
-                <CellValue>{`${annualPercentageYield}%`}</CellValue>
+                <CellValue>
+                  {getVaultPosition(vaultsInfos[index]) ?? "-"}
+                </CellValue>
+                <CellSubValue>{getVaultExpiry(expiry)}</CellSubValue>
               </td>
               <td>
-                <CellValue>{`${vaultsInfos[index].allocation.toFixed(
-                  2
-                )}%`}</CellValue>
+                <CellValue>{getCurrentVaultPosition(vaultAddress)}</CellValue>
+                <CellSubValue>
+                  {getVaultStatusText(vaultAddress, isExpired)}
+                </CellSubValue>
               </td>
               <td>
                 <CellValue>

@@ -32,6 +32,7 @@ export const chains: ChainConfig[] = [
       routerAddress: "0x03fc1feddb196e69dd8a8753073e2527f85bbc6c",
       lendingPoolAddress: "0x2Ca7641B841a79Cc70220cE838d0b9f8197accDA",
       directDepositorAddress: "0xc4A024eAcB72F09900737E07605e253f73D408c7",
+      directWithdrawalAddress: "0xDB8e1AA9B8B8A9878D704B2F5A02238844acBb8B",
     },
 
     keys: {
@@ -62,6 +63,7 @@ export const chains: ChainConfig[] = [
       routerAddress: "0xDFbf747D2E3278058d77b7De789f3c34e4F6f48c",
       lendingPoolAddress: "testAddress",
       directDepositorAddress: "testAddress",
+      directWithdrawalAddress: "testAddress",
     },
   },
   {
@@ -89,6 +91,7 @@ export const chains: ChainConfig[] = [
       routerAddress: "0x79c089D49668077891460d7CDDadc11EB4Cb6A51",
       lendingPoolAddress: "0x69CB7e57FC301785aA0f933230DEE4C3E1f78e2b",
       directDepositorAddress: "0x21659962120ba152139FC157e52168CD1609C3E3",
+      directWithdrawalAddress: "0x1401f2D6c91dF86C2b426F7b9E9c3d3F8cF37617",
     },
   },
   {
@@ -115,6 +118,7 @@ export const chains: ChainConfig[] = [
       routerAddress: "0x2Eb7C1cFdbf7d5c65A7BF7Bb50129Ee6e651CEb1",
       lendingPoolAddress: "testAddress",
       directDepositorAddress: "testAddress",
+      directWithdrawalAddress: "testAddress",
     },
   },
   {
@@ -141,6 +145,7 @@ export const chains: ChainConfig[] = [
       routerAddress: "0xb8cB9648F78433056e089B8609f16Cb0D43ceCE7",
       lendingPoolAddress: "testAddress",
       directDepositorAddress: "testAddress",
+      directWithdrawalAddress: "testAddress",
     },
   },
 ];
