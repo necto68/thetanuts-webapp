@@ -9,7 +9,7 @@ const mapPathnameToBackground = {
   [PagePathname.thetaIndex]:
     "linear-gradient(180deg, #031a34 21.13%, #259ddf 99.41%)",
 
-  [PagePathname.indexVaultModal]:
+  [PagePathname.basic]:
     "linear-gradient(180deg, #031a34 21.13%, #259ddf 99.41%)",
 
   [PagePathname.portfolio]:

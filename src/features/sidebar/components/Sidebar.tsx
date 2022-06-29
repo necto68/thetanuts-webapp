@@ -47,6 +47,11 @@ export const Sidebar = () => {
       navIcon: ThetaIndex,
     },
     {
+      to: PagePathname.basic,
+      linkTitle: "Basic",
+      navIcon: ThetaIndex,
+    },
+    {
       to: PagePathname.portfolio,
       linkTitle: "Portfolio",
       navIcon: Portfolio,

@@ -56,3 +56,41 @@ export const totalValueLockedFormatter = (value: number) => {
 
   return `${formattedValue}${postfix}`;
 };
+
+export const periodFormatter = (period: number) => {
+  const mapPeriodToTitle = new Map([
+    [7, "Weekly"],
+    [14, "Bi-Weekly"],
+    [30, "Monthly"],
+  ]);
+  const secondsInDay = 60 * 60 * 24;
+  const daysInPeriod = Math.floor(period / secondsInDay);
+
+  return mapPeriodToTitle.get(daysInPeriod) ?? `${daysInPeriod}-Day`;
+};
+
+export const timerFormatter = (initialSeconds: number) => {
+  const secondsInMinute = 60;
+  const secondsInHour = secondsInMinute * 60;
+  const secondsInDay = secondsInHour * 24;
+
+  let remainder = initialSeconds;
+
+  const daysValue = Math.floor(remainder / secondsInDay);
+  remainder %= secondsInDay;
+
+  const hoursValue = Math.floor(remainder / secondsInHour);
+  remainder %= secondsInHour;
+
+  const minutesValue = Math.floor(remainder / secondsInMinute);
+  remainder %= secondsInMinute;
+
+  const secondsValue = remainder;
+
+  const days = daysValue > 0 ? `${daysValue}d` : "";
+  const minutes = minutesValue > 0 ? `${minutesValue}m` : "";
+  const hours = hoursValue > 0 ? `${hoursValue}h` : "";
+  const seconds = secondsValue > 0 ? `${secondsValue}s` : "";
+
+  return [days, minutes, hours, seconds].join(" ");
+};

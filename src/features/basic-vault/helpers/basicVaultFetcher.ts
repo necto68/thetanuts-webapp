@@ -8,12 +8,16 @@ import {
   PriceFeedAbi__factory as PriceFeedAbiFactory,
   VaultAbi__factory as VaultAbiFactory,
 } from "../../contracts/types";
-import type { Vault } from "../types";
+import type { Vault } from "../../index-vault/types";
+import { VaultType } from "../../index-vault/types";
 import { convertToBig } from "../../shared/helpers";
+import {
+  getPercentageYields,
+  normalizeVaultValue,
+} from "../../index-vault/helpers/utils";
+import type { ChainId } from "../../wallet/constants";
 
-import { getPercentageYields, normalizeVaultValue } from "./utils";
-
-export const vaultFetcher = async (
+export const basicVaultFetcher = async (
   vaultAddress: string,
   provider: Provider
 ): Promise<Vault> => {
@@ -23,6 +27,7 @@ export const vaultFetcher = async (
   const priceDivisor = new Big(10).pow(6);
 
   const [
+    { chainId },
     collateralTokenAddress,
     name,
     epoch,
@@ -34,6 +39,7 @@ export const vaultFetcher = async (
     currentEpochPremium,
     period,
   ] = await Promise.all([
+    provider.getNetwork() as Promise<{ chainId: ChainId }>,
     vaultContract.COLLAT(),
     vaultContract.name(),
     vaultContract.epoch(),
@@ -91,10 +97,11 @@ export const vaultFetcher = async (
   // only for PUT vaults
   const splitName = name.split(" ");
   const putVaultAssetSymbol = splitName.at(-2);
+  const isPutType = splitName.at(-4) === "Put";
   const assetSymbol =
-    splitName.at(-4) === "Put" && putVaultAssetSymbol
-      ? putVaultAssetSymbol
-      : collateralSymbol;
+    isPutType && putVaultAssetSymbol ? putVaultAssetSymbol : collateralSymbol;
+
+  const type = isPutType ? VaultType.PUT : VaultType.CALL;
 
   const isSettled = expiry === 0;
   const isExpired = !isSettled && Date.now() > expiry;
@@ -117,8 +124,11 @@ export const vaultFetcher = async (
 
   return {
     vaultAddress,
+    chainId,
+    type,
     priceFeedAddress,
     assetSymbol,
+    collateralSymbol,
     expiry,
     period,
     valuePerLP,

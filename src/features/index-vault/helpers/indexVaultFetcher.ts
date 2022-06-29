@@ -16,6 +16,7 @@ import { QueryType } from "../../shared/types";
 import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
 import { chainProvidersMap, chains, chainsMap } from "../../wallet/constants";
+import { basicVaultFetcher } from "../../basic-vault/helpers";
 
 import {
   normalizeVaultValue,
@@ -23,7 +24,6 @@ import {
   getTotalValueLocked,
   getTotalRemainder,
 } from "./utils";
-import { vaultFetcher } from "./vaultFetcher";
 import { middleIndexPriceFetcher } from "./middleIndexPriceFetcher";
 
 export const indexVaultFetcher = async (
@@ -102,9 +102,9 @@ export const indexVaultFetcher = async (
       // eslint-disable-next-line @typescript-eslint/promise-function-async
       (vaultAddress) =>
         queryClient.fetchQuery(
-          [QueryType.vault, vaultAddress, chainId],
-          // eslint-disable-next-line @typescript-eslint/promise-function-async
-          () => vaultFetcher(vaultAddress, provider)
+          [QueryType.basicVault, vaultAddress, chainId],
+
+          async () => await basicVaultFetcher(vaultAddress, provider)
         )
     )
   );

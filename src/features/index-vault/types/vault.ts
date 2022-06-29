@@ -1,5 +1,9 @@
 import type Big from "big.js";
 
+import type { ChainId } from "../../wallet/constants";
+
+import type { VaultType } from "./indexVault";
+
 export interface PercentageYields {
   annualPercentageYield: number;
   monthlyPercentageYield: number;
@@ -9,8 +13,11 @@ export interface PercentageYields {
 
 export interface Vault {
   vaultAddress: string;
+  chainId: ChainId;
+  type: VaultType;
   priceFeedAddress: string;
   assetSymbol: string;
+  collateralSymbol: string;
   expiry: number;
   period: number;
   valuePerLP: Big;

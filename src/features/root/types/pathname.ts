@@ -1,5 +1,5 @@
 export enum PagePathname {
   thetaIndex = "/",
-  indexVaultModal = "/stronghold/:indexVaultId",
+  basic = "/basic",
   portfolio = "/portfolio",
 }

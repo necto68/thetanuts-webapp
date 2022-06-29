@@ -6,6 +6,7 @@ import {
   currencyFormatter,
   currencyFormatterWithoutDecimals,
   dateFormatter,
+  periodFormatter,
 } from "../../shared/helpers";
 import { PathType } from "../../wallet/types";
 
@@ -27,17 +28,7 @@ export const getVaultTitle = (
   assetSymbol: Vault["assetSymbol"],
   period: Vault["period"]
 ) => {
-  const mapPeriodToTitle = new Map([
-    [7, "Weekly"],
-    [14, "Bi-Weekly"],
-    [30, "Monthly"],
-  ]);
-  const secondsInDay = 60 * 60 * 24;
-  const daysInPeriod = Math.floor(period / secondsInDay);
-
-  const formattedPeriod =
-    mapPeriodToTitle.get(daysInPeriod) ?? `${daysInPeriod}-Day`;
-
+  const formattedPeriod = periodFormatter(period);
   const formattedType = type === VaultType.CALL ? "Call" : "Put";
 
   return `${formattedPeriod} ${assetSymbol} ${formattedType}`;
