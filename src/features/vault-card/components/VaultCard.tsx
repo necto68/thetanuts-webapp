@@ -3,87 +3,99 @@ import type { FC, ReactNode } from "react";
 import { IconContainer, SkeletonBox } from "../../shared/components";
 
 import {
-  LeftDataContainer,
-  LeftDataValue,
   Title,
-  TitleContainer,
   Container,
   Content,
-  DataTitle,
-  RightDataValue,
   Header,
-  ButtonContainer,
-  ButtonTitle,
-  RightDataContainer,
+  DataContainer,
+  SymbolContainer,
+  APYContainer,
+  SymbolTitle,
+  APYTitle,
   SubTitle,
+  CardLink,
+  DataContent,
 } from "./VaultCard.styles";
 
 export interface VaultCardProps {
   isLoading?: boolean;
   disabled?: boolean;
-  icon: ReactNode;
   title: string;
+  icon: ReactNode;
+  symbol: string;
   subTitle: string;
-  onClick?: () => void;
-  leftDataTitle: string;
-  leftDataValue: string;
-  rightDataTitle: string;
-  rightDataValue: string;
-  buttonTitle: string;
-  borderColor: string;
+  apy: string;
+  backgroundColor: string;
+  shadowColor?: string;
+  content?: ReactNode;
+  footerContent?: ReactNode;
+  indexVaultId?: string;
 }
 
 export const VaultCard: FC<VaultCardProps> = ({
   isLoading = false,
   disabled = false,
-  icon,
+  indexVaultId,
   title,
+  icon,
+  symbol,
   subTitle,
-  onClick,
-  leftDataTitle,
-  leftDataValue,
-  rightDataTitle,
-  rightDataValue,
-  buttonTitle,
-  borderColor,
+  apy,
+  backgroundColor,
+  shadowColor,
+  content,
+  footerContent,
 }) => (
-  <Container borderColor={borderColor} disabled={disabled} onClick={onClick}>
-    {isLoading ? (
+  <Container
+    backgroundColor={backgroundColor}
+    disabled={disabled}
+    shadowColor={shadowColor}
+  >
+    <CardLink
+      to={disabled ? {} : { pathname: `/stronghold/${indexVaultId ?? ""}` }}
+    >
       <Header>
-        <SkeletonBox height={22} width={90} />
-        <SkeletonBox height={22} width={90} />
-      </Header>
-    ) : (
-      <Header>
-        <TitleContainer>
-          <IconContainer height={22} width={22}>
-            {icon}
-          </IconContainer>
+        {isLoading ? (
+          <SkeletonBox height={14} width={60} />
+        ) : (
           <Title>{title}</Title>
-        </TitleContainer>
-        <SubTitle>{subTitle}</SubTitle>
+        )}
       </Header>
-    )}
-    <Content>
-      <LeftDataContainer>
-        <DataTitle>{leftDataTitle}</DataTitle>
-        {isLoading ? (
-          <SkeletonBox height={25} width={60} />
-        ) : (
-          <LeftDataValue>{leftDataValue}</LeftDataValue>
-        )}
-      </LeftDataContainer>
-      <RightDataContainer>
-        <DataTitle>{rightDataTitle}</DataTitle>
-        {isLoading ? (
-          <SkeletonBox height={25} width={60} />
-        ) : (
-          <RightDataValue>{rightDataValue}</RightDataValue>
-        )}
-      </RightDataContainer>
-    </Content>
-    <ButtonContainer>
-      <ButtonTitle>{buttonTitle}</ButtonTitle>
-    </ButtonContainer>
+      <Content>
+        <DataContainer>
+          <DataContent>
+            <IconContainer height={35} width={24}>
+              {icon}
+            </IconContainer>
+            {isLoading ? (
+              <SymbolContainer>
+                <SkeletonBox height={18} width={60} />
+                <SkeletonBox height={14} width={60} />
+              </SymbolContainer>
+            ) : (
+              <SymbolContainer>
+                <SymbolTitle>{symbol}</SymbolTitle>
+                <SubTitle>{subTitle}</SubTitle>
+              </SymbolContainer>
+            )}
+            {isLoading ? (
+              <APYContainer>
+                <SkeletonBox height={18} width={60} />
+                <SkeletonBox height={14} width={60} />
+              </APYContainer>
+            ) : (
+              <APYContainer>
+                <APYTitle
+                  backgroundColor={backgroundColor}
+                >{`${apy}%`}</APYTitle>
+                <SubTitle>APY%</SubTitle>
+              </APYContainer>
+            )}
+          </DataContent>
+          {content}
+        </DataContainer>
+        {footerContent}
+      </Content>
+    </CardLink>
   </Container>
 );

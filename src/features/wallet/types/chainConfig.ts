@@ -18,6 +18,7 @@ export interface ChainConfig {
     routerAddress: string;
     lendingPoolAddress: string;
     directDepositorAddress: string;
+    directWithdrawalAddress: string;
   };
 
   keys: {

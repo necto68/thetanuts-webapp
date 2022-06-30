@@ -19,7 +19,7 @@ import {
   TableContainer,
 } from "./VaultsTable.styles";
 
-const getVaultTitle = (
+export const getVaultTitle = (
   type: IndexVault["type"],
   assetSymbol: Vault["assetSymbol"],
   period: Vault["period"]
@@ -40,7 +40,7 @@ const getVaultTitle = (
   return `${formattedPeriod} ${assetSymbol} ${formattedType}`;
 };
 
-const getVaultSubTitle = (
+export const getVaultSubTitle = (
   strikePrice: Vault["strikePrice"],
   expiry: Vault["expiry"],
   isSettled: Vault["isSettled"],
@@ -145,7 +145,9 @@ export const VaultsTable = () => {
                 <CellValue>{`${annualPercentageYield}%`}</CellValue>
               </td>
               <td>
-                <CellValue>{`${vaultsInfos[index].allocation}%`}</CellValue>
+                <CellValue>{`${vaultsInfos[index].allocation.toFixed(
+                  2
+                )}%`}</CellValue>
               </td>
               <td>
                 <CellValue>

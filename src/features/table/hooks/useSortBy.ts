@@ -7,7 +7,6 @@ interface SortState<RowData> {
   by?: (element: RowData) => number | string | null;
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export const useSortBy = <RowData>(rows: RowData[]) => {
   const [sortState, setSortState] = useState<SortState<RowData>>({});
   const {

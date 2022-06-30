@@ -4,6 +4,7 @@ import {
   GreenCellValue,
   Chains,
   SwapButton,
+  ClaimButton,
   CellValue,
   AssetCell,
 } from "../../table/components";
@@ -11,6 +12,8 @@ import type { IndexTokenRow } from "../types";
 import { useIndexPositionsRows } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import { chainsMap } from "../../wallet/constants";
+
+import { ButtonsContainer } from "./PositionsTableActions.styles";
 
 const columns: Column<IndexTokenRow>[] = [
   {
@@ -76,8 +79,11 @@ const columns: Column<IndexTokenRow>[] = [
   {
     key: "id",
 
-    render: ({ id, chainId }) => (
-      <SwapButton chainId={chainId} indexVaultId={id} />
+    render: ({ id, chainId, unclaimed }) => (
+      <ButtonsContainer>
+        {unclaimed ? <ClaimButton chainId={chainId} indexVaultId={id} /> : ""}
+        <SwapButton chainId={chainId} indexVaultId={id} />
+      </ButtonsContainer>
     ),
   },
 ];
@@ -89,7 +95,8 @@ export const PositionsTable = () => {
   const indexPositionsRows = useIndexPositionsRows();
 
   const filteredRows = indexPositionsRows.filter((row) =>
-    row ? row.balance?.gt(0) : true
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+    row ? row.balance?.gt(0) || row.unclaimed : true
   );
 
   if (filteredRows.length === 0) {

@@ -9,6 +9,10 @@ export enum MutationType {
   swapETHForExactTokens = "swapETHForExactTokens",
 
   deposit = "deposit",
+
+  directWithdraw = "withdraw",
+  withdrawClaim = "redeem",
+
   depositNative = "depositNative",
 }
 

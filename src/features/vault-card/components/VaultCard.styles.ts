@@ -1,14 +1,19 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import { screens } from "../../shared/constants";
+import { Link } from "../../shared/components";
 
 import type { VaultCardProps } from "./VaultCard";
 
-type ContainerProps = Pick<VaultCardProps, "borderColor" | "disabled">;
+type ContainerProps = Pick<
+  VaultCardProps,
+  "backgroundColor" | "disabled" | "shadowColor"
+>;
+
+type APYTitleProps = Pick<VaultCardProps, "backgroundColor">;
 
 export const Container = styled(motion.div).attrs<ContainerProps>(
-  ({ borderColor, disabled }) => ({
+  ({ shadowColor = "", disabled }) => ({
     initial: {
       opacity: 0,
       y: 50,
@@ -19,135 +24,100 @@ export const Container = styled(motion.div).attrs<ContainerProps>(
       y: 0,
     },
 
-    whileHover: !disabled && { y: -10, boxShadow: `0 0 20px ${borderColor}` },
+    whileHover: !disabled && { y: -10, boxShadow: `0 0 20px ${shadowColor}` },
 
     whileTap: !disabled && {
       scale: 0.97,
-      boxShadow: `0 0 10px ${borderColor}`,
+      boxShadow: `0 0 10px ${shadowColor}`,
       opacity: 0.8,
     },
   })
 )<ContainerProps>`
   display: flex;
   flex-direction: column;
-  padding: 0 6px;
-  border-radius: 10px;
-  overflow: hidden;
-  background: linear-gradient(180deg, #2c2c2c 0%, #101010 100%);
-  border: 2px solid ${({ borderColor }) => borderColor};
+  padding: 2px;
+  border-radius: 8px;
+  background: ${({ backgroundColor }) => backgroundColor};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-
-  flex-basis: 270px;
-
-  ${screens.md} {
-    flex-basis: 340px;
-  }
+  flex-basis: 254px;
 `;
 
 export const Header = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 8px;
-`;
-
-export const TitleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  padding: 4px;
 `;
 
 export const Title = styled.span`
   font-family: Roboto;
-  color: #e5e5e5;
-  line-height: 1;
-
   font-weight: 700;
-  font-size: 19px;
+  font-size: 12px;
 
-  ${screens.md} {
-    font-weight: 400;
-    font-size: 24px;
-  }
-`;
-
-export const SubTitle = styled(Title)`
-  color: #ffffff;
-  text-align: right;
+  text-align: center;
 `;
 
 export const Content = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 8px 16px;
-  border-top: 1px solid #5d5d5d;
-  border-bottom: 1px solid #5d5d5d;
+  flex-direction: column;
+  padding: 0 8px;
+  background-color: #010e1d;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 `;
 
 export const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  justify-content: center;
+  gap: 8px;
+  padding: 16px 2px;
+  border-bottom: 1px solid #5d5d5d;
 `;
 
-export const LeftDataContainer = styled(DataContainer)`
-  align-items: start;
+export const DataContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
 `;
 
-export const RightDataContainer = styled(DataContainer)`
+export const SymbolContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+`;
+
+export const APYContainer = styled(SymbolContainer)`
+  flex: initial;
   align-items: end;
 `;
 
-export const DataTitle = styled.span`
+export const SymbolTitle = styled.span`
   font-family: Roboto;
-  font-weight: 400;
+  font-weight: 700;
+  font-size: 16px;
   color: #ffffff;
-
-  font-size: 11px;
-
-  ${screens.md} {
-    font-size: 14px;
-  }
 `;
 
-export const LeftDataValue = styled.span`
-  font-family: Barlow;
-  font-weight: 600;
-  color: #ffffff;
-
-  font-size: 22px;
-
-  ${screens.md} {
-    font-size: 28px;
-  }
-`;
-
-export const RightDataValue = styled(LeftDataValue)`
-  font-family: Roboto;
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 0;
-`;
-
-export const ButtonTitle = styled.span`
-  font-family: Roboto;
-  font-weight: 600;
-
-  background: linear-gradient(180deg, #2699da 0%, #63b22d 100%);
+export const APYTitle = styled(SymbolTitle)<APYTitleProps>`
+  background: ${({ backgroundColor }) => backgroundColor};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  text-align: center;
+`;
 
-  font-size: 17px;
+export const SubTitle = styled.span`
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  color: #ffffff;
+`;
 
-  ${screens.md} {
-    font-size: 22px;
+export const CardLink = styled(Link)`
+  text-decoration: none;
+  &:visited,
+  &:link {
+    text-decoration: none;
+    color: inherit;
   }
 `;

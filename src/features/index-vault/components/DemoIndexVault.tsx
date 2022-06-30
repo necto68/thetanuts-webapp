@@ -5,6 +5,8 @@ import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
 import { demoIndexVaults } from "../../theta-index/constants";
 
+import { IndexVaultFooter } from "./IndexVaultFooter";
+
 interface DemoIndexVaultProps {
   demoIndexVaultId: string;
 }
@@ -17,22 +19,23 @@ export const DemoIndexVault: FC<DemoIndexVaultProps> = ({
   const { assetSymbol = "", totalPercentageYields } = data ?? {};
   const { annualPercentageYield = 0 } = totalPercentageYields ?? {};
 
+  const backgroundColor =
+    "linear-gradient(83.93deg, #daef46 0%, #ffb626 28.12%, #1cf9a6 63.02%, #3ff096 100%)";
+
   const formattedTotalAPY = numberFormatter.format(annualPercentageYield);
 
   const assetLogo = getLogoBySymbol(assetSymbol);
 
   return (
     <VaultCard
-      borderColor="#81e429"
-      buttonTitle="Coming Soon"
+      apy={formattedTotalAPY}
+      backgroundColor={backgroundColor}
       disabled
+      footerContent={<IndexVaultFooter title="Coming Soon" />}
       icon={assetLogo}
-      leftDataTitle="APY"
-      leftDataValue={`${formattedTotalAPY} %`}
-      rightDataTitle="TVL"
-      rightDataValue="-"
       subTitle="Stronghold"
-      title={assetSymbol}
+      symbol={assetSymbol}
+      title="Put Selling"
     />
   );
 };

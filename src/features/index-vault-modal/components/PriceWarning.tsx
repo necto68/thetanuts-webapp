@@ -3,9 +3,19 @@ import type { FC } from "react";
 import { IconContainer } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import { Warning } from "../icons";
-import { useSwapRouterConfig, useSwapRouterState } from "../hooks";
+import {
+  useIndexVaultModalState,
+  useSwapRouterConfig,
+  useSwapRouterState,
+} from "../hooks";
+import { ModalContentType } from "../types/modalContentType";
 
-import { Container, WarningTitle, WarningLink } from "./PriceWarning.styles";
+import {
+  Container,
+  WarningTitle,
+  WarningLink,
+  WarningAction,
+} from "./TextWarning.styles";
 
 interface PriceWarningProps {
   isShowDirectDepositProposal: boolean;
@@ -20,6 +30,7 @@ export const PriceWarning: FC<PriceWarningProps> = ({
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { sourceData } = useSwapRouterState();
+  const [, setIndexVaultModalState] = useIndexVaultModalState();
 
   const { data } = indexVaultQuery;
   const {
@@ -33,6 +44,13 @@ export const PriceWarning: FC<PriceWarningProps> = ({
   const isStableCoin = ["USDC", "BUSD"].includes(symbol);
 
   const chainTitle = chainId ? chainsMap[chainId].title : "";
+
+  const startWithdraw = () => {
+    setIndexVaultModalState((previousState) => ({
+      ...previousState,
+      contentType: ModalContentType.withdraw,
+    }));
+  };
 
   return (
     <Container>
@@ -58,11 +76,9 @@ export const PriceWarning: FC<PriceWarningProps> = ({
       ) : null}
       {isShowDirectWithdrawProposal ? (
         <WarningTitle>
-          High Price Impact! Advise to{" "}
-          <WarningLink href="https://t.me/officialThetanutsFinance">
-            contact us
-          </WarningLink>{" "}
-          for optimised swap.
+          High Slippage.
+          <WarningAction onClick={startWithdraw}>Click Here</WarningAction>
+          &nbsp;to Direct Withdraw for minimal slippage.
         </WarningTitle>
       ) : null}
       {isShowMaxVaultCapReachedTitle ? (
