@@ -7,6 +7,7 @@ export const BaseVaultModalButton = styled(BaseButton)`
   font-weight: 500;
   font-size: 12px;
   padding: 12px 30px;
+  min-width: 105px;
 
   border-radius: 8px;
 

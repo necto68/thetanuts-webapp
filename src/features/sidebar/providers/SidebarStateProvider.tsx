@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 
-import { useIsMobile } from "../../shared/hooks";
+import { useIsTablet } from "../../shared/hooks";
 import type { SidebarState } from "../types";
 
 const defaultSidebarState: SidebarState = {
@@ -20,18 +20,18 @@ export const SidebarStateContext =
   createContext<SidebarState>(defaultSidebarState);
 
 export const SidebarStateProvider: FC = ({ children }) => {
-  const isMobile = useIsMobile();
-  const [isShow, setIsShow] = useState(!isMobile);
+  const isTablet = useIsTablet();
+  const [isShow, setIsShow] = useState(!isTablet);
 
   useEffect(() => {
-    setIsShow(!isMobile);
-  }, [isMobile]);
+    setIsShow(!isTablet);
+  }, [isTablet]);
 
   const toggleIsShow = useCallback(() => {
-    if (isMobile) {
+    if (isTablet) {
       setIsShow((previousIsShow) => !previousIsShow);
     }
-  }, [isMobile, setIsShow]);
+  }, [isTablet, setIsShow]);
 
   const value = useMemo(
     () => ({

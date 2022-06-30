@@ -39,7 +39,7 @@ export const LayoutContainer = styled.div`
 
   padding: 15px;
 
-  ${screens.md} {
+  ${screens.xl} {
     padding: 0;
   }
 `;
@@ -53,7 +53,7 @@ export const GridContainer = styled.div`
   grid-template-rows: 1fr;
   gap: 15px;
 
-  ${screens.md} {
+  ${screens.xl} {
     grid-template-areas:
       "sidebar mobile-header"
       "sidebar page";
@@ -72,7 +72,7 @@ export const MobileHeaderContainer = styled.div`
   grid-area: mobile-header;
   display: none;
 
-  ${screens.md} {
+  ${screens.xl} {
     display: initial;
   }
 `;
@@ -81,10 +81,11 @@ export const PageContainer = styled.div`
   grid-area: page;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   padding: 0;
 
-  ${screens.md} {
+  ${screens.xl} {
     padding: 15px;
   }
 `;

@@ -19,4 +19,9 @@ export const MetricsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+
+  ${screens.md} {
+    flex-direction: column;
+    gap: 5px;
+  }
 `;

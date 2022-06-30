@@ -7,6 +7,7 @@ import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
 import { ModalPathname } from "../../root/types";
 import { VaultType } from "../../basic-vault/types";
+import { getVaultTypeTitle } from "../helpers";
 
 import { IndexVaultFooter } from "./IndexVaultFooter";
 
@@ -23,7 +24,7 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
     totalPercentageYields,
   } = data ?? {};
 
-  const title = type === VaultType.CALL ? "Covered Call" : "Put Selling";
+  const title = getVaultTypeTitle(type);
   const backgroundColor =
     "linear-gradient(83.93deg, #daef46 0%, #ffb626 28.12%, #1cf9a6 63.02%, #3ff096 100%)";
 

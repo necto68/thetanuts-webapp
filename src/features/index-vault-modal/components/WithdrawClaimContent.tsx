@@ -8,7 +8,7 @@ export const WithdrawClaimContent = () => (
   <Container>
     <WithdrawClaimSection />
     <ExpandersSection
-      sections={[SectionType.withdrawSchedule, SectionType.indexInfo]}
+      sections={[SectionType.withdrawSchedule, SectionType.analytics]}
     />
   </Container>
 );

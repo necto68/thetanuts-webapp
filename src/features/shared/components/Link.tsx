@@ -6,11 +6,11 @@ type NavLinkProps = ReactRouterNavLinkProps;
 
 export const Link: React.FC<NavLinkProps> = ({ children, to, ...props }) => {
   const internal = typeof to === "string" ? /^\/(?!\/)/u.test(to) : true;
-  const { className, target } = props;
+  const { className, target, onClick } = props;
 
   if (internal || typeof to !== "string") {
     return (
-      <ReactRouterNavLink to={to} {...{ className, target }}>
+      <ReactRouterNavLink to={to} {...{ className, target, onClick }}>
         {children}
       </ReactRouterNavLink>
     );

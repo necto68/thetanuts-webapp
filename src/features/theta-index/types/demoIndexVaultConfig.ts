@@ -10,6 +10,7 @@ export interface DemoIndexVaultConfig
       | "supportedChainIds"
       | "totalPercentageYields"
       | "totalValueLocked"
+      | "type"
     > {
   isDemo: true;
 }

@@ -1,8 +1,10 @@
 import type { DemoIndexVaultConfig } from "../types";
+import { VaultType } from "../../basic-vault/types";
 
 export const demoIndexVaults: DemoIndexVaultConfig[] = [
   {
     id: "FRAX-DEMO",
+    type: VaultType.PUT,
     isDemo: true,
     isFeatured: true,
     assetSymbol: "FRAX",

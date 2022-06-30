@@ -9,12 +9,14 @@ import { IndexApyInfo } from "./IndexApyInfo";
 import { IndexInfo } from "./IndexInfo";
 import { Container } from "./ExpandersSection.styles";
 import { IndexWithdrawSchedule } from "./IndexWithdrawSchedule";
+import { ExternalExpander } from "./ExternalExpander";
 
 export const ExpandersSection: FC<{ sections?: SectionType[] }> = ({
-  sections = [SectionType.indexAPY, SectionType.indexInfo],
+  sections = [SectionType.indexAPY, SectionType.analytics],
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { isLoading, data } = indexVaultQuery;
+  const { id = "" } = data ?? {};
 
   const [openedSection, setOpenedSection] = useState<SectionType | null>(null);
 
@@ -71,14 +73,10 @@ export const ExpandersSection: FC<{ sections?: SectionType[] }> = ({
         </Expander>
       )}
       {isVisible(SectionType.analytics) && (
-        <Expander
-          isOpen={openedSection === SectionType.analytics}
-          onArrowClick={handleArrowClick}
+        <ExternalExpander
           title="Analytics and Historical Data"
-          type={SectionType.analytics}
-        >
-          <IndexInfo />
-        </Expander>
+          to={`https://analytics.thetanuts.finance/${id}`}
+        />
       )}
     </Container>
   );

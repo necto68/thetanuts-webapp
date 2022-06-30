@@ -18,6 +18,7 @@ import {
   Cell,
   CellValue,
   CellTitle,
+  TableContainerWrapper,
 } from "./Table.styles";
 
 const renderCellContent = <RowData extends object>(
@@ -80,47 +81,54 @@ export const Table = <RowData extends object>({
         placeholder={filterInputPlaceholder}
         value={filterInputValue}
       />
-      <TableContainer>
-        <thead>
-          <HeaderRow>
-            {columns.map(({ title, key, sortBy }, columnIndex) => (
-              <HeaderCell
-                align={columnIndex === columns.length - 1 ? "right" : undefined}
-                key={title ?? columnIndex.toString()}
-              >
-                {title ? (
-                  <SortButton
-                    onClick={() => {
-                      // @ts-expect-error key type should be fixed
-                      updateSort(key, sortBy);
-                    }}
-                  >
-                    <SortContainer>
-                      <Header>{title}</Header>
-                      <SortArrowContainer show={sortState.key === key}>
-                        <ArrowIcon up={sortState.order === "ASC"} />
-                      </SortArrowContainer>
-                    </SortContainer>
-                  </SortButton>
-                ) : null}
-              </HeaderCell>
-            ))}
-          </HeaderRow>
-        </thead>
-        <tbody>
-          <AnimatePresence initial={false}>
-            {sortedRows.map((row, rowIndex) => (
-              <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
-                {columns.map((column, columnIndex) => (
-                  <Cell key={column.key?.toString() ?? columnIndex.toString()}>
-                    {renderCellContent(row, column)}
-                  </Cell>
-                ))}
-              </Row>
-            ))}
-          </AnimatePresence>
-        </tbody>
-      </TableContainer>
+      <TableContainerWrapper>
+        <TableContainer>
+          <thead>
+            <HeaderRow>
+              {columns.map(({ title, key, sortBy, minWidth }, columnIndex) => (
+                <HeaderCell
+                  align={
+                    columnIndex === columns.length - 1 ? "right" : undefined
+                  }
+                  key={title ?? columnIndex.toString()}
+                  minWidth={minWidth?.toString()}
+                >
+                  {title ? (
+                    <SortButton
+                      onClick={() => {
+                        // @ts-expect-error key type should be fixed
+                        updateSort(key, sortBy);
+                      }}
+                    >
+                      <SortContainer>
+                        <Header>{title}</Header>
+                        <SortArrowContainer show={sortState.key === key}>
+                          <ArrowIcon up={sortState.order === "ASC"} />
+                        </SortArrowContainer>
+                      </SortContainer>
+                    </SortButton>
+                  ) : null}
+                </HeaderCell>
+              ))}
+            </HeaderRow>
+          </thead>
+          <tbody>
+            <AnimatePresence initial={false}>
+              {sortedRows.map((row, rowIndex) => (
+                <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
+                  {columns.map((column, columnIndex) => (
+                    <Cell
+                      key={column.key?.toString() ?? columnIndex.toString()}
+                    >
+                      {renderCellContent(row, column)}
+                    </Cell>
+                  ))}
+                </Row>
+              ))}
+            </AnimatePresence>
+          </tbody>
+        </TableContainer>
+      </TableContainerWrapper>
     </Container>
   );
 };

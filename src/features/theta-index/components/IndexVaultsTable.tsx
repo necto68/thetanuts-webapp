@@ -16,6 +16,7 @@ import { InfoIcon, Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import type { DemoIndexVaultConfig } from "../types";
 import { VaultModalType } from "../../root/types";
+import { getVaultTypeTitle } from "../../index-vault/helpers";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
@@ -27,6 +28,16 @@ const columns: Column<IndexVaultRow>[] = [
     title: "Asset",
     render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
     filterBy: true,
+  },
+  {
+    key: "type",
+    title: "Strategy",
+
+    render: ({ type }) => (
+      <GreenCellValue>{getVaultTypeTitle(type)}</GreenCellValue>
+    ),
+
+    filterBy: ({ type }) => getVaultTypeTitle(type),
   },
   {
     key: "totalPercentageYields",
@@ -65,6 +76,7 @@ const columns: Column<IndexVaultRow>[] = [
   {
     key: "supportedChainIds",
     title: "Networks",
+    minWidth: 160,
 
     render: (row) => {
       if ("isDemo" in row) {

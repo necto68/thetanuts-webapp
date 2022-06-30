@@ -5,7 +5,7 @@ import { generatePath } from "react-router-dom";
 import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 import { IconContainer, Link, Tooltip } from "../../shared/components";
-import { useIsMobile } from "../../shared/hooks";
+import { useScreens } from "../../shared/hooks";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultModalType, ModalPathname } from "../../root/types";
 import { useVaultModalState } from "../../modal/hooks";
@@ -30,7 +30,7 @@ export const Chains: FC<ChainsProps> = ({
   vaultType,
   vaultId,
 }) => {
-  const isMobile = useIsMobile();
+  const isMobile = useScreens();
   const [vaultModalState, setVaultModalState] = useVaultModalState();
   const { isRouterModal } = vaultModalState;
 

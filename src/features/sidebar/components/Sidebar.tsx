@@ -18,6 +18,9 @@ import {
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
+import { ThetaBasic } from "../icons/ThetaBasic";
+import { Analytics } from "../icons/Analytics";
+import { Documentation } from "../icons/Documentation";
 
 import {
   CircleButtonContainer,
@@ -31,7 +34,6 @@ import {
 } from "./Sidebar.styles";
 import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
-import { SidebarItemSecondary } from "./SidebarItemSecondary";
 
 export const Sidebar = () => {
   const { pathname } = useLocation();
@@ -49,12 +51,18 @@ export const Sidebar = () => {
     {
       to: PagePathname.basic,
       linkTitle: "Basic",
-      navIcon: ThetaIndex,
+      navIcon: ThetaBasic,
     },
     {
       to: PagePathname.portfolio,
       linkTitle: "Portfolio",
       navIcon: Portfolio,
+    },
+    {
+      to: "https://analytics.thetanuts.finance/",
+      linkTitle: "Analytics",
+      navIcon: Analytics,
+      target: "_blank",
     },
   ];
 
@@ -62,6 +70,7 @@ export const Sidebar = () => {
     {
       to: "https://docs.thetanuts.finance",
       linkTitle: "Docs",
+      navIcon: Documentation,
     },
   ];
 
@@ -108,6 +117,7 @@ export const Sidebar = () => {
             key={navItem.linkTitle}
             linkTitle={navItem.linkTitle}
             navIcon={navItem.navIcon}
+            target={navItem.target ?? "_self"}
             to={navItem.to}
           />
         ))}
@@ -125,28 +135,30 @@ export const Sidebar = () => {
       </SwitchToV0ButtonContainer>
       <SecondaryNavContainer>
         {secondaryNavItems.map((navItem) => (
-          <SidebarItemSecondary
+          <SidebarItem
             active={navItem.to === pathname}
             key={navItem.linkTitle}
             linkTitle={navItem.linkTitle}
+            navIcon={navItem.navIcon}
+            target="_blank"
             to={navItem.to}
           />
         ))}
+        <IconNavContainer>
+          {iconNavItems.map(({ to, navIcon }) => (
+            <a href={to} key={to} rel="noreferrer" target="_blank">
+              <IconContainer
+                color="#ffffff"
+                height={22}
+                hoverColor="#1fffab"
+                width={22}
+              >
+                {createElement(navIcon)}
+              </IconContainer>
+            </a>
+          ))}
+        </IconNavContainer>
       </SecondaryNavContainer>
-      <IconNavContainer>
-        {iconNavItems.map(({ to, navIcon }) => (
-          <a href={to} key={to} rel="noreferrer" target="_blank">
-            <IconContainer
-              color="#ffffff"
-              height={22}
-              hoverColor="#1fffab"
-              width={22}
-            >
-              {createElement(navIcon)}
-            </IconContainer>
-          </a>
-        ))}
-      </IconNavContainer>
     </SidebarContainer>
   );
 };

@@ -1,7 +1,7 @@
 import { useQueries } from "react-query";
 
 import { basicVaultsMap } from "../../basic/constants";
-import { chainProvidersMap } from "../../wallet/constants";
+import { ChainId, chainProvidersMap } from "../../wallet/constants";
 import { basicVaultFetcher } from "../helpers";
 import { QueryType } from "../../shared/types";
 
@@ -9,7 +9,8 @@ export const useBasicVaults = (basicVaultIds: string[]) => {
   const tokensConfigs = basicVaultIds.map((basicVaultId) => {
     const tokenConfig = basicVaultsMap[basicVaultId];
 
-    const { chainId = 1, basicVaultAddress = "" } = tokenConfig?.source ?? {};
+    const { chainId = ChainId.ETHEREUM, basicVaultAddress = "" } =
+      tokenConfig?.source ?? {};
 
     const provider = chainProvidersMap[chainId];
 

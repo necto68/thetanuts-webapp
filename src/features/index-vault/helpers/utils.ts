@@ -2,6 +2,7 @@ import Big from "big.js";
 
 import type { IndexVault } from "../types";
 import type { PercentageYields, BasicVault } from "../../basic-vault/types";
+import { VaultType } from "../../basic-vault/types";
 
 const getYield = (
   baseValue: number,
@@ -190,3 +191,6 @@ export const getTotalRemainder = (vaults: (BasicVault | undefined)[]) => {
 
   return sortedRemaindersValues[0].round(0, Big.roundDown).toNumber();
 };
+
+export const getVaultTypeTitle = (type: VaultType): string =>
+  type === VaultType.CALL ? "Covered Call" : "Put Selling";

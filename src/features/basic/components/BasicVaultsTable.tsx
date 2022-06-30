@@ -22,6 +22,7 @@ const columns: Column<BasicVault>[] = [
   {
     key: "assetSymbol",
     title: "Option Vault",
+    minWidth: 200,
 
     render: ({
       type,
@@ -49,16 +50,19 @@ const columns: Column<BasicVault>[] = [
   {
     key: "type",
     title: "Strategy",
+    minWidth: 110,
     render: ({ type, period }) => <StrategyCell period={period} type={type} />,
     sortBy: ({ type }) => type,
   },
   {
     title: "Risk",
+    minWidth: 70,
     render: () => "Low",
   },
   {
     key: "percentageYields",
     title: "APY",
+    minWidth: 110,
 
     render: ({ id, percentageYields }) => (
       <APYCellContainer>
@@ -78,6 +82,7 @@ const columns: Column<BasicVault>[] = [
   {
     key: "balance",
     title: "Capacity",
+    minWidth: 180,
 
     render: ({ type, collateralSymbol, balance, collatCap }) => (
       <BasicVaultCapacity
@@ -94,6 +99,7 @@ const columns: Column<BasicVault>[] = [
   {
     key: "chainId",
     title: "Network",
+    minWidth: 100,
 
     render: ({ id, chainId }) => (
       <Chains
@@ -107,6 +113,7 @@ const columns: Column<BasicVault>[] = [
   },
   {
     key: "id",
+    minWidth: 140,
 
     render: ({ id, chainId }) => (
       <DepositButton chainId={chainId} vaultId={id} />

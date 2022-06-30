@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 import { IconContainer } from "../../shared/components";
-import { useIsMobile } from "../../shared/hooks";
+import { useScreens } from "../../shared/hooks";
 import { Castle } from "../icons";
 
 import { FeaturedIndexVaultsList } from "./FeaturedIndexVaultsList";
@@ -13,13 +13,12 @@ import {
   BasketIconContainer,
   Title,
   Description,
-  ItalicDescription,
   DescriptionLink,
   ExpandDescriptionLink,
 } from "./ThetaIndexLayout.styles";
 
 export const ThetaIndexLayout = () => {
-  const isMobile = useIsMobile();
+  const isMobile = useScreens();
 
   const [isShowMoreDescription, setIsShowMoreDescription] = useState(false);
 
@@ -53,7 +52,7 @@ export const ThetaIndexLayout = () => {
                 anytime at the market rate. Thetanuts does not collect any
                 performance or management fees.
               </Description>
-              <ItalicDescription>
+              <Description>
                 Read the{" "}
                 <DescriptionLink href="https://docs.thetanuts.finance">
                   Thetanuts Docs
@@ -64,7 +63,7 @@ export const ThetaIndexLayout = () => {
                   Thetanuts Discord
                 </DescriptionLink>
                 .
-              </ItalicDescription>
+              </Description>
               {isMobile ? (
                 <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                   (show less)

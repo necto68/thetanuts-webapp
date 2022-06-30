@@ -10,6 +10,20 @@ export const Container = styled.div`
   border: 1px solid #9e9e9e;
 `;
 
+export const HeaderLink = styled(motion.a).attrs(() => ({
+  whileHover: {
+    scale: 1.03,
+  },
+}))`
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  border: 0;
+  padding: 12px 16px;
+  text-decoration: none;
+`;
+
 export const HeaderButton = styled(BaseButton).attrs(() => ({
   primaryColor: "transparent",
 }))`
