@@ -16,7 +16,6 @@ import { useSwapRouterConfig } from "../hooks";
 import { AssetSelector } from "./AssetSelector";
 import { PriceImpact } from "./PriceImpact";
 import { PriceWarning } from "./PriceWarning";
-import { TextWarning } from "./TextWarning";
 import {
   Container,
   AssetContainer,
@@ -50,8 +49,6 @@ interface SwapInputCardProps {
   priceImpactRate?: number;
   isDirectModeBetterThanSwapMode?: boolean;
   isUseDirectMode?: boolean;
-  fieldWarning?: string;
-  disabled?: boolean;
 }
 
 const getBalanceValue = (tokenData: NativeToken | Token | undefined) =>
@@ -74,8 +71,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   priceImpactRate = 0,
   isDirectModeBetterThanSwapMode = false,
   isUseDirectMode = false,
-  fieldWarning,
-  disabled,
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { data } = indexVaultQuery;
@@ -161,7 +157,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       </BalanceContainer>
       <AnimatePresence exitBeforeEnter initial={false}>
         <SwapInputCardAnimateContainer
-          disabled={disabled}
           downDirection={isSource ? isFlipped : !isFlipped}
           key={isFlipped.toString()}
         >
@@ -171,7 +166,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                 <SkeletonBox height={25.3} width={120} />
               ) : (
                 <SwapInput
-                  disabled={disabled}
                   isError={
                     isShowInsufficientBalanceTitle ||
                     isShowMaxVaultCapReachedTitle
@@ -226,7 +220,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               isShowMaxVaultCapReachedTitle={isShowMaxVaultCapReachedTitle}
             />
           ) : null}
-          {fieldWarning ? <TextWarning text={fieldWarning} /> : null}
         </SwapInputCardAnimateContainer>
       </AnimatePresence>
     </Container>

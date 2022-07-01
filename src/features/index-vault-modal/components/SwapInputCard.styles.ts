@@ -47,7 +47,6 @@ export const InsufficientBalanceTitle = styled(motion.span).attrs(() => ({
 
 export const SwapInputCardAnimateContainer = styled(motion.div).attrs<{
   downDirection: boolean;
-  disabled?: boolean;
 }>(({ downDirection }) => ({
   initial: {
     rotateX: downDirection ? "90deg" : "-90deg",
@@ -65,13 +64,13 @@ export const SwapInputCardAnimateContainer = styled(motion.div).attrs<{
   },
 
   transition: { duration: 0.3, ease: "linear" },
-}))<{ downDirection: boolean; disabled?: boolean }>`
+}))<{ downDirection: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 10px;
   border-radius: 10px;
   padding: 15px;
-  background-color: ${({ disabled }) => (disabled ? "#949494" : "#061f3a")};
+  background-color: #061f3a;
 `;
 
 export const SwapInputCardContentContainer = styled.div`

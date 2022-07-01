@@ -41,7 +41,6 @@ export const useIndexDepositsHistoryRows = (): (
           timestamp,
           balance: amountIn.mul(-1),
           chainId,
-          action: "",
 
           // TODO: add more different vault types
           productType: "THETA-INDEX",

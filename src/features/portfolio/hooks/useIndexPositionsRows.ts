@@ -1,8 +1,6 @@
 import { indexVaults } from "../../theta-index/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
 import type { IndexTokenRow } from "../types";
-import { useUnclaimedBalanceQueries } from "../../index-vault-modal/hooks/useUnclaimedBalanceQueries";
-import { ChainId } from "../../wallet/constants";
 
 import { useIndexTokensQueries } from "./useIndexTokensQueries";
 
@@ -10,10 +8,6 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
   const indexVaultsIds = indexVaults.map(({ id }) => id);
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
   const indexTokensQueries = useIndexTokensQueries(indexVaultsIds);
-  const chainIds = indexVaultsQueries.map(
-    ({ data }) => data?.chainId ?? ChainId.ETHEREUM
-  );
-  const unclaimedBalanceQueries = useUnclaimedBalanceQueries(chainIds);
 
   return indexVaultsQueries.flatMap(({ data }, vaultIndex) => {
     const { data: indexTokens } = indexTokensQueries[vaultIndex];
@@ -21,8 +15,6 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
     if (!data || !indexTokens) {
       return undefined;
     }
-
-    const { data: unclaimedByIndexToken } = unclaimedBalanceQueries[vaultIndex];
 
     const {
       id,
@@ -43,7 +35,6 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
       balance,
       tokenAddress,
       chainId,
-      unclaimed: unclaimedByIndexToken?.[tokenAddress]?.gt(0) ?? false,
     }));
   });
 };

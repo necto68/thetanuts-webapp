@@ -6,16 +6,12 @@ export enum TransactionType {
   swappedIn = "swappedIn",
   swappedOut = "swappedOut",
   depositedDirectly = "depositedDirectly",
-  withdrawnDirectly = "withdrawnDirectly",
-  claim = "claim",
 }
 
 export const TransactionTypeTitle = {
   [TransactionType.swappedIn]: "Swap",
   [TransactionType.swappedOut]: "Swap",
   [TransactionType.depositedDirectly]: "Deposited Directly",
-  [TransactionType.withdrawnDirectly]: "Direct Withdraw",
-  [TransactionType.claim]: "Claimed",
 };
 
 export interface Transaction {
@@ -25,7 +21,6 @@ export interface Transaction {
   amountIn: Big;
   amountOut: Big;
   chainId: ChainId;
-  expectedAmountOut?: Big;
 }
 
 export interface SwapTransaction extends Omit<Transaction, "type"> {

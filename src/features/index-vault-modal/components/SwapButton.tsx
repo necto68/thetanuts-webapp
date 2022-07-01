@@ -6,14 +6,11 @@ import Big from "big.js";
 import { LoadingSpinner } from "../../shared/components";
 import { web3ModalConfig } from "../../wallet/constants";
 import {
-  useIndexVaultModalState,
-  useSwapRouterConfig,
   useSwapRouterMutations,
+  useSwapRouterConfig,
   useSwapRouterState,
 } from "../hooks";
 import type { NativeToken, Token } from "../types";
-import { ModalContentType } from "../types/modalContentType";
-import { useWithdrawDataQuery } from "../hooks/useWithdrawDataQuery";
 
 import { BaseSwapButton, ContentContainer } from "./SwapButton.styles";
 
@@ -30,15 +27,10 @@ export const SwapButton: FC<SwapButtonProps> = ({
   isTargetValueLoading,
   sourceTokenData,
   targetTokenData,
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
-  const {
-    isUserOnSupportedChainId,
-    isUserOnMainChainId,
-    supportedChainIds,
-    indexVaultQuery,
-  } = useSwapRouterConfig();
+  const { isUserOnSupportedChainId, supportedChainIds, indexVaultQuery } =
+    useSwapRouterConfig();
   const { sourceValue, targetValue, isUseDirectMode, isFlipped } =
     useSwapRouterState();
   const {
@@ -47,12 +39,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
     runApproveAllowance,
     runSwapTokensForTokens,
     runDirectDeposit,
-    runDirectWithdraw,
-    runClaim,
   } = useSwapRouterMutations();
-
-  const { data: withdrawData } = useWithdrawDataQuery();
-  const { claimableBalance = "" } = withdrawData ?? {};
 
   const { account, connect } = useWallet();
 
@@ -75,37 +62,12 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }, [runApproveAllowance]);
 
   const handleSwapButtonClick = useCallback(() => {
-    if (indexVaultModalState.contentType === ModalContentType.withdrawSummary) {
-      runDirectWithdraw();
-      return;
-    }
-
-    if (indexVaultModalState.contentType === ModalContentType.withdrawClaim) {
-      runClaim();
-      return;
-    }
-
     if (isUseDirectMode) {
       runDirectDeposit();
-      return;
+    } else {
+      runSwapTokensForTokens();
     }
-
-    runSwapTokensForTokens();
-  }, [
-    isUseDirectMode,
-    runDirectDeposit,
-    runSwapTokensForTokens,
-    indexVaultModalState.contentType,
-    runClaim,
-    runDirectWithdraw,
-  ]);
-
-  const handleDirectWithdrawButtonClick = useCallback(() => {
-    setIndexVaultModalState((previousState) => ({
-      ...previousState,
-      contentType: ModalContentType.withdrawSummary,
-    }));
-  }, [setIndexVaultModalState]);
+  }, [isUseDirectMode, runDirectDeposit, runSwapTokensForTokens]);
 
   const { data } = indexVaultQuery;
   const { totalRemainder = Number.MAX_SAFE_INTEGER } = data ?? {};
@@ -139,7 +101,6 @@ export const SwapButton: FC<SwapButtonProps> = ({
   } = swapMutation ?? {};
 
   const isError = Boolean(isApproveAllowanceError) || Boolean(isSwapError);
-
   const error = approveAllowanceError ?? swapError;
 
   if (!account) {
@@ -162,17 +123,6 @@ export const SwapButton: FC<SwapButtonProps> = ({
     );
   }
 
-  if (
-    !isUserOnMainChainId &&
-    indexVaultModalState.contentType === ModalContentType.withdrawClaim
-  ) {
-    return (
-      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
-        Wrong Network
-      </BaseSwapButton>
-    );
-  }
-
   if (isError && error) {
     return (
       <BaseSwapButton
@@ -181,39 +131,6 @@ export const SwapButton: FC<SwapButtonProps> = ({
         secondaryColor="#ffffff"
       >
         {error.data?.message ?? error.message}
-      </BaseSwapButton>
-    );
-  }
-
-  if (
-    isSwapLoading &&
-    indexVaultModalState.contentType === ModalContentType.withdrawClaim
-  ) {
-    return (
-      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
-        <ContentContainer>
-          Receiving...
-          <LoadingSpinner />
-        </ContentContainer>
-      </BaseSwapButton>
-    );
-  }
-
-  if (
-    isSwapButtonDisabled &&
-    indexVaultModalState.contentType === ModalContentType.withdrawClaim
-  ) {
-    return <BaseSwapButton disabled>Nothing to claim</BaseSwapButton>;
-  }
-
-  if (indexVaultModalState.contentType === ModalContentType.withdrawClaim) {
-    return (
-      <BaseSwapButton
-        onClick={handleSwapButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
-        Claim {claimableBalance} {targetTokenData?.symbol}
       </BaseSwapButton>
     );
   }
@@ -245,66 +162,6 @@ export const SwapButton: FC<SwapButtonProps> = ({
           {`Approving ${sourceTokenData.symbol}...`}
           <LoadingSpinner />
         </ContentContainer>
-      </BaseSwapButton>
-    );
-  }
-
-  if (
-    isSwapButtonDisabled &&
-    indexVaultModalState.contentType === ModalContentType.withdraw
-  ) {
-    return <BaseSwapButton disabled>Direct Withdraw</BaseSwapButton>;
-  }
-
-  if (
-    isNeedApprove &&
-    indexVaultModalState.contentType === ModalContentType.withdraw
-  ) {
-    return (
-      <BaseSwapButton
-        onClick={handleApproveButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
-        Approve Direct Withdraw
-      </BaseSwapButton>
-    );
-  }
-
-  if (
-    isSwapLoading &&
-    indexVaultModalState.contentType === ModalContentType.withdrawSummary
-  ) {
-    return (
-      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
-        <ContentContainer>
-          Withdrawing...
-          <LoadingSpinner />
-        </ContentContainer>
-      </BaseSwapButton>
-    );
-  }
-
-  if (indexVaultModalState.contentType === ModalContentType.withdrawSummary) {
-    return (
-      <BaseSwapButton
-        onClick={handleSwapButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
-        Agree and Direct Withdraw
-      </BaseSwapButton>
-    );
-  }
-
-  if (indexVaultModalState.contentType === ModalContentType.withdraw) {
-    return (
-      <BaseSwapButton
-        onClick={handleDirectWithdrawButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
-        Direct Withdraw
       </BaseSwapButton>
     );
   }

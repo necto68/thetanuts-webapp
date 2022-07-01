@@ -9,7 +9,6 @@ import {
   Link,
 } from "../../shared/components";
 import type { ThemeType } from "../types";
-import type { ModalContentType } from "../types/modalContentType";
 
 import {
   Container,
@@ -18,53 +17,34 @@ import {
   ChainSelectContainer,
 } from "./Header.styles";
 
-interface HeaderProps extends ThemeType {
-  title?: string;
-  chainSwitchVisible?: boolean;
-  backContentType?: ModalContentType;
-}
+type HeaderProps = ThemeType;
 
-export const Header: FC<HeaderProps> = ({
-  theme = "light",
-  title = "Swap",
-  chainSwitchVisible = true,
-  backContentType,
-}) => {
+export const Header: FC<HeaderProps> = ({ theme = "light" }) => {
   const [indexVaultModalState, setIndexVaultModalState] =
     useIndexVaultModalState();
   const { supportedChainIds } = useSwapRouterConfig();
 
   const { isRouterModal } = indexVaultModalState;
-  const indexVaultRoute =
-    isRouterModal && !backContentType ? { pathname: "/" } : {};
+  const indexVaultRoute = isRouterModal ? { pathname: "/" } : {};
 
   const handleCloseButtonClick = useCallback(() => {
     setIndexVaultModalState((previousState) => ({
       ...previousState,
-      isShow: Boolean(backContentType),
-      contentType: backContentType,
+      isShow: false,
     }));
-  }, [setIndexVaultModalState, backContentType]);
+  }, [setIndexVaultModalState]);
 
   return (
     <Container>
-      <Title theme={theme}>{title}</Title>
+      <Title theme={theme}>Swap</Title>
       <ButtonsContainer>
-        {chainSwitchVisible ? (
-          <ChainSelectContainer isShow={theme === "light"}>
-            <ChainSelect chainIds={supportedChainIds} />
-          </ChainSelectContainer>
-        ) : (
-          ""
-        )}
+        <ChainSelectContainer isShow={theme === "light"}>
+          <ChainSelect chainIds={supportedChainIds} />
+        </ChainSelectContainer>
         <Link to={indexVaultRoute}>
           <CircleButton
             iconSize={12}
-            iconType={
-              backContentType
-                ? CircleButtonIconType.arrowBack
-                : CircleButtonIconType.cross
-            }
+            iconType={CircleButtonIconType.cross}
             onClick={handleCloseButtonClick}
             primaryColor={theme === "dark" ? "#FFFFFF" : "#5D5D5D"}
           />

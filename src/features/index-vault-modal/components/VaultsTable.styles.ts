@@ -18,7 +18,6 @@ export const HeaderCellValue = styled.span`
   font-weight: 600;
   font-size: 12px;
   color: #000000;
-  display: flex;
 `;
 
 export const PortfolioCellContainer = styled.div`

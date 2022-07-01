@@ -15,18 +15,6 @@ export const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "medium",
 });
 
-export const utcDateFormatter = new Intl.DateTimeFormat("en-US", {
-  dateStyle: "medium",
-  timeZone: "UTC",
-});
-
-export const utcTimeFormatter = new Intl.DateTimeFormat("en-US", {
-  timeZone: "UTC",
-  hour: "numeric",
-  minute: "numeric",
-  hour12: false,
-});
-
 export const addressFormatter = (address: string) =>
   `${address.slice(0, 6)}...${address.slice(-4)}`;
 

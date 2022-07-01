@@ -11,12 +11,10 @@ import type { SwapRouterState } from "../types";
 import { InputType } from "../types";
 import { defaultSlippageToleranceValue } from "../constants";
 import { useMiddleIndexPrice } from "../../index-vault/hooks";
-import { ModalContentType } from "../types/modalContentType";
 
 import { useTokenQuery } from "./useTokenQuery";
 import { useNativeTokenQuery } from "./useNativeTokenQuery";
 import { useSwapRouterConfig } from "./useSwapRouterConfig";
-import { useIndexVaultModalState } from "./useIndexVaultModalState";
 
 const getPrices = (
   sourceValue: string,
@@ -82,15 +80,14 @@ const getTokensDivisors = async (
   };
 };
 
+// eslint-disable-next-line sonarjs/cognitive-complexity
 export const useSwapRouterProviderState = (): SwapRouterState => {
-  const [indexVaultModalState] = useIndexVaultModalState();
   const {
     indexVaultAddress,
     defaultSourceAddress,
     defaultTargetAddress,
     routerAddress,
     directDepositorAddress,
-    directWithdrawalAddress,
     provider,
     indexVaultProvider,
     chainId,
@@ -272,11 +269,9 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     isUseNativeTargetData,
   ]);
 
-  let spenderAddress = isUseDirectMode ? directDepositorAddress : routerAddress;
-
-  if (indexVaultModalState.contentType === ModalContentType.withdraw) {
-    spenderAddress = directWithdrawalAddress;
-  }
+  const spenderAddress = isUseDirectMode
+    ? directDepositorAddress
+    : routerAddress;
 
   const directDepositorAssetTokenQuery = useTokenQuery(
     assetTokenAddress,

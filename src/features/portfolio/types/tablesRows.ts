@@ -15,7 +15,6 @@ export interface IndexTokenRow
     Pick<Token, "balance" | "symbol" | "tokenAddress">,
     Pick<PercentageYields, "annualPercentageYield"> {
   productType: string;
-  unclaimed: boolean;
 }
 
 export interface HistoryTransactionRow
@@ -23,8 +22,5 @@ export interface HistoryTransactionRow
     Pick<Token, "symbol">,
     Pick<Transaction, "chainId" | "id" | "timestamp" | "type"> {
   balance: Big;
-  claimed?: Big;
   productType: string;
-  action: string;
-  indexVaultId?: string;
 }

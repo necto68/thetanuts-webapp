@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { ArrowBack, Cross, Hamburger } from "../icons";
+import { Cross, Hamburger } from "../icons";
 
 import { IconContainer } from "./IconContainer";
 import type { BaseButtonProps } from "./BaseButton";
@@ -9,13 +9,11 @@ import { BaseCircleButton, ContentContainer } from "./CircleButton.styles";
 enum CircleButtonIconType {
   cross = "cross",
   hamburger = "hamburger",
-  arrowBack = "arrowBack",
 }
 
 const buttonIcons = {
   [CircleButtonIconType.cross]: Cross,
   [CircleButtonIconType.hamburger]: Hamburger,
-  [CircleButtonIconType.arrowBack]: ArrowBack,
 };
 
 interface CircleButtonProps extends BaseButtonProps {

@@ -7,9 +7,9 @@ import { chainProvidersMap, chainsMap } from "../../wallet/constants";
 
 import { useIndexVaultModalState } from "./useIndexVaultModalState";
 
-// eslint-disable-next-line complexity
+// eslint-disable-next-line complexity,sonarjs/cognitive-complexity
 export const useSwapRouterConfig = () => {
-  const [{ indexVaultId, contentType }] = useIndexVaultModalState();
+  const [{ indexVaultId }] = useIndexVaultModalState();
   const indexVaultQuery = useIndexVault(indexVaultId);
   const { account, network, provider: walletProvider } = useWallet();
 
@@ -18,7 +18,6 @@ export const useSwapRouterConfig = () => {
     assetTokenAddress = "",
     indexTokenAddress = "",
     supportedChainIds = [],
-    chainId: mainChainId,
   } = data ?? {};
 
   const tokenConfig = indexVaultsMap[indexVaultId];
@@ -32,10 +31,6 @@ export const useSwapRouterConfig = () => {
   const walletChainId: ChainId = network?.chainId ?? 0;
   const isUserOnSupportedChainId = Boolean(
     account && network && supportedChainIds.includes(walletChainId)
-  );
-
-  const isUserOnMainChainId = Boolean(
-    account && network && mainChainId === walletChainId
   );
 
   const tokenReplication = replications.find(
@@ -57,8 +52,7 @@ export const useSwapRouterConfig = () => {
       ? chainsMap[walletChainId].addresses
       : chainsMap[indexVaultChainId].addresses;
 
-  const { directDepositorAddress, directWithdrawalAddress } =
-    chainsMap[indexVaultChainId].addresses;
+  const { directDepositorAddress } = chainsMap[indexVaultChainId].addresses;
 
   const provider = isUserOnSupportedChainId
     ? chainProvidersMap[walletChainId]
@@ -69,7 +63,6 @@ export const useSwapRouterConfig = () => {
   const chainId = isUserOnSupportedChainId ? walletChainId : indexVaultChainId;
 
   return {
-    contentType,
     walletChainId,
     indexVaultAddress,
 
@@ -78,7 +71,6 @@ export const useSwapRouterConfig = () => {
 
     routerAddress,
     directDepositorAddress,
-    directWithdrawalAddress,
 
     provider,
     walletProvider,
@@ -87,7 +79,6 @@ export const useSwapRouterConfig = () => {
     chainId,
     supportedChainIds,
     isUserOnSupportedChainId,
-    isUserOnMainChainId,
 
     indexVaultQuery,
   };
