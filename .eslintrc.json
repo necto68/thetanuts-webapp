@@ -29,10 +29,9 @@
     }],
     "react-perf/jsx-no-new-function-as-prop": 0,
     "react-perf/jsx-no-new-object-as-prop": 0,
+    "react-perf/jsx-no-new-array-as-prop": 0,
     "react-perf/jsx-no-jsx-as-prop": 0,
     "react/jsx-no-bind": 0,
-    "react-perf/jsx-no-new-array-as-prop": 0,
-    "unicorn/no-new-array": 0,
     "etc/no-enum": 0,
     "etc/no-commented-out-code": 1,
     "react/require-default-props": 0,
@@ -47,12 +46,7 @@
     "max-lines": 0,
     "max-params": 0,
     "@typescript-eslint/prefer-readonly-parameter-types": 0,
-    "no-warning-comments": 0,
-    "max-len": 0,
-    "no-param-reassign": 0,
-    "sonarjs/cognitive-complexity": 0,
-    "unicorn/no-await-expression-member": 0,
-    "unicorn/prefer-object-from-entries": 0
+    "no-warning-comments": 0
   },
   "overrides": [{
     "files": ["*.json", "*.html"],

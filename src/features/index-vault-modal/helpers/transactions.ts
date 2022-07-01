@@ -59,7 +59,7 @@ export const getTransactionOptions = async (
   signer: Signer,
   mutationType?: MutationType,
   amountIn?: string
-): Promise<CallOverrides> => {
+) => {
   const transactionOptions: CallOverrides = {};
 
   const [chainId, gasPrice] = await Promise.all([

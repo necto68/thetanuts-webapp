@@ -11,8 +11,6 @@ const defaultSwapRouterMutations: SwapRouterMutations = {
   runApproveAllowance: () => undefined,
   runSwapTokensForTokens: () => undefined,
   runDirectDeposit: () => undefined,
-  runDirectWithdraw: () => undefined,
-  runClaim: () => undefined,
 };
 
 export const SwapRouterMutationsContext = createContext<SwapRouterMutations>(

@@ -1,7 +1,6 @@
 import { createGlobalState } from "react-hooks-global-state";
 
 import type { ChainId } from "../../wallet/constants";
-import { ModalContentType } from "../../index-vault-modal/types/modalContentType";
 
 interface ModalState {
   isShow: boolean;
@@ -13,8 +12,6 @@ export interface IndexVaultModalState {
   indexVaultId: string;
   chainId?: ChainId | null | undefined;
   isRouterModal?: boolean;
-  contentType?: ModalContentType;
-  withdrawId?: number;
 }
 
 export interface GlobalState {
@@ -24,10 +21,5 @@ export interface GlobalState {
 
 export const { useGlobalState } = createGlobalState<GlobalState>({
   modalState: { isShow: false, vaultAddress: null },
-
-  indexVaultModalState: {
-    isShow: false,
-    indexVaultId: "",
-    contentType: ModalContentType.swap,
-  },
+  indexVaultModalState: { isShow: false, indexVaultId: "" },
 });

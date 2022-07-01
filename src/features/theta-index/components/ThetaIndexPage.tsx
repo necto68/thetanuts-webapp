@@ -6,7 +6,6 @@ import { useQueryParameters } from "../../shared/hooks/useQueryParameters";
 import { PagePathname } from "../../root/types";
 import type { IndexVaultModalState } from "../../shared/hooks";
 import { indexVaultsMap } from "../constants";
-import { ModalContentType } from "../../index-vault-modal/types/modalContentType";
 
 import { Header } from "./Header";
 import { ThetaIndexLayout } from "./ThetaIndexLayout";
@@ -39,15 +38,14 @@ export const ThetaIndexPage = () => {
       const { indexVaultId } = vaultModalUrlMatch.params as {
         indexVaultId: string;
       };
+      const chainId = Number(queryParameters.get("chain"));
 
       if (indexVaultsMap[indexVaultId]) {
-        const chainId = Number(queryParameters.get("chain"));
         setVaultModalState((previousState: IndexVaultModalState) => ({
           ...previousState,
+          isShow: true,
           indexVaultId,
           chainId,
-          isShow: true,
-          contentType: ModalContentType.swap,
         }));
       } else {
         routerHistory.push(PagePathname.thetaIndex);

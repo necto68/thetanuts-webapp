@@ -4,4 +4,3 @@ export * from "./Info";
 export * from "./Cross";
 export * from "./Hamburger";
 export * from "./Spinner";
-export * from "./ArrowBack";

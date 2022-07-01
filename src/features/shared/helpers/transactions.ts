@@ -16,12 +16,11 @@ export const processWalletError = (walletError: unknown) => {
 
 export const processTransactionError = (transactionError: unknown) => {
   const { code, cancelled } = transactionError as {
-    code: ErrorCode | number;
+    code: ErrorCode;
     cancelled: boolean;
   };
 
   if (
-    code === -32_603 ||
     (code === Logger.errors.TRANSACTION_REPLACED && cancelled) ||
     code !== Logger.errors.TRANSACTION_REPLACED
   ) {
