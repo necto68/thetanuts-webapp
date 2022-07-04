@@ -7,18 +7,18 @@ import {
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useBasicVaults } from "../../basic-vault/hooks";
-import type { Vault } from "../../index-vault/types";
 import { basicVaults } from "../constants";
 import { InfoIcon, Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
 import { BasicVaultCapacity } from "../../basic-vault/components/BasicVaultCapacity";
 import { ModalPathname } from "../../root/types";
+import type { BasicVault } from "../../basic-vault/types";
 
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
 
-const columns: Column<Vault>[] = [
+const columns: Column<BasicVault>[] = [
   {
     key: "assetSymbol",
     title: "Option Vault",
@@ -112,7 +112,7 @@ const columns: Column<Vault>[] = [
   },
 ];
 
-const getRowKey = ({ id, chainId }: Vault) => `${id}${chainId}`;
+const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
 // eslint-disable-next-line react/no-multi-comp
 export const BasicVaultsTable = () => {

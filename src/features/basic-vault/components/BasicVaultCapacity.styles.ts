@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import type { Vault } from "../../index-vault/types";
-import { VaultType } from "../../index-vault/types";
+import type { BasicVault } from "../types";
+import { VaultType } from "../types";
 
-interface ProgressBarProps extends Pick<Vault, "type"> {
+interface ProgressBarProps extends Pick<BasicVault, "type"> {
   value: number;
 }
 

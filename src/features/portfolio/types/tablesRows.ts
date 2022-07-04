@@ -1,7 +1,8 @@
 import type Big from "big.js";
 
-import type { IndexVault, PercentageYields } from "../../index-vault/types";
+import type { IndexVault } from "../../index-vault/types";
 import type { Token } from "../../index-vault-modal/types";
+import type { PercentageYields } from "../../basic-vault/types";
 import type { ChainId } from "../../wallet/constants";
 
 import type { Transaction } from "./transaction";

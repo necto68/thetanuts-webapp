@@ -1,11 +1,11 @@
 import type { FC } from "react";
 
 import { useBasicVaultEpochTimerTitle } from "../hooks/useBasicVaultEpochTimerTitle";
-import type { Vault } from "../../index-vault/types";
+import type { BasicVault } from "../types";
 
 import { Container, Title } from "./EpochTimer.styles";
 
-type EpochTimerProps = Pick<Vault, "expiry" | "isExpired" | "isSettled">;
+type EpochTimerProps = Pick<BasicVault, "expiry" | "isExpired" | "isSettled">;
 
 export const EpochTimer: FC<EpochTimerProps> = ({
   expiry,

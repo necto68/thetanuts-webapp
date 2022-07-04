@@ -5,8 +5,8 @@ import { useIndexVault } from "../hooks";
 import { numberFormatter } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
-import { VaultType } from "../types";
 import { ModalPathname } from "../../root/types";
+import { VaultType } from "../../basic-vault/types";
 
 import { IndexVaultFooter } from "./IndexVaultFooter";
 

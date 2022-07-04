@@ -2,9 +2,9 @@ import type { FC } from "react";
 
 import { getLogoBySymbol } from "../../logo/helpers";
 import { IconContainer } from "../../shared/components";
-import type { Vault } from "../../index-vault/types";
-import { VaultType } from "../../index-vault/types";
 import { useBasicVaultEpochTimerTitle } from "../../basic-vault/hooks/useBasicVaultEpochTimerTitle";
+import type { BasicVault } from "../../basic-vault/types";
+import { VaultType } from "../../basic-vault/types";
 
 import {
   Container,
@@ -14,12 +14,12 @@ import {
 } from "./BasicVaultAssetCell.styles";
 
 interface BasicVaultAssetCellProps {
-  type: Vault["type"];
-  assetSymbol: Vault["assetSymbol"];
-  collateralSymbol: Vault["collateralSymbol"];
-  expiry: Vault["expiry"];
-  isSettled: Vault["isSettled"];
-  isExpired: Vault["isExpired"];
+  type: BasicVault["type"];
+  assetSymbol: BasicVault["assetSymbol"];
+  collateralSymbol: BasicVault["collateralSymbol"];
+  expiry: BasicVault["expiry"];
+  isSettled: BasicVault["isSettled"];
+  isExpired: BasicVault["isExpired"];
 }
 
 export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({

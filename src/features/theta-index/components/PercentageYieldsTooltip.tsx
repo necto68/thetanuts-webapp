@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import type { PercentageYields } from "../../index-vault/types";
+import type { PercentageYields } from "../../basic-vault/types";
 
 import {
   Container,

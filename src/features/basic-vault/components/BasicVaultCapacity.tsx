@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
-import type { Vault } from "../../index-vault/types";
 import { numberFormatter } from "../../shared/helpers";
+import type { BasicVault } from "../types";
 
 import {
   Container,
@@ -11,7 +11,7 @@ import {
 } from "./BasicVaultCapacity.styles";
 
 type BasicVaultCapacityProps = Pick<
-  Vault,
+  BasicVault,
   "balance" | "collatCap" | "collateralSymbol" | "type"
 >;
 

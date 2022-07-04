@@ -8,20 +8,20 @@ import {
   PriceFeedAbi__factory as PriceFeedAbiFactory,
   VaultAbi__factory as VaultAbiFactory,
 } from "../../contracts/types";
-import type { Vault } from "../../index-vault/types";
-import { VaultType } from "../../index-vault/types";
 import { convertToBig } from "../../shared/helpers";
 import {
   getPercentageYields,
   normalizeVaultValue,
 } from "../../index-vault/helpers/utils";
 import type { ChainId } from "../../wallet/constants";
+import type { BasicVault } from "../types";
+import { VaultType } from "../types";
 
 export const basicVaultFetcher = async (
   id: string,
   basicVaultAddress: string,
   provider: Provider
-): Promise<Vault> => {
+): Promise<BasicVault> => {
   const vaultContract = VaultAbiFactory.connect(basicVaultAddress, provider);
 
   const lpDivisor = new Big(10).pow(18);

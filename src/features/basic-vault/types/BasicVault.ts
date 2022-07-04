@@ -2,7 +2,10 @@ import type Big from "big.js";
 
 import type { ChainId } from "../../wallet/constants";
 
-import type { VaultType } from "./indexVault";
+export enum VaultType {
+  CALL = "CALL",
+  PUT = "PUT",
+}
 
 export interface PercentageYields {
   annualPercentageYield: number;
@@ -11,7 +14,7 @@ export interface PercentageYields {
   annualPercentageRate: number;
 }
 
-export interface Vault {
+export interface BasicVault {
   id: string;
   basicVaultAddress: string;
   chainId: ChainId;

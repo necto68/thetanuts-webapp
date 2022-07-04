@@ -1,6 +1,5 @@
 import { useSwapRouterConfig } from "../hooks";
-import { VaultType } from "../../index-vault/types";
-import type { IndexVault, Vault } from "../../index-vault/types";
+import type { IndexVault } from "../../index-vault/types";
 import { ExternalLinkButton } from "../../shared/components";
 import {
   currencyFormatter,
@@ -9,6 +8,8 @@ import {
   periodFormatter,
 } from "../../shared/helpers";
 import { PathType } from "../../wallet/types";
+import type { BasicVault } from "../../basic-vault/types";
+import { VaultType } from "../../basic-vault/types";
 
 import {
   CellSubValue,
@@ -25,8 +26,8 @@ import {
 
 export const getVaultTitle = (
   type: IndexVault["type"],
-  assetSymbol: Vault["assetSymbol"],
-  period: Vault["period"]
+  assetSymbol: BasicVault["assetSymbol"],
+  period: BasicVault["period"]
 ) => {
   const formattedPeriod = periodFormatter(period);
   const formattedType = type === VaultType.CALL ? "Call" : "Put";
@@ -35,10 +36,10 @@ export const getVaultTitle = (
 };
 
 export const getVaultSubTitle = (
-  strikePrice: Vault["strikePrice"],
-  expiry: Vault["expiry"],
-  isSettled: Vault["isSettled"],
-  isExpired: Vault["isExpired"]
+  strikePrice: BasicVault["strikePrice"],
+  expiry: BasicVault["expiry"],
+  isSettled: BasicVault["isSettled"],
+  isExpired: BasicVault["isExpired"]
 ) => {
   if (isSettled || isExpired) {
     return <ClaimStatusText>Auction In Progress</ClaimStatusText>;

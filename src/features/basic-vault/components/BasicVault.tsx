@@ -6,8 +6,8 @@ import { useBasicVault } from "../hooks";
 import { numberFormatter, periodFormatter } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
-import { VaultType } from "../../index-vault/types";
 import { ModalPathname } from "../../root/types";
+import { VaultType } from "../types";
 
 import { BasicVaultCapacity } from "./BasicVaultCapacity";
 import { EpochTimer } from "./EpochTimer";

@@ -3,14 +3,13 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import { VaultType } from "../types";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   IndexVaultAbi__factory as IndexVaultAbiFactory,
   LendingPoolAbi__factory as LendingPoolAbiFactory,
   PriceFeedAbi__factory as PriceFeedAbiFactory,
 } from "../../contracts/types";
-import type { IndexVault, VaultInfo } from "../types";
+import type { IndexVault, BasicVaultInfo } from "../types";
 import { queryClient, convertToBig } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { indexVaultsMap } from "../../theta-index/constants";
@@ -18,6 +17,7 @@ import type { ChainId } from "../../wallet/constants";
 import { chainProvidersMap, chains, chainsMap } from "../../wallet/constants";
 import { basicVaultFetcher } from "../../basic-vault/helpers";
 import { basicVaults } from "../../basic/constants";
+import { VaultType } from "../../basic-vault/types";
 
 import {
   normalizeVaultValue,
@@ -125,19 +125,21 @@ export const indexVaultFetcher = async (
     )
   );
 
-  const vaultsInfos: VaultInfo[] = basicVaultsInfosData.map((vaultInfo) => {
-    const assetDivisor = new Big(10).pow(assetDecimals);
-    const lpAmount = convertToBig(vaultInfo.amount).div(assetDivisor);
-    const weight = convertToBig(vaultInfo.weight);
+  const vaultsInfos: BasicVaultInfo[] = basicVaultsInfosData.map(
+    (vaultInfo) => {
+      const assetDivisor = new Big(10).pow(assetDecimals);
+      const lpAmount = convertToBig(vaultInfo.amount).div(assetDivisor);
+      const weight = convertToBig(vaultInfo.weight);
 
-    const allocation = weight.div(totalWeight).mul(100).round(6).toNumber();
+      const allocation = weight.div(totalWeight).mul(100).round(6).toNumber();
 
-    return {
-      lpAmount,
-      weight,
-      allocation,
-    };
-  });
+      return {
+        lpAmount,
+        weight,
+        allocation,
+      };
+    }
+  );
 
   // getting assetPrice, oracleIndexPrice and middleIndexPriceByChainId
 

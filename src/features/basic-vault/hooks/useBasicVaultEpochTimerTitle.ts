@@ -1,12 +1,12 @@
 import { timerFormatter } from "../../shared/helpers";
-import type { Vault } from "../../index-vault/types";
+import type { BasicVault } from "../types";
 
 import { useCurrentDate } from "./useCurrentDate";
 
 export const useBasicVaultEpochTimerTitle = (
-  expiry: Vault["expiry"],
-  isExpired: Vault["isExpired"],
-  isSettled: Vault["isSettled"]
+  expiry: BasicVault["expiry"],
+  isExpired: BasicVault["isExpired"],
+  isSettled: BasicVault["isSettled"]
 ) => {
   const { currentDate } = useCurrentDate();
 

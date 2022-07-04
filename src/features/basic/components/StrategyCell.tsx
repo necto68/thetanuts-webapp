@@ -1,13 +1,13 @@
 import type { FC } from "react";
 
-import type { Vault } from "../../index-vault/types";
-import { VaultType } from "../../index-vault/types";
 import { periodFormatter } from "../../shared/helpers";
+import type { BasicVault } from "../../basic-vault/types";
+import { VaultType } from "../../basic-vault/types";
 
 import { TitlesContainer } from "./BasicVaultAssetCell.styles";
 import { StrategyTitle, PeriodTitle } from "./StrategyCell.styles";
 
-type StrategyCellProps = Pick<Vault, "period" | "type">;
+type StrategyCellProps = Pick<BasicVault, "period" | "type">;
 
 export const StrategyCell: FC<StrategyCellProps> = ({ type, period }) => {
   const strategyTitle =

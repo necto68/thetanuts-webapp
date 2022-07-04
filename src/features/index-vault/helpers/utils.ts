@@ -1,6 +1,7 @@
 import Big from "big.js";
 
-import type { IndexVault, Vault, PercentageYields } from "../types";
+import type { IndexVault } from "../types";
+import type { PercentageYields, BasicVault } from "../../basic-vault/types";
 
 const getYield = (
   baseValue: number,
@@ -12,7 +13,7 @@ const convertYieldToPercentage = (yieldValue: number): number =>
   new Big(yieldValue).mul(100).round(2).toNumber();
 
 export const getTotalValueLocked = (
-  vaults: (Vault | undefined)[],
+  vaults: (BasicVault | undefined)[],
   vaultsInfos: IndexVault["vaultsInfos"],
   assetPrice: number
 ): number => {
@@ -43,7 +44,7 @@ export const normalizeVaultValue = (
 ): number => value.div(divisor).round(roundDP).toNumber();
 
 export const getTotalPercentageYields = (
-  vaults: (Vault | undefined)[],
+  vaults: (BasicVault | undefined)[],
   vaultsInfos: IndexVault["vaultsInfos"],
   totalWeight: IndexVault["totalWeight"]
 ): PercentageYields => {
@@ -163,7 +164,7 @@ export const getPercentageYields = (
   };
 };
 
-export const getTotalRemainder = (vaults: (Vault | undefined)[]) => {
+export const getTotalRemainder = (vaults: (BasicVault | undefined)[]) => {
   const vaultsBalances = vaults.map((vault) =>
     vault ? vault.balance : new Big(0)
   );
