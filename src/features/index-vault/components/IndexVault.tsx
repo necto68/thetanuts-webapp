@@ -33,9 +33,13 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
 
   const assetLogo = getLogoBySymbol(assetSymbol);
 
-  const url = generatePath(ModalPathname.indexVaultModal, {
+  const pathname = generatePath(ModalPathname.indexVaultModal, {
     vaultId: indexVaultId,
   });
+
+  const link = {
+    pathname,
+  };
 
   return (
     <VaultCard
@@ -44,11 +48,11 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
       footerContent={<IndexVaultFooter title="SWAP" />}
       icon={assetLogo}
       isLoading={isLoading}
+      link={link}
       shadowColor="#ecd236"
       subTitle="Stronghold"
       symbol={assetSymbol}
       title={title}
-      url={url}
     />
   );
 };

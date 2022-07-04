@@ -94,7 +94,7 @@ export const ModalContent = () => {
       <AnimatePresence exitBeforeEnter>
         <ContentAnimatedContainer
           key={isSwapping.toString()}
-          onAnimationComplete={onAnimationComplete}
+          onAnimationComplete={switchChainId}
         >
           {renderModalContent(contentType)}
         </ContentAnimatedContainer>

@@ -12,7 +12,7 @@ import type { IndexTokenRow } from "../types";
 import { useIndexPositionsRows } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import { chainsMap } from "../../wallet/constants";
-import { ModalPathname } from "../../root/types";
+import { VaultModalType } from "../../root/types";
 
 import { ButtonsContainer } from "./PositionsTableActions.styles";
 
@@ -75,8 +75,8 @@ const columns: Column<IndexTokenRow>[] = [
     render: ({ id, chainId }) => (
       <Chains
         chainIds={[chainId]}
-        modalPathname={ModalPathname.indexVaultModal}
         vaultId={id}
+        vaultType={VaultModalType.index}
       />
     ),
 

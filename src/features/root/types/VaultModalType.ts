@@ -1,4 +1,4 @@
 export enum VaultModalType {
-  stronghold = "stronghold",
+  index = "stronghold",
   basic = "basic",
 }

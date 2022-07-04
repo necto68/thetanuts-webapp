@@ -15,7 +15,7 @@ import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
 import { InfoIcon, Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import type { DemoIndexVaultConfig } from "../types";
-import { ModalPathname } from "../../root/types";
+import { VaultModalType } from "../../root/types";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
@@ -77,8 +77,8 @@ const columns: Column<IndexVaultRow>[] = [
         <Chains
           chainIds={supportedChainIds}
           highlightedChainId={chainId}
-          modalPathname={ModalPathname.indexVaultModal}
           vaultId={id}
+          vaultType={VaultModalType.index}
         />
       );
     },

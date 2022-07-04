@@ -3,16 +3,16 @@ import { useCallback } from "react";
 import { generatePath } from "react-router-dom";
 
 import type { ChainId } from "../../wallet/constants";
+import { chainsMap } from "../../wallet/constants";
 import { IconContainer, Link, Tooltip } from "../../shared/components";
 import { useIsMobile } from "../../shared/hooks";
-import { chainsMap } from "../../wallet/constants";
 import { getLogoBySymbol } from "../../logo/helpers";
-import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
-import { ModalPathname } from "../../root/types";
+import { VaultModalType, ModalPathname } from "../../root/types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import {
-  Container,
   ChainLogoContainer,
+  Container,
   HiddenChainsContainer,
   HiddenChainsTitle,
 } from "./Chains.styles";
@@ -20,20 +20,19 @@ import {
 interface ChainsProps {
   chainIds: ChainId[];
   highlightedChainId?: ChainId;
-  modalPathname?: typeof ModalPathname[keyof typeof ModalPathname];
+  vaultType?: VaultModalType;
   vaultId?: string;
 }
 
 export const Chains: FC<ChainsProps> = ({
   chainIds,
   highlightedChainId,
-  modalPathname,
+  vaultType,
   vaultId,
 }) => {
   const isMobile = useIsMobile();
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
-  const { isRouterModal } = indexVaultModalState;
+  const [vaultModalState, setVaultModalState] = useVaultModalState();
+  const { isRouterModal } = vaultModalState;
 
   const isShowShortenedChains = isMobile && chainIds.length > 3;
   const visibleChains = isShowShortenedChains ? chainIds.slice(0, 3) : chainIds;
@@ -47,25 +46,35 @@ export const Chains: FC<ChainsProps> = ({
 
   const handleChainClick = useCallback(
     (chainId: ChainId) => {
-      if (vaultId && modalPathname === ModalPathname.indexVaultModal) {
-        setIndexVaultModalState((previousState) => ({
+      if (vaultId && vaultType) {
+        setVaultModalState((previousState) => ({
           ...previousState,
-          indexVaultId: vaultId,
+          vaultType,
+          vaultId,
           chainId,
           isShow: true,
         }));
       }
     },
-    [vaultId, modalPathname, setIndexVaultModalState]
+    [vaultId, vaultType, setVaultModalState]
   );
 
-  const getLink = (chainId: ChainId) =>
-    isRouterModal && modalPathname && vaultId
-      ? {
-          pathname: generatePath(modalPathname, { vaultId }),
-          search: `?chain=${chainId}`,
-        }
-      : {};
+  const getLink = (chainId: ChainId) => {
+    if (isRouterModal && vaultType && vaultId) {
+      const modalPathname =
+        vaultType === VaultModalType.index
+          ? ModalPathname.indexVaultModal
+          : ModalPathname.basicVaultModal;
+      const pathname = generatePath(modalPathname, { vaultId });
+
+      return {
+        pathname,
+        search: `?chain=${chainId}`,
+      };
+    }
+
+    return {};
+  };
 
   return (
     <Container>

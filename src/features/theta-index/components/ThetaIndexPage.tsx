@@ -1,11 +1,11 @@
-import { useIndexVaultModalOpen } from "../hooks";
+import { useVaultModalOpen } from "../../modal/hooks";
 
 import { Header } from "./Header";
 import { ThetaIndexLayout } from "./ThetaIndexLayout";
 import { Container } from "./ThetaIndexPage.styles";
 
 export const ThetaIndexPage = () => {
-  useIndexVaultModalOpen();
+  useVaultModalOpen();
 
   return (
     <Container>

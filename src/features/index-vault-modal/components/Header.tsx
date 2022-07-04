@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useCallback } from "react";
 
-import { useIndexVaultModalState, useSwapRouterConfig } from "../hooks";
+import { useSwapRouterConfig } from "../hooks";
 import { ChainSelect } from "../../wallet/components";
 import {
   CircleButton,
@@ -9,6 +9,7 @@ import {
   Link,
 } from "../../shared/components";
 import type { ThemeType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 import type { ModalContentType } from "../types/modalContentType";
 
 import {
@@ -30,21 +31,20 @@ export const Header: FC<HeaderProps> = ({
   chainSwitchVisible = true,
   backContentType,
 }) => {
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
+  const [vaultModalState, setVaultModalState] = useVaultModalState();
   const { supportedChainIds } = useSwapRouterConfig();
 
-  const { isRouterModal } = indexVaultModalState;
+  const { isRouterModal } = vaultModalState;
   const indexVaultRoute =
     isRouterModal && !backContentType ? { pathname: "/" } : {};
 
   const handleCloseButtonClick = useCallback(() => {
-    setIndexVaultModalState((previousState) => ({
+    setVaultModalState((previousState) => ({
       ...previousState,
       isShow: Boolean(backContentType),
       contentType: backContentType,
     }));
-  }, [setIndexVaultModalState, backContentType]);
+  }, [setVaultModalState, backContentType]);
 
   return (
     <Container>

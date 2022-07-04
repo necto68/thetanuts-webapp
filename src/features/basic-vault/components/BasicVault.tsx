@@ -45,9 +45,13 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
 
   const assetLogo = getLogoBySymbol(assetSymbol);
 
-  const url = generatePath(ModalPathname.basicVaultModal, {
+  const pathname = generatePath(ModalPathname.basicVaultModal, {
     vaultId: basicVaultId,
   });
+
+  const link = {
+    pathname,
+  };
 
   return (
     <VaultCard
@@ -70,11 +74,11 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
       }
       icon={assetLogo}
       isLoading={isLoading}
+      link={link}
       shadowColor={backgroundColor}
       subTitle={subTitle}
       symbol={symbol}
       title={title}
-      url={url}
     />
   );
 };

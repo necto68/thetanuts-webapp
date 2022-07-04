@@ -3,7 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import { useKey } from "rooks";
 
 import { useViewportHeight } from "../../shared/hooks";
-import { useCurrentModalState } from "../hooks";
+import { useCurrentModalState } from "../hooks/useCurrentModalState";
 
 import { Backdrop, ModalContainer } from "./Modal.styles";
 

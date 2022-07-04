@@ -1,6 +1,6 @@
 import { VaultModalType } from "./VaultModalType";
 
 export const ModalPathname = {
-  indexVaultModal: `/${VaultModalType.stronghold}/:vaultId`,
+  indexVaultModal: `/${VaultModalType.index}/:vaultId`,
   basicVaultModal: `/${VaultModalType.basic}/:vaultId`,
 } as const;

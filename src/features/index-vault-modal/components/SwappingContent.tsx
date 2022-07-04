@@ -5,7 +5,6 @@ import { useHistory } from "react-router-dom";
 import swapping from "../animations/swapping.json";
 import wave from "../animations/wave.json";
 import {
-  useIndexVaultModalState,
   useSwapRouterConfig,
   useSwapRouterMutations,
   useSwapRouterState,
@@ -13,6 +12,7 @@ import {
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
 import { BaseButton } from "../../shared/components";
+import { useVaultModalState } from "../../modal/hooks";
 import { PagePathname } from "../../root/types";
 
 import {
@@ -29,8 +29,7 @@ import {
 } from "./SwappingContent.styles";
 
 export const SwappingContent = () => {
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
+  const [indexVaultModalState, setVaultModalState] = useVaultModalState();
   const routerHistory = useHistory();
   const { swapMutation, swapMutationHash = "" } = useSwapRouterMutations();
   const { sourceValue, targetValue, sourceData, targetData } =
@@ -57,11 +56,11 @@ export const SwappingContent = () => {
       routerHistory.push(PagePathname.thetaIndex);
     }
 
-    setIndexVaultModalState((previousState) => ({
+    setVaultModalState((previousState) => ({
       ...previousState,
       isShow: false,
     }));
-  }, [indexVaultModalState, setIndexVaultModalState, routerHistory]);
+  }, [indexVaultModalState, setVaultModalState, routerHistory]);
 
   const { data: isSwapSuccessful = false } = swapMutation ?? {};
 

@@ -3,13 +3,12 @@ import { useWallet } from "@gimmixorg/use-wallet";
 import { useIndexVault } from "../../index-vault/hooks";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
-
-import { useIndexVaultModalState } from "./useIndexVaultModalState";
+import { useVaultModalState } from "../../modal/hooks";
 
 // eslint-disable-next-line complexity
 export const useSwapRouterConfig = () => {
-  const [{ indexVaultId, contentType }] = useIndexVaultModalState();
-  const indexVaultQuery = useIndexVault(indexVaultId);
+  const [{ vaultId, contentType }] = useVaultModalState();
+  const indexVaultQuery = useIndexVault(vaultId);
   const { account, network, provider: walletProvider } = useWallet();
 
   const { data } = indexVaultQuery;
@@ -20,7 +19,7 @@ export const useSwapRouterConfig = () => {
     chainId: mainChainId,
   } = data ?? {};
 
-  const tokenConfig = indexVaultsMap[indexVaultId];
+  const tokenConfig = indexVaultsMap[vaultId];
   const {
     source: {
       chainId: indexVaultChainId = ChainId.ETHEREUM,
