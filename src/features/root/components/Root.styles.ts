@@ -6,14 +6,9 @@ import { PagePathname } from "../types";
 import { screens } from "../../shared/constants";
 
 const mapPathnameToBackground = {
-  [PagePathname.thetaIndex]:
-    "linear-gradient(180deg, #031a34 21.13%, #259ddf 99.41%)",
-
-  [PagePathname.basic]:
-    "linear-gradient(180deg, #031a34 21.13%, #259ddf 99.41%)",
-
-  [PagePathname.portfolio]:
-    "linear-gradient(180deg, #031A34 14.49%, #B6509E 99.41%)",
+  [PagePathname.thetaIndex]: "#031a34",
+  [PagePathname.basic]: "#031a34",
+  [PagePathname.portfolio]: "#212b31",
 };
 
 export const Container = styled(Div100vh)`
@@ -26,7 +21,7 @@ export const BackgroundContainer = styled(motion.div).attrs<{
   pathname: PagePathname;
 }>(({ pathname }) => ({
   animate: {
-    background: mapPathnameToBackground[pathname],
+    backgroundColor: mapPathnameToBackground[pathname],
   },
 }))<{ pathname: PagePathname }>`
   display: flex;
