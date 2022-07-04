@@ -29,13 +29,12 @@ export interface VaultCardProps {
   shadowColor?: string;
   content?: ReactNode;
   footerContent?: ReactNode;
-  indexVaultId?: string;
+  url?: string;
 }
 
 export const VaultCard: FC<VaultCardProps> = ({
   isLoading = false,
   disabled = false,
-  indexVaultId,
   title,
   icon,
   symbol,
@@ -45,15 +44,14 @@ export const VaultCard: FC<VaultCardProps> = ({
   shadowColor,
   content,
   footerContent,
+  url,
 }) => (
   <Container
     backgroundColor={backgroundColor}
     disabled={disabled}
     shadowColor={shadowColor}
   >
-    <CardLink
-      to={disabled ? {} : { pathname: `/stronghold/${indexVaultId ?? ""}` }}
-    >
+    <CardLink to={!disabled && url ? { pathname: url } : {}}>
       <Header>
         {isLoading ? (
           <SkeletonBox height={14} width={60} />

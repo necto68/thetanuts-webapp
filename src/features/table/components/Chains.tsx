@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import { useCallback } from "react";
+import { generatePath } from "react-router-dom";
 
 import type { ChainId } from "../../wallet/constants";
 import { IconContainer, Link, Tooltip } from "../../shared/components";
@@ -7,6 +8,7 @@ import { useIsMobile } from "../../shared/hooks";
 import { chainsMap } from "../../wallet/constants";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
+import { ModalPathname } from "../../root/types";
 
 import {
   Container,
@@ -17,14 +19,16 @@ import {
 
 interface ChainsProps {
   chainIds: ChainId[];
-  indexVaultId?: string;
   highlightedChainId?: ChainId;
+  modalPathname?: typeof ModalPathname[keyof typeof ModalPathname];
+  vaultId?: string;
 }
 
 export const Chains: FC<ChainsProps> = ({
   chainIds,
   highlightedChainId,
-  indexVaultId,
+  modalPathname,
+  vaultId,
 }) => {
   const isMobile = useIsMobile();
   const [indexVaultModalState, setIndexVaultModalState] =
@@ -43,34 +47,32 @@ export const Chains: FC<ChainsProps> = ({
 
   const handleChainClick = useCallback(
     (chainId: ChainId) => {
-      if (indexVaultId) {
+      if (vaultId && modalPathname === ModalPathname.indexVaultModal) {
         setIndexVaultModalState((previousState) => ({
           ...previousState,
-          indexVaultId,
+          indexVaultId: vaultId,
           chainId,
           isShow: true,
         }));
       }
     },
-    [indexVaultId, setIndexVaultModalState]
+    [vaultId, modalPathname, setIndexVaultModalState]
   );
+
+  const getLink = (chainId: ChainId) =>
+    isRouterModal && modalPathname && vaultId
+      ? {
+          pathname: generatePath(modalPathname, { vaultId }),
+          search: `?chain=${chainId}`,
+        }
+      : {};
 
   return (
     <Container>
       {visibleChains.map((chainId) => (
-        <Link
-          key={chainId}
-          to={
-            isRouterModal && indexVaultId
-              ? {
-                  pathname: `/stronghold/${indexVaultId}`,
-                  search: `?chain=${chainId}`,
-                }
-              : {}
-          }
-        >
+        <Link key={chainId} to={getLink(chainId)}>
           <ChainLogoContainer
-            isClickable={Boolean(indexVaultId)}
+            isClickable={Boolean(vaultId)}
             isHighlighted={chainId === highlightedChainId}
             onClick={() => {
               handleChainClick(chainId);

@@ -1,9 +1,11 @@
 import type { FC } from "react";
 import { useCallback } from "react";
+import { generatePath } from "react-router-dom";
 
 import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
 import type { ChainId } from "../../wallet/constants";
 import { Link } from "../../shared/components";
+import { ModalPathname } from "../../root/types";
 
 import { BaseSwapButton } from "./SwapButton.styles";
 
@@ -17,9 +19,10 @@ export const SwapButton: FC<SwapButtonProps> = ({ indexVaultId, chainId }) => {
     useIndexVaultModalState();
 
   const { isRouterModal } = indexVaultModalState;
-  const indexVaultRoute = isRouterModal
-    ? { pathname: `/stronghold/${indexVaultId}` }
-    : {};
+  const pathname = generatePath(ModalPathname.indexVaultModal, {
+    vaultId: indexVaultId,
+  });
+  const indexVaultRoute = isRouterModal ? { pathname } : {};
 
   const handleButtonClick = useCallback(() => {
     setIndexVaultModalState({

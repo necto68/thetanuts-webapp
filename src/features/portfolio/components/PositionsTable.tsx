@@ -12,6 +12,7 @@ import type { IndexTokenRow } from "../types";
 import { useIndexPositionsRows } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import { chainsMap } from "../../wallet/constants";
+import { ModalPathname } from "../../root/types";
 
 import { ButtonsContainer } from "./PositionsTableActions.styles";
 
@@ -70,8 +71,13 @@ const columns: Column<IndexTokenRow>[] = [
     key: "chainId",
     title: "Network",
 
+    // TODO: change modalPathname for different vault types (index/basic)
     render: ({ id, chainId }) => (
-      <Chains chainIds={[chainId]} indexVaultId={id} />
+      <Chains
+        chainIds={[chainId]}
+        modalPathname={ModalPathname.indexVaultModal}
+        vaultId={id}
+      />
     ),
 
     filterBy: ({ chainId }) => chainsMap[chainId].title,

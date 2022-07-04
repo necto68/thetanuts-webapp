@@ -101,6 +101,7 @@ export const basicVaultFetcher = async (
   const assetSymbol =
     isPutType && putVaultAssetSymbol ? putVaultAssetSymbol : collateralSymbol;
 
+  const id = name;
   const type = isPutType ? VaultType.PUT : VaultType.CALL;
 
   const isSettled = expiry === 0;
@@ -123,6 +124,7 @@ export const basicVaultFetcher = async (
   const { annualPercentageYield } = percentageYields;
 
   return {
+    id,
     vaultAddress,
     chainId,
     type,

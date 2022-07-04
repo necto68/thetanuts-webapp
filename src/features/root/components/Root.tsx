@@ -52,7 +52,13 @@ export const Root = () => {
                     >
                       <ThetaIndexPage />
                     </Route>
-                    <Route exact path={RouterPathname.basic}>
+                    <Route
+                      exact
+                      path={[
+                        RouterPathname.basic,
+                        RouterPathname.basicVaultModal,
+                      ]}
+                    >
                       <BasicPage />
                     </Route>
                     <Route exact path={RouterPathname.portfolio}>

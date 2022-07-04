@@ -29,5 +29,6 @@ export const useMiddleIndexPrice = (
         provider
       ),
 
+    enabled: Boolean(assetTokenAddress) && Boolean(indexTokenAddress),
     staleTime: Number.POSITIVE_INFINITY,
   });

@@ -13,6 +13,7 @@ import { InfoIcon, Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
 import { BasicVaultCapacity } from "../../basic-vault/components/BasicVaultCapacity";
+import { ModalPathname } from "../../root/types";
 
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
@@ -94,7 +95,13 @@ const columns: Column<Vault>[] = [
     key: "chainId",
     title: "Network",
 
-    render: ({ chainId }) => <Chains chainIds={[chainId]} />,
+    render: ({ id, chainId }) => (
+      <Chains
+        chainIds={[chainId]}
+        modalPathname={ModalPathname.basicVaultModal}
+        vaultId={id}
+      />
+    ),
 
     filterBy: ({ chainId }) => chainsMap[chainId].title,
   },

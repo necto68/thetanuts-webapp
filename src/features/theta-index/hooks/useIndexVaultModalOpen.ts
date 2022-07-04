@@ -5,48 +5,49 @@ import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
 import { useQueryParameters } from "../../shared/hooks/useQueryParameters";
 import { ModalPathname, PagePathname } from "../../root/types";
 import { indexVaultsMap } from "../constants";
-import type { IndexVaultModalState } from "../../shared/hooks";
 
 // TODO: return when we will have direct deposit
 // eslint-disable-next-line max-len
 // import { ModalContentType } from "../../index-vault-modal/types/modalContentType";
 
 export const useIndexVaultModalOpen = () => {
-  const [vaultModalState, setVaultModalState] = useIndexVaultModalState();
+  const [indexVaultModalState, setIndexVaultModalState] =
+    useIndexVaultModalState();
   const routerHistory = useHistory();
   const queryParameters = useQueryParameters();
-  const vaultModalUrlMatch = useRouteMatch(ModalPathname.indexVaultModal);
+  const indexVaultModalUrlMatch = useRouteMatch<{
+    vaultId: string;
+  }>(ModalPathname.indexVaultModal);
   const indexPageUrlMatch = useRouteMatch(PagePathname.thetaIndex);
 
   useEffect(() => {
-    setVaultModalState((previousState) => ({
+    setIndexVaultModalState((previousState) => ({
       ...previousState,
       isRouterModal: true,
     }));
 
     return () => {
-      setVaultModalState((previousState) => ({
+      setIndexVaultModalState((previousState) => ({
         ...previousState,
         isRouterModal: false,
       }));
     };
-  }, [setVaultModalState]);
+  }, [setIndexVaultModalState]);
 
   useEffect(() => {
     // Open vault modal on router change.
-    if (vaultModalUrlMatch && !vaultModalState.isShow) {
-      const { indexVaultId } = vaultModalUrlMatch.params as {
-        indexVaultId: string;
-      };
+    if (indexVaultModalUrlMatch && !indexVaultModalState.isShow) {
+      const { vaultId } = indexVaultModalUrlMatch.params;
 
-      if (indexVaultsMap[indexVaultId]) {
+      if (indexVaultsMap[vaultId]) {
         const chainId = Number(queryParameters.get("chain"));
-        setVaultModalState((previousState: IndexVaultModalState) => ({
+        setIndexVaultModalState((previousState) => ({
           ...previousState,
-          indexVaultId,
+          indexVaultId: vaultId,
           chainId,
           isShow: true,
 
+          // TODO: return when we will have direct deposit
           // contentType: ModalContentType.swap,
         }));
       } else {
@@ -55,23 +56,23 @@ export const useIndexVaultModalOpen = () => {
     }
 
     // Close vault modal on router change.
-    if (!vaultModalUrlMatch && vaultModalState.isShow) {
-      setVaultModalState((previousState) => ({
+    if (!indexVaultModalUrlMatch && indexVaultModalState.isShow) {
+      setIndexVaultModalState((previousState) => ({
         ...previousState,
         isShow: false,
       }));
     }
 
     // Redirect to index page when navigated with unmatched url.
-    if (!vaultModalUrlMatch && !indexPageUrlMatch?.isExact) {
+    if (!indexVaultModalUrlMatch && !indexPageUrlMatch?.isExact) {
       routerHistory.push(PagePathname.thetaIndex);
     }
   }, [
-    vaultModalUrlMatch,
+    indexVaultModalUrlMatch,
     indexPageUrlMatch,
-    vaultModalState,
+    indexVaultModalState,
     queryParameters,
-    setVaultModalState,
+    setIndexVaultModalState,
     routerHistory,
   ]);
 };

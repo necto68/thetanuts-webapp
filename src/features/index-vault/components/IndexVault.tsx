@@ -1,10 +1,12 @@
 import type { FC } from "react";
+import { generatePath } from "react-router-dom";
 
 import { useIndexVault } from "../hooks";
 import { numberFormatter } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
 import { VaultType } from "../types";
+import { ModalPathname } from "../../root/types";
 
 import { IndexVaultFooter } from "./IndexVaultFooter";
 
@@ -31,18 +33,22 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
 
   const assetLogo = getLogoBySymbol(assetSymbol);
 
+  const url = generatePath(ModalPathname.indexVaultModal, {
+    vaultId: indexVaultId,
+  });
+
   return (
     <VaultCard
       apy={formattedTotalAPY}
       backgroundColor={backgroundColor}
       footerContent={<IndexVaultFooter title="SWAP" />}
       icon={assetLogo}
-      indexVaultId={indexVaultId}
       isLoading={isLoading}
       shadowColor="#ecd236"
       subTitle="Stronghold"
       symbol={assetSymbol}
       title={title}
+      url={url}
     />
   );
 };

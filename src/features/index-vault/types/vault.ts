@@ -12,6 +12,7 @@ export interface PercentageYields {
 }
 
 export interface Vault {
+  id: string;
   vaultAddress: string;
   chainId: ChainId;
   type: VaultType;
