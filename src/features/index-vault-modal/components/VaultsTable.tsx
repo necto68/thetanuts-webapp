@@ -112,7 +112,8 @@ export const VaultsTable = () => {
         {vaults.map(
           (
             {
-              vaultAddress,
+              id,
+              basicVaultAddress,
               assetSymbol,
               strikePrice,
               expiry,
@@ -123,7 +124,7 @@ export const VaultsTable = () => {
             },
             index
           ) => (
-            <tr key={vaultAddress}>
+            <tr key={id}>
               <td>
                 <PortfolioCellContainer>
                   <CellValue>
@@ -151,7 +152,7 @@ export const VaultsTable = () => {
                 <CellValueCenter>
                   <ExternalLinkButton
                     chainId={chainId}
-                    id={vaultAddress}
+                    id={basicVaultAddress}
                     pathType={PathType.address}
                   />
                 </CellValueCenter>

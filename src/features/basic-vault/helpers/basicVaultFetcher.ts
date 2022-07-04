@@ -18,10 +18,11 @@ import {
 import type { ChainId } from "../../wallet/constants";
 
 export const basicVaultFetcher = async (
-  vaultAddress: string,
+  id: string,
+  basicVaultAddress: string,
   provider: Provider
 ): Promise<Vault> => {
-  const vaultContract = VaultAbiFactory.connect(vaultAddress, provider);
+  const vaultContract = VaultAbiFactory.connect(basicVaultAddress, provider);
 
   const lpDivisor = new Big(10).pow(18);
   const priceDivisor = new Big(10).pow(6);
@@ -79,7 +80,7 @@ export const basicVaultFetcher = async (
   ] = await Promise.all([
     collateralTokenContract.symbol(),
     collateralTokenContract.decimals(),
-    collateralTokenContract.balanceOf(vaultAddress).then(convertToBig),
+    collateralTokenContract.balanceOf(basicVaultAddress).then(convertToBig),
     vaultContract
       .strikeX1e6(epoch)
       .then(convertToBig)
@@ -101,7 +102,6 @@ export const basicVaultFetcher = async (
   const assetSymbol =
     isPutType && putVaultAssetSymbol ? putVaultAssetSymbol : collateralSymbol;
 
-  const id = name;
   const type = isPutType ? VaultType.PUT : VaultType.CALL;
 
   const isSettled = expiry === 0;
@@ -125,7 +125,7 @@ export const basicVaultFetcher = async (
 
   return {
     id,
-    vaultAddress,
+    basicVaultAddress,
     chainId,
     type,
     priceFeedAddress,

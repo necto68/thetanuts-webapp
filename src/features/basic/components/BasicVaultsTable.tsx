@@ -60,14 +60,14 @@ const columns: Column<Vault>[] = [
     key: "percentageYields",
     title: "APY",
 
-    render: ({ vaultAddress, percentageYields }) => (
+    render: ({ id, percentageYields }) => (
       <APYCellContainer>
         <GreenCellValue>{`${percentageYields.annualPercentageYield}%`}</GreenCellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={percentageYields} />
           }
-          id={vaultAddress}
+          id={id}
           root={<InfoIcon theme="light" />}
         />
       </APYCellContainer>
@@ -106,14 +106,13 @@ const columns: Column<Vault>[] = [
     filterBy: ({ chainId }) => chainsMap[chainId].title,
   },
   {
-    key: "vaultAddress",
+    key: "id",
 
     render: () => <DemoButton />,
   },
 ];
 
-const getRowKey = ({ vaultAddress, chainId }: Vault) =>
-  `${vaultAddress}${chainId}`;
+const getRowKey = ({ id, chainId }: Vault) => `${id}${chainId}`;
 
 // eslint-disable-next-line react/no-multi-comp
 export const BasicVaultsTable = () => {

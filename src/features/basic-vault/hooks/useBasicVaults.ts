@@ -22,10 +22,11 @@ export const useBasicVaults = (basicVaultIds: string[]) => {
   });
 
   return useQueries(
-    tokensConfigs.map(({ chainId, basicVaultAddress, provider }) => ({
-      queryKey: [QueryType.basicVault, basicVaultAddress, chainId],
+    tokensConfigs.map(({ id, chainId, basicVaultAddress, provider }) => ({
+      queryKey: [QueryType.basicVault, id, chainId],
 
-      queryFn: async () => await basicVaultFetcher(basicVaultAddress, provider),
+      queryFn: async () =>
+        await basicVaultFetcher(id, basicVaultAddress, provider),
 
       staleTime: Number.POSITIVE_INFINITY,
     }))
