@@ -21,11 +21,17 @@ export const Header = () => {
       return 0;
     }
 
-    const { middleIndexPrice } = data;
+    const { middleIndexPriceByChainId } = data;
 
-    return indexTokens.map(
-      (token) => token.balance?.mul(middleIndexPrice).toNumber() ?? 0
-    );
+    return indexTokens.map(({ chainId, balance }) => {
+      const middleIndexPrice = middleIndexPriceByChainId[chainId];
+
+      if (balance && middleIndexPrice) {
+        return balance.mul(middleIndexPrice).toNumber();
+      }
+
+      return 0;
+    });
   });
 
   const totalBalance = balances.reduce(

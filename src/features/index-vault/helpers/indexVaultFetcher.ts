@@ -15,7 +15,7 @@ import { queryClient, convertToBig } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
-import { chains } from "../../wallet/constants";
+import { chainProvidersMap, chains, chainsMap } from "../../wallet/constants";
 
 import {
   normalizeVaultValue,
@@ -123,7 +123,16 @@ export const indexVaultFetcher = async (
     };
   });
 
-  // getting assetPrice, oracleIndexPrice and middleIndexPrice
+  // getting assetPrice, oracleIndexPrice and middleIndexPriceByChainId
+
+  const indexVaultConfig = indexVaultsMap[id];
+
+  const { replications = [] } = indexVaultConfig ?? {};
+
+  const indexTokensConfigs = [
+    { chainId, assetTokenAddress, indexTokenAddress },
+  ].concat(replications);
+
   const [{ priceFeedAddress }] = vaults;
 
   const priceFeedContract = PriceFeedAbiFactory.connect(
@@ -140,22 +149,37 @@ export const indexVaultFetcher = async (
       .map((priceValue) => normalizeVaultValue(priceValue, priceDivisor))
   );
 
-  const middleIndexPrice = await queryClient.fetchQuery(
-    [
-      QueryType.middleIndexPrice,
-      assetPrice,
-      assetTokenAddress,
-      indexTokenAddress,
-      routerAddress,
-    ],
-    async () =>
-      await middleIndexPriceFetcher(
-        assetPrice,
-        assetTokenAddress,
-        indexTokenAddress,
-        routerAddress,
-        provider
-      )
+  const middleIndexPrices = await Promise.all(
+    indexTokensConfigs.map(async (indexTokensConfig) => {
+      const indexTokenRouterAddress =
+        chainsMap[indexTokensConfig.chainId].addresses.routerAddress;
+      const indexTokenProvider = chainProvidersMap[indexTokensConfig.chainId];
+
+      return await queryClient.fetchQuery(
+        [
+          QueryType.middleIndexPrice,
+          assetPrice,
+          indexTokensConfig.assetTokenAddress,
+          indexTokensConfig.indexTokenAddress,
+          indexTokenRouterAddress,
+        ],
+        async () =>
+          await middleIndexPriceFetcher(
+            assetPrice,
+            indexTokensConfig.assetTokenAddress,
+            indexTokensConfig.indexTokenAddress,
+            indexTokenRouterAddress,
+            indexTokenProvider
+          )
+      );
+    })
+  );
+
+  const middleIndexPriceByChainId = Object.fromEntries(
+    indexTokensConfigs.map((indexTokenConfig, index) => [
+      indexTokenConfig.chainId,
+      middleIndexPrices[index],
+    ])
   );
 
   const totalValueLocked = getTotalValueLocked(vaults, vaultsInfos, assetPrice);
@@ -168,12 +192,8 @@ export const indexVaultFetcher = async (
 
   const totalRemainder = getTotalRemainder(vaults);
 
-  const tokenConfig = indexVaultsMap[id];
-
-  const { replications = [] } = tokenConfig ?? {};
-
-  const supportedChainIds = [chainId]
-    .concat(replications.map((replication) => replication.chainId))
+  const supportedChainIds = indexTokensConfigs
+    .map((indexTokensConfig) => indexTokensConfig.chainId)
     .sort((a, b) => {
       const aChainIdIndex = chains.findIndex((chain) => chain.chainId === a);
       const bChainIdIndex = chains.findIndex((chain) => chain.chainId === b);
@@ -188,7 +208,7 @@ export const indexVaultFetcher = async (
     assetPrice,
     assetTokenAddress,
     oracleIndexPrice,
-    middleIndexPrice,
+    middleIndexPriceByChainId,
     indexTokenAddress,
     vaults,
     vaultsInfos,
