@@ -18,6 +18,11 @@ import {
   useIndexDepositsHistoryRows,
 } from "../hooks";
 import { chainsMap } from "../../wallet/constants";
+import { useIndexWithdrawHistoryRows } from "../hooks/useIndexWithdrawHistoryRows";
+import { useIndexRedeemHistoryRows } from "../hooks/useIndexRedeemHistoryRows";
+
+const getRowKey = ({ id, chainId, type }: HistoryTransactionRow) =>
+  `${id}${chainId}${type}`;
 
 const columns: Column<HistoryTransactionRow>[] = [
   {
@@ -68,10 +73,14 @@ const columns: Column<HistoryTransactionRow>[] = [
     title: "Balance",
     showTitleInCell: true,
 
-    render: ({ balance, assetSymbol }) => {
-      const prefix = balance.gt(0) ? "+" : "";
+    render: ({ balance, assetSymbol, type }) => {
       const formattedBalance = numberFormatter.format(balance.toNumber());
 
+      if (type === TransactionType.withdrawnDirectly) {
+        return `Requested ${formattedBalance} ${assetSymbol}`;
+      }
+
+      const prefix = balance.gt(0) ? "+" : "";
       return `${prefix}${formattedBalance} ${assetSymbol}`;
     },
 
@@ -93,14 +102,16 @@ const columns: Column<HistoryTransactionRow>[] = [
   },
 ];
 
-const getRowKey = ({ id, chainId }: HistoryTransactionRow) => `${id}${chainId}`;
-
 export const TransactionHistoryTable = () => {
   const indexSwapsHistoryRows = useIndexSwapsHistoryRows();
   const indexDepositsHistoryRows = useIndexDepositsHistoryRows();
+  const indexWithdrawHistoryRows = useIndexWithdrawHistoryRows();
+  const indexRedeemHistoryRows = useIndexRedeemHistoryRows();
 
   const sortedRows = indexSwapsHistoryRows
     .concat(indexDepositsHistoryRows)
+    .concat(indexWithdrawHistoryRows)
+    .concat(indexRedeemHistoryRows)
     .sort((a, b) => {
       if (b && a) {
         return b.timestamp - a.timestamp;

@@ -11,11 +11,13 @@ import {
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
 import { getLogoBySymbol } from "../../logo/helpers";
-import { useSwapRouterConfig } from "../hooks";
+import { useIndexVaultModalState, useSwapRouterConfig } from "../hooks";
+import { ModalContentType } from "../types";
 
 import { AssetSelector } from "./AssetSelector";
 import { PriceImpact } from "./PriceImpact";
 import { PriceWarning } from "./PriceWarning";
+import { TextWarning } from "./TextWarning";
 import {
   Container,
   AssetContainer,
@@ -49,6 +51,10 @@ interface SwapInputCardProps {
   priceImpactRate?: number;
   isDirectModeBetterThanSwapMode?: boolean;
   isUseDirectMode?: boolean;
+  fieldWarning?: string;
+  fieldWarningColor?: string;
+  disabled?: boolean;
+  isShowTitle?: boolean;
 }
 
 const getBalanceValue = (tokenData: NativeToken | Token | undefined) =>
@@ -71,11 +77,15 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   priceImpactRate = 0,
   isDirectModeBetterThanSwapMode = false,
   isUseDirectMode = false,
-  // eslint-disable-next-line sonarjs/cognitive-complexity
+  fieldWarning,
+  fieldWarningColor,
+  disabled,
+  isShowTitle = true,
 }) => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { data } = indexVaultQuery;
   const { totalRemainder = Number.MAX_SAFE_INTEGER } = data ?? {};
+  const [{ contentType }] = useIndexVaultModalState();
 
   const isShowAssetSelector =
     tokenData &&
@@ -85,7 +95,9 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   const currentData = isUseNativeData ? nativeData : tokenData;
   const isDataLoading = isTokenDataLoading || isNativeDataLoading;
 
-  const isShowMaxButton = Boolean(isSource && currentData?.balance?.gt(0));
+  const isShowMaxButton = Boolean(
+    isSource && currentData?.balance?.gt(0) && !disabled
+  );
 
   const handleInputChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +124,8 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
     isSource &&
       currentData?.balance &&
       inputValueBig.gt(0) &&
-      inputValueBig.gt(currentData.balance)
+      inputValueBig.gt(currentData.balance) &&
+      !disabled
   );
 
   const isShowMaxVaultCapReachedTitle = Boolean(
@@ -120,7 +133,8 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       isSource &&
       !isFlipped &&
       inputValueBig.gt(0) &&
-      inputValueBig.gt(totalRemainder)
+      inputValueBig.gt(totalRemainder) &&
+      contentType !== ModalContentType.withdrawClaim
   );
 
   const isShowDirectDepositProposal =
@@ -132,20 +146,29 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   const isShowDirectWithdrawProposal =
     !isSource && isFlipped && isDirectModeBetterThanSwapMode;
 
+  const isShowSwapProposal =
+    !isDirectModeBetterThanSwapMode &&
+    contentType === ModalContentType.withdraw;
+
   const isPriceImpactError =
     isShowDirectDepositProposal || isShowDirectWithdrawProposal;
 
   const isShowPriceWarning =
     isShowDirectDepositProposal ||
     isShowDirectWithdrawProposal ||
-    isShowMaxVaultCapReachedTitle;
+    isShowMaxVaultCapReachedTitle ||
+    isShowSwapProposal;
 
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
   return (
     <Container>
       <BalanceContainer>
-        <BalanceTitle>{isSource ? "From" : "To"}</BalanceTitle>
+        {isShowTitle ? (
+          <BalanceTitle>{isSource ? "From" : "To"}</BalanceTitle>
+        ) : (
+          <span />
+        )}
         <BalanceTitlesContainer>
           <AnimatePresence>
             {isShowInsufficientBalanceTitle ? (
@@ -157,6 +180,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       </BalanceContainer>
       <AnimatePresence exitBeforeEnter initial={false}>
         <SwapInputCardAnimateContainer
+          disabled={disabled}
           downDirection={isSource ? isFlipped : !isFlipped}
           key={isFlipped.toString()}
         >
@@ -166,6 +190,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                 <SkeletonBox height={25.3} width={120} />
               ) : (
                 <SwapInput
+                  disabled={disabled}
                   isError={
                     isShowInsufficientBalanceTitle ||
                     isShowMaxVaultCapReachedTitle
@@ -218,7 +243,11 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               isShowDirectDepositProposal={isShowDirectDepositProposal}
               isShowDirectWithdrawProposal={isShowDirectWithdrawProposal}
               isShowMaxVaultCapReachedTitle={isShowMaxVaultCapReachedTitle}
+              isShowSwapProposal={isShowSwapProposal}
             />
+          ) : null}
+          {!isShowPriceWarning && fieldWarning ? (
+            <TextWarning color={fieldWarningColor} text={fieldWarning} />
           ) : null}
         </SwapInputCardAnimateContainer>
       </AnimatePresence>

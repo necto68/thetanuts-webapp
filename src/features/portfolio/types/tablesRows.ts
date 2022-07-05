@@ -17,6 +17,8 @@ export interface IndexTokenRow
     IndexVault["middleIndexPriceByChainId"][ChainId],
     undefined
   >;
+  unclaimed: boolean;
+  withdrawId?: number;
 }
 
 export interface HistoryTransactionRow
@@ -25,4 +27,7 @@ export interface HistoryTransactionRow
     Pick<Transaction, "chainId" | "id" | "timestamp" | "type"> {
   balance: Big;
   productType: string;
+  action: string;
+  claimed?: Big;
+  indexVaultId?: string;
 }
