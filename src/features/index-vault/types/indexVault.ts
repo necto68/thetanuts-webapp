@@ -23,7 +23,7 @@ export interface IndexVault {
   assetPrice: number;
   assetTokenAddress: string;
   oracleIndexPrice: number;
-  middleIndexPrice: number;
+  middleIndexPriceByChainId: Partial<Record<ChainId, number>>;
   indexTokenAddress: string;
   vaults: Vault[];
   vaultsInfos: VaultInfo[];
