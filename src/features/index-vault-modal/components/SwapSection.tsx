@@ -44,6 +44,9 @@ export const SwapSection = () => {
     targetPrice,
     priceImpactRate,
 
+    remainderValue,
+    vaultChainId,
+
     isFlipped,
     swapInputs,
   } = useSwapRouterState();
@@ -69,6 +72,8 @@ export const SwapSection = () => {
           onInputChange={setSourceValue}
           onUseNativeDataChange={setUseSourceNativeData}
           priceValue={sourcePrice}
+          remainderValue={remainderValue}
+          sourceTokenData={sourceData}
           tokenData={sourceData}
         />
         <FlipButtonContainer>
@@ -92,7 +97,9 @@ export const SwapSection = () => {
           onUseNativeDataChange={setUseTargetNativeData}
           priceImpactRate={priceImpactRate}
           priceValue={targetPrice}
+          sourceTokenData={sourceData}
           tokenData={targetData}
+          vaultChainId={vaultChainId}
         />
       </SwapInputsContainer>
       <VaultInfo

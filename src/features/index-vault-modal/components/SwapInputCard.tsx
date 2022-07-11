@@ -11,7 +11,7 @@ import {
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
 import { getLogoBySymbol } from "../../logo/helpers";
-import { useIndexVaultModalState, useSwapRouterConfig } from "../hooks";
+import type { ChainId } from "../../wallet/constants";
 import { ModalContentType } from "../types";
 
 import { AssetSelector } from "./AssetSelector";
@@ -41,6 +41,7 @@ interface SwapInputCardProps {
   onInputChange: (value: string) => void;
   isSource?: boolean;
   isFlipped: boolean;
+  sourceTokenData?: Token;
   tokenData: Token | undefined;
   isTokenDataLoading: boolean;
   nativeData: NativeToken | undefined;
@@ -55,6 +56,8 @@ interface SwapInputCardProps {
   fieldWarningColor?: string;
   disabled?: boolean;
   isShowTitle?: boolean;
+  remainderValue?: number;
+  vaultChainId?: ChainId;
 }
 
 const getBalanceValue = (tokenData: NativeToken | Token | undefined) =>
@@ -67,6 +70,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   onInputChange,
   isSource = false,
   isFlipped,
+  sourceTokenData,
   tokenData,
   isTokenDataLoading,
   nativeData,
@@ -81,12 +85,10 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   fieldWarningColor,
   disabled,
   isShowTitle = true,
+  remainderValue = 999_999_999,
+  vaultChainId,
+  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
-  const { indexVaultQuery } = useSwapRouterConfig();
-  const { data } = indexVaultQuery;
-  const { totalRemainder = Number.MAX_SAFE_INTEGER } = data ?? {};
-  const [{ contentType }] = useIndexVaultModalState();
-
   const isShowAssetSelector =
     tokenData &&
     nativeData &&
@@ -133,7 +135,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       isSource &&
       !isFlipped &&
       inputValueBig.gt(0) &&
-      inputValueBig.gt(totalRemainder) &&
+      inputValueBig.gt(remainderValue) &&
       contentType !== ModalContentType.withdrawClaim
   );
 
@@ -175,7 +177,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               <InsufficientBalanceTitle>Insufficient</InsufficientBalanceTitle>
             ) : null}
           </AnimatePresence>
-          <BalanceTitle>{`Balance: ${balanceValue}`}</BalanceTitle>
+          <BalanceTitle>{`Wallet Balance: ${balanceValue}`}</BalanceTitle>
         </BalanceTitlesContainer>
       </BalanceContainer>
       <AnimatePresence exitBeforeEnter initial={false}>
@@ -244,6 +246,9 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               isShowDirectWithdrawProposal={isShowDirectWithdrawProposal}
               isShowMaxVaultCapReachedTitle={isShowMaxVaultCapReachedTitle}
               isShowSwapProposal={isShowSwapProposal}
+              remainderValue={remainderValue}
+              sourceTokenData={sourceTokenData}
+              vaultChainId={vaultChainId}
             />
           ) : null}
           {!isShowPriceWarning && fieldWarning ? (

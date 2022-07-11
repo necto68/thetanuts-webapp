@@ -4,6 +4,7 @@ import { createContext } from "react";
 import { useSwapRouterProviderState } from "../hooks/useSwapRouterProviderState";
 import type { SwapRouterState } from "../types";
 import { InputType } from "../types";
+import { ChainId } from "../../wallet/constants";
 
 const defaultSwapRouterState: SwapRouterState = {
   sourceValue: "",
@@ -37,6 +38,9 @@ const defaultSwapRouterState: SwapRouterState = {
   sourcePrice: 0,
   targetPrice: 0,
   priceImpactRate: 0,
+
+  remainderValue: 0,
+  vaultChainId: ChainId.ETHEREUM,
 
   slippageToleranceValue: "0",
   slippageToleranceInputValue: "0",

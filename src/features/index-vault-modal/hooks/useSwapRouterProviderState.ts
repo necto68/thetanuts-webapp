@@ -147,14 +147,18 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
 
   // getting isUseIndexVaultChainId
   const {
-    chainId: indexVaultChainId = 0,
+    chainId: vaultChainId,
     assetPrice = 0,
     assetTokenAddress = "",
+    totalRemainder = 999_999_999,
   } = indexVaultQuery.data ?? {};
 
-  const isUseIndexVaultChainId = indexVaultChainId === chainId;
+  const isUseIndexVaultChainId = vaultChainId === chainId;
 
   const previousChainId = usePreviousImmediate(chainId);
+
+  // getting remainderValue
+  const remainderValue = totalRemainder;
 
   // boolean flags for deposit mode
   const [isDirectModeBetterThanSwapMode, setIsDirectModeBetterThanSwapMode] =
@@ -585,6 +589,9 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     sourcePrice,
     targetPrice,
     priceImpactRate,
+
+    remainderValue,
+    vaultChainId,
 
     slippageToleranceValue,
     slippageToleranceInputValue,
