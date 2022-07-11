@@ -170,7 +170,7 @@ export const getTotalRemainder = (vaults: (BasicVault | undefined)[]) => {
   );
 
   const vaultsRemainders = vaults.map((vault) =>
-    vault ? vault.collatCap.sub(vault.balance) : new Big(0)
+    vault ? new Big(vault.remainder) : new Big(0)
   );
 
   const totalBalance = vaultsBalances.reduce(

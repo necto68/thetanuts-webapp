@@ -22,10 +22,12 @@ export interface BasicVault {
   priceFeedAddress: string;
   assetSymbol: string;
   collateralSymbol: string;
+  collateralTokenAddress: string;
   expiry: number;
   period: number;
   valuePerLP: Big;
   balance: Big;
+  remainder: number;
   collatCap: Big;
   assetPrice: number;
   strikePrice: number | null;

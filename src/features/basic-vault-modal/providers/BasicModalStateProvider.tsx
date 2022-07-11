@@ -8,6 +8,22 @@ import { TabType } from "../types";
 const defaultBasicModalState: BasicModalState = {
   tabType: TabType.deposit,
   setTabType: () => undefined,
+  inputValue: "",
+  setInputValue: () => undefined,
+  isUseNativeData: false,
+  setIsUseNativeData: () => undefined,
+  tokenData: undefined,
+  isTokenDataLoading: false,
+  nativeData: undefined,
+  isNativeDataLoading: false,
+  priceValue: 0,
+  remainderValue: 0,
+
+  tokensQueries: {
+    collateralTokenQuery: undefined,
+    basicVaultTokenQuery: undefined,
+    nativeTokenQuery: undefined,
+  },
 };
 
 export const BasicModalStateContext = createContext<BasicModalState>(

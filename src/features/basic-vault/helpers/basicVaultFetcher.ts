@@ -113,6 +113,7 @@ export const basicVaultFetcher = async (
   const balanceDivisor = new Big(10).pow(decimals);
   const balance = balanceWei.div(balanceDivisor);
   const collatCap = collatCapWei.div(balanceDivisor);
+  const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
 
   // getting annual Percentage Yield
   const percentageYields = getPercentageYields(
@@ -131,10 +132,12 @@ export const basicVaultFetcher = async (
     priceFeedAddress,
     assetSymbol,
     collateralSymbol,
+    collateralTokenAddress,
     expiry,
     period,
     valuePerLP,
     balance,
+    remainder,
     collatCap,
     assetPrice,
     strikePrice,

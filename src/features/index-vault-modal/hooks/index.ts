@@ -1,4 +1,5 @@
 export * from "./useTokenQuery";
+export * from "./useNativeTokenQuery";
 export * from "./useSwapRouterConfig";
 export * from "./useSwapRouterMutations";
 export * from "./useSwapRouterState";
