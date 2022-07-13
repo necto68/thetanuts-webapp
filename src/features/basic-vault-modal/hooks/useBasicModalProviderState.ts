@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 import Big from "big.js";
+import { constants } from "ethers";
 
 import type { BasicModalState } from "../types";
 import { TabType } from "../types";
@@ -7,6 +8,8 @@ import {
   useNativeTokenQuery,
   useTokenQuery,
 } from "../../index-vault-modal/hooks";
+import type { Token } from "../../index-vault-modal/types";
+import { convertToBig } from "../../shared/helpers";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
@@ -28,16 +31,20 @@ export const useBasicModalProviderState = (): BasicModalState => {
     routerAddress,
     provider,
     basicVaultQuery,
+    basicVaultReaderQuery,
   } = useBasicModalConfig();
 
-  const { data } = basicVaultQuery;
-
   const inputValueBig = new Big(inputValue || 0);
+
+  const { data: basicVaultData } = basicVaultQuery;
+  const { data: basicVaultReaderData } = basicVaultReaderQuery;
 
   const {
     collateralPrice = 0,
     remainder: collateralTokenRemainder = 999_999_999,
-  } = data ?? {};
+  } = basicVaultData ?? {};
+
+  const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
 
   const collateralTokenQuery = useTokenQuery(
     collateralTokenAddress,
@@ -45,30 +52,27 @@ export const useBasicModalProviderState = (): BasicModalState => {
     provider
   );
 
-  // TODO: use another special hook, we don't need plain useTokenQuery here
-  const basicVaultTokenQuery = useTokenQuery(
-    basicVaultAddress,
-    basicVaultAddress,
-    provider
-  );
-
   const nativeTokenQuery = useNativeTokenQuery(routerAddress, provider);
 
-  const { data: collateralTokenData, isLoading: isCollateralTokenDataLoading } =
+  const { data: collateralTokenData, isLoading: isTokenDataLoading } =
     collateralTokenQuery;
-  const { data: basicVaultTokenData, isLoading: isBasicVaultTokenLoading } =
-    basicVaultTokenQuery;
+
   const { data: nativeData, isLoading: isNativeDataLoading } = nativeTokenQuery;
+
+  const withdrawalTokenData: Token | undefined = collateralTokenData
+    ? {
+        ...collateralTokenData,
+        balance: currentPosition,
+        allowance: convertToBig(constants.MaxUint256),
+      }
+    : undefined;
 
   const tokenData =
     currentTabType === TabType.deposit
       ? collateralTokenData
-      : basicVaultTokenData;
-  const isTokenDataLoading =
-    currentTabType === TabType.deposit
-      ? isCollateralTokenDataLoading
-      : isBasicVaultTokenLoading;
+      : withdrawalTokenData;
 
+  // use the same price for Deposit/Withdraw tab
   const priceValue = inputValueBig.mul(collateralPrice).toNumber();
 
   const remainderValue =
@@ -95,7 +99,6 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
     tokensQueries: {
       collateralTokenQuery,
-      basicVaultTokenQuery,
       nativeTokenQuery,
     },
   };

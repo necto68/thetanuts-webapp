@@ -21,7 +21,6 @@ const defaultBasicModalState: BasicModalState = {
 
   tokensQueries: {
     collateralTokenQuery: undefined,
-    basicVaultTokenQuery: undefined,
     nativeTokenQuery: undefined,
   },
 };

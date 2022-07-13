@@ -23,7 +23,6 @@ export interface BasicModalState {
 
   tokensQueries: {
     collateralTokenQuery: SwapRouterState["tokensQueries"]["sourceTokenQuery"];
-    basicVaultTokenQuery: SwapRouterState["tokensQueries"]["sourceTokenQuery"];
     nativeTokenQuery: SwapRouterState["tokensQueries"]["nativeTokenQuery"];
   };
 }
