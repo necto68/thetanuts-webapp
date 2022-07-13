@@ -1,13 +1,16 @@
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import { useVaultModalState } from "../../modal/hooks";
-import { useBasicVault } from "../../basic-vault/hooks";
+import { useBasicVault, useBasicVaultReader } from "../../basic-vault/hooks";
 import type { ChainId } from "../../wallet/constants";
 import { chainProvidersMap, chainsMap } from "../../wallet/constants";
 
 export const useBasicModalConfig = () => {
   const [{ vaultId }] = useVaultModalState();
+
   const basicVaultQuery = useBasicVault(vaultId);
+  const basicVaultReaderQuery = useBasicVaultReader(vaultId);
+
   const { network, provider: walletProvider } = useWallet();
 
   const { data } = basicVaultQuery;
@@ -36,5 +39,6 @@ export const useBasicModalConfig = () => {
     basicVaultChainId,
 
     basicVaultQuery,
+    basicVaultReaderQuery,
   };
 };

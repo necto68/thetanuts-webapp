@@ -57,6 +57,11 @@ export const totalValueLockedFormatter = (value: number) => {
   return `${formattedValue}${postfix}`;
 };
 
+export const strikePriceFormatter = (value: number) =>
+  Number.isInteger(value)
+    ? currencyFormatterWithoutDecimals.format(value)
+    : currencyFormatter.format(value);
+
 export const periodFormatter = (period: number) => {
   const mapPeriodToTitle = new Map([
     [7, "Weekly"],
@@ -88,9 +93,9 @@ export const timerFormatter = (initialSeconds: number) => {
   const secondsValue = remainder;
 
   const days = daysValue > 0 ? `${daysValue}d` : "";
-  const minutes = minutesValue > 0 ? `${minutesValue}m` : "";
   const hours = hoursValue > 0 ? `${hoursValue}h` : "";
+  const minutes = minutesValue > 0 ? `${minutesValue}m` : "";
   const seconds = secondsValue > 0 ? `${secondsValue}s` : "";
 
-  return [days, minutes, hours, seconds].join(" ");
+  return [days, hours, minutes, seconds].join(" ");
 };

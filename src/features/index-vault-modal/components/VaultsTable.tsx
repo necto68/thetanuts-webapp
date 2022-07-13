@@ -2,10 +2,9 @@ import { useSwapRouterConfig } from "../hooks";
 import type { IndexVault } from "../../index-vault/types";
 import { ExternalLinkButton } from "../../shared/components";
 import {
-  currencyFormatter,
-  currencyFormatterWithoutDecimals,
   dateFormatter,
   periodFormatter,
+  strikePriceFormatter,
 } from "../../shared/helpers";
 import { PathType } from "../../wallet/types";
 import type { BasicVault } from "../../basic-vault/types";
@@ -45,12 +44,8 @@ export const getVaultSubTitle = (
     return <ClaimStatusText>Auction In Progress</ClaimStatusText>;
   }
 
-  const strikePriceFormatter = Number.isInteger(strikePrice)
-    ? currencyFormatterWithoutDecimals
-    : currencyFormatter;
-
   const formattedStrikePrice = strikePrice
-    ? strikePriceFormatter.format(strikePrice)
+    ? strikePriceFormatter(strikePrice)
     : "";
 
   const formattedExpiryDate = dateFormatter.format(new Date(expiry));

@@ -2,6 +2,8 @@ export enum QueryType {
   metrics = "metrics",
 
   basicVault = "basicVault",
+  basicVaultReader = "basicVaultReader",
+
   indexVault = "indexVault",
   middleIndexPrice = "middleIndexPrice",
 

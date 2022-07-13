@@ -9,6 +9,7 @@ export const InputCard = () => {
     isTokenDataLoading,
     nativeData,
     isNativeDataLoading,
+    isUseNativeData,
     setIsUseNativeData,
     priceValue,
     remainderValue,
@@ -21,8 +22,8 @@ export const InputCard = () => {
       isNativeDataLoading={isNativeDataLoading}
       isSource
       isTokenDataLoading={isTokenDataLoading}
-      isUseNativeData={false}
-      isValueLoading={false}
+      isUseNativeData={isUseNativeData}
+      isValueLoading={isTokenDataLoading}
       nativeData={nativeData}
       onInputChange={setInputValue}
       onUseNativeDataChange={setIsUseNativeData}

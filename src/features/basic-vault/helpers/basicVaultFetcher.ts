@@ -6,7 +6,7 @@ import type { Provider } from "@ethersproject/providers";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   PriceFeedAbi__factory as PriceFeedAbiFactory,
-  VaultAbi__factory as VaultAbiFactory,
+  BasicVaultAbi__factory as BasicVaultAbiFactory,
 } from "../../contracts/types";
 import { convertToBig } from "../../shared/helpers";
 import {
@@ -22,7 +22,10 @@ export const basicVaultFetcher = async (
   basicVaultAddress: string,
   provider: Provider
 ): Promise<BasicVault> => {
-  const vaultContract = VaultAbiFactory.connect(basicVaultAddress, provider);
+  const vaultContract = BasicVaultAbiFactory.connect(
+    basicVaultAddress,
+    provider
+  );
 
   const lpDivisor = new Big(10).pow(18);
   const priceDivisor = new Big(10).pow(6);
@@ -43,7 +46,10 @@ export const basicVaultFetcher = async (
     provider.getNetwork() as Promise<{ chainId: ChainId }>,
     vaultContract.COLLAT(),
     vaultContract.name(),
-    vaultContract.epoch(),
+    vaultContract
+      .epoch()
+      .then(convertToBig)
+      .then((epochBig) => epochBig.toNumber()),
     vaultContract
       .expiry()
       .then(convertToBig)
@@ -72,7 +78,7 @@ export const basicVaultFetcher = async (
   // getting assetSymbol, currentStrikePrice, valuePerLP and assetPrice
   const [
     collateralSymbol,
-    decimals,
+    collateralDecimals,
     balanceWei,
     currentStrikePrice,
     valuePerLP,
@@ -102,6 +108,9 @@ export const basicVaultFetcher = async (
   const assetSymbol =
     isPutType && putVaultAssetSymbol ? putVaultAssetSymbol : collateralSymbol;
 
+  // for PUT vaults - collateralPrice always will be 1$
+  const collateralPrice = isPutType ? 1 : assetPrice;
+
   const type = isPutType ? VaultType.PUT : VaultType.CALL;
 
   const isSettled = expiry === 0;
@@ -110,7 +119,7 @@ export const basicVaultFetcher = async (
   const strikePrice = isSettled || isExpired ? null : currentStrikePrice;
 
   // getting balance and collatCap
-  const balanceDivisor = new Big(10).pow(decimals);
+  const balanceDivisor = new Big(10).pow(collateralDecimals);
   const balance = balanceWei.div(balanceDivisor);
   const collatCap = collatCapWei.div(balanceDivisor);
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
@@ -132,7 +141,9 @@ export const basicVaultFetcher = async (
     priceFeedAddress,
     assetSymbol,
     collateralSymbol,
+    collateralDecimals,
     collateralTokenAddress,
+    epoch,
     expiry,
     period,
     valuePerLP,
@@ -140,6 +151,7 @@ export const basicVaultFetcher = async (
     remainder,
     collatCap,
     assetPrice,
+    collateralPrice,
     strikePrice,
     percentageYields,
     annualPercentageYield,

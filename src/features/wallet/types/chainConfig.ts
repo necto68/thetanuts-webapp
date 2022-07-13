@@ -19,6 +19,7 @@ export interface ChainConfig {
     lendingPoolAddress: string;
     directDepositorAddress: string;
     directWithdrawalAddress: string;
+    basicVaultReaderAddress: string;
   };
 
   deployerAddresses?: {

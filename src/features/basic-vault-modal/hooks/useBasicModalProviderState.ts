@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import Big from "big.js";
 
 import type { BasicModalState } from "../types";
 import { TabType } from "../types";
@@ -31,8 +32,12 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const { data } = basicVaultQuery;
 
-  const { remainder: collateralTokenRemainder = 999_999_999 } = data ?? {};
-  const basicVaultTokenRemainder = 999_999_999;
+  const inputValueBig = new Big(inputValue || 0);
+
+  const {
+    collateralPrice = 0,
+    remainder: collateralTokenRemainder = 999_999_999,
+  } = data ?? {};
 
   const collateralTokenQuery = useTokenQuery(
     collateralTokenAddress,
@@ -40,6 +45,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
     provider
   );
 
+  // TODO: use another special hook, we don't need plain useTokenQuery here
   const basicVaultTokenQuery = useTokenQuery(
     basicVaultAddress,
     basicVaultAddress,
@@ -63,11 +69,10 @@ export const useBasicModalProviderState = (): BasicModalState => {
       ? isCollateralTokenDataLoading
       : isBasicVaultTokenLoading;
 
-  const priceValue = 1000;
+  const priceValue = inputValueBig.mul(collateralPrice).toNumber();
+
   const remainderValue =
-    currentTabType === TabType.deposit
-      ? collateralTokenRemainder
-      : basicVaultTokenRemainder;
+    currentTabType === TabType.deposit ? collateralTokenRemainder : undefined;
 
   return {
     tabType,

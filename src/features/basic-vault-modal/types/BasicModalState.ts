@@ -1,6 +1,4 @@
-import type { UseQueryResult } from "react-query";
-
-import type { NativeToken, Token } from "../../index-vault-modal/types";
+import type { SwapRouterState } from "../../index-vault-modal/types";
 
 import type { TabType } from "./TabType";
 
@@ -8,24 +6,24 @@ export interface BasicModalState {
   tabType: TabType;
   setTabType: (tabType: TabType) => void;
 
-  inputValue: string;
-  setInputValue: (inputValue: string) => void;
+  inputValue: SwapRouterState["sourceValue"];
+  setInputValue: SwapRouterState["setSourceValue"];
 
-  isUseNativeData: boolean;
-  setIsUseNativeData: (isUseNativeData: boolean) => void;
+  isUseNativeData: SwapRouterState["isUseNativeSourceData"];
+  setIsUseNativeData: SwapRouterState["setUseSourceNativeData"];
 
-  tokenData?: Token;
-  isTokenDataLoading: boolean;
+  tokenData: SwapRouterState["sourceData"];
+  isTokenDataLoading: SwapRouterState["isSourceDataLoading"];
 
-  nativeData?: NativeToken;
-  isNativeDataLoading: boolean;
+  nativeData?: SwapRouterState["nativeData"];
+  isNativeDataLoading: SwapRouterState["isNativeDataLoading"];
 
-  priceValue: number;
-  remainderValue: number;
+  priceValue: SwapRouterState["sourcePrice"];
+  remainderValue: SwapRouterState["remainderValue"];
 
   tokensQueries: {
-    collateralTokenQuery?: UseQueryResult<Token>;
-    basicVaultTokenQuery?: UseQueryResult<Token>;
-    nativeTokenQuery?: UseQueryResult<NativeToken>;
+    collateralTokenQuery: SwapRouterState["tokensQueries"]["sourceTokenQuery"];
+    basicVaultTokenQuery: SwapRouterState["tokensQueries"]["sourceTokenQuery"];
+    nativeTokenQuery: SwapRouterState["tokensQueries"]["nativeTokenQuery"];
   };
 }

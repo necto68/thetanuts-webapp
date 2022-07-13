@@ -22,7 +22,9 @@ export interface BasicVault {
   priceFeedAddress: string;
   assetSymbol: string;
   collateralSymbol: string;
+  collateralDecimals: number;
   collateralTokenAddress: string;
+  epoch: number;
   expiry: number;
   period: number;
   valuePerLP: Big;
@@ -30,6 +32,7 @@ export interface BasicVault {
   remainder: number;
   collatCap: Big;
   assetPrice: number;
+  collateralPrice: number;
   strikePrice: number | null;
   percentageYields: PercentageYields;
   annualPercentageYield: number;
