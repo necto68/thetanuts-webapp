@@ -8,6 +8,8 @@ const defaultSwapRouterMutations: SwapRouterMutations = {
   approveAllowanceMutation: undefined,
   swapMutation: undefined,
 
+  swapMutationHash: undefined,
+
   runApproveAllowance: () => undefined,
   runSwapTokensForTokens: () => undefined,
   runDirectDeposit: () => undefined,

@@ -1,2 +1,2 @@
 export * from "./useBasicModalState";
-export * from "./useBasicModalProviderState";
+export * from "./useBasicModalMutations";
