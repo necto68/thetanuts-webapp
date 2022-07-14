@@ -1,14 +1,16 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-interface BaseSwapButtonProps {
+interface ModalMainButtonProps {
   primaryColor?: string;
   secondaryColor?: string;
   isLoading?: boolean;
   disabled?: boolean;
 }
 
-export const BaseSwapButton = styled(motion.button).attrs<BaseSwapButtonProps>(
+export const ModalMainButton = styled(
+  motion.button
+).attrs<ModalMainButtonProps>(
   ({
     primaryColor = "#dddddd",
     secondaryColor = "#9f9f9f",
@@ -40,7 +42,7 @@ export const BaseSwapButton = styled(motion.button).attrs<BaseSwapButtonProps>(
           color: secondaryColor,
         },
   })
-)<BaseSwapButtonProps>`
+)<ModalMainButtonProps>`
   font-family: Barlow;
   font-weight: 600;
   font-size: 14px;

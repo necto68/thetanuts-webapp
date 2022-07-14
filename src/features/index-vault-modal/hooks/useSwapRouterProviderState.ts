@@ -150,7 +150,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     chainId: vaultChainId,
     assetPrice = 0,
     assetTokenAddress = "",
-    totalRemainder = 999_999_999,
+    totalRemainder = Number.MAX_SAFE_INTEGER,
   } = indexVaultQuery.data ?? {};
 
   const isUseIndexVaultChainId = vaultChainId === chainId;

@@ -2,8 +2,7 @@ import { useWallet } from "@gimmixorg/use-wallet";
 
 import { useVaultModalState } from "../../modal/hooks";
 import { useBasicVault, useBasicVaultReader } from "../../basic-vault/hooks";
-import type { ChainId } from "../../wallet/constants";
-import { chainProvidersMap, chainsMap } from "../../wallet/constants";
+import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 
 export const useBasicModalConfig = () => {
   const [{ vaultId }] = useVaultModalState();
@@ -15,7 +14,7 @@ export const useBasicModalConfig = () => {
 
   const { data } = basicVaultQuery;
   const {
-    chainId: basicVaultChainId = 1,
+    chainId: basicVaultChainId = ChainId.ETHEREUM,
     basicVaultAddress = "",
     collateralTokenAddress = "",
   } = data ?? {};

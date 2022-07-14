@@ -3,8 +3,6 @@ import type { FC } from "react";
 import { useCallback, useState } from "react";
 import Big from "big.js";
 
-import { LoadingSpinner } from "../../shared/components";
-import { web3ModalConfig } from "../../wallet/constants";
 import {
   useIndexVaultModalState,
   useSwapRouterConfig,
@@ -14,8 +12,13 @@ import {
 } from "../hooks";
 import { ModalContentType } from "../types";
 import type { NativeToken, Token } from "../types";
-
-import { BaseSwapButton, ContentContainer } from "./SwapButton.styles";
+import { ModalMainButton } from "../../modal/components/MainModalButton.styles";
+import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
+import { InsufficientBalanceMainButton } from "../../modal/components/InsufficientBalanceMainButton";
+import { MaxVaultCapReachedMainButton } from "../../modal/components/MaxVaultCapReachedMainButton";
+import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
+import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
+import { ActionMainButton } from "../../modal/components/ActionMainButton";
 
 interface SwapButtonProps {
   isSourceValueLoading: boolean;
@@ -60,14 +63,10 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   const { claimableBalance = "", fullyClaimed = false } = withdrawData ?? {};
 
-  const { account, connect } = useWallet();
+  const { account } = useWallet();
 
   const [isDirectModeBetterIgnore, setIsDirectModeBetterIgnore] =
     useState(false);
-
-  const handleConnectWalletButtonClick = useCallback(async () => {
-    await connect(web3ModalConfig);
-  }, [connect]);
 
   const handleResetButtonClick = useCallback(() => {
     if (approveAllowanceMutation) {
@@ -156,22 +155,14 @@ export const SwapButton: FC<SwapButtonProps> = ({
   const error = approveAllowanceError ?? swapError;
 
   if (!account) {
-    return (
-      <BaseSwapButton
-        onClick={handleConnectWalletButtonClick}
-        primaryColor="#259DDF"
-        secondaryColor="#ffffff"
-      >
-        Connect Wallet
-      </BaseSwapButton>
-    );
+    return <ConnectWalletMainButton />;
   }
 
   if (!isUserOnSupportedChainId && supportedChainIds.length > 0) {
     return (
-      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
+      <ModalMainButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
         Wrong Network
-      </BaseSwapButton>
+      </ModalMainButton>
     );
   }
 
@@ -187,15 +178,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }
 
   if (isError && error) {
-    return (
-      <BaseSwapButton
-        onClick={handleResetButtonClick}
-        primaryColor="#EB5853"
-        secondaryColor="#ffffff"
-      >
-        {error.data?.message ?? error.message}
-      </BaseSwapButton>
-    );
+    return <ErrorMainButton error={error} onClick={handleResetButtonClick} />;
   }
 
   if (
@@ -243,29 +226,16 @@ export const SwapButton: FC<SwapButtonProps> = ({
     sourceValueBig.gt(0) &&
     sourceValueBig.gt(sourceTokenData.balance)
   ) {
-    return (
-      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
-        Insufficient Balance
-      </BaseSwapButton>
-    );
+    return <InsufficientBalanceMainButton />;
   }
 
   if (!isFlipped && sourceValueBig.gt(totalRemainder)) {
-    return (
-      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
-        Max Vault Cap Reached
-      </BaseSwapButton>
-    );
+    return <MaxVaultCapReachedMainButton />;
   }
 
   if (isApproveAllowanceLoading && sourceTokenData) {
     return (
-      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
-        <ContentContainer>
-          {`Approving ${sourceTokenData.symbol}...`}
-          <LoadingSpinner />
-        </ContentContainer>
-      </BaseSwapButton>
+      <LoadingMainButton>{`Approving ${sourceTokenData.symbol}...`}</LoadingMainButton>
     );
   }
 
@@ -348,52 +318,33 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   if (isNeedApprove && isUseDirectMode) {
     return (
-      <BaseSwapButton
-        onClick={handleApproveButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleApproveButtonClick}>
         {`Approve ${sourceTokenData.symbol} for Direct Deposit`}
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
   if (isNeedApprove) {
     return (
-      <BaseSwapButton
-        onClick={handleApproveButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleApproveButtonClick}>
         {`Approve ${sourceTokenData.symbol} for Swap`}
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
   if (isSwapLoading) {
-    return (
-      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
-        <ContentContainer>
-          Swapping...
-          <LoadingSpinner />
-        </ContentContainer>
-      </BaseSwapButton>
-    );
+    return <LoadingMainButton>Swapping...</LoadingMainButton>;
   }
 
   if (isSwapButtonDisabled) {
-    return <BaseSwapButton disabled>Swap</BaseSwapButton>;
+    return <ModalMainButton disabled>Swap</ModalMainButton>;
   }
 
   if (isUseDirectMode) {
     return (
-      <BaseSwapButton
-        onClick={handleSwapButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleSwapButtonClick}>
         Direct Deposit
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
@@ -413,12 +364,6 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }
 
   return (
-    <BaseSwapButton
-      onClick={handleSwapButtonClick}
-      primaryColor="#12CC86"
-      secondaryColor="#ffffff"
-    >
-      Swap
-    </BaseSwapButton>
+    <ActionMainButton onClick={handleSwapButtonClick}>Swap</ActionMainButton>
   );
 };

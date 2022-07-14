@@ -85,7 +85,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   fieldWarningColor,
   disabled,
   isShowTitle = true,
-  remainderValue = 999_999_999,
+  remainderValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {

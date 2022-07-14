@@ -41,7 +41,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const {
     collateralPrice = 0,
-    remainder: collateralTokenRemainder = 999_999_999,
+    remainder: collateralTokenRemainder = Number.MAX_SAFE_INTEGER,
   } = basicVaultData ?? {};
 
   const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};

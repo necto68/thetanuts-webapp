@@ -56,7 +56,7 @@ export const basicVaultReaderFetcher = async (
     epoch === queuedExitEpoch ? vaultPosition[6] : vaultPosition[7];
 
   const currentPosition = currentPositionWei.div(collateralTokenDivisor);
-  const withdrawalPending = vaultPosition[2].div(currentPositionWei);
+  const withdrawalPending = vaultPosition[2].div(collateralTokenDivisor);
 
   // TODO: replace with real value
   const premiumRealized = new Big("999999999");
