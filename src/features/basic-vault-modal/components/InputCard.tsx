@@ -1,8 +1,10 @@
 import { SwapInputCard } from "../../index-vault-modal/components/SwapInputCard";
 import { useBasicModalState } from "../hooks";
+import { TabType } from "../types";
 
 export const InputCard = () => {
   const {
+    tabType,
     inputValue,
     setInputValue,
     tokenData,
@@ -19,6 +21,7 @@ export const InputCard = () => {
     <SwapInputCard
       inputValue={inputValue}
       isFlipped={false}
+      isHideAssetSelector={tabType === TabType.withdraw}
       isNativeDataLoading={isNativeDataLoading}
       isSource
       isTokenDataLoading={isTokenDataLoading}

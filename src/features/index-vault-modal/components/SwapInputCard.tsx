@@ -52,6 +52,7 @@ interface SwapInputCardProps {
   priceImpactRate?: number;
   isDirectModeBetterThanSwapMode?: boolean;
   isUseDirectMode?: boolean;
+  isHideAssetSelector?: boolean;
   fieldWarning?: string;
   fieldWarningColor?: string;
   disabled?: boolean;
@@ -81,6 +82,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   priceImpactRate = 0,
   isDirectModeBetterThanSwapMode = false,
   isUseDirectMode = false,
+  isHideAssetSelector = false,
   fieldWarning,
   fieldWarningColor,
   disabled,
@@ -90,6 +92,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
   const isShowAssetSelector =
+    !isHideAssetSelector &&
     tokenData &&
     nativeData &&
     tokenData.tokenAddress === nativeData.wrappedNativeTokenAddress;

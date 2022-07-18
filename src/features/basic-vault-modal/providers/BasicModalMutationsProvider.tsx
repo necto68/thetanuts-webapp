@@ -6,6 +6,7 @@ import type { BasicModalMutations } from "../types";
 
 const defaultBasicModalMutations: BasicModalMutations = {
   approveAllowanceMutation: undefined,
+  wrapMutation: undefined,
   depositMutation: undefined,
   initWithdrawMutation: undefined,
   cancelWithdrawMutation: undefined,
@@ -14,6 +15,7 @@ const defaultBasicModalMutations: BasicModalMutations = {
   mutationHash: undefined,
 
   runApproveAllowance: () => undefined,
+  runWrap: () => undefined,
   runDeposit: () => undefined,
   runInitWithdraw: () => undefined,
   runCancelWithdraw: () => undefined,

@@ -27,7 +27,8 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     basicVaultReaderQuery,
   } = useBasicModalConfig();
 
-  const { inputValue, tokenData, tokensQueries } = useBasicModalState();
+  const { inputValue, tokenData, nativeData, tokensQueries } =
+    useBasicModalState();
 
   const [mutationHash, setMutationHash] = useState<string>();
 
@@ -68,6 +69,46 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
     return true;
   }, [tokenData, walletProvider, basicVaultAddress]);
+
+  const runWrapMutation = useCallback(async () => {
+    if (!nativeData || !walletProvider) {
+      return false;
+    }
+
+    const signer = walletProvider.getSigner();
+
+    const wrappedTokenContract = Erc20AbiFactory.connect(
+      nativeData.wrappedNativeTokenAddress,
+      signer
+    );
+
+    const depositAmount = new Big(inputValue)
+      .mul(nativeData.tokenDivisor)
+      .round()
+      .toString();
+
+    const overrides = { value: depositAmount };
+
+    let transaction = null;
+
+    try {
+      await wrappedTokenContract.callStatic.deposit(overrides);
+
+      transaction = await wrappedTokenContract.deposit(overrides);
+    } catch (walletError) {
+      processWalletError(walletError);
+    }
+
+    if (transaction) {
+      try {
+        await transaction.wait();
+      } catch (transactionError) {
+        processTransactionError(transactionError);
+      }
+    }
+
+    return true;
+  }, [nativeData, walletProvider, inputValue]);
 
   const runDepositMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
@@ -214,6 +255,13 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
   );
 
+  const wrapMutation = useMutation<boolean, MutationError>(
+    async () => await runWrapMutation(),
+    {
+      onSuccess: handleMutationSuccess,
+    }
+  );
+
   const depositMutation = useMutation<boolean, MutationError>(
     async () => await runDepositMutation(),
     {
@@ -243,6 +291,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
   );
 
   useResetMutationError(approveAllowanceMutation);
+  useResetMutationError(wrapMutation);
   useResetMutationError(depositMutation);
   useResetMutationError(initWithdrawMutation);
   useResetMutationError(cancelWithdrawMutation);
@@ -250,6 +299,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
   return {
     approveAllowanceMutation,
+    wrapMutation,
     depositMutation,
     initWithdrawMutation,
     cancelWithdrawMutation,
@@ -259,6 +309,10 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
     runApproveAllowance: () => {
       approveAllowanceMutation.mutate();
+    },
+
+    runWrap: () => {
+      wrapMutation.mutate();
     },
 
     runDeposit: () => {

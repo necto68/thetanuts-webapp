@@ -4,6 +4,7 @@ import type { MutationError } from "../../index-vault-modal/types";
 
 export interface BasicModalMutations {
   approveAllowanceMutation?: UseMutationResult<boolean, MutationError, void>;
+  wrapMutation?: UseMutationResult<boolean, MutationError, void>;
   depositMutation?: UseMutationResult<boolean, MutationError, void>;
   initWithdrawMutation?: UseMutationResult<boolean, MutationError, void>;
   cancelWithdrawMutation?: UseMutationResult<boolean, MutationError, void>;
@@ -12,6 +13,7 @@ export interface BasicModalMutations {
   mutationHash?: string;
 
   runApproveAllowance: () => void;
+  runWrap: () => void;
   runDeposit: () => void;
   runInitWithdraw: () => void;
   runCancelWithdraw: () => void;
