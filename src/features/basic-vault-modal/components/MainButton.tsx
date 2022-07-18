@@ -2,7 +2,7 @@ import { useWallet } from "@gimmixorg/use-wallet";
 import { useCallback } from "react";
 import Big from "big.js";
 
-import { ModalMainButton } from "../../modal/components/MainModalButton.styles";
+import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
 import { useBasicModalMutations, useBasicModalState } from "../hooks";
 import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 import { TabType } from "../types";

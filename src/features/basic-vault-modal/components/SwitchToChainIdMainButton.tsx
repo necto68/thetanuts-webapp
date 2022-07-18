@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import type { Web3Provider } from "@ethersproject/providers";
 
 import { switchToChain } from "../../wallet/helpers";
-import { ModalMainButton } from "../../modal/components/MainModalButton.styles";
+import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
 import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 

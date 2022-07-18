@@ -29,4 +29,13 @@ export const developBasicVaults: BasicVaultConfig[] = [
       basicVaultAddress: "0xc86C567E7cB007684ce4551CD5f8D2494aC71187",
     },
   },
+  {
+    id: "TN-CSCCv0-MATICUSD-14DAY",
+    isFeatured: true,
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x86b16F0eC0F08770491Cfd2E761030b04D9A4fC5",
+    },
+  },
 ];

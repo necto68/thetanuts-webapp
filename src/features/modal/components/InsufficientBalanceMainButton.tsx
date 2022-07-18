@@ -1,4 +1,4 @@
-import { ModalMainButton } from "./MainModalButton.styles";
+import { ModalMainButton } from "./ModalMainButton.styles";
 
 export const InsufficientBalanceMainButton = () => (
   <ModalMainButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">

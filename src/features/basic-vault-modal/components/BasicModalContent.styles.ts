@@ -13,3 +13,9 @@ export const Container = styled.div`
     padding: 15px 15px;
   }
 `;
+
+export const MainButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;

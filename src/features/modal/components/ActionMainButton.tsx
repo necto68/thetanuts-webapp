@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { ModalMainButton } from "./MainModalButton.styles";
+import { ModalMainButton } from "./ModalMainButton.styles";
 
 interface ActionMainButtonProps {
   onClick: () => void;

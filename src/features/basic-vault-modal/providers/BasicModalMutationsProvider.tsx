@@ -8,6 +8,7 @@ const defaultBasicModalMutations: BasicModalMutations = {
   approveAllowanceMutation: undefined,
   depositMutation: undefined,
   initWithdrawMutation: undefined,
+  cancelWithdrawMutation: undefined,
   withdrawMutation: undefined,
 
   mutationHash: undefined,
@@ -15,6 +16,7 @@ const defaultBasicModalMutations: BasicModalMutations = {
   runApproveAllowance: () => undefined,
   runDeposit: () => undefined,
   runInitWithdraw: () => undefined,
+  runCancelWithdraw: () => undefined,
   runWithdraw: () => undefined,
 };
 

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import { web3ModalConfig } from "../../wallet/constants";
 
-import { ModalMainButton } from "./MainModalButton.styles";
+import { ModalMainButton } from "./ModalMainButton.styles";
 
 export const ConnectWalletMainButton = () => {
   const { connect } = useWallet();

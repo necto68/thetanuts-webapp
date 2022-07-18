@@ -2,7 +2,7 @@ import type { FC } from "react";
 
 import type { MutationError } from "../../index-vault-modal/types";
 
-import { ModalMainButton } from "./MainModalButton.styles";
+import { ModalMainButton } from "./ModalMainButton.styles";
 
 interface ErrorMainButtonProps {
   error: MutationError;

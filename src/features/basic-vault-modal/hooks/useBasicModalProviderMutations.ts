@@ -107,60 +107,57 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     return true;
   }, [tokenData, walletProvider, basicVaultAddress, inputValue]);
 
-  const runInitWithdrawMutation = useCallback(async () => {
-    if (!tokenData || !walletProvider) {
-      return false;
-    }
+  const runInitWithdrawMutation = useCallback(
+    async (isCancel = false) => {
+      if (!tokenData || !walletProvider) {
+        return false;
+      }
 
-    const signer = walletProvider.getSigner();
+      const signer = walletProvider.getSigner();
 
-    const basicVaultContract = BasicVaultAbiFactory.connect(
-      basicVaultAddress,
-      signer
-    );
+      const basicVaultContract = BasicVaultAbiFactory.connect(
+        basicVaultAddress,
+        signer
+      );
 
-    // need to divide by valuePerLP
-    // because initWithdraw() should be called only with LP token amount
-    // not collateral token amount
-    const { data } = basicVaultQuery;
-    const { valuePerLP = new Big(1) } = data ?? {};
+      // need to divide by valuePerLP
+      // because initWithdraw() should be called only with LP token amount
+      // not collateral token amount
+      const { data } = basicVaultQuery;
+      const { valuePerLP = new Big(1) } = data ?? {};
 
-    // TODO: need to use basicVaultTokenDivisor
-    //  not tokenData.tokenDivisor
-    const withdrawAmount = new Big(inputValue)
-      .div(valuePerLP)
-      .mul(tokenData.tokenDivisor)
-      .round()
-      .toString();
+      const inputWithdrawAmount = new Big(inputValue || 0)
+        .div(valuePerLP)
+        .mul(tokenData.tokenDivisor)
+        .round()
+        .toString();
 
-    let transaction = null;
+      const withdrawAmount = isCancel ? "0" : inputWithdrawAmount;
 
-    try {
-      await basicVaultContract.callStatic.initWithdraw(withdrawAmount);
-
-      transaction = await basicVaultContract.initWithdraw(withdrawAmount);
-    } catch (walletError) {
-      processWalletError(walletError);
-    }
-
-    if (transaction) {
-      setMutationHash(transaction.hash);
+      let transaction = null;
 
       try {
-        await transaction.wait();
-      } catch (transactionError) {
-        processTransactionError(transactionError);
-      }
-    }
+        await basicVaultContract.callStatic.initWithdraw(withdrawAmount);
 
-    return true;
-  }, [
-    tokenData,
-    walletProvider,
-    basicVaultAddress,
-    basicVaultQuery,
-    inputValue,
-  ]);
+        transaction = await basicVaultContract.initWithdraw(withdrawAmount);
+      } catch (walletError) {
+        processWalletError(walletError);
+      }
+
+      if (transaction) {
+        setMutationHash(transaction.hash);
+
+        try {
+          await transaction.wait();
+        } catch (transactionError) {
+          processTransactionError(transactionError);
+        }
+      }
+
+      return true;
+    },
+    [tokenData, walletProvider, basicVaultAddress, basicVaultQuery, inputValue]
+  );
 
   const runWithdrawMutation = useCallback(async () => {
     if (!walletProvider) {
@@ -231,6 +228,13 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
   );
 
+  const cancelWithdrawMutation = useMutation<boolean, MutationError>(
+    async () => await runInitWithdrawMutation(true),
+    {
+      onSuccess: handleMutationSuccess,
+    }
+  );
+
   const withdrawMutation = useMutation<boolean, MutationError>(
     async () => await runWithdrawMutation(),
     {
@@ -241,12 +245,14 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
   useResetMutationError(approveAllowanceMutation);
   useResetMutationError(depositMutation);
   useResetMutationError(initWithdrawMutation);
+  useResetMutationError(cancelWithdrawMutation);
   useResetMutationError(withdrawMutation);
 
   return {
     approveAllowanceMutation,
     depositMutation,
     initWithdrawMutation,
+    cancelWithdrawMutation,
     withdrawMutation,
 
     mutationHash,
@@ -261,6 +267,10 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
     runInitWithdraw: () => {
       initWithdrawMutation.mutate();
+    },
+
+    runCancelWithdraw: () => {
+      cancelWithdrawMutation.mutate();
     },
 
     runWithdraw: () => {

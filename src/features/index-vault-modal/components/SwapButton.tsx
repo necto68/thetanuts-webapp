@@ -12,7 +12,7 @@ import {
 } from "../hooks";
 import { ModalContentType } from "../types";
 import type { NativeToken, Token } from "../types";
-import { ModalMainButton } from "../../modal/components/MainModalButton.styles";
+import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
 import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
 import { InsufficientBalanceMainButton } from "../../modal/components/InsufficientBalanceMainButton";
 import { MaxVaultCapReachedMainButton } from "../../modal/components/MaxVaultCapReachedMainButton";
