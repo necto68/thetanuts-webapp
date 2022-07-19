@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { screens } from "../../shared/constants";
+import { BaseButton } from "../../shared/components";
 
 export const Container = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ export const ContentContainer = styled.div`
   }
 `;
 
-export const SwapInfoContainer = styled.div`
+export const InfoContainer = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -38,7 +39,7 @@ export const SwapInfoContainer = styled.div`
   gap: 25px;
 `;
 
-export const SwapTitle = styled.span`
+export const Title = styled.span`
   font-family: Barlow;
   font-weight: 700;
   font-size: 40px;
@@ -66,7 +67,7 @@ export const RatioTitleContainer = styled.div`
   gap: 10px;
 `;
 
-export const RatioTitle = styled(SwapTitle)`
+export const RatioTitle = styled(Title)`
   font-size: 23px;
   color: #ffffff;
 `;
@@ -76,15 +77,19 @@ export const ToTitle = styled(RatioTitle)`
 `;
 
 export const TransactionLink = styled(motion.a).attrs<{
-  isSwapSuccessful: boolean;
-}>(({ isSwapSuccessful }) => ({
+  isMutationSucceed: boolean;
+}>(({ isMutationSucceed }) => ({
   initial: false,
 
   animate: {
-    color: isSwapSuccessful ? "#061F3A" : "#1FFFAB",
+    color: isMutationSucceed ? "#061F3A" : "#1FFFAB",
   },
-}))<{ isSwapSuccessful: boolean }>`
+}))<{ isMutationSucceed: boolean }>`
   font-family: Barlow;
   font-weight: 700;
   font-size: 17px;
+`;
+
+export const CloseButton = styled(BaseButton)`
+  width: 100%;
 `;

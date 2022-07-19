@@ -138,6 +138,8 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
 
     if (transaction) {
+      setMutationHash(transaction.hash);
+
       try {
         await transaction.wait();
       } catch (transactionError) {
@@ -186,8 +188,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       }
 
       if (transaction) {
-        setMutationHash(transaction.hash);
-
         try {
           await transaction.wait();
         } catch (transactionError) {
