@@ -7,12 +7,9 @@ import type { VaultModalRouteParameters } from "../../root/types";
 import { ModalPathname, PagePathname, VaultModalType } from "../../root/types";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { basicVaultsMap } from "../../basic/constants";
+import { ModalContentType } from "../../index-vault-modal/types";
 
 import { useVaultModalState } from "./useVaultModalState";
-
-// TODO: return when we will have direct deposit
-// eslint-disable-next-line max-len
-// import { ModalContentType } from "../../index-vault-modal/types/modalContentType";
 
 const getVaultType = (
   vaultModalUrlMatch: match<VaultModalRouteParameters> | null,
@@ -80,16 +77,13 @@ export const useVaultModalOpen = () => {
         vaultType === VaultModalType.index ? indexVaultsMap : basicVaultsMap;
       if (vaultsMap[vaultId]) {
         const chainId = Number(queryParameters.get("chain"));
-        setVaultModalState((previousState) => ({
-          ...previousState,
+        setVaultModalState({
           vaultType,
           vaultId,
           chainId,
           isShow: true,
-
-          // TODO: return when we will have direct deposit
-          // contentType: ModalContentType.swap,
-        }));
+          contentType: ModalContentType.swap,
+        });
       } else {
         routerHistory.push(pageUrlMatch.path);
       }

@@ -1,9 +1,9 @@
 import {
   APYCellContainer,
   Chains,
+  DepositButton,
   GreenCellValue,
   Table,
-  VaultModalButton,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useBasicVaults } from "../../basic-vault/hooks";
@@ -108,10 +108,8 @@ const columns: Column<BasicVault>[] = [
   {
     key: "id",
 
-    render: (row) => (
-      <VaultModalButton vaultId={row.id} vaultType={VaultModalType.basic}>
-        Deposit
-      </VaultModalButton>
+    render: ({ id, chainId }) => (
+      <DepositButton chainId={chainId} vaultId={id} />
     ),
   },
 ];

@@ -3,9 +3,9 @@ import {
   APYCellContainer,
   GreenCellValue,
   Chains,
-  VaultModalButton,
   DemoButton,
   AssetCell,
+  SwapButton,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useIndexVaults } from "../../index-vault/hooks";
@@ -96,11 +96,7 @@ const columns: Column<IndexVaultRow>[] = [
         return <DemoButton />;
       }
 
-      return (
-        <VaultModalButton vaultId={row.id} vaultType={VaultModalType.index}>
-          Swap
-        </VaultModalButton>
-      );
+      return <SwapButton vaultId={row.id} />;
     },
   },
 ];

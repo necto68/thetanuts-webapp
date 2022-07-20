@@ -9,7 +9,7 @@ import {
 } from "../../shared/helpers";
 import { DirectWithdraw } from "../../contracts/types/DirectWithdrawAbi";
 import type { Token } from "../types";
-import type { Vault } from "../../index-vault/types";
+import type { BasicVault } from "../../basic-vault/types";
 
 import ClaimInfoStructOutput = DirectWithdraw.ClaimInfoStructOutput;
 
@@ -39,9 +39,9 @@ interface VaultWithdrawInfoDto {
   withdrawnVaults?: WithdrawnVault[];
 }
 
-export const getLastVaultExpiry = (vaults: Vault[]): string => {
+export const getLastVaultExpiry = (vaults: BasicVault[]): string => {
   const expiry = vaults.reduce(
-    (previousValue: number, currentValue: Vault) =>
+    (previousValue: number, currentValue: BasicVault) =>
       currentValue.expiry > previousValue ? currentValue.expiry : previousValue,
     0
   );
@@ -131,7 +131,7 @@ export const withdrawalDataFetcher = async (
   account: string,
   sourceTokenData: Token | undefined,
   targetTokenData: Token | undefined,
-  vaults: Vault[],
+  vaults: BasicVault[],
   directWithdrawalAddress: string,
   directWithdrawalDeployerAddress?: string,
   sourceValue?: string
@@ -387,8 +387,8 @@ export const withdrawalDataFetcher = async (
       // Iterate through vaults and perform static call to get balance that ready to claim.
       const claimableBalances = await Promise.all(
         vaults.map(
-          async ({ vaultAddress }) =>
-            await directWithdrawContract.callStatic.redeemVault(vaultAddress, {
+          async ({ basicVaultAddress }) =>
+            await directWithdrawContract.callStatic.redeemVault(basicVaultAddress, {
               from: account,
             })
         )
@@ -396,7 +396,7 @@ export const withdrawalDataFetcher = async (
 
       result.vaultsClaimable = Object.fromEntries(
         claimableBalances.map((claimable, index) => [
-          vaults[index].vaultAddress,
+          vaults[index].basicVaultAddress,
           claimable.gt(0)
             ? convertToBig(claimable).div(targetTokenDivisor).toFixed(2)
             : undefined,

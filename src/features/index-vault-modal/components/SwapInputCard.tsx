@@ -13,6 +13,7 @@ import type { NativeToken, Token } from "../types";
 import { getLogoBySymbol } from "../../logo/helpers";
 import type { ChainId } from "../../wallet/constants";
 import { ModalContentType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { AssetSelector } from "./AssetSelector";
 import { PriceImpact } from "./PriceImpact";
@@ -89,8 +90,9 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   isShowTitle = true,
   remainderValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
-  // eslint-disable-next-line sonarjs/cognitive-complexity
 }) => {
+  const [{ contentType }] = useVaultModalState();
+
   const isShowAssetSelector =
     !isHideAssetSelector &&
     tokenData &&

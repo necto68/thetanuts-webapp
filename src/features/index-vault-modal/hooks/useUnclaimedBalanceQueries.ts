@@ -7,7 +7,7 @@ import { chainProvidersMap } from "../../wallet/constants";
 import { QueryType } from "../../shared/types";
 
 export const useUnclaimedBalanceQueries = (chainIds: ChainId[]) => {
-  const { provider: walletProvider } = useWallet();
+  const { account = "" } = useWallet();
 
   return useQueries(
     chainIds.map((chainId: ChainId) => {
@@ -17,7 +17,7 @@ export const useUnclaimedBalanceQueries = (chainIds: ChainId[]) => {
         queryKey: [QueryType.unclaimedBalance, chainId],
 
         queryFn: async () =>
-          await unclaimedBalanceFetcher(chainId, provider, walletProvider),
+          await unclaimedBalanceFetcher(chainId, account, provider),
       };
     })
   );

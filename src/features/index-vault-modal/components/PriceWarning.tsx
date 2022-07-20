@@ -6,6 +6,7 @@ import { chainsMap } from "../../wallet/constants";
 import { Warning } from "../icons";
 import type { Token } from "../types";
 import { ModalContentType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import {
   Container,
@@ -33,6 +34,8 @@ export const PriceWarning: FC<PriceWarningProps> = ({
   remainderValue = 0,
   vaultChainId,
 }) => {
+  const [, setVaultModalState] = useVaultModalState();
+
   const { symbol = "" } = sourceTokenData ?? {};
 
   const isStableCoin = ["USDC", "BUSD"].includes(symbol);
@@ -40,14 +43,14 @@ export const PriceWarning: FC<PriceWarningProps> = ({
   const chainTitle = vaultChainId ? chainsMap[vaultChainId].title : "";
 
   const startWithdraw = () => {
-    setIndexVaultModalState((previousState) => ({
+    setVaultModalState((previousState) => ({
       ...previousState,
       contentType: ModalContentType.withdraw,
     }));
   };
 
   const backToSwap = () => {
-    setIndexVaultModalState((previousState) => ({
+    setVaultModalState((previousState) => ({
       ...previousState,
       contentType: ModalContentType.swap,
     }));

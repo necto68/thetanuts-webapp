@@ -2,7 +2,7 @@ import { createGlobalState } from "react-hooks-global-state";
 
 import type { ChainId } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
-import { ModalContentType } from "../../index-vault-modal/types/modalContentType";
+import type { ModalContentType } from "../../index-vault-modal/types";
 
 export interface VaultModalState {
   isShow: boolean;

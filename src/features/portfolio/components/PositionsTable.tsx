@@ -3,10 +3,10 @@ import {
   Table,
   GreenCellValue,
   Chains,
-  VaultModalButton,
   ClaimButton,
   CellValue,
   AssetCell,
+  SwapButton,
 } from "../../table/components";
 import type { IndexTokenRow } from "../types";
 import { useIndexPositionsRows } from "../hooks";
@@ -89,19 +89,9 @@ const columns: Column<IndexTokenRow>[] = [
     render: ({ id, chainId, unclaimed, withdrawId }) => (
       <ButtonsContainer>
         {unclaimed ? (
-          <ClaimButton
-            chainId={chainId}
-            indexVaultId={id}
-            withdrawId={withdrawId}
-          />
+          <ClaimButton chainId={chainId} vaultId={id} withdrawId={withdrawId} />
         ) : null}
-        <VaultModalButton
-          chainId={chainId}
-          vaultId={id}
-          vaultType={VaultModalType.index}
-        >
-          Swap
-        </VaultModalButton>
+        <SwapButton chainId={chainId} vaultId={id} />
       </ButtonsContainer>
     ),
   },

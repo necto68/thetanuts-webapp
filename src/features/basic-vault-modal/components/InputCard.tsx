@@ -23,6 +23,7 @@ export const InputCard = () => {
       isFlipped={false}
       isHideAssetSelector={tabType === TabType.withdraw}
       isNativeDataLoading={isNativeDataLoading}
+      isShowTitle={false}
       isSource
       isTokenDataLoading={isTokenDataLoading}
       isUseNativeData={isUseNativeData}

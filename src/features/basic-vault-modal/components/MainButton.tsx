@@ -15,7 +15,7 @@ import { ActionMainButton } from "../../modal/components/ActionMainButton";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
-// eslint-disable-next-line complexity,sonarjs/cognitive-complexity
+// eslint-disable-next-line complexity
 export const MainButton = () => {
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();

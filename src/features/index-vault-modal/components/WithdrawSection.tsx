@@ -1,5 +1,6 @@
-import { useIndexVaultModalState, useSwapRouterState } from "../hooks";
+import { useSwapRouterState } from "../hooks";
 import { ModalContentType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { SwapInputCard } from "./SwapInputCard";
 import { SwapButton } from "./SwapButton";
@@ -7,7 +8,7 @@ import { Container, SwapInputsContainer } from "./SwapSection.styles";
 import { VaultWithdrawInfo } from "./VaultWithdrawInfo";
 
 export const WithdrawSection = () => {
-  const [{ contentType }] = useIndexVaultModalState();
+  const [{ contentType }] = useVaultModalState();
   const {
     sourceValue,
 

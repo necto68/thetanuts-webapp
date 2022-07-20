@@ -2,23 +2,24 @@ import type { FC } from "react";
 import { useCallback } from "react";
 import { generatePath } from "react-router-dom";
 
-import type { ChainId } from "../../wallet/constants";
 import { Link } from "../../shared/components";
 import { ModalPathname, VaultModalType } from "../../root/types";
 import { useVaultModalState } from "../../modal/hooks";
+import type { VaultModalState } from "../../shared/hooks";
 
 import { BaseVaultModalButton } from "./VaultModalButton.styles";
 
-interface VaultModalButtonProps {
-  vaultType: VaultModalType;
-  vaultId: string;
-  chainId?: ChainId;
-}
+export type VaultModalButtonProps = Pick<
+  VaultModalState,
+  "chainId" | "contentType" | "vaultId" | "vaultType" | "withdrawId"
+>;
 
 export const VaultModalButton: FC<VaultModalButtonProps> = ({
-  vaultType,
-  vaultId,
   chainId,
+  contentType,
+  vaultId,
+  vaultType,
+  withdrawId,
   children,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
@@ -36,14 +37,22 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
   const vaultModalRoute = isRouterModal ? { pathname } : {};
 
   const handleButtonClick = useCallback(() => {
-    setVaultModalState((previousState) => ({
-      ...previousState,
+    setVaultModalState({
       isShow: true,
       vaultType,
       vaultId,
+      contentType,
+      withdrawId,
       chainId,
-    }));
-  }, [vaultType, vaultId, chainId, setVaultModalState]);
+    });
+  }, [
+    vaultType,
+    vaultId,
+    contentType,
+    withdrawId,
+    chainId,
+    setVaultModalState,
+  ]);
 
   return (
     <Link to={vaultModalRoute}>

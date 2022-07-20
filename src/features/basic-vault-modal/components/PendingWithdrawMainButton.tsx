@@ -10,7 +10,7 @@ import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 import { TabType } from "../types";
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 
-// eslint-disable-next-line complexity, sonarjs/cognitive-complexity
+// eslint-disable-next-line complexity
 export const PendingWithdrawMainButton = () => {
   const {
     walletChainId,

@@ -5,10 +5,10 @@ import { withdrawalDataFetcher } from "../helpers/withdrawDataFetcher";
 import { ModalContentType } from "../types";
 import { QueryType } from "../../shared/types";
 import { ChainId, chainProvidersMap } from "../../wallet/constants";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { useSwapRouterConfig } from "./useSwapRouterConfig";
 import { useSwapRouterState } from "./useSwapRouterState";
-import { useIndexVaultModalState } from "./useIndexVaultModalState";
 
 export const useWithdrawDataQuery = () => {
   // Define router config data.
@@ -19,7 +19,7 @@ export const useWithdrawDataQuery = () => {
   } = useSwapRouterConfig();
 
   // Define modal content type.
-  const [{ contentType }] = useIndexVaultModalState();
+  const [{ contentType }] = useVaultModalState();
 
   // Define user account.
   const { account = "" } = useWallet();

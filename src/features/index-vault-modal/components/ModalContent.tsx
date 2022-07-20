@@ -1,12 +1,8 @@
 import { AnimatePresence } from "framer-motion";
 
-import {
-  useIndexVaultModalState,
-  useSwapRouterConfig,
-  useSwapRouterMutations,
-} from "../hooks";
-import { switchToChain } from "../../wallet/helpers";
+import { useSwapRouterMutations, useSwitchChainId } from "../hooks";
 import { ModalContentType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { Header } from "./Header";
 import { SwappingContent } from "./SwappingContent";
@@ -20,28 +16,16 @@ export const ModalContent = () => {
 
   const isSwapping = Boolean(swapMutationHash);
 
-  const { walletChainId, walletProvider } = useSwapRouterConfig();
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
-  const { chainId } = indexVaultModalState;
+  const switchChainId = useSwitchChainId();
 
-  const { contentType = ModalContentType.swap } = indexVaultModalState;
+  const [vaultModalState] = useVaultModalState();
+
+  const { contentType = ModalContentType.swap } = vaultModalState;
 
   const theme =
     isSwapping && contentType !== ModalContentType.withdrawClaim
       ? "dark"
       : "light";
-
-  const onAnimationComplete = () => {
-    if (chainId && chainId !== walletChainId) {
-      void switchToChain(chainId, walletProvider);
-    }
-
-    setIndexVaultModalState((previousState) => ({
-      ...previousState,
-      chainId: null,
-    }));
-  };
 
   const renderModalHeader = (type: ModalContentType) => {
     switch (type) {
