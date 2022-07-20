@@ -1,16 +1,16 @@
 import type { FC } from "react";
 
-import { ArrowIcon } from "../../shared/components";
+import { SectionType } from "../types";
+import { Plus, Chain } from "../../shared/icons";
 
-import type { SectionType } from "./ExpandersSection";
 import {
   Container,
+  ExpandableContainer,
   HeaderButton,
   Title,
-  ExpandableContainer,
 } from "./Expander.styles";
 
-interface ExpanderProps {
+export interface ExpanderProps {
   type: SectionType;
   title: string;
   isOpen: boolean;
@@ -33,7 +33,7 @@ export const Expander: FC<ExpanderProps> = ({
       }}
     >
       <Title>{title}</Title>
-      <ArrowIcon up={isOpen} />
+      {type === SectionType.analytics ? <Chain /> : <Plus />}
     </HeaderButton>
     <ExpandableContainer isOpen={isOpen} maxHeight={maxHeight}>
       {children}

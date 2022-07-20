@@ -3,7 +3,7 @@ import { useWallet } from "@gimmixorg/use-wallet";
 
 import { indexDepositsHistoryFetcher } from "../helpers";
 import { indexVaultsMap } from "../../theta-index/constants";
-import { chainsMap, chainProvidersMap } from "../../wallet/constants";
+import { chainsMap, chainProvidersMap, ChainId } from "../../wallet/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
 import { QueryType } from "../../shared/types";
 
@@ -16,7 +16,7 @@ export const useIndexDepositsHistoryQueries = (indexVaultIds: string[]) => {
     indexVaultsQueries.map(({ data }) => {
       const {
         id = "",
-        chainId = 1,
+        chainId = ChainId.ETHEREUM,
         assetTokenAddress = "",
         indexTokenAddress = "",
       } = data ?? {};

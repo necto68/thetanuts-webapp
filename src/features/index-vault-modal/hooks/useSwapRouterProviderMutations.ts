@@ -1,6 +1,6 @@
 import { useMutation } from "react-query";
 import { useCallback, useState } from "react";
-import { constants } from "ethers";
+import { BigNumber, constants } from "ethers";
 
 import type { MutationError, SwapRouterMutations } from "../types";
 import { InputType, MutationType } from "../types";
@@ -16,18 +16,23 @@ import {
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   RouterV2Abi__factory as RouterV2AbiFactory,
+  DirectWithdrawAbi__factory as DirectWithdrawAbiFactory,
   DirectDepositorAbi__factory as DirectDepositorAbiFactory,
 } from "../../contracts/types";
+import { ModalContentType } from "../types/modalContentType";
 
 import { useSwapRouterConfig } from "./useSwapRouterConfig";
 import { useSwapRouterState } from "./useSwapRouterState";
 import { useResetMutationError } from "./useResetMutationError";
+import { useIndexVaultModalState } from "./useIndexVaultModalState";
 
 export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
   const {
     routerAddress,
     directDepositorAddress,
+    directWithdrawalAddress,
     walletProvider,
+    contentType,
     indexVaultAddress,
     indexVaultQuery,
   } = useSwapRouterConfig();
@@ -45,6 +50,9 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
     tokensQueries,
   } = useSwapRouterState();
 
+  const [indexVaultModalState, setIndexVaultModalState] =
+    useIndexVaultModalState();
+
   const [swapMutationHash, setSwapMutationHash] = useState<string>();
 
   const runApproveAllowanceMutation = useCallback(async () => {
@@ -59,9 +67,13 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       signer
     );
 
-    const spenderAddress = isUseDirectMode
+    let spenderAddress = isUseDirectMode
       ? directDepositorAddress
       : routerAddress;
+
+    if (contentType === ModalContentType.withdraw) {
+      spenderAddress = directWithdrawalAddress;
+    }
 
     const approveParameters = [spenderAddress, constants.MaxUint256] as const;
 
@@ -93,10 +105,12 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
 
     return true;
   }, [
+    contentType,
     sourceData,
     walletProvider,
     isUseDirectMode,
     directDepositorAddress,
+    directWithdrawalAddress,
     routerAddress,
   ]);
 
@@ -113,6 +127,11 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
 
       const directDepositorContract = DirectDepositorAbiFactory.connect(
         directDepositorAddress,
+        signer
+      );
+
+      const directWithdrawContract = DirectWithdrawAbiFactory.connect(
+        directWithdrawalAddress,
         signer
       );
 
@@ -148,6 +167,21 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       const directDepositorAmountParameters = {
         // direct deposit tokens
         [MutationType.deposit]: [indexVaultAddress, amountIn] as const,
+      };
+
+      const directWithdrawalAmountParameters = {
+        // direct withdrawal tokens
+        [MutationType.directWithdraw]: [
+          sourceData.tokenAddress,
+          amountIn,
+        ] as const,
+      };
+
+      const directWithdrawalClaimParameters = {
+        // direct withdrawal tokens
+        [MutationType.withdrawClaim]: [
+          BigNumber.from(indexVaultModalState.withdrawId ?? 1),
+        ] as const,
       };
 
       const directDepositorNativeAmountParameters = {
@@ -194,6 +228,46 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
             transaction = await routerContract[mutationType](
               ...routerNativeAmountParameters[mutationType],
               ...routerDefaultParameters,
+              transactionOptions
+            );
+
+            break;
+
+          case MutationType.directWithdraw: {
+            await directWithdrawContract.callStatic[mutationType](
+              ...directWithdrawalAmountParameters[mutationType],
+              transactionOptions
+            );
+
+            transaction = await directWithdrawContract[mutationType](
+              ...directWithdrawalAmountParameters[mutationType],
+              transactionOptions
+            );
+
+            await transaction.wait();
+
+            const lastWithdrawalIndex =
+              await directWithdrawContract.getUserWithdrawsLength(
+                await signer.getAddress()
+              );
+
+            setIndexVaultModalState((previousState) => ({
+              ...previousState,
+              contentType: ModalContentType.withdrawClaim,
+              withdrawId: lastWithdrawalIndex.toNumber() - 1,
+            }));
+
+            break;
+          }
+
+          case MutationType.withdrawClaim:
+            await directWithdrawContract.callStatic[mutationType](
+              ...directWithdrawalClaimParameters[mutationType],
+              transactionOptions
+            );
+
+            transaction = await directWithdrawContract[mutationType](
+              ...directWithdrawalClaimParameters[mutationType],
               transactionOptions
             );
 
@@ -250,10 +324,13 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       walletProvider,
       routerAddress,
       directDepositorAddress,
+      directWithdrawalAddress,
       sourceValue,
       targetValue,
       slippageToleranceValue,
       indexVaultAddress,
+      setIndexVaultModalState,
+      indexVaultModalState.withdrawId,
     ]
   );
 
@@ -341,6 +418,18 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       }
 
       mutate(MutationType.deposit);
+    },
+
+    runDirectWithdraw: () => {
+      const { mutate } = swapMutation;
+
+      mutate(MutationType.directWithdraw);
+    },
+
+    runClaim: () => {
+      const { mutate } = swapMutation;
+
+      mutate(MutationType.withdrawClaim);
     },
   };
 };

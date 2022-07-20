@@ -44,6 +44,7 @@ export const useIndexSwapsHistoryRows = (): (
             type === TransactionType.swappedIn ? amountIn.mul(-1) : amountOut,
 
           chainId,
+          action: "",
 
           // TODO: add more different vault types
           productType: "THETA-INDEX",

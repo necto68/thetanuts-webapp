@@ -12,14 +12,17 @@ import { PathType } from "../../wallet/types";
 import {
   CellSubValue,
   CellValue,
+  CellValueCenter,
+  ClaimStatusText,
   HeaderCell,
   HeaderCellValue,
+  HeaderCellValueCenter,
   HeaderRow,
   PortfolioCellContainer,
   TableContainer,
 } from "./VaultsTable.styles";
 
-const getVaultTitle = (
+export const getVaultTitle = (
   type: IndexVault["type"],
   assetSymbol: Vault["assetSymbol"],
   period: Vault["period"]
@@ -40,14 +43,14 @@ const getVaultTitle = (
   return `${formattedPeriod} ${assetSymbol} ${formattedType}`;
 };
 
-const getVaultSubTitle = (
+export const getVaultSubTitle = (
   strikePrice: Vault["strikePrice"],
   expiry: Vault["expiry"],
   isSettled: Vault["isSettled"],
   isExpired: Vault["isExpired"]
 ) => {
   if (isSettled || isExpired) {
-    return "Auction In Progress";
+    return <ClaimStatusText>Auction In Progress</ClaimStatusText>;
   }
 
   const strikePriceFormatter = Number.isInteger(strikePrice)
@@ -60,7 +63,11 @@ const getVaultSubTitle = (
 
   const formattedExpiryDate = dateFormatter.format(new Date(expiry));
 
-  return `${formattedStrikePrice} ${formattedExpiryDate}`;
+  return (
+    <ClaimStatusText>
+      {formattedStrikePrice} {formattedExpiryDate}
+    </ClaimStatusText>
+  );
 };
 
 export const VaultsTable = () => {
@@ -87,7 +94,7 @@ export const VaultsTable = () => {
             <HeaderCellValue>Weight</HeaderCellValue>
           </HeaderCell>
           <HeaderCell>
-            <HeaderCellValue>Tx</HeaderCellValue>
+            <HeaderCellValueCenter>Contract</HeaderCellValueCenter>
           </HeaderCell>
         </HeaderRow>
       </thead>
@@ -145,16 +152,18 @@ export const VaultsTable = () => {
                 <CellValue>{`${annualPercentageYield}%`}</CellValue>
               </td>
               <td>
-                <CellValue>{`${vaultsInfos[index].allocation}%`}</CellValue>
+                <CellValue>{`${vaultsInfos[index].allocation.toFixed(
+                  2
+                )}%`}</CellValue>
               </td>
               <td>
-                <CellValue>
+                <CellValueCenter>
                   <ExternalLinkButton
                     chainId={chainId}
                     id={vaultAddress}
                     pathType={PathType.address}
                   />
-                </CellValue>
+                </CellValueCenter>
               </td>
             </tr>
           )

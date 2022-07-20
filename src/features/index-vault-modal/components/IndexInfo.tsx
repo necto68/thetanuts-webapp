@@ -16,7 +16,6 @@ import {
   InfoTitleContainer,
 } from "./IndexInfo.styles";
 
-// eslint-disable-next-line complexity
 export const IndexInfo = () => {
   const {
     defaultSourceAddress,
@@ -50,19 +49,17 @@ export const IndexInfo = () => {
     !isSourceDataLoading && sourceData ? sourceData.symbol : ".....";
 
   const indexTokenAddress =
-    !isTargetDataLoading && targetData && chainId
+    !isTargetDataLoading && targetData
       ? `${targetData.symbol} (${addressFormatter(targetData.tokenAddress)})`
       : ".....";
 
-  const underlyingTokenExplorerUrl =
-    chainId && sourceData
-      ? getExplorerUrl(PathType.token, chainId, sourceData.tokenAddress)
-      : "";
+  const underlyingTokenExplorerUrl = sourceData
+    ? getExplorerUrl(PathType.token, chainId, sourceData.tokenAddress)
+    : "";
 
-  const indexTokenExplorerUrl =
-    chainId && targetData
-      ? getExplorerUrl(PathType.token, chainId, targetData.tokenAddress)
-      : "";
+  const indexTokenExplorerUrl = targetData
+    ? getExplorerUrl(PathType.token, chainId, targetData.tokenAddress)
+    : "";
 
   return (
     <Container>

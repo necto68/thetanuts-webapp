@@ -1,8 +1,6 @@
 import type { FC } from "react";
-import Big from "big.js";
-import { useCallback, useEffect, useState } from "react";
 
-import type { SwapRouterState, Token, NativeToken } from "../types";
+import type { Token, NativeToken } from "../types";
 import { useSwapRouterState } from "../hooks";
 import { InfoIcon, Tooltip } from "../../shared/components";
 
@@ -14,6 +12,7 @@ import {
   InfoTitle,
   InfoValue,
 } from "./VaultInfo.styles";
+import { SwapRate } from "./SwapRate";
 
 interface VaultInfoProps {
   isSourceTokenDataLoading: boolean;
@@ -22,56 +21,16 @@ interface VaultInfoProps {
   targetTokenData: NativeToken | Token | undefined;
 }
 
-const getRateString = (
-  rateSourceValue: SwapRouterState["sourceValue"],
-  rateTargetValue: SwapRouterState["targetValue"],
-  isRateLoading: boolean
-) => {
-  if (isRateLoading) {
-    return ".....";
-  }
-
-  if (
-    rateSourceValue &&
-    rateTargetValue &&
-    new Big(rateSourceValue).gt(0) &&
-    new Big(rateTargetValue).gt(0)
-  ) {
-    return new Big(rateTargetValue).div(rateSourceValue).round(5).toString();
-  }
-
-  return "N/A";
-};
-
 export const VaultInfo: FC<VaultInfoProps> = ({
   isSourceTokenDataLoading,
   isTargetTokenDataLoading,
   sourceTokenData,
   targetTokenData,
 }) => {
-  const {
-    isFlipped,
-    isSourceValueLoading,
-    isTargetValueLoading,
-    isUseDirectMode,
-    sourceValue,
-    targetValue,
-  } = useSwapRouterState();
-
-  const [isRateFlipped, setIsRateFlipped] = useState(false);
-
-  useEffect(() => {
-    setIsRateFlipped(false);
-  }, [isFlipped]);
-
-  const handleRateClick = useCallback(() => {
-    setIsRateFlipped(!isRateFlipped);
-  }, [isRateFlipped]);
+  const { isUseDirectMode } = useSwapRouterState();
 
   const isTokensDataLoading =
     isSourceTokenDataLoading || isTargetTokenDataLoading;
-  const isAnyValueLoading = isSourceValueLoading || isTargetValueLoading;
-  const isRateLoading = isTokensDataLoading || isAnyValueLoading;
 
   // symbols
   const [sourceTokenSymbol, targetTokenSymbol] = [
@@ -81,31 +40,14 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     !isTokensDataLoading && tokenData ? tokenData.symbol : "....."
   );
 
-  const [rateSourceSymbol, rateTargetSymbol] = isRateFlipped
-    ? [targetTokenSymbol, sourceTokenSymbol]
-    : [sourceTokenSymbol, targetTokenSymbol];
-
-  // rate
-  const [rateSourceValue, rateTargetValue] = isRateFlipped
-    ? [targetValue, sourceValue]
-    : [sourceValue, targetValue];
-
-  const rateString = getRateString(
-    rateSourceValue,
-    rateTargetValue,
-    isRateLoading
-  );
-
   return (
     <Container>
-      <InfoContainer>
-        <InfoTitle>Rate ↔</InfoTitle>
-        <InfoValue
-          isAlignRight
-          isUnderline
-          onClick={handleRateClick}
-        >{`1 ${rateSourceSymbol} = ${rateString} ${rateTargetSymbol}`}</InfoValue>
-      </InfoContainer>
+      <SwapRate
+        isSourceTokenDataLoading={isSourceTokenDataLoading}
+        isTargetTokenDataLoading={isTargetTokenDataLoading}
+        sourceTokenData={sourceTokenData}
+        targetTokenData={targetTokenData}
+      />
       <InfoContainer>
         <InfoTitle>Protocol</InfoTitle>
         <InfoValue isAlignRight>
