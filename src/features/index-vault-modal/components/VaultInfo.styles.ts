@@ -38,6 +38,12 @@ export const InfoTitle = styled.span<{
 
 export const InfoValue = styled(InfoTitle)``;
 
+export const InfoTitleLight = styled(InfoTitle)`
+  color: #ffffff;
+`;
+
+export const InfoValueLight = styled(InfoTitleLight)``;
+
 export const InfoLink = styled.a<{
   isAlignRight?: boolean;
 }>`

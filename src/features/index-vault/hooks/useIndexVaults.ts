@@ -1,7 +1,7 @@
 import { useQueries } from "react-query";
 
 import { indexVaultsMap } from "../../theta-index/constants";
-import { chainsMap, chainProvidersMap } from "../../wallet/constants";
+import { chainsMap, chainProvidersMap, ChainId } from "../../wallet/constants";
 import { indexVaultFetcher } from "../helpers";
 import { QueryType } from "../../shared/types";
 
@@ -9,7 +9,8 @@ export const useIndexVaults = (indexVaultIds: string[]) => {
   const tokensConfigs = indexVaultIds.map((indexVaultId) => {
     const tokenConfig = indexVaultsMap[indexVaultId];
 
-    const { chainId = 1, indexVaultAddress = "" } = tokenConfig?.source ?? {};
+    const { chainId = ChainId.ETHEREUM, indexVaultAddress = "" } =
+      tokenConfig?.source ?? {};
     const { assetPriceFeedAddress = "", indexPriceFeedAddress = "" } =
       tokenConfig?.priceFeeds ?? {};
 
