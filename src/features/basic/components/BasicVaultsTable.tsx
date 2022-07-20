@@ -1,9 +1,9 @@
 import {
   APYCellContainer,
   Chains,
-  DemoButton,
   GreenCellValue,
   Table,
+  VaultModalButton,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useBasicVaults } from "../../basic-vault/hooks";
@@ -108,13 +108,16 @@ const columns: Column<BasicVault>[] = [
   {
     key: "id",
 
-    render: () => <DemoButton />,
+    render: (row) => (
+      <VaultModalButton vaultId={row.id} vaultType={VaultModalType.basic}>
+        Deposit
+      </VaultModalButton>
+    ),
   },
 ];
 
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
-// eslint-disable-next-line react/no-multi-comp
 export const BasicVaultsTable = () => {
   const basicVaultsIds = basicVaults.map(({ id }) => id);
   const basicVaultsQueries = useBasicVaults(basicVaultsIds);

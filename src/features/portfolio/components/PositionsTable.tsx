@@ -3,7 +3,7 @@ import {
   Table,
   GreenCellValue,
   Chains,
-  SwapButton,
+  VaultModalButton,
   ClaimButton,
   CellValue,
   AssetCell,
@@ -85,6 +85,7 @@ const columns: Column<IndexTokenRow>[] = [
   {
     key: "id",
 
+    // TODO: change vaultType for different vault types (index/basic)
     render: ({ id, chainId, unclaimed, withdrawId }) => (
       <ButtonsContainer>
         {unclaimed ? (
@@ -94,7 +95,13 @@ const columns: Column<IndexTokenRow>[] = [
             withdrawId={withdrawId}
           />
         ) : null}
-        <SwapButton chainId={chainId} indexVaultId={id} />
+        <VaultModalButton
+          chainId={chainId}
+          vaultId={id}
+          vaultType={VaultModalType.index}
+        >
+          Swap
+        </VaultModalButton>
       </ButtonsContainer>
     ),
   },

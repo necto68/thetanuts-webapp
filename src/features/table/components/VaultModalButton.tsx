@@ -7,40 +7,49 @@ import { Link } from "../../shared/components";
 import { ModalPathname, VaultModalType } from "../../root/types";
 import { useVaultModalState } from "../../modal/hooks";
 
-import { BaseSwapButton } from "./SwapButton.styles";
+import { BaseVaultModalButton } from "./VaultModalButton.styles";
 
-interface SwapButtonProps {
-  indexVaultId: string;
+interface VaultModalButtonProps {
+  vaultType: VaultModalType;
+  vaultId: string;
   chainId?: ChainId;
 }
 
-export const SwapButton: FC<SwapButtonProps> = ({
-  indexVaultId: vaultId,
+export const VaultModalButton: FC<VaultModalButtonProps> = ({
+  vaultType,
+  vaultId,
   chainId,
+  children,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
 
   const { isRouterModal } = vaultModalState;
-  const pathname = generatePath(ModalPathname.indexVaultModal, {
+
+  const modalPathname =
+    vaultType === VaultModalType.index
+      ? ModalPathname.indexVaultModal
+      : ModalPathname.basicVaultModal;
+
+  const pathname = generatePath(modalPathname, {
     vaultId,
   });
-  const indexVaultRoute = isRouterModal ? { pathname } : {};
+  const vaultModalRoute = isRouterModal ? { pathname } : {};
 
   const handleButtonClick = useCallback(() => {
     setVaultModalState((previousState) => ({
       ...previousState,
       isShow: true,
-      vaultType: VaultModalType.index,
+      vaultType,
       vaultId,
       chainId,
     }));
-  }, [vaultId, chainId, setVaultModalState]);
+  }, [vaultType, vaultId, chainId, setVaultModalState]);
 
   return (
-    <Link to={indexVaultRoute}>
-      <BaseSwapButton onClick={handleButtonClick} primaryColor="#81E429">
-        Swap
-      </BaseSwapButton>
+    <Link to={vaultModalRoute}>
+      <BaseVaultModalButton onClick={handleButtonClick} primaryColor="#81E429">
+        {children}
+      </BaseVaultModalButton>
     </Link>
   );
 };
