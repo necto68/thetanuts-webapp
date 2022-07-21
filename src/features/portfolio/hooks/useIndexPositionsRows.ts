@@ -1,12 +1,13 @@
 import { indexVaults } from "../../theta-index/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
-import type { IndexTokenRow } from "../types";
+import type { IndexVaultRow } from "../types";
 import { useUnclaimedBalanceQueries } from "../../index-vault-modal/hooks";
 import { ChainId } from "../../wallet/constants";
+import { VaultModalType } from "../../root/types";
 
 import { useIndexTokensQueries } from "./useIndexTokensQueries";
 
-export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
+export const useIndexPositionsRows = (): (IndexVaultRow | undefined)[] => {
   const indexVaultsIds = indexVaults.map(({ id }) => id);
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
   const indexTokensQueries = useIndexTokensQueries(indexVaultsIds);
@@ -34,15 +35,12 @@ export const useIndexPositionsRows = (): (IndexTokenRow | undefined)[] => {
 
     return indexTokens.map(({ symbol, balance, tokenAddress, chainId }) => ({
       id,
-
-      // TODO: add more different vault types
-      productType: "THETA-INDEX",
+      vaultType: VaultModalType.index,
       assetSymbol,
-      middleIndexPrice: middleIndexPriceByChainId[chainId] ?? 0,
+      assetPrice: middleIndexPriceByChainId[chainId] ?? 0,
       annualPercentageYield,
       symbol,
       balance,
-      tokenAddress,
       chainId,
       unclaimed: unclaimed?.[tokenAddress] ?? false,
       withdrawId: withdrawId ?? 0,

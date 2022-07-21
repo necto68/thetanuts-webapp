@@ -91,21 +91,6 @@ export const Header = styled.span`
 
 export const Row = styled(motion.tr).attrs(() => ({
   layout: true,
-
-  initial: {
-    y: -50,
-    opacity: 0,
-  },
-
-  animate: {
-    y: 0,
-    opacity: 1,
-  },
-
-  exit: {
-    y: -50,
-    opacity: 0,
-  },
 }))`
   &:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.3);

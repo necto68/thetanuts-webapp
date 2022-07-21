@@ -9,6 +9,7 @@ type DepositButtonProps = Pick<VaultModalButtonProps, "chainId" | "vaultId">;
 
 export const DepositButton: FC<DepositButtonProps> = ({ chainId, vaultId }) => (
   <VaultModalButton
+    borderColor="#0DDBE8"
     chainId={chainId}
     vaultId={vaultId}
     vaultType={VaultModalType.basic}

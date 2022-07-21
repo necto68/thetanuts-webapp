@@ -2,24 +2,25 @@ import type Big from "big.js";
 
 import type { IndexVault } from "../../index-vault/types";
 import type { Token } from "../../index-vault-modal/types";
-import type { PercentageYields } from "../../basic-vault/types";
-import type { ChainId } from "../../wallet/constants";
+import type { BasicVault, PercentageYields } from "../../basic-vault/types";
+import type { VaultModalType } from "../../root/types/VaultModalType";
 
 import type { Transaction } from "./transaction";
 
-// TODO: add more different vault types (in productType)
-
-export interface IndexTokenRow
-  extends Pick<IndexVault, "assetSymbol" | "chainId" | "id">,
-    Pick<Token, "balance" | "symbol" | "tokenAddress">,
+export interface BaseRow
+  extends Pick<BasicVault, "assetPrice" | "assetSymbol" | "chainId" | "id">,
+    Pick<Token, "balance" | "symbol">,
     Pick<PercentageYields, "annualPercentageYield"> {
-  productType: string;
-  middleIndexPrice: Exclude<
-    IndexVault["middleIndexPriceByChainId"][ChainId],
-    undefined
-  >;
-  unclaimed: boolean;
+  vaultType: VaultModalType;
+}
+
+export interface IndexVaultRow extends BaseRow {
+  unclaimed?: boolean;
   withdrawId?: number;
+}
+
+export interface BasicVaultRow extends BaseRow {
+  collateralSymbol?: BasicVault["collateralSymbol"];
 }
 
 export interface HistoryTransactionRow
@@ -27,8 +28,5 @@ export interface HistoryTransactionRow
     Pick<Token, "symbol">,
     Pick<Transaction, "chainId" | "id" | "timestamp" | "type"> {
   balance: Big;
-  productType: string;
-  action: string;
-  claimed?: Big;
-  indexVaultId?: string;
+  vaultType: VaultModalType;
 }

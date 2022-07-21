@@ -10,6 +10,7 @@ import type { BasicVaultReader } from "../types";
 import { basicVaultFetcher } from "./basicVaultFetcher";
 
 const defaultBasicVaultReader: BasicVaultReader = {
+  totalPosition: null,
   currentPosition: null,
   withdrawalPending: null,
   premiumRealized: null,
@@ -52,16 +53,20 @@ export const basicVaultReaderFetcher = async (
 
   const queuedExitEpoch = vaultPosition[5].toNumber();
 
-  const currentPositionWei =
-    epoch === queuedExitEpoch ? vaultPosition[6] : vaultPosition[7];
+  const [withdrawalPending, totalPosition, totalPositionWithoutWithdrawal] = [
+    vaultPosition[2],
+    vaultPosition[6],
+    vaultPosition[7],
+  ].map((value) => value.div(collateralTokenDivisor));
 
-  const currentPosition = currentPositionWei.div(collateralTokenDivisor);
-  const withdrawalPending = vaultPosition[2].div(collateralTokenDivisor);
+  const currentPosition =
+    epoch > queuedExitEpoch ? totalPositionWithoutWithdrawal : totalPosition;
 
   // TODO: replace with real value
   const premiumRealized = new Big("999999999");
 
   return {
+    totalPosition,
     currentPosition,
     withdrawalPending,
     premiumRealized,

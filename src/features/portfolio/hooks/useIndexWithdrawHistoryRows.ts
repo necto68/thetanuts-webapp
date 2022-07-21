@@ -1,6 +1,7 @@
 import { indexVaults } from "../../theta-index/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
 import type { HistoryTransactionRow } from "../types";
+import { VaultModalType } from "../../root/types";
 
 import { useIndexTokensQueries } from "./useIndexTokensQueries";
 import { useIndexWithdrawHistoryQueries } from "./useIndexWithdrawHistoryQueries";
@@ -37,15 +38,11 @@ export const useIndexWithdrawHistoryRows = (): (
 
         return {
           id,
-          indexVaultId: data.id,
           type,
           timestamp,
           balance: amountOut,
           chainId,
-          action: "",
-
-          // TODO: add more different vault types
-          productType: "THETA-INDEX",
+          vaultType: VaultModalType.index,
           assetSymbol,
           symbol,
         };

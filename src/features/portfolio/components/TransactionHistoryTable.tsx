@@ -21,9 +21,6 @@ import { chainsMap } from "../../wallet/constants";
 import { useIndexWithdrawHistoryRows } from "../hooks/useIndexWithdrawHistoryRows";
 import { useIndexRedeemHistoryRows } from "../hooks/useIndexRedeemHistoryRows";
 
-const getRowKey = ({ id, chainId, type }: HistoryTransactionRow) =>
-  `${id}${chainId}${type}`;
-
 const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "assetSymbol",
@@ -32,7 +29,7 @@ const columns: Column<HistoryTransactionRow>[] = [
     filterBy: true,
   },
   {
-    key: "productType",
+    key: "vaultType",
     title: "Product",
     showTitleInCell: true,
     render: () => "Stronghold",
@@ -101,6 +98,9 @@ const columns: Column<HistoryTransactionRow>[] = [
     ),
   },
 ];
+
+const getRowKey = ({ id, chainId, type }: HistoryTransactionRow) =>
+  `${id}${chainId}${type}`;
 
 export const TransactionHistoryTable = () => {
   const indexSwapsHistoryRows = useIndexSwapsHistoryRows();

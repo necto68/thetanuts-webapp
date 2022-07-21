@@ -9,10 +9,13 @@ import type { VaultModalState } from "../../shared/hooks";
 
 import { BaseVaultModalButton } from "./VaultModalButton.styles";
 
-export type VaultModalButtonProps = Pick<
-  VaultModalState,
-  "chainId" | "contentType" | "vaultId" | "vaultType" | "withdrawId"
->;
+export interface VaultModalButtonProps
+  extends Pick<
+    VaultModalState,
+    "chainId" | "contentType" | "vaultId" | "vaultType" | "withdrawId"
+  > {
+  borderColor?: string;
+}
 
 export const VaultModalButton: FC<VaultModalButtonProps> = ({
   chainId,
@@ -20,6 +23,7 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
   vaultId,
   vaultType,
   withdrawId,
+  borderColor = "#81E429",
   children,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
@@ -56,7 +60,10 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
 
   return (
     <Link to={vaultModalRoute}>
-      <BaseVaultModalButton onClick={handleButtonClick} primaryColor="#81E429">
+      <BaseVaultModalButton
+        onClick={handleButtonClick}
+        primaryColor={borderColor}
+      >
         {children}
       </BaseVaultModalButton>
     </Link>
