@@ -21,6 +21,7 @@ const buttonIcons = {
 interface CircleButtonProps extends BaseButtonProps {
   iconType: CircleButtonIconType;
   iconSize: number;
+  className?: string;
 }
 
 export const CircleButton: FC<CircleButtonProps> = ({
@@ -28,11 +29,17 @@ export const CircleButton: FC<CircleButtonProps> = ({
   onClick,
   iconType,
   iconSize,
+  className,
 }) => {
   const Icon = buttonIcons[iconType];
 
   return (
-    <BaseCircleButton onClick={onClick} primaryColor={primaryColor}>
+    <BaseCircleButton
+      // eslint-disable-next-line react/forbid-component-props
+      className={className}
+      onClick={onClick}
+      primaryColor={primaryColor}
+    >
       <ContentContainer>
         <IconContainer color={primaryColor} height={iconSize} width={iconSize}>
           <Icon />

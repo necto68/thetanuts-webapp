@@ -1,5 +1,3 @@
-import { useCallback } from "react";
-
 import { useDisclaimerModalState } from "../../disclaimer-modal/hooks";
 import { DisclaimerModal } from "../../disclaimer-modal/components";
 import { IndexVaultModal } from "../../index-vault-modal/components";
@@ -8,20 +6,15 @@ import type { CurrentModalState } from "../types";
 import { VaultModalType } from "../../root/types";
 
 import { useVaultModalState } from "./useVaultModalState";
+import { useVaultModalClose } from "./useVaultModalClose";
 
 const defaultModalClose = () => undefined;
 
 export const useCurrentModalState = (): CurrentModalState => {
   const [{ isShow: isShowDisclaimerModal }] = useDisclaimerModalState();
-  const [{ isShow: isShowVaultModal, vaultType }, setVaultModalState] =
-    useVaultModalState();
+  const [{ isShow: isShowVaultModal, vaultType }] = useVaultModalState();
 
-  const handleIndexModalClose = useCallback(() => {
-    setVaultModalState((previousState) => ({
-      ...previousState,
-      isShow: false,
-    }));
-  }, [setVaultModalState]);
+  const handleVaultModalClose = useVaultModalClose();
 
   if (isShowDisclaimerModal) {
     return {
@@ -36,7 +29,7 @@ export const useCurrentModalState = (): CurrentModalState => {
 
     return {
       modalComponent,
-      handleClose: handleIndexModalClose,
+      handleClose: handleVaultModalClose,
     };
   }
 

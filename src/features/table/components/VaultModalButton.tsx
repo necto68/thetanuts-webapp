@@ -41,14 +41,15 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
   const vaultModalRoute = isRouterModal ? { pathname } : {};
 
   const handleButtonClick = useCallback(() => {
-    setVaultModalState({
+    setVaultModalState((previousState) => ({
+      ...previousState,
       isShow: true,
       vaultType,
       vaultId,
       contentType,
       withdrawId,
       chainId,
-    });
+    }));
   }, [
     vaultType,
     vaultId,

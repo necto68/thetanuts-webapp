@@ -77,13 +77,14 @@ export const useVaultModalOpen = () => {
         vaultType === VaultModalType.index ? indexVaultsMap : basicVaultsMap;
       if (vaultsMap[vaultId]) {
         const chainId = Number(queryParameters.get("chain"));
-        setVaultModalState({
+        setVaultModalState((previousState) => ({
+          ...previousState,
           vaultType,
           vaultId,
           chainId,
           isShow: true,
           contentType: ModalContentType.swap,
-        });
+        }));
       } else {
         routerHistory.push(pageUrlMatch.path);
       }
