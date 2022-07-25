@@ -1,14 +1,30 @@
 import { Logger } from "ethers/lib/utils";
 import type { ErrorCode } from "@ethersproject/logger";
 
+import {
+  TransactionErrorMessage,
+  TransactionErrorMessageTemplate,
+} from "../types";
+
 export const processWalletError = (walletError: unknown) => {
-  const { code } = walletError as {
+  const { code, data } = walletError as {
     code: number;
+    data?: {
+      message?: string;
+    };
   };
 
   // userRejectedRequest error
   if (code === 4001) {
     throw new Error("Transaction Cancelled");
+  }
+
+  if (
+    data?.message?.includes(
+      TransactionErrorMessageTemplate.SettlementInProgress
+    )
+  ) {
+    throw new Error(TransactionErrorMessage.SettlementInProgress);
   }
 
   throw walletError as Error;
