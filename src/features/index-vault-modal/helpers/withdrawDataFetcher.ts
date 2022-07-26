@@ -312,7 +312,9 @@ export const withdrawalDataFetcher = async (
       const claimableBalances = await Promise.all(
         vaults.map(
           async ({ vaultAddress }) =>
-            await directWithdrawContract.callStatic.redeemVault(vaultAddress)
+            await directWithdrawContract.callStatic.redeemVault(vaultAddress, {
+              from: account,
+            })
         )
       );
 
