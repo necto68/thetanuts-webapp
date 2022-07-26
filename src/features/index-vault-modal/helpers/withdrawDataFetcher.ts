@@ -13,6 +13,14 @@ import type { Vault } from "../../index-vault/types";
 
 import ClaimInfoStructOutput = DirectWithdraw.ClaimInfoStructOutput;
 
+interface WithdrawnVault {
+  vaultAddress: string;
+  strikePrice: number;
+  expiry: number;
+  expected: string;
+  claimed: string;
+}
+
 interface VaultWithdrawInfoDto {
   pendingWithdraw?: string;
   claimableBalance?: string;
@@ -23,10 +31,12 @@ interface VaultWithdrawInfoDto {
   totalClaimed?: string;
   rates?: Big[];
   fullyClaimed?: boolean;
+  staticCalculation?: boolean;
   vaultsClaimed?: Record<string, string | undefined>;
   vaultsExpected?: Record<string, string | undefined>;
   vaultsPending?: Record<string, boolean | undefined>;
   vaultsClaimable?: Record<string, string | undefined>;
+  withdrawnVaults?: WithdrawnVault[];
 }
 
 export const getLastVaultExpiry = (vaults: Vault[]): string => {
@@ -67,7 +77,8 @@ export const getLastWithdrawExpiry = (
 export const getDataByVaults = (
   directWithdrawals: ClaimInfoStructOutput[],
   property: "expected" | "withdrawn",
-  tokenDivisor: Big
+  tokenDivisor: Big,
+  excludeClaimed = false
 ): Record<string, string | undefined> => {
   // Group data by vaults addresses.
   const dataByVaults = directWithdrawals
@@ -78,7 +89,13 @@ export const getDataByVaults = (
           currentValue,
           index
         ) => {
-          previousValue[currentValue] = convertToBig(dw[property][index]);
+          if (excludeClaimed) {
+            if (dw.withdrawn[index].eq(0)) {
+              previousValue[currentValue] = convertToBig(dw[property][index]);
+            }
+          } else {
+            previousValue[currentValue] = convertToBig(dw[property][index]);
+          }
           return previousValue;
         },
         {}
@@ -140,7 +157,10 @@ export const withdrawalDataFetcher = async (
     // Define direct withdrawals array.
     let directWithdrawals = null;
 
-    // If provided sourceValue to calculate on static call.
+    // If provided sourceValue will calculate based on static call.
+    result.staticCalculation = Boolean(sourceValue);
+
+    // Static withdraw.
     if (sourceValue && tokenDivisor && sourceTokenData?.tokenAddress) {
       directWithdrawals = [
         await directWithdrawContract.callStatic.withdraw(
@@ -205,15 +225,47 @@ export const withdrawalDataFetcher = async (
       result.vaultsClaimed = getDataByVaults(
         directWithdrawals,
         "withdrawn",
-        targetTokenDivisor
+        targetTokenDivisor,
+        directWithdrawals.length > 1
       );
 
       // Define expected vaults value.
       result.vaultsExpected = getDataByVaults(
         directWithdrawals,
         "expected",
-        targetTokenDivisor
+        targetTokenDivisor,
+        directWithdrawals.length > 1
       );
+
+      if (directWithdrawals.length > 1) {
+        const withdrawnVaults: WithdrawnVault[] = [];
+        directWithdrawals.forEach((withdrawal) => {
+          withdrawal.withdrawn.forEach((withdrawn, index) => {
+            if (withdrawn.gt(0)) {
+              withdrawnVaults.push({
+                vaultAddress: withdrawal.subVault[index],
+
+                strikePrice: convertToBig(withdrawal.strikeX1e6[index])
+                  .div(1e6)
+                  .toNumber(),
+
+                expiry: withdrawal.strikeTimestamp[index].mul(1000).toNumber(),
+
+                expected: convertToBig(withdrawal.expected[index])
+                  .div(targetTokenDivisor)
+                  .toFixed(2),
+
+                claimed: convertToBig(withdrawn)
+                  .div(targetTokenDivisor)
+                  .toFixed(2),
+              });
+            }
+          });
+        });
+        result.withdrawnVaults = Array.from(withdrawnVaults).sort(
+          (a, b) => b.expiry - a.expiry
+        );
+      }
 
       // Define pending vaults.
       result.vaultsPending = directWithdrawals.reduce(

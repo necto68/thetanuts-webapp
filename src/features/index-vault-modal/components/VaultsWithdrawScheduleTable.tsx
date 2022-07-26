@@ -21,10 +21,12 @@ export const VaultsWithdrawScheduleTable = () => {
   const { indexVaultQuery } = useSwapRouterConfig();
   const { data: withdrawData } = useWithdrawDataQuery();
   const {
+    staticCalculation = true,
     vaultsClaimed = {},
     vaultsExpected = {},
     vaultsClaimable = {},
     vaultsPending = {},
+    withdrawnVaults = [],
   } = withdrawData ?? {};
 
   const { isLoading, data } = indexVaultQuery;
@@ -32,8 +34,36 @@ export const VaultsWithdrawScheduleTable = () => {
     type = VaultType.CALL,
     assetSymbol: indexAssetSymbol = "",
     chainId = 1,
-    vaults = [],
+    vaults: basicVaults = [],
   } = data ?? {};
+
+  const vaults = staticCalculation
+    ? basicVaults
+    : basicVaults.filter(({ vaultAddress }) =>
+        Boolean(vaultsExpected[vaultAddress])
+      );
+
+  const getWithdrawnLose = (
+    expected: string,
+    claimed: string,
+    uniqKey: string
+  ) => {
+    const withdrawLose = Number(Number(expected) - Number(claimed)).toFixed(2);
+
+    return (
+      <ClaimStatusText>
+        -{withdrawLose} {indexAssetSymbol}
+        <Tooltip
+          content="If the option has not expired, the status would should
+in-progress. After the option has expired, it would show
+if any losses have been incurred"
+          id={`${uniqKey}-expected-difference-hint`}
+          place="top"
+          root={<InfoIcon />}
+        />
+      </ClaimStatusText>
+    );
+  };
 
   const getVaultPosition = (vaultAddress: string) => {
     if (vaultsClaimable[vaultAddress]) {
@@ -71,24 +101,17 @@ if any losses have been incurred"
       );
     }
 
-    const withdrawLose = Number(
-      Number(vaultsExpected[vaultAddress] ?? 0) -
-        Number(vaultsClaimed[vaultAddress] ?? 0)
-    ).toFixed(2);
-
-    return (
-      <ClaimStatusText>
-        -{withdrawLose} {indexAssetSymbol}
-        <Tooltip
-          content="If the option has not expired, the status would should
-in-progress. After the option has expired, it would show
-if any losses have been incurred"
-          id={`${vaultAddress}-expected-difference-hint`}
-          place="top"
-          root={<InfoIcon />}
-        />
-      </ClaimStatusText>
+    return getWithdrawnLose(
+      vaultsExpected[vaultAddress] ?? "0",
+      vaultsClaimed[vaultAddress] ?? "0",
+      vaultAddress
     );
+  };
+
+  const getVaultTitleByAddress = (address: string): string => {
+    const { assetSymbol = "", period = 0 } =
+      basicVaults.find(({ vaultAddress }) => vaultAddress === address) ?? {};
+    return getVaultTitle(type, assetSymbol, period);
   };
 
   const getVaultWithdrawAmount = (vaultAddress: string): string | undefined =>
@@ -210,6 +233,48 @@ individual option vault(s) given that the option is not ITM"
                   ""
                 )}
                 <CellSubValue>{getVaultStatusText(vaultAddress)}</CellSubValue>
+              </td>
+              <td>
+                <CellValueCenter>
+                  <ExternalLinkButton
+                    chainId={chainId}
+                    id={vaultAddress}
+                    pathType={PathType.address}
+                  />
+                </CellValueCenter>
+              </td>
+            </tr>
+          )
+        )}
+        {withdrawnVaults.map(
+          ({ vaultAddress, strikePrice, expiry, expected, claimed }, index) => (
+            // eslint-disable-next-line react/no-array-index-key
+            <tr key={`${vaultAddress}${index}`}>
+              <td>
+                <PortfolioCellContainer>
+                  <CellValue>{getVaultTitleByAddress(vaultAddress)}</CellValue>
+                  <CellSubValue>
+                    {getVaultSubTitle(strikePrice, expiry, false, false)}
+                  </CellSubValue>
+                </PortfolioCellContainer>
+              </td>
+              <td>
+                <CellValue>
+                  {expected} {indexAssetSymbol}
+                </CellValue>
+                <CellValue>
+                  {getWithdrawnLose(
+                    expected,
+                    claimed,
+                    `${vaultAddress}${index}`
+                  )}
+                </CellValue>
+              </td>
+              <td>
+                <CellValue>
+                  {claimed} {indexAssetSymbol}
+                </CellValue>
+                <CellSubValue>Claimed</CellSubValue>
               </td>
               <td>
                 <CellValueCenter>
