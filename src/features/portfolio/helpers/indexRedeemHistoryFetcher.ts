@@ -81,7 +81,7 @@ export const indexRedeemHistoryFetcher = async (
     const amountIn = new Big(0);
     const amountOut = convertToBig(redeemed).div(assetToken.tokenDivisor);
 
-    const type = TransactionType.claim;
+    const type = TransactionType.claimed;
 
     const timestamp = convertToBig(BigNumber.from(timeStamp).add(1))
       .mul(1000)
