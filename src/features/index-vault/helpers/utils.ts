@@ -2,6 +2,15 @@ import Big from "big.js";
 
 import type { IndexVault, Vault, PercentageYields } from "../types";
 
+const getYield = (
+  baseValue: number,
+  compoundingFactor: number,
+  periodDays: number
+) => baseValue ** (compoundingFactor * periodDays) - 1;
+
+const convertYieldToPercentage = (yieldValue: number): number =>
+  new Big(yieldValue).mul(100).round(2).toNumber();
+
 export const getTotalValueLocked = (
   vaults: (Vault | undefined)[],
   vaultsInfos: IndexVault["vaultsInfos"],
@@ -129,24 +138,22 @@ export const getPercentageYields = (
   const interestRate = premium.div(amount);
 
   const secondsPerDay = new Big(60 * 60 * 24);
-  const compoundingFactor = secondsPerDay.div(period);
-  const getCompoundingPeriods = (days: number) =>
-    compoundingFactor.mul(days).round().toNumber();
+  const compoundingFactor = secondsPerDay.div(period).toNumber();
 
-  const baseValue = new Big(1).add(interestRate);
+  const baseValue = new Big(1).add(interestRate).toNumber();
 
-  const annualYield = baseValue.pow(getCompoundingPeriods(365)).sub(1);
-  const monthlyYield = baseValue.pow(getCompoundingPeriods(30)).sub(1);
-  const weeklyYield = baseValue.pow(getCompoundingPeriods(7)).sub(1);
-  const annualRate = interestRate.div(period).mul(secondsPerDay.mul(365));
+  const annualYield = getYield(baseValue, compoundingFactor, 365);
+  const monthlyYield = getYield(baseValue, compoundingFactor, 30);
+  const weeklyYield = getYield(baseValue, compoundingFactor, 7);
+  const annualRate = interestRate
+    .div(period)
+    .mul(secondsPerDay.mul(365))
+    .toNumber();
 
-  const convertToPercentage = (yieldValue: Big): number =>
-    yieldValue.mul(100).round(2).toNumber();
-
-  const annualPercentageYield: number = convertToPercentage(annualYield);
-  const monthlyPercentageYield: number = convertToPercentage(monthlyYield);
-  const weeklyPercentageYield: number = convertToPercentage(weeklyYield);
-  const annualPercentageRate: number = convertToPercentage(annualRate);
+  const annualPercentageYield = convertYieldToPercentage(annualYield);
+  const monthlyPercentageYield = convertYieldToPercentage(monthlyYield);
+  const weeklyPercentageYield = convertYieldToPercentage(weeklyYield);
+  const annualPercentageRate = convertYieldToPercentage(annualRate);
 
   return {
     annualPercentageYield,
