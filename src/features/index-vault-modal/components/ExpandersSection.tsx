@@ -52,6 +52,7 @@ export const ExpandersSection: FC<{ sections?: SectionType[] }> = ({
       {isVisible(SectionType.withdrawSchedule) && (
         <Expander
           isOpen={openedSection === SectionType.withdrawSchedule}
+          maxHeight={215}
           onArrowClick={handleArrowClick}
           title="Direct Withdraw Schedule"
           type={SectionType.withdrawSchedule}
