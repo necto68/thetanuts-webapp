@@ -46,12 +46,10 @@ export const basicHistoryFetcher = async (
 
   const basicVaultInterface = BasicVaultAbiFactory.createInterface();
 
-  // created array of filters
-  // TODO: use `account` as a last parameter in all filters
   const filters = [
-    basicVaultContract.filters.Deposit(account, null, null, null),
-    basicVaultContract.filters.QueueWithdraw(account, null, null, null),
-    basicVaultContract.filters.Withdraw(account, null, null, null),
+    basicVaultContract.filters.Deposit(account, null, null, account),
+    basicVaultContract.filters.QueueWithdraw(account, null, null, account),
+    basicVaultContract.filters.Withdraw(account, null, null, account),
   ];
 
   let filtersResponseData: ChainExplorerResponse[] = [];

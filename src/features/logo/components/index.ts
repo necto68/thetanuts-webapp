@@ -8,3 +8,4 @@ export * from "./ust";
 export * from "./frax";
 export * from "./btc";
 export * from "./busd";
+export * from "./sol";
