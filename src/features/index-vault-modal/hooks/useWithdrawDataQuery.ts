@@ -12,7 +12,11 @@ import { useIndexVaultModalState } from "./useIndexVaultModalState";
 
 export const useWithdrawDataQuery = () => {
   // Define router config data.
-  const { indexVaultQuery, directWithdrawalAddress } = useSwapRouterConfig();
+  const {
+    indexVaultQuery,
+    directWithdrawalAddress,
+    directWithdrawalDeployerAddress,
+  } = useSwapRouterConfig();
 
   // Define modal content type.
   const [{ contentType }] = useIndexVaultModalState();
@@ -52,6 +56,7 @@ export const useWithdrawDataQuery = () => {
         targetData,
         vaults,
         directWithdrawalAddress,
+        directWithdrawalDeployerAddress,
         contentType !== ModalContentType.withdrawClaim
           ? sourceValue || "0"
           : undefined

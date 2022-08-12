@@ -62,6 +62,9 @@ export const useSwapRouterConfig = () => {
   const { directDepositorAddress, directWithdrawalAddress } =
     chainsMap[indexVaultChainId].addresses;
 
+  const { directWithdrawalDeployerAddress } =
+    chainsMap[indexVaultChainId].deployerAddresses ?? {};
+
   const provider = isUserOnSupportedChainId
     ? chainProvidersMap[walletChainId]
     : chainProvidersMap[indexVaultChainId];
@@ -81,6 +84,7 @@ export const useSwapRouterConfig = () => {
     routerAddress,
     directDepositorAddress,
     directWithdrawalAddress,
+    directWithdrawalDeployerAddress,
 
     provider,
     walletProvider,

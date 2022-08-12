@@ -21,6 +21,10 @@ export interface ChainConfig {
     directWithdrawalAddress: string;
   };
 
+  deployerAddresses?: {
+    directWithdrawalDeployerAddress?: string;
+  };
+
   keys: {
     explorerApi?: string;
   };
