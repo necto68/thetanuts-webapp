@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 import { IconContainer } from "../../shared/components";
-import { useScreens } from "../../shared/hooks";
+import { useIsMobile } from "../../shared/hooks";
 import {
   Container,
   ContentContainer,
@@ -18,7 +18,7 @@ import { FeaturedBasicVaultsList } from "./FeaturedBasicVaultsList";
 import { BasicVaultsTable } from "./BasicVaultsTable";
 
 export const BasicLayout = () => {
-  const isMobile = useScreens();
+  const isMobile = useIsMobile();
 
   const [isShowMoreDescription, setIsShowMoreDescription] = useState(false);
 

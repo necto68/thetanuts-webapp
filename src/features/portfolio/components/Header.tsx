@@ -8,10 +8,10 @@ import {
   Metric,
   HeaderButtons,
 } from "../../header/components";
-import { useScreens } from "../../shared/hooks";
+import { useIsMobile } from "../../shared/hooks";
 
 export const Header = () => {
-  const isMobile = useScreens();
+  const isMobile = useIsMobile();
   const indexVaultsIds = indexVaults.map(({ id }) => id);
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
   const indexTokensQueries = useIndexTokensQueries(indexVaultsIds);

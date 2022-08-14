@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
 import { IconContainer } from "../../shared/components";
-import { useScreens } from "../../shared/hooks";
+import { useIsMobile } from "../../shared/hooks";
 import { Castle } from "../icons";
 
 import { FeaturedIndexVaultsList } from "./FeaturedIndexVaultsList";
@@ -18,7 +18,7 @@ import {
 } from "./ThetaIndexLayout.styles";
 
 export const ThetaIndexLayout = () => {
-  const isMobile = useScreens();
+  const isMobile = useIsMobile();
 
   const [isShowMoreDescription, setIsShowMoreDescription] = useState(false);
 

@@ -1,10 +1,10 @@
 import { HeaderContainer, HeaderButtons } from "../../header/components";
-import { useScreens } from "../../shared/hooks";
+import { useIsMobile } from "../../shared/hooks";
 
 import { Metrics } from "./Metrics";
 
 export const Header = () => {
-  const isMobile = useScreens();
+  const isMobile = useIsMobile();
 
   return (
     <HeaderContainer>
