@@ -42,7 +42,6 @@ const columns: Column<IndexVaultRow>[] = [
   {
     key: "totalPercentageYields",
     title: "APY",
-    showTitleInCell: true,
 
     render: ({ id, totalPercentageYields }) => (
       <APYCellContainer>
@@ -63,7 +62,6 @@ const columns: Column<IndexVaultRow>[] = [
   {
     key: "totalValueLocked",
     title: "TVL",
-    showTitleInCell: true,
 
     render: (row) => {
       if ("isDemo" in row) {

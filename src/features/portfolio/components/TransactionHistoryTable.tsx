@@ -33,7 +33,6 @@ const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "vaultType",
     title: "Product",
-    showTitleInCell: true,
     render: ({ vaultType }) => productTitlesMap[vaultType],
     filterBy: true,
   },
@@ -71,7 +70,6 @@ const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "balance",
     title: "Balance",
-    showTitleInCell: true,
 
     render: ({ balance, assetSymbol, type }) => {
       if (type === TransactionType.canceledWithdrawal) {

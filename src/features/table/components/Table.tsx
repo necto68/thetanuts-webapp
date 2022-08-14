@@ -17,7 +17,6 @@ import {
   Row,
   Cell,
   CellValue,
-  CellTitle,
   TableContainerWrapper,
 } from "./Table.styles";
 
@@ -28,11 +27,6 @@ const renderCellContent = <RowData extends object>(
   if (!row) {
     return <SkeletonBox height={22} width={50} />;
   }
-
-  const cellTitle =
-    column.title && column.showTitleInCell ? (
-      <CellTitle>{`${column.title}:`}</CellTitle>
-    ) : null;
 
   let cellValue = null;
 
@@ -52,14 +46,7 @@ const renderCellContent = <RowData extends object>(
     cellValue = null;
   }
 
-  return cellTitle ? (
-    <>
-      {cellTitle}
-      {cellValue}
-    </>
-  ) : (
-    cellValue
-  );
+  return cellValue;
 };
 
 export const Table = <RowData extends object>({

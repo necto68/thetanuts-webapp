@@ -43,14 +43,12 @@ const columns: Column<PositionTableRow>[] = [
   {
     key: "vaultType",
     title: "Product",
-    showTitleInCell: true,
     render: ({ vaultType }) => productTitlesMap[vaultType],
     filterBy: true,
   },
   {
     key: "annualPercentageYield",
     title: "APY",
-    showTitleInCell: true,
 
     render: ({ annualPercentageYield }) => (
       <GreenCellValue>{`${annualPercentageYield}%`}</GreenCellValue>
@@ -59,7 +57,6 @@ const columns: Column<PositionTableRow>[] = [
   {
     key: "balance",
     title: "Balance",
-    showTitleInCell: true,
 
     render: ({ symbol, balance }) =>
       balance ? `${numberFormatter.format(balance.toNumber())}  ${symbol}` : "",
@@ -69,7 +66,6 @@ const columns: Column<PositionTableRow>[] = [
   {
     key: "assetPrice",
     title: "Value",
-    showTitleInCell: true,
 
     render: ({ balance, assetPrice }) => {
       if (!balance) {

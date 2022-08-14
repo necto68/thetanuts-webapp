@@ -116,10 +116,6 @@ export const Cell = styled.td`
   }
 `;
 
-export const CellTitle = styled.span`
-  display: none;
-`;
-
 export const CellValue = styled.span`
   font-family: Roboto;
   font-weight: 400;

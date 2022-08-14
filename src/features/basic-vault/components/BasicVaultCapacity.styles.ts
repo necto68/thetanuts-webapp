@@ -12,7 +12,6 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 0 40px 0 0;
 `;
 
 export const ProgressBarContainer = styled.div`
