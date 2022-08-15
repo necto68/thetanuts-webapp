@@ -34,12 +34,10 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
 
   const assetLogo = getLogoBySymbol(assetSymbol);
 
-  const pathname = generatePath(ModalPathname.indexVaultModal, {
-    vaultId: indexVaultId,
-  });
-
   const link = {
-    pathname,
+    pathname: generatePath(ModalPathname.indexVaultModal, {
+      vaultId: indexVaultId,
+    }),
   };
 
   return (

@@ -12,6 +12,7 @@ import { InsufficientBalanceMainButton } from "../../modal/components/Insufficie
 import { MaxVaultCapReachedMainButton } from "../../modal/components/MaxVaultCapReachedMainButton";
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
+import { resetMutations } from "../helpers";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -49,11 +50,7 @@ export const MainButton = () => {
       initWithdrawMutation,
     ];
 
-    mutations.forEach((mutation) => {
-      if (mutation) {
-        mutation.reset();
-      }
-    });
+    resetMutations(mutations);
   }, [
     approveAllowanceMutation,
     wrapMutation,

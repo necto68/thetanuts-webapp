@@ -34,7 +34,7 @@ export const BasicLayout = () => {
           {isMobile && !isShowMoreDescription ? (
             <Description>
               Basic vaults earn yield by selling automated option strategies to
-              market makers. Earnings are auto-compounded.{" "}
+              market makers. Earnings are auto-compounded.&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -52,12 +52,12 @@ export const BasicLayout = () => {
                 collect any form of fees on the basic vaults.
               </Description>
               <Description>
-                Read the{" "}
+                Read the&nbsp;
                 <DescriptionLink href="https://docs.thetanuts.finance">
                   Thetanuts Docs
-                </DescriptionLink>{" "}
-                for a more detailed overview of Thetanuts Basic Vaults or
-                contact us on{" "}
+                </DescriptionLink>
+                &nbsp; for a more detailed overview of Thetanuts Basic Vaults or
+                contact us on&nbsp;
                 <DescriptionLink href="https://discord.com/invite/fzWKJSy9v9">
                   Thetanuts Discord
                 </DescriptionLink>

@@ -10,7 +10,7 @@ export const Container = styled.div`
   padding: 15px 25px;
 
   ${screens.md} {
-    padding: 15px 15px;
+    padding: 15px;
   }
 `;
 

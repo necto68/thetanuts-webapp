@@ -9,6 +9,7 @@ import { useBasicModalMutations, useBasicModalState } from "../hooks";
 import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 import { TabType } from "../types";
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
+import { resetMutations } from "../helpers";
 
 // eslint-disable-next-line complexity
 export const PendingWithdrawMainButton = () => {
@@ -31,11 +32,7 @@ export const PendingWithdrawMainButton = () => {
   const handleResetButtonClick = useCallback(() => {
     const mutations = [cancelWithdrawMutation, withdrawMutation];
 
-    mutations.forEach((mutation) => {
-      if (mutation) {
-        mutation.reset();
-      }
-    });
+    resetMutations(mutations);
   }, [cancelWithdrawMutation, withdrawMutation]);
 
   const {
