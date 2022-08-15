@@ -47,12 +47,13 @@ export const Chains: FC<ChainsProps> = ({
   const handleChainClick = useCallback(
     (chainId: ChainId) => {
       if (vaultId && vaultType) {
-        setVaultModalState({
+        setVaultModalState((previousState) => ({
+          ...previousState,
           vaultType,
           vaultId,
           chainId,
           isShow: true,
-        });
+        }));
       }
     },
     [vaultId, vaultType, setVaultModalState]
