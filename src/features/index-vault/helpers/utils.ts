@@ -192,5 +192,29 @@ export const getTotalRemainder = (vaults: (BasicVault | undefined)[]) => {
   return sortedRemaindersValues[0].round(0, Big.roundDown).toNumber();
 };
 
+export const getTotalRiskLevel = (
+  vaults: (BasicVault | undefined)[]
+): BasicVault["riskLevel"] => {
+  const vaultsRiskLevels = vaults.map((vault) =>
+    vault ? vault.riskLevel : null
+  );
+
+  const vaultsRiskLevelsValues = vaultsRiskLevels.map((riskLevel) =>
+    riskLevel !== null ? Number(riskLevel) : null
+  );
+
+  const riskLevelSum = vaultsRiskLevelsValues.reduce(
+    (accumulator, current) =>
+      accumulator !== null && current !== null ? accumulator + current : null,
+    0
+  );
+
+  if (riskLevelSum === null) {
+    return null;
+  }
+
+  return Math.round(riskLevelSum / vaults.length);
+};
+
 export const getVaultTypeTitle = (type: VaultType): string =>
   type === VaultType.CALL ? "Covered Call" : "Put Selling";

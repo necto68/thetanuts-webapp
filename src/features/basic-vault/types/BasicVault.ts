@@ -7,6 +7,12 @@ export enum VaultType {
   PUT = "PUT",
 }
 
+export enum RiskLevel {
+  LOW = 0,
+  MEDIUM = 1,
+  HIGH = 2,
+}
+
 export interface PercentageYields {
   annualPercentageYield: number;
   monthlyPercentageYield: number;
@@ -24,6 +30,7 @@ export interface BasicVault {
   collateralSymbol: string;
   collateralDecimals: number;
   collateralTokenAddress: string;
+  riskLevel: RiskLevel | null;
   epoch: number;
   expiry: number;
   period: number;

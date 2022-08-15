@@ -9,6 +9,7 @@ export interface DemoIndexVaultConfig
       | "assetSymbol"
       | "supportedChainIds"
       | "totalPercentageYields"
+      | "totalRiskLevel"
       | "totalValueLocked"
       | "type"
     > {

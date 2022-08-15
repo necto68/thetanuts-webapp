@@ -118,7 +118,7 @@ export const Cell = styled.td`
 
 export const CellValue = styled.span`
   font-family: Roboto;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 13px;
   color: #ffffff;
   line-height: 1;

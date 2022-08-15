@@ -8,7 +8,7 @@ import {
   PriceFeedAbi__factory as PriceFeedAbiFactory,
   BasicVaultAbi__factory as BasicVaultAbiFactory,
 } from "../../contracts/types";
-import { convertToBig } from "../../shared/helpers";
+import { convertToBig, queryClient } from "../../shared/helpers";
 import {
   getPercentageYields,
   normalizeVaultValue,
@@ -16,6 +16,9 @@ import {
 import type { ChainId } from "../../wallet/constants";
 import type { BasicVault } from "../types";
 import { VaultType } from "../types";
+import { QueryType } from "../../shared/types";
+
+import { basicVaultRiskLevelFetcher } from "./basicVaultRiskLevelFetcher";
 
 export const basicVaultFetcher = async (
   id: string,
@@ -124,6 +127,12 @@ export const basicVaultFetcher = async (
   const collatCap = collatCapWei.div(balanceDivisor);
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
 
+  // getting riskLevel
+  const riskLevel = await queryClient.fetchQuery(
+    [QueryType.riskLevel, assetSymbol, type],
+    async () => await basicVaultRiskLevelFetcher(assetSymbol, type)
+  );
+
   // getting annual Percentage Yield
   const percentageYields = getPercentageYields(
     currentEpochAmount,
@@ -143,6 +152,7 @@ export const basicVaultFetcher = async (
     collateralSymbol,
     collateralDecimals,
     collateralTokenAddress,
+    riskLevel,
     epoch,
     expiry,
     period,

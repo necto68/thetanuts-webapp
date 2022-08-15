@@ -28,6 +28,7 @@ export interface IndexVault {
   totalValueLocked: number;
   totalRemainder: number;
   totalPercentageYields: PercentageYields;
+  totalRiskLevel: BasicVault["riskLevel"];
   chainId: ChainId;
   supportedChainIds: ChainId[];
 }

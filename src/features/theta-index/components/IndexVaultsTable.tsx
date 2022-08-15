@@ -17,6 +17,7 @@ import { chainsMap } from "../../wallet/constants";
 import type { DemoIndexVaultConfig } from "../types";
 import { VaultModalType } from "../../root/types";
 import { getVaultTypeTitle } from "../../index-vault/helpers";
+import { RiskLevelCell } from "../../basic/components/RiskLevelCell";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
@@ -38,6 +39,14 @@ const columns: Column<IndexVaultRow>[] = [
     ),
 
     filterBy: ({ type }) => getVaultTypeTitle(type),
+  },
+  {
+    key: "totalRiskLevel",
+    title: "Risk",
+
+    render: ({ totalRiskLevel }) => (
+      <RiskLevelCell riskLevel={totalRiskLevel} />
+    ),
   },
   {
     key: "totalPercentageYields",

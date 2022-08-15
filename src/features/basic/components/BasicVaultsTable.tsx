@@ -17,6 +17,7 @@ import type { BasicVault } from "../../basic-vault/types";
 
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
+import { RiskLevelCell } from "./RiskLevelCell";
 
 const columns: Column<BasicVault>[] = [
   {
@@ -55,9 +56,10 @@ const columns: Column<BasicVault>[] = [
     sortBy: ({ type }) => type,
   },
   {
+    key: "riskLevel",
     title: "Risk",
     minWidth: 70,
-    render: () => "Low",
+    render: ({ riskLevel }) => <RiskLevelCell riskLevel={riskLevel} />,
   },
   {
     key: "percentageYields",

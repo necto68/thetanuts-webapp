@@ -24,6 +24,7 @@ import {
   getTotalPercentageYields,
   getTotalValueLocked,
   getTotalRemainder,
+  getTotalRiskLevel,
 } from "./utils";
 import { middleIndexPriceFetcher } from "./middleIndexPriceFetcher";
 
@@ -210,6 +211,8 @@ export const indexVaultFetcher = async (
 
   const totalRemainder = getTotalRemainder(vaults);
 
+  const totalRiskLevel = getTotalRiskLevel(vaults);
+
   const supportedChainIds = indexTokensConfigs
     .map((indexTokensConfig) => indexTokensConfig.chainId)
     .sort((a, b) => {
@@ -234,6 +237,7 @@ export const indexVaultFetcher = async (
     totalValueLocked,
     totalRemainder,
     totalPercentageYields,
+    totalRiskLevel,
     chainId,
     supportedChainIds,
   };

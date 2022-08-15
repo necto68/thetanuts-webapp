@@ -19,5 +19,7 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
       weeklyPercentageYield: 2.08,
       annualPercentageRate: 107.72,
     },
+
+    totalRiskLevel: null,
   },
 ];

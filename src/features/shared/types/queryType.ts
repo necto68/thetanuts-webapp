@@ -11,6 +11,8 @@ export enum QueryType {
   basicVault = "basicVault",
   basicVaultReader = "basicVaultReader",
 
+  riskLevel = "riskLevel",
+
   token = "token",
   nativeToken = "nativeToken",
 
