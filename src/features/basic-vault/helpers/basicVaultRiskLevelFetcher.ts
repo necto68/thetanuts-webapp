@@ -1,5 +1,5 @@
-import type { BasicVault } from "../types/BasicVault";
-import { VaultType, RiskLevel } from "../types/BasicVault";
+import type { BasicVault, RiskLevel } from "../types/BasicVault";
+import { VaultType } from "../types/BasicVault";
 
 const riskLevelApiUrl =
   "https://5tibkjdp8e.execute-api.ap-southeast-1.amazonaws.com/dev/risk";
@@ -8,7 +8,7 @@ interface RiskLevelResponse {
   Item: {
     pairs: {
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      __Decimal__: string;
+      __Decimal__: RiskLevel;
     };
   };
 }
@@ -44,19 +44,7 @@ export const basicVaultRiskLevelFetcher = async (
     // eslint-disable-next-line no-underscore-dangle
     const riskLevel = responseData.Item.pairs.__Decimal__;
 
-    if (riskLevel === "0") {
-      return RiskLevel.LOW;
-    }
-
-    if (riskLevel === "1") {
-      return RiskLevel.MEDIUM;
-    }
-
-    if (riskLevel === "2") {
-      return RiskLevel.HIGH;
-    }
-
-    return null;
+    return Number(riskLevel);
   } catch {
     return null;
   }
