@@ -13,17 +13,17 @@ import {
 type RiskLevelCellProps = Pick<BasicVault, "riskLevel">;
 
 export const RiskLevelCell: FC<RiskLevelCellProps> = ({ riskLevel }) => {
-  if (riskLevel === RiskLevel.LOW) {
-    return <LowRiskLevelCellValue>Low</LowRiskLevelCellValue>;
-  }
+  switch (riskLevel) {
+    case RiskLevel.LOW:
+      return <LowRiskLevelCellValue>Low</LowRiskLevelCellValue>;
 
-  if (riskLevel === RiskLevel.MEDIUM) {
-    return <MediumRiskLevelCellValue>Mid</MediumRiskLevelCellValue>;
-  }
+    case RiskLevel.MEDIUM:
+      return <MediumRiskLevelCellValue>Mid</MediumRiskLevelCellValue>;
 
-  if (riskLevel === RiskLevel.HIGH) {
-    return <HighRiskLevelCellValue>High</HighRiskLevelCellValue>;
-  }
+    case RiskLevel.HIGH:
+      return <HighRiskLevelCellValue>High</HighRiskLevelCellValue>;
 
-  return <CellValue>-</CellValue>;
+    default:
+      return <CellValue>-</CellValue>;
+  }
 };
