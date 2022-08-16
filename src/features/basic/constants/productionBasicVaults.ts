@@ -4,7 +4,6 @@ import { ChainId } from "../../wallet/constants";
 export const productionBasicVaults: BasicVaultConfig[] = [
   {
     id: "TN-CSCPv1-BTCUSD",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -13,7 +12,6 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCPv1-ETHUSD",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -22,7 +20,6 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCPv1-AVAXUSD",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -31,7 +28,6 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCPv1-SOLUSD",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -40,7 +36,6 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCPv1-MATICUSD",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -49,7 +44,6 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCPv1-BNBUSD",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -58,7 +52,6 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCCv1-ETHUSD-A",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -76,7 +69,6 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCCv1-BTCUSD-A",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -85,7 +77,6 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCCv1-BTCUSD-B",
-    isFeatured: true,
 
     source: {
       chainId: ChainId.ETHEREUM,

@@ -10,9 +10,12 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { numberFormatter } from "../../shared/helpers";
+import { useBasicModalState } from "../hooks";
+import { TabType } from "../types";
 
 export const PositionInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
+  const { tabType } = useBasicModalState();
 
   const { data: basicVaultData, isLoading: isBasicVaultLoading } =
     basicVaultQuery;
@@ -24,19 +27,15 @@ export const PositionInfo = () => {
   const { collateralSymbol = "", annualPercentageYield = 0 } =
     basicVaultData ?? {};
 
-  const {
-    currentPosition = new Big(0),
-    withdrawalPending = new Big(0),
-    premiumRealized = new Big(0),
-  } = basicVaultReaderData ?? {};
+  const { currentPosition = new Big(0), withdrawalPending = new Big(0) } =
+    basicVaultReaderData ?? {};
 
   const loadingPlaceholder = ".....";
 
-  const [
-    formattedCurrentPosition,
-    formattedWithdrawalPending,
-    formattedPremiumRealized,
-  ] = [currentPosition, withdrawalPending, premiumRealized].map((value) =>
+  const [formattedCurrentPosition, formattedWithdrawalPending] = [
+    currentPosition,
+    withdrawalPending,
+  ].map((value) =>
     value
       ? `${numberFormatter.format(value.toNumber())} ${collateralSymbol}`
       : "N/A"
@@ -47,30 +46,33 @@ export const PositionInfo = () => {
   return (
     <Container>
       <InfoContainer>
-        <InfoTitle>Current Position</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedCurrentPosition}
-        </InfoValue>
-      </InfoContainer>
-      <InfoContainer>
         <InfoTitleContainer>
-          <InfoTitle>Withdrawal Pending</InfoTitle>
+          <InfoTitle>Current Position</InfoTitle>
           <Tooltip
-            content="WITHDRAWAL PENDING TOOLTIP"
-            id="withdrawalPending"
+            content="Refers the user's current position in the option vault. If the user has made a deposit during mid-epoch, although it appears in the current position, no premiums would be generated on that deposited amount until the new epoch has started. Premiums generated from previous epochs would be included into the user's current position."
+            id="currentPosition"
             root={<InfoIcon />}
           />
         </InfoTitleContainer>
         <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedWithdrawalPending}
+          {isLoading ? loadingPlaceholder : formattedCurrentPosition}
         </InfoValue>
       </InfoContainer>
-      <InfoContainer>
-        <InfoTitle>Premium Realized</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedPremiumRealized}
-        </InfoValue>
-      </InfoContainer>
+      {tabType === TabType.withdraw ? (
+        <InfoContainer>
+          <InfoTitleContainer>
+            <InfoTitle>Withdrawal Pending</InfoTitle>
+            <Tooltip
+              content="Refers to the amount that is pending to be withdrawn once the current epoch has ended. Once the current epoch has ended, users can claim their withdrawn amount."
+              id="withdrawalPending"
+              root={<InfoIcon />}
+            />
+          </InfoTitleContainer>
+          <InfoValue isAlignRight>
+            {isLoading ? loadingPlaceholder : formattedWithdrawalPending}
+          </InfoValue>
+        </InfoContainer>
+      ) : null}
       <InfoContainer>
         <InfoTitle>Projected APY%</InfoTitle>
         <InfoValue isAlignRight>

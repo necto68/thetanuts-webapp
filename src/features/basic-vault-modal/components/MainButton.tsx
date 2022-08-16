@@ -34,6 +34,8 @@ export const MainButton = () => {
     wrapMutation,
     depositMutation,
     initWithdrawMutation,
+    cancelWithdrawMutation,
+    withdrawMutation,
     runApproveAllowance,
     runWrap,
     runDeposit,
@@ -82,6 +84,12 @@ export const MainButton = () => {
     error: initWithdrawError,
   } = initWithdrawMutation ?? {};
 
+  const { isLoading: isCancelWithdrawLoading } = cancelWithdrawMutation ?? {};
+  const { isLoading: isWithdrawLoading } = withdrawMutation ?? {};
+
+  const isCancelWithdrawOrWithdrawMutationLoading =
+    Boolean(isCancelWithdrawLoading) || Boolean(isWithdrawLoading);
+
   const isError =
     Boolean(isApproveAllowanceError) ||
     Boolean(isWrapError) ||
@@ -100,7 +108,10 @@ export const MainButton = () => {
     inputValueBig.gt(currentTokenData.allowance);
 
   const isMainButtonDisabled =
-    isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
+    isTokenDataLoading ||
+    isCancelWithdrawOrWithdrawMutationLoading ||
+    !currentTokenData ||
+    inputValueBig.lte(0);
 
   if (!account) {
     return <ConnectWalletMainButton />;
@@ -177,14 +188,14 @@ export const MainButton = () => {
 
   if (tabType === TabType.deposit) {
     return isMainButtonDisabled ? (
-      <ModalMainButton disabled>Deposit</ModalMainButton>
+      <ModalMainButton disabled>Initiate Deposit</ModalMainButton>
     ) : (
       <ModalMainButton
         onClick={runDeposit}
         primaryColor="#12CC86"
         secondaryColor="#ffffff"
       >
-        Deposit
+        Initiate Deposit
       </ModalMainButton>
     );
   }

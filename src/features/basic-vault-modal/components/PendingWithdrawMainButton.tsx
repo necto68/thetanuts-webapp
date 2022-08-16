@@ -21,6 +21,7 @@ export const PendingWithdrawMainButton = () => {
   } = useBasicModalConfig();
   const { tabType, tokenData } = useBasicModalState();
   const {
+    initWithdrawMutation,
     cancelWithdrawMutation,
     withdrawMutation,
     runCancelWithdraw,
@@ -34,6 +35,8 @@ export const PendingWithdrawMainButton = () => {
 
     resetMutations(mutations);
   }, [cancelWithdrawMutation, withdrawMutation]);
+
+  const { isLoading: isInitWithdrawLoading } = initWithdrawMutation ?? {};
 
   const {
     isLoading: isCancelWithdrawLoading,
@@ -88,10 +91,20 @@ export const PendingWithdrawMainButton = () => {
       withdrawalPending.toNumber()
     );
 
+    const buttonTitle = `Claim ${formattedWithdrawalPending} ${tokenData.symbol}`;
+
+    if (isInitWithdrawLoading) {
+      return <ModalMainButton disabled>{buttonTitle}</ModalMainButton>;
+    }
+
     return (
-      <ActionMainButton
-        onClick={runWithdraw}
-      >{`Claim ${formattedWithdrawalPending} ${tokenData.symbol}`}</ActionMainButton>
+      <ActionMainButton onClick={runWithdraw}>{buttonTitle}</ActionMainButton>
+    );
+  }
+
+  if (isInitWithdrawLoading) {
+    return (
+      <ModalMainButton disabled>Cancel Pending Withdrawal</ModalMainButton>
     );
   }
 

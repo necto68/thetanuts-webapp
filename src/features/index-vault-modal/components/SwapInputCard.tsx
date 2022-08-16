@@ -53,6 +53,7 @@ interface SwapInputCardProps {
   priceImpactRate?: number;
   isDirectModeBetterThanSwapMode?: boolean;
   isUseDirectMode?: boolean;
+  isHideWalletBalance?: boolean;
   isHideAssetSelector?: boolean;
   fieldWarning?: string;
   fieldWarningColor?: string;
@@ -83,6 +84,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   priceImpactRate = 0,
   isDirectModeBetterThanSwapMode = false,
   isUseDirectMode = false,
+  isHideWalletBalance = false,
   isHideAssetSelector = false,
   fieldWarning,
   fieldWarningColor,
@@ -176,14 +178,20 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
         ) : (
           <span />
         )}
-        <BalanceTitlesContainer>
-          <AnimatePresence>
-            {isShowInsufficientBalanceTitle ? (
-              <InsufficientBalanceTitle>Insufficient</InsufficientBalanceTitle>
-            ) : null}
-          </AnimatePresence>
-          <BalanceTitle>{`Wallet Balance: ${balanceValue}`}</BalanceTitle>
-        </BalanceTitlesContainer>
+        {!isHideWalletBalance ? (
+          <BalanceTitlesContainer>
+            <AnimatePresence>
+              {isShowInsufficientBalanceTitle ? (
+                <InsufficientBalanceTitle>
+                  Insufficient
+                </InsufficientBalanceTitle>
+              ) : null}
+            </AnimatePresence>
+            <BalanceTitle>{`Wallet Balance: ${balanceValue}`}</BalanceTitle>
+          </BalanceTitlesContainer>
+        ) : (
+          <span />
+        )}
       </BalanceContainer>
       <AnimatePresence exitBeforeEnter initial={false}>
         <SwapInputCardAnimateContainer

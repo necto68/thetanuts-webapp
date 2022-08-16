@@ -27,7 +27,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     basicVaultReaderQuery,
   } = useBasicModalConfig();
 
-  const { inputValue, tokenData, nativeData, tokensQueries } =
+  const { inputValue, setInputValue, tokenData, nativeData, tokensQueries } =
     useBasicModalState();
 
   const [mutationHash, setMutationHash] = useState<string>();
@@ -272,14 +272,20 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
   const initWithdrawMutation = useMutation<boolean, MutationError>(
     async () => await runInitWithdrawMutation(),
     {
-      onSuccess: handleMutationSuccess,
+      onSuccess: async () => {
+        await handleMutationSuccess();
+        setInputValue("");
+      },
     }
   );
 
   const cancelWithdrawMutation = useMutation<boolean, MutationError>(
     async () => await runInitWithdrawMutation(true),
     {
-      onSuccess: handleMutationSuccess,
+      onSuccess: async () => {
+        await handleMutationSuccess();
+        setInputValue("");
+      },
     }
   );
 

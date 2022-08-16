@@ -1,8 +1,12 @@
 import type { EventFilter } from "@ethersproject/contracts";
+import throttledQueue from "throttled-queue";
 
 import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 import type { ChainExplorerResponse } from "../types";
+
+// not more then 5 requests per 1500 ms
+const throttle = throttledQueue(5, 1500);
 
 export const fetchChainExplorerData = async (
   chainId: ChainId,
@@ -29,10 +33,12 @@ export const fetchChainExplorerData = async (
   }
 
   filterTopics.forEach((topic, index) => {
-    apiUrl.searchParams.set(`topic${index}`, topic.toString());
+    if (topic) {
+      apiUrl.searchParams.set(`topic${index}`, topic.toString());
+    }
   });
 
-  const response = await fetch(apiUrl.toString());
+  const response = await throttle(async () => await fetch(apiUrl.toString()));
   const responseData =
     await (response.json() as Promise<ChainExplorerResponse>);
 

@@ -46,7 +46,7 @@ export const Title = styled.span`
 
 export const Description = styled.p`
   font-family: Roboto;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 14px;
   color: #e5e5e5;
   margin: 0;

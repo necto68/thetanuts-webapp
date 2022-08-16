@@ -14,7 +14,6 @@ import type {
   WithdrawEvent,
 } from "../../contracts/types/BasicVaultAbi";
 import { basicVaultFetcher } from "../../basic-vault/helpers";
-import type { ChainExplorerResponse } from "../types/chainExplorer";
 
 import { fetchChainExplorerData } from "./fetchChainExplorerData";
 
@@ -52,24 +51,29 @@ export const basicHistoryFetcher = async (
     basicVaultContract.filters.Withdraw(account, null, null, account),
   ];
 
-  let filtersResponseData: ChainExplorerResponse[] = [];
+  const filtersPromisesResults = await Promise.allSettled(
+    filters.map(
+      async ({ address, topics }) =>
+        await fetchChainExplorerData(chainId, address, topics)
+    )
+  );
 
-  try {
-    filtersResponseData = await Promise.all(
-      filters.map(
-        async ({ address, topics }) =>
-          await fetchChainExplorerData(chainId, address, topics)
-      )
-    );
-  } catch {
-    return [];
-  }
+  const filtersPromisesValues = filtersPromisesResults.map((promiseResult) =>
+    promiseResult.status === "fulfilled" ? promiseResult.value : null
+  );
 
   // map results to different data types
   const [depositData, queueWithdrawData, withdrawData] =
-    filtersResponseData.map((responseData) => responseData.result);
+    filtersPromisesValues.map((responseData) =>
+      responseData ? responseData.result : []
+    );
 
   const resultsData = depositData.concat(queueWithdrawData, withdrawData);
+
+  // return empty array if no transactions
+  if (resultsData.length === 0) {
+    return [];
+  }
 
   // parse deposit transactions
   const parsedDepositTransactions = depositData.map(

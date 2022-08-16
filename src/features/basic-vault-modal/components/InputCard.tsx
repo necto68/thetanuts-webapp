@@ -22,6 +22,7 @@ export const InputCard = () => {
       inputValue={inputValue}
       isFlipped={false}
       isHideAssetSelector={tabType === TabType.withdraw}
+      isHideWalletBalance={tabType === TabType.withdraw}
       isNativeDataLoading={isNativeDataLoading}
       isShowTitle={false}
       isSource
