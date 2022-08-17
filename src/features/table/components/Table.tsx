@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo } from "react";
 
 import { ArrowIcon, Paginator, SkeletonBox, Tooltip } from "../../shared/components";
 import { useSortBy, useFilteredBy, usePagination } from "../hooks";
@@ -58,27 +58,33 @@ export const Table = <RowData extends object>({
   filterInputPlaceholder = "",
   rowsPerPage = 10,
 }: TableProps<RowData>) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const { filteredRows, filterInputValue, setFilterInputValue } = useFilteredBy(
     columns,
     rows
   );
+
   const { sortedRows, sortState, updateSort } = useSortBy(filteredRows);
 
-  const { paginatedRows, paginate } = usePagination(sortedRows, rowsPerPage);
+  const skeletonRows: RowData[] = Array.from({
+    length: sortedRows.length > rowsPerPage ? rowsPerPage : sortedRows.length,
+  });
 
-  const changePage = (page: number, pageSize: number) => {
-    setCurrentPage(page);
-    paginate(page, pageSize);
-  };
+  const { paginatedRows, paginate, paginationConfig } = usePagination(
+    sortedRows,
+    rowsPerPage
+  );
+  const { page: currentPage } = paginationConfig;
+
+  const isRowsLoaded = useMemo(() => sortedRows.every(Boolean), [sortedRows]);
+
+  const currentRows = isRowsLoaded ? paginatedRows : skeletonRows;
 
   return (
     <Container>
       <FilterInput
-        onChange={($event) => {
-          changePage(1, rowsPerPage);
-          setFilterInputValue($event);
+        onChange={(event) => {
+          paginate(1, rowsPerPage);
+          setFilterInputValue(event);
         }}
         placeholder={filterInputPlaceholder}
         value={filterInputValue}
@@ -102,7 +108,7 @@ export const Table = <RowData extends object>({
                     {title ? (
                       <SortButton
                         onClick={() => {
-                          changePage(1, rowsPerPage);
+                          paginate(1, rowsPerPage);
 
                         // @ts-expect-error key type should be fixed
                         updateSort(key, sortBy);
@@ -134,7 +140,7 @@ export const Table = <RowData extends object>({
             </HeaderRow>
           </thead>
           <tbody>
-            {paginatedRows.map((row, rowIndex) => (
+            {currentRows.map((row, rowIndex) => (
               <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
                 {columns.map((column, columnIndex) => (
                   <Cell key={column.key?.toString() ?? columnIndex.toString()}>
@@ -146,13 +152,15 @@ export const Table = <RowData extends object>({
           </tbody>
         </TableContainer>
       </TableContainerWrapper>
-      <Paginator
-        current={currentPage}
-        onChange={changePage}
-        pageSize={rowsPerPage}
-        showLessItems
-        total={sortedRows.length}
-      />
+      {isRowsLoaded ? (
+        <Paginator
+          current={currentPage}
+          onChange={paginate}
+          pageSize={rowsPerPage}
+          showLessItems
+          total={sortedRows.length}
+        />
+      ) : null}
     </Container>
   );
 };

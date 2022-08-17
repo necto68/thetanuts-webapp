@@ -31,6 +31,10 @@ export const PaginationContainer = styled.div`
       padding: 4px;
     }
 
+    &-item {
+      height: 100%;
+    }
+
     .rc-pagination-item-active {
       color: var(--primary-color);
       font-weight: 700;
@@ -39,7 +43,6 @@ export const PaginationContainer = styled.div`
     .rc-pagination-prev,
     .rc-pagination-next {
       cursor: pointer;
-      transform: translateY(1px);
       &:hover {
         * {
           fill: var(--primary-color);

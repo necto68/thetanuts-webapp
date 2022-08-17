@@ -94,9 +94,7 @@ export const Header = styled.span`
   line-height: 1;
 `;
 
-export const Row = styled.tr.attrs(() => ({
-  layout: true,
-}))`
+export const Row = styled.tr`
   &:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.3);
   }

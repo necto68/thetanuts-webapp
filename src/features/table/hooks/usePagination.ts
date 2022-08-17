@@ -24,5 +24,5 @@ export const usePagination = <RowData>(
     paginationConfig.page * paginationConfig.pageSize
   );
 
-  return { paginatedRows, paginate };
+  return { paginatedRows, paginate, paginationConfig };
 };
