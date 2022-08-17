@@ -13,4 +13,5 @@ export interface TableProps<RowData> {
   rows: (RowData | undefined)[];
   getRowKey?: (row: RowData) => string;
   filterInputPlaceholder?: string;
+  rowsPerPage?: number;
 }

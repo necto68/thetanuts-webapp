@@ -94,7 +94,7 @@ export const Header = styled.span`
   line-height: 1;
 `;
 
-export const Row = styled(motion.tr).attrs(() => ({
+export const Row = styled.tr.attrs(() => ({
   layout: true,
 }))`
   &:nth-child(odd) {

@@ -1,12 +1,7 @@
-import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
-import {
-  ArrowIcon,
-  InfoIcon,
-  SkeletonBox,
-  Tooltip,
-} from "../../shared/components";
-import { useSortBy, useFilteredBy } from "../hooks";
+import { ArrowIcon, Paginator, SkeletonBox, Tooltip } from "../../shared/components";
+import { useSortBy, useFilteredBy, usePagination } from "../hooks";
 import type { Column, TableProps } from "../types";
 
 import { FilterInput } from "./FilterInput";
@@ -61,17 +56,30 @@ export const Table = <RowData extends object>({
   rows,
   getRowKey,
   filterInputPlaceholder = "",
+  rowsPerPage = 10,
 }: TableProps<RowData>) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { filteredRows, filterInputValue, setFilterInputValue } = useFilteredBy(
     columns,
     rows
   );
   const { sortedRows, sortState, updateSort } = useSortBy(filteredRows);
 
+  const { paginatedRows, paginate } = usePagination(sortedRows, rowsPerPage);
+
+  const changePage = (page: number, pageSize: number) => {
+    setCurrentPage(page);
+    paginate(page, pageSize);
+  };
+
   return (
     <Container>
       <FilterInput
-        onChange={setFilterInputValue}
+        onChange={($event) => {
+          changePage(1, rowsPerPage);
+          setFilterInputValue($event);
+        }}
         placeholder={filterInputPlaceholder}
         value={filterInputValue}
       />
@@ -94,13 +102,15 @@ export const Table = <RowData extends object>({
                     {title ? (
                       <SortButton
                         onClick={() => {
-                          // @ts-expect-error key type should be fixed
-                          updateSort(key, sortBy);
-                        }}
-                      >
-                        <SortContainer>
-                          <Header>{title}</Header>
-                          {tooltipTitle ? (
+                          changePage(1, rowsPerPage);
+
+                        // @ts-expect-error key type should be fixed
+                        updateSort(key, sortBy);
+                      }}
+                    >
+                      <SortContainer>
+                        <Header>{title}</Header>
+                        {tooltipTitle ? (
                             <Tooltip
                               content={
                                 <TooltipContainer>
@@ -124,22 +134,25 @@ export const Table = <RowData extends object>({
             </HeaderRow>
           </thead>
           <tbody>
-            <AnimatePresence initial={false}>
-              {sortedRows.map((row, rowIndex) => (
-                <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
-                  {columns.map((column, columnIndex) => (
-                    <Cell
-                      key={column.key?.toString() ?? columnIndex.toString()}
-                    >
-                      {renderCellContent(row, column)}
-                    </Cell>
-                  ))}
-                </Row>
-              ))}
-            </AnimatePresence>
+            {paginatedRows.map((row, rowIndex) => (
+              <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
+                {columns.map((column, columnIndex) => (
+                  <Cell key={column.key?.toString() ?? columnIndex.toString()}>
+                    {renderCellContent(row, column)}
+                  </Cell>
+                ))}
+              </Row>
+            ))}
           </tbody>
         </TableContainer>
       </TableContainerWrapper>
+      <Paginator
+        current={currentPage}
+        onChange={changePage}
+        pageSize={rowsPerPage}
+        showLessItems
+        total={sortedRows.length}
+      />
     </Container>
   );
 };
