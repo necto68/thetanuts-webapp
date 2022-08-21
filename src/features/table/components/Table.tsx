@@ -1,6 +1,12 @@
 import { useMemo } from "react";
 
-import { ArrowIcon, Paginator, SkeletonBox, Tooltip } from "../../shared/components";
+import {
+  ArrowIcon,
+  Paginator,
+  SkeletonBox,
+  Tooltip,
+  InfoIcon,
+} from "../../shared/components";
 import { useSortBy, useFilteredBy, usePagination } from "../hooks";
 import type { Column, TableProps } from "../types";
 
@@ -110,13 +116,13 @@ export const Table = <RowData extends object>({
                         onClick={() => {
                           paginate(1, rowsPerPage);
 
-                        // @ts-expect-error key type should be fixed
-                        updateSort(key, sortBy);
-                      }}
-                    >
-                      <SortContainer>
-                        <Header>{title}</Header>
-                        {tooltipTitle ? (
+                          // @ts-expect-error key type should be fixed
+                          updateSort(key, sortBy);
+                        }}
+                      >
+                        <SortContainer>
+                          <Header>{title}</Header>
+                          {tooltipTitle ? (
                             <Tooltip
                               content={
                                 <TooltipContainer>
