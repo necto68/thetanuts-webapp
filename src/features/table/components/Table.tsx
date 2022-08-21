@@ -1,6 +1,11 @@
 import { AnimatePresence } from "framer-motion";
 
-import { ArrowIcon, SkeletonBox } from "../../shared/components";
+import {
+  ArrowIcon,
+  InfoIcon,
+  SkeletonBox,
+  Tooltip,
+} from "../../shared/components";
 import { useSortBy, useFilteredBy } from "../hooks";
 import type { Column, TableProps } from "../types";
 
@@ -13,6 +18,8 @@ import {
   SortArrowContainer,
   SortButton,
   SortContainer,
+  TooltipContainer,
+  TooltipText,
   TableContainer,
   Row,
   Cell,
@@ -72,31 +79,48 @@ export const Table = <RowData extends object>({
         <TableContainer>
           <thead>
             <HeaderRow>
-              {columns.map(({ title, key, sortBy, minWidth }, columnIndex) => (
-                <HeaderCell
-                  align={
-                    columnIndex === columns.length - 1 ? "right" : undefined
-                  }
-                  key={title ?? columnIndex.toString()}
-                  minWidth={minWidth?.toString()}
-                >
-                  {title ? (
-                    <SortButton
-                      onClick={() => {
-                        // @ts-expect-error key type should be fixed
-                        updateSort(key, sortBy);
-                      }}
-                    >
-                      <SortContainer>
-                        <Header>{title}</Header>
-                        <SortArrowContainer show={sortState.key === key}>
-                          <ArrowIcon up={sortState.order === "ASC"} />
-                        </SortArrowContainer>
-                      </SortContainer>
-                    </SortButton>
-                  ) : null}
-                </HeaderCell>
-              ))}
+              {columns.map(
+                (
+                  { key, title, tooltipTitle, sortBy, minWidth },
+                  columnIndex
+                ) => (
+                  <HeaderCell
+                    align={
+                      columnIndex === columns.length - 1 ? "right" : undefined
+                    }
+                    key={title ?? columnIndex.toString()}
+                    minWidth={minWidth?.toString()}
+                  >
+                    {title ? (
+                      <SortButton
+                        onClick={() => {
+                          // @ts-expect-error key type should be fixed
+                          updateSort(key, sortBy);
+                        }}
+                      >
+                        <SortContainer>
+                          <Header>{title}</Header>
+                          {tooltipTitle ? (
+                            <Tooltip
+                              content={
+                                <TooltipContainer>
+                                  <TooltipText>{tooltipTitle}</TooltipText>
+                                </TooltipContainer>
+                              }
+                              id={title}
+                              place="bottom"
+                              root={<InfoIcon theme="light" />}
+                            />
+                          ) : null}
+                          <SortArrowContainer show={sortState.key === key}>
+                            <ArrowIcon up={sortState.order === "ASC"} />
+                          </SortArrowContainer>
+                        </SortContainer>
+                      </SortButton>
+                    ) : null}
+                  </HeaderCell>
+                )
+              )}
             </HeaderRow>
           </thead>
           <tbody>

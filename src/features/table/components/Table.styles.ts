@@ -35,6 +35,10 @@ export const SortContainer = styled.div`
   padding: 20px 5px;
 `;
 
+export const TooltipContainer = styled.div`
+  min-width: 200px;
+`;
+
 export const HeaderCell = styled.th.withConfig({
   shouldForwardProp: (property, defaultValidatorFunction) =>
     ["align"].includes(property) || defaultValidatorFunction(property),
@@ -87,6 +91,7 @@ export const Header = styled.span`
   font-weight: 600;
   font-size: 13px;
   color: #ffffff;
+  line-height: 1;
 `;
 
 export const Row = styled(motion.tr).attrs(() => ({
@@ -144,3 +149,5 @@ export const APYCellContainer = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
+export { TooltipText } from "../../shared/components/Tooltip.styles";

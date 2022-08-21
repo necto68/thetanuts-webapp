@@ -33,8 +33,8 @@ export const ThetaIndexLayout = () => {
           <Title>Stronghold</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              Stronghold earns yields by running an automated index of options
-              strategies. Earnings are auto-compounded.{" "}
+              Stronghold earns yields by selling an automated index of options
+              strategies to market makers. Earnings are auto-compounded.{" "}
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -42,15 +42,15 @@ export const ThetaIndexLayout = () => {
           ) : (
             <>
               <Description>
-                Stronghold earns yields by running an automated index of options
-                strategies. Earnings are auto-compounded. When you swap your
-                assets, you will receive a Stronghold token representing your
-                pro-rata ownership of that Stronghold. The strike prices and
-                expirations of each strategy within the Stronghold are
-                algorithmically determined to generate the highest risk adjusted
-                yield. You can swap between your assets and Stronghold tokens
-                anytime at the market rate. Thetanuts does not collect any
-                performance or management fees.
+                Stronghold earns yields by selling an automated index of options
+                strategies to market makers. Earnings are auto-compounded. When
+                you swap your assets, you will receive a Stronghold token
+                representing your pro-rata ownership of that Stronghold. The
+                strike prices and expirations of each strategy within the
+                Stronghold are algorithmically determined to generate the
+                highest risk-adjusted yield. You can swap between your assets
+                and Stronghold tokens anytime at the swap rate given. Thetanuts
+                does not collect any performance or management fees.
               </Description>
               <Description>
                 Read the{" "}
