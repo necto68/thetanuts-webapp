@@ -29,7 +29,7 @@ export const chains: ChainConfig[] = [
     },
 
     addresses: {
-      routerAddress: "0x03fc1feddb196e69dd8a8753073e2527f85bbc6c",
+      routerAddress: "0x5F81772012eF3935Ec4Aa0755b1f64475f4688f3",
       lendingPoolAddress: "0x2Ca7641B841a79Cc70220cE838d0b9f8197accDA",
       directDepositorAddress: "0xc4A024eAcB72F09900737E07605e253f73D408c7",
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
