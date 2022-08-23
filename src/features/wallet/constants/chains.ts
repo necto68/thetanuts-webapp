@@ -35,6 +35,11 @@ export const chains: ChainConfig[] = [
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
     },
 
+    deployerAddresses: {
+      directWithdrawalDeployerAddress:
+        "0x4A4c7C5549359b9fFf0137bb3EC4D48c4Aa79Cc7",
+    },
+
     keys: {
       explorerApi: "H9YG861JU9VGXZXDBTR2C6CE23J8NSXSGC",
     },
@@ -88,10 +93,15 @@ export const chains: ChainConfig[] = [
     },
 
     addresses: {
-      routerAddress: "0x79c089D49668077891460d7CDDadc11EB4Cb6A51",
+      routerAddress: "0xbfC52B41Bb061ed08872E2F3b2F1844004f3EEF8",
       lendingPoolAddress: "0x69CB7e57FC301785aA0f933230DEE4C3E1f78e2b",
       directDepositorAddress: "0x21659962120ba152139FC157e52168CD1609C3E3",
       directWithdrawalAddress: "0xf35F0A93B1f3c0eE418AaA352553Bc7C1d3dBe4a",
+    },
+
+    deployerAddresses: {
+      directWithdrawalDeployerAddress:
+        "0x4A4c7C5549359b9fFf0137bb3EC4D48c4Aa79Cc7",
     },
   },
   {
