@@ -133,6 +133,7 @@ export const withdrawalDataFetcher = async (
   targetTokenData: Token | undefined,
   vaults: Vault[],
   directWithdrawalAddress: string,
+  directWithdrawalDeployerAddress?: string,
   sourceValue?: string
 ): Promise<VaultWithdrawInfoDto> => {
   // Define operation result.
@@ -162,13 +163,36 @@ export const withdrawalDataFetcher = async (
 
     // Static withdraw.
     if (sourceValue && tokenDivisor && sourceTokenData?.tokenAddress) {
-      directWithdrawals = [
-        await directWithdrawContract.callStatic.withdraw(
-          sourceTokenData.tokenAddress,
-          tokenDivisor.mul(sourceValue).toString(),
-          { from: account }
-        ),
-      ];
+      if (sourceTokenData.allowance.gte(tokenDivisor.mul(sourceValue))) {
+        directWithdrawals = [
+          await directWithdrawContract.callStatic.withdraw(
+            sourceTokenData.tokenAddress,
+            tokenDivisor.mul(sourceValue).toString(),
+            { from: account }
+          ),
+        ];
+      } else {
+        const deployerWithdrawal =
+          await directWithdrawContract.callStatic.withdraw(
+            sourceTokenData.tokenAddress,
+            tokenDivisor.mul(1).toString(),
+            { from: directWithdrawalDeployerAddress }
+          );
+
+        directWithdrawals = [
+          {
+            ...deployerWithdrawal,
+
+            expected: deployerWithdrawal.expected.map((value) =>
+              value.mul(sourceValue)
+            ),
+
+            withdrawn: deployerWithdrawal.withdrawn.map((value) =>
+              value.mul(sourceValue)
+            ),
+          },
+        ];
+      }
     }
 
     if (!directWithdrawals) {
