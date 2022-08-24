@@ -39,8 +39,8 @@ export const VaultsWithdrawScheduleTable = () => {
 
   const vaults = staticCalculation
     ? basicVaults
-    : basicVaults.filter(({ vaultAddress }) =>
-        Boolean(vaultsExpected[vaultAddress])
+    : basicVaults.filter(({ basicVaultAddress }) =>
+        Boolean(vaultsExpected[basicVaultAddress])
       );
 
   const getWithdrawnLose = (
@@ -110,7 +110,9 @@ if any losses have been incurred"
 
   const getVaultTitleByAddress = (address: string): string => {
     const { assetSymbol = "", period = 0 } =
-      basicVaults.find(({ vaultAddress }) => vaultAddress === address) ?? {};
+      basicVaults.find(
+        ({ basicVaultAddress }) => basicVaultAddress === address
+      ) ?? {};
     return getVaultTitle(type, assetSymbol, period);
   };
 

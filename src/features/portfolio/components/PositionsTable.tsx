@@ -92,6 +92,7 @@ const columns: Column<PositionTableRow>[] = [
   },
   {
     key: "id",
+    minWidth: 215,
 
     render: (row) => {
       const { id, vaultType, chainId } = row;

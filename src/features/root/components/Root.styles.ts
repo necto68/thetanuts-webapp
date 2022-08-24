@@ -32,7 +32,7 @@ export const BackgroundContainer = styled(motion.div).attrs<{
 
 export const LayoutContainer = styled.div`
   display: flex;
-  flex-basis: 1440px;
+  flex-basis: 1330px;
 
   height: max-content;
   min-height: 100%;
@@ -51,7 +51,7 @@ export const GridContainer = styled.div`
   grid-template-areas: "sidebar page";
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
-  gap: 15px;
+  gap: 8px;
 
   ${screens.xl} {
     grid-template-areas:

@@ -112,6 +112,7 @@ const columns: Column<IndexVaultRow>[] = [
   },
   {
     key: "id",
+    minWidth: 140,
 
     render: (row) => {
       if ("isDemo" in row) {

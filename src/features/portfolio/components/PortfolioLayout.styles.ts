@@ -6,7 +6,7 @@ import { Container as ThetaIndexLayoutContainer } from "../../theta-index/compon
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 8px;
 `;
 
 export const TitleContainer = styled(ThetaIndexLayoutContainer)`

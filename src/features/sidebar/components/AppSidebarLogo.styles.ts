@@ -23,6 +23,7 @@ export const AppTitle = styled.span`
 
 export const TitleContainer = styled.div`
   display: flex;
+  align-items: flex-end;
 
   ${screens.md} {
     display: none;
@@ -43,6 +44,7 @@ export const Nuts = styled(AppTitle)`
 export const Finance = styled(AppTitle)`
   font-size: 12px;
   font-weight: 300;
+  padding: 0 0 0 2px;
 
   ${screens.md} {
     display: none;

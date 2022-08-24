@@ -13,3 +13,10 @@ export const BaseVaultModalButton = styled(BaseButton)`
 
   color: white;
 `;
+
+export const DemoVaultModalButton = styled(BaseVaultModalButton)`
+  max-width: 105px;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+`;

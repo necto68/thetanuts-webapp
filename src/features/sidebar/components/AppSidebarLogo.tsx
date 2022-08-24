@@ -24,14 +24,14 @@ export const AppSidebarLogo = () => {
   return (
     <LogoLink onClick={closeSidebar} to={PagePathname.thetaIndex}>
       <Container>
-        <IconContainer height={30} width={30}>
+        <IconContainer height={21} width={21}>
           <AppLogo />
         </IconContainer>
         <TitleContainer>
           <Theta>Theta</Theta>
           <Nuts>Nuts</Nuts>
+          <Finance>Finance</Finance>
         </TitleContainer>
-        <Finance>Finance</Finance>
       </Container>
     </LogoLink>
   );

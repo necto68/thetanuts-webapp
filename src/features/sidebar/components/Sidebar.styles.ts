@@ -28,6 +28,7 @@ export const SidebarContainer = styled(motion.div).attrs<{
   height: calc(100vh - 30px);
   overflow-y: auto;
   overflow-x: hidden;
+  width: 180px;
 
   --sidebar-gap: 75px;
   gap: var(--sidebar-gap);
@@ -110,5 +111,5 @@ export const SwitchToV0Link = styled(Link)`
 
 export const IconNavContainer = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 16px;
 `;
