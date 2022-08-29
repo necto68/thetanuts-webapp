@@ -1,13 +1,14 @@
 import { useSwapRouterConfig } from "../hooks";
-import { VaultType } from "../../index-vault/types";
-import type { IndexVault, Vault } from "../../index-vault/types";
+import type { IndexVault } from "../../index-vault/types";
 import { ExternalLinkButton } from "../../shared/components";
 import {
-  currencyFormatter,
-  currencyFormatterWithoutDecimals,
   dateFormatter,
+  periodFormatter,
+  strikePriceFormatter,
 } from "../../shared/helpers";
 import { PathType } from "../../wallet/types";
+import type { BasicVault } from "../../basic-vault/types";
+import { VaultType } from "../../basic-vault/types";
 
 import {
   CellSubValue,
@@ -24,41 +25,27 @@ import {
 
 export const getVaultTitle = (
   type: IndexVault["type"],
-  assetSymbol: Vault["assetSymbol"],
-  period: Vault["period"]
+  assetSymbol: BasicVault["assetSymbol"],
+  period: BasicVault["period"]
 ) => {
-  const mapPeriodToTitle = new Map([
-    [7, "Weekly"],
-    [14, "Bi-Weekly"],
-    [30, "Monthly"],
-  ]);
-  const secondsInDay = 60 * 60 * 24;
-  const daysInPeriod = Math.floor(period / secondsInDay);
-
-  const formattedPeriod =
-    mapPeriodToTitle.get(daysInPeriod) ?? `${daysInPeriod}-Day`;
-
+  const formattedPeriod = periodFormatter(period);
   const formattedType = type === VaultType.CALL ? "Call" : "Put";
 
   return `${formattedPeriod} ${assetSymbol} ${formattedType}`;
 };
 
 export const getVaultSubTitle = (
-  strikePrice: Vault["strikePrice"],
-  expiry: Vault["expiry"],
-  isSettled: Vault["isSettled"],
-  isExpired: Vault["isExpired"]
+  strikePrice: BasicVault["strikePrice"],
+  expiry: BasicVault["expiry"],
+  isSettled: BasicVault["isSettled"],
+  isExpired: BasicVault["isExpired"]
 ) => {
   if (isSettled || isExpired) {
     return <ClaimStatusText>Auction In Progress</ClaimStatusText>;
   }
 
-  const strikePriceFormatter = Number.isInteger(strikePrice)
-    ? currencyFormatterWithoutDecimals
-    : currencyFormatter;
-
   const formattedStrikePrice = strikePrice
-    ? strikePriceFormatter.format(strikePrice)
+    ? strikePriceFormatter(strikePrice)
     : "";
 
   const formattedExpiryDate = dateFormatter.format(new Date(expiry));
@@ -121,7 +108,8 @@ export const VaultsTable = () => {
         {vaults.map(
           (
             {
-              vaultAddress,
+              id,
+              basicVaultAddress,
               assetSymbol,
               strikePrice,
               expiry,
@@ -132,7 +120,7 @@ export const VaultsTable = () => {
             },
             index
           ) => (
-            <tr key={vaultAddress}>
+            <tr key={id}>
               <td>
                 <PortfolioCellContainer>
                   <CellValue>
@@ -160,7 +148,7 @@ export const VaultsTable = () => {
                 <CellValueCenter>
                   <ExternalLinkButton
                     chainId={chainId}
-                    id={vaultAddress}
+                    id={basicVaultAddress}
                     pathType={PathType.address}
                   />
                 </CellValueCenter>

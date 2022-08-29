@@ -1,5 +1,7 @@
 import type { UseQueryResult } from "react-query";
 
+import type { ChainId } from "../../wallet/constants";
+
 import type { InputType } from "./inputType";
 import type { NativeToken, Token } from "./token";
 
@@ -35,6 +37,9 @@ export interface SwapRouterState {
   sourcePrice: number;
   targetPrice: number;
   priceImpactRate: number;
+
+  remainderValue?: number;
+  vaultChainId?: ChainId;
 
   slippageToleranceValue: string;
   slippageToleranceInputValue: string;

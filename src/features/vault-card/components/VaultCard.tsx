@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from "react";
+import type { LocationDescriptor } from "history";
 
 import { IconContainer, SkeletonBox } from "../../shared/components";
 
@@ -29,13 +30,12 @@ export interface VaultCardProps {
   shadowColor?: string;
   content?: ReactNode;
   footerContent?: ReactNode;
-  indexVaultId?: string;
+  link?: LocationDescriptor;
 }
 
 export const VaultCard: FC<VaultCardProps> = ({
   isLoading = false,
   disabled = false,
-  indexVaultId,
   title,
   icon,
   symbol,
@@ -45,15 +45,14 @@ export const VaultCard: FC<VaultCardProps> = ({
   shadowColor,
   content,
   footerContent,
+  link,
 }) => (
   <Container
     backgroundColor={backgroundColor}
     disabled={disabled}
     shadowColor={shadowColor}
   >
-    <CardLink
-      to={disabled ? {} : { pathname: `/stronghold/${indexVaultId ?? ""}` }}
-    >
+    <CardLink to={!disabled && link ? link : {}}>
       <Header>
         {isLoading ? (
           <SkeletonBox height={14} width={60} />

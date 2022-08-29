@@ -7,15 +7,23 @@ export enum TransactionType {
   swappedOut = "swappedOut",
   depositedDirectly = "depositedDirectly",
   withdrawnDirectly = "withdrawnDirectly",
-  claim = "claim",
+  claimed = "claimed",
+
+  // basic vaults
+  deposited = "deposited",
+  initiatedWithdrawal = "initiatedWithdrawal",
+  canceledWithdrawal = "canceledWithdrawal",
 }
 
 export const TransactionTypeTitle = {
-  [TransactionType.swappedIn]: "Swap",
-  [TransactionType.swappedOut]: "Swap",
+  [TransactionType.swappedIn]: "Swapped",
+  [TransactionType.swappedOut]: "Swapped",
   [TransactionType.depositedDirectly]: "Deposited Directly",
-  [TransactionType.withdrawnDirectly]: "Direct Withdraw",
-  [TransactionType.claim]: "Claimed",
+  [TransactionType.withdrawnDirectly]: "Withdrawn Directly",
+  [TransactionType.claimed]: "Claimed",
+  [TransactionType.deposited]: "Deposited",
+  [TransactionType.initiatedWithdrawal]: "Initiated Withdrawal",
+  [TransactionType.canceledWithdrawal]: "Canceled Withdrawal",
 };
 
 export interface Transaction {

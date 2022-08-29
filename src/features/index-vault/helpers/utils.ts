@@ -1,6 +1,8 @@
 import Big from "big.js";
 
-import type { IndexVault, Vault, PercentageYields } from "../types";
+import type { IndexVault } from "../types";
+import type { PercentageYields, BasicVault } from "../../basic-vault/types";
+import { VaultType } from "../../basic-vault/types";
 
 const getYield = (
   baseValue: number,
@@ -12,7 +14,7 @@ const convertYieldToPercentage = (yieldValue: number): number =>
   new Big(yieldValue).mul(100).round(2).toNumber();
 
 export const getTotalValueLocked = (
-  vaults: (Vault | undefined)[],
+  vaults: (BasicVault | undefined)[],
   vaultsInfos: IndexVault["vaultsInfos"],
   assetPrice: number
 ): number => {
@@ -43,7 +45,7 @@ export const normalizeVaultValue = (
 ): number => value.div(divisor).round(roundDP).toNumber();
 
 export const getTotalPercentageYields = (
-  vaults: (Vault | undefined)[],
+  vaults: (BasicVault | undefined)[],
   vaultsInfos: IndexVault["vaultsInfos"],
   totalWeight: IndexVault["totalWeight"]
 ): PercentageYields => {
@@ -163,13 +165,13 @@ export const getPercentageYields = (
   };
 };
 
-export const getTotalRemainder = (vaults: (Vault | undefined)[]) => {
+export const getTotalRemainder = (vaults: (BasicVault | undefined)[]) => {
   const vaultsBalances = vaults.map((vault) =>
     vault ? vault.balance : new Big(0)
   );
 
   const vaultsRemainders = vaults.map((vault) =>
-    vault ? vault.collatCap.sub(vault.balance) : new Big(0)
+    vault ? new Big(vault.remainder) : new Big(0)
   );
 
   const totalBalance = vaultsBalances.reduce(
@@ -189,3 +191,30 @@ export const getTotalRemainder = (vaults: (Vault | undefined)[]) => {
 
   return sortedRemaindersValues[0].round(0, Big.roundDown).toNumber();
 };
+
+export const getTotalRiskLevel = (
+  vaults: (BasicVault | undefined)[]
+): BasicVault["riskLevel"] => {
+  const vaultsRiskLevels = vaults.map((vault) =>
+    vault ? vault.riskLevel : null
+  );
+
+  const vaultsRiskLevelsValues = vaultsRiskLevels.map((riskLevel) =>
+    riskLevel !== null ? Number(riskLevel) : null
+  );
+
+  const riskLevelSum = vaultsRiskLevelsValues.reduce(
+    (accumulator, current) =>
+      accumulator !== null && current !== null ? accumulator + current : null,
+    0
+  );
+
+  if (riskLevelSum === null) {
+    return null;
+  }
+
+  return Math.round(riskLevelSum / vaults.length);
+};
+
+export const getVaultTypeTitle = (type: VaultType): string =>
+  type === VaultType.CALL ? "Covered Call" : "Put Selling";

@@ -1,38 +1,31 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
-import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
   gap: 25px;
+`;
 
-  ${screens.md} {
-    gap: 15px;
-  }
+export const TableContainerWrapper = styled.div`
+  display: flex;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
 `;
 
 export const TableContainer = styled.table`
   border-collapse: collapse;
-
-  ${screens.md} {
-    & > tbody {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-  }
+  min-width: 800px;
+  width: 100%;
+  table-layout: fixed;
 `;
 
 export const HeaderRow = styled.tr`
   background-color: #010c1a;
-
-  ${screens.md} {
-    display: none;
-  }
 `;
 
 export const SortContainer = styled.div`
@@ -42,10 +35,14 @@ export const SortContainer = styled.div`
   padding: 20px 5px;
 `;
 
+export const TooltipContainer = styled.div`
+  min-width: 200px;
+`;
+
 export const HeaderCell = styled.th.withConfig({
   shouldForwardProp: (property, defaultValidatorFunction) =>
     ["align"].includes(property) || defaultValidatorFunction(property),
-})`
+})<{ minWidth?: string }>`
   &:first-child {
     border-top-left-radius: 10px;
 
@@ -56,12 +53,19 @@ export const HeaderCell = styled.th.withConfig({
 
   &:last-child {
     border-top-right-radius: 10px;
-    width: 30%;
 
     ${SortContainer} {
       padding-right: 15px;
     }
   }
+
+  // Setting cell min-width in the table that has "table-layout: fixed" is actually setting width.
+  // That means that the table layout is responsive and cell width can be changed but it will not be less than this width.
+  ${({ minWidth }) =>
+    minWidth &&
+    css`
+      width: ${minWidth}px;
+    `}
 `;
 
 export const SortButton = styled(BaseButton)`
@@ -87,26 +91,10 @@ export const Header = styled.span`
   font-weight: 600;
   font-size: 13px;
   color: #ffffff;
+  line-height: 1;
 `;
 
-export const Row = styled(motion.tr).attrs(() => ({
-  layout: true,
-
-  initial: {
-    y: -50,
-    opacity: 0,
-  },
-
-  animate: {
-    y: 0,
-    opacity: 1,
-  },
-
-  exit: {
-    y: -50,
-    opacity: 0,
-  },
-}))`
+export const Row = styled.tr`
   &:nth-child(odd) {
     background-color: rgba(0, 0, 0, 0.3);
   }
@@ -114,19 +102,11 @@ export const Row = styled(motion.tr).attrs(() => ({
   &:nth-child(even) {
     background-color: rgba(0, 0, 0, 0.5);
   }
-
-  ${screens.md} {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    padding: 10px 15px;
-    border-radius: 10px;
-    background-color: rgba(1, 12, 26, 0.9) !important;
-  }
 `;
 
 export const Cell = styled.td`
   padding: 10px 5px;
+  scroll-snap-align: start;
 
   &:first-child {
     padding-left: 15px;
@@ -137,54 +117,14 @@ export const Cell = styled.td`
     justify-content: end;
     padding-right: 15px;
   }
-
-  ${screens.md} {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 3px;
-    padding: 0 !important;
-
-    &:nth-child(odd) {
-      align-items: start;
-    }
-
-    &:nth-child(even) {
-      align-items: end;
-      text-align: right;
-    }
-
-    &:last-child {
-      grid-column: 1 / span 2;
-      align-items: stretch;
-    }
-  }
-`;
-
-export const CellTitle = styled.span`
-  display: none;
-
-  ${screens.md} {
-    display: initial;
-
-    font-family: Roboto;
-    font-weight: 400;
-    font-size: 14px;
-    color: #ffffff;
-    line-height: 1;
-  }
 `;
 
 export const CellValue = styled.span`
   font-family: Roboto;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 13px;
   color: #ffffff;
   line-height: 1;
-
-  ${screens.md} {
-    font-size: 16px;
-  }
 `;
 
 export const GreenCellValue = styled(CellValue)`
@@ -207,3 +147,5 @@ export const APYCellContainer = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
+export { TooltipText } from "../../shared/components/Tooltip.styles";

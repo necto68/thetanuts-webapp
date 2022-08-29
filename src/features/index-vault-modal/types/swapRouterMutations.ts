@@ -4,7 +4,6 @@ import type { MutationType, MutationError } from "./mutations";
 
 export interface SwapRouterMutations {
   approveAllowanceMutation?: UseMutationResult<boolean, MutationError, void>;
-
   swapMutation?: UseMutationResult<boolean, MutationError, MutationType>;
   claimMutation?: UseMutationResult<boolean, MutationError, void>;
 

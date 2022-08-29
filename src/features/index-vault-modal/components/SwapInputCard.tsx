@@ -11,8 +11,9 @@ import {
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
 import { getLogoBySymbol } from "../../logo/helpers";
-import { useIndexVaultModalState, useSwapRouterConfig } from "../hooks";
+import type { ChainId } from "../../wallet/constants";
 import { ModalContentType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { AssetSelector } from "./AssetSelector";
 import { PriceImpact } from "./PriceImpact";
@@ -41,6 +42,7 @@ interface SwapInputCardProps {
   onInputChange: (value: string) => void;
   isSource?: boolean;
   isFlipped: boolean;
+  sourceTokenData?: Token;
   tokenData: Token | undefined;
   isTokenDataLoading: boolean;
   nativeData: NativeToken | undefined;
@@ -51,10 +53,14 @@ interface SwapInputCardProps {
   priceImpactRate?: number;
   isDirectModeBetterThanSwapMode?: boolean;
   isUseDirectMode?: boolean;
+  isHideWalletBalance?: boolean;
+  isHideAssetSelector?: boolean;
   fieldWarning?: string;
   fieldWarningColor?: string;
   disabled?: boolean;
   isShowTitle?: boolean;
+  remainderValue?: number;
+  vaultChainId?: ChainId;
 }
 
 const getBalanceValue = (tokenData: NativeToken | Token | undefined) =>
@@ -67,6 +73,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   onInputChange,
   isSource = false,
   isFlipped,
+  sourceTokenData,
   tokenData,
   isTokenDataLoading,
   nativeData,
@@ -77,17 +84,19 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   priceImpactRate = 0,
   isDirectModeBetterThanSwapMode = false,
   isUseDirectMode = false,
+  isHideWalletBalance = false,
+  isHideAssetSelector = false,
   fieldWarning,
   fieldWarningColor,
   disabled,
   isShowTitle = true,
+  remainderValue = Number.MAX_SAFE_INTEGER,
+  vaultChainId,
 }) => {
-  const { indexVaultQuery } = useSwapRouterConfig();
-  const { data } = indexVaultQuery;
-  const { totalRemainder = Number.MAX_SAFE_INTEGER } = data ?? {};
-  const [{ contentType }] = useIndexVaultModalState();
+  const [{ contentType }] = useVaultModalState();
 
   const isShowAssetSelector =
+    !isHideAssetSelector &&
     tokenData &&
     nativeData &&
     tokenData.tokenAddress === nativeData.wrappedNativeTokenAddress;
@@ -133,7 +142,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       isSource &&
       !isFlipped &&
       inputValueBig.gt(0) &&
-      inputValueBig.gt(totalRemainder) &&
+      inputValueBig.gt(remainderValue) &&
       contentType !== ModalContentType.withdrawClaim
   );
 
@@ -169,14 +178,20 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
         ) : (
           <span />
         )}
-        <BalanceTitlesContainer>
-          <AnimatePresence>
-            {isShowInsufficientBalanceTitle ? (
-              <InsufficientBalanceTitle>Insufficient</InsufficientBalanceTitle>
-            ) : null}
-          </AnimatePresence>
-          <BalanceTitle>{`Balance: ${balanceValue}`}</BalanceTitle>
-        </BalanceTitlesContainer>
+        {!isHideWalletBalance ? (
+          <BalanceTitlesContainer>
+            <AnimatePresence>
+              {isShowInsufficientBalanceTitle ? (
+                <InsufficientBalanceTitle>
+                  Insufficient
+                </InsufficientBalanceTitle>
+              ) : null}
+            </AnimatePresence>
+            <BalanceTitle>{`Wallet Balance: ${balanceValue}`}</BalanceTitle>
+          </BalanceTitlesContainer>
+        ) : (
+          <span />
+        )}
       </BalanceContainer>
       <AnimatePresence exitBeforeEnter initial={false}>
         <SwapInputCardAnimateContainer
@@ -244,6 +259,9 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               isShowDirectWithdrawProposal={isShowDirectWithdrawProposal}
               isShowMaxVaultCapReachedTitle={isShowMaxVaultCapReachedTitle}
               isShowSwapProposal={isShowSwapProposal}
+              remainderValue={remainderValue}
+              sourceTokenData={sourceTokenData}
+              vaultChainId={vaultChainId}
             />
           ) : null}
           {!isShowPriceWarning && fieldWarning ? (

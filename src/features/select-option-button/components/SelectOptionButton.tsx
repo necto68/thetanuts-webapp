@@ -10,6 +10,8 @@ import {
   OptionsContainer,
   ButtonContentContainer,
   Container,
+  ButtonTitle,
+  ButtonIcon,
 } from "./SelectOptionButton.styles";
 
 interface Option {
@@ -80,8 +82,12 @@ export const SelectOptionButton = <OptionType extends Option>({
               {buttonLogo}
             </IconContainer>
           ) : null}
-          {title}
-          {hasOptions ? <ArrowIcon up={isShowOptions} /> : null}
+          <ButtonTitle>{title}</ButtonTitle>
+          {hasOptions ? (
+            <ButtonIcon>
+              <ArrowIcon up={isShowOptions} />
+            </ButtonIcon>
+          ) : null}
         </ButtonContentContainer>
       </BaseButton>
       <BaseOptionsContainer

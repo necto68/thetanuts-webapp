@@ -4,16 +4,12 @@ import Div100vh from "react-div-100vh";
 
 import { PagePathname } from "../types";
 import { screens } from "../../shared/constants";
+import { Link } from "../../shared/components/Link";
 
 const mapPathnameToBackground = {
-  [PagePathname.thetaIndex]:
-    "linear-gradient(180deg, #031a34 21.13%, #259ddf 99.41%)",
-
-  [PagePathname.indexVaultModal]:
-    "linear-gradient(180deg, #031a34 21.13%, #259ddf 99.41%)",
-
-  [PagePathname.portfolio]:
-    "linear-gradient(180deg, #031A34 14.49%, #B6509E 99.41%)",
+  [PagePathname.thetaIndex]: "#031a34",
+  [PagePathname.basic]: "#031a34",
+  [PagePathname.portfolio]: "#212b31",
 };
 
 export const Container = styled(Div100vh)`
@@ -26,7 +22,7 @@ export const BackgroundContainer = styled(motion.div).attrs<{
   pathname: PagePathname;
 }>(({ pathname }) => ({
   animate: {
-    background: mapPathnameToBackground[pathname],
+    backgroundColor: mapPathnameToBackground[pathname],
   },
 }))<{ pathname: PagePathname }>`
   display: flex;
@@ -37,15 +33,19 @@ export const BackgroundContainer = styled(motion.div).attrs<{
 
 export const LayoutContainer = styled.div`
   display: flex;
-  flex-basis: 1440px;
+  flex-direction: column;
+  flex-basis: 1330px;
+
+  gap: 8px;
 
   height: max-content;
   min-height: 100%;
 
-  padding: 15px;
+  padding: 0 15px 15px;
 
-  ${screens.md} {
+  ${screens.xl} {
     padding: 0;
+    gap: 0;
   }
 `;
 
@@ -56,9 +56,9 @@ export const GridContainer = styled.div`
   grid-template-areas: "sidebar page";
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
-  gap: 15px;
+  gap: 8px;
 
-  ${screens.md} {
+  ${screens.xl} {
     grid-template-areas:
       "sidebar mobile-header"
       "sidebar page";
@@ -77,19 +77,40 @@ export const MobileHeaderContainer = styled.div`
   grid-area: mobile-header;
   display: none;
 
-  ${screens.md} {
+  ${screens.xl} {
     display: initial;
   }
+`;
+
+export const AnnouncementContainer = styled.div`
+  grid-area: announcement;
+  display: flex;
+  justify-content: center;
+  padding: 10px 15px;
+  background-color: #1fffab;
+`;
+
+export const AnnouncementTitle = styled.span`
+  font-family: Barlow;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  color: #061f3a;
+`;
+
+export const AnnouncementLink = styled(Link)`
+  color: #061f3a;
 `;
 
 export const PageContainer = styled.div`
   grid-area: page;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   padding: 0;
 
-  ${screens.md} {
+  ${screens.xl} {
     padding: 15px;
   }
 `;

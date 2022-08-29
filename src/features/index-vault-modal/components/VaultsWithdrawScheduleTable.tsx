@@ -1,5 +1,5 @@
 import { useSwapRouterConfig, useWithdrawDataQuery } from "../hooks";
-import { VaultType } from "../../index-vault/types";
+import { VaultType } from "../../basic-vault/types";
 import { ExternalLinkButton, InfoIcon, Tooltip } from "../../shared/components";
 import { PathType } from "../../wallet/types";
 
@@ -39,8 +39,8 @@ export const VaultsWithdrawScheduleTable = () => {
 
   const vaults = staticCalculation
     ? basicVaults
-    : basicVaults.filter(({ vaultAddress }) =>
-        Boolean(vaultsExpected[vaultAddress])
+    : basicVaults.filter(({ basicVaultAddress }) =>
+        Boolean(vaultsExpected[basicVaultAddress])
       );
 
   const getWithdrawnLose = (
@@ -110,7 +110,9 @@ if any losses have been incurred"
 
   const getVaultTitleByAddress = (address: string): string => {
     const { assetSymbol = "", period = 0 } =
-      basicVaults.find(({ vaultAddress }) => vaultAddress === address) ?? {};
+      basicVaults.find(
+        ({ basicVaultAddress }) => basicVaultAddress === address
+      ) ?? {};
     return getVaultTitle(type, assetSymbol, period);
   };
 
@@ -196,7 +198,7 @@ individual option vault(s) given that the option is not ITM"
         ) : null}
         {vaults.map(
           ({
-            vaultAddress,
+            basicVaultAddress,
             assetSymbol,
             strikePrice,
             expiry,
@@ -204,7 +206,7 @@ individual option vault(s) given that the option is not ITM"
             isSettled,
             isExpired,
           }) => (
-            <tr key={vaultAddress}>
+            <tr key={basicVaultAddress}>
               <td>
                 <PortfolioCellContainer>
                   <CellValue>
@@ -222,23 +224,28 @@ individual option vault(s) given that the option is not ITM"
               </td>
               <td>
                 <CellValue>
-                  {getVaultWithdrawAmount(vaultAddress) ?? "-"}
+                  {getVaultWithdrawAmount(basicVaultAddress) ?? "-"}
                 </CellValue>
-                <CellValue>{getVaultPosition(vaultAddress)}</CellValue>
+                <CellValue>{getVaultPosition(basicVaultAddress)}</CellValue>
               </td>
               <td>
-                {vaultsClaimed[vaultAddress] || vaultsExpected[vaultAddress] ? (
-                  <CellValue>{getCurrentVaultPosition(vaultAddress)}</CellValue>
+                {vaultsClaimed[basicVaultAddress] ||
+                vaultsExpected[basicVaultAddress] ? (
+                  <CellValue>
+                    {getCurrentVaultPosition(basicVaultAddress)}
+                  </CellValue>
                 ) : (
                   ""
                 )}
-                <CellSubValue>{getVaultStatusText(vaultAddress)}</CellSubValue>
+                <CellSubValue>
+                  {getVaultStatusText(basicVaultAddress)}
+                </CellSubValue>
               </td>
               <td>
                 <CellValueCenter>
                   <ExternalLinkButton
                     chainId={chainId}
-                    id={vaultAddress}
+                    id={basicVaultAddress}
                     pathType={PathType.address}
                   />
                 </CellValueCenter>

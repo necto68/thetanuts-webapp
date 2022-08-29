@@ -1,13 +1,11 @@
 import type { FC, ReactNode } from "react";
-import type { Place } from "react-tooltip";
+import type { TooltipProps as BaseTooltipProps } from "react-tooltip";
 
 import { RootContainer, StyledTooltip, TooltipText } from "./Tooltip.styles";
 
-interface TooltipProps {
-  id: string;
+interface TooltipProps extends Pick<BaseTooltipProps, "id" | "place"> {
   root: ReactNode;
   content: ReactNode | string;
-  place?: Place;
 }
 
 export const Tooltip: FC<TooltipProps> = ({
@@ -20,7 +18,13 @@ export const Tooltip: FC<TooltipProps> = ({
     <RootContainer data-for={id} data-tip="">
       {root}
     </RootContainer>
-    <StyledTooltip effect="solid" id={id} place={place} type="light">
+    <StyledTooltip
+      delayHide={100}
+      effect="solid"
+      id={id}
+      place={place}
+      type="light"
+    >
       {typeof content === "string" ? (
         <TooltipText>{content}</TooltipText>
       ) : (

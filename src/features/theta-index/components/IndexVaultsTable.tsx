@@ -3,9 +3,9 @@ import {
   APYCellContainer,
   GreenCellValue,
   Chains,
-  SwapButton,
   DemoButton,
   AssetCell,
+  SwapButton,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useIndexVaults } from "../../index-vault/hooks";
@@ -15,6 +15,9 @@ import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
 import { InfoIcon, Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import type { DemoIndexVaultConfig } from "../types";
+import { VaultModalType } from "../../root/types";
+import { getVaultTypeTitle } from "../../index-vault/helpers";
+import { RiskLevelCell } from "../../basic/components/RiskLevelCell";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
@@ -28,9 +31,29 @@ const columns: Column<IndexVaultRow>[] = [
     filterBy: true,
   },
   {
+    key: "type",
+    title: "Strategy",
+
+    render: ({ type }) => (
+      <GreenCellValue>{getVaultTypeTitle(type)}</GreenCellValue>
+    ),
+
+    filterBy: ({ type }) => getVaultTypeTitle(type),
+  },
+  {
+    key: "totalRiskLevel",
+    title: "Risk",
+
+    tooltipTitle:
+      "The risk rating is the approximate riskiness of an asset and the respective option strategy given the current market conditions. The volatility of the asset and the directional component of the option strategy is the 2 main factors in the risk rating calculations.",
+
+    render: ({ totalRiskLevel }) => (
+      <RiskLevelCell riskLevel={totalRiskLevel} />
+    ),
+  },
+  {
     key: "totalPercentageYields",
     title: "APY",
-    showTitleInCell: true,
 
     render: ({ id, totalPercentageYields }) => (
       <APYCellContainer>
@@ -51,7 +74,6 @@ const columns: Column<IndexVaultRow>[] = [
   {
     key: "totalValueLocked",
     title: "TVL",
-    showTitleInCell: true,
 
     render: (row) => {
       if ("isDemo" in row) {
@@ -64,6 +86,7 @@ const columns: Column<IndexVaultRow>[] = [
   {
     key: "supportedChainIds",
     title: "Networks",
+    minWidth: 160,
 
     render: (row) => {
       if ("isDemo" in row) {
@@ -76,7 +99,8 @@ const columns: Column<IndexVaultRow>[] = [
         <Chains
           chainIds={supportedChainIds}
           highlightedChainId={chainId}
-          indexVaultId={id}
+          vaultId={id}
+          vaultType={VaultModalType.index}
         />
       );
     },
@@ -88,13 +112,14 @@ const columns: Column<IndexVaultRow>[] = [
   },
   {
     key: "id",
+    minWidth: 140,
 
     render: (row) => {
       if ("isDemo" in row) {
         return <DemoButton />;
       }
 
-      return <SwapButton indexVaultId={row.id} />;
+      return <SwapButton vaultId={row.id} />;
     },
   },
 ];

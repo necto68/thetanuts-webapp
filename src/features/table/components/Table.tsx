@@ -1,7 +1,13 @@
-import { AnimatePresence } from "framer-motion";
+import { useMemo } from "react";
 
-import { ArrowIcon, SkeletonBox } from "../../shared/components";
-import { useSortBy, useFilteredBy } from "../hooks";
+import {
+  ArrowIcon,
+  Paginator,
+  SkeletonBox,
+  Tooltip,
+  InfoIcon,
+} from "../../shared/components";
+import { useSortBy, useFilteredBy, usePagination } from "../hooks";
 import type { Column, TableProps } from "../types";
 
 import { FilterInput } from "./FilterInput";
@@ -13,11 +19,13 @@ import {
   SortArrowContainer,
   SortButton,
   SortContainer,
+  TooltipContainer,
+  TooltipText,
   TableContainer,
   Row,
   Cell,
   CellValue,
-  CellTitle,
+  TableContainerWrapper,
 } from "./Table.styles";
 
 const renderCellContent = <RowData extends object>(
@@ -27,11 +35,6 @@ const renderCellContent = <RowData extends object>(
   if (!row) {
     return <SkeletonBox height={22} width={50} />;
   }
-
-  const cellTitle =
-    column.title && column.showTitleInCell ? (
-      <CellTitle>{`${column.title}:`}</CellTitle>
-    ) : null;
 
   let cellValue = null;
 
@@ -51,14 +54,7 @@ const renderCellContent = <RowData extends object>(
     cellValue = null;
   }
 
-  return cellTitle ? (
-    <>
-      {cellTitle}
-      {cellValue}
-    </>
-  ) : (
-    cellValue
-  );
+  return cellValue;
 };
 
 export const Table = <RowData extends object>({
@@ -66,50 +62,91 @@ export const Table = <RowData extends object>({
   rows,
   getRowKey,
   filterInputPlaceholder = "",
+  rowsPerPage = 10,
 }: TableProps<RowData>) => {
   const { filteredRows, filterInputValue, setFilterInputValue } = useFilteredBy(
     columns,
     rows
   );
+
   const { sortedRows, sortState, updateSort } = useSortBy(filteredRows);
+
+  const skeletonRows: RowData[] = Array.from({
+    length: sortedRows.length > rowsPerPage ? rowsPerPage : sortedRows.length,
+  });
+
+  const { paginatedRows, paginate, paginationConfig } = usePagination(
+    sortedRows,
+    rowsPerPage
+  );
+  const { page: currentPage } = paginationConfig;
+
+  const isRowsLoaded = useMemo(() => sortedRows.every(Boolean), [sortedRows]);
+
+  const currentRows = isRowsLoaded ? paginatedRows : skeletonRows;
 
   return (
     <Container>
       <FilterInput
-        onChange={setFilterInputValue}
+        onChange={(event) => {
+          paginate(1, rowsPerPage);
+          setFilterInputValue(event);
+        }}
         placeholder={filterInputPlaceholder}
         value={filterInputValue}
       />
-      <TableContainer>
-        <thead>
-          <HeaderRow>
-            {columns.map(({ title, key, sortBy }, columnIndex) => (
-              <HeaderCell
-                align={columnIndex === columns.length - 1 ? "right" : undefined}
-                key={title ?? columnIndex.toString()}
-              >
-                {title ? (
-                  <SortButton
-                    onClick={() => {
-                      // @ts-expect-error key type should be fixed
-                      updateSort(key, sortBy);
-                    }}
+      <TableContainerWrapper>
+        <TableContainer>
+          <thead>
+            <HeaderRow>
+              {columns.map(
+                (
+                  { key, title, tooltipTitle, sortBy, minWidth },
+                  columnIndex
+                ) => (
+                  <HeaderCell
+                    align={
+                      columnIndex === columns.length - 1 ? "right" : undefined
+                    }
+                    key={title ?? columnIndex.toString()}
+                    minWidth={minWidth?.toString()}
                   >
-                    <SortContainer>
-                      <Header>{title}</Header>
-                      <SortArrowContainer show={sortState.key === key}>
-                        <ArrowIcon up={sortState.order === "ASC"} />
-                      </SortArrowContainer>
-                    </SortContainer>
-                  </SortButton>
-                ) : null}
-              </HeaderCell>
-            ))}
-          </HeaderRow>
-        </thead>
-        <tbody>
-          <AnimatePresence initial={false}>
-            {sortedRows.map((row, rowIndex) => (
+                    {title ? (
+                      <SortButton
+                        onClick={() => {
+                          paginate(1, rowsPerPage);
+
+                          // @ts-expect-error key type should be fixed
+                          updateSort(key, sortBy);
+                        }}
+                      >
+                        <SortContainer>
+                          <Header>{title}</Header>
+                          {tooltipTitle ? (
+                            <Tooltip
+                              content={
+                                <TooltipContainer>
+                                  <TooltipText>{tooltipTitle}</TooltipText>
+                                </TooltipContainer>
+                              }
+                              id={title}
+                              place="bottom"
+                              root={<InfoIcon theme="light" />}
+                            />
+                          ) : null}
+                          <SortArrowContainer show={sortState.key === key}>
+                            <ArrowIcon up={sortState.order === "ASC"} />
+                          </SortArrowContainer>
+                        </SortContainer>
+                      </SortButton>
+                    ) : null}
+                  </HeaderCell>
+                )
+              )}
+            </HeaderRow>
+          </thead>
+          <tbody>
+            {currentRows.map((row, rowIndex) => (
               <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
                 {columns.map((column, columnIndex) => (
                   <Cell key={column.key?.toString() ?? columnIndex.toString()}>
@@ -118,9 +155,18 @@ export const Table = <RowData extends object>({
                 ))}
               </Row>
             ))}
-          </AnimatePresence>
-        </tbody>
-      </TableContainer>
+          </tbody>
+        </TableContainer>
+      </TableContainerWrapper>
+      {isRowsLoaded ? (
+        <Paginator
+          current={currentPage}
+          onChange={paginate}
+          pageSize={rowsPerPage}
+          showLessItems
+          total={sortedRows.length}
+        />
+      ) : null}
     </Container>
   );
 };

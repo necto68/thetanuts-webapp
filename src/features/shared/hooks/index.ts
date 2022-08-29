@@ -1,3 +1,3 @@
 export * from "./useGlobalState";
 export * from "./useViewportHeight";
-export * from "./useIsMobile";
+export * from "./useScreens";

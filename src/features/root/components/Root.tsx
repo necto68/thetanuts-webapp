@@ -1,35 +1,66 @@
-import { Route, Switch, useLocation } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import { ThetaIndexPage } from "../../theta-index/components";
 import { PortfolioPage } from "../../portfolio/components";
-import { Modal } from "../../modal/components";
+import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
-import { SidebarStateProvider } from "../../sidebar/providers";
-import { PagePathname } from "../types";
+import { CurrentDateProvider } from "../../basic-vault/providers";
+import { RouterPathname } from "../types";
 import { useWalletAutoConnect } from "../hooks";
+import { useIsTablet } from "../../shared/hooks";
+import { useCurrentPagePathname } from "../hooks/useCurrentPagePathname";
+import { useSidebarState } from "../../sidebar/hooks";
 
 import { MobileHeader } from "./MobileHeader";
 import {
-  Container,
+  AnnouncementContainer,
+  AnnouncementLink,
+  AnnouncementTitle,
   BackgroundContainer,
-  LayoutContainer,
+  Container,
   GridContainer,
-  SidebarContainer,
+  LayoutContainer,
   MobileHeaderContainer,
   PageContainer,
+  SidebarContainer,
 } from "./Root.styles";
 
+// TODO: return Basic vaults later
+// import { BasicPage } from "../../basic/components";
+
 export const Root = () => {
-  const { pathname } = useLocation();
+  const currentPagePathname = useCurrentPagePathname();
+  const { isShow, toggleIsShow } = useSidebarState();
+  const isTablet = useIsTablet();
+
+  const closeSidebar = () => {
+    if (isShow) {
+      toggleIsShow();
+    }
+  };
 
   useWalletAutoConnect();
 
   return (
-    <SidebarStateProvider>
+    <CurrentDateProvider>
       <Container>
-        <BackgroundContainer pathname={pathname as PagePathname}>
+        <BackgroundContainer pathname={currentPagePathname}>
           <Modal />
+          {isShow && isTablet ? <Backdrop onClick={closeSidebar} /> : null}
           <LayoutContainer>
+            <AnnouncementContainer>
+              <AnnouncementTitle>
+                Migration from Thetanuts v0 to Thetanuts Basic starting from
+                02/09/2022.{" "}
+                <AnnouncementLink
+                  target="_blank"
+                  to="https://thetanutsfinance.medium.com/thetanuts-basic-option-vault-migration-58a7c58898c4"
+                >
+                  Click here
+                </AnnouncementLink>{" "}
+                to read more.
+              </AnnouncementTitle>
+            </AnnouncementContainer>
             <GridContainer>
               <SidebarContainer>
                 <Sidebar />
@@ -39,14 +70,29 @@ export const Root = () => {
               </MobileHeaderContainer>
               <PageContainer>
                 <Switch>
-                  <Route exact path={PagePathname.thetaIndex}>
+                  <Route
+                    exact
+                    path={[
+                      RouterPathname.thetaIndex,
+                      RouterPathname.indexVaultModal,
+                    ]}
+                  >
                     <ThetaIndexPage />
                   </Route>
-                  <Route exact path={PagePathname.portfolio}>
+                  {/* <Route
+                    exact
+                    path={[
+                      RouterPathname.basic,
+                      RouterPathname.basicVaultModal,
+                    ]}
+                  >
+                    <BasicPage />
+                  </Route> */}
+                  <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
                   </Route>
-                  <Route path="*">
-                    <ThetaIndexPage />
+                  <Route>
+                    <Redirect to={RouterPathname.thetaIndex} />
                   </Route>
                 </Switch>
               </PageContainer>
@@ -54,6 +100,6 @@ export const Root = () => {
           </LayoutContainer>
         </BackgroundContainer>
       </Container>
-    </SidebarStateProvider>
+    </CurrentDateProvider>
   );
 };

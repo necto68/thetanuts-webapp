@@ -1,9 +1,17 @@
 export enum QueryType {
   metrics = "metrics",
 
-  vault = "vault",
   indexVault = "indexVault",
   middleIndexPrice = "middleIndexPrice",
+
+  directWithdrawData = "directWithdrawData",
+  directWithdrawRateData = "directWithdrawRateData",
+  unclaimedBalance = "unclaimedBalance",
+
+  basicVault = "basicVault",
+  basicVaultReader = "basicVaultReader",
+
+  riskLevel = "riskLevel",
 
   token = "token",
   nativeToken = "nativeToken",
@@ -14,7 +22,6 @@ export enum QueryType {
   indexDepositsHistory = "indexDepositsHistory",
   indexWithdrawalsHistory = "indexWithdrawalsHistory",
   indexRedeemsHistory = "indexRedeemsHistory",
-  directWithdrawData = "directWithdrawData",
-  directWithdrawRateData = "directWithdrawRateData",
-  unclaimedBalance = "unclaimedBalance",
+
+  basicHistory = "basicHistory",
 }

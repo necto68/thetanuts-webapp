@@ -1,13 +1,10 @@
 import styled from "styled-components";
 
-import { screens } from "../../shared/constants";
-
 export const Container = styled.div`
   display: flex;
+  flex-direction: row;
   gap: 15px;
-  flex-wrap: wrap;
-
-  ${screens.md} {
-    justify-content: center;
-  }
+  overflow-x: auto;
+  padding: 32px 0 16px 0;
+  margin: -32px 0 -16px 0;
 `;

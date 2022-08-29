@@ -16,13 +16,12 @@ import { PathType } from "../../wallet/types";
 import {
   useIndexSwapsHistoryRows,
   useIndexDepositsHistoryRows,
+  useIndexWithdrawHistoryRows,
+  useIndexRedeemHistoryRows,
+  useBasicHistoryRows,
 } from "../hooks";
 import { chainsMap } from "../../wallet/constants";
-import { useIndexWithdrawHistoryRows } from "../hooks/useIndexWithdrawHistoryRows";
-import { useIndexRedeemHistoryRows } from "../hooks/useIndexRedeemHistoryRows";
-
-const getRowKey = ({ id, chainId, type }: HistoryTransactionRow) =>
-  `${id}${chainId}${type}`;
+import { productTitlesMap } from "../../table/constants";
 
 const columns: Column<HistoryTransactionRow>[] = [
   {
@@ -32,29 +31,29 @@ const columns: Column<HistoryTransactionRow>[] = [
     filterBy: true,
   },
   {
-    key: "productType",
+    key: "vaultType",
     title: "Product",
-    showTitleInCell: true,
-    render: () => "Stronghold",
+    render: ({ vaultType }) => productTitlesMap[vaultType],
     filterBy: true,
   },
   {
     key: "type",
     title: "Activity",
 
-    render: ({ type, assetSymbol, symbol }) =>
-      type === TransactionType.depositedDirectly ? (
+    render: ({ type, assetSymbol, symbol }) => (
+      <CellValueContainer>
         <GreenCellValue>{TransactionTypeTitle[type]}</GreenCellValue>
-      ) : (
-        <CellValueContainer>
-          <GreenCellValue>{TransactionTypeTitle[type]}</GreenCellValue>
+        {[TransactionType.swappedIn, TransactionType.swappedOut].includes(
+          type
+        ) ? (
           <GreenCellSubValue>
             {type === TransactionType.swappedIn
               ? `${assetSymbol} to ${symbol}`
               : `${symbol} to ${assetSymbol}`}
           </GreenCellSubValue>
-        </CellValueContainer>
-      ),
+        ) : null}
+      </CellValueContainer>
+    ),
 
     filterBy: ({ type }) => type,
   },
@@ -71,16 +70,29 @@ const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "balance",
     title: "Balance",
-    showTitleInCell: true,
 
     render: ({ balance, assetSymbol, type }) => {
-      const formattedBalance = numberFormatter.format(balance.toNumber());
-
-      if (type === TransactionType.withdrawnDirectly) {
-        return `Requested ${formattedBalance} ${assetSymbol}`;
+      if (type === TransactionType.canceledWithdrawal) {
+        return TransactionTypeTitle[type];
       }
 
-      const prefix = balance.gt(0) ? "+" : "";
+      const formattedBalance = numberFormatter.format(balance.toNumber());
+
+      let prefix = "";
+
+      if (
+        [
+          TransactionType.withdrawnDirectly,
+          TransactionType.initiatedWithdrawal,
+        ].includes(type)
+      ) {
+        prefix = "Requested ";
+      } else if (balance.gt(0)) {
+        prefix = "+";
+      } else {
+        prefix = "";
+      }
+
       return `${prefix}${formattedBalance} ${assetSymbol}`;
     },
 
@@ -102,16 +114,22 @@ const columns: Column<HistoryTransactionRow>[] = [
   },
 ];
 
+const getRowKey = ({ id, chainId, type }: HistoryTransactionRow) =>
+  `${id}${chainId}${type}`;
+
 export const TransactionHistoryTable = () => {
   const indexSwapsHistoryRows = useIndexSwapsHistoryRows();
   const indexDepositsHistoryRows = useIndexDepositsHistoryRows();
   const indexWithdrawHistoryRows = useIndexWithdrawHistoryRows();
   const indexRedeemHistoryRows = useIndexRedeemHistoryRows();
 
+  const basicHistoryRows = useBasicHistoryRows();
+
   const sortedRows = indexSwapsHistoryRows
     .concat(indexDepositsHistoryRows)
     .concat(indexWithdrawHistoryRows)
     .concat(indexRedeemHistoryRows)
+    .concat(basicHistoryRows)
     .sort((a, b) => {
       if (b && a) {
         return b.timestamp - a.timestamp;

@@ -15,6 +15,7 @@ interface SidebarItemProps {
   navIcon: () => JSX.Element;
   linkTitle: string;
   active: boolean;
+  target?: HTMLLinkElement["target"];
 }
 
 export const SidebarItem: FC<SidebarItemProps> = ({
@@ -22,6 +23,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({
   navIcon,
   linkTitle,
   active,
+  target = "_self",
 }) => {
   const fontWeight = active ? 600 : 400;
   const color = active ? "#1fffab" : "#fff";
@@ -34,6 +36,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({
         color={color}
         fontWeight={fontWeight}
         onClick={toggleIsShow}
+        target={target}
         to={to}
       >
         <IconContainer height={29} width={29}>

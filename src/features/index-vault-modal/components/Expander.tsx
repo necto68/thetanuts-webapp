@@ -1,7 +1,8 @@
 import type { FC } from "react";
 
-import { SectionType } from "../types";
-import { Plus, Chain } from "../../shared/icons";
+import type { SectionType } from "../types";
+import { Plus } from "../../shared/icons";
+import { Minus } from "../../shared/icons/Minus";
 
 import {
   Container,
@@ -33,7 +34,7 @@ export const Expander: FC<ExpanderProps> = ({
       }}
     >
       <Title>{title}</Title>
-      {type === SectionType.analytics ? <Chain /> : <Plus />}
+      {isOpen ? <Minus /> : <Plus />}
     </HeaderButton>
     <ExpandableContainer isOpen={isOpen} maxHeight={maxHeight}>
       {children}

@@ -22,5 +22,19 @@ export const GlobalStyle = createGlobalStyle`
 
   .web3modal-modal-container {
     font-family: Roboto;
-  } 
+  }
+
+  *::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #FFFFFF;
+    border-radius: 2px;
+  }
 `;

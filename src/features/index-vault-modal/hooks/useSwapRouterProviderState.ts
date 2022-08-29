@@ -8,15 +8,14 @@ import {
 } from "../../contracts/types";
 import { convertToBig } from "../../shared/helpers";
 import type { SwapRouterState } from "../types";
-import { InputType } from "../types";
+import { InputType, ModalContentType } from "../types";
 import { defaultSlippageToleranceValue } from "../constants";
 import { useMiddleIndexPrice } from "../../index-vault/hooks";
-import { ModalContentType } from "../types/modalContentType";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { useTokenQuery } from "./useTokenQuery";
 import { useNativeTokenQuery } from "./useNativeTokenQuery";
 import { useSwapRouterConfig } from "./useSwapRouterConfig";
-import { useIndexVaultModalState } from "./useIndexVaultModalState";
 
 const getPrices = (
   sourceValue: string,
@@ -83,7 +82,7 @@ const getTokensDivisors = async (
 };
 
 export const useSwapRouterProviderState = (): SwapRouterState => {
-  const [indexVaultModalState] = useIndexVaultModalState();
+  const [vaultModalState] = useVaultModalState();
   const {
     indexVaultAddress,
     defaultSourceAddress,
@@ -147,14 +146,18 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
 
   // getting isUseIndexVaultChainId
   const {
-    chainId: indexVaultChainId = 0,
+    chainId: vaultChainId,
     assetPrice = 0,
     assetTokenAddress = "",
+    totalRemainder = Number.MAX_SAFE_INTEGER,
   } = indexVaultQuery.data ?? {};
 
-  const isUseIndexVaultChainId = indexVaultChainId === chainId;
+  const isUseIndexVaultChainId = vaultChainId === chainId;
 
   const previousChainId = usePreviousImmediate(chainId);
+
+  // getting remainderValue
+  const remainderValue = totalRemainder;
 
   // boolean flags for deposit mode
   const [isDirectModeBetterThanSwapMode, setIsDirectModeBetterThanSwapMode] =
@@ -274,7 +277,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
 
   let spenderAddress = isUseDirectMode ? directDepositorAddress : routerAddress;
 
-  if (indexVaultModalState.contentType === ModalContentType.withdraw) {
+  if (vaultModalState.contentType === ModalContentType.withdraw) {
     spenderAddress = directWithdrawalAddress;
   }
 
@@ -585,6 +588,9 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     sourcePrice,
     targetPrice,
     priceImpactRate,
+
+    remainderValue,
+    vaultChainId,
 
     slippageToleranceValue,
     slippageToleranceInputValue,

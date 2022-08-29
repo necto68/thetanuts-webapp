@@ -3,10 +3,7 @@ import type { FC } from "react";
 import { useCallback, useState } from "react";
 import Big from "big.js";
 
-import { LoadingSpinner } from "../../shared/components";
-import { web3ModalConfig } from "../../wallet/constants";
 import {
-  useIndexVaultModalState,
   useSwapRouterConfig,
   useSwapRouterMutations,
   useSwapRouterState,
@@ -14,8 +11,14 @@ import {
 } from "../hooks";
 import { ModalContentType } from "../types";
 import type { NativeToken, Token } from "../types";
-
-import { BaseSwapButton, ContentContainer } from "./SwapButton.styles";
+import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
+import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
+import { InsufficientBalanceMainButton } from "../../modal/components/InsufficientBalanceMainButton";
+import { MaxVaultCapReachedMainButton } from "../../modal/components/MaxVaultCapReachedMainButton";
+import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
+import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
+import { ActionMainButton } from "../../modal/components/ActionMainButton";
+import { useVaultModalState } from "../../modal/hooks";
 
 interface SwapButtonProps {
   isSourceValueLoading: boolean;
@@ -31,8 +34,8 @@ export const SwapButton: FC<SwapButtonProps> = ({
   sourceTokenData,
   targetTokenData,
 }) => {
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
+  const [vaultModalState, setVaultModalState] = useVaultModalState();
+
   const {
     isUserOnSupportedChainId,
     isUserOnMainChainId,
@@ -60,14 +63,10 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   const { claimableBalance = "", fullyClaimed = false } = withdrawData ?? {};
 
-  const { account, connect } = useWallet();
+  const { account } = useWallet();
 
   const [isDirectModeBetterIgnore, setIsDirectModeBetterIgnore] =
     useState(false);
-
-  const handleConnectWalletButtonClick = useCallback(async () => {
-    await connect(web3ModalConfig);
-  }, [connect]);
 
   const handleResetButtonClick = useCallback(() => {
     if (approveAllowanceMutation) {
@@ -88,12 +87,12 @@ export const SwapButton: FC<SwapButtonProps> = ({
   }, [isDirectModeBetterIgnore]);
 
   const handleSwapButtonClick = useCallback(() => {
-    if (indexVaultModalState.contentType === ModalContentType.withdrawSummary) {
+    if (vaultModalState.contentType === ModalContentType.withdrawSummary) {
       runDirectWithdraw();
       return;
     }
 
-    if (indexVaultModalState.contentType === ModalContentType.withdrawClaim) {
+    if (vaultModalState.contentType === ModalContentType.withdrawClaim) {
       runClaim();
       return;
     }
@@ -108,17 +107,17 @@ export const SwapButton: FC<SwapButtonProps> = ({
     isUseDirectMode,
     runDirectDeposit,
     runSwapTokensForTokens,
-    indexVaultModalState.contentType,
+    vaultModalState.contentType,
     runClaim,
     runDirectWithdraw,
   ]);
 
   const handleDirectWithdrawButtonClick = useCallback(() => {
-    setIndexVaultModalState((previousState) => ({
+    setVaultModalState((previousState) => ({
       ...previousState,
       contentType: ModalContentType.withdrawSummary,
     }));
-  }, [setIndexVaultModalState]);
+  }, [setVaultModalState]);
 
   const { data } = indexVaultQuery;
   const { totalRemainder = Number.MAX_SAFE_INTEGER } = data ?? {};
@@ -156,85 +155,58 @@ export const SwapButton: FC<SwapButtonProps> = ({
   const error = approveAllowanceError ?? swapError;
 
   if (!account) {
-    return (
-      <BaseSwapButton
-        onClick={handleConnectWalletButtonClick}
-        primaryColor="#259DDF"
-        secondaryColor="#ffffff"
-      >
-        Connect Wallet
-      </BaseSwapButton>
-    );
+    return <ConnectWalletMainButton />;
   }
 
   if (!isUserOnSupportedChainId && supportedChainIds.length > 0) {
     return (
-      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
+      <ModalMainButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
         Wrong Network
-      </BaseSwapButton>
+      </ModalMainButton>
     );
   }
 
   if (
     !isUserOnMainChainId &&
-    indexVaultModalState.contentType === ModalContentType.withdrawClaim
+    vaultModalState.contentType === ModalContentType.withdrawClaim
   ) {
     return (
-      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
+      <ModalMainButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
         Wrong Network
-      </BaseSwapButton>
+      </ModalMainButton>
     );
   }
 
   if (isError && error) {
-    return (
-      <BaseSwapButton
-        onClick={handleResetButtonClick}
-        primaryColor="#EB5853"
-        secondaryColor="#ffffff"
-      >
-        {error.data?.message ?? error.message}
-      </BaseSwapButton>
-    );
+    return <ErrorMainButton error={error} onClick={handleResetButtonClick} />;
   }
 
   if (
     isSwapLoading &&
-    indexVaultModalState.contentType === ModalContentType.withdrawClaim
+    vaultModalState.contentType === ModalContentType.withdrawClaim
   ) {
-    return (
-      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
-        <ContentContainer>
-          Receiving...
-          <LoadingSpinner />
-        </ContentContainer>
-      </BaseSwapButton>
-    );
+    return <LoadingMainButton>Receiving...</LoadingMainButton>;
   }
 
   if (
     fullyClaimed &&
-    indexVaultModalState.contentType === ModalContentType.withdrawClaim
+    vaultModalState.contentType === ModalContentType.withdrawClaim
   ) {
-    return <BaseSwapButton disabled>All assets claimed</BaseSwapButton>;
+    return <ModalMainButton disabled>All assets claimed</ModalMainButton>;
   }
 
   if (
     Number(claimableBalance) <= 0 &&
-    indexVaultModalState.contentType === ModalContentType.withdrawClaim
+    vaultModalState.contentType === ModalContentType.withdrawClaim
   ) {
-    return <BaseSwapButton disabled>Nothing to claim yet</BaseSwapButton>;
+    return <ModalMainButton disabled>Nothing to claim yet</ModalMainButton>;
   }
 
-  if (indexVaultModalState.contentType === ModalContentType.withdrawClaim) {
+  if (vaultModalState.contentType === ModalContentType.withdrawClaim) {
     return (
-      <BaseSwapButton
-        onClick={handleSwapButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleSwapButtonClick}>
         Claim {claimableBalance} {targetTokenData?.symbol}
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
@@ -243,182 +215,129 @@ export const SwapButton: FC<SwapButtonProps> = ({
     sourceValueBig.gt(0) &&
     sourceValueBig.gt(sourceTokenData.balance)
   ) {
-    return (
-      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
-        Insufficient Balance
-      </BaseSwapButton>
-    );
+    return <InsufficientBalanceMainButton />;
   }
 
   if (!isFlipped && sourceValueBig.gt(totalRemainder)) {
-    return (
-      <BaseSwapButton disabled primaryColor="#EB5853" secondaryColor="#ffffff">
-        Max Vault Cap Reached
-      </BaseSwapButton>
-    );
+    return <MaxVaultCapReachedMainButton />;
   }
 
   if (isApproveAllowanceLoading && sourceTokenData) {
     return (
-      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
-        <ContentContainer>
-          {`Approving ${sourceTokenData.symbol}...`}
-          <LoadingSpinner />
-        </ContentContainer>
-      </BaseSwapButton>
+      <LoadingMainButton>{`Approving ${sourceTokenData.symbol}...`}</LoadingMainButton>
     );
   }
 
   if (
-    indexVaultModalState.contentType === ModalContentType.withdraw &&
+    vaultModalState.contentType === ModalContentType.withdraw &&
     (isSwapButtonDisabled || !isDirectModeBetterThanSwapMode)
   ) {
-    return <BaseSwapButton disabled>Direct Withdraw</BaseSwapButton>;
+    return <ModalMainButton disabled>Direct Withdraw</ModalMainButton>;
   }
 
   if (
     isNeedApprove &&
-    indexVaultModalState.contentType === ModalContentType.withdraw
+    vaultModalState.contentType === ModalContentType.withdraw
   ) {
     return (
-      <BaseSwapButton
-        onClick={handleApproveButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleApproveButtonClick}>
         Approve Direct Withdraw
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
   if (
     isSwapLoading &&
-    indexVaultModalState.contentType === ModalContentType.withdrawSummary
+    vaultModalState.contentType === ModalContentType.withdrawSummary
   ) {
-    return (
-      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
-        <ContentContainer>
-          Withdrawing...
-          <LoadingSpinner />
-        </ContentContainer>
-      </BaseSwapButton>
-    );
+    return <LoadingMainButton>Withdrawing...</LoadingMainButton>;
   }
 
-  if (indexVaultModalState.contentType === ModalContentType.withdrawSummary) {
+  if (vaultModalState.contentType === ModalContentType.withdrawSummary) {
     return (
-      <BaseSwapButton
+      <ModalMainButton
         onClick={handleSwapButtonClick}
         primaryColor="#EB5853"
         secondaryColor="#ffffff"
       >
         Confirm Direct Withdraw?
-      </BaseSwapButton>
+      </ModalMainButton>
     );
   }
 
-  if (indexVaultModalState.contentType === ModalContentType.withdraw) {
+  if (vaultModalState.contentType === ModalContentType.withdraw) {
     return (
-      <BaseSwapButton
-        onClick={handleDirectWithdrawButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleDirectWithdrawButtonClick}>
         Direct Withdraw
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
   if (
-    indexVaultModalState.contentType === ModalContentType.swap &&
+    vaultModalState.contentType === ModalContentType.swap &&
     isDirectModeBetterThanSwapMode &&
     !isUseDirectMode &&
     !isDirectModeBetterIgnore
   ) {
     return (
-      <BaseSwapButton
+      <ModalMainButton
         onClick={handleModeBetterIgnoreClick}
         primaryColor="#EB5853"
         secondaryColor="#ffffff"
       >
         Swap Anyway
-      </BaseSwapButton>
+      </ModalMainButton>
     );
   }
 
   if (isNeedApprove && isUseDirectMode) {
     return (
-      <BaseSwapButton
-        onClick={handleApproveButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleApproveButtonClick}>
         {`Approve ${sourceTokenData.symbol} for Direct Deposit`}
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
   if (isNeedApprove) {
     return (
-      <BaseSwapButton
-        onClick={handleApproveButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleApproveButtonClick}>
         {`Approve ${sourceTokenData.symbol} for Swap`}
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
   if (isSwapLoading) {
-    return (
-      <BaseSwapButton disabled primaryColor="#12CC86" secondaryColor="#ffffff">
-        <ContentContainer>
-          Swapping...
-          <LoadingSpinner />
-        </ContentContainer>
-      </BaseSwapButton>
-    );
+    return <LoadingMainButton>Swapping...</LoadingMainButton>;
   }
 
   if (isSwapButtonDisabled) {
-    return <BaseSwapButton disabled>Swap</BaseSwapButton>;
+    return <ModalMainButton disabled>Swap</ModalMainButton>;
   }
 
   if (isUseDirectMode) {
     return (
-      <BaseSwapButton
-        onClick={handleSwapButtonClick}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
+      <ActionMainButton onClick={handleSwapButtonClick}>
         Direct Deposit
-      </BaseSwapButton>
+      </ActionMainButton>
     );
   }
 
   if (
-    indexVaultModalState.contentType === ModalContentType.swap &&
+    vaultModalState.contentType === ModalContentType.swap &&
     isDirectModeBetterThanSwapMode
   ) {
     return (
-      <BaseSwapButton
+      <ModalMainButton
         onClick={handleSwapButtonClick}
         primaryColor="#EB5853"
         secondaryColor="#ffffff"
       >
         Confirm Swap
-      </BaseSwapButton>
+      </ModalMainButton>
     );
   }
 
   return (
-    <BaseSwapButton
-      onClick={handleSwapButtonClick}
-      primaryColor="#12CC86"
-      secondaryColor="#ffffff"
-    >
-      Swap
-    </BaseSwapButton>
+    <ActionMainButton onClick={handleSwapButtonClick}>Swap</ActionMainButton>
   );
 };

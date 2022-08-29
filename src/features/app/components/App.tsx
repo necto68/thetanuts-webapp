@@ -7,6 +7,7 @@ import Big from "big.js";
 import { Root } from "../../root/components";
 import { queryClient } from "../../shared/helpers";
 import { liveChatLicense } from "../constants";
+import { SidebarStateProvider } from "../../sidebar/providers";
 
 import { GlobalStyle } from "./App.styles";
 
@@ -17,7 +18,9 @@ export const App = () => (
   <QueryClientProvider client={queryClient}>
     <Router>
       <GlobalStyle />
-      <Root />
+      <SidebarStateProvider>
+        <Root />
+      </SidebarStateProvider>
     </Router>
     <LiveChatWidget license={liveChatLicense} />
     <ReactQueryDevtools />

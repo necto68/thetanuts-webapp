@@ -3,27 +3,29 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import { VaultType } from "../types";
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   IndexVaultAbi__factory as IndexVaultAbiFactory,
   LendingPoolAbi__factory as LendingPoolAbiFactory,
   PriceFeedAbi__factory as PriceFeedAbiFactory,
 } from "../../contracts/types";
-import type { IndexVault, VaultInfo } from "../types";
+import type { IndexVault, BasicVaultInfo } from "../types";
 import { queryClient, convertToBig } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
 import { chainProvidersMap, chains, chainsMap } from "../../wallet/constants";
+import { basicVaultFetcher } from "../../basic-vault/helpers";
+import { basicVaults } from "../../basic/constants";
+import { VaultType } from "../../basic-vault/types";
 
 import {
   normalizeVaultValue,
   getTotalPercentageYields,
   getTotalValueLocked,
   getTotalRemainder,
+  getTotalRiskLevel,
 } from "./utils";
-import { vaultFetcher } from "./vaultFetcher";
 import { middleIndexPriceFetcher } from "./middleIndexPriceFetcher";
 
 export const indexVaultFetcher = async (
@@ -71,57 +73,74 @@ export const indexVaultFetcher = async (
   );
 
   // getting vaults addresses
-  const vaultsAddressesPromises: Promise<string>[] = Array.from(
+  const basicVaultsAddressesPromises: Promise<string>[] = Array.from(
     { length: vaultsLength },
     // eslint-disable-next-line @typescript-eslint/promise-function-async
     (element, index) => indexVaultContract.vaultAddress(index)
   );
 
-  const [assetSymbol, assetDecimals, ...vaultsAddresses] = await Promise.all([
-    assetTokenContract.symbol(),
-    assetTokenContract.decimals(),
-    ...vaultsAddressesPromises,
-  ] as const);
+  const [assetSymbol, assetDecimals, ...basicVaultsAddresses] =
+    await Promise.all([
+      assetTokenContract.symbol(),
+      assetTokenContract.decimals(),
+      ...basicVaultsAddressesPromises,
+    ] as const);
+
+  const basicVaultsConfigs = basicVaultsAddresses.map((basicVaultAddress) => {
+    const basicVaultConfig = basicVaults.find(
+      ({ source }) => basicVaultAddress === source.basicVaultAddress
+    );
+
+    const basicVaultId = basicVaultConfig?.id ?? basicVaultAddress;
+
+    return {
+      basicVaultId,
+      basicVaultAddress,
+    };
+  });
 
   // getting type
   const indexVaultType = name.split(" ").at(-1) ?? "";
   const type = indexVaultType === "CALL" ? VaultType.CALL : VaultType.PUT;
 
-  // creating vaultsInfosDataPromises
-  const vaultsInfosDataPromises = vaultsAddresses.map(
+  // creating basicVaultsInfosDataPromises
+  const basicVaultsInfosDataPromises = basicVaultsConfigs.map(
     // eslint-disable-next-line @typescript-eslint/promise-function-async
-    (vaultAddress) => indexVaultContract.vaults(vaultAddress)
+    ({ basicVaultAddress }) => indexVaultContract.vaults(basicVaultAddress)
   );
 
-  // getting vaultsInfosData
-  const vaultsInfosData = await Promise.all(vaultsInfosDataPromises);
+  // getting basicVaultsInfosData
+  const basicVaultsInfosData = await Promise.all(basicVaultsInfosDataPromises);
 
   // getting vaults
   const vaults = await Promise.all(
-    vaultsAddresses.map(
+    basicVaultsConfigs.map(
       // eslint-disable-next-line @typescript-eslint/promise-function-async
-      (vaultAddress) =>
+      ({ basicVaultId, basicVaultAddress }) =>
         queryClient.fetchQuery(
-          [QueryType.vault, vaultAddress, chainId],
-          // eslint-disable-next-line @typescript-eslint/promise-function-async
-          () => vaultFetcher(vaultAddress, provider)
+          [QueryType.basicVault, basicVaultId, chainId],
+
+          async () =>
+            await basicVaultFetcher(basicVaultId, basicVaultAddress, provider)
         )
     )
   );
 
-  const vaultsInfos: VaultInfo[] = vaultsInfosData.map((vaultInfo) => {
-    const assetDivisor = new Big(10).pow(assetDecimals);
-    const lpAmount = convertToBig(vaultInfo.amount).div(assetDivisor);
-    const weight = convertToBig(vaultInfo.weight);
+  const vaultsInfos: BasicVaultInfo[] = basicVaultsInfosData.map(
+    (vaultInfo) => {
+      const assetDivisor = new Big(10).pow(assetDecimals);
+      const lpAmount = convertToBig(vaultInfo.amount).div(assetDivisor);
+      const weight = convertToBig(vaultInfo.weight);
 
-    const allocation = weight.div(totalWeight).mul(100).round(6).toNumber();
+      const allocation = weight.div(totalWeight).mul(100).round(6).toNumber();
 
-    return {
-      lpAmount,
-      weight,
-      allocation,
-    };
-  });
+      return {
+        lpAmount,
+        weight,
+        allocation,
+      };
+    }
+  );
 
   // getting assetPrice, oracleIndexPrice and middleIndexPriceByChainId
 
@@ -192,6 +211,8 @@ export const indexVaultFetcher = async (
 
   const totalRemainder = getTotalRemainder(vaults);
 
+  const totalRiskLevel = getTotalRiskLevel(vaults);
+
   const supportedChainIds = indexTokensConfigs
     .map((indexTokensConfig) => indexTokensConfig.chainId)
     .sort((a, b) => {
@@ -216,6 +237,7 @@ export const indexVaultFetcher = async (
     totalValueLocked,
     totalRemainder,
     totalPercentageYields,
+    totalRiskLevel,
     chainId,
     supportedChainIds,
   };

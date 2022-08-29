@@ -20,11 +20,11 @@ import {
   DirectDepositorAbi__factory as DirectDepositorAbiFactory,
 } from "../../contracts/types";
 import { ModalContentType } from "../types/modalContentType";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { useSwapRouterConfig } from "./useSwapRouterConfig";
 import { useSwapRouterState } from "./useSwapRouterState";
 import { useResetMutationError } from "./useResetMutationError";
-import { useIndexVaultModalState } from "./useIndexVaultModalState";
 
 export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
   const {
@@ -50,8 +50,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
     tokensQueries,
   } = useSwapRouterState();
 
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
+  const [vaultModalState, setVaultModalState] = useVaultModalState();
 
   const [swapMutationHash, setSwapMutationHash] = useState<string>();
 
@@ -180,7 +179,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       const directWithdrawalClaimParameters = {
         // direct withdrawal tokens
         [MutationType.withdrawClaim]: [
-          BigNumber.from(indexVaultModalState.withdrawId ?? 1),
+          BigNumber.from(vaultModalState.withdrawId ?? 1),
         ] as const,
       };
 
@@ -251,7 +250,7 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
                 await signer.getAddress()
               );
 
-            setIndexVaultModalState((previousState) => ({
+            setVaultModalState((previousState) => ({
               ...previousState,
               contentType: ModalContentType.withdrawClaim,
               withdrawId: lastWithdrawalIndex.toNumber() - 1,
@@ -329,8 +328,8 @@ export const useSwapRouterProviderMutations = (): SwapRouterMutations => {
       targetValue,
       slippageToleranceValue,
       indexVaultAddress,
-      setIndexVaultModalState,
-      indexVaultModalState.withdrawId,
+      setVaultModalState,
+      vaultModalState.withdrawId,
     ]
   );
 

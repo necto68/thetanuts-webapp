@@ -1,14 +1,12 @@
 import type { FC } from "react";
 
 import { IconContainer } from "../../shared/components";
+import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 import { Warning } from "../icons";
-import {
-  useIndexVaultModalState,
-  useSwapRouterConfig,
-  useSwapRouterState,
-} from "../hooks";
+import type { Token } from "../types";
 import { ModalContentType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import {
   Container,
@@ -22,40 +20,37 @@ interface PriceWarningProps {
   isShowDirectWithdrawProposal: boolean;
   isShowMaxVaultCapReachedTitle: boolean;
   isShowSwapProposal: boolean;
+  sourceTokenData: Token | undefined;
+  remainderValue?: number;
+  vaultChainId?: ChainId;
 }
 
 export const PriceWarning: FC<PriceWarningProps> = ({
   isShowDirectDepositProposal,
   isShowDirectWithdrawProposal,
   isShowSwapProposal,
-  isShowMaxVaultCapReachedTitle = true,
+  isShowMaxVaultCapReachedTitle,
+  sourceTokenData,
+  remainderValue = 0,
+  vaultChainId,
 }) => {
-  const { indexVaultQuery } = useSwapRouterConfig();
-  const { sourceData } = useSwapRouterState();
-  const [, setIndexVaultModalState] = useIndexVaultModalState();
+  const [, setVaultModalState] = useVaultModalState();
 
-  const { data } = indexVaultQuery;
-  const {
-    chainId = null,
-    totalRemainder = Number.MAX_SAFE_INTEGER,
-    assetSymbol = "",
-  } = data ?? {};
-
-  const { symbol = "" } = sourceData ?? {};
+  const { symbol = "" } = sourceTokenData ?? {};
 
   const isStableCoin = ["USDC", "BUSD"].includes(symbol);
 
-  const chainTitle = chainId ? chainsMap[chainId].title : "";
+  const chainTitle = vaultChainId ? chainsMap[vaultChainId].title : "";
 
   const startWithdraw = () => {
-    setIndexVaultModalState((previousState) => ({
+    setVaultModalState((previousState) => ({
       ...previousState,
       contentType: ModalContentType.withdraw,
     }));
   };
 
   const backToSwap = () => {
-    setIndexVaultModalState((previousState) => ({
+    setVaultModalState((previousState) => ({
       ...previousState,
       contentType: ModalContentType.swap,
     }));
@@ -101,7 +96,7 @@ export const PriceWarning: FC<PriceWarningProps> = ({
         <WarningTitle>
           You can only deposit{" "}
           <WarningLink>
-            {totalRemainder} {assetSymbol}
+            {remainderValue} {symbol}
           </WarningLink>
           . If you want to swap more - please{" "}
           <WarningLink href="https://t.me/officialThetanutsFinance">

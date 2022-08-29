@@ -2,6 +2,7 @@ import { indexVaults } from "../../theta-index/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
 import type { HistoryTransactionRow } from "../types";
 import { TransactionType } from "../types";
+import { VaultModalType } from "../../root/types";
 
 import { useIndexSwapsHistoryTransactions } from "./useIndexSwapsHistoryTransactions";
 import { useIndexTokensQueries } from "./useIndexTokensQueries";
@@ -44,10 +45,7 @@ export const useIndexSwapsHistoryRows = (): (
             type === TransactionType.swappedIn ? amountIn.mul(-1) : amountOut,
 
           chainId,
-          action: "",
-
-          // TODO: add more different vault types
-          productType: "THETA-INDEX",
+          vaultType: VaultModalType.index,
           assetSymbol,
           symbol,
         };

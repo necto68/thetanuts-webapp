@@ -1,113 +1,37 @@
-import { useCallback, useMemo, useState } from "react";
-import Lottie from "react-lottie-player";
-import { useHistory } from "react-router-dom";
-
-import swapping from "../animations/swapping.json";
-import wave from "../animations/wave.json";
 import {
-  useIndexVaultModalState,
   useSwapRouterConfig,
   useSwapRouterMutations,
   useSwapRouterState,
 } from "../hooks";
-import { getExplorerUrl } from "../../wallet/helpers";
-import { PathType } from "../../wallet/types";
-import { BaseButton } from "../../shared/components";
-import { PagePathname } from "../../root/types";
-
-import {
-  Container,
-  BackgroundAnimationContainer,
-  SwapInfoContainer,
-  ContentContainer,
-  SwapTitle,
-  AnimationContainer,
-  RatioTitleContainer,
-  RatioTitle,
-  ToTitle,
-  TransactionLink,
-} from "./SwappingContent.styles";
+import { PendingMutationContent } from "../../modal/components/PendingMutationContent";
 
 export const SwappingContent = () => {
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
-  const routerHistory = useHistory();
-  const { swapMutation, swapMutationHash = "" } = useSwapRouterMutations();
+  const { chainId } = useSwapRouterConfig();
   const { sourceValue, targetValue, sourceData, targetData } =
     useSwapRouterState();
-  const { chainId } = useSwapRouterConfig();
+  const { swapMutation, swapMutationHash = "" } = useSwapRouterMutations();
 
-  // background animation
-  const [isFirstLoopCompleted, setIsFirstLoopCompleted] = useState(false);
+  const isSwapSucceed = Boolean(swapMutation?.data);
 
-  const handleLoopComplete = useCallback(() => {
-    if (!isFirstLoopCompleted) {
-      setIsFirstLoopCompleted(true);
-    }
-  }, [isFirstLoopCompleted]);
+  const sourceTokenData = {
+    value: sourceValue,
+    symbol: sourceData?.symbol ?? "",
+  };
 
-  const backgroundAnimationSegments = useMemo<[number, number]>(
-    () => (isFirstLoopCompleted ? [38, 80] : [0, 80]),
-    [isFirstLoopCompleted]
-  );
-
-  // close button
-  const handleCloseButtonClick = useCallback(() => {
-    if (indexVaultModalState.isRouterModal) {
-      routerHistory.push(PagePathname.thetaIndex);
-    }
-
-    setIndexVaultModalState((previousState) => ({
-      ...previousState,
-      isShow: false,
-    }));
-  }, [indexVaultModalState, setIndexVaultModalState, routerHistory]);
-
-  const { data: isSwapSuccessful = false } = swapMutation ?? {};
-
-  const transactionUrl = getExplorerUrl(PathType.tx, chainId, swapMutationHash);
-
-  const { symbol: sourceSymbol = "" } = sourceData ?? {};
-  const { symbol: targetSymbol = "" } = targetData ?? {};
+  const targetTokenData = {
+    value: targetValue,
+    symbol: targetData?.symbol ?? "",
+  };
 
   return (
-    <Container>
-      {isSwapSuccessful ? (
-        <BackgroundAnimationContainer>
-          <Lottie
-            animationData={wave}
-            loop
-            onLoopComplete={handleLoopComplete}
-            play
-            segments={backgroundAnimationSegments}
-          />
-        </BackgroundAnimationContainer>
-      ) : null}
-      <ContentContainer>
-        <SwapInfoContainer>
-          <AnimationContainer isShow={!isSwapSuccessful}>
-            <Lottie animationData={swapping} loop play />
-          </AnimationContainer>
-          <SwapTitle>
-            {isSwapSuccessful ? "Swap Successful" : "Swapping..."}
-          </SwapTitle>
-          <RatioTitleContainer>
-            <RatioTitle>{`${sourceValue} ${sourceSymbol}`}</RatioTitle>
-            <ToTitle>↓</ToTitle>
-            <RatioTitle>{`${targetValue} ${targetSymbol}`}</RatioTitle>
-          </RatioTitleContainer>
-          <TransactionLink
-            href={transactionUrl}
-            isSwapSuccessful={isSwapSuccessful}
-            target="_blank"
-          >
-            View Transaction in Explorer
-          </TransactionLink>
-        </SwapInfoContainer>
-        <BaseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
-          Close
-        </BaseButton>
-      </ContentContainer>
-    </Container>
+    <PendingMutationContent
+      chainId={chainId}
+      isMutationSucceed={isSwapSucceed}
+      mutationHash={swapMutationHash}
+      pendingTitle="Swapping..."
+      sourceTokenData={sourceTokenData}
+      successTitle="Swap Successful"
+      targetTokenData={targetTokenData}
+    />
   );
 };

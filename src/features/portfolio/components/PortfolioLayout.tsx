@@ -15,10 +15,6 @@ export const PortfolioLayout = () => {
     <Container>
       <TitleContainer>
         <Title>Portfolio</Title>
-        <Description>
-          Please take note your positions or transaction history in Thetanuts
-          Basic is not recorded in Thetanuts Stronghold Portfolio page.
-        </Description>
       </TitleContainer>
       {account ? (
         <PortfolioTabs />

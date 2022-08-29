@@ -6,4 +6,9 @@ export const Container = styled.div`
   gap: 10px;
 `;
 
+export const IconsContainer = styled.div`
+  display: flex;
+  gap: 2px;
+`;
+
 export { CellValue } from "./Table.styles";

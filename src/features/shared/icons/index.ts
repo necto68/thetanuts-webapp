@@ -5,5 +5,6 @@ export * from "./Cross";
 export * from "./Hamburger";
 export * from "./Spinner";
 export * from "./ArrowBack";
+export * from "./ArrowFront";
 export * from "./Plus";
 export * from "./Chain";

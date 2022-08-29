@@ -24,6 +24,10 @@ export const ButtonContentContainer = styled.div<IsSmallProps>`
   gap: ${({ isSmall }) => (isSmall ? "5px" : "10px")};
 `;
 
+export const ButtonTitle = styled.span``;
+
+export const ButtonIcon = styled.div``;
+
 export const OptionButton = styled(BaseButton)`
   border: none;
   border-radius: 0;

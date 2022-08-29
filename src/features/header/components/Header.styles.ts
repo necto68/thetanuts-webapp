@@ -18,5 +18,10 @@ export const HeaderContainer = styled.div`
 export const MetricsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 8px;
+
+  ${screens.md} {
+    flex-direction: column;
+    gap: 4px;
+  }
 `;

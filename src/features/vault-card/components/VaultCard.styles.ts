@@ -39,7 +39,7 @@ export const Container = styled(motion.div).attrs<ContainerProps>(
   border-radius: 8px;
   background: ${({ backgroundColor }) => backgroundColor};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  flex-basis: 254px;
+  min-width: 254px;
 `;
 
 export const Header = styled.div`
@@ -70,7 +70,7 @@ export const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 16px 2px;
+  padding: 16px 2px 8px;
   border-bottom: 1px solid #5d5d5d;
 `;
 

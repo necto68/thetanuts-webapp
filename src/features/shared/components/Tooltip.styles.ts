@@ -9,6 +9,11 @@ export const RootContainer = styled.div`
 export const StyledTooltip = styled(ReactTooltip)`
   max-width: 250px;
   opacity: 1 !important;
+  pointer-events: auto !important;
+
+  &:hover {
+    visibility: visible !important;
+  }
 `;
 
 export const TooltipText = styled.span`

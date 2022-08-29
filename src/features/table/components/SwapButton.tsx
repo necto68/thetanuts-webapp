@@ -1,40 +1,18 @@
 import type { FC } from "react";
-import { useCallback } from "react";
 
-import { useIndexVaultModalState } from "../../index-vault-modal/hooks";
-import type { ChainId } from "../../wallet/constants";
-import { Link } from "../../shared/components";
+import { VaultModalType } from "../../root/types";
 
-import { BaseSwapButton } from "./SwapButton.styles";
+import type { VaultModalButtonProps } from "./VaultModalButton";
+import { VaultModalButton } from "./VaultModalButton";
 
-interface SwapButtonProps {
-  indexVaultId: string;
-  chainId?: ChainId;
-}
+type SwapButtonProps = Pick<VaultModalButtonProps, "chainId" | "vaultId">;
 
-export const SwapButton: FC<SwapButtonProps> = ({ indexVaultId, chainId }) => {
-  const [indexVaultModalState, setIndexVaultModalState] =
-    useIndexVaultModalState();
-
-  const { isRouterModal } = indexVaultModalState;
-  const indexVaultRoute = isRouterModal
-    ? { pathname: `/stronghold/${indexVaultId}` }
-    : {};
-
-  const handleButtonClick = useCallback(() => {
-    setIndexVaultModalState({
-      ...indexVaultModalState,
-      isShow: true,
-      indexVaultId,
-      chainId,
-    });
-  }, [indexVaultId, chainId, indexVaultModalState, setIndexVaultModalState]);
-
-  return (
-    <Link to={indexVaultRoute}>
-      <BaseSwapButton onClick={handleButtonClick} primaryColor="#81E429">
-        Swap
-      </BaseSwapButton>
-    </Link>
-  );
-};
+export const SwapButton: FC<SwapButtonProps> = ({ chainId, vaultId }) => (
+  <VaultModalButton
+    chainId={chainId}
+    vaultId={vaultId}
+    vaultType={VaultModalType.index}
+  >
+    Swap
+  </VaultModalButton>
+);

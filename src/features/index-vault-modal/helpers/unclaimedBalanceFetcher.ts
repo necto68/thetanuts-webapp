@@ -1,4 +1,4 @@
-import type { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import type { JsonRpcProvider } from "@ethersproject/providers";
 
 import { DirectWithdrawAbi__factory as DirectWithdrawAbiFactory } from "../../contracts/types";
 import type { ChainId } from "../../wallet/constants";
@@ -6,13 +6,10 @@ import { chainsMap } from "../../wallet/constants";
 
 export const unclaimedBalanceFetcher = async (
   chainId: ChainId,
-  provider: JsonRpcProvider,
-  walletProvider: Web3Provider | undefined
+  account: string,
+  provider: JsonRpcProvider
 ): Promise<[Record<string, boolean>, number] | undefined> => {
   const { directWithdrawalAddress } = chainsMap[chainId].addresses;
-
-  const signer = walletProvider?.getSigner();
-  const signerAddress = (await signer?.getAddress()) ?? "";
 
   const directWithdrawContract = DirectWithdrawAbiFactory.connect(
     directWithdrawalAddress,
@@ -21,7 +18,7 @@ export const unclaimedBalanceFetcher = async (
 
   // Get withdraws count from direct withdraw contract.
   const withdrawCount = (
-    await directWithdrawContract.getUserWithdrawsLength(signerAddress)
+    await directWithdrawContract.getUserWithdrawsLength(account)
   ).toNumber();
 
   // In no withdraws yet break.
@@ -34,7 +31,7 @@ export const unclaimedBalanceFetcher = async (
     Array.from(
       { length: withdrawCount },
       async (unused, index: number) =>
-        await directWithdrawContract.getUserWithdrawsById(signerAddress, index)
+        await directWithdrawContract.getUserWithdrawsById(account, index)
     )
   );
 

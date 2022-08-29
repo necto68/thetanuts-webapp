@@ -11,6 +11,7 @@ import {
   Frax,
   Btc,
   Busd,
+  Sol,
 } from "../components";
 
 export const logosMap: Record<string, ComponentType> = {
@@ -26,4 +27,5 @@ export const logosMap: Record<string, ComponentType> = {
   BTC: Btc,
   BTCB: Btc,
   BUSD: Busd,
+  SOL: Sol,
 };

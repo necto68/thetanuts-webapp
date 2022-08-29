@@ -1,43 +1,15 @@
 export const Eth = () => (
-  <svg
-    clipRule="evenodd"
-    fillRule="evenodd"
-    height="100%"
-    imageRendering="optimizeQuality"
-    shapeRendering="geometricPrecision"
-    textRendering="geometricPrecision"
-    viewBox="0 0 784.37 1277.39"
-    width="100%"
-  >
-    <polygon
-      fill="#343434"
-      fillRule="nonzero"
-      points="392.07,0 383.5,29.11 383.5,873.74 392.07,882.29 784.13,650.54 "
-    />
-    <polygon
-      fill="#8C8C8C"
-      fillRule="nonzero"
-      points="392.07,0 -0,650.54 392.07,882.29 392.07,472.33 "
-    />
-    <polygon
-      fill="#3C3C3B"
-      fillRule="nonzero"
-      points="392.07,956.52 387.24,962.41 387.24,1263.28 392.07,1277.38 784.37,724.89 "
-    />
-    <polygon
-      fill="#8C8C8C"
-      fillRule="nonzero"
-      points="392.07,1277.38 392.07,956.52 -0,724.89 "
-    />
-    <polygon
-      fill="#141414"
-      fillRule="nonzero"
-      points="392.07,882.29 784.13,650.54 392.07,472.33 "
-    />
-    <polygon
-      fill="#393939"
-      fillRule="nonzero"
-      points="0,650.54 392.07,882.29 392.07,472.33 "
-    />
+  <svg height="100%" viewBox="0 0 32 32" width="100%">
+    <g fill="none" fillRule="evenodd">
+      <circle cx="16" cy="16" fill="#627EEA" r="16" />
+      <g fill="#FFF" fillRule="nonzero">
+        <path d="M16.498 4v8.87l7.497 3.35z" fillOpacity=".602" />
+        <path d="M16.498 4L9 16.22l7.498-3.35z" />
+        <path d="M16.498 21.968v6.027L24 17.616z" fillOpacity=".602" />
+        <path d="M16.498 27.995v-6.028L9 17.616z" />
+        <path d="M16.498 20.573l7.497-4.353-7.497-3.348z" fillOpacity=".2" />
+        <path d="M9 16.22l7.498 4.353v-7.701z" fillOpacity=".602" />
+      </g>
+    </g>
   </svg>
 );

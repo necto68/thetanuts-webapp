@@ -8,8 +8,10 @@ import {
   Metric,
   HeaderButtons,
 } from "../../header/components";
+import { useIsMobile } from "../../shared/hooks";
 
 export const Header = () => {
+  const isMobile = useIsMobile();
   const indexVaultsIds = indexVaults.map(({ id }) => id);
   const indexVaultsQueries = useIndexVaults(indexVaultsIds);
   const indexTokensQueries = useIndexTokensQueries(indexVaultsIds);
@@ -46,7 +48,7 @@ export const Header = () => {
       <MetricsContainer>
         <Metric title="Balance (USD)" value={formattedBalance} />
       </MetricsContainer>
-      <HeaderButtons />
+      {!isMobile ? <HeaderButtons /> : null}
     </HeaderContainer>
   );
 };

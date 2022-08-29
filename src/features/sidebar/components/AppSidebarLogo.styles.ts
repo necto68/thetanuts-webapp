@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { Link } from "../../shared/components";
+import { screens } from "../../shared/constants";
 
 export const Container = styled.div`
   display: flex;
@@ -22,6 +23,11 @@ export const AppTitle = styled.span`
 
 export const TitleContainer = styled.div`
   display: flex;
+  align-items: flex-end;
+
+  ${screens.md} {
+    display: none;
+  }
 `;
 
 export const Theta = styled(AppTitle)`
@@ -38,4 +44,9 @@ export const Nuts = styled(AppTitle)`
 export const Finance = styled(AppTitle)`
   font-size: 12px;
   font-weight: 300;
+  padding: 0 0 0 2px;
+
+  ${screens.md} {
+    display: none;
+  }
 `;
