@@ -88,18 +88,14 @@ export const AnnouncementContainer = styled.div`
   justify-content: center;
   padding: 10px 15px;
   background-color: #1fffab;
-  border-radius: 10px;
-
-  ${screens.xl} {
-    border-radius: 0;
-  }
 `;
 
 export const AnnouncementTitle = styled.span`
   font-family: Barlow;
-  color: rgba(1, 12, 26);
+  font-weight: 700;
   font-size: 16px;
   text-align: center;
+  color: #061f3a;
 `;
 
 export const AnnouncementLink = styled(Link)`
