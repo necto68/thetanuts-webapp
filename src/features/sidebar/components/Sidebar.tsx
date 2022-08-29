@@ -18,7 +18,6 @@ import {
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
-import { ThetaBasic } from "../icons/ThetaBasic";
 import { Analytics } from "../icons/Analytics";
 import { Documentation } from "../icons/Documentation";
 
@@ -35,6 +34,9 @@ import {
 import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
 
+// TODO: return Basic vaults later
+// import { ThetaBasic } from "../icons/ThetaBasic";
+
 export const Sidebar = () => {
   const { pathname } = useLocation();
   const { isShow, toggleIsShow } = useSidebarState();
@@ -48,11 +50,13 @@ export const Sidebar = () => {
       linkTitle: "Stronghold",
       navIcon: ThetaIndex,
     },
-    {
-      to: PagePathname.basic,
-      linkTitle: "Basic",
-      navIcon: ThetaBasic,
-    },
+
+    // TODO: return Basic vaults later
+    // {
+    //   to: PagePathname.basic,
+    //   linkTitle: "Basic",
+    //   navIcon: ThetaBasic,
+    // },
     {
       to: PagePathname.portfolio,
       linkTitle: "Portfolio",
