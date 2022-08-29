@@ -9,7 +9,7 @@ export const SwitchToV0Button = () => (
     to="https://thetanuts.finance/basic/vaults"
   >
     <BaseSwitchToV0Button primaryColor="#283841">
-      Thetanuts Basic
+      Thetanuts v0
     </BaseSwitchToV0Button>
   </BaseSwitchToV0Link>
 );

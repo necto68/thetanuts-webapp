@@ -129,7 +129,7 @@ export const Sidebar = () => {
         >
           <GradientButton
             backgroundColor="#0A1026"
-            title="Switch to Thetanuts Basic"
+            title="Switch to Thetanuts v0"
           />
         </SwitchToV0Link>
       </SwitchToV0ButtonContainer>
