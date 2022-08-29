@@ -4,6 +4,7 @@ import Div100vh from "react-div-100vh";
 
 import { PagePathname } from "../types";
 import { screens } from "../../shared/constants";
+import { Link } from "../../shared/components/Link";
 
 const mapPathnameToBackground = {
   [PagePathname.thetaIndex]: "#031a34",
@@ -32,15 +33,19 @@ export const BackgroundContainer = styled(motion.div).attrs<{
 
 export const LayoutContainer = styled.div`
   display: flex;
+  flex-direction: column;
   flex-basis: 1330px;
+
+  gap: 8px;
 
   height: max-content;
   min-height: 100%;
 
-  padding: 15px;
+  padding: 0 15px 15px;
 
   ${screens.xl} {
     padding: 0;
+    gap: 0;
   }
 `;
 
@@ -75,6 +80,30 @@ export const MobileHeaderContainer = styled.div`
   ${screens.xl} {
     display: initial;
   }
+`;
+
+export const AnnouncementContainer = styled.div`
+  grid-area: announcement;
+  display: flex;
+  justify-content: center;
+  padding: 10px 15px;
+  background-color: #1fffab;
+  border-radius: 10px;
+
+  ${screens.xl} {
+    border-radius: 0;
+  }
+`;
+
+export const AnnouncementTitle = styled.span`
+  font-family: Barlow;
+  color: rgba(1, 12, 26);
+  font-size: 16px;
+  text-align: center;
+`;
+
+export const AnnouncementLink = styled(Link)`
+  color: #061f3a;
 `;
 
 export const PageContainer = styled.div`

@@ -14,6 +14,9 @@ import { useSidebarState } from "../../sidebar/hooks";
 
 import { MobileHeader } from "./MobileHeader";
 import {
+  AnnouncementContainer,
+  AnnouncementLink,
+  AnnouncementTitle,
   BackgroundContainer,
   Container,
   GridContainer,
@@ -43,6 +46,19 @@ export const Root = () => {
           <Modal />
           {isShow && isTablet ? <Backdrop onClick={closeSidebar} /> : null}
           <LayoutContainer>
+            <AnnouncementContainer>
+              <AnnouncementTitle>
+                Migration from Thetanuts v0 to Thetanuts Basic starting from
+                02/09/2022.{" "}
+                <AnnouncementLink
+                  target="_blank"
+                  to="https://thetanutsfinance.medium.com/thetanuts-basic-option-vault-migration-58a7c58898c4"
+                >
+                  Click here
+                </AnnouncementLink>{" "}
+                to read more.
+              </AnnouncementTitle>
+            </AnnouncementContainer>
             <GridContainer>
               <SidebarContainer>
                 <Sidebar />
