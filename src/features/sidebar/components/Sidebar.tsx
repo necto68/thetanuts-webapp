@@ -15,11 +15,13 @@ import {
   GradientButton,
   IconContainer,
 } from "../../shared/components";
+import { isTestEnvironment } from "../../shared/constants";
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
 import { Analytics } from "../icons/Analytics";
 import { Documentation } from "../icons/Documentation";
+import { ThetaBasic } from "../icons/ThetaBasic";
 
 import {
   CircleButtonContainer,
@@ -34,9 +36,6 @@ import {
 import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
 
-// TODO: return Basic vaults later
-// import { ThetaBasic } from "../icons/ThetaBasic";
-
 export const Sidebar = () => {
   const { pathname } = useLocation();
   const { isShow, toggleIsShow } = useSidebarState();
@@ -44,31 +43,50 @@ export const Sidebar = () => {
   const mobileHeight = useViewportHeight();
 
   // navbar items stored here and mapped to JSX later so it is easier to add on
-  const mainNavItems = [
-    {
-      to: PagePathname.thetaIndex,
-      linkTitle: "Stronghold",
-      navIcon: ThetaIndex,
-    },
 
-    // TODO: return Basic vaults later
-    // {
-    //   to: PagePathname.basic,
-    //   linkTitle: "Basic",
-    //   navIcon: ThetaBasic,
-    // },
-    {
-      to: PagePathname.portfolio,
-      linkTitle: "Portfolio",
-      navIcon: Portfolio,
-    },
-    {
-      to: "https://analytics.thetanuts.finance/",
-      linkTitle: "Analytics",
-      navIcon: Analytics,
-      target: "_blank",
-    },
-  ];
+  // TODO: return Basic vaults later
+  const mainNavItems = isTestEnvironment
+    ? [
+        {
+          to: PagePathname.thetaIndex,
+          linkTitle: "Stronghold",
+          navIcon: ThetaIndex,
+        },
+        {
+          to: PagePathname.basic,
+          linkTitle: "Basic",
+          navIcon: ThetaBasic,
+        },
+        {
+          to: PagePathname.portfolio,
+          linkTitle: "Portfolio",
+          navIcon: Portfolio,
+        },
+        {
+          to: "https://analytics.thetanuts.finance/",
+          linkTitle: "Analytics",
+          navIcon: Analytics,
+          target: "_blank",
+        },
+      ]
+    : [
+        {
+          to: PagePathname.thetaIndex,
+          linkTitle: "Stronghold",
+          navIcon: ThetaIndex,
+        },
+        {
+          to: PagePathname.portfolio,
+          linkTitle: "Portfolio",
+          navIcon: Portfolio,
+        },
+        {
+          to: "https://analytics.thetanuts.finance/",
+          linkTitle: "Analytics",
+          navIcon: Analytics,
+          target: "_blank",
+        },
+      ];
 
   const secondaryNavItems = [
     {

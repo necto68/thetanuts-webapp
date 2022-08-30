@@ -1,6 +1,7 @@
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import { ThetaIndexPage } from "../../theta-index/components";
+import { BasicPage } from "../../basic/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
@@ -8,6 +9,7 @@ import { CurrentDateProvider } from "../../basic-vault/providers";
 import { RouterPathname } from "../types";
 import { useWalletAutoConnect } from "../hooks";
 import { useIsTablet } from "../../shared/hooks";
+import { isTestEnvironment } from "../../shared/constants";
 import { useCurrentPagePathname } from "../hooks/useCurrentPagePathname";
 import { useSidebarState } from "../../sidebar/hooks";
 
@@ -24,9 +26,6 @@ import {
   PageContainer,
   SidebarContainer,
 } from "./Root.styles";
-
-// TODO: return Basic vaults later
-// import { BasicPage } from "../../basic/components";
 
 export const Root = () => {
   const currentPagePathname = useCurrentPagePathname();
@@ -79,15 +78,18 @@ export const Root = () => {
                   >
                     <ThetaIndexPage />
                   </Route>
-                  {/* <Route
-                    exact
-                    path={[
-                      RouterPathname.basic,
-                      RouterPathname.basicVaultModal,
-                    ]}
-                  >
-                    <BasicPage />
-                  </Route> */}
+                  {/* TODO: return Basic vaults later */}
+                  {isTestEnvironment ? (
+                    <Route
+                      exact
+                      path={[
+                        RouterPathname.basic,
+                        RouterPathname.basicVaultModal,
+                      ]}
+                    >
+                      <BasicPage />
+                    </Route>
+                  ) : null}
                   <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
                   </Route>
