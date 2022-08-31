@@ -17,6 +17,9 @@
 # idea config
 /.idea
 
+# vscode config
+/.vscode
+
 # misc
 .DS_Store
 .env.local
