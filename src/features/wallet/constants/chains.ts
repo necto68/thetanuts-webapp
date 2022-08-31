@@ -29,7 +29,7 @@ export const chains: ChainConfig[] = [
     },
 
     addresses: {
-      routerAddress: "0x5F81772012eF3935Ec4Aa0755b1f64475f4688f3",
+      routerAddress: "0x9C93b9042fa7fEb69e81483af11F51b1B3B6D3Ca",
       lendingPoolAddress: "0x2Ca7641B841a79Cc70220cE838d0b9f8197accDA",
       directDepositorAddress: "0xc4A024eAcB72F09900737E07605e253f73D408c7",
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
@@ -67,10 +67,10 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0xDFbf747D2E3278058d77b7De789f3c34e4F6f48c",
-      lendingPoolAddress: "testAddress",
-      directDepositorAddress: "testAddress",
-      directWithdrawalAddress: "testAddress",
-      basicVaultReaderAddress: "testAddress",
+      lendingPoolAddress: "",
+      directDepositorAddress: "",
+      directWithdrawalAddress: "",
+      basicVaultReaderAddress: "",
     },
   },
   {
@@ -95,7 +95,7 @@ export const chains: ChainConfig[] = [
     },
 
     addresses: {
-      routerAddress: "0xbfC52B41Bb061ed08872E2F3b2F1844004f3EEF8",
+      routerAddress: "0x5e00E3Ef76640Fdf60e88ae0b3283c5c5f15B02d",
       lendingPoolAddress: "0x69CB7e57FC301785aA0f933230DEE4C3E1f78e2b",
       directDepositorAddress: "0x21659962120ba152139FC157e52168CD1609C3E3",
       directWithdrawalAddress: "0xf35F0A93B1f3c0eE418AaA352553Bc7C1d3dBe4a",
@@ -129,10 +129,10 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0x2Eb7C1cFdbf7d5c65A7BF7Bb50129Ee6e651CEb1",
-      lendingPoolAddress: "testAddress",
-      directDepositorAddress: "testAddress",
-      directWithdrawalAddress: "testAddress",
-      basicVaultReaderAddress: "testAddress",
+      lendingPoolAddress: "",
+      directDepositorAddress: "",
+      directWithdrawalAddress: "",
+      basicVaultReaderAddress: "",
     },
   },
   {
@@ -157,10 +157,10 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0xb8cB9648F78433056e089B8609f16Cb0D43ceCE7",
-      lendingPoolAddress: "testAddress",
-      directDepositorAddress: "testAddress",
-      directWithdrawalAddress: "testAddress",
-      basicVaultReaderAddress: "testAddress",
+      lendingPoolAddress: "",
+      directDepositorAddress: "",
+      directWithdrawalAddress: "",
+      basicVaultReaderAddress: "",
     },
   },
 ];
