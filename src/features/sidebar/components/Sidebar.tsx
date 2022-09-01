@@ -15,7 +15,6 @@ import {
   GradientButton,
   IconContainer,
 } from "../../shared/components";
-import { isTestEnvironment } from "../../shared/constants";
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
@@ -44,49 +43,29 @@ export const Sidebar = () => {
 
   // navbar items stored here and mapped to JSX later so it is easier to add on
 
-  // TODO: return Basic vaults later
-  const mainNavItems = isTestEnvironment
-    ? [
-        {
-          to: PagePathname.thetaIndex,
-          linkTitle: "Stronghold",
-          navIcon: ThetaIndex,
-        },
-        {
-          to: PagePathname.basic,
-          linkTitle: "Basic",
-          navIcon: ThetaBasic,
-        },
-        {
-          to: PagePathname.portfolio,
-          linkTitle: "Portfolio",
-          navIcon: Portfolio,
-        },
-        {
-          to: "https://analytics.thetanuts.finance/",
-          linkTitle: "Analytics",
-          navIcon: Analytics,
-          target: "_blank",
-        },
-      ]
-    : [
-        {
-          to: PagePathname.thetaIndex,
-          linkTitle: "Stronghold",
-          navIcon: ThetaIndex,
-        },
-        {
-          to: PagePathname.portfolio,
-          linkTitle: "Portfolio",
-          navIcon: Portfolio,
-        },
-        {
-          to: "https://analytics.thetanuts.finance/",
-          linkTitle: "Analytics",
-          navIcon: Analytics,
-          target: "_blank",
-        },
-      ];
+  const mainNavItems = [
+    {
+      to: PagePathname.thetaIndex,
+      linkTitle: "Stronghold",
+      navIcon: ThetaIndex,
+    },
+    {
+      to: PagePathname.basic,
+      linkTitle: "Basic",
+      navIcon: ThetaBasic,
+    },
+    {
+      to: PagePathname.portfolio,
+      linkTitle: "Portfolio",
+      navIcon: Portfolio,
+    },
+    {
+      to: "https://analytics.thetanuts.finance/",
+      linkTitle: "Analytics",
+      navIcon: Analytics,
+      target: "_blank",
+    },
+  ];
 
   const secondaryNavItems = [
     {

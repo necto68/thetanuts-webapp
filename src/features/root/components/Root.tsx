@@ -9,7 +9,6 @@ import { CurrentDateProvider } from "../../basic-vault/providers";
 import { RouterPathname } from "../types";
 import { useWalletAutoConnect } from "../hooks";
 import { useIsTablet } from "../../shared/hooks";
-import { isTestEnvironment } from "../../shared/constants";
 import { useCurrentPagePathname } from "../hooks/useCurrentPagePathname";
 import { useSidebarState } from "../../sidebar/hooks";
 
@@ -78,18 +77,15 @@ export const Root = () => {
                   >
                     <ThetaIndexPage />
                   </Route>
-                  {/* TODO: return Basic vaults later */}
-                  {isTestEnvironment ? (
-                    <Route
-                      exact
-                      path={[
-                        RouterPathname.basic,
-                        RouterPathname.basicVaultModal,
-                      ]}
-                    >
-                      <BasicPage />
-                    </Route>
-                  ) : null}
+                  <Route
+                    exact
+                    path={[
+                      RouterPathname.basic,
+                      RouterPathname.basicVaultModal,
+                    ]}
+                  >
+                    <BasicPage />
+                  </Route>
                   <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
                   </Route>
