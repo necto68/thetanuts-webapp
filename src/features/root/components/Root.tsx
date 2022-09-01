@@ -1,6 +1,7 @@
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import { ThetaIndexPage } from "../../theta-index/components";
+import { BasicPage } from "../../basic/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
@@ -24,9 +25,6 @@ import {
   PageContainer,
   SidebarContainer,
 } from "./Root.styles";
-
-// TODO: return Basic vaults later
-// import { BasicPage } from "../../basic/components";
 
 export const Root = () => {
   const currentPagePathname = useCurrentPagePathname();
@@ -79,7 +77,7 @@ export const Root = () => {
                   >
                     <ThetaIndexPage />
                   </Route>
-                  {/* <Route
+                  <Route
                     exact
                     path={[
                       RouterPathname.basic,
@@ -87,7 +85,7 @@ export const Root = () => {
                     ]}
                   >
                     <BasicPage />
-                  </Route> */}
+                  </Route>
                   <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
                   </Route>
