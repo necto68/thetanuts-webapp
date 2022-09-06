@@ -9,21 +9,28 @@ export enum ChainId {
   POLYGON = 137,
   AVALANCHE = 43_114,
   FANTOM = 250,
+  BOBA = 288,
+  CRONOS = 25,
 }
+
+export const chainIconSymbols: Record<ChainId, string> = {
+  [ChainId.ETHEREUM]: "ETH",
+  [ChainId.BSC]: "BNB",
+  [ChainId.POLYGON]: "MATIC",
+  [ChainId.AVALANCHE]: "AVAX",
+  [ChainId.FANTOM]: "FTM",
+  [ChainId.BOBA]: "BOBA",
+  [ChainId.CRONOS]: "CRO",
+};
 
 export const chains: ChainConfig[] = [
   {
     chainId: ChainId.ETHEREUM,
     title: "Ethereum",
-    color: "#ffffff",
     symbol: "ETH",
 
     urls: {
       rpc: "https://rpc.ankr.com/eth",
-
-      wsRpc:
-        "wss://eth-mainnet.alchemyapi.io/v2/1eG2Zv-Q4-2GtMPfzp5MAg0gpaFJiAvl",
-
       explorer: "https://etherscan.io/",
       explorerApi: "https://api.etherscan.io/",
     },
@@ -48,15 +55,10 @@ export const chains: ChainConfig[] = [
   {
     chainId: ChainId.BSC,
     title: "BSC",
-    color: "#f0b90a",
     symbol: "BNB",
 
     urls: {
       rpc: "https://rpc.ankr.com/bsc",
-
-      wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/679f96c84d2846b6858638cd/bsc/mainnet",
-
       explorer: "https://bscscan.com/",
       explorerApi: "https://api.bscscan.com/",
     },
@@ -76,16 +78,11 @@ export const chains: ChainConfig[] = [
   {
     chainId: ChainId.POLYGON,
     title: "Polygon",
-    color: "#7b43d9",
     symbol: "MATIC",
     minGasPrice: 30_000_000_000,
 
     urls: {
       rpc: "https://rpc.ankr.com/polygon",
-
-      wsRpc:
-        "wss://polygon-mainnet.g.alchemy.com/v2/yXAUOrzEFQG2SQC7L7hI-u72mkoOPl53",
-
       explorer: "https://polygonscan.com/",
       explorerApi: "https://api.polygonscan.com/",
     },
@@ -110,15 +107,10 @@ export const chains: ChainConfig[] = [
   {
     chainId: ChainId.AVALANCHE,
     title: "Avalanche",
-    color: "#dc3e3f",
     symbol: "AVAX",
 
     urls: {
       rpc: "https://rpc.ankr.com/avalanche",
-
-      wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/avalanche/mainnet/ws",
-
       explorer: "https://snowtrace.io/",
       explorerApi: "https://api.snowtrace.io/",
     },
@@ -138,15 +130,10 @@ export const chains: ChainConfig[] = [
   {
     chainId: ChainId.FANTOM,
     title: "Fantom",
-    color: "#3eb6e9",
     symbol: "FTM",
 
     urls: {
       rpc: "https://rpc.ankr.com/fantom",
-
-      wsRpc:
-        "wss://speedy-nodes-nyc.moralis.io/55274cf945f839d43db1cb4f/fantom/mainnet/ws",
-
       explorer: "https://ftmscan.com/",
       explorerApi: "https://api.ftmscan.com/",
     },
@@ -157,6 +144,52 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0xb8cB9648F78433056e089B8609f16Cb0D43ceCE7",
+      lendingPoolAddress: "",
+      directDepositorAddress: "",
+      directWithdrawalAddress: "",
+      basicVaultReaderAddress: "",
+    },
+  },
+  {
+    chainId: ChainId.BOBA,
+    title: "Boba",
+    symbol: "ETH",
+
+    urls: {
+      rpc: "https://mainnet.boba.network",
+      explorer: "https://bobascan.com/",
+      explorerApi: "https://api.bobascan.com/",
+    },
+
+    keys: {
+      explorerApi: "PW1MZGXPPJZY9N51ACRYPNCMQ8C5N5ANQE",
+    },
+
+    addresses: {
+      routerAddress: "",
+      lendingPoolAddress: "",
+      directDepositorAddress: "",
+      directWithdrawalAddress: "",
+      basicVaultReaderAddress: "",
+    },
+  },
+  {
+    chainId: ChainId.CRONOS,
+    title: "Cronos",
+    symbol: "CRO",
+
+    urls: {
+      rpc: "https://evm.cronos.org",
+      explorer: "https://cronoscan.com/",
+      explorerApi: "https://api.cronoscan.com/",
+    },
+
+    keys: {
+      explorerApi: "JWFE21YZQDXQQVE1YV8CTE7C69CW1FMQHI",
+    },
+
+    addresses: {
+      routerAddress: "",
       lendingPoolAddress: "",
       directDepositorAddress: "",
       directWithdrawalAddress: "",

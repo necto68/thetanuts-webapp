@@ -4,12 +4,10 @@ export interface ChainConfig {
   chainId: ChainId;
   title: string;
   symbol: string;
-  color: string;
   minGasPrice?: number;
 
   urls: {
     rpc: string;
-    wsRpc: string;
     explorer: string;
     explorerApi?: string;
   };
