@@ -40,7 +40,7 @@ export const chains: ChainConfig[] = [
       lendingPoolAddress: "0x2Ca7641B841a79Cc70220cE838d0b9f8197accDA",
       directDepositorAddress: "0xc4A024eAcB72F09900737E07605e253f73D408c7",
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
-      basicVaultReaderAddress: "0x2aA6860b1C50cD549bFF2a5b2F9B68a9cdc5a200",
+      basicVaultReaderAddress: "0xEcA593A42E9A0120B03E8784Ca61673e4a40Ba13",
     },
 
     deployerAddresses: {
@@ -72,7 +72,7 @@ export const chains: ChainConfig[] = [
       lendingPoolAddress: "",
       directDepositorAddress: "",
       directWithdrawalAddress: "",
-      basicVaultReaderAddress: "",
+      basicVaultReaderAddress: "0xe016D63bd3ce7BbAF9Eb8aBf76dA7e3f6E4721a3",
     },
   },
   {
@@ -96,7 +96,7 @@ export const chains: ChainConfig[] = [
       lendingPoolAddress: "0x69CB7e57FC301785aA0f933230DEE4C3E1f78e2b",
       directDepositorAddress: "0x21659962120ba152139FC157e52168CD1609C3E3",
       directWithdrawalAddress: "0xf35F0A93B1f3c0eE418AaA352553Bc7C1d3dBe4a",
-      basicVaultReaderAddress: "0x6Cb010188D7007Dcd962C74901F82b83c4D3A721",
+      basicVaultReaderAddress: "0x03FC1fEdDb196e69Dd8a8753073E2527f85bbC6C",
     },
 
     deployerAddresses: {
@@ -124,7 +124,7 @@ export const chains: ChainConfig[] = [
       lendingPoolAddress: "",
       directDepositorAddress: "",
       directWithdrawalAddress: "",
-      basicVaultReaderAddress: "",
+      basicVaultReaderAddress: "0xA9c4b4f5Efcb3bC9a400D699943E0760065CA09A",
     },
   },
   {
@@ -147,7 +147,7 @@ export const chains: ChainConfig[] = [
       lendingPoolAddress: "",
       directDepositorAddress: "",
       directWithdrawalAddress: "",
-      basicVaultReaderAddress: "",
+      basicVaultReaderAddress: "0x10572d1A9d38178C3d95666803f0551B77301003",
     },
   },
   {
@@ -166,11 +166,11 @@ export const chains: ChainConfig[] = [
     },
 
     addresses: {
-      routerAddress: "",
+      routerAddress: "0x17C83E2B96ACfb5190d63F5E46d93c107eC0b514",
       lendingPoolAddress: "",
       directDepositorAddress: "",
       directWithdrawalAddress: "",
-      basicVaultReaderAddress: "",
+      basicVaultReaderAddress: "0xe50d41E66A70D087F5480Ef84ABcF2e312534b05",
     },
   },
   {
@@ -179,7 +179,7 @@ export const chains: ChainConfig[] = [
     symbol: "CRO",
 
     urls: {
-      rpc: "https://evm.cronos.org",
+      rpc: "https://node.croswap.com/rpc",
       explorer: "https://cronoscan.com/",
       explorerApi: "https://api.cronoscan.com/",
     },
@@ -189,7 +189,7 @@ export const chains: ChainConfig[] = [
     },
 
     addresses: {
-      routerAddress: "",
+      routerAddress: "0xcd7d16fB918511BF7269eC4f48d61D79Fb26f918",
       lendingPoolAddress: "",
       directDepositorAddress: "",
       directWithdrawalAddress: "",
