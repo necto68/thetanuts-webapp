@@ -193,7 +193,7 @@ export const chains: ChainConfig[] = [
       lendingPoolAddress: "",
       directDepositorAddress: "",
       directWithdrawalAddress: "",
-      basicVaultReaderAddress: "",
+      basicVaultReaderAddress: "0xaF724813e860B462a3387Fb97CC2600179CAF9e1",
     },
   },
 ];
