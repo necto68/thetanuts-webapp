@@ -12,6 +12,10 @@ import {
   Btc,
   Busd,
   Sol,
+  Boba,
+  Cro,
+  Ada,
+  Bch,
 } from "../components";
 
 export const logosMap: Record<string, ComponentType> = {
@@ -28,4 +32,8 @@ export const logosMap: Record<string, ComponentType> = {
   BTCB: Btc,
   BUSD: Busd,
   SOL: Sol,
+  BOBA: Boba,
+  CRO: Cro,
+  ADA: Ada,
+  BCH: Bch,
 };

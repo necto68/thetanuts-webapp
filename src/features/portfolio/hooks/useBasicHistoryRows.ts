@@ -3,6 +3,7 @@ import { basicVaults } from "../../basic/constants";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { VaultModalType } from "../../root/types";
 import { TransactionType } from "../types/transaction";
+import { VaultType } from "../../basic-vault/types";
 
 import { useBasicHistoryQueries } from "./useBasicHistoryQueries";
 
@@ -22,16 +23,19 @@ export const useBasicHistoryRows = (): (
       return undefined;
     }
 
-    const { assetSymbol } = data;
+    const { type: vaultType } = data;
 
     return historyTransactions.map(
       ({ id, type, timestamp, amountIn, amountOut, chainId }) => {
-        const { collateralSymbol: symbol } = data;
+        const { assetSymbol: symbol, collateralSymbol } = data;
 
         const balance =
           type === TransactionType.deposited ? amountIn.mul(-1) : amountOut;
 
-        const vaultType = VaultModalType.basic;
+        const assetSymbol =
+          vaultType === VaultType.PUT ? collateralSymbol : symbol;
+
+        const rowVaultType = VaultModalType.basic;
 
         // TODO: check assetSymbol and symbol for PUT vaults
         return {
@@ -40,7 +44,7 @@ export const useBasicHistoryRows = (): (
           timestamp,
           balance,
           chainId,
-          vaultType,
+          vaultType: rowVaultType,
           assetSymbol,
           symbol,
         };
