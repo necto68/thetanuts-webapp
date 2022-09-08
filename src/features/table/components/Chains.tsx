@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { generatePath } from "react-router-dom";
 
 import type { ChainId } from "../../wallet/constants";
-import { chainsMap } from "../../wallet/constants";
+import { chainIconSymbols, chainsMap } from "../../wallet/constants";
 import { IconContainer, Link, Tooltip } from "../../shared/components";
 import { useIsMobile } from "../../shared/hooks";
 import { getLogoBySymbol } from "../../logo/helpers";
@@ -88,7 +88,7 @@ export const Chains: FC<ChainsProps> = ({
             }}
           >
             <IconContainer height={18} width={18}>
-              {getLogoBySymbol(chainsMap[chainId].symbol)}
+              {getLogoBySymbol(chainIconSymbols[chainId])}
             </IconContainer>
           </ChainLogoContainer>
         </Link>

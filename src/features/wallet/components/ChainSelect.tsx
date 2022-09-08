@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useWallet } from "@gimmixorg/use-wallet";
 
 import type { ChainId } from "../constants";
-import { chains, chainsMap } from "../constants";
+import { chainIconSymbols, chains, chainsMap } from "../constants";
 import { SelectOptionButton } from "../../select-option-button/components";
 import { switchToChain } from "../helpers";
 
@@ -33,15 +33,17 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   const selectedChain =
     selectedChainId in chainsMap ? chainsMap[selectedChainId] : null;
 
-  const buttonSymbol = selectedChain?.symbol;
+  const buttonSymbol = selectedChain
+    ? chainIconSymbols[selectedChain.chainId]
+    : undefined;
   const buttonTitle = selectedChain?.title ?? "Wrong network";
   const buttonColor = isSelectedChainIdValid ? "#FFFFFF" : "#EB5853";
 
   const options = selectedChainsWithoutCurrentChain.map(
-    ({ chainId, title, symbol }) => ({
+    ({ chainId, title }) => ({
       id: chainId,
       title,
-      symbol,
+      symbol: chainIconSymbols[chainId],
     })
   );
 

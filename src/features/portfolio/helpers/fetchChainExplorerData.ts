@@ -5,8 +5,8 @@ import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 import type { ChainExplorerResponse } from "../types";
 
-// not more then 5 requests per 1500 ms
-const throttle = throttledQueue(5, 1500);
+// not more then 5 requests per 2010 ms
+const throttle = throttledQueue(5, 2010);
 
 export const fetchChainExplorerData = async (
   chainId: ChainId,
