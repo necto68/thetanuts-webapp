@@ -9,7 +9,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0x17a1f890da8fDd479a52937E3eb62b52235c68C5",
+      basicVaultAddress: "0x9014f8E90423766343Ed4fe41668563526dF6715",
     },
   },
   {
@@ -36,7 +36,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0x1104230B3006ce137E8251Ea797E9e8938097Fca",
+      basicVaultAddress: "0x60a4422B6B52aEF50647c67F29D6a7e6DAc3CCBC",
     },
   },
   {
@@ -62,7 +62,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0xA92b00dF2B056211B24466687014A160588a5274",
+      basicVaultAddress: "0x6d2Cdb589BE6037Df1AeA5dC433829aD5aF30013",
     },
   },
   {
@@ -130,7 +130,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.BSC,
-      basicVaultAddress: "0x0A7c0D6B3b70904B62A14f6a05B01306535e60fC",
+      basicVaultAddress: "0xF98297A842f52Cd1f6c6f5f003Cd701813b1C461",
     },
   },
 
@@ -140,7 +140,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.BSC,
-      basicVaultAddress: "0x27c74d6779fba8243aB37AB880CA3D812b5096ca",
+      basicVaultAddress: "0xc879ecC0d2cdA26072e9049178a99B26C51eDF8a",
     },
   },
 
@@ -150,7 +150,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.BSC,
-      basicVaultAddress: "0x950b4E6701abd41bd8c5E17cBFcB7E06da6baB51",
+      basicVaultAddress: "0x8BE731cB3b301b4a209C1A38ea14D6438e6913F6",
     },
   },
 
@@ -160,7 +160,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.BSC,
-      basicVaultAddress: "0x7009369f1Cf3d02BD7Cc3cBa8142089AC14406B9",
+      basicVaultAddress: "0xfe9B8054B947aCEeC01912Cf1811DB06fc804b69",
     },
   },
 
@@ -170,7 +170,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.FANTOM,
-      basicVaultAddress: "0xa79137eF0E33899fcd2CaAeD809Fbf58208fbcE9",
+      basicVaultAddress: "0x302ABD505757FD355C8ef3cF8b4918D6404f4996",
     },
   },
 
@@ -180,7 +180,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.FANTOM,
-      basicVaultAddress: "0xB20B3a5E4b9573e7B3b8DA1BA938c9471AD3B8dD",
+      basicVaultAddress: "0x7EDa4C29726355D0d8E85001B9152158b35Eae4f",
     },
   },
 
@@ -190,7 +190,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.BOBA,
-      basicVaultAddress: "0xC0c69D17f3821Ef7423364a942677f91434F1d19",
+      basicVaultAddress: "0x5a9f1D95C59365613B4224e690Bb4971DD246142",
     },
   },
 
@@ -200,7 +200,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.CRONOS,
-      basicVaultAddress: "0xEc9284b92B8039c4180Ac99863ed73Ee5Ff33E63",
+      basicVaultAddress: "0x99F05418967d3596CAfd260913b682Fd9b0CBB40",
     },
   },
 ];
