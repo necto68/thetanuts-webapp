@@ -48,15 +48,15 @@ export const Root = () => {
           <LayoutContainer>
             <AnnouncementContainer>
               <AnnouncementTitle>
-                Migration from Thetanuts v0 to Thetanuts Basic starting from
-                02/09/2022.{" "}
+                To learn more about Thetanuts&apos;s support for ETH PoS network
+                and vault migration, please{" "}
                 <AnnouncementLink
                   target="_blank"
-                  to="https://thetanutsfinance.medium.com/thetanuts-basic-option-vault-migration-58a7c58898c4"
+                  to="https://docs.thetanuts.finance/faq/eth-pos-merge"
                 >
-                  Click here
-                </AnnouncementLink>{" "}
-                to read more.
+                  click here
+                </AnnouncementLink>
+                .
               </AnnouncementTitle>
             </AnnouncementContainer>
             <GridContainer>
