@@ -16,6 +16,8 @@ import {
   Cro,
   Ada,
   Bch,
+  Aurora,
+  Near,
 } from "../components";
 
 export const logosMap: Record<string, ComponentType> = {
@@ -36,4 +38,6 @@ export const logosMap: Record<string, ComponentType> = {
   CRO: Cro,
   ADA: Ada,
   BCH: Bch,
+  AURORA: Aurora,
+  NEAR: Near,
 };

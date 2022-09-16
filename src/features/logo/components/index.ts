@@ -13,3 +13,5 @@ export * from "./boba";
 export * from "./cro";
 export * from "./ada";
 export * from "./bch";
+export * from "./aurora";
+export * from "./near";
