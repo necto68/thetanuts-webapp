@@ -11,6 +11,7 @@ export enum ChainId {
   FANTOM = 250,
   BOBA = 288,
   CRONOS = 25,
+  AURORA = 1_313_161_554,
 }
 
 export const chainIconSymbols: Record<ChainId, string> = {
@@ -21,6 +22,7 @@ export const chainIconSymbols: Record<ChainId, string> = {
   [ChainId.FANTOM]: "FTM",
   [ChainId.BOBA]: "BOBA",
   [ChainId.CRONOS]: "CRO",
+  [ChainId.AURORA]: "AURORA",
 };
 
 export const chains: ChainConfig[] = [
@@ -194,6 +196,29 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "",
       directWithdrawalAddress: "",
       basicVaultReaderAddress: "0xaF724813e860B462a3387Fb97CC2600179CAF9e1",
+    },
+  },
+  {
+    chainId: ChainId.AURORA,
+    title: "Aurora",
+    symbol: "ETH",
+
+    urls: {
+      rpc: "https://mainnet.aurora.dev",
+      explorer: "https://aurorascan.dev/",
+      explorerApi: "https://api.aurorascan.dev/",
+    },
+
+    keys: {
+      explorerApi: "2E61KG4DBVCCS9CPCDIRSUPEWFTV31HQFK",
+    },
+
+    addresses: {
+      routerAddress: "0x2CB45Edb4517d5947aFdE3BEAbF95A582506858B",
+      lendingPoolAddress: "",
+      directDepositorAddress: "",
+      directWithdrawalAddress: "",
+      basicVaultReaderAddress: "0xd07C970e8F8534Da02096862F23A9a91C6F716a3",
     },
   },
 ];

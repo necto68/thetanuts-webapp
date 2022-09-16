@@ -167,6 +167,26 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 
+  // polygon - matic call
+  {
+    id: "TN-CSCCv1-MATICUSD",
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x9dA79023Af00d1f2054BB1eED0D49004fe41C5b5",
+    },
+  },
+
+  // polygon - matic put
+  {
+    id: "TN-CSCPv1-MATICUSD",
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x1724B8679A9CaD6CABDef7DbEE1d5b03b44584B2",
+    },
+  },
+
   // fantom - ftm call
   {
     id: "TN-CSCCv1-FTMUSD",
@@ -204,6 +224,16 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     source: {
       chainId: ChainId.CRONOS,
       basicVaultAddress: "0x99F05418967d3596CAfd260913b682Fd9b0CBB40",
+    },
+  },
+
+  // aurora - near call
+  {
+    id: "TN-CSCCv1-NEARUSD",
+
+    source: {
+      chainId: ChainId.AURORA,
+      basicVaultAddress: "0xfc7F11Bb0d97d9db1f701eEA0fDE611536F1EB5F",
     },
   },
 ];
