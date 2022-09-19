@@ -112,7 +112,7 @@ export const chains: ChainConfig[] = [
     symbol: "AVAX",
 
     urls: {
-      rpc: "https://rpc.ankr.com/avalanche",
+      rpc: "https://api.avax.network/ext/bc/C/rpc",
       explorer: "https://snowtrace.io/",
       explorerApi: "https://api.snowtrace.io/",
     },
