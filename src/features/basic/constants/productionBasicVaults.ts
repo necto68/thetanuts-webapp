@@ -127,6 +127,16 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   //   },
   // },
 
+  // bsc = bnb call
+  {
+    id: "TN-CSCCv1-BNBUSD",
+
+    source: {
+      chainId: ChainId.BSC,
+      basicVaultAddress: "0x9EF72De1782431cf54518c42C06e26014E7201D1",
+    },
+  },
+
   // bsc - ada call
   {
     id: "TN-CSCCv1-ADAUSD",
@@ -144,6 +154,16 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     source: {
       chainId: ChainId.BSC,
       basicVaultAddress: "0xc879ecC0d2cdA26072e9049178a99B26C51eDF8a",
+    },
+  },
+
+  // bsc = bnb put
+  {
+    id: "TN-CSCPv1-BNBUSD",
+
+    source: {
+      chainId: ChainId.BSC,
+      basicVaultAddress: "0xc75C3BE0Bc41857B9c1a675475F6E0a7c5Db63fC",
     },
   },
 
@@ -184,6 +204,26 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     source: {
       chainId: ChainId.POLYGON,
       basicVaultAddress: "0x1724B8679A9CaD6CABDef7DbEE1d5b03b44584B2",
+    },
+  },
+
+  // avalanche - avax call
+  {
+    id: "TN-CSCCv1-AVAXUSD",
+
+    source: {
+      chainId: ChainId.AVALANCHE,
+      basicVaultAddress: "0xd06Bd68d58eD40CC2031238A3993b99172ea37cA",
+    },
+  },
+
+  // avalanche - avax put
+  {
+    id: "TN-CSCPv1-AVAXUSD",
+
+    source: {
+      chainId: ChainId.AVALANCHE,
+      basicVaultAddress: "0xa84aA41B6287aFE467ccE688f3796A2205198F07",
     },
   },
 
