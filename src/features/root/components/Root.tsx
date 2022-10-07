@@ -14,9 +14,6 @@ import { useSidebarState } from "../../sidebar/hooks";
 
 import { MobileHeader } from "./MobileHeader";
 import {
-  AnnouncementContainer,
-  AnnouncementLink,
-  AnnouncementTitle,
   BackgroundContainer,
   Container,
   GridContainer,
@@ -25,6 +22,13 @@ import {
   PageContainer,
   SidebarContainer,
 } from "./Root.styles";
+
+// TODO: use when need announcement
+// import {
+//   AnnouncementContainer,
+//   AnnouncementLink,
+//   AnnouncementTitle,
+// } from "./Root.styles";
 
 export const Root = () => {
   const currentPagePathname = useCurrentPagePathname();
@@ -46,19 +50,14 @@ export const Root = () => {
           <Modal />
           {isShow && isTablet ? <Backdrop onClick={closeSidebar} /> : null}
           <LayoutContainer>
-            <AnnouncementContainer>
+            {/* <AnnouncementContainer>
               <AnnouncementTitle>
-                To learn more about Thetanuts&apos;s support for ETH PoS network
-                and vault migration, please{" "}
-                <AnnouncementLink
-                  target="_blank"
-                  to="https://docs.thetanuts.finance/faq/eth-pos-merge"
-                >
-                  click here
+                TITLE
+                <AnnouncementLink target="_blank" to="">
+                  LINK
                 </AnnouncementLink>
-                .
               </AnnouncementTitle>
-            </AnnouncementContainer>
+            </AnnouncementContainer> */}
             <GridContainer>
               <SidebarContainer>
                 <Sidebar />

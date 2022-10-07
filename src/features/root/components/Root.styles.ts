@@ -41,7 +41,7 @@ export const LayoutContainer = styled.div`
   height: max-content;
   min-height: 100%;
 
-  padding: 0 15px 15px;
+  padding: 15px;
 
   ${screens.xl} {
     padding: 0;
