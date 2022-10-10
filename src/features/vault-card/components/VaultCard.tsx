@@ -16,6 +16,7 @@ import {
   SubTitle,
   CardLink,
   DataContent,
+  SkeletonContainer,
 } from "./VaultCard.styles";
 
 export interface VaultCardProps {
@@ -31,6 +32,8 @@ export interface VaultCardProps {
   content?: ReactNode;
   footerContent?: ReactNode;
   link?: LocationDescriptor;
+  titleBgColor?: string;
+  borderColor?: string;
 }
 
 export const VaultCard: FC<VaultCardProps> = ({
@@ -55,7 +58,9 @@ export const VaultCard: FC<VaultCardProps> = ({
     <CardLink to={!disabled && link ? link : {}}>
       <Header>
         {isLoading ? (
-          <SkeletonBox height={14} width={60} />
+          <SkeletonContainer>
+            <SkeletonBox height={14} width={60} />
+          </SkeletonContainer>
         ) : (
           <Title>{title}</Title>
         )}
@@ -84,9 +89,7 @@ export const VaultCard: FC<VaultCardProps> = ({
               </APYContainer>
             ) : (
               <APYContainer>
-                <APYTitle
-                  backgroundColor={backgroundColor}
-                >{`${apy}%`}</APYTitle>
+                <APYTitle>{`${apy}%`}</APYTitle>
                 <SubTitle>APY%</SubTitle>
               </APYContainer>
             )}

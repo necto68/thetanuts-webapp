@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
 import { screens } from "../../shared/constants";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 interface IsActiveProps {
   isActive: boolean;
@@ -17,7 +18,6 @@ export const Container = styled.div`
 export const Button = styled(BaseButton)`
   font-size: 20px;
   border: 0;
-  text-transform: uppercase;
 
   padding: 20px 0;
 
@@ -37,7 +37,5 @@ export const Underline = styled(motion.div).attrs<IsActiveProps>(
 )<IsActiveProps>`
   width: 100%;
   height: 5px;
-  border-radius: 2px;
-  background-color: #1fffab;
-  transform: translateY(3px);
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.brandColor};
 `;

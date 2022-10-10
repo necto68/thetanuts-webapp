@@ -10,7 +10,6 @@ import { CurrentDateProvider } from "../../basic-vault/providers";
 import { RouterPathname } from "../types";
 import { useWalletAutoConnect } from "../hooks";
 import { useIsTablet } from "../../shared/hooks";
-import { useCurrentPagePathname } from "../hooks/useCurrentPagePathname";
 import { useSidebarState } from "../../sidebar/hooks";
 
 import { MobileHeader } from "./MobileHeader";
@@ -32,7 +31,6 @@ import {
 // } from "./Root.styles";
 
 export const Root = () => {
-  const currentPagePathname = useCurrentPagePathname();
   const { isShow, toggleIsShow } = useSidebarState();
   const isTablet = useIsTablet();
 
@@ -47,7 +45,7 @@ export const Root = () => {
   return (
     <CurrentDateProvider>
       <Container>
-        <BackgroundContainer pathname={currentPagePathname}>
+        <BackgroundContainer>
           <Modal />
           {isShow && isTablet ? <Backdrop onClick={closeSidebar} /> : null}
           <LayoutContainer>

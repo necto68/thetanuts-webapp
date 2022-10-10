@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import type { BasicVault } from "../../basic-vault/types";
-import { VaultType } from "../../basic-vault/types";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 import { Title } from "./BasicVaultAssetCell.styles";
 
@@ -14,7 +14,7 @@ export const StrategyTitleContainer = styled.div`
 `;
 
 export const StrategyTitle = styled(Title)<StrategyTitleProps>`
-  color: ${({ type }) => (type === VaultType.CALL ? "#02d1ff" : "#fe9902")};
+  color: ${({ theme }: Theme<AppTheme>) => theme.textColor};
   text-transform: uppercase;
 `;
 

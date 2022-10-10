@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 import { screens } from "../../shared/constants";
 import { Link } from "../../shared/components";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 export const SidebarContainer = styled(motion.div).attrs<{
   isShow: boolean;
@@ -21,11 +22,10 @@ export const SidebarContainer = styled(motion.div).attrs<{
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 15px;
-  background-color: rgba(1, 12, 26, 0.7);
-  border-radius: 10px;
-  padding: 25px 20px 25px 25px;
-  height: calc(100vh - 30px);
+  top: 0;
+  border-right: 1px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
+  padding: 40px 20px 25px 25px;
+  height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
   width: 180px;
@@ -35,7 +35,7 @@ export const SidebarContainer = styled(motion.div).attrs<{
 
   ${screens.xl} {
     top: 0;
-    background-color: #0a1026;
+    background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
     border-radius: 0;
     padding: 10px 25px 25px 50px;
 
@@ -61,7 +61,7 @@ export const sidebarSeparatorMixin = css`
     top: calc(var(--sidebar-gap) / -2);
     width: 100%;
     height: 1px;
-    background: #ffffff;
+    background: ${({ theme }: Theme<AppTheme>) => theme.borderColor};
   }
 `;
 

@@ -1,8 +1,8 @@
 import {
   APYCellContainer,
+  CellValue,
   Chains,
   DepositButton,
-  GreenCellValue,
   Table,
 } from "../../table/components";
 import type { Column } from "../../table/types";
@@ -103,7 +103,7 @@ const columns: Column<BasicVault>[] = [
 
     render: ({ id, percentageYields }) => (
       <APYCellContainer>
-        <GreenCellValue>{`${percentageYields.annualPercentageYield}%`}</GreenCellValue>
+        <CellValue>{`${percentageYields.annualPercentageYield}%`}</CellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={percentageYields} />

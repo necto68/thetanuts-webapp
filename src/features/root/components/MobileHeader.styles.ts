@@ -7,12 +7,17 @@ import {
 import { BaseButton } from "../../shared/components";
 import { ButtonsContainer } from "../../header/components/HeaderButtons.styles";
 import { screens } from "../../shared/constants";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 10px 15px;
-  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px 30px 10px 40px;
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
+
+  ${screens.md} {
+    padding: 10px 15px 10px 30px;
+  }
 `;
 
 export const HeaderButtonContainer = styled.div`

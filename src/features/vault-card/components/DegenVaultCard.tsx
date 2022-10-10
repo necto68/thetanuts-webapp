@@ -2,15 +2,10 @@ import type { FC } from "react";
 
 import { IconContainer } from "../../shared/components";
 
-import {
-  Container,
-  Content,
-  Header,
-  SymbolTitle,
-  CardLink,
-} from "./VaultCard.styles";
+import { Container, Content, SymbolTitle, CardLink } from "./VaultCard.styles";
 import {
   DataContainer,
+  Header,
   Title,
   DataContent,
   DataItemContainer,
@@ -36,12 +31,14 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
   apy,
   backgroundColor,
   shadowColor,
+  borderColor,
   content,
   footerContent,
   link,
 }) => (
   <Container
     backgroundColor={backgroundColor}
+    borderColor={borderColor}
     disabled={disabled}
     shadowColor={shadowColor}
   >
@@ -55,15 +52,11 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
             <DataItemContainer>
               <APYContainer>
                 <APYTitle>Weekly Yield</APYTitle>
-                <APYValue
-                  backgroundColor={backgroundColor}
-                >{`${weeklyYield}%`}</APYValue>
+                <APYValue>{`${weeklyYield}%`}</APYValue>
               </APYContainer>
               <APYContainer>
                 <APYTitle>APY</APYTitle>
-                <APYValue
-                  backgroundColor={backgroundColor}
-                >{`${apy}%`}</APYValue>
+                <APYValue>{`${apy}%`}</APYValue>
               </APYContainer>
             </DataItemContainer>
             <DataItemContainer>

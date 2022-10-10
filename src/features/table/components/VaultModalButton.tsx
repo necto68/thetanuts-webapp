@@ -1,11 +1,13 @@
 import type { FC } from "react";
 import { useCallback } from "react";
 import { generatePath } from "react-router-dom";
+import { useTheme } from "styled-components";
 
 import { Link } from "../../shared/components";
 import { useVaultModalState } from "../../modal/hooks";
 import type { VaultModalState } from "../../shared/hooks";
 import { getModalPathname } from "../../root/helpers";
+import type { AppTheme } from "../../app/constants/appTheme";
 
 import { BaseVaultModalButton } from "./VaultModalButton.styles";
 
@@ -23,10 +25,13 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
   vaultId,
   vaultType,
   withdrawId,
-  borderColor = "#81E429",
+  borderColor,
   children,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
+
+  const theme = useTheme() as AppTheme;
+  const defaultBorderColor = theme.borderColor;
 
   const { isRouterModal } = vaultModalState;
 
@@ -59,7 +64,7 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
     <Link to={vaultModalRoute}>
       <BaseVaultModalButton
         onClick={handleButtonClick}
-        primaryColor={borderColor}
+        primaryColor={borderColor ?? defaultBorderColor}
       >
         {children}
       </BaseVaultModalButton>

@@ -1,18 +1,27 @@
 import styled from "styled-components";
 
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
+
 import {
   DataContainer as VaultCardDataContainer,
   Title as VaultCardTitle,
   APYTitle as VaultCardAPYTitle,
   SubTitle as VaultCardSubTitle,
+  Header as VaultCardHeader,
 } from "./VaultCard.styles";
 
 export const DataContainer = styled(VaultCardDataContainer)`
   padding: 8px 2px 5px;
 `;
 
+export const Header = styled(VaultCardHeader)`
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.degenColor};
+`;
+
 export const Title = styled(VaultCardTitle)`
   color: #ffffff;
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.degenColor};
+  border-bottom: 1px solid ${({ theme }: Theme<AppTheme>) => theme.degenColor};
 `;
 
 export const DataContent = styled.div`

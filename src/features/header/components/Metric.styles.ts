@@ -13,7 +13,6 @@ export const Container = styled.div`
     flex-direction: row;
     min-width: 120px;
 
-    background-color: #010c1a;
     border-radius: 4px;
     padding: 6px 10px;
     align-items: center;
@@ -28,15 +27,7 @@ export const MetricTitleContainer = styled.div`
   }
 `;
 
-export const MetricValueContainer = styled(MetricTitleContainer)`
-  background-color: #010c1a;
-  border-radius: 10px;
-  padding: 6px 10px;
-
-  ${screens.md} {
-    padding: 0;
-  }
-`;
+export const MetricValueContainer = styled(MetricTitleContainer)``;
 
 export const MetricTitle = styled.span`
   font-family: Barlow;

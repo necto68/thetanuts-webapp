@@ -1,11 +1,11 @@
 import {
   Table,
   APYCellContainer,
-  GreenCellValue,
   Chains,
   DemoButton,
   AssetCell,
   SwapButton,
+  CellValue,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useIndexVaults } from "../../index-vault/hooks";
@@ -43,9 +43,7 @@ const columns: Column<IndexVaultRow>[] = [
     key: "type",
     title: "Strategy",
 
-    render: ({ type }) => (
-      <GreenCellValue>{getVaultTypeTitle(type)}</GreenCellValue>
-    ),
+    render: ({ type }) => <CellValue>{getVaultTypeTitle(type)}</CellValue>,
 
     filterBy: ({ type }) => getVaultTypeTitle(type),
   },
@@ -66,7 +64,7 @@ const columns: Column<IndexVaultRow>[] = [
 
     render: ({ id, totalPercentageYields }) => (
       <APYCellContainer>
-        <GreenCellValue>{`${totalPercentageYields.annualPercentageYield}%`}</GreenCellValue>
+        <CellValue>{`${totalPercentageYields.annualPercentageYield}%`}</CellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={totalPercentageYields} />

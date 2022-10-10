@@ -2,12 +2,11 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { screens } from "../../shared/constants";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: rgba(1, 12, 26, 0.7);
-  border-radius: 10px;
 `;
 
 export const TabContainer = styled.div`
@@ -23,7 +22,7 @@ export const TabContainer = styled.div`
 export const TabsHeaderContainer = styled.div`
   display: flex;
   gap: 30px;
-  border-bottom: 1px solid #9e9e9e;
+  border-bottom: 1px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
 
   padding: 0 25px;
 

@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import Big from "big.js";
 import { generatePath } from "react-router-dom";
+import { useTheme } from "styled-components";
 
 import { highYieldFormatter, numberFormatter } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
@@ -10,6 +11,7 @@ import { ProgressBarColor, VaultType } from "../../basic-vault/types";
 import { getDegenVaultTypeShortName, getDegenVaultTitle } from "../helpers";
 import { EpochTimer, BasicVaultCapacity } from "../../basic-vault/components";
 import { useBasicVault } from "../../basic-vault/hooks";
+import type { AppTheme } from "../../app/constants/appTheme";
 
 interface DegenVaultProps {
   degenVaultId: string;
@@ -37,7 +39,8 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
 
   const symbol = assetSymbol;
 
-  const backgroundColor = "#EB5353";
+  const theme = useTheme() as AppTheme;
+  const { degenColor, bgColor: backgroundColor } = theme;
 
   const formattedTotalAPY = highYieldFormatter(annualPercentageYield);
   const formattedWeeklyYield = numberFormatter.format(weeklyPercentageYield);
@@ -58,6 +61,7 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
     <DegenVaultCard
       apy={formattedTotalAPY}
       backgroundColor={backgroundColor}
+      borderColor={degenColor}
       content={
         <BasicVaultCapacity
           balance={balance}
