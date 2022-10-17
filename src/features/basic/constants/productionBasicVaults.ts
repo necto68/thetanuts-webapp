@@ -313,7 +313,7 @@ export const productionDegenVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0x950D86F41a667bB892d87097f3A8e61eeFA77D00",
+      basicVaultAddress: "0x1A16a54e071C872eDae94425CcAbd08Bc3079687",
     },
   },
   {
