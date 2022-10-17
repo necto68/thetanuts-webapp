@@ -14,7 +14,9 @@ import {
 import {
   CircleButton,
   CircleButtonIconType,
-  GradientButton,
+
+  // we don't need V0Button currently
+  // GradientButton,
   IconContainer,
 } from "../../shared/components";
 import { PagePathname } from "../../root/types";
@@ -30,8 +32,9 @@ import {
   MainNavContainer,
   SecondaryNavContainer,
   SidebarContainer,
-  SwitchToV0ButtonContainer,
-  SwitchToV0Link,
+
+  // SwitchToV0ButtonContainer,
+  // SwitchToV0Link,
 } from "./Sidebar.styles";
 import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
@@ -130,7 +133,7 @@ export const Sidebar = () => {
           />
         ))}
       </MainNavContainer>
-      <SwitchToV0ButtonContainer>
+      {/* <SwitchToV0ButtonContainer>
         <SwitchToV0Link
           target="_blank"
           to="https://thetanuts.finance/basic/vaults"
@@ -140,7 +143,7 @@ export const Sidebar = () => {
             title="Switch to Thetanuts v0"
           />
         </SwitchToV0Link>
-      </SwitchToV0ButtonContainer>
+      </SwitchToV0ButtonContainer> */}
       <SecondaryNavContainer>
         {secondaryNavItems.map((navItem) => (
           <SidebarItem

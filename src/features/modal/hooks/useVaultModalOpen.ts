@@ -43,10 +43,10 @@ export const useVaultModalOpen = () => {
 
   const indexPageUrlMatch = useRouteMatch(PagePathname.thetaIndex);
   const basicPageUrlMatch = useRouteMatch(PagePathname.basic);
+  const degenPageUrlMatch = useRouteMatch(PagePathname.degen);
 
-  // both of them will be matched, because "/basic" route also will match "/"
-  // so we need to check basicPageUrlMatch before indexPageUrlMatch
-  const pageUrlMatch = basicPageUrlMatch ?? indexPageUrlMatch;
+  const pageUrlMatch =
+    indexPageUrlMatch ?? basicPageUrlMatch ?? degenPageUrlMatch;
 
   const indexVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.indexVaultModal

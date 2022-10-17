@@ -1,6 +1,6 @@
 export enum PagePathname {
-  thetaIndex = "/",
+  thetaIndex = "/stronghold",
   basic = "/basic",
-  degen = "/degen",
+  degen = "/degen-vault",
   portfolio = "/portfolio",
 }

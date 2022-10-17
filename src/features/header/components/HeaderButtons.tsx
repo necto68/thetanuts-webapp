@@ -2,11 +2,13 @@ import { useWallet } from "@gimmixorg/use-wallet";
 
 import { ChainSelect, WalletButton } from "../../wallet/components";
 
-import { SwitchToV0Button } from "./SwitchToV0Button";
+// we don't need V0Button currently
+// import { SwitchToV0Button } from "./SwitchToV0Button";
 import {
   Container,
   ButtonsContainer,
-  SwitchToV0ButtonContainer,
+
+  // SwitchToV0ButtonContainer,
 } from "./HeaderButtons.styles";
 
 export const HeaderButtons = () => {
@@ -14,9 +16,9 @@ export const HeaderButtons = () => {
 
   return (
     <Container>
-      <SwitchToV0ButtonContainer>
+      {/* <SwitchToV0ButtonContainer>
         <SwitchToV0Button />
-      </SwitchToV0ButtonContainer>
+      </SwitchToV0ButtonContainer> */}
       {network ? (
         <ButtonsContainer>
           <ChainSelect />
