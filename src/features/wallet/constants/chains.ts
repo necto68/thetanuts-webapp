@@ -43,7 +43,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "0xc4A024eAcB72F09900737E07605e253f73D408c7",
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
       basicVaultReaderAddress: "0xEcA593A42E9A0120B03E8784Ca61673e4a40Ba13",
-      basicVaultDepositorAddress: "0x8FA89B30A455B80F5Df2f8300950910b1Cf50813",
+      basicVaultDepositorAddress: "0xaA7e4C5F93Aa986d627113496570A732386F570d",
     },
 
     deployerAddresses: {
