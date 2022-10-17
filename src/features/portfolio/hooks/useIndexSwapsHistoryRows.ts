@@ -26,7 +26,7 @@ export const useIndexSwapsHistoryRows = (): (
       return undefined;
     }
 
-    const { assetSymbol } = data;
+    const { type: strategyType, assetSymbol, collateralSymbol } = data;
 
     return historyTransactions.map(
       ({ id, type, timestamp, amountIn, amountOut, chainId }) => {
@@ -46,7 +46,9 @@ export const useIndexSwapsHistoryRows = (): (
 
           chainId,
           vaultType: VaultModalType.index,
+          strategyType,
           assetSymbol,
+          collateralSymbol,
           symbol,
         };
       }

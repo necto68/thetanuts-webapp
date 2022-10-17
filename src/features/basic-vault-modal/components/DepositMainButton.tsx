@@ -5,7 +5,6 @@ import Big from "big.js";
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
 import { useBasicModalMutations, useBasicModalState } from "../hooks";
 import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
-import { TabType } from "../types";
 import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { InsufficientBalanceMainButton } from "../../modal/components/InsufficientBalanceMainButton";
@@ -17,11 +16,10 @@ import { resetMutations } from "../helpers";
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
 // eslint-disable-next-line complexity
-export const MainButton = () => {
+export const DepositMainButton = () => {
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
   const {
-    tabType,
     inputValue,
     tokenData,
     isTokenDataLoading,
@@ -33,32 +31,18 @@ export const MainButton = () => {
     approveAllowanceMutation,
     wrapMutation,
     depositMutation,
-    initWithdrawMutation,
-    cancelWithdrawMutation,
-    withdrawMutation,
     runApproveAllowance,
     runWrap,
     runDeposit,
-    runInitWithdraw,
   } = useBasicModalMutations();
 
   const { account } = useWallet();
 
   const handleResetButtonClick = useCallback(() => {
-    const mutations = [
-      approveAllowanceMutation,
-      wrapMutation,
-      depositMutation,
-      initWithdrawMutation,
-    ];
+    const mutations = [approveAllowanceMutation, wrapMutation, depositMutation];
 
     resetMutations(mutations);
-  }, [
-    approveAllowanceMutation,
-    wrapMutation,
-    depositMutation,
-    initWithdrawMutation,
-  ]);
+  }, [approveAllowanceMutation, wrapMutation, depositMutation]);
 
   const {
     isLoading: isApproveAllowanceLoading,
@@ -78,25 +62,12 @@ export const MainButton = () => {
     error: depositError,
   } = depositMutation ?? {};
 
-  const {
-    isLoading: isInitWithdrawLoading,
-    isError: isInitWithdrawError,
-    error: initWithdrawError,
-  } = initWithdrawMutation ?? {};
-
-  const { isLoading: isCancelWithdrawLoading } = cancelWithdrawMutation ?? {};
-  const { isLoading: isWithdrawLoading } = withdrawMutation ?? {};
-
-  const isCancelWithdrawOrWithdrawMutationLoading =
-    Boolean(isCancelWithdrawLoading) || Boolean(isWithdrawLoading);
-
   const isError =
     Boolean(isApproveAllowanceError) ||
     Boolean(isWrapError) ||
-    Boolean(isDepositError) ||
-    Boolean(isInitWithdrawError);
-  const error =
-    approveAllowanceError ?? wrapError ?? depositError ?? initWithdrawError;
+    Boolean(isDepositError);
+
+  const error = approveAllowanceError ?? wrapError ?? depositError;
 
   const inputValueBig = new Big(inputValue || 0);
 
@@ -108,10 +79,7 @@ export const MainButton = () => {
     inputValueBig.gt(currentTokenData.allowance);
 
   const isMainButtonDisabled =
-    isTokenDataLoading ||
-    isCancelWithdrawOrWithdrawMutationLoading ||
-    !currentTokenData ||
-    inputValueBig.lte(0);
+    isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
 
   if (!account) {
     return <ConnectWalletMainButton />;
@@ -148,7 +116,7 @@ export const MainButton = () => {
     );
   }
 
-  if (tabType === TabType.deposit && isNeedApprove) {
+  if (isNeedApprove) {
     return (
       <ActionMainButton onClick={runApproveAllowance}>
         {`Approve ${currentTokenData.symbol} for Deposit`}
@@ -156,19 +124,15 @@ export const MainButton = () => {
     );
   }
 
-  if (tabType === TabType.deposit && isWrapLoading) {
+  if (isWrapLoading) {
     return <LoadingMainButton>Wrapping...</LoadingMainButton>;
   }
 
-  if (tabType === TabType.deposit && isDepositLoading) {
+  if (isDepositLoading) {
     return <LoadingMainButton>Depositing...</LoadingMainButton>;
   }
 
-  if (tabType === TabType.withdraw && isInitWithdrawLoading) {
-    return <LoadingMainButton>Initiating Withdraw...</LoadingMainButton>;
-  }
-
-  if (tabType === TabType.deposit && isUseNativeData) {
+  if (isUseNativeData) {
     const buttonTitle = currentTokenData
       ? `Wrap ${currentTokenData.symbol} to W${currentTokenData.symbol}`
       : "Wrap";
@@ -186,29 +150,15 @@ export const MainButton = () => {
     );
   }
 
-  if (tabType === TabType.deposit) {
-    return isMainButtonDisabled ? (
-      <ModalMainButton disabled>Initiate Deposit</ModalMainButton>
-    ) : (
-      <ModalMainButton
-        onClick={runDeposit}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
-        Initiate Deposit
-      </ModalMainButton>
-    );
-  }
-
   return isMainButtonDisabled ? (
-    <ModalMainButton disabled>Initiate Withdraw</ModalMainButton>
+    <ModalMainButton disabled>Initiate Deposit</ModalMainButton>
   ) : (
     <ModalMainButton
-      onClick={runInitWithdraw}
+      onClick={runDeposit}
       primaryColor="#12CC86"
       secondaryColor="#ffffff"
     >
-      Initiate Withdraw
+      Initiate Deposit
     </ModalMainButton>
   );
 };

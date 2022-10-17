@@ -5,11 +5,11 @@ import { screens } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px;
 
-  padding: 0 25px 15px;
+  padding: 0 24px 24px;
 
   ${screens.md} {
-    padding: 0 15px 15px;
+    padding: 0 16px 16px;
   }
 `;

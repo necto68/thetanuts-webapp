@@ -28,15 +28,6 @@ export const DescriptionContainer = styled.div`
   gap: 25px;
 `;
 
-export const BasketIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  ${screens.md} {
-    display: none;
-  }
-`;
-
 export const Title = styled.span`
   font-family: Roboto;
   font-weight: 700;

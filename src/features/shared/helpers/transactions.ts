@@ -7,11 +7,8 @@ import {
 } from "../types";
 
 export const processWalletError = (walletError: unknown) => {
-  const { code, data } = walletError as {
+  const { code } = walletError as {
     code: number;
-    data?: {
-      message?: string;
-    };
   };
 
   // userRejectedRequest error
@@ -20,7 +17,7 @@ export const processWalletError = (walletError: unknown) => {
   }
 
   if (
-    data?.message?.includes(
+    JSON.stringify(walletError).includes(
       TransactionErrorMessageTemplate.SettlementInProgress
     )
   ) {

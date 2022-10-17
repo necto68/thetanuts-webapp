@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import { PendingMutationContent } from "../../modal/components/PendingMutationContent";
 import { numberFormatter } from "../../shared/helpers";
 import { useBasicModalMutations, useBasicModalState } from "../hooks";
@@ -13,7 +15,21 @@ export const BasicModalPendingMutationContent = () => {
     mutationHash = "",
   } = useBasicModalMutations();
 
-  const { withdrawalPending } = basicVaultReaderQuery.data ?? {};
+  const { withdrawalPending: rawWithdrawalPending } =
+    basicVaultReaderQuery.data ?? {};
+
+  const [withdrawalPending, setWithdrawalPending] =
+    useState(rawWithdrawalPending);
+
+  // we need to avoid the case where the user has already withdrawn the funds
+  // and withdrawalPending === 0
+  // so we need to show previous value
+
+  useEffect(() => {
+    if (rawWithdrawalPending?.gt(0)) {
+      setWithdrawalPending(rawWithdrawalPending);
+    }
+  }, [rawWithdrawalPending]);
 
   const formattedWithdrawalPending = withdrawalPending
     ? numberFormatter.format(withdrawalPending.toNumber())

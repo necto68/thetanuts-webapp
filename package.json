@@ -29,7 +29,6 @@
     "ethers": "^5.5.3",
     "fast-sort": "^3.1.1",
     "framer-motion": "^6.2.3",
-    "moment": "^2.29.1",
     "rc-pagination": "^3.1.17",
     "react": "^17.0.2",
     "react-div-100vh": "^0.7.0",

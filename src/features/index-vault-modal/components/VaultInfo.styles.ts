@@ -1,10 +1,18 @@
 import styled from "styled-components";
 
+import { ExpandableContainer } from "./Expander.styles";
+
+export const Wrapper = styled.div`
+  ${ExpandableContainer} {
+    overflow: hidden;
+  }
+`;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 7px;
-  padding: 0 10px;
+  gap: 4px;
+  padding: 10px 0;
 `;
 
 export const InfoContainer = styled.div`
@@ -13,6 +21,13 @@ export const InfoContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+`;
+
+export const InfoSeparator = styled.div`
+  height: 1px;
+  width: 100%;
+  margin: 4px 0;
+  background-color: #c7c7c7;
 `;
 
 export const InfoTitleContainer = styled.div`
@@ -28,7 +43,7 @@ export const InfoTitle = styled.span<{
   font-family: Barlow;
   font-weight: 500;
   font-size: 12px;
-  color: #061f3a;
+  color: #ffffff;
   text-align: ${({ isAlignRight = false }) =>
     isAlignRight ? "right" : "left"};
   text-decoration: ${({ isUnderline = false }) =>
@@ -36,7 +51,9 @@ export const InfoTitle = styled.span<{
   cursor: ${({ isUnderline = false }) => (isUnderline ? "pointer" : "auto")};
 `;
 
-export const InfoValue = styled(InfoTitle)``;
+export const InfoValue = styled(InfoTitle)`
+  white-space: nowrap;
+`;
 
 export const InfoTitleLight = styled(InfoTitle)`
   color: #ffffff;

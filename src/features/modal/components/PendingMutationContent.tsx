@@ -9,7 +9,7 @@ import { PathType } from "../../wallet/types";
 import { Link } from "../../shared/components";
 import { useVaultModalState } from "../hooks";
 import type { ChainId } from "../../wallet/constants";
-import { PagePathname, VaultModalType } from "../../root/types";
+import { getPagePathname } from "../../root/helpers";
 
 import {
   Container,
@@ -33,7 +33,7 @@ interface PendingMutationContentProps {
   chainId: ChainId;
   mutationHash: string;
   isMutationSucceed: boolean;
-  sourceTokenData: TokenData;
+  sourceTokenData?: TokenData;
   targetTokenData?: TokenData;
   pendingTitle: string;
   successTitle: string;
@@ -51,10 +51,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   const [vaultModalState, setVaultModalState] = useVaultModalState();
   const { isRouterModal, vaultType } = vaultModalState;
 
-  const pathname =
-    vaultType === VaultModalType.index
-      ? PagePathname.thetaIndex
-      : PagePathname.basic;
+  const pathname = getPagePathname(vaultType);
   const pageRoute = isRouterModal ? { pathname } : {};
 
   // background animation
@@ -101,7 +98,9 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
           </AnimationContainer>
           <Title>{isMutationSucceed ? successTitle : pendingTitle}</Title>
           <RatioTitleContainer>
-            <RatioTitle>{`${sourceTokenData.value} ${sourceTokenData.symbol}`}</RatioTitle>
+            {sourceTokenData ? (
+              <RatioTitle>{`${sourceTokenData.value} ${sourceTokenData.symbol}`}</RatioTitle>
+            ) : null}
             {targetTokenData ? <ToTitle>↓</ToTitle> : null}
             {targetTokenData ? (
               <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>

@@ -8,7 +8,15 @@ import type { VaultModalType } from "../../root/types/VaultModalType";
 import type { Transaction } from "./transaction";
 
 export interface BaseRow
-  extends Pick<BasicVault, "assetPrice" | "assetSymbol" | "chainId" | "id">,
+  extends Pick<
+      BasicVault,
+      | "assetPrice"
+      | "assetSymbol"
+      | "chainId"
+      | "collateralSymbol"
+      | "id"
+      | "type"
+    >,
     Pick<Token, "balance" | "symbol">,
     Pick<PercentageYields, "annualPercentageYield"> {
   vaultType: VaultModalType;
@@ -19,14 +27,13 @@ export interface IndexVaultRow extends BaseRow {
   withdrawId?: number;
 }
 
-export interface BasicVaultRow extends BaseRow {
-  collateralSymbol?: BasicVault["collateralSymbol"];
-}
+export type BasicVaultRow = BaseRow;
 
 export interface HistoryTransactionRow
-  extends Pick<IndexVault, "assetSymbol">,
+  extends Pick<IndexVault, "assetSymbol" | "collateralSymbol">,
     Pick<Token, "symbol">,
     Pick<Transaction, "chainId" | "id" | "timestamp" | "type"> {
   balance: Big;
+  strategyType: IndexVault["type"];
   vaultType: VaultModalType;
 }

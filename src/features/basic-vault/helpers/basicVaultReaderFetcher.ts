@@ -6,19 +6,21 @@ import { convertToBig, queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { basicVaultsMap } from "../../basic/constants";
 import type { BasicVaultReader } from "../types";
+import type { BasicVaultType } from "../../basic/types";
 
 import { basicVaultFetcher } from "./basicVaultFetcher";
 
 const defaultBasicVaultReader: BasicVaultReader = {
   totalPosition: null,
   currentPosition: null,
+  depositPending: null,
   withdrawalPending: null,
-  premiumRealized: null,
   queuedExitEpoch: null,
 };
 
 export const basicVaultReaderFetcher = async (
   basicVaultId: string,
+  basicVaultType: BasicVaultType,
   basicVaultAddress: string,
   basicVaultReaderAddress: string,
   account: string,
@@ -37,10 +39,15 @@ export const basicVaultReaderFetcher = async (
 
   const [basicVault, vaultPosition] = await Promise.all([
     queryClient.fetchQuery(
-      [QueryType.basicVault, basicVaultId, chainId],
+      [QueryType.basicVault, basicVaultId, basicVaultType, chainId],
 
       async () =>
-        await basicVaultFetcher(basicVaultId, basicVaultAddress, provider)
+        await basicVaultFetcher(
+          basicVaultId,
+          basicVaultType,
+          basicVaultAddress,
+          provider
+        )
     ),
     basicVaultReaderContract
       .myVaultPosition(basicVaultAddress, { from: account })
@@ -53,7 +60,13 @@ export const basicVaultReaderFetcher = async (
 
   const queuedExitEpoch = vaultPosition[5].toNumber();
 
-  const [withdrawalPending, totalPosition, totalPositionWithoutWithdrawal] = [
+  const [
+    depositPending,
+    withdrawalPending,
+    totalPosition,
+    totalPositionWithoutWithdrawal,
+  ] = [
+    vaultPosition[0],
     vaultPosition[2],
     vaultPosition[6],
     vaultPosition[7],
@@ -62,14 +75,11 @@ export const basicVaultReaderFetcher = async (
   const currentPosition =
     epoch > queuedExitEpoch ? totalPositionWithoutWithdrawal : totalPosition;
 
-  // TODO: replace with real value
-  const premiumRealized = new Big("999999999");
-
   return {
     totalPosition,
     currentPosition,
+    depositPending,
     withdrawalPending,
-    premiumRealized,
     queuedExitEpoch,
   };
 };

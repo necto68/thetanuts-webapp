@@ -1,11 +1,11 @@
-import { basicVaults } from "../../basic/constants";
+import { allBasicVaults } from "../../basic/constants";
 import { useBasicVaults, useBasicVaultReaders } from "../../basic-vault/hooks";
 import type { BasicVaultRow } from "../types";
 import { VaultModalType } from "../../root/types";
-import { VaultType } from "../../basic-vault/types";
+import { BasicVaultType } from "../../basic/types";
 
 export const useBasicPositionsRows = (): (BasicVaultRow | undefined)[] => {
-  const basicVaultsIds = basicVaults.map(({ id }) => id);
+  const basicVaultsIds = allBasicVaults.map(({ id }) => id);
   const basicVaultsQueries = useBasicVaults(basicVaultsIds);
   const basicVaultReadersQueries = useBasicVaultReaders(basicVaultsIds);
 
@@ -19,6 +19,7 @@ export const useBasicPositionsRows = (): (BasicVaultRow | undefined)[] => {
 
     const {
       id,
+      basicVaultType,
       type,
       chainId,
       assetSymbol,
@@ -27,16 +28,23 @@ export const useBasicPositionsRows = (): (BasicVaultRow | undefined)[] => {
       annualPercentageYield,
     } = data;
 
-    const { totalPosition } = basicVaultReader;
+    const { depositPending, totalPosition } = basicVaultReader;
+    const balance =
+      depositPending && totalPosition
+        ? depositPending.add(totalPosition)
+        : null;
+
+    const isDegen = basicVaultType === BasicVaultType.DEGEN;
 
     return {
       id,
-      vaultType: VaultModalType.basic,
+      vaultType: isDegen ? VaultModalType.degen : VaultModalType.basic,
+      type,
       chainId,
       assetSymbol,
-      collateralSymbol: type === VaultType.PUT ? collateralSymbol : undefined,
+      collateralSymbol,
       assetPrice: collateralPrice,
-      balance: totalPosition,
+      balance,
       symbol: collateralSymbol,
       annualPercentageYield,
     };

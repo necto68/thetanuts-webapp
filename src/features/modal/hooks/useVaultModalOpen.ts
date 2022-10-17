@@ -11,20 +11,28 @@ import { ModalContentType } from "../../index-vault-modal/types";
 
 import { useVaultModalState } from "./useVaultModalState";
 
+const vaultsMaps = {
+  [VaultModalType.index]: indexVaultsMap,
+  [VaultModalType.basic]: basicVaultsMap,
+  [VaultModalType.degen]: basicVaultsMap,
+};
+
 const getVaultType = (
   vaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   indexVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
-  basicVaultModalUrlMatch: match<VaultModalRouteParameters> | null
+  basicVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
+  degenVaultModalUrlMatch: match<VaultModalRouteParameters> | null
 ) => {
-  if (vaultModalUrlMatch && vaultModalUrlMatch === indexVaultModalUrlMatch) {
-    return VaultModalType.index;
+  switch (vaultModalUrlMatch) {
+    case indexVaultModalUrlMatch:
+      return VaultModalType.index;
+    case basicVaultModalUrlMatch:
+      return VaultModalType.basic;
+    case degenVaultModalUrlMatch:
+      return VaultModalType.degen;
+    default:
+      return null;
   }
-
-  if (vaultModalUrlMatch && vaultModalUrlMatch === basicVaultModalUrlMatch) {
-    return VaultModalType.basic;
-  }
-
-  return null;
 };
 
 export const useVaultModalOpen = () => {
@@ -46,12 +54,20 @@ export const useVaultModalOpen = () => {
   const basicVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.basicVaultModal
   );
-  const vaultModalUrlMatch = indexVaultModalUrlMatch ?? basicVaultModalUrlMatch;
+  const degenVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
+    ModalPathname.degenVaultModal
+  );
+
+  const vaultModalUrlMatch =
+    indexVaultModalUrlMatch ??
+    basicVaultModalUrlMatch ??
+    degenVaultModalUrlMatch;
 
   const vaultType = getVaultType(
     vaultModalUrlMatch,
     indexVaultModalUrlMatch,
-    basicVaultModalUrlMatch
+    basicVaultModalUrlMatch,
+    degenVaultModalUrlMatch
   );
   const vaultId = vaultModalUrlMatch?.params.vaultId;
 
@@ -73,8 +89,8 @@ export const useVaultModalOpen = () => {
     // Open vault modal on router change.
 
     if (vaultType && vaultId && !vaultModalState.isShow && pageUrlMatch) {
-      const vaultsMap =
-        vaultType === VaultModalType.index ? indexVaultsMap : basicVaultsMap;
+      const vaultsMap = vaultsMaps[vaultType];
+
       if (vaultsMap[vaultId]) {
         const chainId = Number(queryParameters.get("chain"));
         setVaultModalState((previousState) => ({

@@ -2,11 +2,13 @@
 
 import Big from "big.js";
 import type { Provider } from "@ethersproject/providers";
+import { BigNumber } from "ethers";
 
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   PriceFeedAbi__factory as PriceFeedAbiFactory,
   BasicVaultAbi__factory as BasicVaultAbiFactory,
+  DegenVaultAbi__factory as DegenVaultAbiFactory,
 } from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
 import {
@@ -17,11 +19,15 @@ import type { ChainId } from "../../wallet/constants";
 import type { BasicVault } from "../types";
 import { VaultType } from "../types";
 import { QueryType } from "../../shared/types";
+import { BasicVaultType } from "../../basic/types";
+import { RiskLevel } from "../types/BasicVault";
 
 import { basicVaultRiskLevelFetcher } from "./basicVaultRiskLevelFetcher";
 
+// eslint-disable-next-line complexity
 export const basicVaultFetcher = async (
   id: string,
+  basicVaultType: BasicVaultType,
   basicVaultAddress: string,
   provider: Provider
 ): Promise<BasicVault> => {
@@ -29,6 +35,13 @@ export const basicVaultFetcher = async (
     basicVaultAddress,
     provider
   );
+
+  const degenVaultContract = DegenVaultAbiFactory.connect(
+    basicVaultAddress,
+    provider
+  );
+
+  const isDegenBasicVaultType = basicVaultType === BasicVaultType.DEGEN;
 
   const lpDivisor = new Big(10).pow(18);
   const priceDivisor = new Big(10).pow(6);
@@ -39,6 +52,7 @@ export const basicVaultFetcher = async (
     name,
     epoch,
     expiry,
+    isAllowInteractions,
     priceFeedAddress,
     linkAggregator,
     collatCapWei,
@@ -57,6 +71,7 @@ export const basicVaultFetcher = async (
       .expiry()
       .then(convertToBig)
       .then((expiryBig) => expiryBig.mul(1000).toNumber()),
+    vaultContract.allowInteractions(),
     vaultContract.priceReader(),
     vaultContract.LINK_AGGREGATOR(),
     vaultContract.collatCap().then(convertToBig),
@@ -78,22 +93,17 @@ export const basicVaultFetcher = async (
     provider
   );
 
-  // getting assetSymbol, currentStrikePrice, valuePerLP and assetPrice
+  // getting assetSymbol, valuePerLP and assetPrice
   const [
     collateralSymbol,
     collateralDecimals,
     balanceWei,
-    currentStrikePrice,
     valuePerLP,
     assetPrice,
   ] = await Promise.all([
     collateralTokenContract.symbol(),
     collateralTokenContract.decimals(),
     collateralTokenContract.balanceOf(basicVaultAddress).then(convertToBig),
-    vaultContract
-      .strikeX1e6(epoch)
-      .then(convertToBig)
-      .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor)),
     vaultContract
       .valuePerLPX1e18(epoch)
       .then(convertToBig)
@@ -108,18 +118,53 @@ export const basicVaultFetcher = async (
   const splitName = name.split(" ");
   const putVaultAssetSymbol = splitName.at(-2);
   const isPutType = splitName.at(-4) === "Put";
+  const isCondorType = splitName.at(-4) === "Condor";
+
+  const isDegenOrPutType = isDegenBasicVaultType || isPutType;
+
   const assetSymbol =
-    isPutType && putVaultAssetSymbol ? putVaultAssetSymbol : collateralSymbol;
+    isDegenOrPutType && putVaultAssetSymbol
+      ? putVaultAssetSymbol
+      : collateralSymbol;
 
-  // for PUT vaults - collateralPrice always will be 1$
-  const collateralPrice = isPutType ? 1 : assetPrice;
+  // for DEGEN vaults and PUT vaults - collateralPrice always will be 1$
+  const collateralPrice = isDegenOrPutType ? 1 : assetPrice;
 
-  const type = isPutType ? VaultType.PUT : VaultType.CALL;
+  let type = VaultType.CALL;
+
+  if (isPutType) {
+    type = VaultType.PUT;
+  } else if (isCondorType) {
+    type = VaultType.CONDOR;
+  } else {
+    type = VaultType.CALL;
+  }
 
   const isSettled = expiry === 0;
   const isExpired = !isSettled && Date.now() > expiry;
 
-  const strikePrice = isSettled || isExpired ? null : currentStrikePrice;
+  // getting currentStrikePrice
+  const [currentStrikePrice, condorVaultStrikePrice0, condorVaultStrikePrice1] =
+    await Promise.all([
+      isDegenBasicVaultType
+        ? degenVaultContract.strikeX1e6(epoch, 0)
+        : vaultContract.strikeX1e6(epoch),
+      isCondorType
+        ? degenVaultContract.strikeX1e6(epoch, 3)
+        : BigNumber.from(0),
+      isCondorType
+        ? degenVaultContract.strikeX1e6(epoch, 1)
+        : BigNumber.from(0),
+    ]).then((prices) =>
+      prices.map((priceValue) =>
+        normalizeVaultValue(convertToBig(priceValue), priceDivisor)
+      )
+    );
+
+  const strikePrices =
+    isDegenBasicVaultType && isCondorType
+      ? [condorVaultStrikePrice0, condorVaultStrikePrice1]
+      : [currentStrikePrice];
 
   // getting balance and collatCap
   const balanceDivisor = new Big(10).pow(collateralDecimals);
@@ -128,10 +173,14 @@ export const basicVaultFetcher = async (
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
 
   // getting riskLevel
-  const riskLevel = await queryClient.fetchQuery(
+  const basicVaultRiskLevel = await queryClient.fetchQuery(
     [QueryType.riskLevel, assetSymbol, type],
     async () => await basicVaultRiskLevelFetcher(assetSymbol, type)
   );
+
+  const riskLevel = isDegenBasicVaultType
+    ? RiskLevel.HIGH
+    : basicVaultRiskLevel;
 
   // getting annual Percentage Yield
   const percentageYields = getPercentageYields(
@@ -144,6 +193,7 @@ export const basicVaultFetcher = async (
 
   return {
     id,
+    basicVaultType,
     basicVaultAddress,
     chainId,
     type,
@@ -162,10 +212,11 @@ export const basicVaultFetcher = async (
     collatCap,
     assetPrice,
     collateralPrice,
-    strikePrice,
+    strikePrices,
     percentageYields,
     annualPercentageYield,
     isSettled,
     isExpired,
+    isAllowInteractions,
   };
 };

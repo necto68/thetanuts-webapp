@@ -26,8 +26,17 @@ type IndexVaultRow = DemoIndexVaultConfig | IndexVault;
 const columns: Column<IndexVaultRow>[] = [
   {
     key: "assetSymbol",
-    title: "Asset",
-    render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
+    title: "Stronghold",
+
+    render: ({ type, assetSymbol, collateralSymbol }) => (
+      <AssetCell
+        assetSymbol={assetSymbol}
+        collateralSymbol={collateralSymbol}
+        type={type}
+        vaultType={VaultModalType.index}
+      />
+    ),
+
     filterBy: true,
   },
   {
@@ -63,7 +72,7 @@ const columns: Column<IndexVaultRow>[] = [
             <PercentageYieldsTooltip percentageYields={totalPercentageYields} />
           }
           id={id}
-          root={<InfoIcon theme="light" />}
+          root={<InfoIcon />}
         />
       </APYCellContainer>
     ),

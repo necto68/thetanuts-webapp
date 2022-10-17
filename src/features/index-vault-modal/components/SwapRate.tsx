@@ -1,4 +1,5 @@
 import type { FC } from "react";
+import type { TooltipProps } from "react-tooltip";
 import { useCallback, useEffect, useState } from "react";
 import Big from "big.js";
 
@@ -20,6 +21,7 @@ interface SwapRateProps {
   targetTokenData: NativeToken | Token | undefined;
   title?: string;
   tooltip?: string;
+  tooltipPlace?: TooltipProps["place"];
   customRates?: (string | undefined)[] | undefined;
   disabled?: boolean;
 }
@@ -51,8 +53,9 @@ export const SwapRate: FC<SwapRateProps> = ({
   isTargetTokenDataLoading,
   sourceTokenData,
   targetTokenData,
-  title,
+  title = "Rate",
   tooltip,
+  tooltipPlace = "top",
   customRates,
   disabled,
 }) => {
@@ -104,19 +107,19 @@ export const SwapRate: FC<SwapRateProps> = ({
 
   return (
     <InfoContainer>
-      {tooltip ? (
-        <InfoTitleContainer>
-          <InfoTitle>{title ?? "Rate"}</InfoTitle>
+      <InfoTitleContainer>
+        {title ? <InfoTitle>{title}</InfoTitle> : null}
+        {tooltip ? (
           <Tooltip
             content={tooltip}
             id="rate-tooltip"
-            place="top"
+            place={tooltipPlace}
             root={<InfoIcon />}
           />
-        </InfoTitleContainer>
-      ) : (
-        <InfoTitle>{title ?? "Rate"} ↔</InfoTitle>
-      )}
+        ) : (
+          "↔"
+        )}
+      </InfoTitleContainer>
       <InfoValue
         isAlignRight
         isUnderline={!disabled}

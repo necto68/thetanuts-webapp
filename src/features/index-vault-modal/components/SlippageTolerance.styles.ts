@@ -13,9 +13,9 @@ export const InputContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 2px;
-  padding: 2px 5px;
-  border-radius: 4px;
-  border: 1px solid #061f3a;
+  padding: 2px 6px;
+  border-radius: 12px;
+  border: 0.5px solid #ffffff;
 `;
 
 export const Input = styled.input.attrs(() => ({
@@ -29,7 +29,7 @@ export const Input = styled.input.attrs(() => ({
   font-family: Barlow;
   font-weight: 500;
   font-size: 12px;
-  color: ${({ isError }) => (isError ? "#EB5853" : "#061f3a")};
+  color: ${({ isError }) => (isError ? "#EB5853" : "#ffffff")};
 
   width: 20px;
   padding: 0;
@@ -54,4 +54,5 @@ export const Title = styled.span`
   font-family: Barlow;
   font-weight: 500;
   font-size: 12px;
+  color: #ffffff;
 `;

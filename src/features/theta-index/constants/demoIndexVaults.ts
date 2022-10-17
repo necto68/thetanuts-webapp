@@ -8,6 +8,7 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
     isDemo: true,
     isFeatured: true,
     assetSymbol: "FRAX",
+    collateralSymbol: "FRAX",
 
     totalValueLocked: 0,
 

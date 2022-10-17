@@ -1,10 +1,11 @@
 import type { BasicVaultConfig } from "../types";
+import { BasicVaultType } from "../types";
 import { ChainId } from "../../wallet/constants";
 
 export const developBasicVaults: BasicVaultConfig[] = [
   {
     id: "TN-CSCCv0-ETHUSD-1DAY",
-    isFeatured: true,
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.POLYGON,
@@ -13,7 +14,7 @@ export const developBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCCv0-ETHUSD-2DAY",
-    isFeatured: true,
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.POLYGON,
@@ -22,7 +23,7 @@ export const developBasicVaults: BasicVaultConfig[] = [
   },
   {
     id: "TN-CSCCv0-ETHUSD-3DAY",
-    isFeatured: true,
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.POLYGON,
@@ -30,3 +31,36 @@ export const developBasicVaults: BasicVaultConfig[] = [
     },
   },
 ];
+
+export const developDegenVaults: BasicVaultConfig[] = [
+  {
+    id: "TN-CSCLPv1-ETHtUSDC",
+    basicVaultType: BasicVaultType.DEGEN,
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x47Bf61C2CBA9D59d00F71257318182cd8C017c59",
+    },
+  },
+  {
+    id: "TN-CSLCCv1-ETHtUSDC",
+    basicVaultType: BasicVaultType.DEGEN,
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0xA3750cFDF2Fb9E3E63c0174C0F4330efa697665b",
+    },
+  },
+  {
+    id: "TN-CSCVv1-ETHtUSDC",
+    basicVaultType: BasicVaultType.DEGEN,
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x35395Ffb2BD10E3dC3892Ca39aBAdBc9967f4a73",
+    },
+  },
+];
+
+export const developAllBasicVaults =
+  developBasicVaults.concat(developDegenVaults);

@@ -26,9 +26,9 @@ export const useBasicModalProviderState = (): BasicModalState => {
   }, []);
 
   const {
-    basicVaultAddress,
     collateralTokenAddress,
     routerAddress,
+    spenderAddress,
     provider,
     basicVaultQuery,
     basicVaultReaderQuery,
@@ -48,7 +48,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const collateralTokenQuery = useTokenQuery(
     collateralTokenAddress,
-    basicVaultAddress,
+    spenderAddress,
     provider
   );
 

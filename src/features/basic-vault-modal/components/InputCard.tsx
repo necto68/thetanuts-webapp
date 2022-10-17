@@ -24,7 +24,6 @@ export const InputCard = () => {
       isHideAssetSelector={tabType === TabType.withdraw}
       isHideWalletBalance={tabType === TabType.withdraw}
       isNativeDataLoading={isNativeDataLoading}
-      isShowTitle={false}
       isSource
       isTokenDataLoading={isTokenDataLoading}
       isUseNativeData={isUseNativeData}

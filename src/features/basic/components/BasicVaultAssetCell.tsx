@@ -5,6 +5,9 @@ import { IconContainer } from "../../shared/components";
 import { useBasicVaultEpochTimerTitle } from "../../basic-vault/hooks/useBasicVaultEpochTimerTitle";
 import type { BasicVault } from "../../basic-vault/types";
 import { VaultType } from "../../basic-vault/types";
+import { BasicVaultType } from "../types";
+import { getVaultTitle } from "../../table/helpers";
+import { VaultModalType } from "../../root/types";
 
 import {
   Container,
@@ -13,32 +16,46 @@ import {
   Title,
 } from "./BasicVaultAssetCell.styles";
 
-interface BasicVaultAssetCellProps {
-  type: BasicVault["type"];
-  assetSymbol: BasicVault["assetSymbol"];
-  collateralSymbol: BasicVault["collateralSymbol"];
-  expiry: BasicVault["expiry"];
-  isSettled: BasicVault["isSettled"];
-  isExpired: BasicVault["isExpired"];
-}
+type BasicVaultAssetCellProps = Pick<
+  BasicVault,
+  | "assetSymbol"
+  | "basicVaultType"
+  | "collateralSymbol"
+  | "expiry"
+  | "isAllowInteractions"
+  | "isExpired"
+  | "isSettled"
+  | "type"
+>;
 
 export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
+  basicVaultType,
   type,
   assetSymbol,
   collateralSymbol,
   expiry,
   isSettled,
   isExpired,
+  isAllowInteractions,
 }) => {
-  const isPutType = type === VaultType.PUT;
+  const isDegenOrPutType =
+    basicVaultType === BasicVaultType.DEGEN || type === VaultType.PUT;
 
   const assetLogo = getLogoBySymbol(assetSymbol);
   const collateralAssetLogo = getLogoBySymbol(collateralSymbol);
 
-  const title = isPutType
-    ? `${collateralSymbol}-${assetSymbol}-P`
-    : `${collateralSymbol}-C`;
-  const timerTitle = useBasicVaultEpochTimerTitle(expiry, isExpired, isSettled);
+  const vaultType =
+    basicVaultType === BasicVaultType.DEGEN
+      ? VaultModalType.degen
+      : VaultModalType.basic;
+  const title = getVaultTitle(vaultType, type, assetSymbol, collateralSymbol);
+
+  const timerTitle = useBasicVaultEpochTimerTitle(
+    expiry,
+    isSettled,
+    isExpired,
+    isAllowInteractions
+  );
 
   return (
     <Container>
@@ -46,7 +63,7 @@ export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
         <IconContainer height={25} width={25}>
           {collateralAssetLogo}
         </IconContainer>
-        {isPutType ? (
+        {isDegenOrPutType ? (
           <IconContainer height={25} width={25}>
             {assetLogo}
           </IconContainer>

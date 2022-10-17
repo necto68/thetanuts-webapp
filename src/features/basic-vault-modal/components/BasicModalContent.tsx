@@ -1,22 +1,34 @@
+import { useBasicModalState } from "../hooks";
+import { TabType } from "../types";
+
 import { Switcher } from "./Switcher";
 import { InputCard } from "./InputCard";
 import { PositionInfo } from "./PositionInfo";
-import { MainButton } from "./MainButton";
+import { DepositMainButton } from "./DepositMainButton";
+import { WithdrawMainButton } from "./WithdrawMainButton";
+import { PendingWithdrawMainButton } from "./PendingWithdrawMainButton";
 import { VaultInfo } from "./VaultInfo";
 import { AnalyticLink } from "./AnalyticLink";
-import { PendingWithdrawMainButton } from "./PendingWithdrawMainButton";
 import { Container, MainButtonsContainer } from "./BasicModalContent.styles";
 
-export const BasicModalContent = () => (
-  <Container>
-    <Switcher />
-    <InputCard />
-    <PositionInfo />
-    <MainButtonsContainer>
-      <MainButton />
-      <PendingWithdrawMainButton />
-    </MainButtonsContainer>
-    <VaultInfo />
-    <AnalyticLink />
-  </Container>
-);
+export const BasicModalContent = () => {
+  const { tabType } = useBasicModalState();
+
+  return (
+    <Container>
+      <Switcher />
+      <InputCard />
+      <PositionInfo />
+      <MainButtonsContainer>
+        {tabType === TabType.deposit ? (
+          <DepositMainButton />
+        ) : (
+          <WithdrawMainButton />
+        )}
+        {tabType === TabType.withdraw ? <PendingWithdrawMainButton /> : null}
+      </MainButtonsContainer>
+      <VaultInfo />
+      <AnalyticLink />
+    </Container>
+  );
+};

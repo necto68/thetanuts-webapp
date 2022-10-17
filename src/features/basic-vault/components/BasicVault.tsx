@@ -7,7 +7,8 @@ import { numberFormatter, periodFormatter } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
 import { ModalPathname } from "../../root/types";
-import { VaultType } from "../types";
+import { ProgressBarColor, VaultType } from "../types";
+import { getVaultTypeTitle } from "../../index-vault/helpers";
 
 import { BasicVaultCapacity } from "./BasicVaultCapacity";
 import { EpochTimer } from "./EpochTimer";
@@ -28,13 +29,14 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
     balance = new Big(0),
     collatCap = new Big(0),
     expiry = 0,
-    isExpired = false,
     isSettled = false,
+    isExpired = false,
+    isAllowInteractions = false,
   } = data ?? {};
 
   const isCallType = type === VaultType.CALL;
 
-  const title = isCallType ? "Covered Call" : "Put Selling";
+  const title = getVaultTypeTitle(type);
   const subTitle = periodFormatter(period);
   const symbol = `${assetSymbol}-${isCallType ? "C" : "P"}`;
 
@@ -53,6 +55,9 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
     pathname,
   };
 
+  const progressBarColor =
+    type === VaultType.CALL ? ProgressBarColor.blue : ProgressBarColor.orange;
+
   return (
     <VaultCard
       apy={formattedTotalAPY}
@@ -62,12 +67,13 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
           balance={balance}
           collatCap={collatCap}
           collateralSymbol={collateralSymbol}
-          type={type}
+          progressBarColor={progressBarColor}
         />
       }
       footerContent={
         <EpochTimer
           expiry={expiry}
+          isAllowInteractions={isAllowInteractions}
           isExpired={isExpired}
           isSettled={isSettled}
         />

@@ -1,11 +1,12 @@
 import type { BasicVaultConfig } from "../types";
+import { BasicVaultType } from "../types";
 import { ChainId } from "../../wallet/constants";
 
 export const productionBasicVaults: BasicVaultConfig[] = [
   // mainnet - eth call a/b/c
   {
     id: "TN-CSCCv1-ETHUSD-A",
-    isFeatured: true,
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -34,6 +35,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // mainnet - btc call a/b/c
   {
     id: "TN-CSCCv1-BTCUSD-A",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -61,6 +63,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // mainnet - eth put a/b
   {
     id: "TN-CSCPv1-ETHUSD-A",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -80,6 +83,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // mainnet - btc put
   {
     id: "TN-CSCPv1-BTCUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.ETHEREUM,
@@ -130,6 +134,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // bsc = bnb call
   {
     id: "TN-CSCCv1-BNBUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.BSC,
@@ -140,6 +145,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // bsc - ada call
   {
     id: "TN-CSCCv1-ADAUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.BSC,
@@ -150,6 +156,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // bsc - bch call
   {
     id: "TN-CSCCv1-BCHUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.BSC,
@@ -160,6 +167,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // bsc = bnb put
   {
     id: "TN-CSCPv1-BNBUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.BSC,
@@ -170,6 +178,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // bsc - ada put
   {
     id: "TN-CSCPv1-ADAUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.BSC,
@@ -180,6 +189,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // bsc - bch put
   {
     id: "TN-CSCPv1-BCHUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.BSC,
@@ -190,6 +200,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // polygon - matic call
   {
     id: "TN-CSCCv1-MATICUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.POLYGON,
@@ -200,6 +211,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // polygon - matic put
   {
     id: "TN-CSCPv1-MATICUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.POLYGON,
@@ -210,6 +222,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // avalanche - avax call
   {
     id: "TN-CSCCv1-AVAXUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.AVALANCHE,
@@ -220,6 +233,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // avalanche - avax put
   {
     id: "TN-CSCPv1-AVAXUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.AVALANCHE,
@@ -230,6 +244,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // fantom - ftm call
   {
     id: "TN-CSCCv1-FTMUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.FANTOM,
@@ -240,6 +255,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // fantom - ftm put
   {
     id: "TN-CSCPv1-FTMUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.FANTOM,
@@ -250,6 +266,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // boba - boba call
   {
     id: "TN-CSCCv1-BOBAUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.BOBA,
@@ -260,6 +277,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // cro - cro call
   {
     id: "TN-CSCCv1-CROUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.CRONOS,
@@ -270,6 +288,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // aurora - near call
   {
     id: "TN-CSCCv1-NEARUSD",
+    basicVaultType: BasicVaultType.BASIC,
 
     source: {
       chainId: ChainId.AURORA,
@@ -277,3 +296,37 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 ];
+
+export const productionDegenVaults: BasicVaultConfig[] = [
+  {
+    id: "TN-CSCLPv1-ETHUSDC",
+    basicVaultType: BasicVaultType.DEGEN,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0x83e98cC31A3c0B0c7fD195bd8DA48f0Bf973c5Fd",
+    },
+  },
+  {
+    id: "TN-CSLCCv1-ETHUSDC",
+    basicVaultType: BasicVaultType.DEGEN,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0x950D86F41a667bB892d87097f3A8e61eeFA77D00",
+    },
+  },
+  {
+    id: "TN-CSCVv1-ETHUSDC",
+    basicVaultType: BasicVaultType.DEGEN,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xF76ACf2b271d3077ad21EC0931cdA447bE9A8cC2",
+    },
+  },
+];
+
+export const productionAllBasicVaults = productionBasicVaults.concat(
+  productionDegenVaults
+);

@@ -13,6 +13,7 @@ import { chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
 import { BasicVaultCapacity } from "../../basic-vault/components/BasicVaultCapacity";
 import { VaultModalType } from "../../root/types";
+import { ProgressBarColor, VaultType } from "../../basic-vault/types";
 import type { BasicVault } from "../../basic-vault/types";
 
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
@@ -22,21 +23,25 @@ import { RiskLevelCell } from "./RiskLevelCell";
 const columns: Column<BasicVault>[] = [
   {
     key: "assetSymbol",
-    title: "Option Vault",
+    title: "Basic Vault",
     minWidth: 200,
 
     render: ({
+      basicVaultType,
       type,
       assetSymbol,
       collateralSymbol,
       expiry,
       isSettled,
       isExpired,
+      isAllowInteractions,
     }) => (
       <BasicVaultAssetCell
         assetSymbol={assetSymbol}
+        basicVaultType={basicVaultType}
         collateralSymbol={collateralSymbol}
         expiry={expiry}
+        isAllowInteractions={isAllowInteractions}
         isExpired={isExpired}
         isSettled={isSettled}
         type={type}
@@ -52,7 +57,25 @@ const columns: Column<BasicVault>[] = [
     key: "type",
     title: "Strategy",
     minWidth: 110,
-    render: ({ type, period }) => <StrategyCell period={period} type={type} />,
+
+    render: ({
+      type,
+      period,
+      strikePrices,
+      isSettled,
+      isExpired,
+      isAllowInteractions,
+    }) => (
+      <StrategyCell
+        isAllowInteractions={isAllowInteractions}
+        isExpired={isExpired}
+        isSettled={isSettled}
+        period={period}
+        strikePrices={strikePrices}
+        type={type}
+      />
+    ),
+
     sortBy: ({ type }) => type,
   },
   {
@@ -78,7 +101,7 @@ const columns: Column<BasicVault>[] = [
             <PercentageYieldsTooltip percentageYields={percentageYields} />
           }
           id={id}
-          root={<InfoIcon theme="light" />}
+          root={<InfoIcon />}
         />
       </APYCellContainer>
     ),
@@ -95,7 +118,11 @@ const columns: Column<BasicVault>[] = [
         balance={balance}
         collatCap={collatCap}
         collateralSymbol={collateralSymbol}
-        type={type}
+        progressBarColor={
+          type === VaultType.CALL
+            ? ProgressBarColor.blue
+            : ProgressBarColor.orange
+        }
       />
     ),
 
@@ -122,7 +149,11 @@ const columns: Column<BasicVault>[] = [
     minWidth: 140,
 
     render: ({ id, chainId }) => (
-      <DepositButton chainId={chainId} vaultId={id} />
+      <DepositButton
+        chainId={chainId}
+        vaultId={id}
+        vaultType={VaultModalType.basic}
+      />
     ),
   },
 ];

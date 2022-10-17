@@ -200,11 +200,12 @@ individual option vault(s) given that the option is not ITM"
           ({
             basicVaultAddress,
             assetSymbol,
-            strikePrice,
+            strikePrices,
             expiry,
             period,
             isSettled,
             isExpired,
+            isAllowInteractions,
           }) => (
             <tr key={basicVaultAddress}>
               <td>
@@ -214,10 +215,11 @@ individual option vault(s) given that the option is not ITM"
                   </CellValue>
                   <CellSubValue>
                     {getVaultSubTitle(
-                      strikePrice,
+                      strikePrices,
                       expiry,
                       isSettled,
-                      isExpired
+                      isExpired,
+                      isAllowInteractions
                     )}
                   </CellSubValue>
                 </PortfolioCellContainer>
@@ -254,14 +256,23 @@ individual option vault(s) given that the option is not ITM"
           )
         )}
         {withdrawnVaults.map(
-          ({ vaultAddress, strikePrice, expiry, expected, claimed }, index) => (
+          (
+            { vaultAddress, strikePrices, expiry, expected, claimed },
+            index
+          ) => (
             // eslint-disable-next-line react/no-array-index-key
             <tr key={`${vaultAddress}${index}`}>
               <td>
                 <PortfolioCellContainer>
                   <CellValue>{getVaultTitleByAddress(vaultAddress)}</CellValue>
                   <CellSubValue>
-                    {getVaultSubTitle(strikePrice, expiry, false, false)}
+                    {getVaultSubTitle(
+                      strikePrices,
+                      expiry,
+                      false,
+                      false,
+                      false
+                    )}
                   </CellSubValue>
                 </PortfolioCellContainer>
               </td>

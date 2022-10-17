@@ -13,10 +13,9 @@ export const ModalContent = () => {
   const { mutationHash } = useBasicModalMutations();
 
   const isShowPendingMutation = Boolean(mutationHash);
-  const theme = isShowPendingMutation ? "dark" : "light";
 
   return (
-    <Container theme={theme}>
+    <Container>
       <AnimatePresence exitBeforeEnter>
         <ContentAnimatedContainer>
           {isShowPendingMutation ? (

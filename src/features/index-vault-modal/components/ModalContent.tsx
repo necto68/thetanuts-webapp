@@ -22,19 +22,13 @@ export const ModalContent = () => {
 
   const { contentType = ModalContentType.swap } = vaultModalState;
 
-  const theme =
-    isSwapping && contentType !== ModalContentType.withdrawClaim
-      ? "dark"
-      : "light";
-
   const renderModalHeader = (type: ModalContentType) => {
     switch (type) {
       case ModalContentType.withdraw:
         return (
           <Header
             backContentType={ModalContentType.swap}
-            chainSwitchVisible={false}
-            theme={theme}
+            isShowChainSelect={false}
             title="Direct Withdraw"
           />
         );
@@ -42,21 +36,16 @@ export const ModalContent = () => {
         return (
           <Header
             backContentType={ModalContentType.withdraw}
-            chainSwitchVisible={false}
-            theme={theme}
+            isShowChainSelect={false}
             title="Direct Withdraw"
           />
         );
       case ModalContentType.withdrawClaim:
         return (
-          <Header
-            chainSwitchVisible={false}
-            theme={theme}
-            title="Claim Direct Withdraw"
-          />
+          <Header isShowChainSelect={false} title="Claim Direct Withdraw" />
         );
       default:
-        return <Header theme={theme} title="Swap" />;
+        return <Header isShowChainSelect={!isSwapping} title="Swap" />;
     }
   };
 
@@ -73,7 +62,7 @@ export const ModalContent = () => {
   };
 
   return (
-    <Container theme={theme}>
+    <Container>
       {renderModalHeader(contentType)}
       <AnimatePresence exitBeforeEnter>
         <ContentAnimatedContainer

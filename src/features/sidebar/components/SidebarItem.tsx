@@ -16,6 +16,7 @@ interface SidebarItemProps {
   linkTitle: string;
   active: boolean;
   target?: HTMLLinkElement["target"];
+  iconColor?: string;
 }
 
 export const SidebarItem: FC<SidebarItemProps> = ({
@@ -24,17 +25,14 @@ export const SidebarItem: FC<SidebarItemProps> = ({
   linkTitle,
   active,
   target = "_self",
+  iconColor = "#1fffab",
 }) => {
-  const fontWeight = active ? 600 : 400;
-  const color = active ? "#1fffab" : "#fff";
-
   const { toggleIsShow } = useSidebarState();
 
   return (
-    <SidebarItemContainer active={active}>
+    <SidebarItemContainer active={active} iconColor={iconColor}>
       <SidebarLink
-        color={color}
-        fontWeight={fontWeight}
+        active={active}
         onClick={toggleIsShow}
         target={target}
         to={to}
@@ -44,7 +42,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({
         </IconContainer>
         {linkTitle}
       </SidebarLink>
-      <Underline active={active} />
+      <Underline active={active} iconColor={iconColor} />
     </SidebarItemContainer>
   );
 };

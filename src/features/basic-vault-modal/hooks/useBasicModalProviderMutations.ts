@@ -13,8 +13,10 @@ import {
 import {
   Erc20Abi__factory as Erc20AbiFactory,
   BasicVaultAbi__factory as BasicVaultAbiFactory,
+  BasicVaultDepositorAbi__factory as BasicVaultDepositorAbiFactory,
 } from "../../contracts/types";
 import { useResetMutationError } from "../../index-vault-modal/hooks/useResetMutationError";
+import { BasicVaultType } from "../../basic/types/basicVaultConfig";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 import { useBasicModalState } from "./useBasicModalState";
@@ -23,6 +25,8 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
   const {
     walletProvider,
     basicVaultAddress,
+    basicVaultDepositorAddress,
+    spenderAddress,
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
@@ -44,10 +48,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       signer
     );
 
-    const approveParameters = [
-      basicVaultAddress,
-      constants.MaxUint256,
-    ] as const;
+    const approveParameters = [spenderAddress, constants.MaxUint256] as const;
 
     let transaction = null;
 
@@ -68,7 +69,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
 
     return true;
-  }, [tokenData, walletProvider, basicVaultAddress]);
+  }, [tokenData, walletProvider, spenderAddress]);
 
   const runWrapMutation = useCallback(async () => {
     if (!nativeData || !walletProvider) {
@@ -122,6 +123,14 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       signer
     );
 
+    const basicVaultDepositorContract = BasicVaultDepositorAbiFactory.connect(
+      basicVaultDepositorAddress,
+      signer
+    );
+
+    const { data } = basicVaultQuery;
+    const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
+
     const depositAmount = new Big(inputValue)
       .mul(tokenData.tokenDivisor)
       .round()
@@ -130,9 +139,22 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     let transaction = null;
 
     try {
-      await basicVaultContract.callStatic.deposit(depositAmount);
+      // we are using basicVaultDepositorContract only for degen vaults
+      if (basicVaultType === BasicVaultType.DEGEN) {
+        await basicVaultDepositorContract.callStatic.deposit(
+          basicVaultAddress,
+          depositAmount
+        );
 
-      transaction = await basicVaultContract.deposit(depositAmount);
+        transaction = await basicVaultDepositorContract.deposit(
+          basicVaultAddress,
+          depositAmount
+        );
+      } else {
+        await basicVaultContract.callStatic.deposit(depositAmount);
+
+        transaction = await basicVaultContract.deposit(depositAmount);
+      }
     } catch (walletError) {
       processWalletError(walletError);
     }
@@ -148,13 +170,60 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
 
     return true;
-  }, [tokenData, walletProvider, basicVaultAddress, inputValue]);
+  }, [
+    tokenData,
+    walletProvider,
+    basicVaultAddress,
+    basicVaultDepositorAddress,
+    basicVaultQuery,
+    inputValue,
+  ]);
+
+  const runCancelDepositMutation = useCallback(async () => {
+    if (!walletProvider) {
+      return false;
+    }
+
+    const signer = walletProvider.getSigner();
+
+    const basicVaultDepositorContract = BasicVaultDepositorAbiFactory.connect(
+      basicVaultDepositorAddress,
+      signer
+    );
+
+    let transaction = null;
+
+    try {
+      await basicVaultDepositorContract.callStatic.cancelDeposit(
+        basicVaultAddress
+      );
+
+      transaction = await basicVaultDepositorContract.cancelDeposit(
+        basicVaultAddress
+      );
+    } catch (walletError) {
+      processWalletError(walletError);
+    }
+
+    if (transaction) {
+      try {
+        await transaction.wait();
+      } catch (transactionError) {
+        processTransactionError(transactionError);
+      }
+    }
+
+    return true;
+  }, [walletProvider, basicVaultAddress, basicVaultDepositorAddress]);
 
   const runInitWithdrawMutation = useCallback(
-    async (isCancel = false) => {
+    // eslint-disable-next-line complexity
+    async (options: { isCancel?: boolean; isFullPosition?: boolean }) => {
       if (!tokenData || !walletProvider) {
         return false;
       }
+
+      const { isCancel = false, isFullPosition = false } = options;
 
       const signer = walletProvider.getSigner();
 
@@ -169,13 +238,28 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       const { data } = basicVaultQuery;
       const { valuePerLP = new Big(1) } = data ?? {};
 
-      const inputWithdrawAmount = new Big(inputValue || 0)
+      const { data: basicVaultReaderData } = basicVaultReaderQuery;
+      const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
+
+      let inputAmount = new Big(0);
+
+      if (isCancel) {
+        // isCancel for initWithdraw(0)
+        inputAmount = new Big(0);
+      } else if (isFullPosition) {
+        // isFullPosition for initWithdraw(currentPosition)
+        // for degen vaults
+        inputAmount = currentPosition ?? new Big(0);
+      } else {
+        // for other cases - initWithdraw(inputValue)
+        inputAmount = inputValue ? new Big(inputValue) : new Big(0);
+      }
+
+      const withdrawAmount = inputAmount
         .div(valuePerLP)
         .mul(tokenData.tokenDivisor)
         .round()
         .toString();
-
-      const withdrawAmount = isCancel ? "0" : inputWithdrawAmount;
 
       let transaction = null;
 
@@ -197,7 +281,14 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
       return true;
     },
-    [tokenData, walletProvider, basicVaultAddress, basicVaultQuery, inputValue]
+    [
+      tokenData,
+      walletProvider,
+      basicVaultAddress,
+      basicVaultQuery,
+      basicVaultReaderQuery,
+      inputValue,
+    ]
   );
 
   const runWithdrawMutation = useCallback(async () => {
@@ -269,8 +360,26 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
   );
 
+  const cancelDepositMutation = useMutation<boolean, MutationError>(
+    async () => await runCancelDepositMutation(),
+    {
+      onSuccess: handleMutationSuccess,
+    }
+  );
+
   const initWithdrawMutation = useMutation<boolean, MutationError>(
-    async () => await runInitWithdrawMutation(),
+    async () =>
+      await runInitWithdrawMutation({ isCancel: false, isFullPosition: false }),
+    {
+      onSuccess: async () => {
+        await handleMutationSuccess();
+        setInputValue("");
+      },
+    }
+  );
+
+  const initFullWithdrawMutation = useMutation<boolean, MutationError>(
+    async () => await runInitWithdrawMutation({ isFullPosition: true }),
     {
       onSuccess: async () => {
         await handleMutationSuccess();
@@ -280,7 +389,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
   );
 
   const cancelWithdrawMutation = useMutation<boolean, MutationError>(
-    async () => await runInitWithdrawMutation(true),
+    async () => await runInitWithdrawMutation({ isCancel: true }),
     {
       onSuccess: async () => {
         await handleMutationSuccess();
@@ -299,7 +408,9 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
   useResetMutationError(approveAllowanceMutation);
   useResetMutationError(wrapMutation);
   useResetMutationError(depositMutation);
+  useResetMutationError(cancelDepositMutation);
   useResetMutationError(initWithdrawMutation);
+  useResetMutationError(initFullWithdrawMutation);
   useResetMutationError(cancelWithdrawMutation);
   useResetMutationError(withdrawMutation);
 
@@ -307,7 +418,9 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     approveAllowanceMutation,
     wrapMutation,
     depositMutation,
+    cancelDepositMutation,
     initWithdrawMutation,
+    initFullWithdrawMutation,
     cancelWithdrawMutation,
     withdrawMutation,
 
@@ -325,8 +438,16 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       depositMutation.mutate();
     },
 
+    runCancelDeposit: () => {
+      cancelDepositMutation.mutate();
+    },
+
     runInitWithdraw: () => {
       initWithdrawMutation.mutate();
+    },
+
+    runInitFullWithdraw: () => {
+      initFullWithdrawMutation.mutate();
     },
 
     runCancelWithdraw: () => {

@@ -9,6 +9,7 @@ import {
 import { PathType } from "../../wallet/types";
 import type { BasicVault } from "../../basic-vault/types";
 import { VaultType } from "../../basic-vault/types";
+import { getBasicVaultStatusTitle } from "../../basic-vault/helpers";
 
 import {
   CellSubValue,
@@ -35,18 +36,23 @@ export const getVaultTitle = (
 };
 
 export const getVaultSubTitle = (
-  strikePrice: BasicVault["strikePrice"],
+  strikePrices: BasicVault["strikePrices"],
   expiry: BasicVault["expiry"],
   isSettled: BasicVault["isSettled"],
-  isExpired: BasicVault["isExpired"]
+  isExpired: BasicVault["isExpired"],
+  isAllowInteractions: BasicVault["isAllowInteractions"]
 ) => {
-  if (isSettled || isExpired) {
-    return <ClaimStatusText>Auction In Progress</ClaimStatusText>;
+  const basicVaultStatusTitle = getBasicVaultStatusTitle(
+    isSettled,
+    isExpired,
+    isAllowInteractions
+  );
+
+  if (basicVaultStatusTitle) {
+    return <ClaimStatusText>{basicVaultStatusTitle}</ClaimStatusText>;
   }
 
-  const formattedStrikePrice = strikePrice
-    ? strikePriceFormatter(strikePrice)
-    : "";
+  const formattedStrikePrice = strikePriceFormatter(strikePrices[0]);
 
   const formattedExpiryDate = dateFormatter.format(new Date(expiry));
 
@@ -111,12 +117,13 @@ export const VaultsTable = () => {
               id,
               basicVaultAddress,
               assetSymbol,
-              strikePrice,
+              strikePrices,
               expiry,
               period,
               annualPercentageYield,
               isSettled,
               isExpired,
+              isAllowInteractions,
             },
             index
           ) => (
@@ -128,10 +135,11 @@ export const VaultsTable = () => {
                   </CellValue>
                   <CellSubValue>
                     {getVaultSubTitle(
-                      strikePrice,
+                      strikePrices,
                       expiry,
                       isSettled,
-                      isExpired
+                      isExpired,
+                      isAllowInteractions
                     )}
                   </CellSubValue>
                 </PortfolioCellContainer>

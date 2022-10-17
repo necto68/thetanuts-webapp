@@ -1,4 +1,4 @@
-export const ThetaIndex = () => (
+export const IndexPage = () => (
   <svg height="100%" viewBox="0 0 18 20" width="100%">
     <path
       clipRule="evenodd"

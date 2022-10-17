@@ -5,6 +5,7 @@ import { chainProvidersMap, ChainId } from "../../wallet/constants";
 import { QueryType } from "../../shared/types";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { basicHistoryFetcher } from "../helpers";
+import { BasicVaultType } from "../../basic/types";
 
 export const useBasicHistoryQueries = (basicVaultIds: string[]) => {
   const { account = "" } = useWallet();
@@ -15,6 +16,7 @@ export const useBasicHistoryQueries = (basicVaultIds: string[]) => {
     basicVaultsQueries.map(({ data }) => {
       const {
         id: basicVaultId = "",
+        basicVaultType = BasicVaultType.BASIC,
         chainId = ChainId.ETHEREUM,
         basicVaultAddress = "",
       } = data ?? {};
@@ -25,6 +27,7 @@ export const useBasicHistoryQueries = (basicVaultIds: string[]) => {
         queryKey: [
           QueryType.basicHistory,
           basicVaultId,
+          basicVaultType,
           basicVaultAddress,
           account,
         ],
@@ -32,6 +35,7 @@ export const useBasicHistoryQueries = (basicVaultIds: string[]) => {
         queryFn: async () =>
           await basicHistoryFetcher(
             basicVaultId,
+            basicVaultType,
             basicVaultAddress,
             provider,
             account

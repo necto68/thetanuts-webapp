@@ -26,7 +26,7 @@ export const useIndexWithdrawHistoryRows = (): (
       return undefined;
     }
 
-    const { assetSymbol } = data;
+    const { type: strategyType, assetSymbol, collateralSymbol } = data;
 
     return historyTransactions.map(
       ({ id, type, timestamp, amountOut, chainId }) => {
@@ -43,7 +43,9 @@ export const useIndexWithdrawHistoryRows = (): (
           balance: amountOut,
           chainId,
           vaultType: VaultModalType.index,
+          strategyType,
           assetSymbol,
+          collateralSymbol,
           symbol,
         };
       }

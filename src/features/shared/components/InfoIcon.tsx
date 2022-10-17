@@ -8,8 +8,8 @@ interface InfoIconProps {
   theme?: "dark" | "light";
 }
 
-export const InfoIcon: FC<InfoIconProps> = ({ theme = "dark" }) => {
-  const color = theme === "dark" ? "#061F3A" : "#FFFFFF";
+export const InfoIcon: FC<InfoIconProps> = ({ theme = "light" }) => {
+  const color = theme === "light" ? "#FFFFFF" : "#061F3A";
 
   return (
     <IconContainer color={color} height={14} width={14}>

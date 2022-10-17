@@ -20,7 +20,7 @@ export const HeaderCellValue = styled.span`
   font-family: Barlow;
   font-weight: 600;
   font-size: 12px;
-  color: #000000;
+  color: #ffffff;
   display: flex;
 `;
 
@@ -55,7 +55,7 @@ export const ClaimStatusText = styled.div`
   font-size: 10px;
   line-height: 13px;
 
-  color: #061f3a;
+  color: #ffffff;
   & > ${RootContainer} {
     margin: 0 0 0 4px;
     height: 10px;

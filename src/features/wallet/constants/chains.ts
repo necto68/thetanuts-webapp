@@ -43,6 +43,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "0xc4A024eAcB72F09900737E07605e253f73D408c7",
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
       basicVaultReaderAddress: "0xEcA593A42E9A0120B03E8784Ca61673e4a40Ba13",
+      basicVaultDepositorAddress: "0x8FA89B30A455B80F5Df2f8300950910b1Cf50813",
     },
 
     deployerAddresses: {
@@ -75,6 +76,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "",
       directWithdrawalAddress: "",
       basicVaultReaderAddress: "0xe016D63bd3ce7BbAF9Eb8aBf76dA7e3f6E4721a3",
+      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
     },
   },
   {
@@ -99,6 +101,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "0x21659962120ba152139FC157e52168CD1609C3E3",
       directWithdrawalAddress: "0xf35F0A93B1f3c0eE418AaA352553Bc7C1d3dBe4a",
       basicVaultReaderAddress: "0x03FC1fEdDb196e69Dd8a8753073E2527f85bbC6C",
+      basicVaultDepositorAddress: "0x74af0AcF759dcB803993F14b22C2e500063ba0Fe",
     },
 
     deployerAddresses: {
@@ -127,6 +130,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "",
       directWithdrawalAddress: "",
       basicVaultReaderAddress: "0xA9c4b4f5Efcb3bC9a400D699943E0760065CA09A",
+      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
     },
   },
   {
@@ -150,6 +154,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "",
       directWithdrawalAddress: "",
       basicVaultReaderAddress: "0x10572d1A9d38178C3d95666803f0551B77301003",
+      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
     },
   },
   {
@@ -173,6 +178,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "",
       directWithdrawalAddress: "",
       basicVaultReaderAddress: "0xe50d41E66A70D087F5480Ef84ABcF2e312534b05",
+      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
     },
   },
   {
@@ -196,6 +202,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "",
       directWithdrawalAddress: "",
       basicVaultReaderAddress: "0xaF724813e860B462a3387Fb97CC2600179CAF9e1",
+      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
     },
   },
   {
@@ -219,6 +226,7 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: "",
       directWithdrawalAddress: "",
       basicVaultReaderAddress: "0xd07C970e8F8534Da02096862F23A9a91C6F716a3",
+      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
     },
   },
 ];

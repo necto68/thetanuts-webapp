@@ -2,45 +2,37 @@ import type { FC } from "react";
 
 import { useSwapRouterConfig } from "../hooks";
 import { ChainSelect } from "../../wallet/components";
-import type { ThemeType, ModalContentType } from "../types";
+import type { ModalContentType } from "../types";
 
 import { HeaderNavigationButton } from "./HeaderNavigationButton";
 import {
-  Container,
-  Title,
   ButtonsContainer,
   ChainSelectContainer,
+  Container,
+  Title,
 } from "./Header.styles";
 
-interface HeaderProps extends ThemeType {
+interface HeaderProps {
   title?: string;
-  chainSwitchVisible?: boolean;
+  isShowChainSelect?: boolean;
   backContentType?: ModalContentType;
 }
 
 export const Header: FC<HeaderProps> = ({
-  theme = "light",
   title = "Swap",
-  chainSwitchVisible = true,
+  isShowChainSelect = true,
   backContentType,
 }) => {
   const { supportedChainIds } = useSwapRouterConfig();
 
   return (
     <Container>
-      <Title theme={theme}>{title}</Title>
+      <Title>{title}</Title>
       <ButtonsContainer>
-        {chainSwitchVisible ? (
-          <ChainSelectContainer isShow={theme === "light"}>
-            <ChainSelect chainIds={supportedChainIds} />
-          </ChainSelectContainer>
-        ) : (
-          ""
-        )}
-        <HeaderNavigationButton
-          backContentType={backContentType}
-          theme={theme}
-        />
+        <ChainSelectContainer isShow={isShowChainSelect}>
+          <ChainSelect chainIds={supportedChainIds} />
+        </ChainSelectContainer>
+        <HeaderNavigationButton backContentType={backContentType} />
       </ButtonsContainer>
     </Container>
   );

@@ -10,11 +10,9 @@ export const Button = styled(motion.button).attrs<ButtonProps>(
     initial: false,
 
     animate: {
-      color: isActive ? "#000000" : "#5F6D7C",
-
       backgroundColor: isActive
-        ? "rgba(255, 255, 255, 1)"
-        : "rgba(255, 255, 255, 0)",
+        ? "rgba(18, 204, 134, 1)"
+        : "rgba(18, 204, 134, 0)",
 
       boxShadow: isActive
         ? "0 0 4px rgba(0, 0, 0, 0.2)"
@@ -31,11 +29,13 @@ export const Button = styled(motion.button).attrs<ButtonProps>(
     },
   })
 )<ButtonProps>`
-  font-family: Barlow;
+  font-family: Roboto;
   font-weight: 600;
-  font-size: 24px;
+  font-size: 25px;
 
-  border-radius: 100px;
+  color: #ffffff;
+
+  border-radius: 8px;
   border: none;
 
   padding: 10px 43px;

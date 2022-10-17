@@ -7,7 +7,6 @@ import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
 import { numberFormatter } from "../../shared/helpers";
 import { useBasicModalMutations, useBasicModalState } from "../hooks";
 import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
-import { TabType } from "../types";
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { resetMutations } from "../helpers";
 
@@ -19,7 +18,7 @@ export const PendingWithdrawMainButton = () => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
-  const { tabType, tokenData } = useBasicModalState();
+  const { tokenData } = useBasicModalState();
   const {
     initWithdrawMutation,
     cancelWithdrawMutation,
@@ -66,7 +65,6 @@ export const PendingWithdrawMainButton = () => {
     walletChainId === basicVaultChainId &&
     !isBasicVaultLoading &&
     tokenData &&
-    tabType === TabType.withdraw &&
     withdrawalPending &&
     withdrawalPending.gt(0);
 
@@ -103,9 +101,7 @@ export const PendingWithdrawMainButton = () => {
   }
 
   if (isInitWithdrawLoading) {
-    return (
-      <ModalMainButton disabled>Cancel Pending Withdrawal</ModalMainButton>
-    );
+    return <ModalMainButton disabled>Cancel Withdrawal</ModalMainButton>;
   }
 
   return (
@@ -114,7 +110,7 @@ export const PendingWithdrawMainButton = () => {
       primaryColor="#EB5853"
       secondaryColor="#ffffff"
     >
-      Cancel Pending Withdrawal
+      Cancel Withdrawal
     </ModalMainButton>
   );
 };

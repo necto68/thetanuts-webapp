@@ -2,33 +2,38 @@ import Big from "big.js";
 
 import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 import { useBasicVaultEpochTimerTitle } from "../../basic-vault/hooks/useBasicVaultEpochTimerTitle";
-import {
-  currencyFormatter,
-  numberFormatter,
-  strikePriceFormatter,
-} from "../../shared/helpers";
+import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import {
   Container,
   InfoContainer,
   InfoTitle,
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
+import { getFormattedStrikePrices } from "../helpers";
+import { VaultType } from "../../basic-vault/types";
 
 export const VaultInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
   const { data, isLoading } = basicVaultQuery;
   const {
+    type = VaultType.CALL,
     collateralSymbol = "",
     assetPrice = 0,
     balance = new Big(0),
     collatCap = new Big(0),
-    strikePrice = 0,
+    strikePrices = [0],
     expiry = 0,
-    isExpired = false,
     isSettled = false,
+    isExpired = false,
+    isAllowInteractions = false,
   } = data ?? {};
 
-  const timerTitle = useBasicVaultEpochTimerTitle(expiry, isExpired, isSettled);
+  const timerTitle = useBasicVaultEpochTimerTitle(
+    expiry,
+    isSettled,
+    isExpired,
+    isAllowInteractions
+  );
 
   const loadingPlaceholder = ".....";
 
@@ -37,9 +42,13 @@ export const VaultInfo = () => {
   const formattedCapacity = `${formattedBalance} / ${formattedCollatCap} ${collateralSymbol}`;
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
-  const formattedStrikePrice = strikePrice
-    ? strikePriceFormatter(strikePrice)
-    : "Auction In Progress";
+  const formattedStrikePrices = getFormattedStrikePrices(
+    type,
+    strikePrices,
+    isSettled,
+    isExpired,
+    isAllowInteractions
+  );
 
   return (
     <Container>
@@ -56,7 +65,7 @@ export const VaultInfo = () => {
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoTitle>Current Spot Price</InfoTitle>
+        <InfoTitle>Spot Price</InfoTitle>
         <InfoValue isAlignRight>
           {isLoading ? loadingPlaceholder : formattedAssetPrice}
         </InfoValue>
@@ -64,7 +73,7 @@ export const VaultInfo = () => {
       <InfoContainer>
         <InfoTitle>Strike Price</InfoTitle>
         <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedStrikePrice}
+          {isLoading ? loadingPlaceholder : formattedStrikePrices}
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
@@ -72,6 +81,10 @@ export const VaultInfo = () => {
         <InfoValue isAlignRight>
           {isLoading ? loadingPlaceholder : timerTitle}
         </InfoValue>
+      </InfoContainer>
+      <InfoContainer>
+        <InfoTitle>Performance/Management Fee</InfoTitle>
+        <InfoValue isAlignRight>0.00%</InfoValue>
       </InfoContainer>
     </Container>
   );

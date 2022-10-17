@@ -1,17 +1,16 @@
 import type { FC } from "react";
 
 import { CircleButtonIconType } from "../../shared/components";
-import type { ThemeType, ModalContentType } from "../types";
+import type { ModalContentType } from "../types";
 import { useVaultModalClose, useVaultModalState } from "../../modal/hooks";
 
 import { HeaderNavigationCircleButton } from "./HeaderNavigationButton.styles";
 
-interface HeaderNavigationButtonProps extends ThemeType {
+interface HeaderNavigationButtonProps {
   backContentType?: ModalContentType;
 }
 
 export const HeaderNavigationButton: FC<HeaderNavigationButtonProps> = ({
-  theme = "light",
   backContentType,
 }) => {
   const [, setVaultModalState] = useVaultModalState();
@@ -37,7 +36,7 @@ export const HeaderNavigationButton: FC<HeaderNavigationButtonProps> = ({
           : CircleButtonIconType.cross
       }
       onClick={navigationButtonClick}
-      primaryColor={theme === "dark" ? "#FFFFFF" : "#5D5D5D"}
+      primaryColor="#FFFFFF"
     />
   );
 };

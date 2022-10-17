@@ -10,6 +10,7 @@ export const StyledTooltip = styled(ReactTooltip)`
   max-width: 250px;
   opacity: 1 !important;
   pointer-events: auto !important;
+  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 
   &:hover {
     visibility: visible !important;

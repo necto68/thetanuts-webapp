@@ -1,7 +1,7 @@
 import Big from "big.js";
 
 import { VaultCard } from "../../vault-card/components";
-import { VaultType } from "../types";
+import { ProgressBarColor } from "../types";
 
 import { BasicVaultCapacity } from "./BasicVaultCapacity";
 import { EpochTimer } from "./EpochTimer";
@@ -15,11 +15,16 @@ export const LoadingBasicVault = () => (
         balance={new Big(0)}
         collatCap={new Big(0)}
         collateralSymbol=""
-        type={VaultType.CALL}
+        progressBarColor={ProgressBarColor.blue}
       />
     }
     footerContent={
-      <EpochTimer expiry={0} isExpired={false} isSettled={false} />
+      <EpochTimer
+        expiry={0}
+        isAllowInteractions={false}
+        isExpired={false}
+        isSettled={false}
+      />
     }
     icon={null}
     isLoading

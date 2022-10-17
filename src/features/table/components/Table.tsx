@@ -131,7 +131,7 @@ export const Table = <RowData extends object>({
                               }
                               id={title}
                               place="bottom"
-                              root={<InfoIcon theme="light" />}
+                              root={<InfoIcon />}
                             />
                           ) : null}
                           <SortArrowContainer show={sortState.key === key}>

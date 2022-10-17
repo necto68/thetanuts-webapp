@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 
 import type { SectionType } from "../types";
 import { Plus } from "../../shared/icons";
@@ -13,7 +13,7 @@ import {
 
 export interface ExpanderProps {
   type: SectionType;
-  title: string;
+  title: ReactElement | string;
   isOpen: boolean;
   maxHeight?: number;
   onArrowClick: (sectionType: SectionType) => void;
@@ -27,7 +27,7 @@ export const Expander: FC<ExpanderProps> = ({
   onArrowClick,
   children,
 }) => (
-  <Container>
+  <Container isOpen={isOpen}>
     <HeaderButton
       onClick={() => {
         onArrowClick(type);

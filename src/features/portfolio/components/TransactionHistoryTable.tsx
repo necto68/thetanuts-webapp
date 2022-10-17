@@ -26,8 +26,17 @@ import { productTitlesMap } from "../../table/constants";
 const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "assetSymbol",
-    title: "Asset",
-    render: ({ assetSymbol }) => <AssetCell assetSymbol={assetSymbol} />,
+    title: "Vault",
+
+    render: ({ vaultType, strategyType, assetSymbol, collateralSymbol }) => (
+      <AssetCell
+        assetSymbol={assetSymbol}
+        collateralSymbol={collateralSymbol}
+        type={strategyType}
+        vaultType={vaultType}
+      />
+    ),
+
     filterBy: true,
   },
   {
@@ -71,8 +80,8 @@ const columns: Column<HistoryTransactionRow>[] = [
     key: "balance",
     title: "Balance",
 
-    render: ({ balance, assetSymbol, type }) => {
-      if (type === TransactionType.canceledWithdrawal) {
+    render: ({ type, balance, symbol }) => {
+      if ([TransactionType.canceledWithdrawal].includes(type)) {
         return TransactionTypeTitle[type];
       }
 
@@ -93,7 +102,7 @@ const columns: Column<HistoryTransactionRow>[] = [
         prefix = "";
       }
 
-      return `${prefix}${formattedBalance} ${assetSymbol}`;
+      return `${prefix}${formattedBalance} ${symbol}`;
     },
 
     sortBy: ({ balance }) => balance.toNumber(),

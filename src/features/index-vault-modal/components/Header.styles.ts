@@ -2,7 +2,10 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { screens } from "../../shared/constants";
-import type { ThemeType } from "../types";
+
+interface ChainSelectContainerProps {
+  isShow: boolean;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -11,23 +14,18 @@ export const Container = styled.div`
   align-items: center;
   z-index: 2;
 
-  padding: 15px 25px 0;
+  padding: 24px 24px 0;
 
   ${screens.md} {
-    padding: 15px 15px 0;
+    padding: 16px 16px 0;
   }
 `;
 
-export const Title = styled(motion.span).attrs<ThemeType>(({ theme }) => ({
-  initial: false,
-
-  animate: {
-    color: theme === "dark" ? "#FFFFFF" : "#233447",
-  },
-}))<ThemeType>`
+export const Title = styled.span`
   font-family: Barlow;
   font-weight: 600;
   font-size: 14px;
+  color: #ffffff;
   text-transform: uppercase;
 `;
 
@@ -40,10 +38,12 @@ export const ButtonsContainer = styled.div`
   }
 `;
 
-export const ChainSelectContainer = styled(motion.div).attrs<{
-  isShow: boolean;
-}>(({ isShow }) => ({
+export const ChainSelectContainer = styled(
+  motion.div
+).attrs<ChainSelectContainerProps>(({ isShow }) => ({
+  initial: false,
+
   animate: {
     opacity: isShow ? 1 : 0,
   },
-}))<{ isShow: boolean }>``;
+}))<ChainSelectContainerProps>``;

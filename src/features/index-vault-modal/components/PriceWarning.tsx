@@ -7,6 +7,7 @@ import { Warning } from "../icons";
 import type { Token } from "../types";
 import { ModalContentType } from "../types";
 import { useVaultModalState } from "../../modal/hooks";
+import { useBridgeUrl } from "../hooks/useBridgeUrl";
 
 import {
   Container,
@@ -36,9 +37,9 @@ export const PriceWarning: FC<PriceWarningProps> = ({
 }) => {
   const [, setVaultModalState] = useVaultModalState();
 
-  const { symbol = "" } = sourceTokenData ?? {};
+  const bridgeUrl = useBridgeUrl();
 
-  const isStableCoin = ["USDC", "BUSD"].includes(symbol);
+  const { symbol = "" } = sourceTokenData ?? {};
 
   const chainTitle = vaultChainId ? chainsMap[vaultChainId].title : "";
 
@@ -64,14 +65,7 @@ export const PriceWarning: FC<PriceWarningProps> = ({
       {isShowDirectDepositProposal ? (
         <WarningTitle>
           High Price Impact!{" "}
-          <WarningLink
-            href={
-              isStableCoin
-                ? "https://stargate.finance/transfer"
-                : "https://portalbridge.com/#/transfer"
-            }
-            target="_blank"
-          >
+          <WarningLink href={bridgeUrl} target="_blank">
             Click here
           </WarningLink>
           {` to bridge your ${symbol} over to `}

@@ -74,7 +74,6 @@ export const SelectOptionButton = <OptionType extends Option>({
         isSmall={isSmall}
         onClick={handleSelectButtonClick}
         primaryColor={color}
-        secondaryColor="#061f3a"
       >
         <ButtonContentContainer isSmall={isSmall}>
           {symbol ? (

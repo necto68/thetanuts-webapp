@@ -1,10 +1,12 @@
 import type Big from "big.js";
 
+import type { BasicVaultType } from "../../basic/types";
 import type { ChainId } from "../../wallet/constants";
 
 export enum VaultType {
   CALL = "CALL",
   PUT = "PUT",
+  CONDOR = "CONDOR",
 }
 
 export enum RiskLevel {
@@ -22,6 +24,7 @@ export interface PercentageYields {
 
 export interface BasicVault {
   id: string;
+  basicVaultType: BasicVaultType;
   basicVaultAddress: string;
   chainId: ChainId;
   type: VaultType;
@@ -40,9 +43,10 @@ export interface BasicVault {
   collatCap: Big;
   assetPrice: number;
   collateralPrice: number;
-  strikePrice: number | null;
+  strikePrices: number[];
   percentageYields: PercentageYields;
   annualPercentageYield: number;
   isSettled: boolean;
   isExpired: boolean;
+  isAllowInteractions: boolean;
 }

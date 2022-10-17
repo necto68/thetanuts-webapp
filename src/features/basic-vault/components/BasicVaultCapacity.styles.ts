@@ -1,12 +1,18 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import type { BasicVault } from "../types";
-import { VaultType } from "../types";
+import { ProgressBarColor } from "../types";
 
-interface ProgressBarProps extends Pick<BasicVault, "type"> {
+interface ProgressBarProps {
+  color: ProgressBarColor;
   value: number;
 }
+
+const progressBarColors = {
+  [ProgressBarColor.blue]: "#02d1ff",
+  [ProgressBarColor.orange]: "#fe9902",
+  [ProgressBarColor.red]: "#eb5353",
+};
 
 export const Container = styled.div`
   display: flex;
@@ -32,8 +38,7 @@ export const ProgressBar = styled(motion.div).attrs<ProgressBarProps>(
   })
 )<ProgressBarProps>`
   display: flex;
-  background-color: ${({ type }) =>
-    type === VaultType.CALL ? "#02d1ff" : "#fe9902"};
+  background-color: ${({ color }) => progressBarColors[color]};
 `;
 
 export const Title = styled.span`

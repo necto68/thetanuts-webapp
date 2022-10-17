@@ -3,9 +3,9 @@ import { useCallback } from "react";
 import { generatePath } from "react-router-dom";
 
 import { Link } from "../../shared/components";
-import { ModalPathname, VaultModalType } from "../../root/types";
 import { useVaultModalState } from "../../modal/hooks";
 import type { VaultModalState } from "../../shared/hooks";
+import { getModalPathname } from "../../root/helpers";
 
 import { BaseVaultModalButton } from "./VaultModalButton.styles";
 
@@ -30,11 +30,7 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
 
   const { isRouterModal } = vaultModalState;
 
-  const modalPathname =
-    vaultType === VaultModalType.index
-      ? ModalPathname.indexVaultModal
-      : ModalPathname.basicVaultModal;
-
+  const modalPathname = getModalPathname(vaultType);
   const pathname = generatePath(modalPathname, {
     vaultId,
   });

@@ -16,8 +16,9 @@ import { indexVaultsMap } from "../../theta-index/constants";
 import type { ChainId } from "../../wallet/constants";
 import { chainProvidersMap, chains, chainsMap } from "../../wallet/constants";
 import { basicVaultFetcher } from "../../basic-vault/helpers";
-import { basicVaults } from "../../basic/constants";
+import { allBasicVaults } from "../../basic/constants";
 import { VaultType } from "../../basic-vault/types";
+import { BasicVaultType } from "../../basic/types";
 
 import {
   normalizeVaultValue,
@@ -86,15 +87,20 @@ export const indexVaultFetcher = async (
       ...basicVaultsAddressesPromises,
     ] as const);
 
+  const collateralSymbol = assetSymbol;
+
   const basicVaultsConfigs = basicVaultsAddresses.map((basicVaultAddress) => {
-    const basicVaultConfig = basicVaults.find(
+    const basicVaultConfig = allBasicVaults.find(
       ({ source }) => basicVaultAddress === source.basicVaultAddress
     );
 
     const basicVaultId = basicVaultConfig?.id ?? basicVaultAddress;
+    const basicVaultType =
+      basicVaultConfig?.basicVaultType ?? BasicVaultType.BASIC;
 
     return {
       basicVaultId,
+      basicVaultType,
       basicVaultAddress,
     };
   });
@@ -116,12 +122,17 @@ export const indexVaultFetcher = async (
   const vaults = await Promise.all(
     basicVaultsConfigs.map(
       // eslint-disable-next-line @typescript-eslint/promise-function-async
-      ({ basicVaultId, basicVaultAddress }) =>
+      ({ basicVaultId, basicVaultType, basicVaultAddress }) =>
         queryClient.fetchQuery(
-          [QueryType.basicVault, basicVaultId, chainId],
+          [QueryType.basicVault, basicVaultId, basicVaultType, chainId],
 
           async () =>
-            await basicVaultFetcher(basicVaultId, basicVaultAddress, provider)
+            await basicVaultFetcher(
+              basicVaultId,
+              basicVaultType,
+              basicVaultAddress,
+              provider
+            )
         )
     )
   );
@@ -228,6 +239,7 @@ export const indexVaultFetcher = async (
     assetSymbol,
     assetPrice,
     assetTokenAddress,
+    collateralSymbol,
     oracleIndexPrice,
     middleIndexPriceByChainId,
     indexTokenAddress,

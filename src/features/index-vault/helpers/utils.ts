@@ -218,3 +218,6 @@ export const getTotalRiskLevel = (
 
 export const getVaultTypeTitle = (type: VaultType): string =>
   type === VaultType.CALL ? "Covered Call" : "Put Selling";
+
+export const getVaultTypeStrategy = (type: VaultType): string =>
+  type === VaultType.CALL ? "Call" : "Put";

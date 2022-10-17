@@ -1,7 +1,7 @@
 import type { FC } from "react";
 
 import { numberFormatter } from "../../shared/helpers";
-import type { BasicVault } from "../types";
+import type { BasicVault, ProgressBarColor } from "../types";
 
 import {
   Container,
@@ -10,16 +10,16 @@ import {
   Title,
 } from "./BasicVaultCapacity.styles";
 
-type BasicVaultCapacityProps = Pick<
-  BasicVault,
-  "balance" | "collatCap" | "collateralSymbol" | "type"
->;
+interface BasicVaultCapacityProps
+  extends Pick<BasicVault, "balance" | "collatCap" | "collateralSymbol"> {
+  progressBarColor: ProgressBarColor;
+}
 
 export const BasicVaultCapacity: FC<BasicVaultCapacityProps> = ({
   collateralSymbol,
   balance,
   collatCap,
-  type,
+  progressBarColor,
 }) => {
   const formattedDepositsValue = collatCap.gt(0)
     ? balance.div(collatCap).mul(100).round(2).toNumber()
@@ -30,7 +30,7 @@ export const BasicVaultCapacity: FC<BasicVaultCapacityProps> = ({
   return (
     <Container>
       <ProgressBarContainer>
-        <ProgressBar type={type} value={formattedDepositsValue} />
+        <ProgressBar color={progressBarColor} value={formattedDepositsValue} />
       </ProgressBarContainer>
       <Title>{`Total: ${formattedTotal} ${collateralSymbol} (${formattedDepositsValue}%)`}</Title>
     </Container>

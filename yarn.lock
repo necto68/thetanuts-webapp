@@ -7435,10 +7435,6 @@ mkdirp@^1.0.4:
   version "1.0.4"
   resolved "https://registry.npmjs.org/mkdirp/-/mkdirp-1.0.4.tgz"
 
-moment@^2.29.1:
-  version "2.29.1"
-  resolved "https://registry.npmjs.org/moment/-/moment-2.29.1.tgz"
-
 montag@^1.1.0:
   version "1.2.1"
   resolved "https://registry.npmjs.org/montag/-/montag-1.2.1.tgz"

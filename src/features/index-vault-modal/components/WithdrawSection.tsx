@@ -56,7 +56,6 @@ export const WithdrawSection = () => {
           isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
           isFlipped={isFlipped}
           isNativeDataLoading={isNativeDataLoading}
-          isShowTitle={false}
           isSource
           isTokenDataLoading={isSourceDataLoading}
           isUseNativeData={isUseNativeSourceData}

@@ -23,20 +23,16 @@ type PositionTableRow = BasicVaultRow | IndexVaultRow;
 const columns: Column<PositionTableRow>[] = [
   {
     key: "assetSymbol",
-    title: "Asset",
+    title: "Vault",
 
-    render: (row) => {
-      if ("collateralSymbol" in row) {
-        return (
-          <AssetCell
-            assetSymbol={row.assetSymbol}
-            collateralSymbol={row.collateralSymbol}
-          />
-        );
-      }
-
-      return <AssetCell assetSymbol={row.assetSymbol} />;
-    },
+    render: ({ vaultType, type, assetSymbol, collateralSymbol }) => (
+      <AssetCell
+        assetSymbol={assetSymbol}
+        collateralSymbol={collateralSymbol}
+        type={type}
+        vaultType={vaultType}
+      />
+    ),
 
     filterBy: true,
   },
@@ -115,7 +111,9 @@ const columns: Column<PositionTableRow>[] = [
         );
       }
 
-      return <DepositButton chainId={chainId} vaultId={id} />;
+      return (
+        <DepositButton chainId={chainId} vaultId={id} vaultType={vaultType} />
+      );
     },
   },
 ];
@@ -126,7 +124,10 @@ export const PositionsTable = () => {
   const indexPositionsRows = useIndexPositionsRows();
   const basicPositionsRows = useBasicPositionsRows();
 
-  const positionRows = [...indexPositionsRows, ...basicPositionsRows];
+  const positionRows: (PositionTableRow | undefined)[] = [
+    ...indexPositionsRows,
+    ...basicPositionsRows,
+  ];
 
   const filteredRows = positionRows.filter((row) => {
     if (!row) {

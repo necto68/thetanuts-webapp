@@ -7,8 +7,9 @@ import { chainIconSymbols, chainsMap } from "../../wallet/constants";
 import { IconContainer, Link, Tooltip } from "../../shared/components";
 import { useIsMobile } from "../../shared/hooks";
 import { getLogoBySymbol } from "../../logo/helpers";
-import { VaultModalType, ModalPathname } from "../../root/types";
+import type { VaultModalType } from "../../root/types";
 import { useVaultModalState } from "../../modal/hooks";
+import { getModalPathname } from "../../root/helpers";
 
 import {
   ChainLogoContainer,
@@ -61,10 +62,7 @@ export const Chains: FC<ChainsProps> = ({
 
   const getLink = (chainId: ChainId) => {
     if (isRouterModal && vaultType && vaultId) {
-      const modalPathname =
-        vaultType === VaultModalType.index
-          ? ModalPathname.indexVaultModal
-          : ModalPathname.basicVaultModal;
+      const modalPathname = getModalPathname(vaultType);
       const pathname = generatePath(modalPathname, { vaultId });
 
       return {

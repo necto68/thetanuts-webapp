@@ -39,7 +39,7 @@ export const Container = styled(motion.div).attrs<ContainerProps>(
   border-radius: 8px;
   background: ${({ backgroundColor }) => backgroundColor};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  min-width: 254px;
+  min-width: 253px;
 `;
 
 export const Header = styled.div`

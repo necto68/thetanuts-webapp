@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
 import { useCallback } from "react";
 
-import { PagePathname, VaultModalType } from "../../root/types";
+import { getPagePathname } from "../../root/helpers/utils";
 
 import { useVaultModalState } from "./useVaultModalState";
 
@@ -15,10 +15,8 @@ export const useVaultModalClose = () => {
 
   return useCallback(() => {
     if (isRouterModal) {
-      const pathname =
-        vaultType === VaultModalType.index
-          ? PagePathname.thetaIndex
-          : PagePathname.basic;
+      const pathname = getPagePathname(vaultType);
+
       routerHistory.push(pathname);
     } else {
       setVaultModalState((previousState) => ({

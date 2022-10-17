@@ -7,6 +7,11 @@ import { Title } from "./BasicVaultAssetCell.styles";
 
 type StrategyTitleProps = Pick<BasicVault, "type">;
 
+export const StrategyTitleContainer = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+
 export const StrategyTitle = styled(Title)<StrategyTitleProps>`
   color: ${({ type }) => (type === VaultType.CALL ? "#02d1ff" : "#fe9902")};
   text-transform: uppercase;

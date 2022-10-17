@@ -7,6 +7,7 @@ export interface DemoIndexVaultConfig
     Pick<
       IndexVault,
       | "assetSymbol"
+      | "collateralSymbol"
       | "supportedChainIds"
       | "totalPercentageYields"
       | "totalRiskLevel"

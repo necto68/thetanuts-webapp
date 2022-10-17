@@ -1,18 +1,15 @@
 import { useCallback, useState } from "react";
 
-import { IconContainer } from "../../shared/components";
 import { useIsMobile } from "../../shared/hooks";
 import {
   Container,
   ContentContainer,
   DescriptionContainer,
-  BasketIconContainer,
   Title,
   Description,
   DescriptionLink,
   ExpandDescriptionLink,
 } from "../../theta-index/components/ThetaIndexLayout.styles";
-import { PotPlant } from "../icons";
 
 import { FeaturedBasicVaultsList } from "./FeaturedBasicVaultsList";
 import { BasicVaultsTable } from "./BasicVaultsTable";
@@ -71,11 +68,6 @@ export const BasicLayout = () => {
             </>
           )}
         </DescriptionContainer>
-        <BasketIconContainer>
-          <IconContainer height={225} width={195}>
-            <PotPlant />
-          </IconContainer>
-        </BasketIconContainer>
       </ContentContainer>
       <Title>Featured Basic</Title>
       <FeaturedBasicVaultsList />

@@ -3,11 +3,23 @@ import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
 
-export const Container = styled.div`
+export const Container = styled(motion.div).attrs<{
+  isOpen?: boolean;
+}>(({ isOpen = false }) => ({
+  initial: false,
+
+  animate: {
+    borderColor: isOpen ? "#1fffab" : "#a6b0c7",
+  },
+}))<{
+  isOpen?: boolean;
+}>`
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  border: 1px solid #9e9e9e;
+  background-color: #25282e;
+  border-width: 1px;
+  border-style: solid;
 `;
 
 export const HeaderLink = styled(motion.a).attrs(() => ({
@@ -19,9 +31,9 @@ export const HeaderLink = styled(motion.a).attrs(() => ({
   flex: 1;
   justify-content: space-between;
   align-items: center;
-  border: 0;
   padding: 12px 16px;
   text-decoration: none;
+  border-radius: 4px;
 `;
 
 export const HeaderButton = styled(BaseButton).attrs(() => ({
@@ -31,7 +43,6 @@ export const HeaderButton = styled(BaseButton).attrs(() => ({
   flex: 1;
   justify-content: space-between;
   align-items: center;
-  border: 0;
   padding: 12px 16px;
 `;
 
@@ -39,7 +50,7 @@ export const Title = styled.span`
   font-family: Barlow;
   font-weight: 500;
   font-size: 12px;
-  color: #061f3a;
+  color: #ffffff;
 `;
 
 export const ExpandableContainer = styled(motion.div).attrs<{

@@ -1,0 +1,225 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "vault",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amt",
+        "type": "uint256"
+      }
+    ],
+    "name": "CancelDeposit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "vault",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amt",
+        "type": "uint256"
+      }
+    ],
+    "name": "Deposit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract Vault_V1",
+        "name": "vault",
+        "type": "address"
+      }
+    ],
+    "name": "cancelDeposit",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract Vault_V1",
+        "name": "vault",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "idx", "type": "uint256" }
+    ],
+    "name": "cancelDepositByIndex",
+    "outputs": [
+      { "internalType": "uint256", "name": "amtToTransfer", "type": "uint256" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract Vault_V1",
+        "name": "vault",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "amt", "type": "uint256" }
+    ],
+    "name": "deposit",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "", "type": "address" },
+      { "internalType": "uint256", "name": "", "type": "uint256" }
+    ],
+    "name": "depositQueue",
+    "outputs": [
+      { "internalType": "address", "name": "onBehalfOf", "type": "address" },
+      { "internalType": "uint96", "name": "amt", "type": "uint96" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract Vault_V1",
+        "name": "vault",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "_sender", "type": "address" }
+    ],
+    "name": "findDepositIndex",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      { "internalType": "address", "name": "vault", "type": "address" }
+    ],
+    "name": "getUserDepositAtVaultAddress",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "contract Vault_V1",
+        "name": "vault",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "startRange", "type": "uint256" }
+    ],
+    "name": "processRange",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "contract ERC20", "name": "asset", "type": "address" }
+    ],
+    "name": "removeAssets",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "vault", "type": "address" },
+      { "internalType": "uint128", "name": "minAmt", "type": "uint128" },
+      { "internalType": "uint128", "name": "feeAmt", "type": "uint128" }
+    ],
+    "name": "setVaultParam",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "totalPending",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "vaultParams",
+    "outputs": [
+      { "internalType": "uint128", "name": "minAmt", "type": "uint128" },
+      { "internalType": "uint128", "name": "feeAmt", "type": "uint128" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

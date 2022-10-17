@@ -59,7 +59,6 @@ export const WithdrawClaimSection = () => {
           inputValue={sourceValue}
           isFlipped={false}
           isNativeDataLoading={isNativeDataLoading}
-          isShowTitle={false}
           isSource
           isTokenDataLoading={isSourceDataLoading}
           isUseNativeData={isUseNativeSourceData}

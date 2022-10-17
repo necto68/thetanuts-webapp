@@ -3,11 +3,7 @@ import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import Big from "big.js";
 
-import {
-  BaseButton,
-  IconContainer,
-  SkeletonBox,
-} from "../../shared/components";
+import { IconContainer, SkeletonBox } from "../../shared/components";
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
 import { getLogoBySymbol } from "../../logo/helpers";
@@ -34,6 +30,7 @@ import {
   InsufficientBalanceTitle,
   PriceContainer,
   PriceValue,
+  BalanceMaxButton,
 } from "./SwapInputCard.styles";
 
 interface SwapInputCardProps {
@@ -58,7 +55,6 @@ interface SwapInputCardProps {
   fieldWarning?: string;
   fieldWarningColor?: string;
   disabled?: boolean;
-  isShowTitle?: boolean;
   remainderValue?: number;
   vaultChainId?: ChainId;
 }
@@ -89,7 +85,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   fieldWarning,
   fieldWarningColor,
   disabled,
-  isShowTitle = true,
   remainderValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
 }) => {
@@ -129,6 +124,8 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   const formattedPrice = currencyFormatter.format(priceValue);
 
+  const isOnSourceChain = sourceTokenData?.chainId === vaultChainId;
+
   const isShowInsufficientBalanceTitle = Boolean(
     isSource &&
       currentData?.balance &&
@@ -148,12 +145,12 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   const isShowDirectDepositProposal =
     !isSource &&
-    !isFlipped &&
+    !isOnSourceChain &&
     isDirectModeBetterThanSwapMode &&
     !isUseDirectMode;
 
   const isShowDirectWithdrawProposal =
-    !isSource && isFlipped && isDirectModeBetterThanSwapMode;
+    !isSource && isFlipped && isDirectModeBetterThanSwapMode && isOnSourceChain;
 
   const isShowSwapProposal =
     !isDirectModeBetterThanSwapMode &&
@@ -172,27 +169,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   return (
     <Container>
-      <BalanceContainer>
-        {isShowTitle ? (
-          <BalanceTitle>{isSource ? "From" : "To"}</BalanceTitle>
-        ) : (
-          <span />
-        )}
-        {!isHideWalletBalance ? (
-          <BalanceTitlesContainer>
-            <AnimatePresence>
-              {isShowInsufficientBalanceTitle ? (
-                <InsufficientBalanceTitle>
-                  Insufficient
-                </InsufficientBalanceTitle>
-              ) : null}
-            </AnimatePresence>
-            <BalanceTitle>{`Wallet Balance: ${balanceValue}`}</BalanceTitle>
-          </BalanceTitlesContainer>
-        ) : (
-          <span />
-        )}
-      </BalanceContainer>
       <AnimatePresence exitBeforeEnter initial={false}>
         <SwapInputCardAnimateContainer
           disabled={disabled}
@@ -246,11 +222,27 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                   tokenData={tokenData}
                 />
               ) : null}
-              {!isDataLoading && isShowMaxButton ? (
-                <BaseButton isSmall onClick={handleMaxButtonClick}>
-                  MAX
-                </BaseButton>
-              ) : null}
+              <BalanceContainer>
+                {!isHideWalletBalance ? (
+                  <BalanceTitlesContainer>
+                    <AnimatePresence>
+                      {isShowInsufficientBalanceTitle ? (
+                        <InsufficientBalanceTitle>
+                          Insufficient
+                        </InsufficientBalanceTitle>
+                      ) : null}
+                    </AnimatePresence>
+                    <BalanceTitle>{`Balance: ${balanceValue}`}</BalanceTitle>
+                  </BalanceTitlesContainer>
+                ) : (
+                  <span />
+                )}
+                {!isDataLoading && isShowMaxButton ? (
+                  <BalanceMaxButton isSmall onClick={handleMaxButtonClick}>
+                    MAX
+                  </BalanceMaxButton>
+                ) : null}
+              </BalanceContainer>
             </AssetContainer>
           </SwapInputCardContentContainer>
           {isShowPriceWarning ? (

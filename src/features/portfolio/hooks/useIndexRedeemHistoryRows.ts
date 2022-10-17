@@ -25,7 +25,7 @@ export const useIndexRedeemHistoryRows = (): (
       return undefined;
     }
 
-    const { assetSymbol } = data;
+    const { type: strategyType, assetSymbol, collateralSymbol } = data;
 
     return historyTransactions.map(
       ({ id, type, timestamp, amountOut, chainId }) => {
@@ -42,7 +42,9 @@ export const useIndexRedeemHistoryRows = (): (
           balance: amountOut,
           chainId,
           vaultType: VaultModalType.index,
+          strategyType,
           assetSymbol,
+          collateralSymbol,
           symbol,
         };
       }

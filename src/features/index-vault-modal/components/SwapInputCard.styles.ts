@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+import { BaseButton } from "../../shared/components";
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -9,21 +11,34 @@ export const Container = styled.div`
 export const BalanceContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 0 15px 5px;
+  gap: 2px;
+  width: 0;
+  padding: 4px 0 0 0;
 `;
 
 export const BalanceTitlesContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 4px;
 `;
 
 export const BalanceTitle = styled.span`
   font-family: Barlow;
   font-weight: 400;
   font-size: 12px;
+  color: #ffffff;
+  white-space: nowrap;
+`;
+
+export const BalanceMaxButton = styled(BaseButton)`
+  padding: 0 2px;
+  height: 14px;
+  border-radius: 4px;
+  background: #ffffff;
+
   color: #061f3a;
+  font-size: 8px;
 `;
 
 export const InsufficientBalanceTitle = styled(motion.span).attrs(() => ({
@@ -71,7 +86,7 @@ export const SwapInputCardAnimateContainer = styled(motion.div).attrs<{
   gap: 10px;
   border-radius: 10px;
   padding: 15px;
-  background-color: ${({ disabled }) => (disabled ? "#949494" : "#061f3a")};
+  background-color: ${({ disabled }) => (disabled ? "#949494" : "#323844")};
 `;
 
 export const SwapInputCardContentContainer = styled.div`
@@ -136,6 +151,10 @@ export const PriceValue = styled.span`
   font-weight: 400;
   font-size: 12px;
   color: #e5e5e5;
+  max-width: 120px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 export const AssetTitleContainer = styled.div`

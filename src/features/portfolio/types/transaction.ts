@@ -11,6 +11,7 @@ export enum TransactionType {
 
   // basic vaults
   deposited = "deposited",
+  canceledDeposit = "canceledDeposit",
   initiatedWithdrawal = "initiatedWithdrawal",
   canceledWithdrawal = "canceledWithdrawal",
 }
@@ -22,6 +23,7 @@ export const TransactionTypeTitle = {
   [TransactionType.withdrawnDirectly]: "Withdrawn Directly",
   [TransactionType.claimed]: "Claimed",
   [TransactionType.deposited]: "Deposited",
+  [TransactionType.canceledDeposit]: "Canceled Deposit",
   [TransactionType.initiatedWithdrawal]: "Initiated Withdrawal",
   [TransactionType.canceledWithdrawal]: "Canceled Withdrawal",
 };

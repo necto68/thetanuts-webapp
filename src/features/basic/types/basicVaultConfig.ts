@@ -1,8 +1,13 @@
 import type { ChainId } from "../../wallet/constants";
 
+export enum BasicVaultType {
+  BASIC = "BASIC",
+  DEGEN = "DEGEN",
+}
+
 export interface BasicVaultConfig {
   id: string;
-  isFeatured?: boolean;
+  basicVaultType: BasicVaultType;
 
   source: {
     chainId: ChainId;

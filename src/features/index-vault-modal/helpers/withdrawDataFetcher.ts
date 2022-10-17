@@ -15,7 +15,7 @@ import ClaimInfoStructOutput = DirectWithdraw.ClaimInfoStructOutput;
 
 interface WithdrawnVault {
   vaultAddress: string;
-  strikePrice: number;
+  strikePrices: [number];
   expiry: number;
   expected: string;
   claimed: string;
@@ -269,9 +269,11 @@ export const withdrawalDataFetcher = async (
               withdrawnVaults.push({
                 vaultAddress: withdrawal.subVault[index],
 
-                strikePrice: convertToBig(withdrawal.strikeX1e6[index])
-                  .div(1e6)
-                  .toNumber(),
+                strikePrices: [
+                  convertToBig(withdrawal.strikeX1e6[index])
+                    .div(1e6)
+                    .toNumber(),
+                ],
 
                 expiry: withdrawal.strikeTimestamp[index].mul(1000).toNumber(),
 

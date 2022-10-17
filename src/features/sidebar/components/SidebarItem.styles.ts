@@ -5,11 +5,15 @@ import { Link } from "../../shared/components";
 import { screens } from "../../shared/constants";
 
 interface LinkProps {
-  fontWeight: number;
-  color: string;
+  active: boolean;
 }
 
-export const SidebarItemContainer = styled.div<{ active: boolean }>`
+interface SidebarItemContainerProps {
+  active: boolean;
+  iconColor: string;
+}
+
+export const SidebarItemContainer = styled.div<SidebarItemContainerProps>`
   display: flex;
 
   justify-content: space-between;
@@ -19,17 +23,18 @@ export const SidebarItemContainer = styled.div<{ active: boolean }>`
   }
 
   > * {
-    fill: ${({ active }) => (active ? "#1fffab" : "#ffffff")};
+    color: ${({ active, iconColor }) => (active ? iconColor : "#ffffff")};
+    fill: ${({ active, iconColor }) => (active ? iconColor : "#ffffff")};
   }
 
   > *:hover {
-    color: #1fffab;
-    fill: #1fffab;
+    color: ${({ iconColor }) => iconColor};
+    fill: ${({ iconColor }) => iconColor};
     text-decoration: none;
   }
 `;
 
-export const Underline = styled(motion.div).attrs<{ active: boolean }>(
+export const Underline = styled(motion.div).attrs<SidebarItemContainerProps>(
   ({ active }) => ({
     initial: false,
 
@@ -37,22 +42,21 @@ export const Underline = styled(motion.div).attrs<{ active: boolean }>(
       opacity: active ? 1 : 0,
     },
   })
-)<{ active: boolean }>`
+)<SidebarItemContainerProps>`
   width: 2px;
   border-radius: 1px;
-  background-color: #1fffab;
+  background-color: ${({ iconColor }) => iconColor};
   transform: translateX(21px);
 `;
 
 export const SidebarLink = styled(Link)<LinkProps>`
   font-family: Barlow;
-  font-weight: ${({ fontWeight }) => fontWeight};
+  font-weight: ${({ active }) => (active ? 600 : 400)};
   font-size: 14px;
   text-decoration: none;
   display: flex;
   align-items: center;
   gap: 10px;
-  color: ${({ color }) => color};
   text-transform: uppercase;
 
   :hover {

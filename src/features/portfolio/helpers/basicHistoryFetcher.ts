@@ -3,7 +3,10 @@ import type { Provider } from "@ethersproject/providers";
 import { BigNumber } from "ethers";
 import Big from "big.js";
 
-import { BasicVaultAbi__factory as BasicVaultAbiFactory } from "../../contracts/types";
+import {
+  BasicVaultAbi__factory as BasicVaultAbiFactory,
+  BasicVaultDepositorAbi__factory as BasicVaultDepositorAbiFactory,
+} from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
 import type { Transaction } from "../types";
 import { TransactionType } from "../types";
@@ -13,12 +16,20 @@ import type {
   QueueWithdrawEvent,
   WithdrawEvent,
 } from "../../contracts/types/BasicVaultAbi";
+import type {
+  DepositEvent as QueueDepositEvent,
+  CancelDepositEvent as CancelQueueDepositEvent,
+} from "../../contracts/types/BasicVaultDepositorAbi";
 import { basicVaultFetcher } from "../../basic-vault/helpers";
+import type { BasicVaultType } from "../../basic/types";
+import { chainsMap } from "../../wallet/constants";
+import type { ChainId } from "../../wallet/constants/chains";
 
 import { fetchChainExplorerData } from "./fetchChainExplorerData";
 
 export const basicHistoryFetcher = async (
   basicVaultId: string,
+  basicVaultType: BasicVaultType,
   basicVaultAddress: string,
   provider: Provider,
   account: string
@@ -27,13 +38,19 @@ export const basicHistoryFetcher = async (
     return [];
   }
 
-  const { chainId } = await provider.getNetwork();
+  const { chainId } = (await provider.getNetwork()) as { chainId: ChainId };
+  const { basicVaultDepositorAddress } = chainsMap[chainId].addresses;
 
   const basicVault = await queryClient.fetchQuery(
-    [QueryType.basicVault, basicVaultId, chainId],
+    [QueryType.basicVault, basicVaultId, basicVaultType, chainId],
 
     async () =>
-      await basicVaultFetcher(basicVaultId, basicVaultAddress, provider)
+      await basicVaultFetcher(
+        basicVaultId,
+        basicVaultType,
+        basicVaultAddress,
+        provider
+      )
   );
 
   const collateralTokenDivisor = new Big(10).pow(basicVault.collateralDecimals);
@@ -43,9 +60,26 @@ export const basicHistoryFetcher = async (
     provider
   );
 
+  const basicVaultDepositorContract = BasicVaultDepositorAbiFactory.connect(
+    basicVaultDepositorAddress,
+    provider
+  );
+
   const basicVaultInterface = BasicVaultAbiFactory.createInterface();
+  const basicVaultDepositorInterface =
+    BasicVaultDepositorAbiFactory.createInterface();
 
   const filters = [
+    basicVaultDepositorContract.filters.Deposit(
+      account,
+      basicVaultAddress,
+      null
+    ),
+    basicVaultDepositorContract.filters.CancelDeposit(
+      account,
+      basicVaultAddress,
+      null
+    ),
     basicVaultContract.filters.Deposit(account, null, null, account),
     basicVaultContract.filters.QueueWithdraw(account, null, null, account),
     basicVaultContract.filters.Withdraw(account, null, null, account),
@@ -62,18 +96,45 @@ export const basicHistoryFetcher = async (
     promiseResult.status === "fulfilled" ? promiseResult.value : null
   );
 
-  // map results to different data types
-  const [depositData, queueWithdrawData, withdrawData] =
-    filtersPromisesValues.map((responseData) =>
-      responseData ? responseData.result : []
-    );
-
-  const resultsData = depositData.concat(queueWithdrawData, withdrawData);
-
   // return empty array if no transactions
-  if (resultsData.length === 0) {
+  if (
+    filtersPromisesValues.every(
+      (value) => !value?.result || value.result.length === 0
+    )
+  ) {
     return [];
   }
+
+  // map results to different data types
+  const [
+    queueDepositData,
+    cancelQueueDepositData,
+    depositData,
+    queueWithdrawData,
+    withdrawData,
+  ] = filtersPromisesValues.map((responseData) =>
+    responseData ? responseData.result : []
+  );
+
+  // parse queue deposit transactions
+  const parsedQueueDepositTransactions = queueDepositData.map(
+    ({ data, topics }) =>
+      basicVaultDepositorInterface.decodeEventLog(
+        basicVaultDepositorInterface.getEvent("Deposit"),
+        data,
+        topics
+      ) as unknown as QueueDepositEvent["args"]
+  );
+
+  // parse cancel queue deposit transactions
+  const parsedCancelQueueDepositTransactions = cancelQueueDepositData.map(
+    ({ data, topics }) =>
+      basicVaultDepositorInterface.decodeEventLog(
+        basicVaultDepositorInterface.getEvent("CancelDeposit"),
+        data,
+        topics
+      ) as unknown as CancelQueueDepositEvent["args"]
+  );
 
   // parse deposit transactions
   const parsedDepositTransactions = depositData.map(
@@ -106,6 +167,16 @@ export const basicHistoryFetcher = async (
   );
 
   // create arrays with transaction types
+  const parsedQueueDepositTransactionsTypes = Array.from(
+    { length: parsedQueueDepositTransactions.length },
+    () => TransactionType.deposited
+  );
+
+  const parsedCancelQueueDepositTransactionsTypes = Array.from(
+    { length: parsedCancelQueueDepositTransactions.length },
+    () => TransactionType.canceledDeposit
+  );
+
   const parsedDepositTransactionsTypes = Array.from(
     { length: parsedDepositTransactions.length },
     () => TransactionType.deposited
@@ -121,24 +192,45 @@ export const basicHistoryFetcher = async (
     () => TransactionType.claimed
   );
 
-  // concat arrays with transaction types
-  const parsedTransactionsTypes = parsedDepositTransactionsTypes.concat(
-    parsedQueueWithdrawTransactionsTypes,
-    parsedWithdrawTransactionsTypes
+  // concat arrays with result data
+  const basicVaultResultData = depositData.concat(
+    queueWithdrawData,
+    withdrawData
   );
 
+  const basicVaultDepositorResultData = queueDepositData.concat(
+    cancelQueueDepositData
+  );
+
+  // concat arrays with transaction types
+  const basicVaultParsedTransactionsTypes =
+    parsedDepositTransactionsTypes.concat(
+      parsedQueueWithdrawTransactionsTypes,
+      parsedWithdrawTransactionsTypes
+    );
+
+  const basicVaultDepositorParsedTransactionsTypes =
+    parsedQueueDepositTransactionsTypes.concat(
+      parsedCancelQueueDepositTransactionsTypes
+    );
+
   // concat arrays with transactions
-  const parsedTransactions = parsedDepositTransactions.concat(
+  const basicVaultParsedTransactions = parsedDepositTransactions.concat(
     parsedQueueWithdrawTransactions,
     parsedWithdrawTransactions
   );
 
-  return await Promise.all(
-    parsedTransactions.map(async (transaction, index) => {
-      const { transactionHash: id, timeStamp } = resultsData[index];
+  const basicVaultDepositorParsedTransactions = [
+    ...parsedQueueDepositTransactions,
+    ...parsedCancelQueueDepositTransactions,
+  ];
+
+  const basicVaultTransactions = await Promise.all(
+    basicVaultParsedTransactions.map(async (transaction, index) => {
+      const { transactionHash: id, timeStamp } = basicVaultResultData[index];
       const { _amt: amount, _epoch: transactionEpoch } = transaction;
 
-      let type = parsedTransactionsTypes[index];
+      let type = basicVaultParsedTransactionsTypes[index];
 
       let amountIn = new Big(0);
       let amountOut = new Big(0);
@@ -186,4 +278,41 @@ export const basicHistoryFetcher = async (
       };
     })
   );
+
+  const basicVaultDepositorTransactions =
+    basicVaultDepositorParsedTransactions.map((transaction, index) => {
+      const { transactionHash: id, timeStamp } =
+        basicVaultDepositorResultData[index];
+
+      const { amt: amount } = transaction;
+      const amountBig = convertToBig(amount).div(collateralTokenDivisor);
+
+      const type = basicVaultDepositorParsedTransactionsTypes[index];
+
+      let amountIn = new Big(0);
+      let amountOut = new Big(0);
+
+      if (type === TransactionType.deposited) {
+        amountIn = amountBig;
+      }
+
+      if (type === TransactionType.canceledDeposit) {
+        amountOut = amountBig;
+      }
+
+      const timestamp = convertToBig(BigNumber.from(timeStamp))
+        .mul(1000)
+        .toNumber();
+
+      return {
+        id,
+        type,
+        amountIn,
+        amountOut,
+        timestamp,
+        chainId,
+      };
+    });
+
+  return basicVaultTransactions.concat(basicVaultDepositorTransactions);
 };

@@ -19,6 +19,7 @@ export interface IndexVault {
   assetSymbol: string;
   assetPrice: number;
   assetTokenAddress: string;
+  collateralSymbol: string;
   oracleIndexPrice: number;
   middleIndexPriceByChainId: Partial<Record<ChainId, number>>;
   indexTokenAddress: string;

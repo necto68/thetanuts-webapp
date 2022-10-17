@@ -26,7 +26,7 @@ export const useIndexDepositsHistoryRows = (): (
       return undefined;
     }
 
-    const { assetSymbol } = data;
+    const { type: strategyType, assetSymbol, collateralSymbol } = data;
 
     return historyTransactions.map(
       ({ id, type, timestamp, amountIn, chainId }) => {
@@ -43,7 +43,9 @@ export const useIndexDepositsHistoryRows = (): (
           balance: amountIn.mul(-1),
           chainId,
           vaultType: VaultModalType.index,
+          strategyType,
           assetSymbol,
+          collateralSymbol,
           symbol,
         };
       }

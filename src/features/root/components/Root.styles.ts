@@ -9,6 +9,7 @@ import { Link } from "../../shared/components/Link";
 const mapPathnameToBackground = {
   [PagePathname.thetaIndex]: "#031a34",
   [PagePathname.basic]: "#031a34",
+  [PagePathname.degen]: "#031a34",
   [PagePathname.portfolio]: "#212b31",
 };
 

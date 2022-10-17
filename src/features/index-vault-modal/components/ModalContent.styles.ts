@@ -2,20 +2,13 @@ import styled from "styled-components";
 import type { AnimationLifecycles } from "framer-motion";
 import { motion } from "framer-motion";
 
-import type { ThemeType } from "../types";
-
-export const Container = styled(motion.div).attrs<ThemeType>(({ theme }) => ({
-  initial: false,
-
-  animate: {
-    backgroundColor: theme === "dark" ? "#061F3A" : "#EFEBE2",
-  },
-}))<ThemeType>`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 430px;
   border-radius: 10px;
+  background-color: #1a1d23;
   overflow-x: hidden;
   overflow-y: auto;
 `;

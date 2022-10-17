@@ -1,17 +1,25 @@
 import { timerFormatter } from "../../shared/helpers";
+import { getBasicVaultStatusTitle } from "../helpers";
 import type { BasicVault } from "../types";
 
 import { useCurrentDate } from "./useCurrentDate";
 
 export const useBasicVaultEpochTimerTitle = (
   expiry: BasicVault["expiry"],
+  isSettled: BasicVault["isSettled"],
   isExpired: BasicVault["isExpired"],
-  isSettled: BasicVault["isSettled"]
+  isAllowInteractions: BasicVault["isAllowInteractions"]
 ) => {
   const { currentDate } = useCurrentDate();
 
-  if (isExpired || isSettled) {
-    return "Auction In Progress";
+  const basicVaultStatusTitle = getBasicVaultStatusTitle(
+    isSettled,
+    isExpired,
+    isAllowInteractions
+  );
+
+  if (basicVaultStatusTitle) {
+    return basicVaultStatusTitle;
   }
 
   const initialSeconds = Math.floor((expiry - currentDate) / 1000);

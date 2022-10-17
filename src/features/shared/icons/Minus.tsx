@@ -1,7 +1,7 @@
 export const Minus = () => (
   <svg fill="none" height="12" width="12">
     <rect
-      fill="#061F3A"
+      fill="#ffffff"
       height="1.251"
       rx=".2"
       width="11.8"

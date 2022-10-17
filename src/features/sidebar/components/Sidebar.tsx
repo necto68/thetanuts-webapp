@@ -2,7 +2,9 @@ import { useLocation } from "react-router-dom";
 import { createElement } from "react";
 
 import {
-  ThetaIndex,
+  IndexPage,
+  BasicPage,
+  DegenPage,
   Portfolio,
   Twitter,
   Medium,
@@ -20,7 +22,6 @@ import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
 import { Analytics } from "../icons/Analytics";
 import { Documentation } from "../icons/Documentation";
-import { ThetaBasic } from "../icons/ThetaBasic";
 
 import {
   CircleButtonContainer,
@@ -35,68 +36,73 @@ import {
 import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
 
+// navbar items stored here and mapped to JSX later so it is easier to add on
+const mainNavItems = [
+  {
+    to: PagePathname.thetaIndex,
+    linkTitle: "Stronghold",
+    navIcon: IndexPage,
+  },
+  {
+    to: PagePathname.basic,
+    linkTitle: "Basic",
+    navIcon: BasicPage,
+  },
+  {
+    to: PagePathname.degen,
+    linkTitle: "Degen",
+    navIcon: DegenPage,
+    iconColor: "#EB5353",
+  },
+  {
+    to: PagePathname.portfolio,
+    linkTitle: "Portfolio",
+    navIcon: Portfolio,
+  },
+  {
+    to: "https://analytics.thetanuts.finance/",
+    linkTitle: "Analytics",
+    navIcon: Analytics,
+    target: "_blank",
+  },
+];
+
+const secondaryNavItems = [
+  {
+    to: "https://docs.thetanuts.finance",
+    linkTitle: "Docs",
+    navIcon: Documentation,
+  },
+];
+
+const iconNavItems = [
+  {
+    to: "https://twitter.com/ThetanutsFi",
+    navIcon: Twitter,
+    alt: "Twitter",
+  },
+  {
+    to: "https://thetanutsfinance.medium.com",
+    navIcon: Medium,
+    alt: "Medium",
+  },
+  {
+    to: "https://discord.com/invite/fzWKJSy9v9",
+    navIcon: Discord,
+    alt: "Discord",
+  },
+  {
+    to: "https://thetanuts.substack.com",
+    navIcon: Substack,
+    alt: "Substack",
+  },
+];
+
 export const Sidebar = () => {
   const { pathname } = useLocation();
   const { isShow, toggleIsShow } = useSidebarState();
 
   const mobileHeight = useViewportHeight();
-
-  // navbar items stored here and mapped to JSX later so it is easier to add on
-
-  const mainNavItems = [
-    {
-      to: PagePathname.thetaIndex,
-      linkTitle: "Stronghold",
-      navIcon: ThetaIndex,
-    },
-    {
-      to: PagePathname.basic,
-      linkTitle: "Basic",
-      navIcon: ThetaBasic,
-    },
-    {
-      to: PagePathname.portfolio,
-      linkTitle: "Portfolio",
-      navIcon: Portfolio,
-    },
-    {
-      to: "https://analytics.thetanuts.finance/",
-      linkTitle: "Analytics",
-      navIcon: Analytics,
-      target: "_blank",
-    },
-  ];
-
-  const secondaryNavItems = [
-    {
-      to: "https://docs.thetanuts.finance",
-      linkTitle: "Docs",
-      navIcon: Documentation,
-    },
-  ];
-
-  const iconNavItems = [
-    {
-      to: "https://twitter.com/ThetanutsFi",
-      navIcon: Twitter,
-      alt: "Twitter",
-    },
-    {
-      to: "https://thetanutsfinance.medium.com",
-      navIcon: Medium,
-      alt: "Medium",
-    },
-    {
-      to: "https://discord.com/invite/fzWKJSy9v9",
-      navIcon: Discord,
-      alt: "Discord",
-    },
-    {
-      to: "https://thetanuts.substack.com",
-      navIcon: Substack,
-      alt: "Substack",
-    },
-  ];
 
   return (
     <SidebarContainer isShow={isShow} mobileHeight={mobileHeight}>
@@ -115,10 +121,11 @@ export const Sidebar = () => {
         {mainNavItems.map((navItem) => (
           <SidebarItem
             active={pathname === navItem.to}
+            iconColor={navItem.iconColor}
             key={navItem.linkTitle}
             linkTitle={navItem.linkTitle}
             navIcon={navItem.navIcon}
-            target={navItem.target ?? "_self"}
+            target={navItem.target}
             to={navItem.to}
           />
         ))}

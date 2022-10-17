@@ -28,7 +28,9 @@ export const useIndexPositionsRows = (): (IndexVaultRow | undefined)[] => {
 
     const {
       id,
+      type,
       assetSymbol,
+      collateralSymbol,
       middleIndexPriceByChainId,
       totalPercentageYields: { annualPercentageYield },
     } = data;
@@ -36,7 +38,9 @@ export const useIndexPositionsRows = (): (IndexVaultRow | undefined)[] => {
     return indexTokens.map(({ symbol, balance, tokenAddress, chainId }) => ({
       id,
       vaultType: VaultModalType.index,
+      type,
       assetSymbol,
+      collateralSymbol,
       assetPrice: middleIndexPriceByChainId[chainId] ?? 0,
       annualPercentageYield,
       symbol,
