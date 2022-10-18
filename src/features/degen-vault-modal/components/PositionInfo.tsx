@@ -63,12 +63,12 @@ export const PositionInfo = () => {
 
   const successEpochTitle =
     type === VaultType.CONDOR
-      ? "Strike Price 1 < Spot Price < Strike Price 2"
+      ? "Spot Price between Strike Price Range"
       : `Spot Price ${type === VaultType.CALL ? "<" : ">"} Strike Price`;
 
   const failedEpochTitle =
     type === VaultType.CONDOR
-      ? "Strike Price 1 > Spot Price > Strike Price 2"
+      ? "Spot Price exceeds Strike Price Range"
       : `Spot Price ${type === VaultType.CALL ? ">" : "<"} Strike Price`;
 
   return (
