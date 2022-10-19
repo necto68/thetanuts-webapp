@@ -58,6 +58,11 @@ const mainNavItems = [
     iconColor: "#EB5353",
   },
   {
+    to: PagePathname.lendingMarket,
+    linkTitle: "Lending Market",
+    navIcon: BasicPage,
+  },
+  {
     to: PagePathname.portfolio,
     linkTitle: "Portfolio",
     navIcon: Portfolio,

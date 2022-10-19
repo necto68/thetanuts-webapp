@@ -3,6 +3,7 @@ import { DisclaimerModal } from "../../disclaimer-modal/components";
 import { IndexVaultModal } from "../../index-vault-modal/components";
 import { BasicVaultModal } from "../../basic-vault-modal/components";
 import { DegenVaultModal } from "../../degen-vault-modal/components";
+import { LendingMarketVaultModal } from "../../lending-market-vault-modal/components";
 import type { CurrentModalState } from "../types";
 import { VaultModalType } from "../../root/types";
 
@@ -15,6 +16,7 @@ const modalComponents = {
   [VaultModalType.index]: IndexVaultModal,
   [VaultModalType.basic]: BasicVaultModal,
   [VaultModalType.degen]: DegenVaultModal,
+  [VaultModalType.lendingMarket]: LendingMarketVaultModal,
 };
 
 export const useCurrentModalState = (): CurrentModalState => {

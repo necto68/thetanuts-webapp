@@ -15,13 +15,15 @@ const vaultsMaps = {
   [VaultModalType.index]: indexVaultsMap,
   [VaultModalType.basic]: basicVaultsMap,
   [VaultModalType.degen]: basicVaultsMap,
+  [VaultModalType.lendingMarket]: basicVaultsMap,
 };
 
 const getVaultType = (
   vaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   indexVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   basicVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
-  degenVaultModalUrlMatch: match<VaultModalRouteParameters> | null
+  degenVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
+  lendingMarketVaultModalUrlMatch: match<VaultModalRouteParameters> | null
 ) => {
   switch (vaultModalUrlMatch) {
     case indexVaultModalUrlMatch:
@@ -30,6 +32,8 @@ const getVaultType = (
       return VaultModalType.basic;
     case degenVaultModalUrlMatch:
       return VaultModalType.degen;
+    case lendingMarketVaultModalUrlMatch:
+      return VaultModalType.lendingMarket;
     default:
       return null;
   }
@@ -44,9 +48,13 @@ export const useVaultModalOpen = () => {
   const indexPageUrlMatch = useRouteMatch(PagePathname.thetaIndex);
   const basicPageUrlMatch = useRouteMatch(PagePathname.basic);
   const degenPageUrlMatch = useRouteMatch(PagePathname.degen);
+  const lendingMarketPageUrlMatch = useRouteMatch(PagePathname.lendingMarket);
 
   const pageUrlMatch =
-    indexPageUrlMatch ?? basicPageUrlMatch ?? degenPageUrlMatch;
+    indexPageUrlMatch ??
+    basicPageUrlMatch ??
+    degenPageUrlMatch ??
+    lendingMarketPageUrlMatch;
 
   const indexVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.indexVaultModal
@@ -57,17 +65,23 @@ export const useVaultModalOpen = () => {
   const degenVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.degenVaultModal
   );
+  const lendingMarketVaultModalUrlMatch =
+    useRouteMatch<VaultModalRouteParameters>(
+      ModalPathname.lendingMarketVaultModal
+    );
 
   const vaultModalUrlMatch =
     indexVaultModalUrlMatch ??
     basicVaultModalUrlMatch ??
-    degenVaultModalUrlMatch;
+    degenVaultModalUrlMatch ??
+    lendingMarketVaultModalUrlMatch;
 
   const vaultType = getVaultType(
     vaultModalUrlMatch,
     indexVaultModalUrlMatch,
     basicVaultModalUrlMatch,
-    degenVaultModalUrlMatch
+    degenVaultModalUrlMatch,
+    lendingMarketVaultModalUrlMatch
   );
   const vaultId = vaultModalUrlMatch?.params.vaultId;
 
