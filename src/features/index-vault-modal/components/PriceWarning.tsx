@@ -59,11 +59,11 @@ export const PriceWarning: FC<PriceWarningProps> = ({
 
   return (
     <Container>
-      <IconContainer height={14} width={16}>
+      <IconContainer height={16} width={16}>
         <Warning />
       </IconContainer>
       {isShowDirectDepositProposal ? (
-        <WarningTitle>
+        <WarningTitle size={12}>
           High Price Impact!{" "}
           <WarningLink href={bridgeUrl} target="_blank">
             Click here

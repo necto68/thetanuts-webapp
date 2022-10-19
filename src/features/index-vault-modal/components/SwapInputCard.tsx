@@ -13,8 +13,6 @@ import { useVaultModalState } from "../../modal/hooks";
 
 import { AssetSelector } from "./AssetSelector";
 import { PriceImpact } from "./PriceImpact";
-import { PriceWarning } from "./PriceWarning";
-import { TextWarning } from "./TextWarning";
 import {
   Container,
   AssetContainer,
@@ -52,8 +50,6 @@ interface SwapInputCardProps {
   isUseDirectMode?: boolean;
   isHideWalletBalance?: boolean;
   isHideAssetSelector?: boolean;
-  fieldWarning?: string;
-  fieldWarningColor?: string;
   disabled?: boolean;
   remainderValue?: number;
   vaultChainId?: ChainId;
@@ -82,8 +78,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   isUseDirectMode = false,
   isHideWalletBalance = false,
   isHideAssetSelector = false,
-  fieldWarning,
-  fieldWarningColor,
   disabled,
   remainderValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
@@ -152,18 +146,8 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   const isShowDirectWithdrawProposal =
     !isSource && isFlipped && isDirectModeBetterThanSwapMode && isOnSourceChain;
 
-  const isShowSwapProposal =
-    !isDirectModeBetterThanSwapMode &&
-    contentType === ModalContentType.withdraw;
-
   const isPriceImpactError =
     isShowDirectDepositProposal || isShowDirectWithdrawProposal;
-
-  const isShowPriceWarning =
-    isShowDirectDepositProposal ||
-    isShowDirectWithdrawProposal ||
-    isShowMaxVaultCapReachedTitle ||
-    isShowSwapProposal;
 
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
@@ -245,20 +229,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               </BalanceContainer>
             </AssetContainer>
           </SwapInputCardContentContainer>
-          {isShowPriceWarning ? (
-            <PriceWarning
-              isShowDirectDepositProposal={isShowDirectDepositProposal}
-              isShowDirectWithdrawProposal={isShowDirectWithdrawProposal}
-              isShowMaxVaultCapReachedTitle={isShowMaxVaultCapReachedTitle}
-              isShowSwapProposal={isShowSwapProposal}
-              remainderValue={remainderValue}
-              sourceTokenData={sourceTokenData}
-              vaultChainId={vaultChainId}
-            />
-          ) : null}
-          {!isShowPriceWarning && fieldWarning ? (
-            <TextWarning color={fieldWarningColor} text={fieldWarning} />
-          ) : null}
         </SwapInputCardAnimateContainer>
       </AnimatePresence>
     </Container>

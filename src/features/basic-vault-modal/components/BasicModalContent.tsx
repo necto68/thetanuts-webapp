@@ -10,6 +10,7 @@ import { PendingWithdrawMainButton } from "./PendingWithdrawMainButton";
 import { VaultInfo } from "./VaultInfo";
 import { AnalyticLink } from "./AnalyticLink";
 import { Container, MainButtonsContainer } from "./BasicModalContent.styles";
+import { BasicCardWarning } from "./BasicCardWarning";
 
 export const BasicModalContent = () => {
   const { tabType } = useBasicModalState();
@@ -19,6 +20,7 @@ export const BasicModalContent = () => {
       <Switcher />
       <InputCard />
       <PositionInfo />
+      <BasicCardWarning />
       <MainButtonsContainer>
         {tabType === TabType.deposit ? (
           <DepositMainButton />

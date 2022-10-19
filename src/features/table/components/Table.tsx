@@ -26,6 +26,7 @@ import {
   Cell,
   CellValue,
   TableContainerWrapper,
+  SkeletonWrapper,
 } from "./Table.styles";
 
 const renderCellContent = <RowData extends object>(
@@ -33,7 +34,11 @@ const renderCellContent = <RowData extends object>(
   column: Column<RowData>
 ) => {
   if (!row) {
-    return <SkeletonBox height={22} width={50} />;
+    return (
+      <SkeletonWrapper>
+        <SkeletonBox height={22} width={50} />
+      </SkeletonWrapper>
+    );
   }
 
   let cellValue = null;

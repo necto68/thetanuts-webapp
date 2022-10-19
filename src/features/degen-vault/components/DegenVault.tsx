@@ -40,7 +40,7 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
   const symbol = assetSymbol;
 
   const theme = useTheme() as AppTheme;
-  const { degenColor, bgColor: backgroundColor } = theme;
+  const { warningColor, bgColor: backgroundColor } = theme;
 
   const formattedTotalAPY = highYieldFormatter(annualPercentageYield);
   const formattedWeeklyYield = numberFormatter.format(weeklyPercentageYield);
@@ -61,7 +61,7 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
     <DegenVaultCard
       apy={formattedTotalAPY}
       backgroundColor={backgroundColor}
-      borderColor={degenColor}
+      borderColor={warningColor}
       content={
         <BasicVaultCapacity
           balance={balance}

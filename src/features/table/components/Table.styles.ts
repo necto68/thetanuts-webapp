@@ -102,6 +102,10 @@ export const Row = styled.tr`
   }
 `;
 
+export const SkeletonWrapper = styled.div`
+  padding: 8px 0;
+`;
+
 export const Cell = styled.td`
   padding: 10px 5px;
   scroll-snap-align: start;

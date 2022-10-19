@@ -6,6 +6,7 @@ import { SwapInputCard } from "./SwapInputCard";
 import { SwapButton } from "./SwapButton";
 import { Container, SwapInputsContainer } from "./SwapSection.styles";
 import { VaultWithdrawInfo } from "./VaultWithdrawInfo";
+import { CardWarning } from "./CardWarning";
 
 export const WithdrawSection = () => {
   const [{ contentType }] = useVaultModalState();
@@ -46,12 +47,6 @@ export const WithdrawSection = () => {
       <SwapInputsContainer>
         <SwapInputCard
           disabled={contentType === ModalContentType.withdrawSummary}
-          fieldWarning="Warning: You cannot undo this step"
-          fieldWarningColor={
-            contentType === ModalContentType.withdrawSummary
-              ? "#FFFFFF"
-              : undefined
-          }
           inputValue={sourceValue}
           isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
           isFlipped={isFlipped}
@@ -72,6 +67,17 @@ export const WithdrawSection = () => {
         isTargetTokenDataLoading={isTargetTokenDataLoading}
         sourceTokenData={sourceTokenData}
         targetTokenData={targetTokenData}
+      />
+      <CardWarning
+        disabled={contentType === ModalContentType.withdrawSummary}
+        fieldWarning="Warning: You cannot undo this step"
+        inputValue={sourceValue}
+        isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
+        isFlipped={isFlipped}
+        isSource
+        isUseNativeData={isUseNativeSourceData}
+        nativeData={nativeData}
+        tokenData={sourceData}
       />
       <SwapButton
         isSourceValueLoading={isSourceValueLoading}

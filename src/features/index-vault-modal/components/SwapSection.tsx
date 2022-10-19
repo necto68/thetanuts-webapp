@@ -11,6 +11,7 @@ import {
   FlipButton,
   FlipButtonContainer,
 } from "./SwapSection.styles";
+import { CardWarning } from "./CardWarning";
 
 export const SwapSection = () => {
   const {
@@ -107,6 +108,27 @@ export const SwapSection = () => {
         isTargetTokenDataLoading={isTargetTokenDataLoading}
         sourceTokenData={sourceTokenData}
         targetTokenData={targetTokenData}
+      />
+      <CardWarning
+        inputValue={sourceValue}
+        isFlipped={isFlipped}
+        isSource
+        isUseNativeData={isUseNativeSourceData}
+        nativeData={nativeData}
+        remainderValue={remainderValue}
+        sourceTokenData={sourceData}
+        tokenData={sourceData}
+      />
+      <CardWarning
+        inputValue={targetValue}
+        isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
+        isFlipped={isFlipped}
+        isUseDirectMode={isUseDirectMode}
+        isUseNativeData={isUseNativeTargetData}
+        nativeData={nativeData}
+        sourceTokenData={sourceData}
+        tokenData={targetData}
+        vaultChainId={vaultChainId}
       />
       <SwapButton
         isSourceValueLoading={isSourceValueLoading}

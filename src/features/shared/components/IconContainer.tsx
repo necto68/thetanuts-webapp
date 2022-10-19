@@ -13,6 +13,7 @@ export const IconContainer = styled(motion.div)<IconContainerProps>`
   justify-content: center;
   align-items: center;
   width: ${({ width }) => width}px;
+  min-width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
 
   ${({ color }) =>

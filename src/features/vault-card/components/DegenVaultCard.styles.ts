@@ -15,13 +15,13 @@ export const DataContainer = styled(VaultCardDataContainer)`
 `;
 
 export const Header = styled(VaultCardHeader)`
-  background-color: ${({ theme }: Theme<AppTheme>) => theme.degenColor};
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.warningColor};
 `;
 
 export const Title = styled(VaultCardTitle)`
   color: #ffffff;
-  background-color: ${({ theme }: Theme<AppTheme>) => theme.degenColor};
-  border-bottom: 1px solid ${({ theme }: Theme<AppTheme>) => theme.degenColor};
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.warningColor};
+  border-bottom: 1px solid ${({ theme }: Theme<AppTheme>) => theme.warningColor};
 `;
 
 export const DataContent = styled.div`
