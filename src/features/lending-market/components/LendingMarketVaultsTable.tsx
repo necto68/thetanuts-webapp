@@ -1,7 +1,7 @@
 import { Chains, OpenButton, Table } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useBasicVaults } from "../../basic-vault/hooks";
-import { basicVaults } from "../../basic/constants";
+import { lendingMarketVaults } from "../../basic/constants";
 import { chainsMap } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
@@ -108,10 +108,10 @@ const columns: Column<BasicVault>[] = [
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
 export const LendingMarketVaultsTable = () => {
-  const basicVaultsIds = basicVaults.map(({ id }) => id);
-  const basicVaultsQueries = useBasicVaults(basicVaultsIds);
+  const lendingMarketVaultsIds = lendingMarketVaults.map(({ id }) => id);
+  const lendingMarketVaultsQueries = useBasicVaults(lendingMarketVaultsIds);
 
-  const rows = basicVaultsQueries.map(({ data }) => data);
+  const rows = lendingMarketVaultsQueries.map(({ data }) => data);
 
   return (
     <Table

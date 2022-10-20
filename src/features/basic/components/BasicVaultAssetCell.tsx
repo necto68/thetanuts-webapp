@@ -6,7 +6,7 @@ import type { BasicVault } from "../../basic-vault/types";
 import { VaultType } from "../../basic-vault/types";
 import { BasicVaultType } from "../types";
 import { getVaultTitle } from "../../table/helpers";
-import { VaultModalType } from "../../root/types";
+import { getVaultModalType } from "../helpers";
 import { VaultStatus } from "../../degen-vault-modal/components/VaultStatus";
 
 import {
@@ -44,10 +44,7 @@ export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
   const assetLogo = getLogoBySymbol(assetSymbol);
   const collateralAssetLogo = getLogoBySymbol(collateralSymbol);
 
-  const vaultType =
-    basicVaultType === BasicVaultType.DEGEN
-      ? VaultModalType.degen
-      : VaultModalType.basic;
+  const vaultType = getVaultModalType(basicVaultType);
   const title = getVaultTitle(vaultType, type, assetSymbol, collateralSymbol);
 
   return (

@@ -23,10 +23,17 @@
     "import/prefer-default-export": 0,
     "import/no-unused-modules": 0,
     "import/group-exports": 0,
-    "@typescript-eslint/naming-convention": [2, {
-      "selector": "default",
-      "format":["camelCase", "PascalCase"]
-    }],
+    "@typescript-eslint/naming-convention": [
+      2,
+      {
+        "selector": "default",
+        "format": ["camelCase", "PascalCase", "UPPER_CASE"]
+      },
+      {
+        "selector": ["enumMember"],
+        "format": ["camelCase", "UPPER_CASE"]
+      }
+    ],
     "react-perf/jsx-no-new-function-as-prop": 0,
     "react-perf/jsx-no-new-object-as-prop": 0,
     "react-perf/jsx-no-jsx-as-prop": 0,
@@ -37,7 +44,10 @@
     "etc/no-commented-out-code": 1,
     "react/require-default-props": 0,
     "func-style": [2, "expression"],
-    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": "arrow-function" }
+    ],
     "max-statements": 0,
     "putout/putout": 0,
     "@typescript-eslint/no-magic-numbers": 0,
@@ -54,10 +64,12 @@
     "unicorn/no-await-expression-member": 0,
     "unicorn/prefer-object-from-entries": 0
   },
-  "overrides": [{
-    "files": ["*.json", "*.html"],
-    "rules": {
-      "@typescript-eslint/naming-convention": 0
+  "overrides": [
+    {
+      "files": ["*.json", "*.html"],
+      "rules": {
+        "@typescript-eslint/naming-convention": 0
+      }
     }
-  }]
+  ]
 }

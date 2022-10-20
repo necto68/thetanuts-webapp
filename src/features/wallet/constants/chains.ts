@@ -14,6 +14,8 @@ export enum ChainId {
   AURORA = 1_313_161_554,
 }
 
+export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 export const chainIconSymbols: Record<ChainId, string> = {
   [ChainId.ETHEREUM]: "ETH",
   [ChainId.BSC]: "BNB",
@@ -44,6 +46,7 @@ export const chains: ChainConfig[] = [
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
       basicVaultReaderAddress: "0xEcA593A42E9A0120B03E8784Ca61673e4a40Ba13",
       basicVaultDepositorAddress: "0xaA7e4C5F93Aa986d627113496570A732386F570d",
+      lendingMarketPositionManagerAddress: ZERO_ADDRESS,
     },
 
     deployerAddresses: {
@@ -72,11 +75,12 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0xDFbf747D2E3278058d77b7De789f3c34e4F6f48c",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xe016D63bd3ce7BbAF9Eb8aBf76dA7e3f6E4721a3",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      lendingMarketPositionManagerAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -102,6 +106,9 @@ export const chains: ChainConfig[] = [
       directWithdrawalAddress: "0xf35F0A93B1f3c0eE418AaA352553Bc7C1d3dBe4a",
       basicVaultReaderAddress: "0x03FC1fEdDb196e69Dd8a8753073E2527f85bbC6C",
       basicVaultDepositorAddress: "0x74af0AcF759dcB803993F14b22C2e500063ba0Fe",
+
+      lendingMarketPositionManagerAddress:
+        "0xEbdeC71ff4bF6C3cfef1Fd8534CC132236Ce678B",
     },
 
     deployerAddresses: {
@@ -126,11 +133,12 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0x2Eb7C1cFdbf7d5c65A7BF7Bb50129Ee6e651CEb1",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xA9c4b4f5Efcb3bC9a400D699943E0760065CA09A",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      lendingMarketPositionManagerAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -150,11 +158,12 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0xb8cB9648F78433056e089B8609f16Cb0D43ceCE7",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0x10572d1A9d38178C3d95666803f0551B77301003",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      lendingMarketPositionManagerAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -174,11 +183,12 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0x17C83E2B96ACfb5190d63F5E46d93c107eC0b514",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xe50d41E66A70D087F5480Ef84ABcF2e312534b05",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      lendingMarketPositionManagerAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -198,11 +208,12 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0xcd7d16fB918511BF7269eC4f48d61D79Fb26f918",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xaF724813e860B462a3387Fb97CC2600179CAF9e1",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      lendingMarketPositionManagerAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -222,11 +233,12 @@ export const chains: ChainConfig[] = [
 
     addresses: {
       routerAddress: "0x2CB45Edb4517d5947aFdE3BEAbF95A582506858B",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xd07C970e8F8534Da02096862F23A9a91C6F716a3",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      lendingMarketPositionManagerAddress: ZERO_ADDRESS,
     },
   },
 ];
