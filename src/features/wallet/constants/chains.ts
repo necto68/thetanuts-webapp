@@ -108,7 +108,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: "0x74af0AcF759dcB803993F14b22C2e500063ba0Fe",
 
       lendingMarketPositionManagerAddress:
-        "0xEbdeC71ff4bF6C3cfef1Fd8534CC132236Ce678B",
+        "0xfBDB737aDa42808a5A47b0dD36E16E361a9BC53f",
     },
 
     deployerAddresses: {

@@ -5,5 +5,6 @@ export interface CollateralAsset {
   token: Token;
   loanToValue: number;
   availableLeverage: number;
+  lendingPoolAddress: string;
   priceOracleAddress: string;
 }

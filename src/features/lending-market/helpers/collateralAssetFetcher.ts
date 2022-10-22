@@ -29,7 +29,7 @@ export const collateralAssetFetcher = async (
   ]);
 
   const lendingPoolContract = LendingPoolAbiFactory.connect(
-    lendingPoolAddressesProviderAddress,
+    lendingPoolAddress,
     provider
   );
 
@@ -60,6 +60,7 @@ export const collateralAssetFetcher = async (
     token: collateralToken,
     loanToValue,
     availableLeverage,
+    lendingPoolAddress,
     priceOracleAddress,
   };
 };

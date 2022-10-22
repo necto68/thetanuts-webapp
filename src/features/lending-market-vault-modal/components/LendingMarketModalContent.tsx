@@ -1,5 +1,11 @@
-import { InputCard } from "../../basic-vault-modal/components";
-import { Container } from "../../basic-vault-modal/components/BasicModalContent.styles";
+import {
+  InputCard,
+  DepositMainButton,
+} from "../../basic-vault-modal/components";
+import {
+  Container,
+  MainButtonsContainer,
+} from "../../basic-vault-modal/components/BasicModalContent.styles";
 import { useBasicModalState } from "../../basic-vault-modal/hooks";
 import { TabType } from "../../basic-vault-modal/types";
 
@@ -12,6 +18,9 @@ export const LendingMarketModalContent = () => {
     <Container>
       <Switcher />
       {tabType === TabType.deposit ? <InputCard /> : null}
+      <MainButtonsContainer>
+        {tabType === TabType.deposit ? <DepositMainButton /> : null}
+      </MainButtonsContainer>
     </Container>
   );
 };

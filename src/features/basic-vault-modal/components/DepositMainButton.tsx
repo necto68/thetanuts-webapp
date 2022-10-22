@@ -12,6 +12,8 @@ import { MaxVaultCapReachedMainButton } from "../../modal/components/MaxVaultCap
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
 import { resetMutations } from "../helpers";
+import { useLendingMarketModalMutations } from "../../lending-market-vault-modal/hooks";
+import { BasicVaultType } from "../../basic/types";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -35,14 +37,32 @@ export const DepositMainButton = () => {
     runWrap,
     runDeposit,
   } = useBasicModalMutations();
+  const { openPositionMutation, runOpenPosition } =
+    useLendingMarketModalMutations();
 
   const { account } = useWallet();
 
+  const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
+  const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
+
+  const isLendingMarketBasicVault =
+    basicVaultType === BasicVaultType.LENDING_MARKET;
+
   const handleResetButtonClick = useCallback(() => {
-    const mutations = [approveAllowanceMutation, wrapMutation, depositMutation];
+    const mutations = [
+      approveAllowanceMutation,
+      wrapMutation,
+      depositMutation,
+      openPositionMutation,
+    ];
 
     resetMutations(mutations);
-  }, [approveAllowanceMutation, wrapMutation, depositMutation]);
+  }, [
+    approveAllowanceMutation,
+    wrapMutation,
+    depositMutation,
+    openPositionMutation,
+  ]);
 
   const {
     isLoading: isApproveAllowanceLoading,
@@ -62,12 +82,20 @@ export const DepositMainButton = () => {
     error: depositError,
   } = depositMutation ?? {};
 
+  const {
+    isLoading: isOpenPositionLoading,
+    isError: isOpenPositionError,
+    error: openPositionError,
+  } = openPositionMutation ?? {};
+
   const isError =
     Boolean(isApproveAllowanceError) ||
     Boolean(isWrapError) ||
-    Boolean(isDepositError);
+    Boolean(isDepositError) ||
+    Boolean(isOpenPositionError);
 
-  const error = approveAllowanceError ?? wrapError ?? depositError;
+  const error =
+    approveAllowanceError ?? wrapError ?? depositError ?? openPositionError;
 
   const inputValueBig = new Big(inputValue || 0);
 
@@ -85,7 +113,7 @@ export const DepositMainButton = () => {
     return <ConnectWalletMainButton />;
   }
 
-  if (!basicVaultQuery.isLoading && walletChainId !== basicVaultChainId) {
+  if (!isBasicVaultQueryLoading && walletChainId !== basicVaultChainId) {
     return (
       <SwitchToChainIdMainButton
         chainId={basicVaultChainId}
@@ -117,10 +145,12 @@ export const DepositMainButton = () => {
   }
 
   if (isNeedApprove) {
+    const title = isLendingMarketBasicVault
+      ? `Approve ${currentTokenData.symbol} for Open Position`
+      : `Approve ${currentTokenData.symbol} for Deposit`;
+
     return (
-      <ActionMainButton onClick={runApproveAllowance}>
-        {`Approve ${currentTokenData.symbol} for Deposit`}
-      </ActionMainButton>
+      <ActionMainButton onClick={runApproveAllowance}>{title}</ActionMainButton>
     );
   }
 
@@ -132,33 +162,36 @@ export const DepositMainButton = () => {
     return <LoadingMainButton>Depositing...</LoadingMainButton>;
   }
 
+  if (isOpenPositionLoading) {
+    return <LoadingMainButton>Opening Position...</LoadingMainButton>;
+  }
+
+  let buttonTitle = "";
+  let handleMainButtonClick = null;
+
   if (isUseNativeData) {
-    const buttonTitle = currentTokenData
+    buttonTitle = currentTokenData
       ? `Wrap ${currentTokenData.symbol} to W${currentTokenData.symbol}`
       : "Wrap";
 
-    return isMainButtonDisabled ? (
-      <ModalMainButton disabled>{buttonTitle}</ModalMainButton>
-    ) : (
-      <ModalMainButton
-        onClick={runWrap}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
-        {buttonTitle}
-      </ModalMainButton>
-    );
+    handleMainButtonClick = runWrap;
+  } else if (isLendingMarketBasicVault) {
+    buttonTitle = "Open Position";
+    handleMainButtonClick = runOpenPosition;
+  } else {
+    buttonTitle = "Initiate Deposit";
+    handleMainButtonClick = runDeposit;
   }
 
   return isMainButtonDisabled ? (
-    <ModalMainButton disabled>Initiate Deposit</ModalMainButton>
+    <ModalMainButton disabled>{buttonTitle}</ModalMainButton>
   ) : (
     <ModalMainButton
-      onClick={runDeposit}
+      onClick={handleMainButtonClick}
       primaryColor="#12CC86"
       secondaryColor="#ffffff"
     >
-      Initiate Deposit
+      {buttonTitle}
     </ModalMainButton>
   );
 };

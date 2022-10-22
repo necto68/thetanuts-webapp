@@ -68,7 +68,7 @@ export const LendingMarketLayout = () => {
           )}
         </DescriptionContainer>
       </ContentContainer>
-      <Title>Positions Manager</Title>
+      <Title>Position Manager</Title>
       <LendingMarketVaultsTable />
     </Container>
   );

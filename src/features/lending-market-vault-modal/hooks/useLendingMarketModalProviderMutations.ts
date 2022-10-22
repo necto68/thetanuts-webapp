@@ -1,5 +1,6 @@
 import { useMutation } from "react-query";
 import { useCallback, useState } from "react";
+import Big from "big.js";
 
 import type { LendingMarketModalMutations } from "../types";
 import type { MutationError } from "../../index-vault-modal/types";
@@ -13,25 +14,21 @@ import {
   useBasicModalConfig,
   useBasicModalState,
 } from "../../basic-vault-modal/hooks";
+import {
+  LendingMarketPositionManagerAbi__factory as LendingMarketPositionManagerAbiFactory,
+  PriceOracleAbi__factory as PriceOracleAbiFactory,
+} from "../../contracts/types";
+import { convertToBig } from "../../shared/helpers/converters";
 
-// import {
-//   LendingMarketPositionManagerAbi__factory as LendingMarketPositionManagerAbiFactory,
-// } from "../../contracts/types";
+import { useLendingMarketModalConfig } from "./useLendingMarketModalConfig";
 
 export const useLendingMarketModalProviderMutations =
   (): LendingMarketModalMutations => {
-    const {
-      walletProvider,
+    const { walletProvider, basicVaultAddress, spenderAddress } =
+      useBasicModalConfig();
+    const { lendingPoolAddress, collateralAssetQuery } =
+      useLendingMarketModalConfig();
 
-      // basicVaultAddress,
-      // basicVaultDepositorAddress,
-
-      // spenderAddress,
-      basicVaultQuery,
-      basicVaultReaderQuery,
-    } = useBasicModalConfig();
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { inputValue, tokenData, tokensQueries } = useBasicModalState();
 
     const [mutationHash, setMutationHash] = useState<string>();
@@ -41,60 +38,68 @@ export const useLendingMarketModalProviderMutations =
         return false;
       }
 
-      // const signer = walletProvider.getSigner();
+      const signer = walletProvider.getSigner();
 
-      // const basicVaultContract = BasicVaultAbiFactory.connect(
-      //   basicVaultAddress,
-      //   signer
-      // );
+      const lendingMarketPositionManagerContract =
+        LendingMarketPositionManagerAbiFactory.connect(spenderAddress, signer);
 
-      // const basicVaultDepositorContract = BasicVaultDepositorAbiFactory.connect(
-      //   basicVaultDepositorAddress,
-      //   signer
-      // );
+      const { data } = collateralAssetQuery;
+      const { priceOracleAddress = "", loanToValue = 0, token } = data ?? {};
+      const { tokenAddress: collateralAssetAddress = "" } = token ?? {};
 
-      // const lendingMarketPositionManagerContract =
-      //   LendingMarketPositionManagerAbiFactory.connect("", signer);
+      const priceOracleContract = PriceOracleAbiFactory.connect(
+        priceOracleAddress,
+        signer
+      );
 
-      // const { data } = basicVaultQuery;
-      // const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
+      const [collateralPrice, borrowPrice] = await Promise.all([
+        priceOracleContract
+          .getAssetPrice(collateralAssetAddress)
+          .then(convertToBig),
+        priceOracleContract.getAssetPrice(basicVaultAddress).then(convertToBig),
+      ]);
 
-      // const depositAmount = new Big(inputValue)
-      //   .mul(tokenData.tokenDivisor)
-      //   .round()
-      //   .toString();
+      const depositAmount = new Big(inputValue)
+        .mul(tokenData.tokenDivisor)
+        .round();
 
-      const transaction = null;
+      const availableForBorrow = depositAmount
+        .mul(collateralPrice)
+        .mul(loanToValue);
+
+      const LPToBorrowAmount = availableForBorrow
+        .div(1 - loanToValue)
+        .div(borrowPrice)
+        .round()
+        .toString();
+
+      let transaction = null;
 
       try {
-        // lendingMarketPositionManagerContract.depositAndQueueOptionPosition('')
-        // // we are using basicVaultDepositorContract only for degen vaults
-        // if (basicVaultType === BasicVaultType.DEGEN) {
-        //   await basicVaultDepositorContract.callStatic.deposit(
-        //     basicVaultAddress,
-        //     depositAmount
-        //   );
-        //   transaction = await basicVaultDepositorContract.deposit(
-        //     basicVaultAddress,
-        //     depositAmount
-        //   );
-        // } else {
-        //   await basicVaultContract.callStatic.deposit(depositAmount);
-        //   transaction = await basicVaultContract.deposit(depositAmount);
-        // }
+        await lendingMarketPositionManagerContract.callStatic.depositAndQueueOptionPosition(
+          collateralAssetAddress,
+          depositAmount.toString(),
+          lendingPoolAddress,
+          basicVaultAddress,
+          LPToBorrowAmount
+        );
+
+        transaction =
+          await lendingMarketPositionManagerContract.depositAndQueueOptionPosition(
+            collateralAssetAddress,
+            depositAmount.toString(),
+            lendingPoolAddress,
+            basicVaultAddress,
+            LPToBorrowAmount
+          );
       } catch (walletError) {
         processWalletError(walletError);
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (transaction) {
-        // @ts-expect-error update later
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         setMutationHash(transaction.hash);
 
         try {
-          // @ts-expect-error update later
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           await transaction.wait();
         } catch (transactionError) {
           processTransactionError(transactionError);
@@ -102,7 +107,15 @@ export const useLendingMarketModalProviderMutations =
       }
 
       return true;
-    }, [tokenData, walletProvider]);
+    }, [
+      basicVaultAddress,
+      collateralAssetQuery,
+      inputValue,
+      lendingPoolAddress,
+      spenderAddress,
+      tokenData,
+      walletProvider,
+    ]);
 
     const handleMutationSuccess = useCallback(async () => {
       const { collateralTokenQuery, nativeTokenQuery } = tokensQueries;
@@ -112,10 +125,9 @@ export const useLendingMarketModalProviderMutations =
       await Promise.all([
         collateralTokenQuery ? collateralTokenQuery.refetch() : null,
         nativeTokenQuery ? nativeTokenQuery.refetch() : null,
-        basicVaultQuery.refetch(),
-        basicVaultReaderQuery.refetch(),
+        collateralAssetQuery.refetch(),
       ]);
-    }, [basicVaultQuery, basicVaultReaderQuery, tokensQueries]);
+    }, [collateralAssetQuery, tokensQueries]);
 
     const openPositionMutation = useMutation<boolean, MutationError>(
       async () => await runOpenPositionMutation(),

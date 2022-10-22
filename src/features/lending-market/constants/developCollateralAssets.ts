@@ -7,7 +7,7 @@ export const developCollateralAssets: CollateralAssetConfig[] = [
 
     source: {
       chainId: ChainId.POLYGON,
-      collateralAssetAddress: "0x6BA28c5a069455ccB6a25723acDf2Eec0A436Db6",
+      collateralAssetAddress: "0xd9F0446AedadCf16A12692E02FA26C617FA4D217",
 
       lendingPoolAddressesProviderAddress:
         "0xeCD22E8924620fa5991267a5c65B57F4a982Eb15",
