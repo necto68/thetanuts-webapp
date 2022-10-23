@@ -61,7 +61,7 @@ export const Table = <RowData extends object>({
   columns,
   rows,
   getRowKey,
-  filterInputPlaceholder = "",
+  filterInputPlaceholder,
   rowsPerPage = 10,
 }: TableProps<RowData>) => {
   const { filteredRows, filterInputValue, setFilterInputValue } = useFilteredBy(
@@ -87,14 +87,16 @@ export const Table = <RowData extends object>({
 
   return (
     <Container>
-      <FilterInput
-        onChange={(event) => {
-          paginate(1, rowsPerPage);
-          setFilterInputValue(event);
-        }}
-        placeholder={filterInputPlaceholder}
-        value={filterInputValue}
-      />
+      {filterInputPlaceholder ? (
+        <FilterInput
+          onChange={(event) => {
+            paginate(1, rowsPerPage);
+            setFilterInputValue(event);
+          }}
+          placeholder={filterInputPlaceholder}
+          value={filterInputValue}
+        />
+      ) : null}
       <TableContainerWrapper>
         <TableContainer>
           <thead>

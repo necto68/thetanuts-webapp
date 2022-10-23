@@ -11,6 +11,7 @@ import {
   ExpandDescriptionLink,
 } from "../../theta-index/components/ThetaIndexLayout.styles";
 
+import { CollateralAssetsTable } from "./CollateralAssetsTable";
 import { LendingMarketVaultsTable } from "./LendingMarketVaultsTable";
 
 export const LendingMarketLayout = () => {
@@ -69,6 +70,7 @@ export const LendingMarketLayout = () => {
         </DescriptionContainer>
       </ContentContainer>
       <Title>Position Manager</Title>
+      <CollateralAssetsTable />
       <LendingMarketVaultsTable />
     </Container>
   );

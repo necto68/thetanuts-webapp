@@ -3,6 +3,7 @@ import type { Provider } from "@ethersproject/providers";
 import {
   LendingPoolAddressesProviderAbi__factory as LendingPoolAddressesProviderAbiFactory,
   LendingPoolAbi__factory as LendingPoolAbiFactory,
+  PriceOracleAbi__factory as PriceOracleAbiFactory,
 } from "../../contracts/types";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
 import { queryClient } from "../../shared/helpers";
@@ -33,7 +34,17 @@ export const collateralAssetFetcher = async (
     provider
   );
 
-  const [collateralToken, lendingPoolConfiguration] = await Promise.all([
+  const priceOracleContract = PriceOracleAbiFactory.connect(
+    priceOracleAddress,
+    provider
+  );
+
+  const [
+    collateralToken,
+    aTokenAddress,
+    lendingPoolConfiguration,
+    collateralPrice,
+  ] = await Promise.all([
     queryClient.fetchQuery(
       [QueryType.token, collateralAssetAddress, lendingPoolAddress, account],
       async () =>
@@ -45,8 +56,22 @@ export const collateralAssetFetcher = async (
         )
     ),
     lendingPoolContract
+      .getReserveData(collateralAssetAddress)
+      .then((data) => data.aTokenAddress),
+    lendingPoolContract
       .getConfiguration(collateralAssetAddress)
       .then(({ data }) => convertToBig(data).toNumber()),
+    priceOracleContract
+      .getAssetPrice(collateralAssetAddress)
+      .then((value) => convertToBig(value).toNumber()),
+  ]);
+
+  const [aToken] = await Promise.all([
+    queryClient.fetchQuery(
+      [QueryType.token, aTokenAddress, lendingPoolAddress, account],
+      async () =>
+        await tokenFetcher(aTokenAddress, lendingPoolAddress, provider, account)
+    ),
   ]);
 
   // LTV first 16 bits, LIQ next 16 bits, LIQ_PENALTY next 16 bits - shifted by 10000
@@ -57,8 +82,10 @@ export const collateralAssetFetcher = async (
 
   return {
     id,
-    token: collateralToken,
+    collateralToken,
+    aToken,
     loanToValue,
+    collateralPrice,
     availableLeverage,
     lendingPoolAddress,
     priceOracleAddress,

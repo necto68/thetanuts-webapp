@@ -44,18 +44,21 @@ export const useLendingMarketModalProviderMutations =
         LendingMarketPositionManagerAbiFactory.connect(spenderAddress, signer);
 
       const { data } = collateralAssetQuery;
-      const { priceOracleAddress = "", loanToValue = 0, token } = data ?? {};
-      const { tokenAddress: collateralAssetAddress = "" } = token ?? {};
+      const {
+        collateralToken,
+        loanToValue = 0,
+        collateralPrice = 0,
+        priceOracleAddress = "",
+      } = data ?? {};
+      const { tokenAddress: collateralAssetAddress = "" } =
+        collateralToken ?? {};
 
       const priceOracleContract = PriceOracleAbiFactory.connect(
         priceOracleAddress,
         signer
       );
 
-      const [collateralPrice, borrowPrice] = await Promise.all([
-        priceOracleContract
-          .getAssetPrice(collateralAssetAddress)
-          .then(convertToBig),
+      const [borrowPrice] = await Promise.all([
         priceOracleContract.getAssetPrice(basicVaultAddress).then(convertToBig),
       ]);
 
