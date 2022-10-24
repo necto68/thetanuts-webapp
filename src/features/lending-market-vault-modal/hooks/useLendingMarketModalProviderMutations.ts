@@ -1,3 +1,4 @@
+import { useWallet } from "@gimmixorg/use-wallet";
 import { useMutation } from "react-query";
 import { useCallback, useState } from "react";
 import Big from "big.js";
@@ -14,24 +15,25 @@ import {
   useBasicModalConfig,
   useBasicModalState,
 } from "../../basic-vault-modal/hooks";
-import {
-  LendingMarketPositionManagerAbi__factory as LendingMarketPositionManagerAbiFactory,
-  PriceOracleAbi__factory as PriceOracleAbiFactory,
-} from "../../contracts/types";
-import { convertToBig } from "../../shared/helpers/converters";
+import { LendingMarketPositionManagerAbi__factory as LendingMarketPositionManagerAbiFactory } from "../../contracts/types";
 
 import { useLendingMarketModalConfig } from "./useLendingMarketModalConfig";
 
 export const useLendingMarketModalProviderMutations =
   (): LendingMarketModalMutations => {
+    const { account } = useWallet();
+
     const { walletProvider, basicVaultAddress, spenderAddress } =
       useBasicModalConfig();
-    const { lendingPoolAddress, collateralAssetQuery } =
+    const { lendingMarketVaultReaderQuery, collateralAssetQuery } =
       useLendingMarketModalConfig();
 
     const { inputValue, tokenData, tokensQueries } = useBasicModalState();
 
     const [mutationHash, setMutationHash] = useState<string>();
+
+    const { data: collateralAssetData } = collateralAssetQuery;
+    const { lendingPoolAddress = "" } = collateralAssetData ?? {};
 
     const runOpenPositionMutation = useCallback(async () => {
       if (!tokenData || !walletProvider) {
@@ -43,24 +45,17 @@ export const useLendingMarketModalProviderMutations =
       const lendingMarketPositionManagerContract =
         LendingMarketPositionManagerAbiFactory.connect(spenderAddress, signer);
 
-      const { data } = collateralAssetQuery;
       const {
         collateralToken,
         loanToValue = 0,
         collateralPrice = 0,
-        priceOracleAddress = "",
-      } = data ?? {};
+      } = collateralAssetData ?? {};
+
+      const { data } = lendingMarketVaultReaderQuery;
+      const { debtTokenPrice = 0 } = data ?? {};
+
       const { tokenAddress: collateralAssetAddress = "" } =
         collateralToken ?? {};
-
-      const priceOracleContract = PriceOracleAbiFactory.connect(
-        priceOracleAddress,
-        signer
-      );
-
-      const [borrowPrice] = await Promise.all([
-        priceOracleContract.getAssetPrice(basicVaultAddress).then(convertToBig),
-      ]);
 
       const depositAmount = new Big(inputValue)
         .mul(tokenData.tokenDivisor)
@@ -72,7 +67,7 @@ export const useLendingMarketModalProviderMutations =
 
       const LPToBorrowAmount = availableForBorrow
         .div(1 - loanToValue)
-        .div(borrowPrice)
+        .div(debtTokenPrice)
         .round()
         .toString();
 
@@ -112,11 +107,60 @@ export const useLendingMarketModalProviderMutations =
       return true;
     }, [
       basicVaultAddress,
-      collateralAssetQuery,
+      collateralAssetData,
       inputValue,
+      lendingMarketVaultReaderQuery,
       lendingPoolAddress,
       spenderAddress,
       tokenData,
+      walletProvider,
+    ]);
+
+    const runClosePositionAndWithdrawMutation = useCallback(async () => {
+      if (!walletProvider || !account) {
+        return false;
+      }
+
+      const signer = walletProvider.getSigner();
+
+      const lendingMarketPositionManagerContract =
+        LendingMarketPositionManagerAbiFactory.connect(spenderAddress, signer);
+
+      let transaction = null;
+
+      try {
+        await lendingMarketPositionManagerContract.callStatic.closeVaultAndWithdrawPosition(
+          account,
+          basicVaultAddress,
+          lendingPoolAddress
+        );
+
+        transaction =
+          await lendingMarketPositionManagerContract.closeVaultAndWithdrawPosition(
+            account,
+            basicVaultAddress,
+            lendingPoolAddress
+          );
+      } catch (walletError) {
+        processWalletError(walletError);
+      }
+
+      if (transaction) {
+        setMutationHash(transaction.hash);
+
+        try {
+          await transaction.wait();
+        } catch (transactionError) {
+          processTransactionError(transactionError);
+        }
+      }
+
+      return true;
+    }, [
+      account,
+      basicVaultAddress,
+      lendingPoolAddress,
+      spenderAddress,
       walletProvider,
     ]);
 
@@ -128,9 +172,10 @@ export const useLendingMarketModalProviderMutations =
       await Promise.all([
         collateralTokenQuery ? collateralTokenQuery.refetch() : null,
         nativeTokenQuery ? nativeTokenQuery.refetch() : null,
+        lendingMarketVaultReaderQuery.refetch(),
         collateralAssetQuery.refetch(),
       ]);
-    }, [collateralAssetQuery, tokensQueries]);
+    }, [lendingMarketVaultReaderQuery, collateralAssetQuery, tokensQueries]);
 
     const openPositionMutation = useMutation<boolean, MutationError>(
       async () => await runOpenPositionMutation(),
@@ -139,15 +184,27 @@ export const useLendingMarketModalProviderMutations =
       }
     );
 
+    const closePositionAndWithdrawMutation = useMutation<
+      boolean,
+      MutationError
+    >(async () => await runClosePositionAndWithdrawMutation(), {
+      onSuccess: handleMutationSuccess,
+    });
+
     useResetMutationError(openPositionMutation);
 
     return {
       openPositionMutation,
+      closePositionAndWithdrawMutation,
 
       mutationHash,
 
       runOpenPosition: () => {
         openPositionMutation.mutate();
+      },
+
+      runClosePositionAndWithdraw: () => {
+        closePositionAndWithdrawMutation.mutate();
       },
     };
   };

@@ -6,10 +6,12 @@ import type { LendingMarketModalMutations } from "../types";
 
 const defaultLendingMarketModalMutations: LendingMarketModalMutations = {
   openPositionMutation: undefined,
+  closePositionAndWithdrawMutation: undefined,
 
   mutationHash: undefined,
 
   runOpenPosition: () => undefined,
+  runClosePositionAndWithdraw: () => undefined,
 };
 
 export const LendingMarketModalMutationsContext =

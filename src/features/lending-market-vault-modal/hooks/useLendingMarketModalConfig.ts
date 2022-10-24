@@ -1,28 +1,20 @@
-import { useBasicVault } from "../../basic-vault/hooks";
 import { useVaultModalState } from "../../modal/hooks";
-import { collateralAssets } from "../../lending-market/constants";
 import { useCollateralAsset } from "../../lending-market/hooks";
+import { useLendingMarketVaultReader } from "../../lending-market-vault/hooks";
 
 export const useLendingMarketModalConfig = () => {
   const [{ vaultId }] = useVaultModalState();
 
-  const basicVaultQuery = useBasicVault(vaultId);
+  const lendingMarketVaultReaderQuery = useLendingMarketVaultReader(vaultId);
 
-  const { data } = basicVaultQuery;
-  const { collateralTokenAddress = "" } = data ?? {};
-
-  const collateralAsset = collateralAssets.find(
-    (config) => config.source.collateralAssetAddress === collateralTokenAddress
-  );
-  const collateralAssetId = collateralAsset?.id ?? collateralAssets[0].id;
+  const { data } = lendingMarketVaultReaderQuery;
+  const { collateralAsset } = data ?? {};
+  const { id: collateralAssetId = "" } = collateralAsset ?? {};
 
   const collateralAssetQuery = useCollateralAsset(collateralAssetId);
 
-  const { data: collateralAssetData } = collateralAssetQuery;
-  const { lendingPoolAddress = "" } = collateralAssetData ?? {};
-
   return {
-    lendingPoolAddress,
+    lendingMarketVaultReaderQuery,
     collateralAssetQuery,
   };
 };

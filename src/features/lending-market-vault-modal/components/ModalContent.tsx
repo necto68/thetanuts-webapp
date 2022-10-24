@@ -5,12 +5,12 @@ import {
   ContentAnimatedContainer,
 } from "../../index-vault-modal/components/ModalContent.styles";
 import { BasicModalPendingMutationContent } from "../../basic-vault-modal/components";
-import { useBasicModalMutations } from "../../basic-vault-modal/hooks";
+import { useLendingMarketModalMutations } from "../hooks";
 
 import { LendingMarketModalContent } from "./LendingMarketModalContent";
 
 export const ModalContent = () => {
-  const { mutationHash } = useBasicModalMutations();
+  const { mutationHash } = useLendingMarketModalMutations();
 
   const isShowPendingMutation = Boolean(mutationHash);
 

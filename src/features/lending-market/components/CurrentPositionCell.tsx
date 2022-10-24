@@ -4,21 +4,22 @@ import { numberFormatter, currencyFormatter } from "../../shared/helpers";
 import { CellValue, CellValueContainer } from "../../table/components";
 import type { CollateralAsset } from "../types";
 
-interface CurrentPositionCellProps
-  extends Pick<CollateralAsset["aToken"], "balance">,
-    Pick<CollateralAsset, "collateralPrice"> {}
+type CurrentPositionCellProps = Pick<
+  CollateralAsset,
+  "aTokenBalance" | "collateralPrice"
+>;
 
 export const CurrentPositionCell: FC<CurrentPositionCellProps> = ({
-  balance,
+  aTokenBalance,
   collateralPrice,
 }) => {
-  if (!balance) {
+  if (!aTokenBalance) {
     return <CellValue>-</CellValue>;
   }
 
-  const priceValue = balance.mul(collateralPrice).toNumber();
+  const priceValue = aTokenBalance.mul(collateralPrice).toNumber();
 
-  const formattedBalance = numberFormatter.format(balance.toNumber());
+  const formattedBalance = numberFormatter.format(aTokenBalance.toNumber());
   const formattedPrice = currencyFormatter.format(priceValue);
 
   return (

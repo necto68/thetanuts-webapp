@@ -10,39 +10,43 @@ import { CurrentPositionCell } from "./CurrentPositionCell";
 
 const columns: Column<CollateralAsset>[] = [
   {
-    key: "collateralToken",
+    key: "collateralTokenSymbol",
     title: "Asset",
     minWidth: 200,
 
-    render: ({ collateralToken: { symbol } }) => <AssetCell symbol={symbol} />,
-    sortBy: ({ collateralToken: { symbol } }) => symbol,
+    render: ({ collateralTokenSymbol }) => (
+      <AssetCell collateralTokenSymbol={collateralTokenSymbol} />
+    ),
   },
   {
-    key: "collateralToken",
+    key: "collateralTokenBalance",
     title: "Balance",
     minWidth: 110,
 
-    render: ({ collateralToken: { symbol, balance } }) =>
-      balance
-        ? `${numberFormatter.format(balance.toNumber())}  ${symbol}`
+    render: ({ collateralTokenBalance, collateralTokenSymbol }) =>
+      collateralTokenBalance
+        ? `${numberFormatter.format(
+            collateralTokenBalance.toNumber()
+          )}  ${collateralTokenSymbol}`
         : "-",
 
-    sortBy: ({ collateralToken: { balance } }) =>
-      balance ? balance.toNumber() : 0,
+    sortBy: ({ collateralTokenBalance }) =>
+      collateralTokenBalance ? collateralTokenBalance.toNumber() : 0,
   },
   {
-    key: "aToken",
+    key: "aTokenBalance",
     title: "Current Position",
     minWidth: 110,
 
-    render: ({ aToken: { balance }, collateralPrice }) => (
+    render: ({ aTokenBalance, collateralPrice }) => (
       <CurrentPositionCell
-        balance={balance}
+        aTokenBalance={aTokenBalance}
         collateralPrice={collateralPrice}
       />
     ),
 
-    sortBy: ({ aToken: { balance } }) => (balance ? balance.toNumber() : 0),
+    sortBy: ({ aTokenBalance }) =>
+      aTokenBalance ? aTokenBalance.toNumber() : 0,
   },
   {
     key: "id",
@@ -52,8 +56,7 @@ const columns: Column<CollateralAsset>[] = [
   },
 ];
 
-const getRowKey = ({ id, collateralToken: { chainId } }: CollateralAsset) =>
-  `${id}${chainId}`;
+const getRowKey = ({ id, chainId }: CollateralAsset) => `${id}${chainId}`;
 
 export const CollateralAssetsTable = () => {
   const collateralAssetsIds = collateralAssets.map(({ id }) => id);

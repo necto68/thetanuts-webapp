@@ -74,6 +74,14 @@ export const collateralAssetFetcher = async (
     ),
   ]);
 
+  const {
+    symbol: collateralTokenSymbol,
+    balance: collateralTokenBalance,
+    chainId,
+  } = collateralToken;
+
+  const { balance: aTokenBalance } = aToken;
+
   // LTV first 16 bits, LIQ next 16 bits, LIQ_PENALTY next 16 bits - shifted by 10000
   const loanToValue = (lendingPoolConfiguration % 65_536) / 10_000;
 
@@ -82,8 +90,11 @@ export const collateralAssetFetcher = async (
 
   return {
     id,
+    chainId,
     collateralToken,
-    aToken,
+    collateralTokenSymbol,
+    collateralTokenBalance,
+    aTokenBalance,
     loanToValue,
     collateralPrice,
     availableLeverage,
