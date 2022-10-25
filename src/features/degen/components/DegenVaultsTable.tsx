@@ -16,6 +16,8 @@ import type { BasicVault } from "../../basic-vault/types";
 import { ProgressBarColor } from "../../basic-vault/types";
 import { BasicVaultAssetCell, RiskLevelCell } from "../../basic/components";
 import { useBasicVaults } from "../../basic-vault/hooks";
+import { highYieldFormatter } from "../../shared/helpers";
+import { StrikePriceCell } from "../../basic/components/StrikePriceCell";
 
 import { StrategyCell } from "./StrategyCell";
 
@@ -57,19 +59,26 @@ const columns: Column<BasicVault>[] = [
     title: "Strategy",
     minWidth: 110,
 
+    render: ({ type }) => <StrategyCell type={type} />,
+
+    sortBy: ({ type }) => type,
+  },
+  {
+    key: "strikePrices",
+    title: "Strike Price",
+    minWidth: 120,
+
     render: ({
       type,
-      period,
       strikePrices,
       isSettled,
       isExpired,
       isAllowInteractions,
     }) => (
-      <StrategyCell
+      <StrikePriceCell
         isAllowInteractions={isAllowInteractions}
         isExpired={isExpired}
         isSettled={isSettled}
-        period={period}
         strikePrices={strikePrices}
         type={type}
       />
@@ -95,7 +104,9 @@ const columns: Column<BasicVault>[] = [
 
     render: ({ id, percentageYields }) => (
       <APYCellContainer>
-        <GreenCellValue>{`${percentageYields.annualPercentageYield}%`}</GreenCellValue>
+        <GreenCellValue>{`${highYieldFormatter(
+          percentageYields.annualPercentageYield
+        )}%`}</GreenCellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={percentageYields} />

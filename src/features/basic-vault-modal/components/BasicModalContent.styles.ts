@@ -5,7 +5,7 @@ import { screens } from "../../shared/constants";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
 
   padding: 24px;
 

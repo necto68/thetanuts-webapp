@@ -1,7 +1,7 @@
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import { VaultType } from "../../basic-vault/types";
 import { getDegenVaultTitle } from "../../degen-vault/helpers";
-import { numberFormatter } from "../../shared/helpers";
+import { highYieldFormatter, numberFormatter } from "../../shared/helpers";
 
 import {
   Container,
@@ -30,18 +30,18 @@ export const Header = () => {
   const title = getDegenVaultTitle(type);
 
   const formattedWeeklyYield = numberFormatter.format(weeklyPercentageYield);
-  const formattedTotalAPY = numberFormatter.format(annualPercentageYield);
+  const formattedTotalAPY = highYieldFormatter(annualPercentageYield);
 
   return (
     <Container>
       <Title>{isLoading ? "-" : title}</Title>
       <APYContainer>
         <APYContent>
-          <APYTitle>Weekly Projected Yield</APYTitle>
+          <APYTitle>Current Week’s Yield</APYTitle>
           <APYValue>{`${formattedWeeklyYield}%`}</APYValue>
         </APYContent>
         <APYContent>
-          <APYTitle>Projected APY</APYTitle>
+          <APYTitle>Current Projected APY</APYTitle>
           <APYValue>{`${formattedTotalAPY}%`}</APYValue>
         </APYContent>
       </APYContainer>
