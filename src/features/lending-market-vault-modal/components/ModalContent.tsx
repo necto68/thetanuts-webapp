@@ -4,9 +4,9 @@ import {
   Container,
   ContentAnimatedContainer,
 } from "../../index-vault-modal/components/ModalContent.styles";
-import { BasicModalPendingMutationContent } from "../../basic-vault-modal/components";
 import { useLendingMarketModalMutations } from "../hooks";
 
+import { LendingMarketModalPendingMutationContent } from "./LendingMarketModalPendingMutationContent";
 import { LendingMarketModalContent } from "./LendingMarketModalContent";
 
 export const ModalContent = () => {
@@ -19,7 +19,7 @@ export const ModalContent = () => {
       <AnimatePresence exitBeforeEnter>
         <ContentAnimatedContainer>
           {isShowPendingMutation ? (
-            <BasicModalPendingMutationContent />
+            <LendingMarketModalPendingMutationContent />
           ) : (
             <LendingMarketModalContent />
           )}
