@@ -1,13 +1,14 @@
 import { Chains, OpenButton, Table } from "../../table/components";
 import type { Column } from "../../table/types";
-import { useBasicVaults } from "../../basic-vault/hooks";
-import { lendingMarketVaults } from "../../basic/constants";
 import { chainsMap } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
 import { BasicVaultAssetCell, StrategyCell } from "../../basic/components";
+import { useLendingMarketVaultsTableRows } from "../hooks";
+import type { LendingMarketVaultRow } from "../types";
+import { numberFormatter } from "../../shared/helpers";
 
-const columns: Column<BasicVault>[] = [
+const columns: Column<LendingMarketVaultRow>[] = [
   {
     key: "assetSymbol",
     title: "Lending Market",
@@ -67,14 +68,17 @@ const columns: Column<BasicVault>[] = [
   },
 
   {
-    key: "balance",
-    title: "Capacity",
+    key: "totalPosition",
+    title: "Total Position",
     minWidth: 180,
 
-    render: () => "1 WETH-C-LP",
+    render: ({ totalPosition }) =>
+      totalPosition
+        ? `${numberFormatter.format(totalPosition.toNumber())} !!!TOKEN`
+        : "-",
 
-    sortBy: ({ balance, collatCap }) =>
-      collatCap.gt(0) ? balance.div(collatCap).toNumber() : 0,
+    sortBy: ({ totalPosition }) =>
+      totalPosition ? totalPosition.toNumber() : 0,
   },
   {
     key: "chainId",
@@ -108,10 +112,7 @@ const columns: Column<BasicVault>[] = [
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
 export const LendingMarketVaultsTable = () => {
-  const lendingMarketVaultsIds = lendingMarketVaults.map(({ id }) => id);
-  const lendingMarketVaultsQueries = useBasicVaults(lendingMarketVaultsIds);
-
-  const rows = lendingMarketVaultsQueries.map(({ data }) => data);
+  const rows = useLendingMarketVaultsTableRows();
 
   return (
     <Table
