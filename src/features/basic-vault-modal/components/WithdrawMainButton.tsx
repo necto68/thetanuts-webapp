@@ -11,6 +11,11 @@ import { InsufficientBalanceMainButton } from "../../modal/components/Insufficie
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { resetMutations } from "../helpers";
 import { BasicVaultType } from "../../basic/types";
+import {
+  useLendingMarketModalConfig,
+  useLendingMarketModalMutations,
+} from "../../lending-market-vault-modal/hooks";
+import { loadingButtonTitles, buttonTitles } from "../constants";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -23,6 +28,7 @@ export const WithdrawMainButton = () => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
+  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
   const {
     inputValue,
     tokenData,
@@ -38,6 +44,8 @@ export const WithdrawMainButton = () => {
     runInitWithdraw,
     runInitFullWithdraw,
   } = useBasicModalMutations();
+  const { closePositionAndWithdrawMutation, runClosePositionAndWithdraw } =
+    useLendingMarketModalMutations();
 
   const { account } = useWallet();
 
@@ -45,14 +53,28 @@ export const WithdrawMainButton = () => {
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
 
   const { data: basicVaultReaderData } = basicVaultReaderQuery;
-  const { currentPosition = new Big(0), withdrawalPending = new Big(0) } =
-    basicVaultReaderData ?? {};
+  const {
+    currentPosition: basicVaultCurrentPosition = new Big(0),
+    withdrawalPending = new Big(0),
+  } = basicVaultReaderData ?? {};
+
+  const { data: lendingMarketVaultReaderData } = lendingMarketVaultReaderQuery;
+  const { currentPosition: lendingMarketVaultCurrentPosition = new Big(0) } =
+    lendingMarketVaultReaderData ?? {};
 
   const handleResetButtonClick = useCallback(() => {
-    const mutations = [initWithdrawMutation];
+    const mutations = [
+      initWithdrawMutation,
+      initFullWithdrawMutation,
+      closePositionAndWithdrawMutation,
+    ];
 
     resetMutations(mutations);
-  }, [initWithdrawMutation]);
+  }, [
+    initWithdrawMutation,
+    initFullWithdrawMutation,
+    closePositionAndWithdrawMutation,
+  ]);
 
   const {
     isLoading: isInitWithdrawLoading,
@@ -69,41 +91,53 @@ export const WithdrawMainButton = () => {
   const { isLoading: isCancelWithdrawLoading } = cancelWithdrawMutation ?? {};
   const { isLoading: isWithdrawLoading } = withdrawMutation ?? {};
 
+  const {
+    isLoading: isClosePositionAndWithdrawLoading,
+    isError: isClosePositionAndWithdrawError,
+    error: closePositionAndWithdrawError,
+  } = closePositionAndWithdrawMutation ?? {};
+
   const isCancelWithdrawOrWithdrawMutationLoading =
     Boolean(isCancelWithdrawLoading) || Boolean(isWithdrawLoading);
 
   const isError =
-    Boolean(isInitWithdrawError) || Boolean(isInitFullWithdrawError);
-  const error = initWithdrawError ?? initFullWithdrawError;
+    Boolean(isInitWithdrawError) ||
+    Boolean(isInitFullWithdrawError) ||
+    Boolean(isClosePositionAndWithdrawError);
+  const error =
+    initWithdrawError ?? initFullWithdrawError ?? closePositionAndWithdrawError;
 
   const inputValueBig = new Big(inputValue || 0);
 
   const currentTokenData = isUseNativeData ? nativeData : tokenData;
 
   const isMainButtonLoading =
-    Boolean(isInitWithdrawLoading) || Boolean(isInitFullWithdrawLoading);
+    Boolean(isInitWithdrawLoading) ||
+    Boolean(isInitFullWithdrawLoading) ||
+    Boolean(isClosePositionAndWithdrawLoading);
 
-  // for degen vault we need to check if currentPosition is greater > 0 and withdrawalPending === 0
   // for basic vault we need to check if user input is greater than 0
-  const isInputValueValid =
-    basicVaultType === BasicVaultType.DEGEN
-      ? currentPosition?.gt(0) && withdrawalPending?.eq(0)
-      : inputValueBig.gt(0);
+  // for degen vault we need to check if currentPosition is greater > 0 and withdrawalPending === 0
+  // for lending market vault we need to check if currentPosition is greater > 0
+  const isValidInputMap = {
+    [BasicVaultType.BASIC]: inputValueBig.gt(0),
 
-  const loadingButtonTitle =
-    basicVaultType === BasicVaultType.DEGEN
-      ? "Initiating Full Withdraw..."
-      : "Initiating Withdraw...";
+    [BasicVaultType.DEGEN]:
+      basicVaultCurrentPosition?.gt(0) && withdrawalPending?.eq(0),
 
-  const buttonTitle =
-    basicVaultType === BasicVaultType.DEGEN
-      ? "Initiate Full Withdraw"
-      : "Initiate Withdraw";
+    [BasicVaultType.LENDING_MARKET]: lendingMarketVaultCurrentPosition?.gt(0),
+  };
 
-  const handleMainButtonClick =
-    basicVaultType === BasicVaultType.DEGEN
-      ? runInitFullWithdraw
-      : runInitWithdraw;
+  const mainButtonClickHandlers = {
+    [BasicVaultType.BASIC]: runInitWithdraw,
+    [BasicVaultType.DEGEN]: runInitFullWithdraw,
+    [BasicVaultType.LENDING_MARKET]: runClosePositionAndWithdraw,
+  };
+
+  const isInputValueValid = isValidInputMap[basicVaultType];
+  const loadingButtonTitle = loadingButtonTitles[basicVaultType];
+  const buttonTitle = buttonTitles[basicVaultType];
+  const handleMainButtonClick = mainButtonClickHandlers[basicVaultType];
 
   const isMainButtonDisabled =
     isTokenDataLoading ||
