@@ -15,7 +15,10 @@ import {
   useLendingMarketModalConfig,
   useLendingMarketModalMutations,
 } from "../../lending-market-vault-modal/hooks";
-import { loadingButtonTitles, buttonTitles } from "../constants";
+import {
+  loadingButtonTitles,
+  buttonTitles,
+} from "../constants/withdrawMainButtonTitles";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 

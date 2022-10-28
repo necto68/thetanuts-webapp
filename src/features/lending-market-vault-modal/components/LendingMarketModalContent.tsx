@@ -2,6 +2,7 @@ import {
   InputCard,
   DepositMainButton,
   WithdrawMainButton,
+  PendingDepositMainButton,
   VaultInfo,
 } from "../../basic-vault-modal/components";
 import {
@@ -28,6 +29,7 @@ export const LendingMarketModalContent = () => {
         ) : (
           <WithdrawMainButton />
         )}
+        {tabType === TabType.deposit ? <PendingDepositMainButton /> : null}
       </MainButtonsContainer>
       <VaultInfo />
     </Container>

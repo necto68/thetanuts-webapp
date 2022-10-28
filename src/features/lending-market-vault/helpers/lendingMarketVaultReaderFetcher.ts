@@ -93,7 +93,7 @@ export const lendingMarketVaultReaderFetcher = async (
     provider
   );
 
-  const [debtTokenPrice, debtTokenAddress, rawPendingBorrow] =
+  const [debtTokenPrice, debtTokenAddress, rawBorrowPending] =
     await Promise.all([
       priceOracleContract
         .getAssetPrice(basicVaultAddress)
@@ -117,15 +117,15 @@ export const lendingMarketVaultReaderFetcher = async (
     ),
   ]);
 
-  const pendingBorrow = rawPendingBorrow
-    ? rawPendingBorrow.div(debtToken.tokenDivisor)
+  const borrowPending = rawBorrowPending
+    ? rawBorrowPending.div(debtToken.tokenDivisor)
     : null;
 
-  const currentPosition = rawPendingBorrow ? debtToken.balance : null;
+  const currentPosition = rawBorrowPending ? debtToken.balance : null;
 
   const totalPosition =
-    currentPosition && pendingBorrow
-      ? currentPosition.add(pendingBorrow)
+    currentPosition && borrowPending
+      ? currentPosition.add(borrowPending)
       : null;
 
   return {
@@ -134,6 +134,6 @@ export const lendingMarketVaultReaderFetcher = async (
     debtTokenPrice,
     totalPosition,
     currentPosition,
-    pendingBorrow,
+    borrowPending,
   };
 };

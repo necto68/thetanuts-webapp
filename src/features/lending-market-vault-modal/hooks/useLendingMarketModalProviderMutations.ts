@@ -116,6 +116,49 @@ export const useLendingMarketModalProviderMutations =
       walletProvider,
     ]);
 
+    const runCancelPendingPositionMutation = useCallback(async () => {
+      if (!walletProvider || !account) {
+        return false;
+      }
+
+      const signer = walletProvider.getSigner();
+
+      const lendingMarketPositionManagerContract =
+        LendingMarketPositionManagerAbiFactory.connect(spenderAddress, signer);
+
+      let transaction = null;
+
+      try {
+        await lendingMarketPositionManagerContract.callStatic.cancelQueue(
+          basicVaultAddress,
+          lendingPoolAddress
+        );
+
+        transaction = await lendingMarketPositionManagerContract.cancelQueue(
+          basicVaultAddress,
+          lendingPoolAddress
+        );
+      } catch (walletError) {
+        processWalletError(walletError);
+      }
+
+      if (transaction) {
+        try {
+          await transaction.wait();
+        } catch (transactionError) {
+          processTransactionError(transactionError);
+        }
+      }
+
+      return true;
+    }, [
+      account,
+      basicVaultAddress,
+      lendingPoolAddress,
+      spenderAddress,
+      walletProvider,
+    ]);
+
     const runClosePositionAndWithdrawMutation = useCallback(async () => {
       if (!walletProvider || !account) {
         return false;
@@ -184,6 +227,13 @@ export const useLendingMarketModalProviderMutations =
       }
     );
 
+    const cancelPendingPositionMutation = useMutation<boolean, MutationError>(
+      async () => await runCancelPendingPositionMutation(),
+      {
+        onSuccess: handleMutationSuccess,
+      }
+    );
+
     const closePositionAndWithdrawMutation = useMutation<
       boolean,
       MutationError
@@ -195,12 +245,17 @@ export const useLendingMarketModalProviderMutations =
 
     return {
       openPositionMutation,
+      cancelPendingPositionMutation,
       closePositionAndWithdrawMutation,
 
       mutationHash,
 
       runOpenPosition: () => {
         openPositionMutation.mutate();
+      },
+
+      runCancelPendingPosition: () => {
+        cancelPendingPositionMutation.mutate();
       },
 
       runClosePositionAndWithdraw: () => {

@@ -9,5 +9,5 @@ export interface LendingMarketVaultReader {
   debtTokenPrice: number;
   totalPosition: Big | null;
   currentPosition: Big | null;
-  pendingBorrow: Big | null;
+  borrowPending: Big | null;
 }
