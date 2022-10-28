@@ -7,6 +7,7 @@ import { BasicVaultAssetCell, StrategyCell } from "../../basic/components";
 import { useLendingMarketVaultsTableRows } from "../hooks";
 import type { LendingMarketVaultRow } from "../types";
 import { numberFormatter } from "../../shared/helpers";
+import { getVaultTitle } from "../../table/helpers";
 
 const columns: Column<LendingMarketVaultRow>[] = [
   {
@@ -72,10 +73,23 @@ const columns: Column<LendingMarketVaultRow>[] = [
     title: "Total Position",
     minWidth: 180,
 
-    render: ({ totalPosition }) =>
-      totalPosition
-        ? `${numberFormatter.format(totalPosition.toNumber())} !!!TOKEN`
-        : "-",
+    render: ({ type, assetSymbol, collateralSymbol, totalPosition }) => {
+      const vaultTokenSymbol = getVaultTitle(
+        VaultModalType.lendingMarket,
+        type,
+        assetSymbol,
+        collateralSymbol,
+        true
+      );
+
+      const formattedTotalPosition = totalPosition
+        ? numberFormatter.format(totalPosition.toNumber())
+        : "";
+
+      return totalPosition
+        ? `${formattedTotalPosition} ${vaultTokenSymbol}`
+        : "-";
+    },
 
     sortBy: ({ totalPosition }) =>
       totalPosition ? totalPosition.toNumber() : 0,

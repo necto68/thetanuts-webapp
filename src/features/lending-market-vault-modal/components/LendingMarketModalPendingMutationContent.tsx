@@ -10,10 +10,13 @@ import {
   useLendingMarketModalConfig,
   useLendingMarketModalMutations,
 } from "../hooks";
+import { getVaultTitle } from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
+import { VaultModalType } from "../../root/types";
 
 // eslint-disable-next-line complexity
 export const LendingMarketModalPendingMutationContent = () => {
-  const { basicVaultChainId } = useBasicModalConfig();
+  const { basicVaultChainId, basicVaultQuery } = useBasicModalConfig();
   const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
   const { inputValue, tokenData } = useBasicModalState();
   const {
@@ -21,6 +24,12 @@ export const LendingMarketModalPendingMutationContent = () => {
     closePositionAndWithdrawMutation,
     mutationHash = "",
   } = useLendingMarketModalMutations();
+
+  const {
+    type = VaultType.CALL,
+    assetSymbol = "",
+    collateralSymbol = "",
+  } = basicVaultQuery.data ?? {};
 
   const { currentPosition: rawCurrentPosition } =
     lendingMarketVaultReaderQuery.data ?? {};
@@ -51,10 +60,18 @@ export const LendingMarketModalPendingMutationContent = () => {
   const isMutationSucceed =
     Boolean(openPositionData) || Boolean(closePositionData);
 
-  // TODO: use collateral token value instead of formattedCurrentPosition
+  const tokenSymbol = tokenData?.symbol ?? "";
+  const vaultTokenSymbol = getVaultTitle(
+    VaultModalType.lendingMarket,
+    type,
+    assetSymbol,
+    collateralSymbol,
+    true
+  );
+
   const sourceTokenData = {
     value: isOpenPositionMutation ? inputValue : formattedCurrentPosition,
-    symbol: tokenData?.symbol ?? "",
+    symbol: isOpenPositionMutation ? tokenSymbol : vaultTokenSymbol,
   };
 
   const pendingTitle = isOpenPositionMutation

@@ -23,12 +23,15 @@ const columns: Column<CollateralAsset>[] = [
     title: "Balance",
     minWidth: 110,
 
-    render: ({ collateralTokenBalance, collateralTokenSymbol }) =>
-      collateralTokenBalance
-        ? `${numberFormatter.format(
-            collateralTokenBalance.toNumber()
-          )}  ${collateralTokenSymbol}`
-        : "-",
+    render: ({ collateralTokenBalance, collateralTokenSymbol }) => {
+      const formattedBalance = collateralTokenBalance
+        ? numberFormatter.format(collateralTokenBalance.toNumber())
+        : "";
+
+      return collateralTokenBalance
+        ? `${formattedBalance} ${collateralTokenSymbol}`
+        : "-";
+    },
 
     sortBy: ({ collateralTokenBalance }) =>
       collateralTokenBalance ? collateralTokenBalance.toNumber() : 0,

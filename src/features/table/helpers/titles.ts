@@ -6,12 +6,12 @@ export const getVaultTitle = (
   vaultType: VaultModalType,
   type: VaultType,
   assetSymbol: string,
-  collateralSymbol?: string
+  collateralSymbol: string,
+  isToken = false
 ) => {
   const vaultPrefix = vaultTypesPrefixes[vaultType];
   const isDegenOrPutType =
-    vaultType === VaultModalType.degen ||
-    (vaultType === VaultModalType.basic && type === VaultType.PUT);
+    vaultType === VaultModalType.degen || type === VaultType.PUT;
 
   const assets = isDegenOrPutType
     ? [collateralSymbol, assetSymbol]
@@ -19,7 +19,8 @@ export const getVaultTitle = (
 
   const typePrefix = basicVaultTypesPrefixes[type];
 
-  const titleArray = [vaultPrefix, ...assets, typePrefix];
+  const vaultTitleArray = [vaultPrefix, ...assets, typePrefix];
+  const titleArray = isToken ? [...vaultTitleArray, "LP"] : vaultTitleArray;
 
   return titleArray.join("-");
 };
