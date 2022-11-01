@@ -3,8 +3,11 @@ import { useCallback } from "react";
 import Big from "big.js";
 
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
-import { useBasicModalMutations, useBasicModalState } from "../hooks";
-import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
+import {
+  useBasicModalConfig,
+  useBasicModalState,
+  useBasicModalMutations,
+} from "../hooks";
 import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { InsufficientBalanceMainButton } from "../../modal/components/InsufficientBalanceMainButton";

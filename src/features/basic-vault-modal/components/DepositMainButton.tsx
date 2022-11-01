@@ -3,8 +3,11 @@ import { useCallback } from "react";
 import Big from "big.js";
 
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
-import { useBasicModalMutations, useBasicModalState } from "../hooks";
-import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
+import {
+  useBasicModalConfig,
+  useBasicModalState,
+  useBasicModalMutations,
+} from "../hooks";
 import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { InsufficientBalanceMainButton } from "../../modal/components/InsufficientBalanceMainButton";
@@ -12,7 +15,10 @@ import { MaxVaultCapReachedMainButton } from "../../modal/components/MaxVaultCap
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
 import { resetMutations } from "../helpers";
-import { useLendingMarketModalMutations } from "../../lending-market-vault-modal/hooks";
+import {
+  useLendingMarketModalConfig,
+  useLendingMarketModalMutations,
+} from "../../lending-market-vault-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
@@ -21,6 +27,7 @@ import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 export const DepositMainButton = () => {
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
+  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
   const {
     inputValue,
     tokenData,
@@ -37,13 +44,20 @@ export const DepositMainButton = () => {
     runWrap,
     runDeposit,
   } = useBasicModalMutations();
-  const { openPositionMutation, runOpenPosition } =
-    useLendingMarketModalMutations();
+  const {
+    approveDelegationMutation,
+    openPositionMutation,
+    runApproveDelegation,
+    runOpenPosition,
+  } = useLendingMarketModalMutations();
 
   const { account } = useWallet();
 
   const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
+
+  const { data: lendingMarketVaultReaderData } = lendingMarketVaultReaderQuery;
+  const { borrowAllowance } = lendingMarketVaultReaderData ?? {};
 
   const isLendingMarketBasicVault =
     basicVaultType === BasicVaultType.LENDING_MARKET;
@@ -53,6 +67,7 @@ export const DepositMainButton = () => {
       approveAllowanceMutation,
       wrapMutation,
       depositMutation,
+      approveDelegationMutation,
       openPositionMutation,
     ];
 
@@ -61,6 +76,7 @@ export const DepositMainButton = () => {
     approveAllowanceMutation,
     wrapMutation,
     depositMutation,
+    approveDelegationMutation,
     openPositionMutation,
   ]);
 
@@ -83,6 +99,12 @@ export const DepositMainButton = () => {
   } = depositMutation ?? {};
 
   const {
+    isLoading: isApproveDelegationLoading,
+    isError: isApproveDelegationError,
+    error: approveDelegationError,
+  } = approveDelegationMutation ?? {};
+
+  const {
     isLoading: isOpenPositionLoading,
     isError: isOpenPositionError,
     error: openPositionError,
@@ -92,10 +114,15 @@ export const DepositMainButton = () => {
     Boolean(isApproveAllowanceError) ||
     Boolean(isWrapError) ||
     Boolean(isDepositError) ||
+    Boolean(isApproveDelegationError) ||
     Boolean(isOpenPositionError);
 
   const error =
-    approveAllowanceError ?? wrapError ?? depositError ?? openPositionError;
+    approveAllowanceError ??
+    wrapError ??
+    depositError ??
+    approveDelegationError ??
+    openPositionError;
 
   const inputValueBig = new Big(inputValue || 0);
 
@@ -105,6 +132,15 @@ export const DepositMainButton = () => {
     currentTokenData?.allowance &&
     inputValueBig.gt(0) &&
     inputValueBig.gt(currentTokenData.allowance);
+
+  const isNeedLendingMarketDelegationApprove =
+    isLendingMarketBasicVault &&
+    borrowAllowance &&
+    inputValueBig.gt(0) &&
+    inputValueBig.gt(borrowAllowance);
+
+  const isApproveLoading =
+    Boolean(isApproveAllowanceLoading) || Boolean(isApproveDelegationLoading);
 
   const isMainButtonDisabled =
     isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
@@ -138,9 +174,17 @@ export const DepositMainButton = () => {
     return <MaxVaultCapReachedMainButton />;
   }
 
-  if (isApproveAllowanceLoading && currentTokenData) {
+  if (isApproveLoading && currentTokenData) {
     return (
       <LoadingMainButton>{`Approving ${currentTokenData.symbol}...`}</LoadingMainButton>
+    );
+  }
+
+  if (isNeedLendingMarketDelegationApprove) {
+    return (
+      <ActionMainButton onClick={runApproveDelegation}>
+        Approve Delegation
+      </ActionMainButton>
     );
   }
 

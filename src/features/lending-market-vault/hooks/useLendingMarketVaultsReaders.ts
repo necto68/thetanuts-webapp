@@ -57,6 +57,8 @@ export const useLendingMarketVaultsReaders = (basicVaultIds: string[]) => {
             account,
             provider
           ),
+
+        enabled: basicVaultType === BasicVaultType.LENDING_MARKET,
       })
     )
   );
