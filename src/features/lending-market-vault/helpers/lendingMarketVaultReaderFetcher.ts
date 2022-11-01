@@ -11,6 +11,7 @@ import {
   LendingMarketPositionManagerAbi__factory as LendingMarketPositionManagerAbiFactory,
   LendingPoolAbi__factory as LendingPoolAbiFactory,
   PriceOracleAbi__factory as PriceOracleAbiFactory,
+  DebtTokenAbi__factory as DebtTokenAbiFactory,
 } from "../../contracts/types";
 import { convertToBig } from "../../shared/helpers/converters";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
@@ -106,19 +107,33 @@ export const lendingMarketVaultReaderFetcher = async (
             .cancelQueue(basicVaultAddress, lendingPoolAddress, {
               from: account,
             })
-            .then((value) => convertToBig(value))
+            .then(convertToBig)
         : null,
     ]);
 
-  const [debtToken] = await Promise.all([
+  const debtTokenContract = DebtTokenAbiFactory.connect(
+    debtTokenAddress,
+    provider
+  );
+
+  const [debtToken, rawBorrowAllowance] = await Promise.all([
     queryClient.fetchQuery(
       [QueryType.token, debtTokenAddress, null, account],
       async () => await tokenFetcher(debtTokenAddress, null, provider, account)
     ),
+    account
+      ? debtTokenContract
+          .borrowAllowance(account, lendingMarketPositionManagerAddress)
+          .then(convertToBig)
+      : null,
   ]);
 
   const borrowPending = rawBorrowPending
     ? rawBorrowPending.div(debtToken.tokenDivisor)
+    : null;
+
+  const borrowAllowance = rawBorrowAllowance
+    ? rawBorrowAllowance.div(debtToken.tokenDivisor)
     : null;
 
   const currentPosition = rawBorrowPending ? debtToken.balance : null;
@@ -132,6 +147,7 @@ export const lendingMarketVaultReaderFetcher = async (
     collateralAsset,
     debtToken,
     debtTokenPrice,
+    borrowAllowance,
     totalPosition,
     currentPosition,
     borrowPending,

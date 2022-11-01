@@ -1,6 +1,7 @@
 import { useWallet } from "@gimmixorg/use-wallet";
 import { useMutation } from "react-query";
 import { useCallback, useState } from "react";
+import { constants } from "ethers";
 import Big from "big.js";
 
 import type { LendingMarketModalMutations } from "../types";
@@ -15,7 +16,10 @@ import {
   useBasicModalConfig,
   useBasicModalState,
 } from "../../basic-vault-modal/hooks";
-import { LendingMarketPositionManagerAbi__factory as LendingMarketPositionManagerAbiFactory } from "../../contracts/types";
+import {
+  LendingMarketPositionManagerAbi__factory as LendingMarketPositionManagerAbiFactory,
+  DebtTokenAbi__factory as DebtTokenAbiFactory,
+} from "../../contracts/types";
 
 import { useLendingMarketModalConfig } from "./useLendingMarketModalConfig";
 
@@ -34,6 +38,51 @@ export const useLendingMarketModalProviderMutations =
 
     const { data: collateralAssetData } = collateralAssetQuery;
     const { lendingPoolAddress = "" } = collateralAssetData ?? {};
+
+    const runApproveDelegationMutation = useCallback(async () => {
+      if (!walletProvider) {
+        return false;
+      }
+
+      const signer = walletProvider.getSigner();
+
+      const { data } = lendingMarketVaultReaderQuery;
+      const debtTokenAddress = data?.debtToken.tokenAddress ?? "";
+
+      const debtTokenContract = DebtTokenAbiFactory.connect(
+        debtTokenAddress,
+        signer
+      );
+
+      const approveDelegationParameters = [
+        spenderAddress,
+        constants.MaxUint256,
+      ] as const;
+
+      let transaction = null;
+
+      try {
+        await debtTokenContract.callStatic.approveDelegation(
+          ...approveDelegationParameters
+        );
+
+        transaction = await debtTokenContract.approveDelegation(
+          ...approveDelegationParameters
+        );
+      } catch (walletError) {
+        processWalletError(walletError);
+      }
+
+      if (transaction) {
+        try {
+          await transaction.wait();
+        } catch (transactionError) {
+          processTransactionError(transactionError);
+        }
+      }
+
+      return true;
+    }, [walletProvider, lendingMarketVaultReaderQuery, spenderAddress]);
 
     const runOpenPositionMutation = useCallback(async () => {
       if (!tokenData || !walletProvider) {
@@ -71,24 +120,24 @@ export const useLendingMarketModalProviderMutations =
         .round()
         .toString();
 
+      const openPositionParameters = [
+        collateralAssetAddress,
+        depositAmount.toString(),
+        lendingPoolAddress,
+        basicVaultAddress,
+        LPToBorrowAmount,
+      ] as const;
+
       let transaction = null;
 
       try {
         await lendingMarketPositionManagerContract.callStatic.depositAndQueueOptionPosition(
-          collateralAssetAddress,
-          depositAmount.toString(),
-          lendingPoolAddress,
-          basicVaultAddress,
-          LPToBorrowAmount
+          ...openPositionParameters
         );
 
         transaction =
           await lendingMarketPositionManagerContract.depositAndQueueOptionPosition(
-            collateralAssetAddress,
-            depositAmount.toString(),
-            lendingPoolAddress,
-            basicVaultAddress,
-            LPToBorrowAmount
+            ...openPositionParameters
           );
       } catch (walletError) {
         processWalletError(walletError);
@@ -126,17 +175,20 @@ export const useLendingMarketModalProviderMutations =
       const lendingMarketPositionManagerContract =
         LendingMarketPositionManagerAbiFactory.connect(spenderAddress, signer);
 
+      const cancelPendingPositionParameters = [
+        basicVaultAddress,
+        lendingPoolAddress,
+      ] as const;
+
       let transaction = null;
 
       try {
         await lendingMarketPositionManagerContract.callStatic.cancelQueue(
-          basicVaultAddress,
-          lendingPoolAddress
+          ...cancelPendingPositionParameters
         );
 
         transaction = await lendingMarketPositionManagerContract.cancelQueue(
-          basicVaultAddress,
-          lendingPoolAddress
+          ...cancelPendingPositionParameters
         );
       } catch (walletError) {
         processWalletError(walletError);
@@ -169,20 +221,22 @@ export const useLendingMarketModalProviderMutations =
       const lendingMarketPositionManagerContract =
         LendingMarketPositionManagerAbiFactory.connect(spenderAddress, signer);
 
+      const closePositionParameters = [
+        account,
+        basicVaultAddress,
+        lendingPoolAddress,
+      ] as const;
+
       let transaction = null;
 
       try {
         await lendingMarketPositionManagerContract.callStatic.closeVaultAndWithdrawPosition(
-          account,
-          basicVaultAddress,
-          lendingPoolAddress
+          ...closePositionParameters
         );
 
         transaction =
           await lendingMarketPositionManagerContract.closeVaultAndWithdrawPosition(
-            account,
-            basicVaultAddress,
-            lendingPoolAddress
+            ...closePositionParameters
           );
       } catch (walletError) {
         processWalletError(walletError);
@@ -220,6 +274,13 @@ export const useLendingMarketModalProviderMutations =
       ]);
     }, [lendingMarketVaultReaderQuery, collateralAssetQuery, tokensQueries]);
 
+    const approveDelegationMutation = useMutation<boolean, MutationError>(
+      async () => await runApproveDelegationMutation(),
+      {
+        onSuccess: handleMutationSuccess,
+      }
+    );
+
     const openPositionMutation = useMutation<boolean, MutationError>(
       async () => await runOpenPositionMutation(),
       {
@@ -244,11 +305,16 @@ export const useLendingMarketModalProviderMutations =
     useResetMutationError(openPositionMutation);
 
     return {
+      approveDelegationMutation,
       openPositionMutation,
       cancelPendingPositionMutation,
       closePositionAndWithdrawMutation,
 
       mutationHash,
+
+      runApproveDelegation: () => {
+        approveDelegationMutation.mutate();
+      },
 
       runOpenPosition: () => {
         openPositionMutation.mutate();

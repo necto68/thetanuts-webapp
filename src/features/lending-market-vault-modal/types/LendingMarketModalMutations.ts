@@ -3,6 +3,7 @@ import type { UseMutationResult } from "react-query";
 import type { MutationError } from "../../index-vault-modal/types";
 
 export interface LendingMarketModalMutations {
+  approveDelegationMutation?: UseMutationResult<boolean, MutationError, void>;
   openPositionMutation?: UseMutationResult<boolean, MutationError, void>;
   cancelPendingPositionMutation?: UseMutationResult<
     boolean,
@@ -17,6 +18,7 @@ export interface LendingMarketModalMutations {
 
   mutationHash?: string;
 
+  runApproveDelegation: () => void;
   runOpenPosition: () => void;
   runCancelPendingPosition: () => void;
   runClosePositionAndWithdraw: () => void;

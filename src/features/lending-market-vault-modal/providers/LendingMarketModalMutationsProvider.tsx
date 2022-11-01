@@ -5,12 +5,14 @@ import { useLendingMarketModalProviderMutations } from "../hooks/useLendingMarke
 import type { LendingMarketModalMutations } from "../types";
 
 const defaultLendingMarketModalMutations: LendingMarketModalMutations = {
+  approveDelegationMutation: undefined,
   openPositionMutation: undefined,
   cancelPendingPositionMutation: undefined,
   closePositionAndWithdrawMutation: undefined,
 
   mutationHash: undefined,
 
+  runApproveDelegation: () => undefined,
   runOpenPosition: () => undefined,
   runCancelPendingPosition: () => undefined,
   runClosePositionAndWithdraw: () => undefined,

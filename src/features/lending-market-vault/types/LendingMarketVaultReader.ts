@@ -7,6 +7,7 @@ export interface LendingMarketVaultReader {
   collateralAsset: CollateralAsset;
   debtToken: Token;
   debtTokenPrice: number;
+  borrowAllowance: Big | null;
   totalPosition: Big | null;
   currentPosition: Big | null;
   borrowPending: Big | null;
