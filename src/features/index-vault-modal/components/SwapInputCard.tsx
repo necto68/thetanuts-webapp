@@ -88,7 +88,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   remainderValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
 }) => {
-  const [{ contentType }] = useVaultModalState();
+  const [{ vaultType, contentType }] = useVaultModalState();
 
   const isShowAssetSelector =
     !isHideAssetSelector &&
@@ -254,6 +254,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
               remainderValue={remainderValue}
               sourceTokenData={sourceTokenData}
               vaultChainId={vaultChainId}
+              vaultType={vaultType}
             />
           ) : null}
           {!isShowPriceWarning && fieldWarning ? (
