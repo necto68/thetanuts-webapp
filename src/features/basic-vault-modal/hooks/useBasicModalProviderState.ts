@@ -10,6 +10,8 @@ import {
 } from "../../index-vault-modal/hooks";
 import type { Token } from "../../index-vault-modal/types";
 import { convertToBig } from "../../shared/helpers";
+import { useLendingMarketModalConfig } from "../../lending-market-vault-modal/hooks/useLendingMarketModalConfig";
+import { BasicVaultType } from "../../basic/types";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
@@ -33,18 +35,24 @@ export const useBasicModalProviderState = (): BasicModalState => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
+  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
 
   const inputValueBig = new Big(inputValue || 0);
 
   const { data: basicVaultData } = basicVaultQuery;
   const { data: basicVaultReaderData } = basicVaultReaderQuery;
+  const { data: lendingMarketVaultReaderData } = lendingMarketVaultReaderQuery;
 
   const {
+    basicVaultType = BasicVaultType.BASIC,
     collateralPrice = 0,
     remainder: collateralTokenRemainder = Number.MAX_SAFE_INTEGER,
   } = basicVaultData ?? {};
 
   const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
+
+  const { maxSupply = Number.MAX_SAFE_INTEGER } =
+    lendingMarketVaultReaderData ?? {};
 
   const collateralTokenQuery = useTokenQuery(
     collateralTokenAddress,
@@ -75,8 +83,16 @@ export const useBasicModalProviderState = (): BasicModalState => {
   // use the same price for Deposit/Withdraw tab
   const priceValue = inputValueBig.mul(collateralPrice).toNumber();
 
-  const remainderValue =
-    currentTabType === TabType.deposit ? collateralTokenRemainder : undefined;
+  let remainderValue: number | undefined = Number.MAX_SAFE_INTEGER;
+
+  if (currentTabType === TabType.deposit) {
+    remainderValue =
+      basicVaultType === BasicVaultType.LENDING_MARKET
+        ? maxSupply
+        : collateralTokenRemainder;
+  } else {
+    remainderValue = undefined;
+  }
 
   return {
     tabType,

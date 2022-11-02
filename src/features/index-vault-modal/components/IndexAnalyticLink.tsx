@@ -1,4 +1,4 @@
-import { analyticUrl } from "../../shared/constants";
+import { links } from "../../shared/constants";
 import { useSwapRouterConfig } from "../hooks";
 
 import { ExternalExpander } from "./ExternalExpander";
@@ -10,7 +10,7 @@ export const IndexAnalyticLink = () => {
   return (
     <ExternalExpander
       title="Analytics and Historical Data"
-      to={`${analyticUrl}${id}`}
+      to={`${links.analytics}${id}`}
     />
   );
 };

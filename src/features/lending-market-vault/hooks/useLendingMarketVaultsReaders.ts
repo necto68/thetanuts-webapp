@@ -18,7 +18,10 @@ export const useLendingMarketVaultsReaders = (basicVaultIds: string[]) => {
       basicVaultConfig?.source ?? {};
 
     const {
-      addresses: { lendingMarketPositionManagerAddress },
+      addresses: {
+        lendingMarketPositionManagerAddress,
+        lendingMarketProtocolDataProviderAddress,
+      },
     } = chainsMap[chainId];
 
     const provider = chainProvidersMap[chainId];
@@ -28,6 +31,7 @@ export const useLendingMarketVaultsReaders = (basicVaultIds: string[]) => {
       basicVaultType,
       basicVaultAddress,
       lendingMarketPositionManagerAddress,
+      lendingMarketProtocolDataProviderAddress,
       provider,
     };
   });
@@ -39,6 +43,7 @@ export const useLendingMarketVaultsReaders = (basicVaultIds: string[]) => {
         basicVaultType,
         basicVaultAddress,
         lendingMarketPositionManagerAddress,
+        lendingMarketProtocolDataProviderAddress,
         provider,
       }) => ({
         queryKey: [
@@ -54,6 +59,7 @@ export const useLendingMarketVaultsReaders = (basicVaultIds: string[]) => {
             basicVaultType,
             basicVaultAddress,
             lendingMarketPositionManagerAddress,
+            lendingMarketProtocolDataProviderAddress,
             account,
             provider
           ),

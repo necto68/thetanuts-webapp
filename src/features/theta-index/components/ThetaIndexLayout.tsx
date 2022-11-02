@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 
+import { links } from "../../shared/constants";
 import { useIsMobile } from "../../shared/hooks";
 
 import { FeaturedIndexVaultsList } from "./FeaturedIndexVaultsList";
@@ -51,12 +52,12 @@ export const ThetaIndexLayout = () => {
               </Description>
               <Description>
                 Read the{" "}
-                <DescriptionLink href="https://docs.thetanuts.finance">
+                <DescriptionLink href={links.docs}>
                   Thetanuts Docs
                 </DescriptionLink>{" "}
                 for a more detailed overview of Thetanuts Stronghold or contact
                 us on{" "}
-                <DescriptionLink href="https://discord.com/invite/fzWKJSy9v9">
+                <DescriptionLink href={links.discord}>
                   Thetanuts Discord
                 </DescriptionLink>
                 .

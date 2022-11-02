@@ -47,6 +47,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xEcA593A42E9A0120B03E8784Ca61673e4a40Ba13",
       basicVaultDepositorAddress: "0xaA7e4C5F93Aa986d627113496570A732386F570d",
       lendingMarketPositionManagerAddress: ZERO_ADDRESS,
+      lendingMarketProtocolDataProviderAddress: ZERO_ADDRESS,
     },
 
     deployerAddresses: {
@@ -81,6 +82,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xe016D63bd3ce7BbAF9Eb8aBf76dA7e3f6E4721a3",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       lendingMarketPositionManagerAddress: ZERO_ADDRESS,
+      lendingMarketProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -109,6 +111,9 @@ export const chains: ChainConfig[] = [
 
       lendingMarketPositionManagerAddress:
         "0xfBDB737aDa42808a5A47b0dD36E16E361a9BC53f",
+
+      lendingMarketProtocolDataProviderAddress:
+        "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",
     },
 
     deployerAddresses: {
@@ -139,6 +144,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xA9c4b4f5Efcb3bC9a400D699943E0760065CA09A",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       lendingMarketPositionManagerAddress: ZERO_ADDRESS,
+      lendingMarketProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -164,6 +170,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0x10572d1A9d38178C3d95666803f0551B77301003",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       lendingMarketPositionManagerAddress: ZERO_ADDRESS,
+      lendingMarketProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -189,6 +196,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xe50d41E66A70D087F5480Ef84ABcF2e312534b05",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       lendingMarketPositionManagerAddress: ZERO_ADDRESS,
+      lendingMarketProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -214,6 +222,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xaF724813e860B462a3387Fb97CC2600179CAF9e1",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       lendingMarketPositionManagerAddress: ZERO_ADDRESS,
+      lendingMarketProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -239,6 +248,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xd07C970e8F8534Da02096862F23A9a91C6F716a3",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       lendingMarketPositionManagerAddress: ZERO_ADDRESS,
+      lendingMarketProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
 ];

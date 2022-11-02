@@ -20,6 +20,7 @@ export interface ChainConfig {
     basicVaultReaderAddress: string;
     basicVaultDepositorAddress: string;
     lendingMarketPositionManagerAddress: string;
+    lendingMarketProtocolDataProviderAddress: string;
   };
 
   deployerAddresses?: {

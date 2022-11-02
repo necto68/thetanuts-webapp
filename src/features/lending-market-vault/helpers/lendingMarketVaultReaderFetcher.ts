@@ -1,4 +1,5 @@
 import type { Provider } from "@ethersproject/providers";
+import Big from "big.js";
 
 import { basicVaultFetcher } from "../../basic-vault/helpers";
 import { basicVaultsMap } from "../../basic/constants";
@@ -10,6 +11,7 @@ import { collateralAssetFetcher } from "../../lending-market/helpers/collateralA
 import {
   LendingMarketPositionManagerAbi__factory as LendingMarketPositionManagerAbiFactory,
   LendingPoolAbi__factory as LendingPoolAbiFactory,
+  ProtocolDataProviderAbi__factory as ProtocolDataProviderAbiFactory,
   PriceOracleAbi__factory as PriceOracleAbiFactory,
   DebtTokenAbi__factory as DebtTokenAbiFactory,
 } from "../../contracts/types";
@@ -22,6 +24,7 @@ export const lendingMarketVaultReaderFetcher = async (
   basicVaultType: BasicVaultType,
   basicVaultAddress: string,
   lendingMarketPositionManagerAddress: string,
+  lendingMarketProtocolDataProviderAddress: string,
   account: string,
   provider: Provider
 ): Promise<LendingMarketVaultReader> => {
@@ -31,9 +34,21 @@ export const lendingMarketVaultReaderFetcher = async (
       provider
     );
 
+  const lendingMarketProtocolDataProviderContract =
+    ProtocolDataProviderAbiFactory.connect(
+      lendingMarketProtocolDataProviderAddress,
+      provider
+    );
+
   const chainId = basicVaultsMap[basicVaultId]?.source.chainId ?? 0;
 
-  const [basicVault] = await Promise.all([
+  const [
+    basicVault,
+    {
+      availableLiquidity: rawAvailableLiquidity,
+      totalVariableDebt: rawTotalVariableDebt,
+    },
+  ] = await Promise.all([
     queryClient.fetchQuery(
       [QueryType.basicVault, basicVaultId, basicVaultType, chainId],
 
@@ -45,6 +60,7 @@ export const lendingMarketVaultReaderFetcher = async (
           provider
         )
     ),
+    lendingMarketProtocolDataProviderContract.getReserveData(basicVaultAddress),
   ]);
 
   const { collateralTokenAddress } = basicVault;
@@ -82,7 +98,12 @@ export const lendingMarketVaultReaderFetcher = async (
     ),
   ]);
 
-  const { lendingPoolAddress, priceOracleAddress } = collateralAsset;
+  const {
+    loanToValue,
+    collateralPrice,
+    lendingPoolAddress,
+    priceOracleAddress,
+  } = collateralAsset;
 
   const lendingPoolContract = LendingPoolAbiFactory.connect(
     lendingPoolAddress,
@@ -110,6 +131,27 @@ export const lendingMarketVaultReaderFetcher = async (
             .then(convertToBig)
         : null,
     ]);
+
+  const divisor = new Big(10).pow(18);
+  const availableLiquidity = convertToBig(rawAvailableLiquidity);
+  const totalVariableDebt = convertToBig(rawTotalVariableDebt);
+  const maxBorrow = availableLiquidity
+    .add(totalVariableDebt)
+    .mul(0.9)
+    .sub(totalVariableDebt)
+    .div(divisor)
+    .round(5, Big.roundDown)
+    .toNumber();
+
+  const availableForBorrow = new Big(maxBorrow)
+    .mul(debtTokenPrice)
+    .mul(1 - loanToValue);
+
+  const maxSupply = availableForBorrow
+    .div(loanToValue)
+    .div(collateralPrice)
+    .round(5, Big.roundDown)
+    .toNumber();
 
   const debtTokenContract = DebtTokenAbiFactory.connect(
     debtTokenAddress,
@@ -151,5 +193,7 @@ export const lendingMarketVaultReaderFetcher = async (
     totalPosition,
     currentPosition,
     borrowPending,
+    maxBorrow,
+    maxSupply,
   };
 };

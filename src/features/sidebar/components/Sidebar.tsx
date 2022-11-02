@@ -21,6 +21,7 @@ import {
 } from "../../shared/components";
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
+import { links } from "../../shared/constants";
 import { useViewportHeight } from "../../shared/hooks";
 import { Analytics } from "../icons/Analytics";
 import { Documentation } from "../icons/Documentation";
@@ -85,22 +86,22 @@ const secondaryNavItems = [
 
 const iconNavItems = [
   {
-    to: "https://twitter.com/ThetanutsFi",
+    to: links.twitter,
     navIcon: Twitter,
     alt: "Twitter",
   },
   {
-    to: "https://thetanutsfinance.medium.com",
+    to: links.medium,
     navIcon: Medium,
     alt: "Medium",
   },
   {
-    to: "https://discord.com/invite/fzWKJSy9v9",
+    to: links.discord,
     navIcon: Discord,
     alt: "Discord",
   },
   {
-    to: "https://thetanuts.substack.com",
+    to: links.substack,
     navIcon: Substack,
     alt: "Substack",
   },

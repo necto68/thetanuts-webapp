@@ -1,5 +1,6 @@
 import type { FC } from "react";
 
+import { links } from "../../shared/constants";
 import { IconContainer } from "../../shared/components";
 import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
@@ -93,10 +94,7 @@ export const PriceWarning: FC<PriceWarningProps> = ({
             {remainderValue} {symbol}
           </WarningLink>
           . If you want to swap more - please{" "}
-          <WarningLink href="https://t.me/officialThetanutsFinance">
-            contact us
-          </WarningLink>
-          .
+          <WarningLink href={links.discord}>contact us</WarningLink>.
         </WarningTitle>
       ) : null}
     </Container>
