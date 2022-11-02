@@ -69,7 +69,7 @@ const mainNavItems = [
     navIcon: Portfolio,
   },
   {
-    to: "https://analytics.thetanuts.finance/",
+    to: links.analytics,
     linkTitle: "Analytics",
     navIcon: Analytics,
     target: "_blank",
@@ -78,7 +78,7 @@ const mainNavItems = [
 
 const secondaryNavItems = [
   {
-    to: "https://docs.thetanuts.finance",
+    to: links.docs,
     linkTitle: "Docs",
     navIcon: Documentation,
   },
