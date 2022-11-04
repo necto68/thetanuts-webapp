@@ -132,26 +132,32 @@ export const lendingMarketVaultReaderFetcher = async (
         : null,
     ]);
 
-  const divisor = new Big(10).pow(18);
-  const availableLiquidity = convertToBig(rawAvailableLiquidity);
-  const totalVariableDebt = convertToBig(rawTotalVariableDebt);
-  const maxBorrow = availableLiquidity
-    .add(totalVariableDebt)
+  const balanceDivisor = new Big(10).pow(18);
+  const availableLiquidity = convertToBig(rawAvailableLiquidity).div(
+    balanceDivisor
+  );
+  const totalVariableDebt =
+    convertToBig(rawTotalVariableDebt).div(balanceDivisor);
+
+  const supplyCap = availableLiquidity.add(totalVariableDebt);
+
+  const borrowRemainder = supplyCap
     .mul(0.9)
     .sub(totalVariableDebt)
-    .div(divisor)
     .round(5, Big.roundDown)
     .toNumber();
 
-  const availableForBorrow = new Big(maxBorrow)
+  const availableForBorrow = new Big(borrowRemainder)
     .mul(debtTokenPrice)
     .mul(1 - loanToValue);
 
-  const maxSupply = availableForBorrow
+  const supplyRemainder = availableForBorrow
     .div(loanToValue)
     .div(collateralPrice)
     .round(5, Big.roundDown)
     .toNumber();
+
+  const balance = supplyCap.sub(supplyRemainder);
 
   const debtTokenContract = DebtTokenAbiFactory.connect(
     debtTokenAddress,
@@ -193,7 +199,9 @@ export const lendingMarketVaultReaderFetcher = async (
     totalPosition,
     currentPosition,
     borrowPending,
-    maxBorrow,
-    maxSupply,
+    balance,
+    supplyCap,
+    supplyRemainder,
+    borrowRemainder,
   };
 };

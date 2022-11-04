@@ -15,21 +15,38 @@ import {
 import { BasicVaultType } from "../../basic/types";
 
 import { StrikePrices } from "./StrikePrices";
+import { BasicVaultType } from "../../basic/types";
+import { useLendingMarketModalConfig } from "../../lending-market-vault-modal/hooks";
 
+// eslint-disable-next-line complexity
 export const VaultInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
-  const { data, isLoading } = basicVaultQuery;
+  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
+
+  const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
+  const {
+    data: lendingMarketVaultReaderData,
+    isLoading: isLendingMarketVaultReaderLoading,
+  } = lendingMarketVaultReaderQuery;
+
   const {
     basicVaultType = BasicVaultType.BASIC,
     collateralSymbol = "",
     assetPrice = 0,
-    balance = new Big(0),
+    balance: basicVaultBalance = new Big(0),
     collatCap = new Big(0),
     expiry = 0,
     isSettled = false,
     isExpired = false,
     isAllowInteractions = false,
   } = data ?? {};
+
+  const {
+    balance: lendingMarketVaultBalance = new Big(0),
+    supplyCap = new Big(0),
+  } = lendingMarketVaultReaderData ?? {};
+
+  const isLoading = isBasicVaultLoading || isLendingMarketVaultReaderLoading;
 
   const isBasicVault = basicVaultType === BasicVaultType.BASIC;
 
@@ -42,9 +59,17 @@ export const VaultInfo = () => {
 
   const loadingPlaceholder = ".....";
 
-  const formattedBalance = numberFormatter.format(balance.toNumber());
-  const formattedCollatCap = numberFormatter.format(collatCap.toNumber());
-  const formattedCapacity = `${formattedBalance} / ${formattedCollatCap} ${collateralSymbol}`;
+  const balanceValue =
+    basicVaultType === BasicVaultType.LENDING_MARKET
+      ? lendingMarketVaultBalance
+      : basicVaultBalance;
+
+  const capValue =
+    basicVaultType === BasicVaultType.LENDING_MARKET ? supplyCap : collatCap;
+
+  const formattedBalance = numberFormatter.format(balanceValue.toNumber());
+  const formattedCap = numberFormatter.format(capValue.toNumber());
+  const formattedCapacity = `${formattedBalance} / ${formattedCap} ${collateralSymbol}`;
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
 

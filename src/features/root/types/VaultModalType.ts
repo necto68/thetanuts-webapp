@@ -1,6 +1,6 @@
 export enum VaultModalType {
   index = "stronghold",
-  basic = "basic",
+  basic = "basic-vault",
   degen = "degen-vault",
-  lendingMarket = "lending-market",
+  lendingMarket = "long-vault",
 }

@@ -11,6 +11,8 @@ export interface LendingMarketVaultReader {
   totalPosition: Big | null;
   currentPosition: Big | null;
   borrowPending: Big | null;
-  maxBorrow: number;
-  maxSupply: number;
+  balance: Big;
+  supplyCap: Big;
+  supplyRemainder: number;
+  borrowRemainder: number;
 }

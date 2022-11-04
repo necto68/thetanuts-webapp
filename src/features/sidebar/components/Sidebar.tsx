@@ -60,7 +60,7 @@ const mainNavItems = [
   },
   {
     to: PagePathname.lendingMarket,
-    linkTitle: "Lending Market",
+    linkTitle: "Long",
     navIcon: BasicPage,
   },
   {

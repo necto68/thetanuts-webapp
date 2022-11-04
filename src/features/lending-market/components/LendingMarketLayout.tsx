@@ -12,8 +12,10 @@ import {
   ExpandDescriptionLink,
 } from "../../theta-index/components/ThetaIndexLayout.styles";
 
-import { CollateralAssetsTable } from "./CollateralAssetsTable";
 import { LendingMarketVaultsTable } from "./LendingMarketVaultsTable";
+
+// TODO: return later
+// import { CollateralAssetsTable } from "./CollateralAssetsTable";
 
 export const LendingMarketLayout = () => {
   const isMobile = useIsMobile();
@@ -28,11 +30,13 @@ export const LendingMarketLayout = () => {
     <Container>
       <ContentContainer>
         <DescriptionContainer>
-          <Title>Lending Market</Title>
+          <Title>Long</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              Basic vaults earn yield by selling automated option strategies to
-              market makers. Earnings are auto-compounded.&nbsp;
+              Long vaults allows users to long the various sold options that
+              Thetanuts provides. Each deposit is leveraged and users would pay
+              a weekly premium to retain their respective long
+              position(s).&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -40,21 +44,21 @@ export const LendingMarketLayout = () => {
           ) : (
             <>
               <Description>
-                Basic vaults earn yield by selling automated option strategies
-                to market makers. Earnings are auto-compounded. The yield
-                generated is in the form of the underlying asset. Users can
-                accumulate more underlying assets through covered calls or farm
-                stablecoins through put selling. The strike price and expiration
-                of each basic strategy are algorithmically determined to
-                generate the highest risk-adjusted yield. Thetanuts does not
-                collect any form of fees on the basic vaults.
+                Long vaults allows users to long the various sold options that
+                Thetanuts provides. Each deposit is leveraged and users would
+                pay a weekly premium to retain their respective long
+                position(s). The settlement of each long vault is in the form of
+                the underlying asset. The strike price and expiration of the
+                option vaults are algorithmically determined to generate the
+                highest risk-adjusted yield. Thetanuts does not collect any form
+                of fees on the long vaults.
               </Description>
               <Description>
                 Read the&nbsp;
                 <DescriptionLink href={links.docs}>
                   Thetanuts Docs
                 </DescriptionLink>
-                &nbsp; for a more detailed overview of Thetanuts Basic Vaults or
+                &nbsp; for a more detailed overview of Thetanuts Long Vaults or
                 contact us on&nbsp;
                 <DescriptionLink href={links.discord}>
                   Thetanuts Discord
@@ -70,8 +74,8 @@ export const LendingMarketLayout = () => {
           )}
         </DescriptionContainer>
       </ContentContainer>
-      <Title>Position Manager</Title>
-      <CollateralAssetsTable />
+      {/* <Title>Position Manager</Title>
+      <CollateralAssetsTable /> */}
       <LendingMarketVaultsTable />
     </Container>
   );

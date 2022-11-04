@@ -57,7 +57,7 @@ export const DepositMainButton = () => {
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
 
   const { data: lendingMarketVaultReaderData } = lendingMarketVaultReaderQuery;
-  const { borrowAllowance, maxSupply } = lendingMarketVaultReaderData ?? {};
+  const { borrowAllowance } = lendingMarketVaultReaderData ?? {};
 
   const isLendingMarketBasicVault =
     basicVaultType === BasicVaultType.LENDING_MARKET;
@@ -170,15 +170,7 @@ export const DepositMainButton = () => {
     return <InsufficientBalanceMainButton />;
   }
 
-  if (isLendingMarketBasicVault && maxSupply && inputValueBig.gt(maxSupply)) {
-    return <MaxVaultCapReachedMainButton />;
-  }
-
-  if (
-    !isLendingMarketBasicVault &&
-    remainderValue &&
-    inputValueBig.gt(remainderValue)
-  ) {
+  if (remainderValue && inputValueBig.gt(remainderValue)) {
     return <MaxVaultCapReachedMainButton />;
   }
 

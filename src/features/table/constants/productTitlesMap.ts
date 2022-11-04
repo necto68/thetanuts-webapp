@@ -4,5 +4,5 @@ export const productTitlesMap = {
   [VaultModalType.index]: "Stronghold",
   [VaultModalType.basic]: "Basic",
   [VaultModalType.degen]: "Degen",
-  [VaultModalType.lendingMarket]: "Lending Market",
+  [VaultModalType.lendingMarket]: "Long",
 };

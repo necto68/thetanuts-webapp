@@ -51,7 +51,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
 
-  const { maxSupply = Number.MAX_SAFE_INTEGER } =
+  const { supplyRemainder = Number.MAX_SAFE_INTEGER } =
     lendingMarketVaultReaderData ?? {};
 
   const collateralTokenQuery = useTokenQuery(
@@ -88,7 +88,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
   if (currentTabType === TabType.deposit) {
     remainderValue =
       basicVaultType === BasicVaultType.LENDING_MARKET
-        ? maxSupply
+        ? supplyRemainder
         : collateralTokenRemainder;
   } else {
     remainderValue = undefined;

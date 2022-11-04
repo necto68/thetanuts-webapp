@@ -1,7 +1,7 @@
 export enum PagePathname {
   thetaIndex = "/stronghold",
-  basic = "/basic",
+  basic = "/basic-vault",
   degen = "/degen-vault",
-  lendingMarket = "/lending-market",
+  lendingMarket = "/long-vault",
   portfolio = "/portfolio",
 }
