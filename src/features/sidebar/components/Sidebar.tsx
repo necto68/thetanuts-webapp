@@ -1,5 +1,4 @@
 import { useLocation } from "react-router-dom";
-import { createElement } from "react";
 
 import {
   IndexPage,
@@ -11,14 +10,7 @@ import {
   Discord,
   Substack,
 } from "../icons";
-import {
-  CircleButton,
-  CircleButtonIconType,
-
-  // we don't need V0Button currently
-  // GradientButton,
-  IconContainer,
-} from "../../shared/components";
+import { CircleButton, CircleButtonIconType } from "../../shared/components";
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
 import { useViewportHeight } from "../../shared/hooks";
@@ -27,20 +19,17 @@ import { Documentation } from "../icons/Documentation";
 
 import {
   CircleButtonContainer,
-  IconNavContainer,
   LogoContainer,
   MainNavContainer,
-  SecondaryNavContainer,
+  MainNavSeparator,
+  MainNavTitle,
   SidebarContainer,
-
-  // SwitchToV0ButtonContainer,
-  // SwitchToV0Link,
 } from "./Sidebar.styles";
 import { AppSidebarLogo } from "./AppSidebarLogo";
 import { SidebarItem } from "./SidebarItem";
 
 // navbar items stored here and mapped to JSX later so it is easier to add on
-const mainNavItems = [
+const sellingOptions = [
   {
     to: PagePathname.thetaIndex,
     linkTitle: "Stronghold",
@@ -57,6 +46,17 @@ const mainNavItems = [
     navIcon: DegenPage,
     iconColor: "#EB5353",
   },
+];
+
+const buyingOptions = [
+  {
+    to: PagePathname.thetaIndex,
+    linkTitle: "Long",
+    navIcon: IndexPage,
+  },
+];
+
+const tools = [
   {
     to: PagePathname.portfolio,
     linkTitle: "Portfolio",
@@ -70,34 +70,38 @@ const mainNavItems = [
   },
 ];
 
-const secondaryNavItems = [
+const documentation = [
   {
     to: "https://docs.thetanuts.finance",
-    linkTitle: "Docs",
+    linkTitle: "DOCS",
     navIcon: Documentation,
   },
 ];
 
-const iconNavItems = [
+const socials = [
   {
     to: "https://twitter.com/ThetanutsFi",
     navIcon: Twitter,
     alt: "Twitter",
+    linkTitle: "Twitter",
   },
   {
     to: "https://thetanutsfinance.medium.com",
     navIcon: Medium,
     alt: "Medium",
+    linkTitle: "Medium",
   },
   {
     to: "https://discord.com/invite/fzWKJSy9v9",
     navIcon: Discord,
     alt: "Discord",
+    linkTitle: "Discord",
   },
   {
     to: "https://thetanuts.substack.com",
     navIcon: Substack,
     alt: "Substack",
+    linkTitle: "Substack",
   },
 ];
 
@@ -121,10 +125,35 @@ export const Sidebar = () => {
         </CircleButtonContainer>
       </LogoContainer>
       <MainNavContainer>
-        {mainNavItems.map((navItem) => (
+        <MainNavTitle>Selling Options</MainNavTitle>
+        {sellingOptions.map((navItem) => (
           <SidebarItem
             active={pathname === navItem.to}
             iconColor={navItem.iconColor}
+            key={navItem.linkTitle}
+            linkTitle={navItem.linkTitle}
+            navIcon={navItem.navIcon}
+            to={navItem.to}
+          />
+        ))}
+      </MainNavContainer>
+      <MainNavContainer>
+        <MainNavTitle>Buying Options</MainNavTitle>
+        {buyingOptions.map((navItem) => (
+          <SidebarItem
+            active={pathname === navItem.to}
+            key={navItem.linkTitle}
+            linkTitle={navItem.linkTitle}
+            navIcon={navItem.navIcon}
+            to={navItem.to}
+          />
+        ))}
+      </MainNavContainer>
+      <MainNavContainer>
+        <MainNavTitle>Tools</MainNavTitle>
+        {tools.map((navItem) => (
+          <SidebarItem
+            active={pathname === navItem.to}
             key={navItem.linkTitle}
             linkTitle={navItem.linkTitle}
             navIcon={navItem.navIcon}
@@ -133,19 +162,9 @@ export const Sidebar = () => {
           />
         ))}
       </MainNavContainer>
-      {/* <SwitchToV0ButtonContainer>
-        <SwitchToV0Link
-          target="_blank"
-          to="https://thetanuts.finance/basic/vaults"
-        >
-          <GradientButton
-            backgroundColor="#0A1026"
-            title="Switch to Thetanuts v0"
-          />
-        </SwitchToV0Link>
-      </SwitchToV0ButtonContainer> */}
-      <SecondaryNavContainer>
-        {secondaryNavItems.map((navItem) => (
+      <MainNavSeparator />
+      <MainNavContainer>
+        {documentation.map((navItem) => (
           <SidebarItem
             active={navItem.to === pathname}
             key={navItem.linkTitle}
@@ -155,21 +174,20 @@ export const Sidebar = () => {
             to={navItem.to}
           />
         ))}
-        <IconNavContainer>
-          {iconNavItems.map(({ to, navIcon }) => (
-            <a href={to} key={to} rel="noreferrer" target="_blank">
-              <IconContainer
-                color="#ffffff"
-                height={22}
-                hoverColor="#1fffab"
-                width={22}
-              >
-                {createElement(navIcon)}
-              </IconContainer>
-            </a>
-          ))}
-        </IconNavContainer>
-      </SecondaryNavContainer>
+      </MainNavContainer>
+      <MainNavContainer>
+        <MainNavTitle>Socials</MainNavTitle>
+        {socials.map((navItem) => (
+          <SidebarItem
+            active={pathname === navItem.to}
+            key={navItem.linkTitle}
+            linkTitle={navItem.linkTitle}
+            navIcon={navItem.navIcon}
+            target="_blank"
+            to={navItem.to}
+          />
+        ))}
+      </MainNavContainer>
     </SidebarContainer>
   );
 };

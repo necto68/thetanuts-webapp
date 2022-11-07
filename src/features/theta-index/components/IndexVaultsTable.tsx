@@ -12,7 +12,7 @@ import { useIndexVaults } from "../../index-vault/hooks";
 import type { IndexVault } from "../../index-vault/types";
 import { demoIndexVaults, indexVaults } from "../constants";
 import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import type { DemoIndexVaultConfig } from "../types";
 import { VaultModalType } from "../../root/types";
@@ -64,13 +64,15 @@ const columns: Column<IndexVaultRow>[] = [
 
     render: ({ id, totalPercentageYields }) => (
       <APYCellContainer>
-        <CellValue>{`${totalPercentageYields.annualPercentageYield}%`}</CellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={totalPercentageYields} />
           }
           id={id}
-          root={<InfoIcon />}
+          place="top"
+          root={
+            <CellValue>{`${totalPercentageYields.annualPercentageYield}%`}</CellValue>
+          }
         />
       </APYCellContainer>
     ),

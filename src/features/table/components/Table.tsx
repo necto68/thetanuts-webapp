@@ -5,7 +5,6 @@ import {
   Paginator,
   SkeletonBox,
   Tooltip,
-  InfoIcon,
 } from "../../shared/components";
 import { useSortBy, useFilteredBy, usePagination } from "../hooks";
 import type { Column, TableProps } from "../types";
@@ -126,7 +125,6 @@ export const Table = <RowData extends object>({
                         }}
                       >
                         <SortContainer>
-                          <Header>{title}</Header>
                           {tooltipTitle ? (
                             <Tooltip
                               content={
@@ -136,9 +134,11 @@ export const Table = <RowData extends object>({
                               }
                               id={title}
                               place="bottom"
-                              root={<InfoIcon />}
+                              root={<Header>{title}</Header>}
                             />
-                          ) : null}
+                          ) : (
+                            <Header>{title}</Header>
+                          )}
                           <SortArrowContainer show={sortState.key === key}>
                             <ArrowIcon up={sortState.order === "ASC"} />
                           </SortArrowContainer>

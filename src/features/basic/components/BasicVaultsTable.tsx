@@ -8,13 +8,12 @@ import {
 import type { Column } from "../../table/types";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { basicVaults } from "../constants";
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
-import { BasicVaultCapacity } from "../../basic-vault/components/BasicVaultCapacity";
 import { VaultModalType } from "../../root/types";
-import { ProgressBarColor, VaultType } from "../../basic-vault/types";
 import type { BasicVault } from "../../basic-vault/types";
+import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
 
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
@@ -103,13 +102,15 @@ const columns: Column<BasicVault>[] = [
 
     render: ({ id, percentageYields }) => (
       <APYCellContainer>
-        <CellValue>{`${percentageYields.annualPercentageYield}%`}</CellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={percentageYields} />
           }
           id={id}
-          root={<InfoIcon />}
+          place="top"
+          root={
+            <CellValue>{`${percentageYields.annualPercentageYield}%`}</CellValue>
+          }
         />
       </APYCellContainer>
     ),
@@ -121,16 +122,11 @@ const columns: Column<BasicVault>[] = [
     title: "Capacity",
     minWidth: 180,
 
-    render: ({ type, collateralSymbol, balance, collatCap }) => (
-      <BasicVaultCapacity
+    render: ({ collateralSymbol, balance, collatCap }) => (
+      <BasicVaultCapacityPercent
         balance={balance}
         collatCap={collatCap}
         collateralSymbol={collateralSymbol}
-        progressBarColor={
-          type === VaultType.CALL
-            ? ProgressBarColor.blue
-            : ProgressBarColor.orange
-        }
       />
     ),
 

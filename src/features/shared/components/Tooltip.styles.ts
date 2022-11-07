@@ -4,6 +4,17 @@ import ReactTooltip from "react-tooltip";
 export const RootContainer = styled.div`
   display: flex;
   cursor: pointer;
+  position: relative;
+
+  &:after {
+    content: "";
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px solid white;
+    border-bottom-style: dotted;
+    position: absolute;
+    bottom: 0;
+  }
 `;
 
 export const StyledTooltip = styled(ReactTooltip)`

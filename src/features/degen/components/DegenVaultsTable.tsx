@@ -1,23 +1,22 @@
 import {
   APYCellContainer,
+  CellValue,
   Chains,
   DepositButton,
-  GreenCellValue,
   Table,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { degenVaults } from "../../basic/constants";
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
-import { BasicVaultCapacity } from "../../basic-vault/components/BasicVaultCapacity";
 import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
-import { ProgressBarColor } from "../../basic-vault/types";
 import { BasicVaultAssetCell, RiskLevelCell } from "../../basic/components";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { highYieldFormatter } from "../../shared/helpers";
 import { StrikePriceCell } from "../../basic/components/StrikePriceCell";
+import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
 
 import { StrategyCell } from "./StrategyCell";
 
@@ -104,15 +103,17 @@ const columns: Column<BasicVault>[] = [
 
     render: ({ id, percentageYields }) => (
       <APYCellContainer>
-        <GreenCellValue>{`${highYieldFormatter(
-          percentageYields.annualPercentageYield
-        )}%`}</GreenCellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={percentageYields} />
           }
           id={id}
-          root={<InfoIcon />}
+          place="top"
+          root={
+            <CellValue>{`${highYieldFormatter(
+              percentageYields.annualPercentageYield
+            )}%`}</CellValue>
+          }
         />
       </APYCellContainer>
     ),
@@ -122,14 +123,13 @@ const columns: Column<BasicVault>[] = [
   {
     key: "balance",
     title: "Capacity",
-    minWidth: 180,
+    minWidth: 100,
 
     render: ({ collateralSymbol, balance, collatCap }) => (
-      <BasicVaultCapacity
+      <BasicVaultCapacityPercent
         balance={balance}
         collatCap={collatCap}
         collateralSymbol={collateralSymbol}
-        progressBarColor={ProgressBarColor.red}
       />
     ),
 
