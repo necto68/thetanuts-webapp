@@ -1,28 +1,23 @@
 import Big from "big.js";
 
 import { numberFormatter } from "../../shared/helpers";
-import {
-  useBasicModalConfig,
-  useBasicModalState,
-} from "../../basic-vault-modal/hooks";
+import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import {
   Container as VaultInfoContainer,
   InfoContainer,
+  InfoTitle,
+  InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { CurrentPositionInfo } from "../../basic-vault-modal/components";
 import { VaultType } from "../../basic-vault/types";
 
 import { PendingPositionInfo } from "./PendingPositionInfo";
-import {
-  Container,
-  SimulatedInfoTitle,
-  SimulatedInfoValue,
-} from "./PositionsInfo.styles";
+import { Container } from "./PositionsInfo.styles";
+import { VaultStatus } from "./VaultStatus";
 
 // eslint-disable-next-line complexity
 export const PositionInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
-  const { inputValue } = useBasicModalState();
 
   const { data: basicVaultData, isLoading: isBasicVaultLoading } =
     basicVaultQuery;
@@ -30,12 +25,15 @@ export const PositionInfo = () => {
     basicVaultReaderQuery;
 
   const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
-  const inputValueBig = new Big(inputValue || 0);
 
   const {
     type = VaultType.CALL,
     collateralSymbol = "",
     percentageYields = { weeklyPercentageYield: 0 },
+    expiry = 0,
+    isSettled = false,
+    isExpired = false,
+    isAllowInteractions = false,
   } = basicVaultData ?? {};
 
   const { weeklyPercentageYield } = percentageYields;
@@ -44,60 +42,57 @@ export const PositionInfo = () => {
 
   const loadingPlaceholder = ".....";
 
-  const isSimulated = inputValueBig.gt(0);
-  const positionValue = isSimulated ? inputValueBig : currentPosition;
-  const premiumValue = positionValue
-    ? positionValue.mul(weeklyPercentageYield).div(100)
-    : null;
-  const totalValue =
-    positionValue && premiumValue ? positionValue.add(premiumValue) : null;
+  const positionValue = currentPosition ?? new Big(0);
+  const premiumValue = positionValue.mul(weeklyPercentageYield).div(100);
+  const totalValue = positionValue.add(premiumValue);
 
   const [formattedSuccessEpochPosition, formattedFailedEpochPosition] = [
     totalValue,
     premiumValue,
-  ].map((value) =>
-    value
-      ? `${numberFormatter.format(value.toNumber())} ${collateralSymbol}`
-      : "N/A"
+  ].map(
+    (value) => `${numberFormatter.format(value.toNumber())} ${collateralSymbol}`
   );
 
   const successEpochTitle =
     type === VaultType.CONDOR
-      ? "Spot Price between Strike Price Range"
-      : `Spot Price ${type === VaultType.CALL ? "<" : ">"} Strike Price`;
+      ? "Max - Spot between sold strike range"
+      : `Max - Spot ${type === VaultType.CALL ? "below" : "above"} sold strike`;
 
   const failedEpochTitle =
     type === VaultType.CONDOR
-      ? "Spot Price exceeds Strike Price Range"
-      : `Spot Price ${type === VaultType.CALL ? ">" : "<"} Strike Price`;
+      ? "Min - Spot exceeds bought strike range"
+      : `Min - Spot ${
+          type === VaultType.CALL ? "above" : "below"
+        } bought strike`;
 
   return (
     <Container>
       <VaultInfoContainer>
+        <VaultStatus
+          expiry={expiry}
+          isAllowInteractions={isAllowInteractions}
+          isExpired={isExpired}
+          isLoading={isLoading}
+          isSettled={isSettled}
+        />
         <CurrentPositionInfo />
         <PendingPositionInfo />
       </VaultInfoContainer>
       <VaultInfoContainer>
         <InfoContainer>
-          <SimulatedInfoTitle isSimulated={isSimulated}>
-            {isSimulated ? "New Position (Simulated)" : "New Position"}
-          </SimulatedInfoTitle>
+          <InfoTitle>New Position</InfoTitle>
         </InfoContainer>
         <InfoContainer>
-          <SimulatedInfoTitle isSimulated={isSimulated}>
-            {successEpochTitle}
-          </SimulatedInfoTitle>
-          <SimulatedInfoValue isAlignRight isSimulated={isSimulated}>
+          <InfoTitle>{successEpochTitle}</InfoTitle>
+          <InfoValue isAlignRight>
             {isLoading ? loadingPlaceholder : formattedSuccessEpochPosition}
-          </SimulatedInfoValue>
+          </InfoValue>
         </InfoContainer>
         <InfoContainer>
-          <SimulatedInfoTitle isSimulated={isSimulated}>
-            {failedEpochTitle}
-          </SimulatedInfoTitle>
-          <SimulatedInfoValue isAlignRight isSimulated={isSimulated}>
+          <InfoTitle>{failedEpochTitle}</InfoTitle>
+          <InfoValue isAlignRight>
             {isLoading ? loadingPlaceholder : formattedFailedEpochPosition}
-          </SimulatedInfoValue>
+          </InfoValue>
         </InfoContainer>
       </VaultInfoContainer>
     </Container>

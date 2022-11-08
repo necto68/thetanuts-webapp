@@ -16,6 +16,7 @@ import { VaultModalType } from "../../root/types";
 import { ProgressBarColor, VaultType } from "../../basic-vault/types";
 import type { BasicVault } from "../../basic-vault/types";
 
+import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
 import { RiskLevelCell } from "./RiskLevelCell";
@@ -58,19 +59,26 @@ const columns: Column<BasicVault>[] = [
     title: "Strategy",
     minWidth: 110,
 
+    render: ({ type, period }) => <StrategyCell period={period} type={type} />,
+
+    sortBy: ({ type }) => type,
+  },
+  {
+    key: "strikePrices",
+    title: "Strike Price",
+    minWidth: 110,
+
     render: ({
       type,
-      period,
       strikePrices,
       isSettled,
       isExpired,
       isAllowInteractions,
     }) => (
-      <StrategyCell
+      <StrikePriceCell
         isAllowInteractions={isAllowInteractions}
         isExpired={isExpired}
         isSettled={isSettled}
-        period={period}
         strikePrices={strikePrices}
         type={type}
       />

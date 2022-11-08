@@ -9,6 +9,7 @@ import {
   PriceFeedAbi__factory as PriceFeedAbiFactory,
   BasicVaultAbi__factory as BasicVaultAbiFactory,
   DegenVaultAbi__factory as DegenVaultAbiFactory,
+  BasicVaultDepositorAbi__factory as BasicVaultDepositorAbiFactory,
 } from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
 import {
@@ -29,7 +30,8 @@ export const basicVaultFetcher = async (
   id: string,
   basicVaultType: BasicVaultType,
   basicVaultAddress: string,
-  provider: Provider
+  provider: Provider,
+  basicVaultDepositorAddress?: string
 ): Promise<BasicVault> => {
   const vaultContract = BasicVaultAbiFactory.connect(
     basicVaultAddress,
@@ -42,6 +44,7 @@ export const basicVaultFetcher = async (
   );
 
   const isDegenBasicVaultType = basicVaultType === BasicVaultType.DEGEN;
+  const isBasicVaultType = basicVaultType === BasicVaultType.BASIC;
 
   const lpDivisor = new Big(10).pow(18);
   const priceDivisor = new Big(10).pow(6);
@@ -143,32 +146,69 @@ export const basicVaultFetcher = async (
   const isSettled = expiry === 0;
   const isExpired = !isSettled && Date.now() > expiry;
 
-  // getting currentStrikePrice
-  const [currentStrikePrice, condorVaultStrikePrice0, condorVaultStrikePrice1] =
-    await Promise.all([
-      isDegenBasicVaultType
-        ? degenVaultContract.strikeX1e6(epoch, 0)
-        : vaultContract.strikeX1e6(epoch),
-      isCondorType
-        ? degenVaultContract.strikeX1e6(epoch, 3)
-        : BigNumber.from(0),
-      isCondorType
-        ? degenVaultContract.strikeX1e6(epoch, 1)
-        : BigNumber.from(0),
-    ]).then((prices) =>
-      prices.map((priceValue) =>
-        normalizeVaultValue(convertToBig(priceValue), priceDivisor)
-      )
+  let strikePrices: number[] = [];
+
+  if (isBasicVaultType) {
+    strikePrices = [
+      await vaultContract
+        .strikeX1e6(epoch)
+        .then((price) =>
+          normalizeVaultValue(convertToBig(price), priceDivisor)
+        ),
+    ];
+  }
+
+  // get set of strike prices for degen vault
+  if (isDegenBasicVaultType) {
+    const [
+      soldPutStrikePrice,
+      soldCallStrikePrice,
+      boughtPutStrikePrice,
+      boughtCallStrikePrice,
+    ] = isCondorType
+      ? await Promise.all([
+          // 4 values for condor vault
+          degenVaultContract.strikeX1e6(epoch, 3),
+          degenVaultContract.strikeX1e6(epoch, 1),
+          degenVaultContract.strikeX1e6(epoch, 2),
+          degenVaultContract.strikeX1e6(epoch, 0),
+        ])
+      : await Promise.all([
+          // 2 values for spread vault
+          degenVaultContract.strikeX1e6(epoch, 0),
+          BigNumber.from(0),
+          degenVaultContract.strikeX1e6(epoch, 1),
+          BigNumber.from(0),
+        ]);
+
+    strikePrices = [
+      soldPutStrikePrice,
+      soldCallStrikePrice,
+      boughtPutStrikePrice,
+      boughtCallStrikePrice,
+    ].map((priceValue) =>
+      normalizeVaultValue(convertToBig(priceValue), priceDivisor)
+    );
+  }
+
+  // setup pending balance
+  let pendingBalanceWei = new Big(0);
+
+  // fill pending balance in case of degen vault
+  if (isDegenBasicVaultType && basicVaultDepositorAddress) {
+    const basicVaultDepositorContract = BasicVaultDepositorAbiFactory.connect(
+      basicVaultDepositorAddress,
+      provider
     );
 
-  const strikePrices =
-    isDegenBasicVaultType && isCondorType
-      ? [condorVaultStrikePrice0, condorVaultStrikePrice1]
-      : [currentStrikePrice];
+    pendingBalanceWei = await basicVaultDepositorContract
+      .totalPending(basicVaultAddress)
+      .then(convertToBig);
+  }
 
   // getting balance and collatCap
   const balanceDivisor = new Big(10).pow(collateralDecimals);
-  const balance = balanceWei.div(balanceDivisor);
+  const balance = balanceWei.add(pendingBalanceWei).div(balanceDivisor);
   const collatCap = collatCapWei.div(balanceDivisor);
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
 

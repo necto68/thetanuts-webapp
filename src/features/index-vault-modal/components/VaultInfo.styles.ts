@@ -15,9 +15,18 @@ export const Container = styled.div`
   padding: 10px 0;
 `;
 
+export const InfoGroupContainer = styled(Container)`
+  gap: 16px;
+`;
+
+export const InfoGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
 export const InfoContainer = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
@@ -57,6 +66,14 @@ export const InfoValue = styled(InfoTitle)`
 
 export const InfoTitleLight = styled(InfoTitle)`
   color: #ffffff;
+`;
+
+export const InfoValueGray = styled(InfoValue)`
+  color: #a6b0c7;
+`;
+
+export const InfoTitleGray = styled(InfoTitle)`
+  color: #a6b0c7;
 `;
 
 export const InfoValueLight = styled(InfoTitleLight)``;
