@@ -33,12 +33,12 @@ export const StrikePrices: FC<StrikePricesProps> = ({
   const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
 
   const soldStrikePrices =
-    vaultStatus === VaultStatus.ActiveEpoch
+    vaultStatus === VaultStatus.ACTIVE_EPOCH
       ? getFormattedStrikePrices(type, strikePrices.slice(0, 2))
       : "-";
 
   const boughtStrikePrices =
-    vaultStatus === VaultStatus.ActiveEpoch
+    vaultStatus === VaultStatus.ACTIVE_EPOCH
       ? getFormattedStrikePrices(type, strikePrices.slice(2, 4))
       : "-";
 

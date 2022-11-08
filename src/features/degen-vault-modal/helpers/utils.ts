@@ -7,29 +7,29 @@ export const getVaultStatus = (
   isAllowInteractions: BasicVault["isAllowInteractions"]
 ) => {
   if (!isSettled && isExpired) {
-    return VaultStatus.Settlement;
+    return VaultStatus.SETTLEMENT;
   }
 
   if (isSettled && isAllowInteractions) {
-    return VaultStatus.Settled;
+    return VaultStatus.SETTLED;
   }
 
   if (isSettled && !isAllowInteractions) {
-    return VaultStatus.Auction;
+    return VaultStatus.AUCTION;
   }
 
-  return VaultStatus.ActiveEpoch;
+  return VaultStatus.ACTIVE_EPOCH;
 };
 
 export const getVaultStatusTitle = (status: VaultStatus) => {
   switch (status) {
-    case VaultStatus.Auction:
+    case VaultStatus.AUCTION:
       return "Auction in Progress";
-    case VaultStatus.Settlement:
+    case VaultStatus.SETTLEMENT:
       return "Auction Settlement";
-    case VaultStatus.Settled:
+    case VaultStatus.SETTLED:
       return "Vault Settled";
-    case VaultStatus.Pause:
+    case VaultStatus.PAUSE:
       return "Pause";
     default:
       return null;

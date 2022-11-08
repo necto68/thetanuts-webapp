@@ -13,10 +13,9 @@ import {
   InfoValueGray,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { BasicVaultType } from "../../basic/types";
+import { useLendingMarketModalConfig } from "../../lending-market-vault-modal/hooks";
 
 import { StrikePrices } from "./StrikePrices";
-import { BasicVaultType } from "../../basic/types";
-import { useLendingMarketModalConfig } from "../../lending-market-vault-modal/hooks";
 
 // eslint-disable-next-line complexity
 export const VaultInfo = () => {

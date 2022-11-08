@@ -27,7 +27,7 @@ export const StrikePriceCell: FC<StrikePriceProps> = ({
   return (
     <TitlesContainer>
       <Title>
-        {vaultStatus === VaultStatus.ActiveEpoch ? formattedStrikePrices : "-"}
+        {vaultStatus === VaultStatus.ACTIVE_EPOCH ? formattedStrikePrices : "-"}
       </Title>
     </TitlesContainer>
   );

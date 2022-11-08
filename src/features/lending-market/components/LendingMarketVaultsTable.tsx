@@ -3,7 +3,11 @@ import type { Column } from "../../table/types";
 import { chainsMap } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
-import { BasicVaultAssetCell, StrategyCell } from "../../basic/components";
+import {
+  BasicVaultAssetCell,
+  StrategyCell,
+  StrikePriceCell,
+} from "../../basic/components";
 import { useLendingMarketVaultsTableRows } from "../hooks";
 import type { LendingMarketVaultRow } from "../types";
 import { numberFormatter } from "../../shared/helpers";
@@ -47,25 +51,32 @@ const columns: Column<LendingMarketVaultRow>[] = [
     title: "Strategy",
     minWidth: 110,
 
+    render: ({ type, period }) => <StrategyCell period={period} type={type} />,
+
+    sortBy: ({ type }) => type,
+  },
+  {
+    key: "strikePrices",
+    title: "Strike Price",
+    minWidth: 110,
+
     render: ({
       type,
-      period,
       strikePrices,
       isSettled,
       isExpired,
       isAllowInteractions,
     }) => (
-      <StrategyCell
+      <StrikePriceCell
         isAllowInteractions={isAllowInteractions}
         isExpired={isExpired}
         isSettled={isSettled}
-        period={period}
         strikePrices={strikePrices}
         type={type}
       />
     ),
 
-    sortBy: ({ type }) => type,
+    sortBy: ({ strikePrices }) => strikePrices[0],
   },
 
   {

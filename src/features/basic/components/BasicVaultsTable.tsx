@@ -84,7 +84,7 @@ const columns: Column<BasicVault>[] = [
       />
     ),
 
-    sortBy: ({ type }) => type,
+    sortBy: ({ strikePrices }) => strikePrices[0],
   },
   {
     key: "riskLevel",
