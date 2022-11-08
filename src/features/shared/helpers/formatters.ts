@@ -57,6 +57,29 @@ export const totalValueLockedFormatter = (value: number) => {
   return `${formattedValue}${postfix}`;
 };
 
+export const highYieldFormatter = (value: number) => {
+  const highYieldValueFormatter = new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 0,
+  });
+
+  let divisor = 1;
+  let postfix = "";
+
+  if (value >= 1000 && value < 1_000_000) {
+    divisor = 1000;
+    postfix = "K";
+  }
+
+  if (value >= 1_000_000) {
+    divisor = 1_000_000;
+    postfix = "M";
+  }
+
+  const formattedValue = highYieldValueFormatter.format(value / divisor);
+
+  return `${formattedValue}${postfix}`;
+};
+
 export const strikePriceFormatter = (value: number) =>
   Number.isInteger(value)
     ? currencyFormatterWithoutDecimals.format(value)

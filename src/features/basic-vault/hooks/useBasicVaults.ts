@@ -1,7 +1,7 @@
 import { useQueries } from "react-query";
 
 import { basicVaultsMap } from "../../basic/constants";
-import { ChainId, chainProvidersMap } from "../../wallet/constants";
+import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { basicVaultFetcher } from "../helpers";
 import { QueryType } from "../../shared/types";
 import { BasicVaultType } from "../../basic/types";
@@ -13,6 +13,7 @@ export const useBasicVaults = (basicVaultIds: string[]) => {
     const { basicVaultType = BasicVaultType.BASIC } = tokenConfig ?? {};
     const { chainId = ChainId.ETHEREUM, basicVaultAddress = "" } =
       tokenConfig?.source ?? {};
+    const { basicVaultDepositorAddress } = chainsMap[chainId].addresses;
 
     const provider = chainProvidersMap[chainId];
 
@@ -22,12 +23,20 @@ export const useBasicVaults = (basicVaultIds: string[]) => {
       chainId,
       basicVaultAddress,
       provider,
+      basicVaultDepositorAddress,
     };
   });
 
   return useQueries(
     tokensConfigs.map(
-      ({ id, basicVaultType, chainId, basicVaultAddress, provider }) => ({
+      ({
+        id,
+        basicVaultType,
+        chainId,
+        basicVaultAddress,
+        provider,
+        basicVaultDepositorAddress,
+      }) => ({
         queryKey: [QueryType.basicVault, id, basicVaultType, chainId],
 
         queryFn: async () =>
@@ -35,7 +44,8 @@ export const useBasicVaults = (basicVaultIds: string[]) => {
             id,
             basicVaultType,
             basicVaultAddress,
-            provider
+            provider,
+            basicVaultDepositorAddress
           ),
 
         staleTime: Number.POSITIVE_INFINITY,

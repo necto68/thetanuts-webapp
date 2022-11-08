@@ -2,12 +2,12 @@ import type { FC } from "react";
 
 import { getLogoBySymbol } from "../../logo/helpers";
 import { IconContainer } from "../../shared/components";
-import { useBasicVaultEpochTimerTitle } from "../../basic-vault/hooks/useBasicVaultEpochTimerTitle";
 import type { BasicVault } from "../../basic-vault/types";
 import { VaultType } from "../../basic-vault/types";
 import { BasicVaultType } from "../types";
 import { getVaultTitle } from "../../table/helpers";
 import { VaultModalType } from "../../root/types";
+import { VaultStatus } from "../../degen-vault-modal/components/VaultStatus";
 
 import {
   Container,
@@ -50,13 +50,6 @@ export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
       : VaultModalType.basic;
   const title = getVaultTitle(vaultType, type, assetSymbol, collateralSymbol);
 
-  const timerTitle = useBasicVaultEpochTimerTitle(
-    expiry,
-    isSettled,
-    isExpired,
-    isAllowInteractions
-  );
-
   return (
     <Container>
       <IconsContainer>
@@ -71,7 +64,16 @@ export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
       </IconsContainer>
       <TitlesContainer>
         <Title>{title}</Title>
-        <Title>{timerTitle}</Title>
+        <Title>
+          <VaultStatus
+            expiry={expiry}
+            isAllowInteractions={isAllowInteractions}
+            isExpired={isExpired}
+            isLoading={false}
+            isSettled={isSettled}
+            title={null}
+          />
+        </Title>
       </TitlesContainer>
     </Container>
   );

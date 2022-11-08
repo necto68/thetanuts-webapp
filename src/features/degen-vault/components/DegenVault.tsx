@@ -2,7 +2,7 @@ import type { FC } from "react";
 import Big from "big.js";
 import { generatePath } from "react-router-dom";
 
-import { numberFormatter } from "../../shared/helpers";
+import { highYieldFormatter, numberFormatter } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { DegenVaultCard } from "../../vault-card/components";
 import { ModalPathname } from "../../root/types";
@@ -39,7 +39,7 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
 
   const backgroundColor = "#EB5353";
 
-  const formattedTotalAPY = numberFormatter.format(annualPercentageYield);
+  const formattedTotalAPY = highYieldFormatter(annualPercentageYield);
   const formattedWeeklyYield = numberFormatter.format(weeklyPercentageYield);
 
   const assetLogo = getLogoBySymbol(assetSymbol);

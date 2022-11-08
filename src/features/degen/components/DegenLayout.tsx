@@ -29,9 +29,10 @@ export const DegenLayout = () => {
           <Title>Degen (High Risk)</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              In contrast to Thetanuts Basic Vaults that sells back-tested low
-              risk options to market makers, the new Thetanuts Degen Vaults
-              features exotic option strategies.&nbsp;
+              Degen vault earns a high yield by selling automated spreads to
+              market makers. The current weekly yield is extrapolated into the
+              current projected APY% so that users have a better understanding
+              of the vault’s risk-reward profile.&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -39,13 +40,13 @@ export const DegenLayout = () => {
           ) : (
             <>
               <Description>
-                In contrast to Thetanuts Basic Vaults that sells back-tested low
-                risk options to market makers, the new Thetanuts Degen Vaults
-                features exotic option strategies. Degen Vaults include
-                strategies with much higher reward, but it also carries higher
-                risk. In case that the Degen Vault expires ITM, depositors will
-                still earn the premium, however they will lose their initial
-                deposit.
+                Degen vault earns a high yield by selling automated spreads to
+                market makers. The current weekly yield is extrapolated into the
+                current projected APY% so that users have a better understanding
+                of the vault’s risk-reward profile. The yield generated is in
+                the form of the underlying asset deposited. In an event that the
+                degen vault expires ITM, users would still earn option premiums
+                but they would lose their initial deposit. Use with caution.
               </Description>
               <Description>
                 Read the&nbsp;

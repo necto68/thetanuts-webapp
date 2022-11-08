@@ -4,29 +4,34 @@ import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 import { useBasicVaultEpochTimerTitle } from "../../basic-vault/hooks/useBasicVaultEpochTimerTitle";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import {
-  Container,
   InfoContainer,
+  InfoGroup,
+  InfoGroupContainer,
   InfoTitle,
+  InfoTitleGray,
   InfoValue,
+  InfoValueGray,
 } from "../../index-vault-modal/components/VaultInfo.styles";
-import { getFormattedStrikePrices } from "../helpers";
-import { VaultType } from "../../basic-vault/types";
+import { BasicVaultType } from "../../basic/types";
+
+import { StrikePrices } from "./StrikePrices";
 
 export const VaultInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
   const { data, isLoading } = basicVaultQuery;
   const {
-    type = VaultType.CALL,
+    basicVaultType = BasicVaultType.BASIC,
     collateralSymbol = "",
     assetPrice = 0,
     balance = new Big(0),
     collatCap = new Big(0),
-    strikePrices = [0],
     expiry = 0,
     isSettled = false,
     isExpired = false,
     isAllowInteractions = false,
   } = data ?? {};
+
+  const isBasicVault = basicVaultType === BasicVaultType.BASIC;
 
   const timerTitle = useBasicVaultEpochTimerTitle(
     expiry,
@@ -42,50 +47,44 @@ export const VaultInfo = () => {
   const formattedCapacity = `${formattedBalance} / ${formattedCollatCap} ${collateralSymbol}`;
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
-  const formattedStrikePrices = getFormattedStrikePrices(
-    type,
-    strikePrices,
-    isSettled,
-    isExpired,
-    isAllowInteractions
-  );
 
   return (
-    <Container>
-      <InfoContainer>
-        <InfoTitle>Underlying Asset</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : collateralSymbol}
-        </InfoValue>
-      </InfoContainer>
-      <InfoContainer>
-        <InfoTitle>Capacity</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedCapacity}
-        </InfoValue>
-      </InfoContainer>
-      <InfoContainer>
-        <InfoTitle>Spot Price</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedAssetPrice}
-        </InfoValue>
-      </InfoContainer>
-      <InfoContainer>
-        <InfoTitle>Strike Price</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedStrikePrices}
-        </InfoValue>
-      </InfoContainer>
-      <InfoContainer>
-        <InfoTitle>Epoch Starts/Ends In</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : timerTitle}
-        </InfoValue>
-      </InfoContainer>
-      <InfoContainer>
-        <InfoTitle>Performance/Management Fee</InfoTitle>
-        <InfoValue isAlignRight>0.00%</InfoValue>
-      </InfoContainer>
-    </Container>
+    <InfoGroupContainer>
+      <InfoGroup>
+        <InfoContainer>
+          <InfoTitle>Spot Price</InfoTitle>
+          <InfoValue isAlignRight>
+            {isLoading ? loadingPlaceholder : formattedAssetPrice}
+          </InfoValue>
+        </InfoContainer>
+        <StrikePrices loadingPlaceholder={loadingPlaceholder} />
+        {isBasicVault ? (
+          <InfoContainer>
+            <InfoTitle>Epoch Starts/Ends In</InfoTitle>
+            <InfoValue isAlignRight>
+              {isLoading ? loadingPlaceholder : timerTitle}
+            </InfoValue>
+          </InfoContainer>
+        ) : null}
+      </InfoGroup>
+      <InfoGroup>
+        <InfoContainer>
+          <InfoTitleGray>Underlying Asset</InfoTitleGray>
+          <InfoValueGray isAlignRight>
+            {isLoading ? loadingPlaceholder : collateralSymbol}
+          </InfoValueGray>
+        </InfoContainer>
+        <InfoContainer>
+          <InfoTitleGray>Capacity</InfoTitleGray>
+          <InfoValueGray isAlignRight>
+            {isLoading ? loadingPlaceholder : formattedCapacity}
+          </InfoValueGray>
+        </InfoContainer>
+        <InfoContainer>
+          <InfoTitleGray>Performance/Management Fee</InfoTitleGray>
+          <InfoValueGray isAlignRight>0.00%</InfoValueGray>
+        </InfoContainer>
+      </InfoGroup>
+    </InfoGroupContainer>
   );
 };

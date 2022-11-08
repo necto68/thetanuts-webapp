@@ -7,6 +7,7 @@ import { QueryType } from "../../shared/types";
 import { basicVaultsMap } from "../../basic/constants";
 import type { BasicVaultReader } from "../types";
 import type { BasicVaultType } from "../../basic/types";
+import { ChainId, chainsMap } from "../../wallet/constants";
 
 import { basicVaultFetcher } from "./basicVaultFetcher";
 
@@ -30,7 +31,9 @@ export const basicVaultReaderFetcher = async (
     return defaultBasicVaultReader;
   }
 
-  const chainId = basicVaultsMap[basicVaultId]?.source.chainId ?? 0;
+  const chainId =
+    basicVaultsMap[basicVaultId]?.source.chainId ?? ChainId.ETHEREUM;
+  const { basicVaultDepositorAddress } = chainsMap[chainId].addresses;
 
   const basicVaultReaderContract = BasicVaultReaderAbiFactory.connect(
     basicVaultReaderAddress,
@@ -46,7 +49,8 @@ export const basicVaultReaderFetcher = async (
           basicVaultId,
           basicVaultType,
           basicVaultAddress,
-          provider
+          provider,
+          basicVaultDepositorAddress
         )
     ),
     basicVaultReaderContract
