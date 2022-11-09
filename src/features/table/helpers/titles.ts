@@ -6,8 +6,7 @@ export const getVaultTitle = (
   vaultType: VaultModalType,
   type: VaultType,
   assetSymbol: string,
-  collateralSymbol: string,
-  isToken = false
+  collateralSymbol: string
 ) => {
   const vaultPrefix = vaultTypesPrefixes[vaultType];
   const isDegenOrPutType =
@@ -19,8 +18,25 @@ export const getVaultTitle = (
 
   const typePrefix = basicVaultTypesPrefixes[type];
 
-  const vaultTitleArray = [vaultPrefix, ...assets, typePrefix];
-  const titleArray = isToken ? [...vaultTitleArray, "LP"] : vaultTitleArray;
+  const titleArray = [vaultPrefix, ...assets, typePrefix];
 
   return titleArray.join("-");
+};
+
+export const getLongVaultContractsTitle = (
+  type: VaultType,
+  assetSymbol: string,
+  collateralSymbol: string
+) => {
+  const isPutType = type === VaultType.PUT;
+
+  const assetsTitle = isPutType
+    ? `${collateralSymbol}-${assetSymbol}`
+    : assetSymbol;
+
+  const typeTitle = isPutType ? "Puts" : "Calls";
+
+  const titleArray = [assetsTitle, typeTitle, "Contracts"];
+
+  return titleArray.join(" ");
 };

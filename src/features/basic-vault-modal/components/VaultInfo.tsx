@@ -72,6 +72,11 @@ export const VaultInfo = () => {
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
 
+  const feeTitle =
+    basicVaultType === BasicVaultType.LENDING_MARKET
+      ? "Borrow Fee"
+      : "Performance/Management Fee";
+
   return (
     <InfoGroupContainer>
       <InfoGroup>
@@ -105,7 +110,7 @@ export const VaultInfo = () => {
           </InfoValueGray>
         </InfoContainer>
         <InfoContainer>
-          <InfoTitleGray>Performance/Management Fee</InfoTitleGray>
+          <InfoTitleGray>{feeTitle}</InfoTitleGray>
           <InfoValueGray isAlignRight>0.00%</InfoValueGray>
         </InfoContainer>
       </InfoGroup>

@@ -11,7 +11,7 @@ import {
 import { useLendingMarketVaultsTableRows } from "../hooks";
 import type { LendingMarketVaultRow } from "../types";
 import { numberFormatter } from "../../shared/helpers";
-import { getVaultTitle } from "../../table/helpers";
+import { getLongVaultContractsTitle } from "../../table/helpers";
 
 const columns: Column<LendingMarketVaultRow>[] = [
   {
@@ -85,12 +85,10 @@ const columns: Column<LendingMarketVaultRow>[] = [
     minWidth: 180,
 
     render: ({ type, assetSymbol, collateralSymbol, totalPosition }) => {
-      const vaultTokenSymbol = getVaultTitle(
-        VaultModalType.lendingMarket,
+      const contractsTitle = getLongVaultContractsTitle(
         type,
         assetSymbol,
-        collateralSymbol,
-        true
+        collateralSymbol
       );
 
       const formattedTotalPosition = totalPosition
@@ -98,7 +96,7 @@ const columns: Column<LendingMarketVaultRow>[] = [
         : "";
 
       return totalPosition
-        ? `${formattedTotalPosition} ${vaultTokenSymbol}`
+        ? `${formattedTotalPosition} ${contractsTitle}`
         : "-";
     },
 

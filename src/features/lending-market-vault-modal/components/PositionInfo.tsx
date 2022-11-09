@@ -6,13 +6,17 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { useLendingMarketModalConfig } from "../hooks/useLendingMarketModalConfig";
-import { VaultModalType } from "../../root/types";
-import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
-import { getVaultTitle } from "../../table/helpers";
+import {
+  useBasicModalConfig,
+  useBasicModalState,
+} from "../../basic-vault-modal/hooks";
+import { getLongVaultContractsTitle } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
+import { TabType } from "../../basic-vault-modal/types";
 
 export const PositionInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
+  const { tabType } = useBasicModalState();
   const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
 
   const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
@@ -31,12 +35,10 @@ export const PositionInfo = () => {
 
   const isLoading = isBasicVaultLoading || isLendingMarketVaultReaderLoading;
 
-  const vaultTokenSymbol = getVaultTitle(
-    VaultModalType.lendingMarket,
+  const contractsTitle = getLongVaultContractsTitle(
     type,
     assetSymbol,
-    collateralSymbol,
-    true
+    collateralSymbol
   );
 
   const loadingPlaceholder = ".....";
@@ -46,7 +48,7 @@ export const PositionInfo = () => {
     borrowPending,
   ].map((value) =>
     value
-      ? `${numberFormatter.format(value.toNumber())} ${vaultTokenSymbol}`
+      ? `${numberFormatter.format(value.toNumber())} ${contractsTitle}`
       : "N/A"
   );
 
@@ -58,12 +60,14 @@ export const PositionInfo = () => {
           {isLoading ? loadingPlaceholder : formattedCurrentPosition}
         </InfoValue>
       </InfoContainer>
-      <InfoContainer>
-        <InfoTitle>Pending Borrow</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedBorrowPending}
-        </InfoValue>
-      </InfoContainer>
+      {tabType === TabType.deposit ? (
+        <InfoContainer>
+          <InfoTitle>Pending Long Contracts</InfoTitle>
+          <InfoValue isAlignRight>
+            {isLoading ? loadingPlaceholder : formattedBorrowPending}
+          </InfoValue>
+        </InfoContainer>
+      ) : null}
     </Container>
   );
 };

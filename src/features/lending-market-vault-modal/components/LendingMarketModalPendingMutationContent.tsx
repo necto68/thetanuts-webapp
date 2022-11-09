@@ -10,9 +10,8 @@ import {
   useLendingMarketModalConfig,
   useLendingMarketModalMutations,
 } from "../hooks";
-import { getVaultTitle } from "../../table/helpers";
+import { getLongVaultContractsTitle } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
-import { VaultModalType } from "../../root/types";
 
 // eslint-disable-next-line complexity
 export const LendingMarketModalPendingMutationContent = () => {
@@ -61,17 +60,15 @@ export const LendingMarketModalPendingMutationContent = () => {
     Boolean(openPositionData) || Boolean(closePositionData);
 
   const tokenSymbol = tokenData?.symbol ?? "";
-  const vaultTokenSymbol = getVaultTitle(
-    VaultModalType.lendingMarket,
+  const contractsTitle = getLongVaultContractsTitle(
     type,
     assetSymbol,
-    collateralSymbol,
-    true
+    collateralSymbol
   );
 
   const sourceTokenData = {
     value: isOpenPositionMutation ? inputValue : formattedCurrentPosition,
-    symbol: isOpenPositionMutation ? tokenSymbol : vaultTokenSymbol,
+    symbol: isOpenPositionMutation ? tokenSymbol : contractsTitle,
   };
 
   const pendingTitle = isOpenPositionMutation
