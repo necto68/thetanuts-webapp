@@ -1,7 +1,6 @@
 import Big from "big.js";
 
-import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
-import { useBasicVaultEpochTimerTitle } from "../../basic-vault/hooks/useBasicVaultEpochTimerTitle";
+import { useBasicModalConfig } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import {
   InfoContainer,
@@ -17,7 +16,6 @@ import { useLongModalConfig } from "../../long-vault-modal/hooks";
 
 import { StrikePrices } from "./StrikePrices";
 
-// eslint-disable-next-line complexity
 export const VaultInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
   const { longVaultReaderQuery } = useLongModalConfig();
@@ -32,25 +30,12 @@ export const VaultInfo = () => {
     assetPrice = 0,
     balance: basicVaultBalance = new Big(0),
     collatCap = new Big(0),
-    expiry = 0,
-    isSettled = false,
-    isExpired = false,
-    isAllowInteractions = false,
   } = data ?? {};
 
   const { balance: longVaultBalance = new Big(0), supplyCap = new Big(0) } =
     longVaultReaderData ?? {};
 
   const isLoading = isBasicVaultLoading || isLongVaultReaderLoading;
-
-  const isBasicVault = basicVaultType === BasicVaultType.BASIC;
-
-  const timerTitle = useBasicVaultEpochTimerTitle(
-    expiry,
-    isSettled,
-    isExpired,
-    isAllowInteractions
-  );
 
   const loadingPlaceholder = ".....";
 
@@ -83,14 +68,6 @@ export const VaultInfo = () => {
           </InfoValue>
         </InfoContainer>
         <StrikePrices loadingPlaceholder={loadingPlaceholder} />
-        {isBasicVault ? (
-          <InfoContainer>
-            <InfoTitle>Epoch Starts/Ends In</InfoTitle>
-            <InfoValue isAlignRight>
-              {isLoading ? loadingPlaceholder : timerTitle}
-            </InfoValue>
-          </InfoContainer>
-        ) : null}
       </InfoGroup>
       <InfoGroup>
         <InfoContainer>

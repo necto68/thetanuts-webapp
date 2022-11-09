@@ -10,7 +10,7 @@ import { useBasicModalConfig } from "../hooks";
 import { VaultType } from "../../basic-vault/types";
 import { BasicVaultType } from "../../basic/types";
 import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
-import { VaultStatus } from "../../degen-vault-modal/types/VaultStatus";
+import { VaultStatus } from "../types/VaultStatus";
 
 interface StrikePricesProps {
   loadingPlaceholder?: string;

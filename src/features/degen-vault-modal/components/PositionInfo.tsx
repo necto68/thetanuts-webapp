@@ -8,12 +8,14 @@ import {
   InfoTitle,
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
-import { CurrentPositionInfo } from "../../basic-vault-modal/components";
+import {
+  VaultStatusInfo,
+  CurrentPositionInfo,
+} from "../../basic-vault-modal/components";
 import { VaultType } from "../../basic-vault/types";
 
 import { PendingPositionInfo } from "./PendingPositionInfo";
 import { Container } from "./PositionsInfo.styles";
-import { VaultStatus } from "./VaultStatus";
 
 // eslint-disable-next-line complexity
 export const PositionInfo = () => {
@@ -30,10 +32,6 @@ export const PositionInfo = () => {
     type = VaultType.CALL,
     collateralSymbol = "",
     percentageYields = { weeklyPercentageYield: 0 },
-    expiry = 0,
-    isSettled = false,
-    isExpired = false,
-    isAllowInteractions = false,
   } = basicVaultData ?? {};
 
   const { weeklyPercentageYield } = percentageYields;
@@ -68,13 +66,7 @@ export const PositionInfo = () => {
   return (
     <Container>
       <VaultInfoContainer>
-        <VaultStatus
-          expiry={expiry}
-          isAllowInteractions={isAllowInteractions}
-          isExpired={isExpired}
-          isLoading={isLoading}
-          isSettled={isSettled}
-        />
+        <VaultStatusInfo />
         <CurrentPositionInfo />
         <PendingPositionInfo />
       </VaultInfoContainer>

@@ -13,6 +13,7 @@ import {
 import { getLongVaultContractsTitle } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
 import { TabType } from "../../basic-vault-modal/types";
+import { VaultStatusInfo } from "../../basic-vault-modal/components";
 
 export const PositionInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
@@ -52,6 +53,7 @@ export const PositionInfo = () => {
 
   return (
     <Container>
+      <VaultStatusInfo />
       <InfoContainer>
         <InfoTitle>Active Position</InfoTitle>
         <InfoValue isAlignRight>

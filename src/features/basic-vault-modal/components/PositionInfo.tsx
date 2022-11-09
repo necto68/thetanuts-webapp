@@ -6,6 +6,7 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 
+import { VaultStatusInfo } from "./VaultStatusInfo";
 import { CurrentPositionInfo } from "./CurrentPositionInfo";
 import { PendingPositionInfo } from "./PendingPositionInfo";
 
@@ -26,6 +27,7 @@ export const PositionInfo = () => {
 
   return (
     <Container>
+      <VaultStatusInfo />
       <CurrentPositionInfo />
       <PendingPositionInfo />
       <InfoContainer>

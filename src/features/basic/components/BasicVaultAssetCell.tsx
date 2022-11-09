@@ -7,7 +7,7 @@ import { VaultType } from "../../basic-vault/types";
 import { BasicVaultType } from "../types";
 import { getVaultTitle } from "../../table/helpers";
 import { getVaultModalType } from "../helpers";
-import { VaultStatus } from "../../degen-vault-modal/components/VaultStatus";
+import { VaultStatus } from "../../basic-vault-modal/components";
 
 import {
   Container,
@@ -68,7 +68,6 @@ export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
             isExpired={isExpired}
             isLoading={false}
             isSettled={isSettled}
-            title={null}
           />
         </Title>
       </TitlesContainer>

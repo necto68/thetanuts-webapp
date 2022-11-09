@@ -1,5 +1,5 @@
 import type { BasicVault } from "../../basic-vault/types";
-import { VaultStatus } from "../types/VaultStatus";
+import { VaultStatus } from "../../basic-vault-modal/types";
 
 export const getVaultStatus = (
   isSettled: BasicVault["isSettled"],
