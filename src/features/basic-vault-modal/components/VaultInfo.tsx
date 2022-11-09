@@ -16,6 +16,7 @@ import { useLongModalConfig } from "../../long-vault-modal/hooks";
 
 import { StrikePrices } from "./StrikePrices";
 
+// eslint-disable-next-line complexity
 export const VaultInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
   const { longVaultReaderQuery } = useLongModalConfig();
@@ -37,15 +38,13 @@ export const VaultInfo = () => {
 
   const isLoading = isBasicVaultLoading || isLongVaultReaderLoading;
 
+  const isLongVault = basicVaultType === BasicVaultType.LONG;
+
   const loadingPlaceholder = ".....";
 
-  const balanceValue =
-    basicVaultType === BasicVaultType.LONG
-      ? longVaultBalance
-      : basicVaultBalance;
+  const balanceValue = isLongVault ? longVaultBalance : basicVaultBalance;
 
-  const capValue =
-    basicVaultType === BasicVaultType.LONG ? supplyCap : collatCap;
+  const capValue = isLongVault ? supplyCap : collatCap;
 
   const formattedBalance = numberFormatter.format(balanceValue.toNumber());
   const formattedCap = numberFormatter.format(capValue.toNumber());
@@ -53,10 +52,11 @@ export const VaultInfo = () => {
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
 
-  const feeTitle =
-    basicVaultType === BasicVaultType.LONG
-      ? "Borrow Fee"
-      : "Performance/Management Fee";
+  const feeTitle = isLongVault
+    ? "Borrow Fee (APR)"
+    : "Performance/Management Fee";
+
+  const feeValue = isLongVault ? "2%" : "0%";
 
   return (
     <InfoGroupContainer>
@@ -84,7 +84,7 @@ export const VaultInfo = () => {
         </InfoContainer>
         <InfoContainer>
           <InfoTitleGray>{feeTitle}</InfoTitleGray>
-          <InfoValueGray isAlignRight>0.00%</InfoValueGray>
+          <InfoValueGray isAlignRight>{feeValue}</InfoValueGray>
         </InfoContainer>
       </InfoGroup>
     </InfoGroupContainer>
