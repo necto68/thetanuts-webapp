@@ -62,10 +62,10 @@ export const developDegenVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const developLendingMarketVaults: BasicVaultConfig[] = [
+export const developLongVaults: BasicVaultConfig[] = [
   {
     id: "LM-TN-CSCCv0-ETHUSD-1DAY",
-    basicVaultType: BasicVaultType.LENDING_MARKET,
+    basicVaultType: BasicVaultType.LONG,
 
     source: {
       chainId: ChainId.POLYGON,
@@ -74,7 +74,7 @@ export const developLendingMarketVaults: BasicVaultConfig[] = [
   },
   {
     id: "LM-TN-CSCCv0-ETHUSD-2DAY",
-    basicVaultType: BasicVaultType.LENDING_MARKET,
+    basicVaultType: BasicVaultType.LONG,
 
     source: {
       chainId: ChainId.POLYGON,
@@ -83,7 +83,7 @@ export const developLendingMarketVaults: BasicVaultConfig[] = [
   },
   {
     id: "LM-TN-CSCCv0-ETHUSD-3DAY",
-    basicVaultType: BasicVaultType.LENDING_MARKET,
+    basicVaultType: BasicVaultType.LONG,
 
     source: {
       chainId: ChainId.POLYGON,
@@ -94,5 +94,5 @@ export const developLendingMarketVaults: BasicVaultConfig[] = [
 
 export const developAllBasicVaults = developBasicVaults.concat(
   developDegenVaults,
-  developLendingMarketVaults
+  developLongVaults
 );

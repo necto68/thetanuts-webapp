@@ -15,9 +15,9 @@ import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { resetMutations } from "../helpers";
 import { BasicVaultType } from "../../basic/types";
 import {
-  useLendingMarketModalConfig,
-  useLendingMarketModalMutations,
-} from "../../lending-market-vault-modal/hooks";
+  useLongModalConfig,
+  useLongModalMutations,
+} from "../../long-vault-modal/hooks";
 import {
   loadingButtonTitles,
   buttonTitles,
@@ -34,7 +34,7 @@ export const WithdrawMainButton = () => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
-  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
+  const { longVaultReaderQuery } = useLongModalConfig();
   const {
     inputValue,
     tokenData,
@@ -51,7 +51,7 @@ export const WithdrawMainButton = () => {
     runInitFullWithdraw,
   } = useBasicModalMutations();
   const { closePositionAndWithdrawMutation, runClosePositionAndWithdraw } =
-    useLendingMarketModalMutations();
+    useLongModalMutations();
 
   const { account } = useWallet();
 
@@ -64,9 +64,9 @@ export const WithdrawMainButton = () => {
     withdrawalPending = new Big(0),
   } = basicVaultReaderData ?? {};
 
-  const { data: lendingMarketVaultReaderData } = lendingMarketVaultReaderQuery;
-  const { currentPosition: lendingMarketVaultCurrentPosition = new Big(0) } =
-    lendingMarketVaultReaderData ?? {};
+  const { data: longVaultReaderData } = longVaultReaderQuery;
+  const { currentPosition: longVaultCurrentPosition = new Big(0) } =
+    longVaultReaderData ?? {};
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [
@@ -124,20 +124,20 @@ export const WithdrawMainButton = () => {
 
   // for basic vault we need to check if user input is greater than 0
   // for degen vault we need to check if currentPosition is greater > 0 and withdrawalPending === 0
-  // for lending market vault we need to check if currentPosition is greater > 0
+  // for long vault we need to check if currentPosition is greater > 0
   const isValidInputMap = {
     [BasicVaultType.BASIC]: inputValueBig.gt(0),
 
     [BasicVaultType.DEGEN]:
       basicVaultCurrentPosition?.gt(0) && withdrawalPending?.eq(0),
 
-    [BasicVaultType.LENDING_MARKET]: lendingMarketVaultCurrentPosition?.gt(0),
+    [BasicVaultType.LONG]: longVaultCurrentPosition?.gt(0),
   };
 
   const mainButtonClickHandlers = {
     [BasicVaultType.BASIC]: runInitWithdraw,
     [BasicVaultType.DEGEN]: runInitFullWithdraw,
-    [BasicVaultType.LENDING_MARKET]: runClosePositionAndWithdraw,
+    [BasicVaultType.LONG]: runClosePositionAndWithdraw,
   };
 
   const isInputValueValid = isValidInputMap[basicVaultType];

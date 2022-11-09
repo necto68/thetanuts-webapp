@@ -327,9 +327,9 @@ export const productionDegenVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const productionLendingMarketVaults = [];
+export const productionLongVaults = [];
 
 export const productionAllBasicVaults = productionBasicVaults.concat(
   productionDegenVaults,
-  productionLendingMarketVaults
+  productionLongVaults
 );

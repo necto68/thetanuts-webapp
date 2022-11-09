@@ -10,7 +10,7 @@ import {
 } from "../../index-vault-modal/hooks";
 import type { Token } from "../../index-vault-modal/types";
 import { convertToBig } from "../../shared/helpers";
-import { useLendingMarketModalConfig } from "../../lending-market-vault-modal/hooks/useLendingMarketModalConfig";
+import { useLongModalConfig } from "../../long-vault-modal/hooks/useLongModalConfig";
 import { BasicVaultType } from "../../basic/types";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
@@ -35,13 +35,13 @@ export const useBasicModalProviderState = (): BasicModalState => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
-  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
+  const { longVaultReaderQuery } = useLongModalConfig();
 
   const inputValueBig = new Big(inputValue || 0);
 
   const { data: basicVaultData } = basicVaultQuery;
   const { data: basicVaultReaderData } = basicVaultReaderQuery;
-  const { data: lendingMarketVaultReaderData } = lendingMarketVaultReaderQuery;
+  const { data: longVaultReaderData } = longVaultReaderQuery;
 
   const {
     basicVaultType = BasicVaultType.BASIC,
@@ -52,7 +52,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
   const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
 
   const { supplyRemainder = Number.MAX_SAFE_INTEGER } =
-    lendingMarketVaultReaderData ?? {};
+    longVaultReaderData ?? {};
 
   const collateralTokenQuery = useTokenQuery(
     collateralTokenAddress,
@@ -87,7 +87,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   if (currentTabType === TabType.deposit) {
     remainderValue =
-      basicVaultType === BasicVaultType.LENDING_MARKET
+      basicVaultType === BasicVaultType.LONG
         ? supplyRemainder
         : collateralTokenRemainder;
   } else {

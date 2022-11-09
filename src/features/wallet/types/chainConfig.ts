@@ -19,8 +19,8 @@ export interface ChainConfig {
     directWithdrawalAddress: string;
     basicVaultReaderAddress: string;
     basicVaultDepositorAddress: string;
-    lendingMarketPositionManagerAddress: string;
-    lendingMarketProtocolDataProviderAddress: string;
+    longVaultPositionManagerAddress: string;
+    longVaultProtocolDataProviderAddress: string;
   };
 
   deployerAddresses?: {

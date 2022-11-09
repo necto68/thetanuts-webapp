@@ -22,7 +22,7 @@ const depositTitle = {
   [VaultModalType.index]: "swap",
   [VaultModalType.basic]: "deposit",
   [VaultModalType.degen]: "deposit",
-  [VaultModalType.lendingMarket]: "supply",
+  [VaultModalType.long]: "supply",
 };
 
 interface PriceWarningProps {

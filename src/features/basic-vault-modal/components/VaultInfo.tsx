@@ -13,20 +13,18 @@ import {
   InfoValueGray,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { BasicVaultType } from "../../basic/types";
-import { useLendingMarketModalConfig } from "../../lending-market-vault-modal/hooks";
+import { useLongModalConfig } from "../../long-vault-modal/hooks";
 
 import { StrikePrices } from "./StrikePrices";
 
 // eslint-disable-next-line complexity
 export const VaultInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
-  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
+  const { longVaultReaderQuery } = useLongModalConfig();
 
   const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
-  const {
-    data: lendingMarketVaultReaderData,
-    isLoading: isLendingMarketVaultReaderLoading,
-  } = lendingMarketVaultReaderQuery;
+  const { data: longVaultReaderData, isLoading: isLongVaultReaderLoading } =
+    longVaultReaderQuery;
 
   const {
     basicVaultType = BasicVaultType.BASIC,
@@ -40,12 +38,10 @@ export const VaultInfo = () => {
     isAllowInteractions = false,
   } = data ?? {};
 
-  const {
-    balance: lendingMarketVaultBalance = new Big(0),
-    supplyCap = new Big(0),
-  } = lendingMarketVaultReaderData ?? {};
+  const { balance: longVaultBalance = new Big(0), supplyCap = new Big(0) } =
+    longVaultReaderData ?? {};
 
-  const isLoading = isBasicVaultLoading || isLendingMarketVaultReaderLoading;
+  const isLoading = isBasicVaultLoading || isLongVaultReaderLoading;
 
   const isBasicVault = basicVaultType === BasicVaultType.BASIC;
 
@@ -59,12 +55,12 @@ export const VaultInfo = () => {
   const loadingPlaceholder = ".....";
 
   const balanceValue =
-    basicVaultType === BasicVaultType.LENDING_MARKET
-      ? lendingMarketVaultBalance
+    basicVaultType === BasicVaultType.LONG
+      ? longVaultBalance
       : basicVaultBalance;
 
   const capValue =
-    basicVaultType === BasicVaultType.LENDING_MARKET ? supplyCap : collatCap;
+    basicVaultType === BasicVaultType.LONG ? supplyCap : collatCap;
 
   const formattedBalance = numberFormatter.format(balanceValue.toNumber());
   const formattedCap = numberFormatter.format(capValue.toNumber());
@@ -73,7 +69,7 @@ export const VaultInfo = () => {
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
 
   const feeTitle =
-    basicVaultType === BasicVaultType.LENDING_MARKET
+    basicVaultType === BasicVaultType.LONG
       ? "Borrow Fee"
       : "Performance/Management Fee";
 

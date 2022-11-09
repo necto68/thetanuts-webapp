@@ -16,9 +16,9 @@ import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
 import { resetMutations } from "../helpers";
 import {
-  useLendingMarketModalConfig,
-  useLendingMarketModalMutations,
-} from "../../lending-market-vault-modal/hooks";
+  useLongModalConfig,
+  useLongModalMutations,
+} from "../../long-vault-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
@@ -27,7 +27,7 @@ import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 export const DepositMainButton = () => {
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
-  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
+  const { longVaultReaderQuery } = useLongModalConfig();
   const {
     inputValue,
     tokenData,
@@ -49,18 +49,17 @@ export const DepositMainButton = () => {
     openPositionMutation,
     runApproveDelegation,
     runOpenPosition,
-  } = useLendingMarketModalMutations();
+  } = useLongModalMutations();
 
   const { account } = useWallet();
 
   const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
 
-  const { data: lendingMarketVaultReaderData } = lendingMarketVaultReaderQuery;
-  const { borrowAllowance } = lendingMarketVaultReaderData ?? {};
+  const { data: longVaultReaderData } = longVaultReaderQuery;
+  const { borrowAllowance } = longVaultReaderData ?? {};
 
-  const isLendingMarketBasicVault =
-    basicVaultType === BasicVaultType.LENDING_MARKET;
+  const isLongVault = basicVaultType === BasicVaultType.LONG;
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [
@@ -133,8 +132,8 @@ export const DepositMainButton = () => {
     inputValueBig.gt(0) &&
     inputValueBig.gt(currentTokenData.allowance);
 
-  const isNeedLendingMarketDelegationApprove =
-    isLendingMarketBasicVault &&
+  const isNeedLongVaultDelegationApprove =
+    isLongVault &&
     borrowAllowance &&
     inputValueBig.gt(0) &&
     inputValueBig.gt(borrowAllowance);
@@ -180,7 +179,7 @@ export const DepositMainButton = () => {
     );
   }
 
-  if (isNeedLendingMarketDelegationApprove) {
+  if (isNeedLongVaultDelegationApprove) {
     return (
       <ActionMainButton onClick={runApproveDelegation}>
         Approve Delegation
@@ -189,7 +188,7 @@ export const DepositMainButton = () => {
   }
 
   if (isNeedApprove) {
-    const title = isLendingMarketBasicVault
+    const title = isLongVault
       ? `Approve ${currentTokenData.symbol} for Open Position`
       : `Approve ${currentTokenData.symbol} for Deposit`;
 
@@ -219,7 +218,7 @@ export const DepositMainButton = () => {
       : "Wrap";
 
     handleMainButtonClick = runWrap;
-  } else if (isLendingMarketBasicVault) {
+  } else if (isLongVault) {
     buttonTitle = "Open Position";
     handleMainButtonClick = runOpenPosition;
   } else {

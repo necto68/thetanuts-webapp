@@ -9,9 +9,9 @@ import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { resetMutations } from "../helpers";
 import {
-  useLendingMarketModalConfig,
-  useLendingMarketModalMutations,
-} from "../../lending-market-vault-modal/hooks";
+  useLongModalConfig,
+  useLongModalMutations,
+} from "../../long-vault-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
 import {
   loadingButtonTitles,
@@ -26,7 +26,7 @@ export const PendingDepositMainButton = () => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
-  const { lendingMarketVaultReaderQuery } = useLendingMarketModalConfig();
+  const { longVaultReaderQuery } = useLongModalConfig();
   const { tokenData } = useBasicModalState();
   const { depositMutation, cancelDepositMutation, runCancelDeposit } =
     useBasicModalMutations();
@@ -34,7 +34,7 @@ export const PendingDepositMainButton = () => {
     openPositionMutation,
     cancelPendingPositionMutation,
     runCancelPendingPosition,
-  } = useLendingMarketModalMutations();
+  } = useLongModalMutations();
 
   const { account } = useWallet();
 
@@ -65,22 +65,22 @@ export const PendingDepositMainButton = () => {
 
   const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
   const { data: basicVaultReaderData } = basicVaultReaderQuery;
-  const { data: lendingMarketVaultReaderData } = lendingMarketVaultReaderQuery;
+  const { data: longVaultReaderData } = longVaultReaderQuery;
 
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
   const { depositPending = new Big(0) } = basicVaultReaderData ?? {};
-  const { borrowPending = new Big(0) } = lendingMarketVaultReaderData ?? {};
+  const { borrowPending = new Big(0) } = longVaultReaderData ?? {};
 
   const isShowForVaults = {
     [BasicVaultType.BASIC]: Boolean(depositPending?.gt(0)),
     [BasicVaultType.DEGEN]: Boolean(depositPending?.gt(0)),
-    [BasicVaultType.LENDING_MARKET]: Boolean(borrowPending?.gt(0)),
+    [BasicVaultType.LONG]: Boolean(borrowPending?.gt(0)),
   };
 
   const mainButtonClickHandlers = {
     [BasicVaultType.BASIC]: runCancelDeposit,
     [BasicVaultType.DEGEN]: runCancelDeposit,
-    [BasicVaultType.LENDING_MARKET]: runCancelPendingPosition,
+    [BasicVaultType.LONG]: runCancelPendingPosition,
   };
 
   const loadingButtonTitle = loadingButtonTitles[basicVaultType];

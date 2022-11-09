@@ -5,7 +5,7 @@ export const vaultTypesPrefixes = {
   [VaultModalType.index]: "S",
   [VaultModalType.basic]: "B",
   [VaultModalType.degen]: "D",
-  [VaultModalType.lendingMarket]: "LM",
+  [VaultModalType.long]: "LM",
 };
 
 export const basicVaultTypesPrefixes = {

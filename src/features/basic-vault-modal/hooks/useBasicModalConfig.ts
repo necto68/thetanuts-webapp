@@ -25,13 +25,13 @@ export const useBasicModalConfig = () => {
   const {
     routerAddress,
     basicVaultDepositorAddress,
-    lendingMarketPositionManagerAddress,
+    longVaultPositionManagerAddress,
   } = chainsMap[basicVaultChainId].addresses;
 
   const spenderAddressesByBasicVaultType = {
     [BasicVaultType.BASIC]: basicVaultAddress,
     [BasicVaultType.DEGEN]: basicVaultDepositorAddress,
-    [BasicVaultType.LENDING_MARKET]: lendingMarketPositionManagerAddress,
+    [BasicVaultType.LONG]: longVaultPositionManagerAddress,
   };
 
   const spenderAddress = spenderAddressesByBasicVaultType[basicVaultType];

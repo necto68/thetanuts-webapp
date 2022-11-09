@@ -59,7 +59,7 @@ const mainNavItems = [
     iconColor: "#EB5353",
   },
   {
-    to: PagePathname.lendingMarket,
+    to: PagePathname.long,
     linkTitle: "Long",
     navIcon: BasicPage,
   },

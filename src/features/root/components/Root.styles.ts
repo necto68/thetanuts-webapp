@@ -10,7 +10,7 @@ const mapPathnameToBackground = {
   [PagePathname.thetaIndex]: "#031a34",
   [PagePathname.basic]: "#031a34",
   [PagePathname.degen]: "#031a34",
-  [PagePathname.lendingMarket]: "#031a34",
+  [PagePathname.long]: "#031a34",
   [PagePathname.portfolio]: "#212b31",
 };
 
