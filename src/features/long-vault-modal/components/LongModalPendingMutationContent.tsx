@@ -27,23 +27,25 @@ export const LongModalPendingMutationContent = () => {
     collateralSymbol = "",
   } = basicVaultQuery.data ?? {};
 
-  const { currentPosition: rawCurrentPosition } =
+  const { currentContractsPosition: rawCurrentContractsPosition } =
     longVaultReaderQuery.data ?? {};
 
-  const [currentPosition, setCurrentPosition] = useState(rawCurrentPosition);
+  const [currentContractsPosition, setCurrentContractsPosition] = useState(
+    rawCurrentContractsPosition
+  );
 
   // we need to avoid the case where the user has already closed position
-  // and currentPosition === 0
+  // and currentContractsPosition === 0
   // so we need to show previous value
 
   useEffect(() => {
-    if (rawCurrentPosition?.gt(0)) {
-      setCurrentPosition(rawCurrentPosition);
+    if (rawCurrentContractsPosition?.gt(0)) {
+      setCurrentContractsPosition(rawCurrentContractsPosition);
     }
-  }, [rawCurrentPosition]);
+  }, [rawCurrentContractsPosition]);
 
-  const formattedCurrentPosition = currentPosition
-    ? numberFormatter.format(currentPosition.toNumber())
+  const formattedCurrentPosition = currentContractsPosition
+    ? numberFormatter.format(currentContractsPosition.toNumber())
     : "";
 
   const { data: openPositionData, isLoading: isOpenPositionLoading } =

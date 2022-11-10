@@ -65,8 +65,7 @@ export const WithdrawMainButton = () => {
   } = basicVaultReaderData ?? {};
 
   const { data: longVaultReaderData } = longVaultReaderQuery;
-  const { currentPosition: longVaultCurrentPosition = new Big(0) } =
-    longVaultReaderData ?? {};
+  const { currentContractsPosition = new Big(0) } = longVaultReaderData ?? {};
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [
@@ -124,14 +123,14 @@ export const WithdrawMainButton = () => {
 
   // for basic vault we need to check if user input is greater than 0
   // for degen vault we need to check if currentPosition is greater > 0 and withdrawalPending === 0
-  // for long vault we need to check if currentPosition is greater > 0
+  // for long vault we need to check if currentContractsPosition is greater > 0
   const isValidInputMap = {
     [BasicVaultType.BASIC]: inputValueBig.gt(0),
 
     [BasicVaultType.DEGEN]:
       basicVaultCurrentPosition?.gt(0) && withdrawalPending?.eq(0),
 
-    [BasicVaultType.LONG]: longVaultCurrentPosition?.gt(0),
+    [BasicVaultType.LONG]: currentContractsPosition?.gt(0),
   };
 
   const mainButtonClickHandlers = {

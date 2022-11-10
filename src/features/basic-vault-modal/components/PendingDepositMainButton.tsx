@@ -69,12 +69,12 @@ export const PendingDepositMainButton = () => {
 
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
   const { depositPending = new Big(0) } = basicVaultReaderData ?? {};
-  const { borrowPending = new Big(0) } = longVaultReaderData ?? {};
+  const { borrowContractsPending = new Big(0) } = longVaultReaderData ?? {};
 
   const isShowForVaults = {
     [BasicVaultType.BASIC]: Boolean(depositPending?.gt(0)),
     [BasicVaultType.DEGEN]: Boolean(depositPending?.gt(0)),
-    [BasicVaultType.LONG]: Boolean(borrowPending?.gt(0)),
+    [BasicVaultType.LONG]: Boolean(borrowContractsPending?.gt(0)),
   };
 
   const mainButtonClickHandlers = {

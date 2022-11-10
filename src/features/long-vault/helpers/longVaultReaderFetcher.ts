@@ -191,14 +191,24 @@ export const longVaultReaderFetcher = async (
       ? currentPosition.add(borrowPending)
       : null;
 
+  const contractsMultiplier = collateralPrice / debtTokenPrice;
+
+  const [
+    totalContractsPosition,
+    currentContractsPosition,
+    borrowContractsPending,
+  ] = [totalPosition, currentPosition, borrowPending].map((value) =>
+    value ? value.mul(contractsMultiplier) : null
+  );
+
   return {
     collateralAsset,
     debtToken,
     debtTokenPrice,
     borrowAllowance,
-    totalPosition,
-    currentPosition,
-    borrowPending,
+    totalContractsPosition,
+    currentContractsPosition,
+    borrowContractsPending,
     balance,
     supplyCap,
     supplyRemainder,

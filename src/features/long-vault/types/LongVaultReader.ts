@@ -8,9 +8,9 @@ export interface LongVaultReader {
   debtToken: Token;
   debtTokenPrice: number;
   borrowAllowance: Big | null;
-  totalPosition: Big | null;
-  currentPosition: Big | null;
-  borrowPending: Big | null;
+  totalContractsPosition: Big | null;
+  currentContractsPosition: Big | null;
+  borrowContractsPending: Big | null;
   balance: Big;
   supplyCap: Big;
   supplyRemainder: number;

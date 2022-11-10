@@ -29,7 +29,7 @@ export const PositionInfo = () => {
 
   const { data: longVaultReaderData, isLoading: isLongVaultReaderLoading } =
     longVaultReaderQuery;
-  const { currentPosition = null, borrowPending = null } =
+  const { currentContractsPosition = null, borrowContractsPending = null } =
     longVaultReaderData ?? {};
 
   const isLoading = isBasicVaultLoading || isLongVaultReaderLoading;
@@ -42,9 +42,9 @@ export const PositionInfo = () => {
 
   const loadingPlaceholder = ".....";
 
-  const [formattedCurrentPosition, formattedBorrowPending] = [
-    currentPosition,
-    borrowPending,
+  const [formattedCurrentContractsPosition, formattedBorrowContractsPending] = [
+    currentContractsPosition,
+    borrowContractsPending,
   ].map((value) =>
     value
       ? `${numberFormatter.format(value.toNumber())} ${contractsTitle}`
@@ -57,14 +57,14 @@ export const PositionInfo = () => {
       <InfoContainer>
         <InfoTitle>Active Position</InfoTitle>
         <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedCurrentPosition}
+          {isLoading ? loadingPlaceholder : formattedCurrentContractsPosition}
         </InfoValue>
       </InfoContainer>
       {tabType === TabType.deposit ? (
         <InfoContainer>
           <InfoTitle>Pending Long Contracts</InfoTitle>
           <InfoValue isAlignRight>
-            {isLoading ? loadingPlaceholder : formattedBorrowPending}
+            {isLoading ? loadingPlaceholder : formattedBorrowContractsPending}
           </InfoValue>
         </InfoContainer>
       ) : null}

@@ -80,28 +80,33 @@ const columns: Column<LongVaultRow>[] = [
   },
 
   {
-    key: "totalPosition",
+    key: "totalContractsPosition",
     title: "Total Position",
     minWidth: 180,
 
-    render: ({ type, assetSymbol, collateralSymbol, totalPosition }) => {
+    render: ({
+      type,
+      assetSymbol,
+      collateralSymbol,
+      totalContractsPosition,
+    }) => {
       const contractsTitle = getLongVaultContractsTitle(
         type,
         assetSymbol,
         collateralSymbol
       );
 
-      const formattedTotalPosition = totalPosition
-        ? numberFormatter.format(totalPosition.toNumber())
+      const formattedTotalContractsPosition = totalContractsPosition
+        ? numberFormatter.format(totalContractsPosition.toNumber())
         : "";
 
-      return totalPosition
-        ? `${formattedTotalPosition} ${contractsTitle}`
+      return totalContractsPosition
+        ? `${formattedTotalContractsPosition} ${contractsTitle}`
         : "-";
     },
 
-    sortBy: ({ totalPosition }) =>
-      totalPosition ? totalPosition.toNumber() : 0,
+    sortBy: ({ totalContractsPosition }) =>
+      totalContractsPosition ? totalContractsPosition.toNumber() : 0,
   },
   {
     key: "chainId",
