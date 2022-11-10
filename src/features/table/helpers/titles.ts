@@ -36,7 +36,7 @@ export const getLongVaultContractsTitle = (
 
   const typeTitle = isPutType ? "Puts" : "Calls";
 
-  const titleArray = [assetsTitle, typeTitle, "Contracts"];
+  const titleArray = [assetsTitle, typeTitle];
 
   return titleArray.join(" ");
 };

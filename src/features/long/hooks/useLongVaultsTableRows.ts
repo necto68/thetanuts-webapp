@@ -20,11 +20,11 @@ export const useLongVaultsTableRows = (): (LongVaultRow | undefined)[] => {
       return undefined;
     }
 
-    const { totalContractsPosition } = longVaultReader;
+    const { currentContractsPosition } = longVaultReader;
 
     return {
       ...longVault,
-      totalContractsPosition,
+      currentContractsPosition,
     };
   });
 };
