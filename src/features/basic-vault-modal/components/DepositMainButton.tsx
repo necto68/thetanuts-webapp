@@ -20,6 +20,8 @@ import {
   useLongModalMutations,
 } from "../../long-vault-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
+import { VaultType } from "../../basic-vault/types";
+import { getLongVaultContractsTitle } from "../../table/helpers";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -27,7 +29,7 @@ import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 export const DepositMainButton = () => {
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
-  const { longVaultReaderQuery } = useLongModalConfig();
+  const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
   const {
     inputValue,
     tokenData,
@@ -54,10 +56,18 @@ export const DepositMainButton = () => {
   const { account } = useWallet();
 
   const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
-  const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
+  const {
+    type = VaultType.CALL,
+    basicVaultType = BasicVaultType.BASIC,
+    assetSymbol = "",
+    collateralSymbol = "",
+  } = data ?? {};
 
   const { data: longVaultReaderData } = longVaultReaderQuery;
   const { borrowAllowance } = longVaultReaderData ?? {};
+
+  const { data: collateralAssetData } = collateralAssetQuery;
+  const { availableLeverage = 1 } = collateralAssetData ?? {};
 
   const isLongVault = basicVaultType === BasicVaultType.LONG;
 
@@ -219,7 +229,18 @@ export const DepositMainButton = () => {
 
     handleMainButtonClick = runWrap;
   } else if (isLongVault) {
-    buttonTitle = "Open Position";
+    const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
+
+    const contractsTitle = getLongVaultContractsTitle(
+      type,
+      assetSymbol,
+      collateralSymbol
+    );
+
+    buttonTitle = inputValueBig.gt(0)
+      ? `Open Position: Long ${longValue} ${contractsTitle} Contracts`
+      : "Open Position";
+
     handleMainButtonClick = runOpenPosition;
   } else {
     buttonTitle = "Initiate Deposit";

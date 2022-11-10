@@ -63,7 +63,7 @@ export const longVaultReaderFetcher = async (
     longVaultProtocolDataProviderContract.getReserveData(basicVaultAddress),
   ]);
 
-  const { collateralTokenAddress } = basicVault;
+  const { collateralTokenAddress, valuePerLP } = basicVault;
 
   const collateralAssetConfig =
     collateralAssets.find(
@@ -191,14 +191,12 @@ export const longVaultReaderFetcher = async (
       ? currentPosition.add(borrowPending)
       : null;
 
-  const contractsMultiplier = collateralPrice / debtTokenPrice;
-
   const [
     totalContractsPosition,
     currentContractsPosition,
     borrowContractsPending,
   ] = [totalPosition, currentPosition, borrowPending].map((value) =>
-    value ? value.mul(contractsMultiplier) : null
+    value ? value.mul(valuePerLP) : null
   );
 
   return {
