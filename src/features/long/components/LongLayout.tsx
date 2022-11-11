@@ -34,9 +34,9 @@ export const LongLayout = () => {
           {isMobile && !isShowMoreDescription ? (
             <Description>
               Long vaults allows users to long the various sold options that
-              Thetanuts provides. Each deposit is leveraged and users would pay
-              a weekly premium to retain their respective long
-              position(s).&nbsp;
+              Thetanuts provides. Each long position requires 10% collateral
+              from users. Users would pay the option premium to retain their
+              long postion(s).&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -45,13 +45,15 @@ export const LongLayout = () => {
             <>
               <Description>
                 Long vaults allows users to long the various sold options that
-                Thetanuts provides. Each deposit is leveraged and users would
-                pay a weekly premium to retain their respective long
-                position(s). The settlement of each long vault is in the form of
-                the underlying asset. The strike price and expiration of the
-                option vaults are algorithmically determined to generate the
-                highest risk-adjusted yield. Thetanuts does not collect any form
-                of fees on the long vaults.
+                Thetanuts provides. Each long position requires 10% collateral
+                from users. Users would pay the option premium to retain their
+                long postion(s). The option premiums payable corresponds to the
+                winning bid from market makers. The settlement of each long
+                vault is in the form of the underlying asset. The strike and
+                expiration of each option vault are algorithmically determined
+                to generate the highest risk-adjusted yield. Thetanuts charges a
+                fixed 2% APR borrowing fee on users to maintain their long
+                positions.
               </Description>
               <Description>
                 Read the&nbsp;
