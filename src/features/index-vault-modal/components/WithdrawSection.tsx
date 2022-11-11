@@ -9,7 +9,7 @@ import { VaultWithdrawInfo } from "./VaultWithdrawInfo";
 import { CardWarning } from "./CardWarning";
 
 export const WithdrawSection = () => {
-  const [{ contentType }] = useVaultModalState();
+  const [{ contentType, vaultType }] = useVaultModalState();
   const {
     sourceValue,
 
@@ -78,6 +78,7 @@ export const WithdrawSection = () => {
         isUseNativeData={isUseNativeSourceData}
         nativeData={nativeData}
         tokenData={sourceData}
+        vaultType={vaultType}
       />
       <SwapButton
         isSourceValueLoading={isSourceValueLoading}

@@ -22,13 +22,19 @@ export const useBasicModalConfig = () => {
   } = data ?? {};
   const walletChainId: ChainId = network?.chainId ?? 0;
 
-  const { routerAddress, basicVaultDepositorAddress } =
-    chainsMap[basicVaultChainId].addresses;
+  const {
+    routerAddress,
+    basicVaultDepositorAddress,
+    longVaultPositionManagerAddress,
+  } = chainsMap[basicVaultChainId].addresses;
 
-  const spenderAddress =
-    basicVaultType === BasicVaultType.BASIC
-      ? basicVaultAddress
-      : basicVaultDepositorAddress;
+  const spenderAddressesByBasicVaultType = {
+    [BasicVaultType.BASIC]: basicVaultAddress,
+    [BasicVaultType.DEGEN]: basicVaultDepositorAddress,
+    [BasicVaultType.LONG]: longVaultPositionManagerAddress,
+  };
+
+  const spenderAddress = spenderAddressesByBasicVaultType[basicVaultType];
 
   const provider = chainProvidersMap[basicVaultChainId];
 

@@ -1,7 +1,10 @@
 import type { BasicVault } from "../../basic-vault/types";
 import { useCurrentDate } from "../../basic-vault/hooks/useCurrentDate";
 import { timerFormatter } from "../../shared/helpers";
-import { getVaultStatus, getVaultStatusTitle } from "../helpers/utils";
+import {
+  getVaultStatus,
+  getVaultStatusTitle,
+} from "../../degen-vault-modal/helpers/utils";
 
 export const useVaultStatus = (
   expiry: BasicVault["expiry"],

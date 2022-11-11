@@ -1,5 +1,6 @@
 import type { FC } from "react";
 
+import { links } from "../../shared/constants";
 import { IconContainer } from "../../shared/components";
 import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
@@ -8,6 +9,7 @@ import type { Token } from "../types";
 import { ModalContentType } from "../types";
 import { useVaultModalState } from "../../modal/hooks";
 import { useBridgeUrl } from "../hooks/useBridgeUrl";
+import { VaultModalType } from "../../root/types";
 
 import {
   Container,
@@ -15,6 +17,13 @@ import {
   WarningLink,
   WarningAction,
 } from "./TextWarning.styles";
+
+const depositTitle = {
+  [VaultModalType.index]: "swap",
+  [VaultModalType.basic]: "deposit",
+  [VaultModalType.degen]: "deposit",
+  [VaultModalType.long]: "supply",
+};
 
 interface PriceWarningProps {
   isShowDirectDepositProposal: boolean;
@@ -24,6 +33,7 @@ interface PriceWarningProps {
   sourceTokenData: Token | undefined;
   remainderValue?: number;
   vaultChainId?: ChainId;
+  vaultType: VaultModalType;
 }
 
 export const PriceWarning: FC<PriceWarningProps> = ({
@@ -34,6 +44,7 @@ export const PriceWarning: FC<PriceWarningProps> = ({
   sourceTokenData,
   remainderValue = 0,
   vaultChainId,
+  vaultType,
 }) => {
   const [, setVaultModalState] = useVaultModalState();
 
@@ -88,15 +99,12 @@ export const PriceWarning: FC<PriceWarningProps> = ({
       ) : null}
       {isShowMaxVaultCapReachedTitle ? (
         <WarningTitle>
-          You can only deposit{" "}
+          You can only {depositTitle[vaultType]}{" "}
           <WarningLink>
             {remainderValue} {symbol}
           </WarningLink>
-          . If you want to swap more - please{" "}
-          <WarningLink href="https://t.me/officialThetanutsFinance">
-            contact us
-          </WarningLink>
-          .
+          . If you want to {depositTitle[vaultType]} more - please{" "}
+          <WarningLink href={links.discord}>contact us</WarningLink>.
         </WarningTitle>
       ) : null}
     </Container>

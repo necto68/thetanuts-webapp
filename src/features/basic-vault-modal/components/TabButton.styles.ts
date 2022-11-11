@@ -29,6 +29,8 @@ export const Button = styled(motion.button).attrs<ButtonProps>(
     },
   })
 )<ButtonProps>`
+  width: 100%;
+
   font-family: Roboto;
   font-weight: 600;
   font-size: 25px;

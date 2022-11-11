@@ -8,7 +8,7 @@ import type { Token } from "../types";
 
 export const tokenFetcher = async (
   tokenAddress: string,
-  spenderAddress: string,
+  spenderAddress: string | null,
   provider: Provider,
   account: string
 ): Promise<Token> => {
@@ -20,7 +20,7 @@ export const tokenFetcher = async (
       tokenContract.symbol(),
       tokenContract.decimals(),
       account ? tokenContract.balanceOf(account).then(convertToBig) : null,
-      account
+      account && spenderAddress
         ? tokenContract.allowance(account, spenderAddress).then(convertToBig)
         : new Big(0),
     ]

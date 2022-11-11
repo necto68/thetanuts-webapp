@@ -1,0 +1,7 @@
+export enum VaultStatus {
+  ACTIVE_EPOCH = "ACTIVE_EPOCH",
+  AUCTION = "AUCTION",
+  SETTLED = "SETTLED",
+  SETTLEMENT = "SETTLEMENT",
+  PAUSE = "PAUSE",
+}

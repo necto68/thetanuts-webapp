@@ -6,6 +6,7 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 
+import { VaultStatusInfo } from "./VaultStatusInfo";
 import { CurrentPositionInfo } from "./CurrentPositionInfo";
 import { PendingPositionInfo } from "./PendingPositionInfo";
 
@@ -26,14 +27,15 @@ export const PositionInfo = () => {
 
   return (
     <Container>
-      <CurrentPositionInfo />
-      <PendingPositionInfo />
       <InfoContainer>
         <InfoTitle>Projected APY%</InfoTitle>
         <InfoValue isAlignRight>
           {isLoading ? loadingPlaceholder : formattedAPY}
         </InfoValue>
       </InfoContainer>
+      <VaultStatusInfo />
+      <PendingPositionInfo />
+      <CurrentPositionInfo />
     </Container>
   );
 };

@@ -12,10 +12,13 @@ import { chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
 import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
-import { BasicVaultAssetCell, RiskLevelCell } from "../../basic/components";
+import {
+  BasicVaultAssetCell,
+  RiskLevelCell,
+  StrikePriceCell,
+} from "../../basic/components";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { highYieldFormatter } from "../../shared/helpers";
-import { StrikePriceCell } from "../../basic/components/StrikePriceCell";
 import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
 
 import { StrategyCell } from "./StrategyCell";
@@ -83,7 +86,7 @@ const columns: Column<BasicVault>[] = [
       />
     ),
 
-    sortBy: ({ type }) => type,
+    sortBy: ({ strikePrices }) => strikePrices[0],
   },
   {
     key: "riskLevel",

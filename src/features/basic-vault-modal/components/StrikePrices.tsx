@@ -10,7 +10,7 @@ import { useBasicModalConfig } from "../hooks";
 import { VaultType } from "../../basic-vault/types";
 import { BasicVaultType } from "../../basic/types";
 import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
-import { VaultStatus } from "../../degen-vault-modal/types/VaultStatus";
+import { VaultStatus } from "../types/VaultStatus";
 
 interface StrikePricesProps {
   loadingPlaceholder?: string;
@@ -33,12 +33,12 @@ export const StrikePrices: FC<StrikePricesProps> = ({
   const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
 
   const soldStrikePrices =
-    vaultStatus === VaultStatus.ActiveEpoch
+    vaultStatus === VaultStatus.ACTIVE_EPOCH
       ? getFormattedStrikePrices(type, strikePrices.slice(0, 2))
       : "-";
 
   const boughtStrikePrices =
-    vaultStatus === VaultStatus.ActiveEpoch
+    vaultStatus === VaultStatus.ACTIVE_EPOCH
       ? getFormattedStrikePrices(type, strikePrices.slice(2, 4))
       : "-";
 

@@ -12,9 +12,9 @@ export const StatusIndicator = styled.div<StatusIndicatorProps>`
   border-radius: 50%;
   background-color: ${({ status }) => {
     switch (status) {
-      case VaultStatus.ActiveEpoch:
+      case VaultStatus.ACTIVE_EPOCH:
         return "#00FF29";
-      case VaultStatus.Pause:
+      case VaultStatus.PAUSE:
         return "#EB5353";
       default:
         return "#FFE600";

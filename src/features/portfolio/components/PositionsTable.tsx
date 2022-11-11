@@ -55,7 +55,7 @@ const columns: Column<PositionTableRow>[] = [
     title: "Balance",
 
     render: ({ symbol, balance }) =>
-      balance ? `${numberFormatter.format(balance.toNumber())}  ${symbol}` : "",
+      balance ? `${numberFormatter.format(balance.toNumber())} ${symbol}` : "",
 
     sortBy: ({ balance }) => (balance ? balance.toNumber() : 0),
   },

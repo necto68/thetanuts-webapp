@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 
+import { links } from "../../shared/constants";
 import { useIsMobile } from "../../shared/hooks";
 import {
   ContentContainer,
@@ -50,12 +51,12 @@ export const DegenLayout = () => {
               </Description>
               <Description>
                 Read the&nbsp;
-                <DescriptionLink href="https://docs.thetanuts.finance">
+                <DescriptionLink href={links.docs}>
                   Thetanuts Docs
                 </DescriptionLink>
                 &nbsp; for a more detailed overview of Thetanuts Degen Vaults or
                 contact us on&nbsp;
-                <DescriptionLink href="https://discord.com/invite/fzWKJSy9v9">
+                <DescriptionLink href={links.discord}>
                   Thetanuts Discord
                 </DescriptionLink>
                 .

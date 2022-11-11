@@ -13,6 +13,7 @@ import {
 import { CircleButton, CircleButtonIconType } from "../../shared/components";
 import { PagePathname } from "../../root/types";
 import { useSidebarState } from "../hooks";
+import { links } from "../../shared/constants";
 import { useViewportHeight } from "../../shared/hooks";
 import { Analytics } from "../icons/Analytics";
 import { Documentation } from "../icons/Documentation";
@@ -50,9 +51,9 @@ const sellingOptions = [
 
 const buyingOptions = [
   {
-    to: PagePathname.thetaIndex,
+    to: PagePathname.long,
     linkTitle: "Long",
-    navIcon: IndexPage,
+    navIcon: BasicPage,
   },
 ];
 
@@ -63,7 +64,7 @@ const tools = [
     navIcon: Portfolio,
   },
   {
-    to: "https://analytics.thetanuts.finance/",
+    to: links.analytics,
     linkTitle: "Analytics",
     navIcon: Analytics,
     target: "_blank",
@@ -72,7 +73,7 @@ const tools = [
 
 const documentation = [
   {
-    to: "https://docs.thetanuts.finance",
+    to: links.docs,
     linkTitle: "DOCS",
     navIcon: Documentation,
   },
@@ -80,25 +81,25 @@ const documentation = [
 
 const socials = [
   {
-    to: "https://twitter.com/ThetanutsFi",
+    to: links.twitter,
     navIcon: Twitter,
     alt: "Twitter",
     linkTitle: "Twitter",
   },
   {
-    to: "https://thetanutsfinance.medium.com",
+    to: links.medium,
     navIcon: Medium,
     alt: "Medium",
     linkTitle: "Medium",
   },
   {
-    to: "https://discord.com/invite/fzWKJSy9v9",
+    to: links.discord,
     navIcon: Discord,
     alt: "Discord",
     linkTitle: "Discord",
   },
   {
-    to: "https://thetanuts.substack.com",
+    to: links.substack,
     navIcon: Substack,
     alt: "Substack",
     linkTitle: "Substack",

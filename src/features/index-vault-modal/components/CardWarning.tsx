@@ -5,6 +5,7 @@ import type { NativeToken, Token } from "../types";
 import { ModalContentType } from "../types";
 import type { ChainId } from "../../wallet/constants";
 import { useVaultModalState } from "../../modal/hooks";
+import type { VaultModalType } from "../../root/types";
 
 import { PriceWarning } from "./PriceWarning";
 import { Container } from "./CardWarning.styles";
@@ -18,6 +19,7 @@ export interface CardWarningProps {
   tokenData: Token | undefined;
   nativeData: NativeToken | undefined;
   isUseNativeData: boolean;
+  vaultType: VaultModalType;
   isDirectModeBetterThanSwapMode?: boolean;
   isUseDirectMode?: boolean;
   disabled?: boolean;
@@ -41,6 +43,7 @@ export const CardWarning: FC<CardWarningProps> = ({
   remainderValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
   fieldWarning,
+  vaultType,
 }) => {
   const [{ contentType }] = useVaultModalState();
 
@@ -96,6 +99,7 @@ export const CardWarning: FC<CardWarningProps> = ({
         remainderValue={remainderValue}
         sourceTokenData={sourceTokenData}
         vaultChainId={vaultChainId}
+        vaultType={vaultType}
       />
       <WarningTitle>
         {!isShowPriceWarning && fieldWarning ? fieldWarning : null}

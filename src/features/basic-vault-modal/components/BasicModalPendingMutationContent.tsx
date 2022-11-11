@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 
 import { PendingMutationContent } from "../../modal/components/PendingMutationContent";
 import { numberFormatter } from "../../shared/helpers";
-import { useBasicModalMutations, useBasicModalState } from "../hooks";
-import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
+import {
+  useBasicModalConfig,
+  useBasicModalState,
+  useBasicModalMutations,
+} from "../hooks";
 
 // eslint-disable-next-line complexity
 export const BasicModalPendingMutationContent = () => {

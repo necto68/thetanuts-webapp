@@ -13,6 +13,7 @@ import {
   Container,
   MainButtonsContainer,
 } from "../../basic-vault-modal/components/BasicModalContent.styles";
+import { BasicCardWarning } from "../../basic-vault-modal/components/BasicCardWarning";
 
 import { Header } from "./Header";
 import { PositionInfo } from "./PositionInfo";
@@ -25,6 +26,7 @@ export const DegenModalContent = () => {
       <Header />
       <Switcher />
       {tabType === TabType.deposit ? <InputCard /> : null}
+      <BasicCardWarning />
       <PositionInfo />
       <MainButtonsContainer>
         {tabType === TabType.deposit ? (

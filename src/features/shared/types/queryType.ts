@@ -18,6 +18,9 @@ export enum QueryType {
 
   indexTokens = "indexTokens",
 
+  collateralAsset = "collateralAsset",
+  longVaultReader = "longVaultReader",
+
   chainIndexSwapsHistory = "chainIndexSwapsHistory",
   indexDepositsHistory = "indexDepositsHistory",
   indexWithdrawalsHistory = "indexWithdrawalsHistory",
