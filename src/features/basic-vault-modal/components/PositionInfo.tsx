@@ -27,15 +27,15 @@ export const PositionInfo = () => {
 
   return (
     <Container>
-      <VaultStatusInfo />
-      <CurrentPositionInfo />
-      <PendingPositionInfo />
       <InfoContainer>
         <InfoTitle>Projected APY%</InfoTitle>
         <InfoValue isAlignRight>
           {isLoading ? loadingPlaceholder : formattedAPY}
         </InfoValue>
       </InfoContainer>
+      <VaultStatusInfo />
+      <PendingPositionInfo />
+      <CurrentPositionInfo />
     </Container>
   );
 };

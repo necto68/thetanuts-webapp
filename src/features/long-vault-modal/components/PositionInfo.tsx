@@ -54,12 +54,6 @@ export const PositionInfo = () => {
   return (
     <Container>
       <VaultStatusInfo />
-      <InfoContainer>
-        <InfoTitle>Active Position</InfoTitle>
-        <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedCurrentContractsPosition}
-        </InfoValue>
-      </InfoContainer>
       {tabType === TabType.deposit ? (
         <InfoContainer>
           <InfoTitle>Pending Long Contracts</InfoTitle>
@@ -68,6 +62,12 @@ export const PositionInfo = () => {
           </InfoValue>
         </InfoContainer>
       ) : null}
+      <InfoContainer>
+        <InfoTitle>Active Position</InfoTitle>
+        <InfoValue isAlignRight>
+          {isLoading ? loadingPlaceholder : formattedCurrentContractsPosition}
+        </InfoValue>
+      </InfoContainer>
     </Container>
   );
 };

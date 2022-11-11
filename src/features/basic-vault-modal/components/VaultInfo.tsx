@@ -46,9 +46,16 @@ export const VaultInfo = () => {
 
   const capValue = isLongVault ? supplyCap : collatCap;
 
+  const percentageValue = capValue.gt(0)
+    ? balanceValue.div(capValue).mul(100).round(1)
+    : new Big(0);
+
+  const formattedPercentage = numberFormatter.format(
+    percentageValue.toNumber()
+  );
   const formattedBalance = numberFormatter.format(balanceValue.toNumber());
   const formattedCap = numberFormatter.format(capValue.toNumber());
-  const formattedCapacity = `${formattedBalance} / ${formattedCap} ${collateralSymbol}`;
+  const formattedCapacity = `${formattedPercentage}% (${formattedBalance} / ${formattedCap} ${collateralSymbol})`;
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
 

@@ -14,6 +14,10 @@ import { TabType } from "../../basic-vault-modal/types";
 
 import { Switcher } from "./Switcher";
 import { PositionInfo } from "./PositionInfo";
+import {
+  WithdrawMainButtonContainer,
+  WarningTitle,
+} from "./LongModalContent.styles";
 
 export const LongModalContent = () => {
   const { tabType } = useBasicModalState();
@@ -27,7 +31,13 @@ export const LongModalContent = () => {
         {tabType === TabType.deposit ? (
           <DepositMainButton />
         ) : (
-          <WithdrawMainButton />
+          <WithdrawMainButtonContainer>
+            <WithdrawMainButton />
+            <WarningTitle>
+              Warning - You would give up any potential upside if you close your
+              position mid epoch
+            </WarningTitle>
+          </WithdrawMainButtonContainer>
         )}
         {tabType === TabType.deposit ? <PendingDepositMainButton /> : null}
       </MainButtonsContainer>

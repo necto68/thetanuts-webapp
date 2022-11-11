@@ -67,8 +67,8 @@ export const PositionInfo = () => {
     <Container>
       <VaultInfoContainer>
         <VaultStatusInfo />
-        <CurrentPositionInfo />
         <PendingPositionInfo />
+        <CurrentPositionInfo />
       </VaultInfoContainer>
       <VaultInfoContainer>
         <InfoContainer>
