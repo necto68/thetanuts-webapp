@@ -1,3 +1,5 @@
+import type Big from "big.js";
+
 import type { Column } from "../../table/types";
 import {
   Table,
@@ -23,10 +25,20 @@ import {
 import { chainsMap } from "../../wallet/constants";
 import { productTitlesMap } from "../../table/constants";
 
+const getBalanceChange = (
+  type: TransactionType,
+  balance: Big,
+  symbol: string
+) => {
+  const formattedBalance = numberFormatter.format(balance.abs().toNumber());
+
+  return `${formattedBalance} ${symbol}`;
+};
+
 const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "assetSymbol",
-    title: "Vault",
+    title: "Asset",
 
     render: ({ vaultType, strategyType, assetSymbol, collateralSymbol }) => (
       <AssetCell
@@ -46,12 +58,35 @@ const columns: Column<HistoryTransactionRow>[] = [
     filterBy: true,
   },
   {
+    key: "chainId",
+    title: "Network",
+    render: ({ chainId }) => <Chains chainIds={[chainId]} />,
+    filterBy: ({ chainId }) => chainsMap[chainId].title,
+  },
+  {
+    key: "timestamp",
+    title: "Date",
+
+    render: ({ timestamp }) => (
+      <CellValue>{dateFormatter.format(new Date(timestamp))}</CellValue>
+    ),
+  },
+  {
     key: "type",
     title: "Activity",
 
-    render: ({ type, assetSymbol, symbol }) => (
+    render: ({ type, assetSymbol, symbol, balance }) => (
       <CellValueContainer>
-        <GreenCellValue>{TransactionTypeTitle[type]}</GreenCellValue>
+        <GreenCellValue>
+          {TransactionTypeTitle[type]}
+          {type !== TransactionType.canceledWithdrawal
+            ? ` - ${getBalanceChange(
+                type,
+                balance,
+                type === TransactionType.swappedIn ? assetSymbol : symbol
+              )}`
+            : ""}
+        </GreenCellValue>
         {[TransactionType.swappedIn, TransactionType.swappedOut].includes(
           type
         ) ? (
@@ -65,53 +100,6 @@ const columns: Column<HistoryTransactionRow>[] = [
     ),
 
     filterBy: ({ type }) => type,
-  },
-  {
-    key: "timestamp",
-    title: "Date",
-
-    render: ({ timestamp }) => (
-      <GreenCellValue>
-        {dateFormatter.format(new Date(timestamp))}
-      </GreenCellValue>
-    ),
-  },
-  {
-    key: "balance",
-    title: "Balance",
-
-    render: ({ type, balance, symbol }) => {
-      if ([TransactionType.canceledWithdrawal].includes(type)) {
-        return TransactionTypeTitle[type];
-      }
-
-      const formattedBalance = numberFormatter.format(balance.toNumber());
-
-      let prefix = "";
-
-      if (
-        [
-          TransactionType.withdrawnDirectly,
-          TransactionType.initiatedWithdrawal,
-        ].includes(type)
-      ) {
-        prefix = "Requested ";
-      } else if (balance.gt(0)) {
-        prefix = "+";
-      } else {
-        prefix = "";
-      }
-
-      return `${prefix}${formattedBalance} ${symbol}`;
-    },
-
-    sortBy: ({ balance }) => balance.toNumber(),
-  },
-  {
-    key: "chainId",
-    title: "Network",
-    render: ({ chainId }) => <Chains chainIds={[chainId]} />,
-    filterBy: ({ chainId }) => chainsMap[chainId].title,
   },
   {
     key: "id",

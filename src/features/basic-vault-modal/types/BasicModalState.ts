@@ -1,11 +1,6 @@
 import type { SwapRouterState } from "../../index-vault-modal/types";
 
-import type { TabType } from "./TabType";
-
 export interface BasicModalState {
-  tabType: TabType;
-  setTabType: (tabType: TabType) => void;
-
   inputValue: SwapRouterState["sourceValue"];
   setInputValue: SwapRouterState["setSourceValue"];
 

@@ -9,9 +9,9 @@ import {
   Container,
   MainButtonsContainer,
 } from "../../basic-vault-modal/components/BasicModalContent.styles";
-import { useBasicModalState } from "../../basic-vault-modal/hooks";
 import { TabType } from "../../basic-vault-modal/types";
 import { BasicCardWarning } from "../../basic-vault-modal/components/BasicCardWarning";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { Switcher } from "./Switcher";
 import { PositionInfo } from "./PositionInfo";
@@ -21,14 +21,15 @@ import {
 } from "./LongModalContent.styles";
 
 export const LongModalContent = () => {
-  const { tabType } = useBasicModalState();
+  const [vaultModalState] = useVaultModalState();
+  const { tabType } = vaultModalState;
 
   return (
     <Container>
       <Switcher />
       {tabType === TabType.deposit ? <InputCard /> : null}
-      <BasicCardWarning />
       <PositionInfo />
+      <BasicCardWarning />
       <MainButtonsContainer>
         {tabType === TabType.deposit ? (
           <DepositMainButton />

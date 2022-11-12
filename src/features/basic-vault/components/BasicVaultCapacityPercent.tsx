@@ -20,6 +20,7 @@ export const BasicVaultCapacityPercent: FC<BasicVaultCapacityProps> = ({
     ? balance.div(collatCap).mul(100).round(2).toNumber()
     : 0;
 
+  const formattedBalance = numberFormatter.format(balance.toNumber());
   const formattedTotal = numberFormatter.format(collatCap.toNumber());
 
   return (
@@ -27,7 +28,8 @@ export const BasicVaultCapacityPercent: FC<BasicVaultCapacityProps> = ({
       <Tooltip
         content={
           <SubTitle>
-            Total capacity: {formattedTotal} {collateralSymbol}
+            Capacity: {formattedDepositsValue}% <br />({formattedBalance} /{" "}
+            {formattedTotal} {collateralSymbol})
           </SubTitle>
         }
         id={`${formattedTotal} ${collateralSymbol} ${formattedDepositsValue}`}

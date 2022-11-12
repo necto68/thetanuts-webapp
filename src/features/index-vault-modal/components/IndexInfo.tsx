@@ -5,7 +5,7 @@ import {
 } from "../../shared/helpers";
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 
 import {
   Container,
@@ -79,11 +79,10 @@ export const IndexInfo = () => {
       </InfoContainer>
       <InfoContainer>
         <InfoTitleContainer>
-          <InfoTitle>Stronghold Token Address</InfoTitle>
           <Tooltip
             content="This represents a pro-rata share of ownership in the constituent vaults that make up the Stronghold."
             id="indexTokenAddress"
-            root={<InfoIcon />}
+            root={<InfoTitle>Stronghold Token Address</InfoTitle>}
           />
         </InfoTitleContainer>
         <InfoLink href={indexTokenExplorerUrl} isAlignRight target="_blank">

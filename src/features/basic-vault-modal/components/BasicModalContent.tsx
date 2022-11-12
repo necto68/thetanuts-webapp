@@ -1,5 +1,5 @@
-import { useBasicModalState } from "../hooks";
 import { TabType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { Switcher } from "./Switcher";
 import { InputCard } from "./InputCard";
@@ -13,7 +13,8 @@ import { Container, MainButtonsContainer } from "./BasicModalContent.styles";
 import { BasicCardWarning } from "./BasicCardWarning";
 
 export const BasicModalContent = () => {
-  const { tabType } = useBasicModalState();
+  const [vaultModalState] = useVaultModalState();
+  const { tabType } = vaultModalState;
 
   return (
     <Container>

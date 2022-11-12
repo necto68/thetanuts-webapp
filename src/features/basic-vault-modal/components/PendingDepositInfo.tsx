@@ -1,4 +1,4 @@
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { useBasicModalConfig } from "../hooks";
 import {
   InfoContainer,
@@ -31,11 +31,10 @@ export const PendingDepositInfo = () => {
   return (
     <InfoContainer>
       <InfoTitleContainer>
-        <InfoTitle>Deposit Pending</InfoTitle>
         <Tooltip
           content="Deposit Pending indicates a non-active deposit by the user in the vault. This deposit will not earn premium nor be exposed to options risk. Once the current epoch has been concluded, the pending deposit will become an active position by default."
           id="depositPending"
-          root={<InfoIcon />}
+          root={<InfoTitle>Deposit Pending</InfoTitle>}
         />
       </InfoTitleContainer>
       <InfoValue isAlignRight>

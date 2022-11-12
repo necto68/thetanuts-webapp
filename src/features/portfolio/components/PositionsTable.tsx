@@ -15,6 +15,7 @@ import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import { chainsMap } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
 import { productTitlesMap } from "../../table/constants";
+import { WithdrawButton } from "../../table/components/WithdrawButton";
 
 import { ButtonsContainer } from "./PositionsTableActions.styles";
 
@@ -52,7 +53,7 @@ const columns: Column<PositionTableRow>[] = [
   },
   {
     key: "balance",
-    title: "Balance",
+    title: "Current Position",
 
     render: ({ symbol, balance }) =>
       balance ? `${numberFormatter.format(balance.toNumber())} ${symbol}` : "",
@@ -61,7 +62,7 @@ const columns: Column<PositionTableRow>[] = [
   },
   {
     key: "assetPrice",
-    title: "Value",
+    title: "Value (USD)",
 
     render: ({ balance, assetPrice }) => {
       if (!balance) {
@@ -112,7 +113,14 @@ const columns: Column<PositionTableRow>[] = [
       }
 
       return (
-        <DepositButton chainId={chainId} vaultId={id} vaultType={vaultType} />
+        <ButtonsContainer>
+          <DepositButton chainId={chainId} vaultId={id} vaultType={vaultType} />
+          <WithdrawButton
+            chainId={chainId}
+            vaultId={id}
+            vaultType={vaultType}
+          />
+        </ButtonsContainer>
       );
     },
   },

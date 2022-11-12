@@ -1,10 +1,13 @@
 import { SwapInputCard } from "../../index-vault-modal/components/SwapInputCard";
 import { useBasicModalState } from "../hooks";
 import { TabType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 export const InputCard = () => {
+  const [vaultModalState] = useVaultModalState();
+  const { tabType } = vaultModalState;
+
   const {
-    tabType,
     inputValue,
     setInputValue,
     tokenData,

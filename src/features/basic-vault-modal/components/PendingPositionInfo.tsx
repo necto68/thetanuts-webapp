@@ -1,11 +1,12 @@
-import { useBasicModalState } from "../hooks";
 import { TabType } from "../types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { PendingDepositInfo } from "./PendingDepositInfo";
 import { PendingWithdrawInfo } from "./PendingWithdrawInfo";
 
 export const PendingPositionInfo = () => {
-  const { tabType } = useBasicModalState();
+  const [vaultModalState] = useVaultModalState();
+  const { tabType } = vaultModalState;
 
   return tabType === TabType.deposit ? (
     <PendingDepositInfo />

@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import Big from "big.js";
 import { constants } from "ethers";
 
@@ -12,20 +12,20 @@ import type { Token } from "../../index-vault-modal/types";
 import { convertToBig } from "../../shared/helpers";
 import { useLongModalConfig } from "../../long-vault-modal/hooks/useLongModalConfig";
 import { BasicVaultType } from "../../basic/types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
 export const useBasicModalProviderState = (): BasicModalState => {
-  const [currentTabType, setCurrentTabType] = useState(TabType.deposit);
+  const [vaultModalState] = useVaultModalState();
+  const { tabType } = vaultModalState;
   const [inputValue, setInputValue] = useState("");
   const [isUseNativeData, setIsUseNativeData] = useState(false);
 
-  const tabType = currentTabType;
-  const setTabType = useCallback((nextTabType: TabType) => {
+  useEffect(() => {
     setInputValue("");
     setIsUseNativeData(false);
-    setCurrentTabType(nextTabType);
-  }, []);
+  }, [tabType]);
 
   const {
     collateralTokenAddress,
@@ -76,16 +76,14 @@ export const useBasicModalProviderState = (): BasicModalState => {
     : undefined;
 
   const tokenData =
-    currentTabType === TabType.deposit
-      ? collateralTokenData
-      : withdrawalTokenData;
+    tabType === TabType.deposit ? collateralTokenData : withdrawalTokenData;
 
   // use the same price for Deposit/Withdraw tab
   const priceValue = inputValueBig.mul(collateralPrice).toNumber();
 
   let remainderValue: number | undefined = Number.MAX_SAFE_INTEGER;
 
-  if (currentTabType === TabType.deposit) {
+  if (tabType === TabType.deposit) {
     remainderValue =
       basicVaultType === BasicVaultType.LONG
         ? supplyRemainder
@@ -95,9 +93,6 @@ export const useBasicModalProviderState = (): BasicModalState => {
   }
 
   return {
-    tabType,
-    setTabType,
-
     inputValue,
     setInputValue,
 

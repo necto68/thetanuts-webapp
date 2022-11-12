@@ -3,11 +3,8 @@ import { createContext } from "react";
 
 import { useBasicModalProviderState } from "../hooks/useBasicModalProviderState";
 import type { BasicModalState } from "../types";
-import { TabType } from "../types";
 
 const defaultBasicModalState: BasicModalState = {
-  tabType: TabType.deposit,
-  setTabType: () => undefined,
   inputValue: "",
   setInputValue: () => undefined,
   isUseNativeData: false,

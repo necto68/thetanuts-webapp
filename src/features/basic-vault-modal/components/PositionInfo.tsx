@@ -27,13 +27,13 @@ export const PositionInfo = () => {
 
   return (
     <Container>
+      <VaultStatusInfo />
       <InfoContainer>
         <InfoTitle>Projected APY%</InfoTitle>
         <InfoValue isAlignRight>
           {isLoading ? loadingPlaceholder : formattedAPY}
         </InfoValue>
       </InfoContainer>
-      <VaultStatusInfo />
       <PendingPositionInfo />
       <CurrentPositionInfo />
     </Container>

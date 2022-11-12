@@ -20,6 +20,8 @@ import {
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { highYieldFormatter } from "../../shared/helpers";
 import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
+import { WithdrawButton } from "../../table/components/WithdrawButton";
+import { ActionsContainer } from "../../basic/components/ActionsCell";
 
 import { StrategyCell } from "./StrategyCell";
 
@@ -156,14 +158,21 @@ const columns: Column<BasicVault>[] = [
   },
   {
     key: "id",
-    minWidth: 140,
+    minWidth: 180,
 
     render: ({ id, chainId }) => (
-      <DepositButton
-        chainId={chainId}
-        vaultId={id}
-        vaultType={VaultModalType.degen}
-      />
+      <ActionsContainer>
+        <DepositButton
+          chainId={chainId}
+          vaultId={id}
+          vaultType={VaultModalType.degen}
+        />
+        <WithdrawButton
+          chainId={chainId}
+          vaultId={id}
+          vaultType={VaultModalType.degen}
+        />
+      </ActionsContainer>
     ),
   },
 ];

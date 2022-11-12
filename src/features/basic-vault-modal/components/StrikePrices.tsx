@@ -45,13 +45,13 @@ export const StrikePrices: FC<StrikePricesProps> = ({
   return basicVaultType === BasicVaultType.DEGEN ? (
     <>
       <InfoContainer>
-        <InfoTitle>Sold Strike Price</InfoTitle>
+        <InfoTitle>Short Strike Price</InfoTitle>
         <InfoValue isAlignRight>
           {isLoading ? loadingPlaceholder : soldStrikePrices}
         </InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoTitle>Bought Strike Price</InfoTitle>
+        <InfoTitle>Long Strike Price</InfoTitle>
         <InfoValue isAlignRight>
           {isLoading ? loadingPlaceholder : boughtStrikePrices}
         </InfoValue>

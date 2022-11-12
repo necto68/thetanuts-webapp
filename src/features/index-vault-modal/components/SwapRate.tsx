@@ -6,6 +6,7 @@ import Big from "big.js";
 import type { NativeToken, SwapRouterState, Token } from "../types";
 import { useSwapRouterState } from "../hooks";
 import { InfoIcon, Tooltip } from "../../shared/components";
+import { ViceVersa } from "../../shared/icons/ViceVersa";
 
 import {
   InfoContainer,
@@ -105,25 +106,26 @@ export const SwapRate: FC<SwapRateProps> = ({
     ? customRates[isRateFlipped ? 1 : 0] ?? "..."
     : getRateString(rateSourceValue, rateTargetValue, isRateLoading);
 
+  const tooltipTitle = title ? <InfoTitle>{title}</InfoTitle> : <InfoIcon />;
+  const noTooltipTitle = title ? <InfoTitle>{title}</InfoTitle> : <ViceVersa />;
+
   return (
-    <InfoContainer>
+    <InfoContainer onClick={handleRateClick}>
       <InfoTitleContainer>
-        {title ? <InfoTitle>{title}</InfoTitle> : null}
         {tooltip ? (
           <Tooltip
             content={tooltip}
             id="rate-tooltip"
             place={tooltipPlace}
-            root={<InfoIcon />}
+            root={tooltipTitle}
           />
         ) : (
-          "↔"
+          noTooltipTitle
         )}
       </InfoTitleContainer>
       <InfoValue
         isAlignRight
         isUnderline={!disabled}
-        onClick={handleRateClick}
       >{`1 ${rateSourceSymbol} = ${rateString} ${rateTargetSymbol}`}</InfoValue>
     </InfoContainer>
   );

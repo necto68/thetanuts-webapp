@@ -1,4 +1,3 @@
-import { useBasicModalState } from "../../basic-vault-modal/hooks";
 import { TabType } from "../../basic-vault-modal/types";
 import {
   Switcher,
@@ -14,20 +13,22 @@ import {
   MainButtonsContainer,
 } from "../../basic-vault-modal/components/BasicModalContent.styles";
 import { BasicCardWarning } from "../../basic-vault-modal/components/BasicCardWarning";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { Header } from "./Header";
 import { PositionInfo } from "./PositionInfo";
 
 export const DegenModalContent = () => {
-  const { tabType } = useBasicModalState();
+  const [vaultModalState] = useVaultModalState();
+  const { tabType } = vaultModalState;
 
   return (
     <Container>
       <Header />
       <Switcher />
       {tabType === TabType.deposit ? <InputCard /> : null}
-      <BasicCardWarning />
       <PositionInfo />
+      <BasicCardWarning />
       <MainButtonsContainer>
         {tabType === TabType.deposit ? (
           <DepositMainButton />

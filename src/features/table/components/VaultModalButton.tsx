@@ -8,6 +8,7 @@ import { useVaultModalState } from "../../modal/hooks";
 import type { VaultModalState } from "../../shared/hooks";
 import { getModalPathname } from "../../root/helpers";
 import type { AppTheme } from "../../app/constants/appTheme";
+import { TabType } from "../../basic-vault-modal/types";
 
 import { BaseVaultModalButton } from "./VaultModalButton.styles";
 
@@ -17,6 +18,7 @@ export interface VaultModalButtonProps
     "chainId" | "contentType" | "vaultId" | "vaultType" | "withdrawId"
   > {
   borderColor?: string;
+  tabType?: TabType;
 }
 
 export const VaultModalButton: FC<VaultModalButtonProps> = ({
@@ -27,6 +29,7 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
   withdrawId,
   borderColor,
   children,
+  tabType = TabType.deposit,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
 
@@ -50,6 +53,7 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
       contentType,
       withdrawId,
       chainId,
+      tabType,
     }));
   }, [
     vaultType,
@@ -58,6 +62,7 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
     withdrawId,
     chainId,
     setVaultModalState,
+    tabType,
   ]);
 
   return (

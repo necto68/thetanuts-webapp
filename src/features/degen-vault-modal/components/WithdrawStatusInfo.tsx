@@ -1,4 +1,4 @@
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import {
   InfoContainer,
@@ -37,11 +37,10 @@ export const WithdrawStatusInfo = () => {
   return (
     <InfoContainer>
       <InfoTitleContainer>
-        <InfoTitle>Withdraw Status</InfoTitle>
         <Tooltip
           content='When a user has initiated a withdrawal during mid-epoch, the withdraw status would indicate "Pending". Once the current epoch has ended and users can claim their withdrawn amount, the withdraw status would indicate "Ready to Claim".'
           id="withdrawStatus"
-          root={<InfoIcon />}
+          root={<InfoTitle>Withdraw Status</InfoTitle>}
         />
       </InfoTitleContainer>
       <InfoValue isAlignRight>

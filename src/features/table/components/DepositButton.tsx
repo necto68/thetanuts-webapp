@@ -1,7 +1,5 @@
 import type { FC } from "react";
 
-import { VaultModalType } from "../../root/types";
-
 import type { VaultModalButtonProps } from "./VaultModalButton";
 import { VaultModalButton } from "./VaultModalButton";
 
@@ -15,12 +13,7 @@ export const DepositButton: FC<DepositButtonProps> = ({
   vaultId,
   vaultType,
 }) => (
-  <VaultModalButton
-    borderColor={vaultType === VaultModalType.degen ? "#EB5353" : "#0DDBE8"}
-    chainId={chainId}
-    vaultId={vaultId}
-    vaultType={vaultType}
-  >
+  <VaultModalButton chainId={chainId} vaultId={vaultId} vaultType={vaultType}>
     Deposit
   </VaultModalButton>
 );

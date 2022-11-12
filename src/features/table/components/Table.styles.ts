@@ -130,12 +130,12 @@ export const CellValue = styled.span`
 `;
 
 export const GreenCellValue = styled(CellValue)`
-  color: #81e429;
+  color: ${({ theme }: Theme<AppTheme>) => theme.brandColor}; ;
 `;
 
 export const GreenCellSubValue = styled(CellValue)`
   font-size: 10px;
-  color: #81e429;
+  color: ${({ theme }: Theme<AppTheme>) => theme.brandColor}; ;
 `;
 
 export const CellValueContainer = styled.div`

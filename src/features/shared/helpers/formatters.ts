@@ -1,4 +1,6 @@
-export const numberFormatter = new Intl.NumberFormat("en-US");
+export const numberFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 2,
+});
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",

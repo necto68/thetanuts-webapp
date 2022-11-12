@@ -14,11 +14,13 @@ import { PercentageYieldsTooltip } from "../../theta-index/components";
 import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
 import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
+import { WithdrawButton } from "../../table/components/WithdrawButton";
 
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
 import { RiskLevelCell } from "./RiskLevelCell";
+import { ActionsContainer } from "./ActionsCell";
 
 const columns: Column<BasicVault>[] = [
   {
@@ -120,7 +122,7 @@ const columns: Column<BasicVault>[] = [
   {
     key: "balance",
     title: "Capacity",
-    minWidth: 180,
+    minWidth: 100,
 
     render: ({ collateralSymbol, balance, collatCap }) => (
       <BasicVaultCapacityPercent
@@ -150,14 +152,21 @@ const columns: Column<BasicVault>[] = [
   },
   {
     key: "id",
-    minWidth: 140,
+    minWidth: 190,
 
     render: ({ id, chainId }) => (
-      <DepositButton
-        chainId={chainId}
-        vaultId={id}
-        vaultType={VaultModalType.basic}
-      />
+      <ActionsContainer>
+        <DepositButton
+          chainId={chainId}
+          vaultId={id}
+          vaultType={VaultModalType.basic}
+        />
+        <WithdrawButton
+          chainId={chainId}
+          vaultId={id}
+          vaultType={VaultModalType.basic}
+        />
+      </ActionsContainer>
     ),
   },
 ];
