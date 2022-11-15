@@ -44,7 +44,6 @@ export const basicVaultFetcher = async (
   );
 
   const isDegenBasicVaultType = basicVaultType === BasicVaultType.DEGEN;
-  const isBasicVaultType = basicVaultType === BasicVaultType.BASIC;
 
   const lpDivisor = new Big(10).pow(18);
   const priceDivisor = new Big(10).pow(6);
@@ -148,16 +147,6 @@ export const basicVaultFetcher = async (
 
   let strikePrices: number[] = [];
 
-  if (isBasicVaultType) {
-    strikePrices = [
-      await vaultContract
-        .strikeX1e6(epoch)
-        .then((price) =>
-          normalizeVaultValue(convertToBig(price), priceDivisor)
-        ),
-    ];
-  }
-
   // get set of strike prices for degen vault
   if (isDegenBasicVaultType) {
     const [
@@ -189,6 +178,14 @@ export const basicVaultFetcher = async (
     ].map((priceValue) =>
       normalizeVaultValue(convertToBig(priceValue), priceDivisor)
     );
+  } else {
+    strikePrices = [
+      await vaultContract
+        .strikeX1e6(epoch)
+        .then((price) =>
+          normalizeVaultValue(convertToBig(price), priceDivisor)
+        ),
+    ];
   }
 
   // setup pending balance

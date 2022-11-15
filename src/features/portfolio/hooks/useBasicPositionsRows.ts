@@ -1,11 +1,13 @@
-import { allBasicVaults } from "../../basic/constants";
+import { basicVaults, degenVaults } from "../../basic/constants";
 import { useBasicVaults, useBasicVaultReaders } from "../../basic-vault/hooks";
 import type { BasicVaultRow } from "../types";
 import { VaultModalType } from "../../root/types";
 import { BasicVaultType } from "../../basic/types";
 
 export const useBasicPositionsRows = (): (BasicVaultRow | undefined)[] => {
-  const basicVaultsIds = allBasicVaults.map(({ id }) => id);
+  const basicVaultsArray = basicVaults.concat(degenVaults);
+  const basicVaultsIds = basicVaultsArray.map(({ id }) => id);
+
   const basicVaultsQueries = useBasicVaults(basicVaultsIds);
   const basicVaultReadersQueries = useBasicVaultReaders(basicVaultsIds);
 
