@@ -190,6 +190,9 @@ export const withdrawalDataFetcher = async (
             withdrawn: deployerWithdrawal.withdrawn.map((value) =>
               value.mul(sourceValue)
             ),
+
+            indexTokenWithdrawn:
+              deployerWithdrawal.indexTokenWithdrawn.mul(sourceValue),
           },
         ];
       }
