@@ -95,7 +95,6 @@ const columns: Column<IndexVaultRow>[] = [
   {
     key: "supportedChainIds",
     title: "Networks",
-    minWidth: 160,
 
     render: (row) => {
       if ("isDemo" in row) {
@@ -121,7 +120,6 @@ const columns: Column<IndexVaultRow>[] = [
   },
   {
     key: "id",
-    minWidth: 140,
 
     render: (row) => {
       if ("isDemo" in row) {

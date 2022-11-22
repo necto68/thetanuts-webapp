@@ -61,7 +61,7 @@ export const totalValueLockedFormatter = (value: number) => {
 
 export const highYieldFormatter = (value: number) => {
   const highYieldValueFormatter = new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 0,
+    maximumFractionDigits: value > 1000 ? 0 : 2,
   });
 
   let divisor = 1;

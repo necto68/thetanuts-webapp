@@ -26,7 +26,6 @@ const columns: Column<BasicVault>[] = [
   {
     key: "assetSymbol",
     title: "Basic Vault",
-    minWidth: 200,
 
     render: ({
       basicVaultType,
@@ -58,7 +57,6 @@ const columns: Column<BasicVault>[] = [
   {
     key: "type",
     title: "Strategy",
-    minWidth: 110,
 
     render: ({ type, period }) => <StrategyCell period={period} type={type} />,
 
@@ -67,7 +65,6 @@ const columns: Column<BasicVault>[] = [
   {
     key: "strikePrices",
     title: "Strike Price",
-    minWidth: 110,
 
     render: ({
       type,
@@ -94,13 +91,11 @@ const columns: Column<BasicVault>[] = [
     tooltipTitle:
       "The risk rating is the approximate riskiness of an asset and the respective option strategy given the current market conditions. The volatility of the asset and the directional component of the option strategy is the 2 main factors in the risk rating calculations.",
 
-    minWidth: 70,
     render: ({ riskLevel }) => <RiskLevelCell riskLevel={riskLevel} />,
   },
   {
     key: "percentageYields",
     title: "APY",
-    minWidth: 110,
 
     render: ({ id, percentageYields }) => (
       <APYCellContainer>
@@ -122,7 +117,6 @@ const columns: Column<BasicVault>[] = [
   {
     key: "balance",
     title: "Capacity",
-    minWidth: 100,
 
     render: ({ collateralSymbol, balance, collatCap }) => (
       <BasicVaultCapacityPercent
@@ -138,7 +132,6 @@ const columns: Column<BasicVault>[] = [
   {
     key: "chainId",
     title: "Network",
-    minWidth: 100,
 
     render: ({ id, chainId }) => (
       <Chains
@@ -152,7 +145,6 @@ const columns: Column<BasicVault>[] = [
   },
   {
     key: "id",
-    minWidth: 190,
 
     render: ({ id, chainId }) => (
       <ActionsContainer>

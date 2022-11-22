@@ -7,6 +7,7 @@ interface StatusIndicatorProps {
 }
 
 export const StatusText = styled.span`
+  white-space: nowrap;
   font-family: Roboto;
   font-weight: 500;
   font-size: 12px;

@@ -20,9 +20,8 @@ export const TableContainerWrapper = styled.div`
 
 export const TableContainer = styled.table`
   border-collapse: collapse;
-  min-width: 800px;
+  min-width: 1000px;
   width: 100%;
-  table-layout: fixed;
   border: 1px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
 `;
 
@@ -58,12 +57,10 @@ export const HeaderCell = styled.th.withConfig({
     }
   }
 
-  // Setting cell min-width in the table that has "table-layout: fixed" is actually setting width.
-  // That means that the table layout is responsive and cell width can be changed but it will not be less than this width.
   ${({ minWidth }) =>
     minWidth &&
     css`
-      width: ${minWidth}px;
+      min-width: ${minWidth}px;
     `}
 `;
 
@@ -127,6 +124,7 @@ export const CellValue = styled.span`
   font-size: 13px;
   color: ${({ theme }: Theme<AppTheme>) => theme.textColor};
   line-height: 1;
+  white-space: nowrap;
 `;
 
 export const GreenCellValue = styled(CellValue)`

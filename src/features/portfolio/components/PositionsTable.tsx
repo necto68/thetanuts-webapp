@@ -11,7 +11,11 @@ import {
 } from "../../table/components";
 import type { IndexVaultRow, BasicVaultRow } from "../types";
 import { useIndexPositionsRows, useBasicPositionsRows } from "../hooks";
-import { currencyFormatter, numberFormatter } from "../../shared/helpers";
+import {
+  currencyFormatter,
+  highYieldFormatter,
+  numberFormatter,
+} from "../../shared/helpers";
 import { chainsMap } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
 import { productTitlesMap } from "../../table/constants";
@@ -48,7 +52,9 @@ const columns: Column<PositionTableRow>[] = [
     title: "APY",
 
     render: ({ annualPercentageYield }) => (
-      <GreenCellValue>{`${annualPercentageYield}%`}</GreenCellValue>
+      <GreenCellValue>{`${highYieldFormatter(
+        annualPercentageYield
+      )}%`}</GreenCellValue>
     ),
   },
   {
@@ -89,7 +95,6 @@ const columns: Column<PositionTableRow>[] = [
   },
   {
     key: "id",
-    minWidth: 215,
 
     render: (row) => {
       const { id, vaultType, chainId } = row;

@@ -26,11 +26,9 @@ export const getVaultStatusTitle = (status: VaultStatus) => {
     case VaultStatus.AUCTION:
       return "Auction in Progress";
     case VaultStatus.SETTLEMENT:
-      return "Auction Settlement";
+      return "Settlement in Progress";
     case VaultStatus.SETTLED:
       return "Vault Settled";
-    case VaultStatus.PAUSE:
-      return "Pause";
     default:
       return null;
   }

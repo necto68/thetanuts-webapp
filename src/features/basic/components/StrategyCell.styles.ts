@@ -20,4 +20,5 @@ export const StrategyTitle = styled(Title)<StrategyTitleProps>`
 
 export const PeriodTitle = styled(Title)`
   text-transform: uppercase;
+  white-space: nowrap;
 `;
