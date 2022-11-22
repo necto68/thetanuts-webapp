@@ -60,27 +60,7 @@ export const InsufficientBalanceTitle = styled(motion.span).attrs(() => ({
   color: #eb5853;
 `;
 
-export const SwapInputCardAnimateContainer = styled(motion.div).attrs<{
-  downDirection: boolean;
-  disabled?: boolean;
-}>(({ downDirection }) => ({
-  initial: {
-    rotateX: downDirection ? "90deg" : "-90deg",
-    transformPerspective: 300,
-  },
-
-  animate: {
-    rotateX: "0deg",
-    transformPerspective: 300,
-  },
-
-  exit: {
-    rotateX: downDirection ? "90deg" : "-90deg",
-    transformPerspective: 300,
-  },
-
-  transition: { duration: 0.3, ease: "linear" },
-}))<{ downDirection: boolean; disabled?: boolean }>`
+export const SwapInputCardAnimateContainer = styled.div<{ disabled?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 10px;

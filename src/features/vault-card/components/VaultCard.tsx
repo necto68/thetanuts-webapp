@@ -17,6 +17,7 @@ import {
   CardLink,
   DataContent,
   SkeletonContainer,
+  FooterContent,
 } from "./VaultCard.styles";
 
 export interface VaultCardProps {
@@ -96,7 +97,7 @@ export const VaultCard: FC<VaultCardProps> = ({
           </DataContent>
           {content}
         </DataContainer>
-        {footerContent}
+        <FooterContent>{footerContent}</FooterContent>
       </Content>
     </CardLink>
   </Container>

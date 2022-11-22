@@ -18,6 +18,7 @@ export interface VaultModalButtonProps
     "chainId" | "contentType" | "vaultId" | "vaultType" | "withdrawId"
   > {
   borderColor?: string;
+  disabled?: boolean;
   tabType?: TabType;
 }
 
@@ -30,6 +31,7 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
   borderColor,
   children,
   tabType = TabType.deposit,
+  disabled,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
 
@@ -68,6 +70,7 @@ export const VaultModalButton: FC<VaultModalButtonProps> = ({
   return (
     <Link to={vaultModalRoute}>
       <BaseVaultModalButton
+        disabled={disabled}
         onClick={handleButtonClick}
         primaryColor={borderColor ?? defaultBorderColor}
       >

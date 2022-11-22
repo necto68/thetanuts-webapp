@@ -100,14 +100,13 @@ const columns: Column<PositionTableRow>[] = [
 
         return (
           <ButtonsContainer>
-            {unclaimed ? (
-              <ClaimButton
-                chainId={chainId}
-                vaultId={id}
-                withdrawId={withdrawId}
-              />
-            ) : null}
             <SwapButton chainId={chainId} vaultId={id} />
+            <ClaimButton
+              chainId={chainId}
+              disabled={!unclaimed}
+              vaultId={id}
+              withdrawId={withdrawId}
+            />
           </ButtonsContainer>
         );
       }

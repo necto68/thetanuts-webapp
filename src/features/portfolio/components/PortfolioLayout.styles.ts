@@ -12,10 +12,10 @@ export const Container = styled.div`
 export const TitleContainer = styled(ThetaIndexLayoutContainer)`
   gap: 10px;
 
-  padding: 25px;
+  padding: 25px 25px 0 25px;
 
   ${screens.md} {
-    padding: 15px;
+    padding: 15px 15px 0 15px;
   }
 `;
 

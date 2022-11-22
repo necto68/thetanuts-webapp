@@ -9,9 +9,10 @@ import { DegenVaultCard } from "../../vault-card/components";
 import { ModalPathname } from "../../root/types";
 import { ProgressBarColor, VaultType } from "../../basic-vault/types";
 import { getDegenVaultTypeShortName, getDegenVaultTitle } from "../helpers";
-import { EpochTimer, BasicVaultCapacity } from "../../basic-vault/components";
+import { BasicVaultCapacity } from "../../basic-vault/components";
 import { useBasicVault } from "../../basic-vault/hooks";
 import type { AppTheme } from "../../app/constants/appTheme";
+import { VaultStatus } from "../../basic-vault-modal/components";
 
 interface DegenVaultProps {
   degenVaultId: string;
@@ -71,10 +72,11 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
         />
       }
       footerContent={
-        <EpochTimer
+        <VaultStatus
           expiry={expiry}
           isAllowInteractions={isAllowInteractions}
           isExpired={isExpired}
+          isLoading={false}
           isSettled={isSettled}
         />
       }

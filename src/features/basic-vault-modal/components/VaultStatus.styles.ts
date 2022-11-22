@@ -6,6 +6,13 @@ interface StatusIndicatorProps {
   status: VaultStatus;
 }
 
+export const StatusText = styled.span`
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 12px;
+  color: #ffffff;
+`;
+
 export const StatusIndicator = styled.div<StatusIndicatorProps>`
   width: 10px;
   height: 10px;

@@ -60,6 +60,7 @@ const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "chainId",
     title: "Network",
+    minWidth: 100,
     render: ({ chainId }) => <Chains chainIds={[chainId]} />,
     filterBy: ({ chainId }) => chainsMap[chainId].title,
   },
@@ -104,6 +105,7 @@ const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "id",
     title: "Tx",
+    minWidth: 100,
 
     render: ({ id, chainId }) => (
       <ExternalLinkButton chainId={chainId} id={id} pathType={PathType.tx} />

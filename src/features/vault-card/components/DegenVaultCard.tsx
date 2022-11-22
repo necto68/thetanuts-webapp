@@ -2,7 +2,14 @@ import type { FC } from "react";
 
 import { IconContainer } from "../../shared/components";
 
-import { Container, Content, SymbolTitle, CardLink } from "./VaultCard.styles";
+import {
+  Container,
+  Content,
+  SymbolTitle,
+  CardLink,
+  PeriodTitle,
+  FooterContent,
+} from "./VaultCard.styles";
 import {
   DataContainer,
   Header,
@@ -13,7 +20,7 @@ import {
   APYTitle,
   APYValue,
   SymbolContainer,
-  SubTitle,
+  TextContainer,
 } from "./DegenVaultCard.styles";
 import type { VaultCardProps } from "./VaultCard";
 
@@ -26,8 +33,6 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
   title,
   icon,
   symbol,
-  subTitle,
-  weeklyYield,
   apy,
   backgroundColor,
   shadowColor,
@@ -50,28 +55,24 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
         <DataContainer>
           <DataContent>
             <DataItemContainer>
-              <APYContainer>
-                <APYTitle>Weekly Yield</APYTitle>
-                <APYValue>{`${weeklyYield}%`}</APYValue>
-              </APYContainer>
-              <APYContainer>
-                <APYTitle>APY</APYTitle>
-                <APYValue>{`${apy}%`}</APYValue>
-              </APYContainer>
-            </DataItemContainer>
-            <DataItemContainer>
               <SymbolContainer>
                 <IconContainer height={25} width={25}>
                   {icon}
                 </IconContainer>
-                <SymbolTitle>{symbol}</SymbolTitle>
+                <TextContainer>
+                  <SymbolTitle>{symbol}</SymbolTitle>
+                  <PeriodTitle>Weekly</PeriodTitle>
+                </TextContainer>
               </SymbolContainer>
-              <SubTitle>{subTitle}</SubTitle>
+              <APYContainer>
+                <APYValue>{`${apy}%`}</APYValue>
+                <APYTitle>APY</APYTitle>
+              </APYContainer>
             </DataItemContainer>
           </DataContent>
           {content}
         </DataContainer>
-        {footerContent}
+        <FooterContent>{footerContent}</FooterContent>
       </Content>
     </CardLink>
   </Container>

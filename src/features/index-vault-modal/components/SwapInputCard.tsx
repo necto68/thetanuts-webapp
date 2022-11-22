@@ -156,7 +156,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       <AnimatePresence exitBeforeEnter initial={false}>
         <SwapInputCardAnimateContainer
           disabled={disabled}
-          downDirection={isSource ? isFlipped : !isFlipped}
           key={isFlipped.toString()}
         >
           <SwapInputCardContentContainer>

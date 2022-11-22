@@ -39,13 +39,14 @@ export const DataItemContainer = styled.div`
 export const APYContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   gap: 5px;
 `;
 
 export const APYTitle = styled(VaultCardSubTitle)`
   font-family: Barlow;
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 12px;
 `;
 
 export const APYValue = styled(VaultCardAPYTitle)`
@@ -56,6 +57,11 @@ export const APYValue = styled(VaultCardAPYTitle)`
 export const SymbolContainer = styled.div`
   display: flex;
   align-items: center;
+  gap: 4px;
+`;
+export const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 4px;
 `;
 

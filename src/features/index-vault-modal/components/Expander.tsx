@@ -1,8 +1,7 @@
 import type { FC, ReactElement, MouseEvent as ReactMouseEvent } from "react";
 
 import type { SectionType } from "../types";
-import { Plus } from "../../shared/icons";
-import { Minus } from "../../shared/icons/Minus";
+import { ArrowDown, ArrowUp } from "../../shared/icons";
 
 import {
   Container,
@@ -49,7 +48,7 @@ export const Expander: FC<ExpanderProps> = ({
         >
           {title}
         </Title>
-        {isOpen ? <Minus /> : <Plus />}
+        {isOpen ? <ArrowUp /> : <ArrowDown />}
       </HeaderButton>
       <ExpandableContainer isOpen={isOpen} maxHeight={maxHeight}>
         {children}

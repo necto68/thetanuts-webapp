@@ -44,11 +44,15 @@ export const Content = styled.div`
   border-bottom-right-radius: 4px;
 `;
 
+export const FooterContent = styled.div`
+  padding: 4px 0;
+`;
+
 export const DataContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 16px 2px 8px;
+  padding: 8px 2px 8px;
   border-bottom: 1px solid
     ${({ theme }: Theme<AppTheme>) => theme.secondBorderColor};
 `;
@@ -107,6 +111,12 @@ export const SymbolTitle = styled.span`
   font-family: Roboto;
   font-weight: 700;
   font-size: 16px;
+  color: #ffffff;
+`;
+export const PeriodTitle = styled.span`
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 12px;
   color: #ffffff;
 `;
 

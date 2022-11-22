@@ -11,9 +11,9 @@ import { ModalPathname } from "../../root/types";
 import { ProgressBarColor, VaultType } from "../types";
 import { getVaultTypeTitle } from "../../index-vault/helpers";
 import type { AppTheme } from "../../app/constants/appTheme";
+import { VaultStatus } from "../../basic-vault-modal/components";
 
 import { BasicVaultCapacity } from "./BasicVaultCapacity";
-import { EpochTimer } from "./EpochTimer";
 
 interface BasicVaultProps {
   basicVaultId: string;
@@ -72,10 +72,11 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
         />
       }
       footerContent={
-        <EpochTimer
+        <VaultStatus
           expiry={expiry}
           isAllowInteractions={isAllowInteractions}
           isExpired={isExpired}
+          isLoading={isLoading}
           isSettled={isSettled}
         />
       }

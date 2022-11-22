@@ -4,7 +4,7 @@ import type { IndexVaultConfig } from "../types";
 export const developIndexVaults: IndexVaultConfig[] = [
   {
     id: "TN-MVV1-ETH-CALL",
-    isFeatured: true,
+    isFeatured: false,
 
     source: {
       chainId: ChainId.POLYGON,

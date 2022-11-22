@@ -2,7 +2,11 @@ import type { FC } from "react";
 
 import { useVaultStatus } from "../hooks";
 
-import { StatusContainer, StatusIndicator } from "./VaultStatus.styles";
+import {
+  StatusContainer,
+  StatusIndicator,
+  StatusText,
+} from "./VaultStatus.styles";
 
 interface VaultStatusProps {
   expiry: number;
@@ -31,7 +35,7 @@ export const VaultStatus: FC<VaultStatusProps> = ({
   return (
     <StatusContainer>
       <StatusIndicator status={status} />
-      {isLoading ? loadingPlaceholder : statusTitle}
+      <StatusText>{isLoading ? loadingPlaceholder : statusTitle}</StatusText>
     </StatusContainer>
   );
 };

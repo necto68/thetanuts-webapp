@@ -49,7 +49,7 @@ export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
 
   return (
     <Container>
-      <IconsContainer>
+      <IconsContainer isPair={isDegenOrPutType}>
         <IconContainer height={25} width={25}>
           {collateralAssetLogo}
         </IconContainer>
@@ -61,15 +61,13 @@ export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
       </IconsContainer>
       <TitlesContainer>
         <Title>{title}</Title>
-        <Title>
-          <VaultStatus
-            expiry={expiry}
-            isAllowInteractions={isAllowInteractions}
-            isExpired={isExpired}
-            isLoading={false}
-            isSettled={isSettled}
-          />
-        </Title>
+        <VaultStatus
+          expiry={expiry}
+          isAllowInteractions={isAllowInteractions}
+          isExpired={isExpired}
+          isLoading={false}
+          isSettled={isSettled}
+        />
       </TitlesContainer>
     </Container>
   );

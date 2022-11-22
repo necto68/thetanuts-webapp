@@ -26,30 +26,8 @@ export const Backdrop = styled(motion(Div100vh)).attrs(() => ({
   // height: 100vh; - by default because of Div100vh
 `;
 
-export const ModalContainer = styled(motion.div).attrs<{
-  maxHeight: string;
-}>(() => ({
-  initial: {
-    y: "-50%",
-    opacity: 0,
-    scale: 0.8,
-  },
-
-  animate: {
-    y: 0,
-    opacity: 1,
-    scale: 1,
-  },
-
-  exit: {
-    y: "-50%",
-    opacity: 0,
-    scale: 0.8,
-  },
-}))<{
-  maxHeight: string;
-}>`
+export const ModalContainer = styled.div`
   display: flex;
   max-width: 95vw;
-  max-height: ${({ maxHeight }) => maxHeight};
+  max-height: ${({ maxHeight }: { maxHeight: string }) => maxHeight};
 `;
