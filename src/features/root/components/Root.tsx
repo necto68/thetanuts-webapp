@@ -3,7 +3,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { ThetaIndexPage } from "../../theta-index/components";
 import { BasicPage } from "../../basic/components";
 import { DegenPage } from "../../degen/components";
-import { LongPage } from "../../long/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
@@ -93,12 +92,6 @@ export const Root = () => {
                     ]}
                   >
                     <DegenPage />
-                  </Route>
-                  <Route
-                    exact
-                    path={[RouterPathname.long, RouterPathname.longVaultModal]}
-                  >
-                    <LongPage />
                   </Route>
                   <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
