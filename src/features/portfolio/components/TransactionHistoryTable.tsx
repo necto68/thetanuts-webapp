@@ -153,7 +153,7 @@ export const TransactionHistoryTable = () => {
     return (
       <CellValue>
         {`You don't have transaction history${
-          chainTitle ? ` from ${chainTitle} network` : ""
+          chainTitle ? ` on ${chainTitle} network` : ""
         }, yet`}
       </CellValue>
     );

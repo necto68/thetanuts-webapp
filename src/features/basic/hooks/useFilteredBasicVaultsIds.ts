@@ -8,8 +8,8 @@ export const useFilteredBasicVaultsIds = (
   const { network } = useWallet();
   const chainId = network?.chainId;
 
-  const filteredBasicVaults = basicVaultsArray.filter(
-    ({ source }) => source.chainId === chainId
+  const filteredBasicVaults = basicVaultsArray.filter(({ source }) =>
+    chainId ? source.chainId === chainId : true
   );
 
   return filteredBasicVaults.map(({ id }) => id);
