@@ -6,6 +6,7 @@ import { InputCard } from "./InputCard";
 import { PositionInfo } from "./PositionInfo";
 import { DepositMainButton } from "./DepositMainButton";
 import { WithdrawMainButton } from "./WithdrawMainButton";
+import { PendingDepositMainButton } from "./PendingDepositMainButton";
 import { PendingWithdrawMainButton } from "./PendingWithdrawMainButton";
 import { VaultInfo } from "./VaultInfo";
 import { AnalyticLink } from "./AnalyticLink";
@@ -28,7 +29,11 @@ export const BasicModalContent = () => {
         ) : (
           <WithdrawMainButton />
         )}
-        {tabType === TabType.withdraw ? <PendingWithdrawMainButton /> : null}
+        {tabType === TabType.deposit ? (
+          <PendingDepositMainButton />
+        ) : (
+          <PendingWithdrawMainButton />
+        )}
       </MainButtonsContainer>
       <VaultInfo />
       <AnalyticLink />
