@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { GradientButton } from "../../shared/components";
+import { BaseButton } from "../../shared/components";
 import { useDisclaimerModalState } from "../hooks";
 
 import {
@@ -8,6 +8,9 @@ import {
   Title,
   UnorderedList,
   ListItem,
+  Subtitle,
+  Link,
+  ActionContainer,
 } from "./DisclaimerModal.styles";
 
 export const DisclaimerModal = () => {
@@ -19,10 +22,22 @@ export const DisclaimerModal = () => {
 
   return (
     <Container>
-      <Title>
-        By using Thetanuts dApp, I agree to the (1) Important Disclaimer; (2)
-        the Terms of Use; and (3) Privacy Policy.
-      </Title>
+      <Title>Terms of Service Agreement</Title>
+      <Subtitle>
+        By using Thetanuts dApp, I agree to the{" "}
+        <Link href="https://thetanuts.finance/basic/disclaimer" target="_blank">
+          Important Disclaimer
+        </Link>
+        &nbsp; the{" "}
+        <Link href="https://thetanuts.finance/basic/termscondition">
+          Terms of Use
+        </Link>{" "}
+        and{" "}
+        <Link href="https://thetanuts.finance/basic/privacypolicy">
+          Privacy Policy
+        </Link>
+        .
+      </Subtitle>
       <UnorderedList>
         <ListItem>
           I am not a person or entity who resides in, are citizens of, are
@@ -43,11 +58,16 @@ export const DisclaimerModal = () => {
           Thetanuts Finance protocols
         </ListItem>
       </UnorderedList>
-      <GradientButton
-        backgroundColor="#283841"
-        onClick={handleCloseButtonClick}
-        title="Agree and Proceed"
-      />
+      <ActionContainer>
+        <BaseButton
+          onClick={handleCloseButtonClick}
+          primaryColor="#1FFFAB"
+          secondaryColor="#1A1D23"
+          title="Agree and Proceed"
+        >
+          Agree and Proceed
+        </BaseButton>
+      </ActionContainer>
     </Container>
   );
 };

@@ -26,7 +26,7 @@ type IndexVaultRow = DemoIndexVaultConfig | IndexVault;
 const columns: Column<IndexVaultRow>[] = [
   {
     key: "assetSymbol",
-    title: "Stronghold",
+    title: "Product",
 
     render: ({ type, assetSymbol, collateralSymbol }) => (
       <AssetCell

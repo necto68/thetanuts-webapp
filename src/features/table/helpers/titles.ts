@@ -1,6 +1,6 @@
 import { VaultModalType } from "../../root/types";
 import { VaultType } from "../../basic-vault/types";
-import { vaultTypesPrefixes, basicVaultTypesPrefixes } from "../constants";
+import { basicVaultTypesPrefixes, vaultTypesPrefixes } from "../constants";
 
 export const getVaultTitle = (
   vaultType: VaultModalType,
@@ -10,7 +10,8 @@ export const getVaultTitle = (
 ) => {
   const vaultPrefix = vaultTypesPrefixes[vaultType];
   const isDegenOrPutType =
-    vaultType === VaultModalType.degen || type === VaultType.PUT;
+    vaultType === VaultModalType.degen ||
+    (vaultType === VaultModalType.basic && type === VaultType.PUT);
 
   const assets = isDegenOrPutType
     ? [collateralSymbol, assetSymbol]

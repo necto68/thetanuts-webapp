@@ -22,9 +22,11 @@ export const StyledTooltip = styled(ReactTooltip)`
   opacity: 1 !important;
   pointer-events: auto !important;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  display: none;
 
   &:hover {
     visibility: visible !important;
+    display: flex;
   }
 `;
 

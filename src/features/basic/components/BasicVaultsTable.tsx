@@ -25,7 +25,7 @@ import { ActionsContainer } from "./ActionsCell";
 const columns: Column<BasicVault>[] = [
   {
     key: "assetSymbol",
-    title: "Basic Vault",
+    title: "Product",
 
     render: ({
       basicVaultType,

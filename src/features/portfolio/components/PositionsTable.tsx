@@ -28,7 +28,7 @@ type PositionTableRow = BasicVaultRow | IndexVaultRow;
 const columns: Column<PositionTableRow>[] = [
   {
     key: "assetSymbol",
-    title: "Vault",
+    title: "Product",
 
     render: ({ vaultType, type, assetSymbol, collateralSymbol }) => (
       <AssetCell
@@ -43,7 +43,7 @@ const columns: Column<PositionTableRow>[] = [
   },
   {
     key: "vaultType",
-    title: "Product",
+    title: "Strategy",
     render: ({ vaultType }) => productTitlesMap[vaultType],
     filterBy: true,
   },

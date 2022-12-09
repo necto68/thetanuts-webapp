@@ -16,7 +16,7 @@ import { getLongVaultContractsTitle } from "../../table/helpers";
 const columns: Column<LongVaultRow>[] = [
   {
     key: "assetSymbol",
-    title: "Long Vault",
+    title: "Product",
     minWidth: 200,
 
     render: ({

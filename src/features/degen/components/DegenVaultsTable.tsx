@@ -28,7 +28,7 @@ import { StrategyCell } from "./StrategyCell";
 const columns: Column<BasicVault>[] = [
   {
     key: "assetSymbol",
-    title: "Degen Vault",
+    title: "Product",
 
     render: ({
       basicVaultType,

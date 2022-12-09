@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { CellValue } from "../../table/components";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 export const LowRiskLevelCellValue = styled(CellValue)`
   color: #00ff29;
@@ -11,5 +12,5 @@ export const MediumRiskLevelCellValue = styled(CellValue)`
 `;
 
 export const HighRiskLevelCellValue = styled(CellValue)`
-  color: #ff0000;
+  color: ${({ theme }: Theme<AppTheme>) => theme.warningColor};
 `;
