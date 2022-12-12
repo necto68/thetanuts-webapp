@@ -36,3 +36,14 @@ export const basicVaultsMap: Record<
 > = Object.fromEntries(
   allBasicVaults.map((basicVault) => [basicVault.id, basicVault])
 );
+
+// all develop Basic Vaults + BTC and ETH call/put production Basic Vaults
+// TODO: Remove this when we support depositor for all basic vaults
+export const basicVaultsIdsThatSupportDepositor = developBasicVaults
+  .map(({ id }) => id)
+  .concat([
+    "TN-CSCCv1-ETHUSD-A",
+    "TN-CSCCv1-BTCUSD-A",
+    "TN-CSCPv1-ETHUSD-A",
+    "TN-CSCPv1-BTCUSD",
+  ]);

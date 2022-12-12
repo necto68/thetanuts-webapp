@@ -4,6 +4,7 @@ import { useVaultModalState } from "../../modal/hooks";
 import { useBasicVault, useBasicVaultReader } from "../../basic-vault/hooks";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
+import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants/basicVaults";
 
 export const useBasicModalConfig = () => {
   const [{ vaultId }] = useVaultModalState();
@@ -15,6 +16,7 @@ export const useBasicModalConfig = () => {
 
   const { data } = basicVaultQuery;
   const {
+    id = "",
     chainId: basicVaultChainId = ChainId.ETHEREUM,
     basicVaultAddress = "",
     basicVaultType = BasicVaultType.BASIC,
@@ -34,7 +36,11 @@ export const useBasicModalConfig = () => {
     [BasicVaultType.LONG]: longVaultPositionManagerAddress,
   };
 
-  const spenderAddress = spenderAddressesByBasicVaultType[basicVaultType];
+  // TODO: Remove this when we support depositor for all basic vaults
+  // const spenderAddress = spenderAddressesByBasicVaultType[basicVaultType];
+  const spenderAddress = basicVaultsIdsThatSupportDepositor.includes(id)
+    ? basicVaultDepositorAddress
+    : spenderAddressesByBasicVaultType[basicVaultType];
 
   const provider = chainProvidersMap[basicVaultChainId];
 
