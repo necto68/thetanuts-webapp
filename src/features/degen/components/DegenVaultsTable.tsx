@@ -29,6 +29,7 @@ import {
   getDegenVaultTypeShortName,
   getDegenVaultTypeTitle,
 } from "../../degen-vault/helpers";
+import { useFilteredBasicVaultsIds } from "../../basic/hooks";
 
 import { StrategyCell } from "./StrategyCell";
 
@@ -188,8 +189,8 @@ const columns: Column<BasicVault>[] = [
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
 export const DegenVaultsTable = () => {
-  const degenVaultsIds = degenVaults.map(({ id }) => id);
-  const degenVaultsQueries = useBasicVaults(degenVaultsIds);
+  const filteredDegenVaultsIds = useFilteredBasicVaultsIds(degenVaults);
+  const degenVaultsQueries = useBasicVaults(filteredDegenVaultsIds);
 
   const rows = degenVaultsQueries.map(({ data }) => data);
 

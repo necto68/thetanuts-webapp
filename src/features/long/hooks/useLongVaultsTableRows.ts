@@ -2,12 +2,13 @@ import { longVaults } from "../../basic/constants";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { useLongVaultsReaders } from "../../long-vault/hooks";
 import type { LongVaultRow } from "../types";
+import { useFilteredBasicVaultsIds } from "../../basic/hooks";
 
 export const useLongVaultsTableRows = (): (LongVaultRow | undefined)[] => {
-  const longVaultsIds = longVaults.map(({ id }) => id);
+  const filteredLongVaultsIds = useFilteredBasicVaultsIds(longVaults);
 
-  const longVaultsQueries = useBasicVaults(longVaultsIds);
-  const longVaultsReaderQueries = useLongVaultsReaders(longVaultsIds);
+  const longVaultsQueries = useBasicVaults(filteredLongVaultsIds);
+  const longVaultsReaderQueries = useLongVaultsReaders(filteredLongVaultsIds);
 
   const longVaultsData = longVaultsQueries.map(({ data }) => data);
 

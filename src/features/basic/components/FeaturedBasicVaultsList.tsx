@@ -1,12 +1,16 @@
 import { BasicVault, LoadingBasicVault } from "../../basic-vault/components";
+import { EmptyFeaturedVaultsList } from "../../theta-index/components";
 import { Container } from "../../theta-index/components/FeaturedIndexVaultsList.styles";
 import { basicVaults } from "../constants";
-import { useFeaturedBasicVaults } from "../hooks";
+import { useFilteredBasicVaultsIds, useFeaturedBasicVaults } from "../hooks";
 
 export const FeaturedBasicVaultsList = () => {
-  const basicVaultIds = basicVaults.map(({ id }) => id);
+  const filteredBasicVaultIds = useFilteredBasicVaultsIds(basicVaults);
+  const featuredBasicVaults = useFeaturedBasicVaults(filteredBasicVaultIds);
 
-  const featuredBasicVaults = useFeaturedBasicVaults(basicVaultIds);
+  if (featuredBasicVaults.length === 0) {
+    return <EmptyFeaturedVaultsList />;
+  }
 
   return (
     <Container>

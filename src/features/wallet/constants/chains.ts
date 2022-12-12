@@ -60,7 +60,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "H9YG861JU9VGXZXDBTR2C6CE23J8NSXSGC",
+      explorerApi: [
+        "H9YG861JU9VGXZXDBTR2C6CE23J8NSXSGC",
+        "YCNY4PDQYYH2JE3GEDK7ZWARNDEVB2WYWH",
+        "UGQ2VSHXWZSHH5ERC3JT233XBQ9HEV3I63",
+      ],
     },
   },
   {
@@ -75,7 +79,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "DY28MH5SJCHAJ16DAKHD8YJXM37WUTSJYP",
+      explorerApi: [
+        "DY28MH5SJCHAJ16DAKHD8YJXM37WUTSJYP",
+        "5QM8CVF4USTJ9PPPKFF6F24MTFSJ234P9N",
+        "A6KD3Z4QVDA3W6E8EPYSV4MZEX5W2SP5AK",
+      ],
     },
 
     addresses: {
@@ -102,7 +110,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "PJMV9MU5ZK43D5JWZTJ28YJWJ51G76Q9U2",
+      explorerApi: [
+        "PJMV9MU5ZK43D5JWZTJ28YJWJ51G76Q9U2",
+        "ECZM94TW6VXE9QQEET6XN54RX1JQUQHXGZ",
+        "IBCDHD3UCSN94JXG4WST1A98P8I42FDZYA",
+      ],
     },
 
     addresses: {
@@ -137,7 +149,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "FWE95HNDKYITDAQCHIHMR3IIA4FFNN5WEH",
+      explorerApi: [
+        "FWE95HNDKYITDAQCHIHMR3IIA4FFNN5WEH",
+        "KZ7FGQPH92P39ADB1I9EHWBENG7PT7WWQB",
+        "W5CE6BPVDEDPSM6G3GJ1JRNST1I1P37UDY",
+      ],
     },
 
     addresses: {
@@ -163,7 +179,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "YAVSTA9H2BUE21X9XGDTK6V4149YN58VM1",
+      explorerApi: [
+        "YAVSTA9H2BUE21X9XGDTK6V4149YN58VM1",
+        "AAYCUTGS5JY1BKCD3EKHE9FMKNYDAPTXG2",
+        "I8VMNS8RQE7NEHISSN4ZH2WBR7W3GFS2IA",
+      ],
     },
 
     addresses: {
@@ -189,7 +209,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "PW1MZGXPPJZY9N51ACRYPNCMQ8C5N5ANQE",
+      explorerApi: [
+        "PW1MZGXPPJZY9N51ACRYPNCMQ8C5N5ANQE",
+        "HZC3SPJF788SCZXRJ7I2TJ57VSD7CEFF1Q",
+        "W3AJ3R2HDV8S1VHI74NTYYU661BD3TTTSM",
+      ],
     },
 
     addresses: {
@@ -215,7 +239,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "JWFE21YZQDXQQVE1YV8CTE7C69CW1FMQHI",
+      explorerApi: [
+        "JWFE21YZQDXQQVE1YV8CTE7C69CW1FMQHI",
+        "TXKIRG2UND6MHK5DXT87V869W58TWDVI39",
+        "Q7WI97PEEW7U7TERGX7FTJSBPK98ZAGNJ9",
+      ],
     },
 
     addresses: {
@@ -241,7 +269,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "2E61KG4DBVCCS9CPCDIRSUPEWFTV31HQFK",
+      explorerApi: [
+        "2E61KG4DBVCCS9CPCDIRSUPEWFTV31HQFK",
+        "VTZ8ZHWBCPUTPIBR5US5XRTKH5ATV3SFKG",
+        "6K358Y8JJXHG3QUPN9JVT51DRW73EAVE87",
+      ],
     },
 
     addresses: {

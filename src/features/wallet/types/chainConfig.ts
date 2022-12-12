@@ -28,6 +28,6 @@ export interface ChainConfig {
   };
 
   keys: {
-    explorerApi?: string;
+    explorerApi?: string[];
   };
 }

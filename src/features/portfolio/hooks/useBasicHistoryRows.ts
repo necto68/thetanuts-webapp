@@ -1,10 +1,11 @@
 import type { HistoryTransactionRow } from "../types";
-import { basicVaults, degenVaults } from "../../basic/constants";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { VaultModalType } from "../../root/types";
 import { TransactionType } from "../types/transaction";
 import { VaultType } from "../../basic-vault/types";
 import { BasicVaultType } from "../../basic/types";
+import { useFilteredBasicVaultsIds } from "../../basic/hooks";
+import { basicVaults, degenVaults } from "../../basic/constants";
 
 import { useBasicHistoryQueries } from "./useBasicHistoryQueries";
 
@@ -13,10 +14,10 @@ export const useBasicHistoryRows = (): (
   | undefined
 )[] => {
   const basicVaultsArray = basicVaults.concat(degenVaults);
-  const basicVaultsIds = basicVaultsArray.map(({ id }) => id);
+  const filteredBasicVaultsIds = useFilteredBasicVaultsIds(basicVaultsArray);
 
-  const basicVaultsQueries = useBasicVaults(basicVaultsIds);
-  const basicHistoryQueries = useBasicHistoryQueries(basicVaultsIds);
+  const basicVaultsQueries = useBasicVaults(filteredBasicVaultsIds);
+  const basicHistoryQueries = useBasicHistoryQueries(filteredBasicVaultsIds);
 
   return basicVaultsQueries.flatMap(({ data }, vaultIndex) => {
     const { data: historyTransactions } = basicHistoryQueries[vaultIndex];
