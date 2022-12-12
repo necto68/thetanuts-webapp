@@ -22,6 +22,13 @@ import { highYieldFormatter } from "../../shared/helpers";
 import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
 import { WithdrawButton } from "../../table/components/WithdrawButton";
 import { ActionsContainer } from "../../basic/components/ActionsCell";
+import { getVaultTitle } from "../../table/helpers";
+import { getVaultModalType } from "../../basic/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
+import {
+  getDegenVaultTypeShortName,
+  getDegenVaultTypeTitle,
+} from "../../degen-vault/helpers";
 
 import { StrategyCell } from "./StrategyCell";
 
@@ -52,9 +59,18 @@ const columns: Column<BasicVault>[] = [
       />
     ),
 
-    filterBy: ({ assetSymbol, collateralSymbol }) => [
+    filterBy: ({ assetSymbol, collateralSymbol, type, basicVaultType }) => [
       assetSymbol,
       collateralSymbol,
+      getVaultTitle(
+        getVaultModalType(basicVaultType),
+        type,
+        assetSymbol,
+        collateralSymbol
+      ),
+      getVaultTypeStrategy(type),
+      getDegenVaultTypeTitle(type),
+      getDegenVaultTypeShortName(type),
     ],
   },
   {
@@ -180,7 +196,7 @@ export const DegenVaultsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset or network"
+      filterInputPlaceholder="Search by Product or Strategy"
       getRowKey={getRowKey}
       rows={rows}
     />

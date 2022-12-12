@@ -15,6 +15,10 @@ import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
 import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
 import { WithdrawButton } from "../../table/components/WithdrawButton";
+import { getVaultModalType } from "../helpers";
+import { getVaultTitle } from "../../table/helpers";
+import { periodFormatter } from "../../shared/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
 
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
@@ -49,9 +53,23 @@ const columns: Column<BasicVault>[] = [
       />
     ),
 
-    filterBy: ({ assetSymbol, collateralSymbol }) => [
+    filterBy: ({
       assetSymbol,
       collateralSymbol,
+      type,
+      basicVaultType,
+      period,
+    }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(
+        getVaultModalType(basicVaultType),
+        type,
+        assetSymbol,
+        collateralSymbol
+      ),
+      periodFormatter(period),
+      getVaultTypeStrategy(type),
     ],
   },
   {
@@ -174,7 +192,7 @@ export const BasicVaultsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset or network"
+      filterInputPlaceholder="Search by Product or Strategy"
       getRowKey={getRowKey}
       rows={rows}
     />

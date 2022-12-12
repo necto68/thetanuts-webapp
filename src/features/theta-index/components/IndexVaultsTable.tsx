@@ -18,6 +18,7 @@ import type { DemoIndexVaultConfig } from "../types";
 import { VaultModalType } from "../../root/types";
 import { getVaultTypeTitle } from "../../index-vault/helpers";
 import { RiskLevelCell } from "../../basic/components/RiskLevelCell";
+import { getVaultTitle } from "../../table/helpers";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
@@ -37,7 +38,11 @@ const columns: Column<IndexVaultRow>[] = [
       />
     ),
 
-    filterBy: true,
+    filterBy: ({ assetSymbol, collateralSymbol, type }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(VaultModalType.index, type, assetSymbol, collateralSymbol),
+    ],
   },
   {
     key: "type",
@@ -146,7 +151,7 @@ export const IndexVaultsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset or network"
+      filterInputPlaceholder="Search by Product or Strategy"
       getRowKey={getRowKey}
       rows={rows}
     />
