@@ -49,6 +49,14 @@ const sellingOptions = [
   },
 ];
 
+const buyingOptions = [
+  {
+    to: PagePathname.long,
+    linkTitle: "Long",
+    navIcon: BasicPage,
+  },
+];
+
 const tools = [
   {
     to: PagePathname.portfolio,
@@ -123,6 +131,18 @@ export const Sidebar = () => {
           <SidebarItem
             active={pathname === navItem.to}
             iconColor={navItem.iconColor}
+            key={navItem.linkTitle}
+            linkTitle={navItem.linkTitle}
+            navIcon={navItem.navIcon}
+            to={navItem.to}
+          />
+        ))}
+      </MainNavContainer>
+      <MainNavContainer>
+        <MainNavTitle>Buying Options</MainNavTitle>
+        {buyingOptions.map((navItem) => (
+          <SidebarItem
+            active={pathname === navItem.to}
             key={navItem.linkTitle}
             linkTitle={navItem.linkTitle}
             navIcon={navItem.navIcon}
