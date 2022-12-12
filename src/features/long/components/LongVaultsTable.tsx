@@ -10,8 +10,10 @@ import {
 } from "../../basic/components";
 import { useLongVaultsTableRows } from "../hooks";
 import type { LongVaultRow } from "../types";
-import { numberFormatter } from "../../shared/helpers";
-import { getLongVaultContractsTitle } from "../../table/helpers";
+import { numberFormatter, periodFormatter } from "../../shared/helpers";
+import { getLongVaultContractsTitle, getVaultTitle } from "../../table/helpers";
+import { getVaultModalType } from "../../basic/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
 
 const columns: Column<LongVaultRow>[] = [
   {
@@ -41,9 +43,23 @@ const columns: Column<LongVaultRow>[] = [
       />
     ),
 
-    filterBy: ({ assetSymbol, collateralSymbol }) => [
+    filterBy: ({
       assetSymbol,
       collateralSymbol,
+      basicVaultType,
+      type,
+      period,
+    }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(
+        getVaultModalType(basicVaultType),
+        type,
+        assetSymbol,
+        collateralSymbol
+      ),
+      getVaultTypeStrategy(type),
+      periodFormatter(period),
     ],
   },
   {
@@ -145,7 +161,7 @@ export const LongVaultsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset or network"
+      filterInputPlaceholder="Search by Product or Strategy"
       getRowKey={getRowKey}
       rows={rows}
     />

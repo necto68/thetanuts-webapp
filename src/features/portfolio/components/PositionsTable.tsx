@@ -20,6 +20,8 @@ import { chainsMap } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
 import { productTitlesMap } from "../../table/constants";
 import { WithdrawButton } from "../../table/components/WithdrawButton";
+import { getVaultTitle } from "../../table/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
 
 import { ButtonsContainer } from "./PositionsTableActions.styles";
 
@@ -39,7 +41,12 @@ const columns: Column<PositionTableRow>[] = [
       />
     ),
 
-    filterBy: true,
+    filterBy: ({ assetSymbol, collateralSymbol, vaultType, type }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(vaultType, type, assetSymbol, collateralSymbol),
+      getVaultTypeStrategy(type),
+    ],
   },
   {
     key: "vaultType",
@@ -164,7 +171,7 @@ export const PositionsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset, product or network"
+      filterInputPlaceholder="Filter by Product, Strategy or Network"
       getRowKey={getRowKey}
       rows={filteredRows}
     />

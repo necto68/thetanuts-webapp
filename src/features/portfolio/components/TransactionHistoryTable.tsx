@@ -24,6 +24,8 @@ import {
 } from "../hooks";
 import { chainsMap } from "../../wallet/constants";
 import { productTitlesMap } from "../../table/constants";
+import { getVaultTitle } from "../../table/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
 
 const getBalanceChange = (
   type: TransactionType,
@@ -38,7 +40,7 @@ const getBalanceChange = (
 const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "assetSymbol",
-    title: "Asset",
+    title: "Product",
 
     render: ({ vaultType, strategyType, assetSymbol, collateralSymbol }) => (
       <AssetCell
@@ -49,11 +51,16 @@ const columns: Column<HistoryTransactionRow>[] = [
       />
     ),
 
-    filterBy: true,
+    filterBy: ({ assetSymbol, collateralSymbol, vaultType, strategyType }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(vaultType, strategyType, assetSymbol, collateralSymbol),
+      getVaultTypeStrategy(strategyType),
+    ],
   },
   {
     key: "vaultType",
-    title: "Product",
+    title: "Strategy",
     render: ({ vaultType }) => productTitlesMap[vaultType],
     filterBy: true,
   },
@@ -142,7 +149,7 @@ export const TransactionHistoryTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset, vault, activity or network"
+      filterInputPlaceholder="Search by Product or Strategy"
       getRowKey={getRowKey}
       rows={sortedRows}
     />
