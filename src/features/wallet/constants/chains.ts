@@ -46,8 +46,12 @@ export const chains: ChainConfig[] = [
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
       basicVaultReaderAddress: "0xEcA593A42E9A0120B03E8784Ca61673e4a40Ba13",
       basicVaultDepositorAddress: "0xaA7e4C5F93Aa986d627113496570A732386F570d",
-      longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+
+      longVaultPositionManagerAddress:
+        "0xB5e0cB56C8d7D7fA6fA7dF985E44cCd836a55839",
+
+      longVaultProtocolDataProviderAddress:
+        "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
     },
 
     deployerAddresses: {
@@ -110,7 +114,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: "0x74af0AcF759dcB803993F14b22C2e500063ba0Fe",
 
       longVaultPositionManagerAddress:
-        "0xfBDB737aDa42808a5A47b0dD36E16E361a9BC53f",
+        "0xe29F56fC26Cc6e02e6BE570ac5D7CBc1F0903431",
 
       longVaultProtocolDataProviderAddress:
         "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",

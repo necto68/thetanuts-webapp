@@ -85,7 +85,8 @@ export const collateralAssetFetcher = async (
   // LTV first 16 bits, LIQ next 16 bits, LIQ_PENALTY next 16 bits - shifted by 10000
   const loanToValue = (lendingPoolConfiguration % 65_536) / 10_000;
 
-  const availableLeverage = 1 / (1 - loanToValue) - 1;
+  // 0.05 buffer
+  const availableLeverage = 1 / (1 - loanToValue) - 1.05;
 
   return {
     id,

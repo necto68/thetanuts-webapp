@@ -64,7 +64,7 @@ export const developDegenVaults: BasicVaultConfig[] = [
 
 export const developLongVaults: BasicVaultConfig[] = [
   {
-    id: "LM-TN-CSCCv0-ETHUSD-1DAY",
+    id: "L-TN-CSCCv0-ETHUSD-1DAY",
     basicVaultType: BasicVaultType.LONG,
 
     source: {
@@ -73,7 +73,7 @@ export const developLongVaults: BasicVaultConfig[] = [
     },
   },
   {
-    id: "LM-TN-CSCCv0-ETHUSD-2DAY",
+    id: "L-TN-CSCCv0-ETHUSD-2DAY",
     basicVaultType: BasicVaultType.LONG,
 
     source: {
@@ -82,7 +82,7 @@ export const developLongVaults: BasicVaultConfig[] = [
     },
   },
   {
-    id: "LM-TN-CSCCv0-ETHUSD-3DAY",
+    id: "L-TN-CSCCv0-ETHUSD-3DAY",
     basicVaultType: BasicVaultType.LONG,
 
     source: {
