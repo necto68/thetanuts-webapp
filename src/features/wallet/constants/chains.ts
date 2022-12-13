@@ -42,13 +42,13 @@ export const chains: ChainConfig[] = [
     addresses: {
       routerAddress: "0x9C93b9042fa7fEb69e81483af11F51b1B3B6D3Ca",
       lendingPoolAddress: "0x2Ca7641B841a79Cc70220cE838d0b9f8197accDA",
-      directDepositorAddress: "0x94E833CaD93F9558F0845427E39b99848bAdC01C",
+      directDepositorAddress: "0xCEc4707748D9118FB65E321a7A83AC206868d8cd",
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
       basicVaultReaderAddress: "0xEcA593A42E9A0120B03E8784Ca61673e4a40Ba13",
       basicVaultDepositorAddress: "0xaA7e4C5F93Aa986d627113496570A732386F570d",
 
       longVaultPositionManagerAddress:
-        "0xB5e0cB56C8d7D7fA6fA7dF985E44cCd836a55839",
+        "0x13Ab2F762dB4aca76E3954a160CA7F68a1f89001",
 
       longVaultProtocolDataProviderAddress:
         "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
