@@ -1,6 +1,7 @@
 import { IconContainer } from "../../shared/components";
 import { Flip } from "../icons";
 import { useSwapRouterState } from "../hooks";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { SwapInputCard } from "./SwapInputCard";
 import { VaultInfo } from "./VaultInfo";
@@ -11,8 +12,10 @@ import {
   FlipButton,
   FlipButtonContainer,
 } from "./SwapSection.styles";
+import { CardWarning } from "./CardWarning";
 
 export const SwapSection = () => {
+  const [{ vaultType }] = useVaultModalState();
   const {
     sourceValue,
     targetValue,
@@ -107,6 +110,29 @@ export const SwapSection = () => {
         isTargetTokenDataLoading={isTargetTokenDataLoading}
         sourceTokenData={sourceTokenData}
         targetTokenData={targetTokenData}
+      />
+      <CardWarning
+        inputValue={sourceValue}
+        isFlipped={isFlipped}
+        isSource
+        isUseNativeData={isUseNativeSourceData}
+        nativeData={nativeData}
+        remainderValue={remainderValue}
+        sourceTokenData={sourceData}
+        tokenData={sourceData}
+        vaultType={vaultType}
+      />
+      <CardWarning
+        inputValue={targetValue}
+        isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}
+        isFlipped={isFlipped}
+        isUseDirectMode={isUseDirectMode}
+        isUseNativeData={isUseNativeTargetData}
+        nativeData={nativeData}
+        sourceTokenData={sourceData}
+        tokenData={targetData}
+        vaultChainId={vaultChainId}
+        vaultType={vaultType}
       />
       <SwapButton
         isSourceValueLoading={isSourceValueLoading}

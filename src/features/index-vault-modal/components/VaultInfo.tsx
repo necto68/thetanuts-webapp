@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { NativeToken, Token } from "../types";
 import { SectionType } from "../types";
 import { useSwapRouterState } from "../hooks";
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 
 import { SlippageTolerance } from "./SlippageTolerance";
 import {
@@ -50,20 +50,18 @@ export const VaultInfo: FC<VaultInfoProps> = ({
     <Wrapper>
       <Expander
         isOpen={isOpen}
+        isTitleDisabled
         maxHeight={215}
         onArrowClick={() => {
           setIsOpen(!isOpen);
         }}
         title={
           <SwapRate
-            disabled
             isSourceTokenDataLoading={isSourceTokenDataLoading}
             isTargetTokenDataLoading={isTargetTokenDataLoading}
             sourceTokenData={sourceTokenData}
             targetTokenData={targetTokenData}
             title=""
-            tooltip="Swap rate"
-            tooltipPlace="right"
           />
         }
         type={SectionType.vaultInfo}
@@ -83,11 +81,10 @@ export const VaultInfo: FC<VaultInfoProps> = ({
           </InfoContainer>
           <InfoContainer>
             <InfoTitleContainer>
-              <InfoTitle>Protocol fee</InfoTitle>
               <Tooltip
                 content="The protocol receives swap fees conducted between the stronghold tokens and the underlying assets."
                 id="protocolFee"
-                root={<InfoIcon />}
+                root={<InfoTitle>Protocol fee</InfoTitle>}
               />
             </InfoTitleContainer>
             <InfoValue isAlignRight>

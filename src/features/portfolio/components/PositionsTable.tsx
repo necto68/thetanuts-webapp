@@ -11,10 +11,17 @@ import {
 } from "../../table/components";
 import type { IndexVaultRow, BasicVaultRow } from "../types";
 import { useIndexPositionsRows, useBasicPositionsRows } from "../hooks";
-import { currencyFormatter, numberFormatter } from "../../shared/helpers";
+import {
+  currencyFormatter,
+  highYieldFormatter,
+  numberFormatter,
+} from "../../shared/helpers";
 import { chainsMap } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
 import { productTitlesMap } from "../../table/constants";
+import { WithdrawButton } from "../../table/components/WithdrawButton";
+import { getVaultTitle } from "../../table/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
 
 import { ButtonsContainer } from "./PositionsTableActions.styles";
 
@@ -23,7 +30,7 @@ type PositionTableRow = BasicVaultRow | IndexVaultRow;
 const columns: Column<PositionTableRow>[] = [
   {
     key: "assetSymbol",
-    title: "Vault",
+    title: "Product",
 
     render: ({ vaultType, type, assetSymbol, collateralSymbol }) => (
       <AssetCell
@@ -34,11 +41,16 @@ const columns: Column<PositionTableRow>[] = [
       />
     ),
 
-    filterBy: true,
+    filterBy: ({ assetSymbol, collateralSymbol, vaultType, type }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(vaultType, type, assetSymbol, collateralSymbol),
+      getVaultTypeStrategy(type),
+    ],
   },
   {
     key: "vaultType",
-    title: "Product",
+    title: "Strategy",
     render: ({ vaultType }) => productTitlesMap[vaultType],
     filterBy: true,
   },
@@ -47,21 +59,23 @@ const columns: Column<PositionTableRow>[] = [
     title: "APY",
 
     render: ({ annualPercentageYield }) => (
-      <GreenCellValue>{`${annualPercentageYield}%`}</GreenCellValue>
+      <GreenCellValue>{`${highYieldFormatter(
+        annualPercentageYield
+      )}%`}</GreenCellValue>
     ),
   },
   {
     key: "balance",
-    title: "Balance",
+    title: "Current Position",
 
     render: ({ symbol, balance }) =>
-      balance ? `${numberFormatter.format(balance.toNumber())}  ${symbol}` : "",
+      balance ? `${numberFormatter.format(balance.toNumber())} ${symbol}` : "",
 
     sortBy: ({ balance }) => (balance ? balance.toNumber() : 0),
   },
   {
     key: "assetPrice",
-    title: "Value",
+    title: "Value (USD)",
 
     render: ({ balance, assetPrice }) => {
       if (!balance) {
@@ -88,7 +102,6 @@ const columns: Column<PositionTableRow>[] = [
   },
   {
     key: "id",
-    minWidth: 215,
 
     render: (row) => {
       const { id, vaultType, chainId } = row;
@@ -99,20 +112,26 @@ const columns: Column<PositionTableRow>[] = [
 
         return (
           <ButtonsContainer>
-            {unclaimed ? (
-              <ClaimButton
-                chainId={chainId}
-                vaultId={id}
-                withdrawId={withdrawId}
-              />
-            ) : null}
             <SwapButton chainId={chainId} vaultId={id} />
+            <ClaimButton
+              chainId={chainId}
+              disabled={!unclaimed}
+              vaultId={id}
+              withdrawId={withdrawId}
+            />
           </ButtonsContainer>
         );
       }
 
       return (
-        <DepositButton chainId={chainId} vaultId={id} vaultType={vaultType} />
+        <ButtonsContainer>
+          <DepositButton chainId={chainId} vaultId={id} vaultType={vaultType} />
+          <WithdrawButton
+            chainId={chainId}
+            vaultId={id}
+            vaultType={vaultType}
+          />
+        </ButtonsContainer>
       );
     },
   },
@@ -152,7 +171,7 @@ export const PositionsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset, product or network"
+      filterInputPlaceholder="Filter by Product, Strategy or Network"
       getRowKey={getRowKey}
       rows={filteredRows}
     />

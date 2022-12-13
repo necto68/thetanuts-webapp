@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { ThetaIndexPage } from "../../theta-index/components";
 import { BasicPage } from "../../basic/components";
 import { DegenPage } from "../../degen/components";
+import { LongPage } from "../../long/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
@@ -10,7 +11,6 @@ import { CurrentDateProvider } from "../../basic-vault/providers";
 import { RouterPathname } from "../types";
 import { useWalletAutoConnect } from "../hooks";
 import { useIsTablet } from "../../shared/hooks";
-import { useCurrentPagePathname } from "../hooks/useCurrentPagePathname";
 import { useSidebarState } from "../../sidebar/hooks";
 
 import { MobileHeader } from "./MobileHeader";
@@ -32,7 +32,6 @@ import {
 // } from "./Root.styles";
 
 export const Root = () => {
-  const currentPagePathname = useCurrentPagePathname();
   const { isShow, toggleIsShow } = useSidebarState();
   const isTablet = useIsTablet();
 
@@ -47,7 +46,7 @@ export const Root = () => {
   return (
     <CurrentDateProvider>
       <Container>
-        <BackgroundContainer pathname={currentPagePathname}>
+        <BackgroundContainer>
           <Modal />
           {isShow && isTablet ? <Backdrop onClick={closeSidebar} /> : null}
           <LayoutContainer>
@@ -94,6 +93,12 @@ export const Root = () => {
                     ]}
                   >
                     <DegenPage />
+                  </Route>
+                  <Route
+                    exact
+                    path={[RouterPathname.long, RouterPathname.longVaultModal]}
+                  >
+                    <LongPage />
                   </Route>
                   <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />

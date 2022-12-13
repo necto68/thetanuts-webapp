@@ -8,17 +8,19 @@ import { VaultModalButton } from "./VaultModalButton";
 
 type ClaimButtonProps = Pick<
   VaultModalButtonProps,
-  "chainId" | "vaultId" | "withdrawId"
+  "chainId" | "disabled" | "vaultId" | "withdrawId"
 >;
 
 export const ClaimButton: FC<ClaimButtonProps> = ({
   vaultId,
   chainId,
   withdrawId,
+  disabled,
 }) => (
   <VaultModalButton
     chainId={chainId}
     contentType={ModalContentType.withdrawClaim}
+    disabled={disabled}
     vaultId={vaultId}
     vaultType={VaultModalType.index}
     withdrawId={withdrawId}

@@ -1,4 +1,6 @@
-export const numberFormatter = new Intl.NumberFormat("en-US");
+export const numberFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 2,
+});
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -59,7 +61,7 @@ export const totalValueLockedFormatter = (value: number) => {
 
 export const highYieldFormatter = (value: number) => {
   const highYieldValueFormatter = new Intl.NumberFormat("en-US", {
-    maximumFractionDigits: 0,
+    maximumFractionDigits: value > 1000 ? 0 : 2,
   });
 
   let divisor = 1;

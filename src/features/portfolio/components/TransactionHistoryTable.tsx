@@ -1,3 +1,6 @@
+import type Big from "big.js";
+import { useWallet } from "@gimmixorg/use-wallet";
+
 import type { Column } from "../../table/types";
 import {
   Table,
@@ -20,13 +23,26 @@ import {
   useIndexRedeemHistoryRows,
   useBasicHistoryRows,
 } from "../hooks";
+import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 import { productTitlesMap } from "../../table/constants";
+import { getVaultTitle } from "../../table/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
+
+const getBalanceChange = (
+  type: TransactionType,
+  balance: Big,
+  symbol: string
+) => {
+  const formattedBalance = numberFormatter.format(balance.abs().toNumber());
+
+  return `${formattedBalance} ${symbol}`;
+};
 
 const columns: Column<HistoryTransactionRow>[] = [
   {
     key: "assetSymbol",
-    title: "Vault",
+    title: "Product",
 
     render: ({ vaultType, strategyType, assetSymbol, collateralSymbol }) => (
       <AssetCell
@@ -37,21 +53,49 @@ const columns: Column<HistoryTransactionRow>[] = [
       />
     ),
 
-    filterBy: true,
+    filterBy: ({ assetSymbol, collateralSymbol, vaultType, strategyType }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(vaultType, strategyType, assetSymbol, collateralSymbol),
+      getVaultTypeStrategy(strategyType),
+    ],
   },
   {
     key: "vaultType",
-    title: "Product",
+    title: "Strategy",
     render: ({ vaultType }) => productTitlesMap[vaultType],
     filterBy: true,
+  },
+  {
+    key: "chainId",
+    title: "Network",
+    render: ({ chainId }) => <Chains chainIds={[chainId]} />,
+    filterBy: ({ chainId }) => chainsMap[chainId].title,
+  },
+  {
+    key: "timestamp",
+    title: "Date",
+
+    render: ({ timestamp }) => (
+      <CellValue>{dateFormatter.format(new Date(timestamp))}</CellValue>
+    ),
   },
   {
     key: "type",
     title: "Activity",
 
-    render: ({ type, assetSymbol, symbol }) => (
+    render: ({ type, assetSymbol, symbol, balance }) => (
       <CellValueContainer>
-        <GreenCellValue>{TransactionTypeTitle[type]}</GreenCellValue>
+        <GreenCellValue>
+          {TransactionTypeTitle[type]}
+          {type !== TransactionType.canceledWithdrawal
+            ? ` - ${getBalanceChange(
+                type,
+                balance,
+                type === TransactionType.swappedIn ? assetSymbol : symbol
+              )}`
+            : ""}
+        </GreenCellValue>
         {[TransactionType.swappedIn, TransactionType.swappedOut].includes(
           type
         ) ? (
@@ -67,53 +111,6 @@ const columns: Column<HistoryTransactionRow>[] = [
     filterBy: ({ type }) => type,
   },
   {
-    key: "timestamp",
-    title: "Date",
-
-    render: ({ timestamp }) => (
-      <GreenCellValue>
-        {dateFormatter.format(new Date(timestamp))}
-      </GreenCellValue>
-    ),
-  },
-  {
-    key: "balance",
-    title: "Balance",
-
-    render: ({ type, balance, symbol }) => {
-      if ([TransactionType.canceledWithdrawal].includes(type)) {
-        return TransactionTypeTitle[type];
-      }
-
-      const formattedBalance = numberFormatter.format(balance.toNumber());
-
-      let prefix = "";
-
-      if (
-        [
-          TransactionType.withdrawnDirectly,
-          TransactionType.initiatedWithdrawal,
-        ].includes(type)
-      ) {
-        prefix = "Requested ";
-      } else if (balance.gt(0)) {
-        prefix = "+";
-      } else {
-        prefix = "";
-      }
-
-      return `${prefix}${formattedBalance} ${symbol}`;
-    },
-
-    sortBy: ({ balance }) => balance.toNumber(),
-  },
-  {
-    key: "chainId",
-    title: "Network",
-    render: ({ chainId }) => <Chains chainIds={[chainId]} />,
-    filterBy: ({ chainId }) => chainsMap[chainId].title,
-  },
-  {
     key: "id",
     title: "Tx",
 
@@ -127,6 +124,9 @@ const getRowKey = ({ id, chainId, type }: HistoryTransactionRow) =>
   `${id}${chainId}${type}`;
 
 export const TransactionHistoryTable = () => {
+  const { network } = useWallet();
+  const chainId: ChainId | undefined = network?.chainId;
+
   const indexSwapsHistoryRows = useIndexSwapsHistoryRows();
   const indexDepositsHistoryRows = useIndexDepositsHistoryRows();
   const indexWithdrawHistoryRows = useIndexWithdrawHistoryRows();
@@ -148,13 +148,21 @@ export const TransactionHistoryTable = () => {
     });
 
   if (sortedRows.length === 0) {
-    return <CellValue>You don&apos;t have transaction history, yet</CellValue>;
+    const chainTitle = chainId ? chainsMap[chainId].title : null;
+
+    return (
+      <CellValue>
+        {`You don't have transaction history${
+          chainTitle ? ` on ${chainTitle} network` : ""
+        }, yet`}
+      </CellValue>
+    );
   }
 
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset, vault, activity or network"
+      filterInputPlaceholder="Search by Product or Strategy"
       getRowKey={getRowKey}
       rows={sortedRows}
     />

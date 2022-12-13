@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useCallback } from "react";
 
 import type { TabType } from "../types";
-import { useBasicModalState } from "../hooks";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { Button } from "./TabButton.styles";
 
@@ -11,11 +11,15 @@ interface TabButtonProps {
 }
 
 export const TabButton: FC<TabButtonProps> = ({ tabType, children }) => {
-  const { tabType: currentTabType, setTabType } = useBasicModalState();
+  const [vaultModalState, setVaultModalState] = useVaultModalState();
+  const { tabType: currentTabType } = vaultModalState;
 
   const handleButtonClick = useCallback(() => {
-    setTabType(tabType);
-  }, [setTabType, tabType]);
+    setVaultModalState((previousState) => ({
+      ...previousState,
+      tabType,
+    }));
+  }, [setVaultModalState, tabType]);
 
   const isActive = currentTabType === tabType;
 

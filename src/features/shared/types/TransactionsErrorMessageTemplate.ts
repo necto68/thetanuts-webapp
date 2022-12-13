@@ -1,3 +1,3 @@
 export enum TransactionErrorMessageTemplate {
-  SettlementInProgress = "Disabled during auction",
+  settlementInProgress = "Disabled during auction",
 }

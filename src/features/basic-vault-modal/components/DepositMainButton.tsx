@@ -3,8 +3,11 @@ import { useCallback } from "react";
 import Big from "big.js";
 
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
-import { useBasicModalMutations, useBasicModalState } from "../hooks";
-import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
+import {
+  useBasicModalConfig,
+  useBasicModalState,
+  useBasicModalMutations,
+} from "../hooks";
 import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { InsufficientBalanceMainButton } from "../../modal/components/InsufficientBalanceMainButton";
@@ -12,6 +15,13 @@ import { MaxVaultCapReachedMainButton } from "../../modal/components/MaxVaultCap
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
 import { resetMutations } from "../helpers";
+import {
+  useLongModalConfig,
+  useLongModalMutations,
+} from "../../long-vault-modal/hooks";
+import { BasicVaultType } from "../../basic/types";
+import { VaultType } from "../../basic-vault/types";
+import { getLongVaultContractsTitle } from "../../table/helpers";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -19,6 +29,7 @@ import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 export const DepositMainButton = () => {
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
+  const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
   const {
     inputValue,
     tokenData,
@@ -35,14 +46,48 @@ export const DepositMainButton = () => {
     runWrap,
     runDeposit,
   } = useBasicModalMutations();
+  const {
+    approveDelegationMutation,
+    openPositionMutation,
+    runApproveDelegation,
+    runOpenPosition,
+  } = useLongModalMutations();
 
   const { account } = useWallet();
 
+  const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
+  const {
+    type = VaultType.CALL,
+    basicVaultType = BasicVaultType.BASIC,
+    assetSymbol = "",
+    collateralSymbol = "",
+  } = data ?? {};
+
+  const { data: longVaultReaderData } = longVaultReaderQuery;
+  const { borrowAllowance } = longVaultReaderData ?? {};
+
+  const { data: collateralAssetData } = collateralAssetQuery;
+  const { availableLeverage = 1 } = collateralAssetData ?? {};
+
+  const isLongVault = basicVaultType === BasicVaultType.LONG;
+
   const handleResetButtonClick = useCallback(() => {
-    const mutations = [approveAllowanceMutation, wrapMutation, depositMutation];
+    const mutations = [
+      approveAllowanceMutation,
+      wrapMutation,
+      depositMutation,
+      approveDelegationMutation,
+      openPositionMutation,
+    ];
 
     resetMutations(mutations);
-  }, [approveAllowanceMutation, wrapMutation, depositMutation]);
+  }, [
+    approveAllowanceMutation,
+    wrapMutation,
+    depositMutation,
+    approveDelegationMutation,
+    openPositionMutation,
+  ]);
 
   const {
     isLoading: isApproveAllowanceLoading,
@@ -62,12 +107,31 @@ export const DepositMainButton = () => {
     error: depositError,
   } = depositMutation ?? {};
 
+  const {
+    isLoading: isApproveDelegationLoading,
+    isError: isApproveDelegationError,
+    error: approveDelegationError,
+  } = approveDelegationMutation ?? {};
+
+  const {
+    isLoading: isOpenPositionLoading,
+    isError: isOpenPositionError,
+    error: openPositionError,
+  } = openPositionMutation ?? {};
+
   const isError =
     Boolean(isApproveAllowanceError) ||
     Boolean(isWrapError) ||
-    Boolean(isDepositError);
+    Boolean(isDepositError) ||
+    Boolean(isApproveDelegationError) ||
+    Boolean(isOpenPositionError);
 
-  const error = approveAllowanceError ?? wrapError ?? depositError;
+  const error =
+    approveAllowanceError ??
+    wrapError ??
+    depositError ??
+    approveDelegationError ??
+    openPositionError;
 
   const inputValueBig = new Big(inputValue || 0);
 
@@ -78,6 +142,15 @@ export const DepositMainButton = () => {
     inputValueBig.gt(0) &&
     inputValueBig.gt(currentTokenData.allowance);
 
+  const isNeedLongVaultDelegationApprove =
+    isLongVault &&
+    borrowAllowance &&
+    inputValueBig.gt(0) &&
+    inputValueBig.gt(borrowAllowance);
+
+  const isApproveLoading =
+    Boolean(isApproveAllowanceLoading) || Boolean(isApproveDelegationLoading);
+
   const isMainButtonDisabled =
     isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
 
@@ -85,7 +158,7 @@ export const DepositMainButton = () => {
     return <ConnectWalletMainButton />;
   }
 
-  if (!basicVaultQuery.isLoading && walletChainId !== basicVaultChainId) {
+  if (!isBasicVaultQueryLoading && walletChainId !== basicVaultChainId) {
     return (
       <SwitchToChainIdMainButton
         chainId={basicVaultChainId}
@@ -110,17 +183,27 @@ export const DepositMainButton = () => {
     return <MaxVaultCapReachedMainButton />;
   }
 
-  if (isApproveAllowanceLoading && currentTokenData) {
+  if (isApproveLoading && currentTokenData) {
     return (
       <LoadingMainButton>{`Approving ${currentTokenData.symbol}...`}</LoadingMainButton>
     );
   }
 
-  if (isNeedApprove) {
+  if (isNeedLongVaultDelegationApprove) {
     return (
-      <ActionMainButton onClick={runApproveAllowance}>
-        {`Approve ${currentTokenData.symbol} for Deposit`}
+      <ActionMainButton onClick={runApproveDelegation}>
+        Approve Delegation
       </ActionMainButton>
+    );
+  }
+
+  if (isNeedApprove) {
+    const title = isLongVault
+      ? `Approve ${currentTokenData.symbol} for Open Position`
+      : `Approve ${currentTokenData.symbol} for Deposit`;
+
+    return (
+      <ActionMainButton onClick={runApproveAllowance}>{title}</ActionMainButton>
     );
   }
 
@@ -132,33 +215,47 @@ export const DepositMainButton = () => {
     return <LoadingMainButton>Depositing...</LoadingMainButton>;
   }
 
+  if (isOpenPositionLoading) {
+    return <LoadingMainButton>Opening Position...</LoadingMainButton>;
+  }
+
+  let buttonTitle = "";
+  let handleMainButtonClick = null;
+
   if (isUseNativeData) {
-    const buttonTitle = currentTokenData
+    buttonTitle = currentTokenData
       ? `Wrap ${currentTokenData.symbol} to W${currentTokenData.symbol}`
       : "Wrap";
 
-    return isMainButtonDisabled ? (
-      <ModalMainButton disabled>{buttonTitle}</ModalMainButton>
-    ) : (
-      <ModalMainButton
-        onClick={runWrap}
-        primaryColor="#12CC86"
-        secondaryColor="#ffffff"
-      >
-        {buttonTitle}
-      </ModalMainButton>
+    handleMainButtonClick = runWrap;
+  } else if (isLongVault) {
+    const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
+
+    const contractsTitle = getLongVaultContractsTitle(
+      type,
+      assetSymbol,
+      collateralSymbol
     );
+
+    buttonTitle = inputValueBig.gt(0)
+      ? `Open Position: Long ${longValue} ${contractsTitle} Contracts`
+      : "Open Position";
+
+    handleMainButtonClick = runOpenPosition;
+  } else {
+    buttonTitle = "Initiate Deposit";
+    handleMainButtonClick = runDeposit;
   }
 
   return isMainButtonDisabled ? (
-    <ModalMainButton disabled>Initiate Deposit</ModalMainButton>
+    <ModalMainButton disabled>{buttonTitle}</ModalMainButton>
   ) : (
     <ModalMainButton
-      onClick={runDeposit}
+      onClick={handleMainButtonClick}
       primaryColor="#12CC86"
       secondaryColor="#ffffff"
     >
-      Initiate Deposit
+      {buttonTitle}
     </ModalMainButton>
   );
 };

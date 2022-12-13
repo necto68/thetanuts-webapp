@@ -1,7 +1,16 @@
 import styled from "styled-components";
 import type { AnchorHTMLAttributes } from "react";
+import { motion } from "framer-motion";
 
-export const Container = styled.div`
+export const Container = styled(motion.div).attrs(() => ({
+  initial: {
+    height: 0,
+  },
+
+  animate: {
+    height: "auto",
+  },
+}))`
   display: flex;
   align-items: center;
   gap: 5px;
@@ -12,7 +21,7 @@ export const WarningTitle = styled.span<{
   color?: string;
 }>`
   font-family: Roboto;
-  font-weight: 600;
+  font-weight: 500;
   font-size: ${({ size = 11 }) => `${size}px`};
   color: ${({ color = "#eb5853" }) => color};
 `;

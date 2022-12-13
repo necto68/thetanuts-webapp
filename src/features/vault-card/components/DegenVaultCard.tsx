@@ -5,12 +5,14 @@ import { IconContainer } from "../../shared/components";
 import {
   Container,
   Content,
-  Header,
   SymbolTitle,
   CardLink,
+  PeriodTitle,
+  FooterContent,
 } from "./VaultCard.styles";
 import {
   DataContainer,
+  Header,
   Title,
   DataContent,
   DataItemContainer,
@@ -18,7 +20,7 @@ import {
   APYTitle,
   APYValue,
   SymbolContainer,
-  SubTitle,
+  TextContainer,
 } from "./DegenVaultCard.styles";
 import type { VaultCardProps } from "./VaultCard";
 
@@ -31,17 +33,17 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
   title,
   icon,
   symbol,
-  subTitle,
-  weeklyYield,
   apy,
   backgroundColor,
   shadowColor,
+  borderColor,
   content,
   footerContent,
   link,
 }) => (
   <Container
     backgroundColor={backgroundColor}
+    borderColor={borderColor}
     disabled={disabled}
     shadowColor={shadowColor}
   >
@@ -53,32 +55,24 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
         <DataContainer>
           <DataContent>
             <DataItemContainer>
-              <APYContainer>
-                <APYTitle>Weekly Yield</APYTitle>
-                <APYValue
-                  backgroundColor={backgroundColor}
-                >{`${weeklyYield}%`}</APYValue>
-              </APYContainer>
-              <APYContainer>
-                <APYTitle>APY</APYTitle>
-                <APYValue
-                  backgroundColor={backgroundColor}
-                >{`${apy}%`}</APYValue>
-              </APYContainer>
-            </DataItemContainer>
-            <DataItemContainer>
               <SymbolContainer>
                 <IconContainer height={25} width={25}>
                   {icon}
                 </IconContainer>
-                <SymbolTitle>{symbol}</SymbolTitle>
+                <TextContainer>
+                  <SymbolTitle>{symbol}</SymbolTitle>
+                  <PeriodTitle>Weekly</PeriodTitle>
+                </TextContainer>
               </SymbolContainer>
-              <SubTitle>{subTitle}</SubTitle>
+              <APYContainer>
+                <APYValue>{`${apy}%`}</APYValue>
+                <APYTitle>APY</APYTitle>
+              </APYContainer>
             </DataItemContainer>
           </DataContent>
           {content}
         </DataContainer>
-        {footerContent}
+        <FooterContent>{footerContent}</FooterContent>
       </Content>
     </CardLink>
   </Container>

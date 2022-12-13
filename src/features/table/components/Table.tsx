@@ -5,7 +5,6 @@ import {
   Paginator,
   SkeletonBox,
   Tooltip,
-  InfoIcon,
 } from "../../shared/components";
 import { useSortBy, useFilteredBy, usePagination } from "../hooks";
 import type { Column, TableProps } from "../types";
@@ -26,6 +25,7 @@ import {
   Cell,
   CellValue,
   TableContainerWrapper,
+  SkeletonWrapper,
 } from "./Table.styles";
 
 const renderCellContent = <RowData extends object>(
@@ -33,7 +33,11 @@ const renderCellContent = <RowData extends object>(
   column: Column<RowData>
 ) => {
   if (!row) {
-    return <SkeletonBox height={22} width={50} />;
+    return (
+      <SkeletonWrapper>
+        <SkeletonBox height={22} width={50} />
+      </SkeletonWrapper>
+    );
   }
 
   let cellValue = null;
@@ -61,7 +65,7 @@ export const Table = <RowData extends object>({
   columns,
   rows,
   getRowKey,
-  filterInputPlaceholder = "",
+  filterInputPlaceholder,
   rowsPerPage = 10,
 }: TableProps<RowData>) => {
   const { filteredRows, filterInputValue, setFilterInputValue } = useFilteredBy(
@@ -87,14 +91,16 @@ export const Table = <RowData extends object>({
 
   return (
     <Container>
-      <FilterInput
-        onChange={(event) => {
-          paginate(1, rowsPerPage);
-          setFilterInputValue(event);
-        }}
-        placeholder={filterInputPlaceholder}
-        value={filterInputValue}
-      />
+      {filterInputPlaceholder ? (
+        <FilterInput
+          onChange={(event) => {
+            paginate(1, rowsPerPage);
+            setFilterInputValue(event);
+          }}
+          placeholder={filterInputPlaceholder}
+          value={filterInputValue}
+        />
+      ) : null}
       <TableContainerWrapper>
         <TableContainer>
           <thead>
@@ -121,7 +127,6 @@ export const Table = <RowData extends object>({
                         }}
                       >
                         <SortContainer>
-                          <Header>{title}</Header>
                           {tooltipTitle ? (
                             <Tooltip
                               content={
@@ -131,9 +136,11 @@ export const Table = <RowData extends object>({
                               }
                               id={title}
                               place="bottom"
-                              root={<InfoIcon />}
+                              root={<Header>{title}</Header>}
                             />
-                          ) : null}
+                          ) : (
+                            <Header>{title}</Header>
+                          )}
                           <SortArrowContainer show={sortState.key === key}>
                             <ArrowIcon up={sortState.order === "ASC"} />
                           </SortArrowContainer>

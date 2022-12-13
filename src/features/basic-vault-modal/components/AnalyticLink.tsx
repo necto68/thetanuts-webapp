@@ -1,4 +1,4 @@
-import { analyticUrl } from "../../shared/constants";
+import { links } from "../../shared/constants";
 import { ExternalExpander } from "../../index-vault-modal/components";
 import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 
@@ -9,7 +9,7 @@ export const AnalyticLink = () => {
   return (
     <ExternalExpander
       title="Analytics and Historical Data"
-      to={`${analyticUrl}${id}`}
+      to={`${links.analytics}${id}`}
     />
   );
 };

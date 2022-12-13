@@ -19,6 +19,8 @@ export interface ChainConfig {
     directWithdrawalAddress: string;
     basicVaultReaderAddress: string;
     basicVaultDepositorAddress: string;
+    longVaultPositionManagerAddress: string;
+    longVaultProtocolDataProviderAddress: string;
   };
 
   deployerAddresses?: {
@@ -26,6 +28,6 @@ export interface ChainConfig {
   };
 
   keys: {
-    explorerApi?: string;
+    explorerApi?: string[];
   };
 }

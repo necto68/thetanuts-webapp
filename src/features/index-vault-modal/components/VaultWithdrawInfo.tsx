@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import type { Token, NativeToken } from "../types";
 import { useWithdrawDataQuery } from "../hooks";
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 
 import {
   Container,
@@ -61,14 +61,13 @@ the stronghold is ITM"
       />
       <InfoContainer>
         <InfoTitleContainer>
-          <InfoTitle>Max Projected Withdraw Balance</InfoTitle>
           <Tooltip
             content="Refers to the total withdraw amount of all of the
 unexpired individual option vault(s) in the stronghold
 given that none are ITM."
             id="maxProjectedWithdrawAmount"
             place="top"
-            root={<InfoIcon />}
+            root={<InfoTitle>Max Projected Withdraw Balance</InfoTitle>}
           />
         </InfoTitleContainer>
         <InfoValue isAlignRight>
@@ -77,13 +76,12 @@ given that none are ITM."
       </InfoContainer>
       <InfoContainer>
         <InfoTitleContainer>
-          <InfoTitle>Total Claimed Amount</InfoTitle>
           <Tooltip
             content="Refers to the total amount that you can claim from
 the individual option vaults that have expired"
             id="totalClaimAmount"
             place="top"
-            root={<InfoIcon />}
+            root={<InfoTitle>Total Claimed Amount</InfoTitle>}
           />
         </InfoTitleContainer>
         <InfoValue isAlignRight>
@@ -92,13 +90,12 @@ the individual option vaults that have expired"
       </InfoContainer>
       <InfoContainer>
         <InfoTitleContainer>
-          <InfoTitle>Full Withdraw Schedule</InfoTitle>
           <Tooltip
             content="This shows the longest expiry date of the individual
 option vault in the stronghold"
             id="fullWithdrawDate"
             place="top"
-            root={<InfoIcon />}
+            root={<InfoTitle>Full Withdraw Schedule</InfoTitle>}
           />
         </InfoTitleContainer>
         <InfoValue isAlignRight>

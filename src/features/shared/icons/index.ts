@@ -1,4 +1,6 @@
 export * from "./Arrow";
+export * from "./ArrowUp";
+export * from "./ArrowDown";
 export * from "./NewTab";
 export * from "./Info";
 export * from "./Cross";

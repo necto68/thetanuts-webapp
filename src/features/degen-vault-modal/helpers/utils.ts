@@ -1,5 +1,5 @@
 import type { BasicVault } from "../../basic-vault/types";
-import { VaultStatus } from "../types/VaultStatus";
+import { VaultStatus } from "../../basic-vault-modal/types";
 
 export const getVaultStatus = (
   isSettled: BasicVault["isSettled"],
@@ -7,30 +7,28 @@ export const getVaultStatus = (
   isAllowInteractions: BasicVault["isAllowInteractions"]
 ) => {
   if (!isSettled && isExpired) {
-    return VaultStatus.Settlement;
+    return VaultStatus.SETTLEMENT;
   }
 
   if (isSettled && isAllowInteractions) {
-    return VaultStatus.Settled;
+    return VaultStatus.SETTLED;
   }
 
   if (isSettled && !isAllowInteractions) {
-    return VaultStatus.Auction;
+    return VaultStatus.AUCTION;
   }
 
-  return VaultStatus.ActiveEpoch;
+  return VaultStatus.ACTIVE_EPOCH;
 };
 
 export const getVaultStatusTitle = (status: VaultStatus) => {
   switch (status) {
-    case VaultStatus.Auction:
+    case VaultStatus.AUCTION:
       return "Auction in Progress";
-    case VaultStatus.Settlement:
-      return "Auction Settlement";
-    case VaultStatus.Settled:
+    case VaultStatus.SETTLEMENT:
+      return "Settlement in Progress";
+    case VaultStatus.SETTLED:
       return "Vault Settled";
-    case VaultStatus.Pause:
-      return "Pause";
     default:
       return null;
   }

@@ -37,7 +37,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({
         target={target}
         to={to}
       >
-        <IconContainer height={29} width={29}>
+        <IconContainer height={16} width={16}>
           {createElement(navIcon)}
         </IconContainer>
         {linkTitle}

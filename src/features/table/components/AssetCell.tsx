@@ -34,7 +34,7 @@ export const AssetCell: FC<AssetCellProps> = ({
 
   return (
     <Container>
-      <IconsContainer>
+      <IconsContainer isPair={Boolean(collateralLogo)}>
         {collateralLogo ? (
           <IconContainer height={25} width={25}>
             {collateralLogo}

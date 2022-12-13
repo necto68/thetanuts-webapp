@@ -14,6 +14,8 @@ export enum ChainId {
   AURORA = 1_313_161_554,
 }
 
+export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 export const chainIconSymbols: Record<ChainId, string> = {
   [ChainId.ETHEREUM]: "ETH",
   [ChainId.BSC]: "BNB",
@@ -44,6 +46,12 @@ export const chains: ChainConfig[] = [
       directWithdrawalAddress: "0xECe2590c8a8298D30af64DFF24069A488C1D262c",
       basicVaultReaderAddress: "0xEcA593A42E9A0120B03E8784Ca61673e4a40Ba13",
       basicVaultDepositorAddress: "0xaA7e4C5F93Aa986d627113496570A732386F570d",
+
+      longVaultPositionManagerAddress:
+        "0xB5e0cB56C8d7D7fA6fA7dF985E44cCd836a55839",
+
+      longVaultProtocolDataProviderAddress:
+        "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
     },
 
     deployerAddresses: {
@@ -52,7 +60,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "H9YG861JU9VGXZXDBTR2C6CE23J8NSXSGC",
+      explorerApi: [
+        "H9YG861JU9VGXZXDBTR2C6CE23J8NSXSGC",
+        "YCNY4PDQYYH2JE3GEDK7ZWARNDEVB2WYWH",
+        "UGQ2VSHXWZSHH5ERC3JT233XBQ9HEV3I63",
+      ],
     },
   },
   {
@@ -67,16 +79,22 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "DY28MH5SJCHAJ16DAKHD8YJXM37WUTSJYP",
+      explorerApi: [
+        "DY28MH5SJCHAJ16DAKHD8YJXM37WUTSJYP",
+        "5QM8CVF4USTJ9PPPKFF6F24MTFSJ234P9N",
+        "A6KD3Z4QVDA3W6E8EPYSV4MZEX5W2SP5AK",
+      ],
     },
 
     addresses: {
       routerAddress: "0xDFbf747D2E3278058d77b7De789f3c34e4F6f48c",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xe016D63bd3ce7BbAF9Eb8aBf76dA7e3f6E4721a3",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      longVaultPositionManagerAddress: ZERO_ADDRESS,
+      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -92,7 +110,11 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "PJMV9MU5ZK43D5JWZTJ28YJWJ51G76Q9U2",
+      explorerApi: [
+        "PJMV9MU5ZK43D5JWZTJ28YJWJ51G76Q9U2",
+        "ECZM94TW6VXE9QQEET6XN54RX1JQUQHXGZ",
+        "IBCDHD3UCSN94JXG4WST1A98P8I42FDZYA",
+      ],
     },
 
     addresses: {
@@ -102,6 +124,12 @@ export const chains: ChainConfig[] = [
       directWithdrawalAddress: "0xf35F0A93B1f3c0eE418AaA352553Bc7C1d3dBe4a",
       basicVaultReaderAddress: "0x03FC1fEdDb196e69Dd8a8753073E2527f85bbC6C",
       basicVaultDepositorAddress: "0x74af0AcF759dcB803993F14b22C2e500063ba0Fe",
+
+      longVaultPositionManagerAddress:
+        "0xe29F56fC26Cc6e02e6BE570ac5D7CBc1F0903431",
+
+      longVaultProtocolDataProviderAddress:
+        "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",
     },
 
     deployerAddresses: {
@@ -121,16 +149,22 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "FWE95HNDKYITDAQCHIHMR3IIA4FFNN5WEH",
+      explorerApi: [
+        "FWE95HNDKYITDAQCHIHMR3IIA4FFNN5WEH",
+        "KZ7FGQPH92P39ADB1I9EHWBENG7PT7WWQB",
+        "W5CE6BPVDEDPSM6G3GJ1JRNST1I1P37UDY",
+      ],
     },
 
     addresses: {
       routerAddress: "0x2Eb7C1cFdbf7d5c65A7BF7Bb50129Ee6e651CEb1",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xA9c4b4f5Efcb3bC9a400D699943E0760065CA09A",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      longVaultPositionManagerAddress: ZERO_ADDRESS,
+      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -145,16 +179,22 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "YAVSTA9H2BUE21X9XGDTK6V4149YN58VM1",
+      explorerApi: [
+        "YAVSTA9H2BUE21X9XGDTK6V4149YN58VM1",
+        "AAYCUTGS5JY1BKCD3EKHE9FMKNYDAPTXG2",
+        "I8VMNS8RQE7NEHISSN4ZH2WBR7W3GFS2IA",
+      ],
     },
 
     addresses: {
       routerAddress: "0xb8cB9648F78433056e089B8609f16Cb0D43ceCE7",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0x10572d1A9d38178C3d95666803f0551B77301003",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      longVaultPositionManagerAddress: ZERO_ADDRESS,
+      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -169,16 +209,22 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "PW1MZGXPPJZY9N51ACRYPNCMQ8C5N5ANQE",
+      explorerApi: [
+        "PW1MZGXPPJZY9N51ACRYPNCMQ8C5N5ANQE",
+        "HZC3SPJF788SCZXRJ7I2TJ57VSD7CEFF1Q",
+        "W3AJ3R2HDV8S1VHI74NTYYU661BD3TTTSM",
+      ],
     },
 
     addresses: {
       routerAddress: "0x17C83E2B96ACfb5190d63F5E46d93c107eC0b514",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xe50d41E66A70D087F5480Ef84ABcF2e312534b05",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      longVaultPositionManagerAddress: ZERO_ADDRESS,
+      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -193,16 +239,22 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "JWFE21YZQDXQQVE1YV8CTE7C69CW1FMQHI",
+      explorerApi: [
+        "JWFE21YZQDXQQVE1YV8CTE7C69CW1FMQHI",
+        "TXKIRG2UND6MHK5DXT87V869W58TWDVI39",
+        "Q7WI97PEEW7U7TERGX7FTJSBPK98ZAGNJ9",
+      ],
     },
 
     addresses: {
       routerAddress: "0xcd7d16fB918511BF7269eC4f48d61D79Fb26f918",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xaF724813e860B462a3387Fb97CC2600179CAF9e1",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      longVaultPositionManagerAddress: ZERO_ADDRESS,
+      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -217,16 +269,22 @@ export const chains: ChainConfig[] = [
     },
 
     keys: {
-      explorerApi: "2E61KG4DBVCCS9CPCDIRSUPEWFTV31HQFK",
+      explorerApi: [
+        "2E61KG4DBVCCS9CPCDIRSUPEWFTV31HQFK",
+        "VTZ8ZHWBCPUTPIBR5US5XRTKH5ATV3SFKG",
+        "6K358Y8JJXHG3QUPN9JVT51DRW73EAVE87",
+      ],
     },
 
     addresses: {
       routerAddress: "0x2CB45Edb4517d5947aFdE3BEAbF95A582506858B",
-      lendingPoolAddress: "",
-      directDepositorAddress: "",
-      directWithdrawalAddress: "",
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xd07C970e8F8534Da02096862F23A9a91C6F716a3",
-      basicVaultDepositorAddress: "0x0000000000000000000000000000000000000000",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      longVaultPositionManagerAddress: ZERO_ADDRESS,
+      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
     },
   },
 ];

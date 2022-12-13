@@ -8,16 +8,22 @@ import {
   InfoTitle,
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
-import { CurrentPositionInfo } from "../../basic-vault-modal/components";
+import {
+  VaultStatusInfo,
+  CurrentPositionInfo,
+} from "../../basic-vault-modal/components";
 import { VaultType } from "../../basic-vault/types";
+import { TabType } from "../../basic-vault-modal/types";
+import { useVaultModalState } from "../../modal/hooks";
 
 import { PendingPositionInfo } from "./PendingPositionInfo";
 import { Container } from "./PositionsInfo.styles";
-import { VaultStatus } from "./VaultStatus";
 
 // eslint-disable-next-line complexity
 export const PositionInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
+  const [vaultModalState] = useVaultModalState();
+  const { tabType } = vaultModalState;
 
   const { data: basicVaultData, isLoading: isBasicVaultLoading } =
     basicVaultQuery;
@@ -30,10 +36,6 @@ export const PositionInfo = () => {
     type = VaultType.CALL,
     collateralSymbol = "",
     percentageYields = { weeklyPercentageYield: 0 },
-    expiry = 0,
-    isSettled = false,
-    isExpired = false,
-    isAllowInteractions = false,
   } = basicVaultData ?? {};
 
   const { weeklyPercentageYield } = percentageYields;
@@ -55,46 +57,42 @@ export const PositionInfo = () => {
 
   const successEpochTitle =
     type === VaultType.CONDOR
-      ? "Max - Spot between sold strike range"
-      : `Max - Spot ${type === VaultType.CALL ? "below" : "above"} sold strike`;
+      ? "Max - Spot between short strike range"
+      : `Max - Spot ${
+          type === VaultType.CALL ? "below" : "above"
+        } short strike`;
 
   const failedEpochTitle =
     type === VaultType.CONDOR
-      ? "Min - Spot exceeds bought strike range"
-      : `Min - Spot ${
-          type === VaultType.CALL ? "above" : "below"
-        } bought strike`;
+      ? "Min - Spot exceeds long strike range"
+      : `Min - Spot ${type === VaultType.CALL ? "above" : "below"} long strike`;
 
   return (
     <Container>
       <VaultInfoContainer>
-        <VaultStatus
-          expiry={expiry}
-          isAllowInteractions={isAllowInteractions}
-          isExpired={isExpired}
-          isLoading={isLoading}
-          isSettled={isSettled}
-        />
-        <CurrentPositionInfo />
+        <VaultStatusInfo />
         <PendingPositionInfo />
+        <CurrentPositionInfo />
       </VaultInfoContainer>
-      <VaultInfoContainer>
-        <InfoContainer>
-          <InfoTitle>New Position</InfoTitle>
-        </InfoContainer>
-        <InfoContainer>
-          <InfoTitle>{successEpochTitle}</InfoTitle>
-          <InfoValue isAlignRight>
-            {isLoading ? loadingPlaceholder : formattedSuccessEpochPosition}
-          </InfoValue>
-        </InfoContainer>
-        <InfoContainer>
-          <InfoTitle>{failedEpochTitle}</InfoTitle>
-          <InfoValue isAlignRight>
-            {isLoading ? loadingPlaceholder : formattedFailedEpochPosition}
-          </InfoValue>
-        </InfoContainer>
-      </VaultInfoContainer>
+      {tabType === TabType.withdraw && positionValue.gt(0) ? (
+        <VaultInfoContainer>
+          <InfoContainer>
+            <InfoTitle>New Position</InfoTitle>
+          </InfoContainer>
+          <InfoContainer>
+            <InfoTitle>{successEpochTitle}</InfoTitle>
+            <InfoValue isAlignRight>
+              {isLoading ? loadingPlaceholder : formattedSuccessEpochPosition}
+            </InfoValue>
+          </InfoContainer>
+          <InfoContainer>
+            <InfoTitle>{failedEpochTitle}</InfoTitle>
+            <InfoValue isAlignRight>
+              {isLoading ? loadingPlaceholder : formattedFailedEpochPosition}
+            </InfoValue>
+          </InfoContainer>
+        </VaultInfoContainer>
+      ) : null}
     </Container>
   );
 };

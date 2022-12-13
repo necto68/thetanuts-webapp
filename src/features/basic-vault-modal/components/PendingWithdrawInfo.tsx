@@ -1,6 +1,6 @@
 import Big from "big.js";
 
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { useBasicModalConfig } from "../hooks";
 import {
   InfoContainer,
@@ -35,11 +35,10 @@ export const PendingWithdrawInfo = () => {
   return (
     <InfoContainer>
       <InfoTitleContainer>
-        <InfoTitle>Withdrawal Pending</InfoTitle>
         <Tooltip
           content="Refers to the amount that is pending to be withdrawn once the current epoch has ended. Once the current epoch has ended, users can claim their withdrawn amount."
           id="withdrawalPending"
-          root={<InfoIcon />}
+          root={<InfoTitle>Withdrawal Pending</InfoTitle>}
         />
       </InfoTitleContainer>
       <InfoValue isAlignRight>

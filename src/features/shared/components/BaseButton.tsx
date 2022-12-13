@@ -15,11 +15,6 @@ const BaseButton = styled(motion.button).attrs<Required<BaseButtonProps>>(
       scale: 1.03,
     },
 
-    whileTap: !disabled && {
-      scale: 0.95,
-      opacity: 0.6,
-    },
-
     primaryColor,
     disabled,
   })

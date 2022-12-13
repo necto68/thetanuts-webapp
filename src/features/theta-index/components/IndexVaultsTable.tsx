@@ -1,23 +1,24 @@
 import {
   Table,
   APYCellContainer,
-  GreenCellValue,
   Chains,
   DemoButton,
   AssetCell,
   SwapButton,
+  CellValue,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useIndexVaults } from "../../index-vault/hooks";
 import type { IndexVault } from "../../index-vault/types";
 import { demoIndexVaults, indexVaults } from "../constants";
 import { currencyFormatterWithoutDecimals } from "../../shared/helpers";
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import type { DemoIndexVaultConfig } from "../types";
 import { VaultModalType } from "../../root/types";
 import { getVaultTypeTitle } from "../../index-vault/helpers";
 import { RiskLevelCell } from "../../basic/components/RiskLevelCell";
+import { getVaultTitle } from "../../table/helpers";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
 
@@ -26,7 +27,7 @@ type IndexVaultRow = DemoIndexVaultConfig | IndexVault;
 const columns: Column<IndexVaultRow>[] = [
   {
     key: "assetSymbol",
-    title: "Stronghold",
+    title: "Product",
 
     render: ({ type, assetSymbol, collateralSymbol }) => (
       <AssetCell
@@ -37,15 +38,17 @@ const columns: Column<IndexVaultRow>[] = [
       />
     ),
 
-    filterBy: true,
+    filterBy: ({ assetSymbol, collateralSymbol, type }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(VaultModalType.index, type, assetSymbol, collateralSymbol),
+    ],
   },
   {
     key: "type",
     title: "Strategy",
 
-    render: ({ type }) => (
-      <GreenCellValue>{getVaultTypeTitle(type)}</GreenCellValue>
-    ),
+    render: ({ type }) => <CellValue>{getVaultTypeTitle(type)}</CellValue>,
 
     filterBy: ({ type }) => getVaultTypeTitle(type),
   },
@@ -66,13 +69,15 @@ const columns: Column<IndexVaultRow>[] = [
 
     render: ({ id, totalPercentageYields }) => (
       <APYCellContainer>
-        <GreenCellValue>{`${totalPercentageYields.annualPercentageYield}%`}</GreenCellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={totalPercentageYields} />
           }
           id={id}
-          root={<InfoIcon />}
+          place="top"
+          root={
+            <CellValue>{`${totalPercentageYields.annualPercentageYield}%`}</CellValue>
+          }
         />
       </APYCellContainer>
     ),
@@ -95,7 +100,6 @@ const columns: Column<IndexVaultRow>[] = [
   {
     key: "supportedChainIds",
     title: "Networks",
-    minWidth: 160,
 
     render: (row) => {
       if ("isDemo" in row) {
@@ -121,7 +125,6 @@ const columns: Column<IndexVaultRow>[] = [
   },
   {
     key: "id",
-    minWidth: 140,
 
     render: (row) => {
       if ("isDemo" in row) {
@@ -148,7 +151,7 @@ export const IndexVaultsTable = () => {
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset or network"
+      filterInputPlaceholder="Search by Product or Strategy"
       getRowKey={getRowKey}
       rows={rows}
     />

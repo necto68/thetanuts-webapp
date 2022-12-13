@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 
+import { links } from "../../shared/constants";
 import { useIsMobile } from "../../shared/hooks";
 import {
   Container,
@@ -27,10 +28,10 @@ export const BasicLayout = () => {
     <Container>
       <ContentContainer>
         <DescriptionContainer>
-          <Title>Basic</Title>
+          <Title>Basic Vaults</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              Basic vaults earn yield by selling automated option strategies to
+              Basic Vaults earn yield by selling automated option strategies to
               market makers. Earnings are auto-compounded.&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
@@ -39,7 +40,7 @@ export const BasicLayout = () => {
           ) : (
             <>
               <Description>
-                Basic vaults earn yield by selling automated option strategies
+                Basic Vaults earn yield by selling automated option strategies
                 to market makers. Earnings are auto-compounded. The yield
                 generated is in the form of the underlying asset. Users can
                 accumulate more underlying assets through covered calls or farm
@@ -50,12 +51,12 @@ export const BasicLayout = () => {
               </Description>
               <Description>
                 Read the&nbsp;
-                <DescriptionLink href="https://docs.thetanuts.finance">
+                <DescriptionLink href={links.docs}>
                   Thetanuts Docs
                 </DescriptionLink>
                 &nbsp; for a more detailed overview of Thetanuts Basic Vaults or
                 contact us on&nbsp;
-                <DescriptionLink href="https://discord.com/invite/fzWKJSy9v9">
+                <DescriptionLink href={links.discord}>
                   Thetanuts Discord
                 </DescriptionLink>
                 .
@@ -69,7 +70,7 @@ export const BasicLayout = () => {
           )}
         </DescriptionContainer>
       </ContentContainer>
-      <Title>Featured Basic</Title>
+      <Title>Featured Basic Vaults</Title>
       <FeaturedBasicVaultsList />
       <BasicVaultsTable />
     </Container>

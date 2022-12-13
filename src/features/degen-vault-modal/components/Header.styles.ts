@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,7 +12,7 @@ export const Title = styled.span`
   font-family: Roboto;
   font-weight: 600;
   font-size: 22px;
-  color: #f04d22;
+  color: ${({ theme }: Theme<AppTheme>) => theme.warningColor};
   text-align: center;
 `;
 

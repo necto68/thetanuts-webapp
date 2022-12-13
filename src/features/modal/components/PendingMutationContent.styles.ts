@@ -6,13 +6,14 @@ import { BaseButton } from "../../shared/components";
 
 export const Container = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: end;
   min-height: 575px;
 `;
 
 export const BackgroundAnimationContainer = styled.div`
-  position: fixed;
+  position: absolute;
   z-index: 1;
 `;
 

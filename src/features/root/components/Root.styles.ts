@@ -2,16 +2,9 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import Div100vh from "react-div-100vh";
 
-import { PagePathname } from "../types";
 import { screens } from "../../shared/constants";
 import { Link } from "../../shared/components/Link";
-
-const mapPathnameToBackground = {
-  [PagePathname.thetaIndex]: "#031a34",
-  [PagePathname.basic]: "#031a34",
-  [PagePathname.degen]: "#031a34",
-  [PagePathname.portfolio]: "#212b31",
-};
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 export const Container = styled(Div100vh)`
   display: flex;
@@ -19,13 +12,8 @@ export const Container = styled(Div100vh)`
   // height: 100vh; - by default because of Div100vh
 `;
 
-export const BackgroundContainer = styled(motion.div).attrs<{
-  pathname: PagePathname;
-}>(({ pathname }) => ({
-  animate: {
-    backgroundColor: mapPathnameToBackground[pathname],
-  },
-}))<{ pathname: PagePathname }>`
+export const BackgroundContainer = styled(motion.div)`
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
   display: flex;
   flex: 1;
   justify-content: center;
@@ -42,7 +30,7 @@ export const LayoutContainer = styled.div`
   height: max-content;
   min-height: 100%;
 
-  padding: 15px;
+  padding: 0 15px;
 
   ${screens.xl} {
     padding: 0;

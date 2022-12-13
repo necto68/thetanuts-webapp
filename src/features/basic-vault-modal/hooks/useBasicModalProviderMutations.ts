@@ -17,6 +17,7 @@ import {
 } from "../../contracts/types";
 import { useResetMutationError } from "../../index-vault-modal/hooks/useResetMutationError";
 import { BasicVaultType } from "../../basic/types/basicVaultConfig";
+import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 import { useBasicModalState } from "./useBasicModalState";
@@ -129,7 +130,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     );
 
     const { data } = basicVaultQuery;
-    const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
+    const { id = "", basicVaultType = BasicVaultType.BASIC } = data ?? {};
 
     const depositAmount = new Big(inputValue)
       .mul(tokenData.tokenDivisor)
@@ -140,7 +141,12 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
     try {
       // we are using basicVaultDepositorContract only for degen vaults
-      if (basicVaultType === BasicVaultType.DEGEN) {
+      // and for ETH and BTC call/put basic vaults
+      // TODO: Remove this when we support depositor for all basic vaults
+      if (
+        basicVaultType === BasicVaultType.DEGEN ||
+        basicVaultsIdsThatSupportDepositor.includes(id)
+      ) {
         await basicVaultDepositorContract.callStatic.deposit(
           basicVaultAddress,
           depositAmount

@@ -1,7 +1,6 @@
 import Big from "big.js";
 
-import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
-import { useBasicVaultEpochTimerTitle } from "../../basic-vault/hooks/useBasicVaultEpochTimerTitle";
+import { useBasicModalConfig } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import {
   InfoContainer,
@@ -13,40 +12,58 @@ import {
   InfoValueGray,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { BasicVaultType } from "../../basic/types";
+import { useLongModalConfig } from "../../long-vault-modal/hooks";
 
 import { StrikePrices } from "./StrikePrices";
 
+// eslint-disable-next-line complexity
 export const VaultInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
-  const { data, isLoading } = basicVaultQuery;
+  const { longVaultReaderQuery } = useLongModalConfig();
+
+  const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
+  const { data: longVaultReaderData, isLoading: isLongVaultReaderLoading } =
+    longVaultReaderQuery;
+
   const {
     basicVaultType = BasicVaultType.BASIC,
     collateralSymbol = "",
     assetPrice = 0,
-    balance = new Big(0),
+    balance: basicVaultBalance = new Big(0),
     collatCap = new Big(0),
-    expiry = 0,
-    isSettled = false,
-    isExpired = false,
-    isAllowInteractions = false,
   } = data ?? {};
 
-  const isBasicVault = basicVaultType === BasicVaultType.BASIC;
+  const { balance: longVaultBalance = new Big(0), supplyCap = new Big(0) } =
+    longVaultReaderData ?? {};
 
-  const timerTitle = useBasicVaultEpochTimerTitle(
-    expiry,
-    isSettled,
-    isExpired,
-    isAllowInteractions
-  );
+  const isLoading = isBasicVaultLoading || isLongVaultReaderLoading;
+
+  const isLongVault = basicVaultType === BasicVaultType.LONG;
 
   const loadingPlaceholder = ".....";
 
-  const formattedBalance = numberFormatter.format(balance.toNumber());
-  const formattedCollatCap = numberFormatter.format(collatCap.toNumber());
-  const formattedCapacity = `${formattedBalance} / ${formattedCollatCap} ${collateralSymbol}`;
+  const balanceValue = isLongVault ? longVaultBalance : basicVaultBalance;
+
+  const capValue = isLongVault ? supplyCap : collatCap;
+
+  const percentageValue = capValue.gt(0)
+    ? balanceValue.div(capValue).mul(100).round(1)
+    : new Big(0);
+
+  const formattedPercentage = numberFormatter.format(
+    percentageValue.toNumber()
+  );
+  const formattedBalance = numberFormatter.format(balanceValue.toNumber());
+  const formattedCap = numberFormatter.format(capValue.toNumber());
+  const formattedCapacity = `${formattedPercentage}% (${formattedBalance} / ${formattedCap} ${collateralSymbol})`;
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
+
+  const feeTitle = isLongVault
+    ? "Borrow Fee (APR)"
+    : "Performance/Management Fee";
+
+  const feeValue = isLongVault ? "2%" : "0%";
 
   return (
     <InfoGroupContainer>
@@ -58,14 +75,6 @@ export const VaultInfo = () => {
           </InfoValue>
         </InfoContainer>
         <StrikePrices loadingPlaceholder={loadingPlaceholder} />
-        {isBasicVault ? (
-          <InfoContainer>
-            <InfoTitle>Epoch Starts/Ends In</InfoTitle>
-            <InfoValue isAlignRight>
-              {isLoading ? loadingPlaceholder : timerTitle}
-            </InfoValue>
-          </InfoContainer>
-        ) : null}
       </InfoGroup>
       <InfoGroup>
         <InfoContainer>
@@ -81,8 +90,8 @@ export const VaultInfo = () => {
           </InfoValueGray>
         </InfoContainer>
         <InfoContainer>
-          <InfoTitleGray>Performance/Management Fee</InfoTitleGray>
-          <InfoValueGray isAlignRight>0.00%</InfoValueGray>
+          <InfoTitleGray>{feeTitle}</InfoTitleGray>
+          <InfoValueGray isAlignRight>{feeValue}</InfoValueGray>
         </InfoContainer>
       </InfoGroup>
     </InfoGroupContainer>

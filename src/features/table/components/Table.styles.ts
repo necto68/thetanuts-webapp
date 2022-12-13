@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
 import { BaseButton } from "../../shared/components";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 export const Container = styled.div`
   display: flex;
@@ -19,13 +20,14 @@ export const TableContainerWrapper = styled.div`
 
 export const TableContainer = styled.table`
   border-collapse: collapse;
-  min-width: 800px;
+  min-width: 1000px;
   width: 100%;
-  table-layout: fixed;
+  border: 1px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
 `;
 
 export const HeaderRow = styled.tr`
-  background-color: #010c1a;
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.secondaryBgColor};
+  border-bottom: 2px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
 `;
 
 export const SortContainer = styled.div`
@@ -44,27 +46,21 @@ export const HeaderCell = styled.th.withConfig({
     ["align"].includes(property) || defaultValidatorFunction(property),
 })<{ minWidth?: string }>`
   &:first-child {
-    border-top-left-radius: 10px;
-
     ${SortContainer} {
       padding-left: 15px;
     }
   }
 
   &:last-child {
-    border-top-right-radius: 10px;
-
     ${SortContainer} {
       padding-right: 15px;
     }
   }
 
-  // Setting cell min-width in the table that has "table-layout: fixed" is actually setting width.
-  // That means that the table layout is responsive and cell width can be changed but it will not be less than this width.
   ${({ minWidth }) =>
     minWidth &&
     css`
-      width: ${minWidth}px;
+      min-width: ${minWidth}px;
     `}
 `;
 
@@ -90,18 +86,21 @@ export const Header = styled.span`
   font-family: Roboto;
   font-weight: 600;
   font-size: 13px;
-  color: #ffffff;
+  color: ${({ theme }: Theme<AppTheme>) => theme.textColor};
   line-height: 1;
 `;
 
 export const Row = styled.tr`
-  &:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
+  background: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
+  border-bottom: 2px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
 
-  &:nth-child(even) {
-    background-color: rgba(0, 0, 0, 0.5);
+  :last-child {
+    border-bottom: none;
   }
+`;
+
+export const SkeletonWrapper = styled.div`
+  padding: 8px 0;
 `;
 
 export const Cell = styled.td`
@@ -123,17 +122,18 @@ export const CellValue = styled.span`
   font-family: Roboto;
   font-weight: 500;
   font-size: 13px;
-  color: #ffffff;
+  color: ${({ theme }: Theme<AppTheme>) => theme.textColor};
   line-height: 1;
+  white-space: nowrap;
 `;
 
 export const GreenCellValue = styled(CellValue)`
-  color: #81e429;
+  color: ${({ theme }: Theme<AppTheme>) => theme.brandColor}; ;
 `;
 
 export const GreenCellSubValue = styled(CellValue)`
   font-size: 10px;
-  color: #81e429;
+  color: ${({ theme }: Theme<AppTheme>) => theme.brandColor}; ;
 `;
 
 export const CellValueContainer = styled.div`

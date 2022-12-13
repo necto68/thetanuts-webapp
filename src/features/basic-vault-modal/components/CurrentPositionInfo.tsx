@@ -1,6 +1,6 @@
 import Big from "big.js";
 
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { useBasicModalConfig } from "../hooks";
 import {
   InfoContainer,
@@ -42,11 +42,10 @@ export const CurrentPositionInfo = () => {
   return (
     <InfoContainer>
       <InfoTitleContainer>
-        <InfoTitle>Active Position</InfoTitle>
         <Tooltip
           content={tooltipContent}
           id="currentPosition"
-          root={<InfoIcon />}
+          root={<InfoTitle>Active Position</InfoTitle>}
         />
       </InfoTitleContainer>
       <InfoValue isAlignRight>

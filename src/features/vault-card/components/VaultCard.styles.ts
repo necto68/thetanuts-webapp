@@ -2,15 +2,60 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { Link } from "../../shared/components";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 import type { VaultCardProps } from "./VaultCard";
 
 type ContainerProps = Pick<
   VaultCardProps,
-  "backgroundColor" | "disabled" | "shadowColor"
+  "backgroundColor" | "borderColor" | "disabled" | "shadowColor"
 >;
 
-type APYTitleProps = Pick<VaultCardProps, "backgroundColor">;
+export const Header = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const SkeletonContainer = styled.div`
+  padding: 4px;
+`;
+
+export const Title = styled.span`
+  font-family: Roboto;
+  font-weight: 700;
+  font-size: 12px;
+  width: 100%;
+  padding: 4px 0;
+  text-align: center;
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.secondaryBgColor};
+  color: ${({ theme }: Theme<AppTheme>) => theme.textColor};
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 1px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+`;
+
+export const FooterContent = styled.div`
+  padding: 4px 0;
+`;
+
+export const DataContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 2px 8px;
+  border-bottom: 1px solid
+    ${({ theme }: Theme<AppTheme>) => theme.secondBorderColor};
+`;
 
 export const Container = styled(motion.div).attrs<ContainerProps>(
   ({ shadowColor = "", disabled }) => ({
@@ -35,43 +80,13 @@ export const Container = styled(motion.div).attrs<ContainerProps>(
 )<ContainerProps>`
   display: flex;
   flex-direction: column;
-  padding: 2px;
-  border-radius: 8px;
-  background: ${({ backgroundColor }) => backgroundColor};
+  border-radius: 4px;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
-  min-width: 253px;
-`;
-
-export const Header = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 4px;
-`;
-
-export const Title = styled.span`
-  font-family: Roboto;
-  font-weight: 700;
-  font-size: 12px;
-
-  text-align: center;
-`;
-
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 0 8px;
-  background-color: #010e1d;
-  border-bottom-left-radius: 8px;
-  border-bottom-right-radius: 8px;
-`;
-
-export const DataContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 16px 2px 8px;
-  border-bottom: 1px solid #5d5d5d;
+  min-width: 254px;
+  background: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
+  border: 1px solid
+    ${({ borderColor, theme }: ContainerProps & Theme<AppTheme>) =>
+      borderColor ?? theme.borderColor};
 `;
 
 export const DataContent = styled.div`
@@ -98,9 +113,15 @@ export const SymbolTitle = styled.span`
   font-size: 16px;
   color: #ffffff;
 `;
+export const PeriodTitle = styled.span`
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  color: #ffffff;
+`;
 
-export const APYTitle = styled(SymbolTitle)<APYTitleProps>`
-  background: ${({ backgroundColor }) => backgroundColor};
+export const APYTitle = styled(SymbolTitle)`
+  background: ${({ theme }: Theme<AppTheme>) => theme.textColor};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;

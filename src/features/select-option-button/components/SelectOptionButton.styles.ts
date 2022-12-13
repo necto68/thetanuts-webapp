@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { BaseButton } from "../../shared/components";
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 interface IsSmallProps {
   isSmall: boolean;
@@ -14,7 +15,7 @@ export const OptionsContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  background-color: #232738;
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
   overflow: hidden;
 `;
 

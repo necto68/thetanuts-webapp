@@ -1,6 +1,6 @@
 import { useSwapRouterConfig, useWithdrawDataQuery } from "../hooks";
 import { VaultType } from "../../basic-vault/types";
-import { ExternalLinkButton, InfoIcon, Tooltip } from "../../shared/components";
+import { ExternalLinkButton, Tooltip } from "../../shared/components";
 import { PathType } from "../../wallet/types";
 
 import {
@@ -51,34 +51,32 @@ export const VaultsWithdrawScheduleTable = () => {
     const withdrawLose = Number(Number(expected) - Number(claimed)).toFixed(2);
 
     return (
-      <ClaimStatusText>
-        -{withdrawLose} {indexAssetSymbol}
-        <Tooltip
-          content="If the option has not expired, the status would should
+      <Tooltip
+        content="If the option has not expired, the status would should
 in-progress. After the option has expired, it would show
 if any losses have been incurred"
-          id={`${uniqKey}-expected-difference-hint`}
-          place="top"
-          root={<InfoIcon />}
-        />
-      </ClaimStatusText>
+        id={`${uniqKey}-expected-difference-hint`}
+        place="top"
+        root={
+          <ClaimStatusText>
+            -{withdrawLose} {indexAssetSymbol}
+          </ClaimStatusText>
+        }
+      />
     );
   };
 
   const getVaultPosition = (vaultAddress: string) => {
     if (vaultsClaimable[vaultAddress]) {
       return (
-        <ClaimStatusText>
-          Settled
-          <Tooltip
-            content="If the option has not expired, the status would should
+        <Tooltip
+          content="If the option has not expired, the status would should
 in-progress. After the option has expired, it would show
 if any losses have been incurred"
-            id={`${vaultAddress}-settled-hint`}
-            place="top"
-            root={<InfoIcon />}
-          />
-        </ClaimStatusText>
+          id={`${vaultAddress}-settled-hint`}
+          place="top"
+          root={<ClaimStatusText>Settled</ClaimStatusText>}
+        />
       );
     }
 
@@ -87,17 +85,14 @@ if any losses have been incurred"
       (!vaultsExpected[vaultAddress] && !vaultsClaimed[vaultAddress])
     ) {
       return (
-        <ClaimStatusText>
-          In-Progress
-          <Tooltip
-            content="If the option has not expired, the status would should
+        <Tooltip
+          content="If the option has not expired, the status would should
 in-progress. After the option has expired, it would show
 if any losses have been incurred"
-            id={vaultAddress}
-            place="top"
-            root={<InfoIcon />}
-          />
-        </ClaimStatusText>
+          id={vaultAddress}
+          place="top"
+          root={<ClaimStatusText>In-Progress</ClaimStatusText>}
+        />
       );
     }
 
@@ -127,18 +122,15 @@ if any losses have been incurred"
   const getVaultStatusText = (vaultAddress: string) => {
     if (vaultsClaimable[vaultAddress]) {
       return (
-        <ClaimStatusText>
-          Claimable
-          <Tooltip
-            content="The claimable amount refers to the withdraw amount
+        <Tooltip
+          content="The claimable amount refers to the withdraw amount
 minus any losses incurred once the option has expired.
 Once the user has claimed the amount, the status would
 change to “claimed”"
-            id={`${vaultAddress}-claimable-hint`}
-            place="top"
-            root={<InfoIcon />}
-          />
-        </ClaimStatusText>
+          id={`${vaultAddress}-claimable-hint`}
+          place="top"
+          root={<ClaimStatusText>Claimable</ClaimStatusText>}
+        />
       );
     }
 
@@ -158,13 +150,12 @@ change to “claimed”"
           </HeaderCell>
           <HeaderCell>
             <HeaderCellValue>
-              Withdraw&nbsp;
               <Tooltip
                 content="Shows the withdraw amount in each of the respective
 individual option vault(s) given that the option is not ITM"
                 id="vaultWithdrawAmountHint"
                 place="top"
-                root={<InfoIcon />}
+                root="Withdraw"
               />
             </HeaderCellValue>
           </HeaderCell>

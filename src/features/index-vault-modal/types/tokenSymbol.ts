@@ -6,11 +6,11 @@ export enum TokenSymbol {
   BUSD = "BUSD",
   ETH = "ETH",
   WETH = "WETH",
-  // eslint-disable-next-line unicorn/prevent-abbreviations
+  // eslint-disable-next-line unicorn/prevent-abbreviations, @typescript-eslint/naming-convention
   "WETH.e" = "WETH.e",
   BTC = "BTC",
   WBTC = "WBTC",
   BTCB = "BTCB",
-  // eslint-disable-next-line unicorn/prevent-abbreviations
+  // eslint-disable-next-line unicorn/prevent-abbreviations, @typescript-eslint/naming-convention
   "WBTC.e" = "WBTC.e",
 }

@@ -18,10 +18,10 @@ export const processWalletError = (walletError: unknown) => {
 
   if (
     JSON.stringify(walletError).includes(
-      TransactionErrorMessageTemplate.SettlementInProgress
+      TransactionErrorMessageTemplate.settlementInProgress
     )
   ) {
-    throw new Error(TransactionErrorMessage.SettlementInProgress);
+    throw new Error(TransactionErrorMessage.settlementInProgress);
   }
 
   throw walletError as Error;

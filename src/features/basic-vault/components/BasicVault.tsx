@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import Big from "big.js";
 import { generatePath } from "react-router-dom";
+import { useTheme } from "styled-components";
 
 import { useBasicVault } from "../hooks";
 import { numberFormatter, periodFormatter } from "../../shared/helpers";
@@ -9,9 +10,10 @@ import { VaultCard } from "../../vault-card/components";
 import { ModalPathname } from "../../root/types";
 import { ProgressBarColor, VaultType } from "../types";
 import { getVaultTypeTitle } from "../../index-vault/helpers";
+import type { AppTheme } from "../../app/constants/appTheme";
+import { VaultStatus } from "../../basic-vault-modal/components";
 
 import { BasicVaultCapacity } from "./BasicVaultCapacity";
-import { EpochTimer } from "./EpochTimer";
 
 interface BasicVaultProps {
   basicVaultId: string;
@@ -19,6 +21,8 @@ interface BasicVaultProps {
 
 export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
   const { isLoading, data } = useBasicVault(basicVaultId);
+  const theme = useTheme() as AppTheme;
+  const backgroundColor = theme.bgColor;
 
   const {
     type = VaultType.CALL,
@@ -39,9 +43,6 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
   const title = getVaultTypeTitle(type);
   const subTitle = periodFormatter(period);
   const symbol = `${assetSymbol}-${isCallType ? "C" : "P"}`;
-
-  const vaultBackgroundColor = isCallType ? "#02d1ff" : "#fe9902";
-  const backgroundColor = isLoading ? "#ffffff" : vaultBackgroundColor;
 
   const formattedTotalAPY = numberFormatter.format(annualPercentageYield);
 
@@ -71,10 +72,11 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
         />
       }
       footerContent={
-        <EpochTimer
+        <VaultStatus
           expiry={expiry}
           isAllowInteractions={isAllowInteractions}
           isExpired={isExpired}
+          isLoading={isLoading}
           isSettled={isSettled}
         />
       }

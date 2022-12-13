@@ -3,7 +3,7 @@ import type { FC } from "react";
 import { getFormattedStrikePrices } from "../../basic-vault-modal/helpers";
 import type { BasicVault } from "../../basic-vault/types";
 import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
-import { VaultStatus } from "../../degen-vault-modal/types/VaultStatus";
+import { VaultStatus } from "../../basic-vault-modal/types";
 
 import { TitlesContainer } from "./BasicVaultAssetCell.styles";
 import { Title } from "./StrikePriceCell.styles";
@@ -27,7 +27,7 @@ export const StrikePriceCell: FC<StrikePriceProps> = ({
   return (
     <TitlesContainer>
       <Title>
-        {vaultStatus === VaultStatus.ActiveEpoch ? formattedStrikePrices : "-"}
+        {vaultStatus === VaultStatus.ACTIVE_EPOCH ? formattedStrikePrices : "-"}
       </Title>
     </TitlesContainer>
   );

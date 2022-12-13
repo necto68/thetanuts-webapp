@@ -1,18 +1,27 @@
 import styled from "styled-components";
 
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
+
 import {
   DataContainer as VaultCardDataContainer,
   Title as VaultCardTitle,
   APYTitle as VaultCardAPYTitle,
   SubTitle as VaultCardSubTitle,
+  Header as VaultCardHeader,
 } from "./VaultCard.styles";
 
 export const DataContainer = styled(VaultCardDataContainer)`
   padding: 8px 2px 5px;
 `;
 
+export const Header = styled(VaultCardHeader)`
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.warningColor};
+`;
+
 export const Title = styled(VaultCardTitle)`
   color: #ffffff;
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.warningColor};
+  border-bottom: 1px solid ${({ theme }: Theme<AppTheme>) => theme.warningColor};
 `;
 
 export const DataContent = styled.div`
@@ -30,13 +39,14 @@ export const DataItemContainer = styled.div`
 export const APYContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   gap: 5px;
 `;
 
 export const APYTitle = styled(VaultCardSubTitle)`
   font-family: Barlow;
-  font-weight: 600;
+  font-weight: 400;
+  font-size: 12px;
 `;
 
 export const APYValue = styled(VaultCardAPYTitle)`
@@ -47,6 +57,11 @@ export const APYValue = styled(VaultCardAPYTitle)`
 export const SymbolContainer = styled.div`
   display: flex;
   align-items: center;
+  gap: 4px;
+`;
+export const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   gap: 4px;
 `;
 

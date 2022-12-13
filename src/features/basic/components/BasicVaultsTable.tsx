@@ -1,31 +1,36 @@
 import {
   APYCellContainer,
+  CellValue,
   Chains,
   DepositButton,
-  GreenCellValue,
   Table,
 } from "../../table/components";
 import type { Column } from "../../table/types";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { basicVaults } from "../constants";
-import { InfoIcon, Tooltip } from "../../shared/components";
+import { Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
-import { BasicVaultCapacity } from "../../basic-vault/components/BasicVaultCapacity";
 import { VaultModalType } from "../../root/types";
-import { ProgressBarColor, VaultType } from "../../basic-vault/types";
 import type { BasicVault } from "../../basic-vault/types";
+import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
+import { WithdrawButton } from "../../table/components/WithdrawButton";
+import { getVaultModalType } from "../helpers";
+import { getVaultTitle } from "../../table/helpers";
+import { periodFormatter } from "../../shared/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
+import { useFilteredBasicVaultsIds } from "../hooks";
 
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
 import { RiskLevelCell } from "./RiskLevelCell";
+import { ActionsContainer } from "./ActionsCell";
 
 const columns: Column<BasicVault>[] = [
   {
     key: "assetSymbol",
-    title: "Basic Vault",
-    minWidth: 200,
+    title: "Product",
 
     render: ({
       basicVaultType,
@@ -49,15 +54,28 @@ const columns: Column<BasicVault>[] = [
       />
     ),
 
-    filterBy: ({ assetSymbol, collateralSymbol }) => [
+    filterBy: ({
       assetSymbol,
       collateralSymbol,
+      type,
+      basicVaultType,
+      period,
+    }) => [
+      assetSymbol,
+      collateralSymbol,
+      getVaultTitle(
+        getVaultModalType(basicVaultType),
+        type,
+        assetSymbol,
+        collateralSymbol
+      ),
+      periodFormatter(period),
+      getVaultTypeStrategy(type),
     ],
   },
   {
     key: "type",
     title: "Strategy",
-    minWidth: 110,
 
     render: ({ type, period }) => <StrategyCell period={period} type={type} />,
 
@@ -66,7 +84,6 @@ const columns: Column<BasicVault>[] = [
   {
     key: "strikePrices",
     title: "Strike Price",
-    minWidth: 110,
 
     render: ({
       type,
@@ -84,7 +101,7 @@ const columns: Column<BasicVault>[] = [
       />
     ),
 
-    sortBy: ({ type }) => type,
+    sortBy: ({ strikePrices }) => strikePrices[0],
   },
   {
     key: "riskLevel",
@@ -93,23 +110,23 @@ const columns: Column<BasicVault>[] = [
     tooltipTitle:
       "The risk rating is the approximate riskiness of an asset and the respective option strategy given the current market conditions. The volatility of the asset and the directional component of the option strategy is the 2 main factors in the risk rating calculations.",
 
-    minWidth: 70,
     render: ({ riskLevel }) => <RiskLevelCell riskLevel={riskLevel} />,
   },
   {
     key: "percentageYields",
     title: "APY",
-    minWidth: 110,
 
     render: ({ id, percentageYields }) => (
       <APYCellContainer>
-        <GreenCellValue>{`${percentageYields.annualPercentageYield}%`}</GreenCellValue>
         <Tooltip
           content={
             <PercentageYieldsTooltip percentageYields={percentageYields} />
           }
           id={id}
-          root={<InfoIcon />}
+          place="top"
+          root={
+            <CellValue>{`${percentageYields.annualPercentageYield}%`}</CellValue>
+          }
         />
       </APYCellContainer>
     ),
@@ -119,18 +136,12 @@ const columns: Column<BasicVault>[] = [
   {
     key: "balance",
     title: "Capacity",
-    minWidth: 180,
 
-    render: ({ type, collateralSymbol, balance, collatCap }) => (
-      <BasicVaultCapacity
+    render: ({ collateralSymbol, balance, collatCap }) => (
+      <BasicVaultCapacityPercent
         balance={balance}
         collatCap={collatCap}
         collateralSymbol={collateralSymbol}
-        progressBarColor={
-          type === VaultType.CALL
-            ? ProgressBarColor.blue
-            : ProgressBarColor.orange
-        }
       />
     ),
 
@@ -140,7 +151,6 @@ const columns: Column<BasicVault>[] = [
   {
     key: "chainId",
     title: "Network",
-    minWidth: 100,
 
     render: ({ id, chainId }) => (
       <Chains
@@ -154,14 +164,20 @@ const columns: Column<BasicVault>[] = [
   },
   {
     key: "id",
-    minWidth: 140,
 
     render: ({ id, chainId }) => (
-      <DepositButton
-        chainId={chainId}
-        vaultId={id}
-        vaultType={VaultModalType.basic}
-      />
+      <ActionsContainer>
+        <DepositButton
+          chainId={chainId}
+          vaultId={id}
+          vaultType={VaultModalType.basic}
+        />
+        <WithdrawButton
+          chainId={chainId}
+          vaultId={id}
+          vaultType={VaultModalType.basic}
+        />
+      </ActionsContainer>
     ),
   },
 ];
@@ -169,15 +185,15 @@ const columns: Column<BasicVault>[] = [
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
 export const BasicVaultsTable = () => {
-  const basicVaultsIds = basicVaults.map(({ id }) => id);
-  const basicVaultsQueries = useBasicVaults(basicVaultsIds);
+  const filteredBasicVaultIds = useFilteredBasicVaultsIds(basicVaults);
+  const basicVaultsQueries = useBasicVaults(filteredBasicVaultIds);
 
   const rows = basicVaultsQueries.map(({ data }) => data);
 
   return (
     <Table
       columns={columns}
-      filterInputPlaceholder="Filter by asset or network"
+      filterInputPlaceholder="Search by Product or Strategy"
       getRowKey={getRowKey}
       rows={rows}
     />

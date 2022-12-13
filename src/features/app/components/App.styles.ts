@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
-import { screens } from "../../shared/constants";
+import type { AppTheme, Theme } from "../constants/appTheme";
 
 export const GlobalStyle = createGlobalStyle`
   ${normalize}
@@ -9,11 +9,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     -webkit-font-smoothing: antialiased;
 
-    background-color: #031a34;
-
-    ${screens.md} {
-      background-color: #000000;
-    }
+    background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
   }
 
   * {

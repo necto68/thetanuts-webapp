@@ -1,7 +1,7 @@
-import { indexVaults } from "../../theta-index/constants";
 import { useIndexVaults } from "../../index-vault/hooks";
 import type { HistoryTransactionRow } from "../types";
 import { VaultModalType } from "../../root/types";
+import { useFilteredIndexVaultsIds } from "../../theta-index/hooks";
 
 import { useIndexTokensQueries } from "./useIndexTokensQueries";
 import { useIndexRedeemHistoryQueries } from "./useIndexRedeemHistoryQueries";
@@ -10,12 +10,13 @@ export const useIndexRedeemHistoryRows = (): (
   | HistoryTransactionRow
   | undefined
 )[] => {
-  const indexVaultsIds = indexVaults.map(({ id }) => id);
+  const filteredIndexVaultsIds = useFilteredIndexVaultsIds();
 
-  const indexVaultsQueries = useIndexVaults(indexVaultsIds);
-  const indexRedeemHistoryQueries =
-    useIndexRedeemHistoryQueries(indexVaultsIds);
-  const indexTokensQueries = useIndexTokensQueries(indexVaultsIds);
+  const indexVaultsQueries = useIndexVaults(filteredIndexVaultsIds);
+  const indexRedeemHistoryQueries = useIndexRedeemHistoryQueries(
+    filteredIndexVaultsIds
+  );
+  const indexTokensQueries = useIndexTokensQueries(filteredIndexVaultsIds);
 
   return indexVaultsQueries.flatMap(({ data }, vaultIndex) => {
     const { data: historyTransactions } = indexRedeemHistoryQueries[vaultIndex];

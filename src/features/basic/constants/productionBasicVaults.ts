@@ -327,6 +327,55 @@ export const productionDegenVaults: BasicVaultConfig[] = [
   },
 ];
 
+export const productionLongVaults = [
+  {
+    id: "L-TN-CSCPv1-BTCUSD",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0x3BA337F3167eA35910E6979D5BC3b0AeE60E7d59",
+    },
+  },
+  {
+    id: "L-TN-CSCPv1-ETHUSD",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xE1c93dE547cc85CBD568295f6CC322B1dbBCf8Ae",
+    },
+  },
+  {
+    id: "L-TN-CSCPv1-AVAXUSD",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0x248038fDb6F00f4B636812CA6A7F06b81a195AB8",
+    },
+  },
+  {
+    id: "L-TN-CSCPv1-BNBUSD",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xE5e8caA04C4b9E1C9bd944A2a78a48b05c3ef3AF",
+    },
+  },
+  {
+    id: "L-TN-CSCPv1-MATICUSD",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xAD57221ae9897DA08656aaaBd5B1D4673d4eDE71",
+    },
+  },
+];
+
 export const productionAllBasicVaults = productionBasicVaults.concat(
-  productionDegenVaults
+  productionDegenVaults,
+  productionLongVaults
 );

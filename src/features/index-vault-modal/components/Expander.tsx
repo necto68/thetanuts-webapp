@@ -1,8 +1,7 @@
-import type { FC, ReactElement } from "react";
+import type { FC, ReactElement, MouseEvent as ReactMouseEvent } from "react";
 
 import type { SectionType } from "../types";
-import { Plus } from "../../shared/icons";
-import { Minus } from "../../shared/icons/Minus";
+import { ArrowDown, ArrowUp } from "../../shared/icons";
 
 import {
   Container,
@@ -16,6 +15,7 @@ export interface ExpanderProps {
   title: ReactElement | string;
   isOpen: boolean;
   maxHeight?: number;
+  isTitleDisabled?: boolean;
   onArrowClick: (sectionType: SectionType) => void;
 }
 
@@ -25,19 +25,34 @@ export const Expander: FC<ExpanderProps> = ({
   isOpen,
   maxHeight,
   onArrowClick,
+  isTitleDisabled,
   children,
-}) => (
-  <Container isOpen={isOpen}>
-    <HeaderButton
-      onClick={() => {
-        onArrowClick(type);
-      }}
-    >
-      <Title>{title}</Title>
-      {isOpen ? <Minus /> : <Plus />}
-    </HeaderButton>
-    <ExpandableContainer isOpen={isOpen} maxHeight={maxHeight}>
-      {children}
-    </ExpandableContainer>
-  </Container>
-);
+}) => {
+  const onTitleClick = (event: ReactMouseEvent) => {
+    if (isTitleDisabled) {
+      event.stopPropagation();
+    }
+  };
+
+  return (
+    <Container isOpen={isOpen}>
+      <HeaderButton
+        onClick={() => {
+          onArrowClick(type);
+        }}
+      >
+        <Title
+          onClick={(event) => {
+            onTitleClick(event);
+          }}
+        >
+          {title}
+        </Title>
+        {isOpen ? <ArrowUp /> : <ArrowDown />}
+      </HeaderButton>
+      <ExpandableContainer isOpen={isOpen} maxHeight={maxHeight}>
+        {children}
+      </ExpandableContainer>
+    </Container>
+  );
+};

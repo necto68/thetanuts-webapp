@@ -6,15 +6,23 @@ interface StatusIndicatorProps {
   status: VaultStatus;
 }
 
+export const StatusText = styled.span`
+  white-space: nowrap;
+  font-family: Roboto;
+  font-weight: 500;
+  font-size: 12px;
+  color: #ffffff;
+`;
+
 export const StatusIndicator = styled.div<StatusIndicatorProps>`
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background-color: ${({ status }) => {
     switch (status) {
-      case VaultStatus.ActiveEpoch:
+      case VaultStatus.ACTIVE_EPOCH:
         return "#00FF29";
-      case VaultStatus.Pause:
+      case VaultStatus.PAUSE:
         return "#EB5353";
       default:
         return "#FFE600";
