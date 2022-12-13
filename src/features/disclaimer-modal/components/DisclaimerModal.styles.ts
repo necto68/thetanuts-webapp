@@ -7,14 +7,14 @@ import { BaseButton } from "../../shared/components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 480px;
+  width: 430px;
   border-radius: 10px;
   background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
   overflow-x: hidden;
   overflow-y: auto;
 
   gap: 30px;
-  padding: 30px 40px;
+  padding: 24px;
 
   ${screens.md} {
     gap: 20px;
@@ -78,6 +78,8 @@ export const ListItem = styled.li`
 
 export const Link = styled.a`
   text-decoration: underline;
+  color: #ffffff;
+
   &:visited {
     color: #ffffff;
   }

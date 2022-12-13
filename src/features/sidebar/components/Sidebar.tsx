@@ -4,6 +4,7 @@ import {
   IndexPage,
   BasicPage,
   DegenPage,
+  LongPage,
   Portfolio,
   Twitter,
   Medium,
@@ -38,12 +39,12 @@ const sellingOptions = [
   },
   {
     to: PagePathname.basic,
-    linkTitle: "Basic",
+    linkTitle: "Basic Vaults",
     navIcon: BasicPage,
   },
   {
     to: PagePathname.degen,
-    linkTitle: "Degen",
+    linkTitle: "Degen Vaults",
     navIcon: DegenPage,
     iconColor: "#EB5353",
   },
@@ -52,8 +53,8 @@ const sellingOptions = [
 const buyingOptions = [
   {
     to: PagePathname.long,
-    linkTitle: "Long",
-    navIcon: BasicPage,
+    linkTitle: "Long Vaults",
+    navIcon: LongPage,
   },
 ];
 

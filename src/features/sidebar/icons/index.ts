@@ -2,6 +2,7 @@ export * from "./AppLogo";
 export * from "./IndexPage";
 export * from "./BasicPage";
 export * from "./DegenPage";
+export * from "./LongPage";
 export * from "./Portfolio";
 export * from "./Twitter";
 export * from "./Medium";

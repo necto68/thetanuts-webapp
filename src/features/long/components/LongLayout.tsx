@@ -30,13 +30,15 @@ export const LongLayout = () => {
     <Container>
       <ContentContainer>
         <DescriptionContainer>
-          <Title>Long</Title>
+          <Title>Long Vaults</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              Long vaults allows users to long the various sold options that
+              Long Vaults allows users to long the various short options that
               Thetanuts provides. Each long position requires 10% collateral
-              from users. Users would pay the option premium to retain their
-              long postion(s).&nbsp;
+              from users. Users would pay the option premiums and a fixed 2% APR
+              borrowing fee to maintain their long position(s). The option
+              premiums payable corresponds to the winning bid from market
+              makers.&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -44,16 +46,12 @@ export const LongLayout = () => {
           ) : (
             <>
               <Description>
-                Long vaults allows users to long the various sold options that
+                Long Vaults allows users to long the various short options that
                 Thetanuts provides. Each long position requires 10% collateral
-                from users. Users would pay the option premium to retain their
-                long postion(s). The option premiums payable corresponds to the
-                winning bid from market makers. The settlement of each long
-                vault is in the form of the underlying asset. The strike and
-                expiration of each option vault are algorithmically determined
-                to generate the highest risk-adjusted yield. Thetanuts charges a
-                fixed 2% APR borrowing fee on users to maintain their long
-                positions.
+                from users. Users would pay the option premiums and a fixed 2%
+                APR borrowing fee to maintain their long position(s). The option
+                premiums payable corresponds to the winning bid from market
+                makers.
               </Description>
               <Description>
                 Read the&nbsp;

@@ -27,13 +27,13 @@ export const DegenLayout = () => {
     <Container>
       <ContentContainer>
         <DescriptionContainer>
-          <Title>Degen (High Risk)</Title>
+          <Title>Degen Vaults (High Risk)</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              Degen vault earns a high yield by selling automated spreads to
+              Degen Vault earns a high yield by selling automated spreads to
               market makers. The current weekly yield is extrapolated into the
               current projected APY% so that users have a better understanding
-              of the vault’s risk-reward profile.&nbsp;
+              of the vault&apos;s risk-reward profile.&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -41,13 +41,14 @@ export const DegenLayout = () => {
           ) : (
             <>
               <Description>
-                Degen vault earns a high yield by selling automated spreads to
+                Degen Vault earns a high yield by selling automated spreads to
                 market makers. The current weekly yield is extrapolated into the
                 current projected APY% so that users have a better understanding
-                of the vault’s risk-reward profile. The yield generated is in
-                the form of the underlying asset deposited. In an event that the
-                degen vault expires ITM, users would still earn option premiums
-                but they would lose their initial deposit. Use with caution.
+                of the vault&apos;s risk-reward profile. The yield generated is
+                in the form of the underlying asset deposited. In an event that
+                the degen vault expires ITM, users would still earn option
+                premiums but they would lose their initial deposit. Use with
+                caution.
               </Description>
               <Description>
                 Read the&nbsp;
@@ -70,7 +71,7 @@ export const DegenLayout = () => {
           )}
         </DescriptionContainer>
       </ContentContainer>
-      <Title>Featured Degen</Title>
+      <Title>Featured Degen Vaults</Title>
       <FeaturedDegenVaultsList />
       <DegenVaultsTable />
     </Container>
