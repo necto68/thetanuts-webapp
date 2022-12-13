@@ -1,4 +1,5 @@
 import type { Provider } from "@ethersproject/providers";
+import Big from "big.js";
 
 import {
   LendingPoolAddressesProviderAbi__factory as LendingPoolAddressesProviderAbiFactory,
@@ -39,6 +40,8 @@ export const collateralAssetFetcher = async (
     provider
   );
 
+  const priceDivisor = new Big(10).pow(8);
+
   const [
     collateralToken,
     aTokenAddress,
@@ -63,7 +66,7 @@ export const collateralAssetFetcher = async (
       .then(({ data }) => convertToBig(data).toNumber()),
     priceOracleContract
       .getAssetPrice(collateralAssetAddress)
-      .then((value) => convertToBig(value).toNumber()),
+      .then((value) => convertToBig(value).div(priceDivisor).toNumber()),
   ]);
 
   const [aToken] = await Promise.all([

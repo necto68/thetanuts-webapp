@@ -100,6 +100,7 @@ export const longVaultReaderFetcher = async (
 
   const {
     loanToValue,
+    collateralToken,
     collateralPrice,
     lendingPoolAddress,
     priceOracleAddress,
@@ -115,11 +116,13 @@ export const longVaultReaderFetcher = async (
     provider
   );
 
+  const priceDivisor = new Big(10).pow(8);
+
   const [debtTokenPrice, debtTokenAddress, rawBorrowPending] =
     await Promise.all([
       priceOracleContract
         .getAssetPrice(basicVaultAddress)
-        .then((value) => convertToBig(value).toNumber()),
+        .then((value) => convertToBig(value).div(priceDivisor).toNumber()),
       lendingPoolContract
         .getReserveData(basicVaultAddress)
         .then((data) => data.variableDebtTokenAddress),
@@ -132,7 +135,7 @@ export const longVaultReaderFetcher = async (
         : null,
     ]);
 
-  const balanceDivisor = new Big(10).pow(18);
+  const balanceDivisor = collateralToken.tokenDivisor;
   const availableLiquidity = convertToBig(rawAvailableLiquidity).div(
     balanceDivisor
   );
