@@ -14,8 +14,9 @@ import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
 import {
   BasicVaultAssetCell,
-  RiskLevelCell,
+  StrategyCell,
   StrikePriceCell,
+  RiskLevelCell,
 } from "../../basic/components";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { highYieldFormatter } from "../../shared/helpers";
@@ -30,8 +31,6 @@ import {
   getDegenVaultTypeTitle,
 } from "../../degen-vault/helpers";
 import { useFilteredBasicVaultsIds } from "../../basic/hooks";
-
-import { StrategyCell } from "./StrategyCell";
 
 const columns: Column<BasicVault>[] = [
   {
@@ -78,7 +77,13 @@ const columns: Column<BasicVault>[] = [
     key: "type",
     title: "Strategy",
 
-    render: ({ type }) => <StrategyCell type={type} />,
+    render: ({ basicVaultType, type, period }) => (
+      <StrategyCell
+        basicVaultType={basicVaultType}
+        period={period}
+        type={type}
+      />
+    ),
 
     sortBy: ({ type }) => type,
   },
