@@ -47,7 +47,8 @@ export const SwapSection = () => {
     targetPrice,
     priceImpactRate,
 
-    remainderValue,
+    minInputValue,
+    maxInputValue,
     vaultChainId,
 
     isFlipped,
@@ -71,11 +72,12 @@ export const SwapSection = () => {
           isTokenDataLoading={isSourceDataLoading}
           isUseNativeData={isUseNativeSourceData}
           isValueLoading={isSourceValueLoading}
+          maxInputValue={maxInputValue}
+          minInputValue={minInputValue}
           nativeData={nativeData}
           onInputChange={setSourceValue}
           onUseNativeDataChange={setUseSourceNativeData}
           priceValue={sourcePrice}
-          remainderValue={remainderValue}
           sourceTokenData={sourceData}
           tokenData={sourceData}
         />
@@ -116,8 +118,9 @@ export const SwapSection = () => {
         isFlipped={isFlipped}
         isSource
         isUseNativeData={isUseNativeSourceData}
+        maxInputValue={maxInputValue}
+        minInputValue={minInputValue}
         nativeData={nativeData}
-        remainderValue={remainderValue}
         sourceTokenData={sourceData}
         tokenData={sourceData}
         vaultType={vaultType}

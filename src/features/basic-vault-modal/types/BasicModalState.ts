@@ -14,7 +14,8 @@ export interface BasicModalState {
   isNativeDataLoading: SwapRouterState["isNativeDataLoading"];
 
   priceValue: SwapRouterState["sourcePrice"];
-  remainderValue: SwapRouterState["remainderValue"];
+  minInputValue: SwapRouterState["minInputValue"];
+  maxInputValue: SwapRouterState["maxInputValue"];
 
   tokensQueries: {
     collateralTokenQuery: SwapRouterState["tokensQueries"]["sourceTokenQuery"];

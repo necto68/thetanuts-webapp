@@ -39,7 +39,8 @@ const defaultSwapRouterState: SwapRouterState = {
   targetPrice: 0,
   priceImpactRate: 0,
 
-  remainderValue: 0,
+  minInputValue: 0,
+  maxInputValue: 0,
   vaultChainId: ChainId.ETHEREUM,
 
   slippageToleranceValue: "0",
