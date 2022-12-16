@@ -22,7 +22,7 @@ export const Container = styled(motion.div).attrs(() => ({
 }))<ContainerProps>`
   position: absolute;
   top: ${({ topPosition }) => topPosition}px;
-  left: ${({ leftPosition }) => leftPosition}px;
+  right: ${({ leftPosition }) => leftPosition}px;
   min-width: ${({ minWidth }) => minWidth}px;
   z-index: 1;
 `;
