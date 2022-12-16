@@ -77,7 +77,13 @@ const columns: Column<BasicVault>[] = [
     key: "type",
     title: "Strategy",
 
-    render: ({ type, period }) => <StrategyCell period={period} type={type} />,
+    render: ({ basicVaultType, type, period }) => (
+      <StrategyCell
+        basicVaultType={basicVaultType}
+        period={period}
+        type={type}
+      />
+    ),
 
     sortBy: ({ type }) => type,
   },

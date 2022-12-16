@@ -14,7 +14,8 @@ const defaultBasicModalState: BasicModalState = {
   nativeData: undefined,
   isNativeDataLoading: false,
   priceValue: 0,
-  remainderValue: 0,
+  minInputValue: 0,
+  maxInputValue: 0,
 
   tokensQueries: {
     collateralTokenQuery: undefined,

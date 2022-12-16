@@ -23,7 +23,8 @@ export interface CardWarningProps {
   isDirectModeBetterThanSwapMode?: boolean;
   isUseDirectMode?: boolean;
   disabled?: boolean;
-  remainderValue?: number;
+  minInputValue?: number;
+  maxInputValue?: number;
   vaultChainId?: ChainId;
   fieldWarning?: string;
 }
@@ -40,7 +41,8 @@ export const CardWarning: FC<CardWarningProps> = ({
   isDirectModeBetterThanSwapMode = false,
   isUseDirectMode = false,
   disabled,
-  remainderValue = Number.MAX_SAFE_INTEGER,
+  minInputValue = 0,
+  maxInputValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
   fieldWarning,
   vaultType,
@@ -59,12 +61,21 @@ export const CardWarning: FC<CardWarningProps> = ({
       !disabled
   );
 
-  const isShowMaxVaultCapReachedTitle = Boolean(
+  const isShowMinInputValueTitle = Boolean(
     !isShowInsufficientBalanceTitle &&
       isSource &&
       !isFlipped &&
       inputValueBig.gt(0) &&
-      inputValueBig.gt(remainderValue) &&
+      inputValueBig.lt(minInputValue) &&
+      contentType !== ModalContentType.withdrawClaim
+  );
+
+  const isShowMaxInputValueTitle = Boolean(
+    !isShowInsufficientBalanceTitle &&
+      isSource &&
+      !isFlipped &&
+      inputValueBig.gt(0) &&
+      inputValueBig.gt(maxInputValue) &&
       contentType !== ModalContentType.withdrawClaim
   );
 
@@ -86,7 +97,8 @@ export const CardWarning: FC<CardWarningProps> = ({
   const isShowPriceWarning =
     isShowDirectDepositProposal ||
     isShowDirectWithdrawProposal ||
-    isShowMaxVaultCapReachedTitle ||
+    isShowMinInputValueTitle ||
+    isShowMaxInputValueTitle ||
     isShowSwapProposal;
 
   return isShowPriceWarning || fieldWarning ? (
@@ -94,9 +106,11 @@ export const CardWarning: FC<CardWarningProps> = ({
       <PriceWarning
         isShowDirectDepositProposal={isShowDirectDepositProposal}
         isShowDirectWithdrawProposal={isShowDirectWithdrawProposal}
-        isShowMaxVaultCapReachedTitle={isShowMaxVaultCapReachedTitle}
+        isShowMaxInputValueTitle={isShowMaxInputValueTitle}
+        isShowMinInputValueTitle={isShowMinInputValueTitle}
         isShowSwapProposal={isShowSwapProposal}
-        remainderValue={remainderValue}
+        maxInputValue={maxInputValue}
+        minInputValue={minInputValue}
         sourceTokenData={sourceTokenData}
         vaultChainId={vaultChainId}
         vaultType={vaultType}

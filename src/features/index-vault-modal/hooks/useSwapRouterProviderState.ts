@@ -156,8 +156,9 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
 
   const previousChainId = usePreviousImmediate(chainId);
 
-  // getting remainderValue
-  const remainderValue = totalRemainder;
+  // getting minInputValue and maxInputValue
+  const minInputValue = 0;
+  const maxInputValue = totalRemainder;
 
   // boolean flags for deposit mode
   const [isDirectModeBetterThanSwapMode, setIsDirectModeBetterThanSwapMode] =
@@ -589,7 +590,8 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     targetPrice,
     priceImpactRate,
 
-    remainderValue,
+    minInputValue,
+    maxInputValue,
     vaultChainId,
 
     slippageToleranceValue,

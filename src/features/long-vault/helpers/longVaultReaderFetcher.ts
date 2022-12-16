@@ -118,7 +118,7 @@ export const longVaultReaderFetcher = async (
 
   const priceDivisor = new Big(10).pow(8);
 
-  const [debtTokenPrice, debtTokenAddress, rawBorrowPending] =
+  const [debtTokenPrice, debtTokenAddress, rawBorrowPending, minBorrowValue] =
     await Promise.all([
       priceOracleContract
         .getAssetPrice(basicVaultAddress)
@@ -133,6 +133,9 @@ export const longVaultReaderFetcher = async (
             })
             .then(convertToBig)
         : null,
+      longVaultPositionManagerContract
+        .minQueueValue()
+        .then((value) => convertToBig(value).div(priceDivisor)),
     ]);
 
   const balanceDivisor = collateralToken.tokenDivisor;
@@ -154,13 +157,18 @@ export const longVaultReaderFetcher = async (
     .mul(debtTokenPrice)
     .mul(1 - loanToValue);
 
-  const supplyRemainder = availableForBorrow
+  const maxSupplyValue = availableForBorrow
     .div(loanToValue)
     .div(collateralPrice)
     .round(5, Big.roundDown)
     .toNumber();
 
-  const balance = supplyCap.sub(supplyRemainder);
+  const minSupplyValue = minBorrowValue
+    .div(new Big(borrowRemainder).div(maxSupplyValue))
+    .round(0, Big.roundDown)
+    .toNumber();
+
+  const balance = supplyCap.sub(maxSupplyValue);
 
   const debtTokenContract = DebtTokenAbiFactory.connect(
     debtTokenAddress,
@@ -212,7 +220,8 @@ export const longVaultReaderFetcher = async (
     borrowContractsPending,
     balance,
     supplyCap,
-    supplyRemainder,
+    minSupplyValue,
+    maxSupplyValue,
     borrowRemainder,
   };
 };

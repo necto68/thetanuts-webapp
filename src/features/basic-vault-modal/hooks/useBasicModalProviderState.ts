@@ -51,7 +51,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
 
-  const { supplyRemainder = Number.MAX_SAFE_INTEGER } =
+  const { minSupplyValue = 0, maxSupplyValue = Number.MAX_SAFE_INTEGER } =
     longVaultReaderData ?? {};
 
   const collateralTokenQuery = useTokenQuery(
@@ -81,15 +81,19 @@ export const useBasicModalProviderState = (): BasicModalState => {
   // use the same price for Deposit/Withdraw tab
   const priceValue = inputValueBig.mul(collateralPrice).toNumber();
 
-  let remainderValue: number | undefined = Number.MAX_SAFE_INTEGER;
+  let minInputValue: number | undefined = 0;
+  let maxInputValue: number | undefined = Number.MAX_SAFE_INTEGER;
 
   if (tabType === TabType.deposit) {
-    remainderValue =
+    minInputValue = basicVaultType === BasicVaultType.LONG ? minSupplyValue : 0;
+
+    maxInputValue =
       basicVaultType === BasicVaultType.LONG
-        ? supplyRemainder
+        ? maxSupplyValue
         : collateralTokenRemainder;
   } else {
-    remainderValue = undefined;
+    minInputValue = undefined;
+    maxInputValue = undefined;
   }
 
   return {
@@ -106,7 +110,8 @@ export const useBasicModalProviderState = (): BasicModalState => {
     isNativeDataLoading,
 
     priceValue,
-    remainderValue,
+    minInputValue,
+    maxInputValue,
 
     tokensQueries: {
       collateralTokenQuery,

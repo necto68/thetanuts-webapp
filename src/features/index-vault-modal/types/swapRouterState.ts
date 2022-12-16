@@ -38,7 +38,8 @@ export interface SwapRouterState {
   targetPrice: number;
   priceImpactRate: number;
 
-  remainderValue?: number;
+  minInputValue?: number;
+  maxInputValue?: number;
   vaultChainId?: ChainId;
 
   slippageToleranceValue: string;
