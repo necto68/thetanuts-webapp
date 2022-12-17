@@ -19,7 +19,6 @@ import { getVaultModalType } from "../helpers";
 import { getVaultTitle } from "../../table/helpers";
 import { periodFormatter } from "../../shared/helpers";
 import { getVaultTypeStrategy } from "../../index-vault/helpers";
-import { useFilteredBasicVaultsIds } from "../hooks";
 
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
@@ -191,8 +190,8 @@ const columns: Column<BasicVault>[] = [
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
 export const BasicVaultsTable = () => {
-  const filteredBasicVaultIds = useFilteredBasicVaultsIds(basicVaults);
-  const basicVaultsQueries = useBasicVaults(filteredBasicVaultIds);
+  const basicVaultsIds = basicVaults.map(({ id }) => id);
+  const basicVaultsQueries = useBasicVaults(basicVaultsIds);
 
   const rows = basicVaultsQueries.map(({ data }) => data);
 
