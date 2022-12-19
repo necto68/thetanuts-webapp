@@ -194,8 +194,8 @@ const columns: Column<BasicVault>[] = [
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
 export const DegenVaultsTable = () => {
-  const filteredDegenVaultsIds = useFilteredBasicVaultsIds(degenVaults);
-  const degenVaultsQueries = useBasicVaults(filteredDegenVaultsIds);
+  const sortedDegenVaultsIds = useFilteredBasicVaultsIds(degenVaults);
+  const degenVaultsQueries = useBasicVaults(sortedDegenVaultsIds);
 
   const rows = degenVaultsQueries.map(({ data }) => data);
 
