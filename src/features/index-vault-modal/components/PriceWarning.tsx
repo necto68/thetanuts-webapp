@@ -28,10 +28,12 @@ const depositTitle = {
 interface PriceWarningProps {
   isShowDirectDepositProposal: boolean;
   isShowDirectWithdrawProposal: boolean;
-  isShowMaxVaultCapReachedTitle: boolean;
+  isShowMinInputValueTitle: boolean;
+  isShowMaxInputValueTitle: boolean;
   isShowSwapProposal: boolean;
   sourceTokenData: Token | undefined;
-  remainderValue?: number;
+  minInputValue?: number;
+  maxInputValue?: number;
   vaultChainId?: ChainId;
   vaultType: VaultModalType;
 }
@@ -40,9 +42,11 @@ export const PriceWarning: FC<PriceWarningProps> = ({
   isShowDirectDepositProposal,
   isShowDirectWithdrawProposal,
   isShowSwapProposal,
-  isShowMaxVaultCapReachedTitle,
+  isShowMinInputValueTitle,
+  isShowMaxInputValueTitle,
   sourceTokenData,
-  remainderValue = 0,
+  minInputValue = 0,
+  maxInputValue = 0,
   vaultChainId,
   vaultType,
 }) => {
@@ -97,11 +101,19 @@ export const PriceWarning: FC<PriceWarningProps> = ({
           &nbsp;to swap instead
         </WarningTitle>
       ) : null}
-      {isShowMaxVaultCapReachedTitle ? (
+      {isShowMinInputValueTitle ? (
+        <WarningTitle>
+          You can&apos;t {depositTitle[vaultType]} less than{" "}
+          <WarningLink>
+            {minInputValue} {symbol}
+          </WarningLink>
+        </WarningTitle>
+      ) : null}
+      {isShowMaxInputValueTitle ? (
         <WarningTitle>
           You can only {depositTitle[vaultType]}{" "}
           <WarningLink>
-            {remainderValue} {symbol}
+            {maxInputValue} {symbol}
           </WarningLink>
           . If you want to {depositTitle[vaultType]} more - please{" "}
           <WarningLink href={links.discord}>contact us</WarningLink>.

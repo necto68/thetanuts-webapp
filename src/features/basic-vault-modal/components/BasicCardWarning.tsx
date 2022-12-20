@@ -4,8 +4,14 @@ import { useVaultModalState } from "../../modal/hooks";
 
 export const BasicCardWarning = () => {
   const [{ vaultType }] = useVaultModalState();
-  const { inputValue, tokenData, nativeData, isUseNativeData, remainderValue } =
-    useBasicModalState();
+  const {
+    inputValue,
+    tokenData,
+    nativeData,
+    isUseNativeData,
+    minInputValue,
+    maxInputValue,
+  } = useBasicModalState();
 
   return (
     <CardWarning
@@ -13,8 +19,9 @@ export const BasicCardWarning = () => {
       isFlipped={false}
       isSource
       isUseNativeData={isUseNativeData}
+      maxInputValue={maxInputValue}
+      minInputValue={minInputValue}
       nativeData={nativeData}
-      remainderValue={remainderValue}
       sourceTokenData={tokenData}
       tokenData={tokenData}
       vaultType={vaultType}

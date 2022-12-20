@@ -13,6 +13,7 @@ export interface LongVaultReader {
   borrowContractsPending: Big | null;
   balance: Big;
   supplyCap: Big;
-  supplyRemainder: number;
+  minSupplyValue: number;
+  maxSupplyValue: number;
   borrowRemainder: number;
 }

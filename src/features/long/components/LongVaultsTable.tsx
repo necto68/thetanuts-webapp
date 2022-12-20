@@ -67,7 +67,13 @@ const columns: Column<LongVaultRow>[] = [
     title: "Strategy",
     minWidth: 110,
 
-    render: ({ type, period }) => <StrategyCell period={period} type={type} />,
+    render: ({ basicVaultType, type, period }) => (
+      <StrategyCell
+        basicVaultType={basicVaultType}
+        period={period}
+        type={type}
+      />
+    ),
 
     sortBy: ({ type }) => type,
   },

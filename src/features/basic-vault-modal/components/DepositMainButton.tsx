@@ -11,6 +11,7 @@ import {
 import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { InsufficientBalanceMainButton } from "../../modal/components/InsufficientBalanceMainButton";
+import { MinPositionRequiredMainButton } from "../../modal/components/MinPositionRequiredMainButton";
 import { MaxVaultCapReachedMainButton } from "../../modal/components/MaxVaultCapReachedMainButton";
 import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
@@ -36,7 +37,8 @@ export const DepositMainButton = () => {
     isTokenDataLoading,
     nativeData,
     isUseNativeData,
-    remainderValue,
+    minInputValue,
+    maxInputValue,
   } = useBasicModalState();
   const {
     approveAllowanceMutation,
@@ -179,7 +181,11 @@ export const DepositMainButton = () => {
     return <InsufficientBalanceMainButton />;
   }
 
-  if (remainderValue && inputValueBig.gt(remainderValue)) {
+  if (minInputValue && inputValueBig.gt(0) && inputValueBig.lt(minInputValue)) {
+    return <MinPositionRequiredMainButton />;
+  }
+
+  if (maxInputValue && inputValueBig.gt(maxInputValue)) {
     return <MaxVaultCapReachedMainButton />;
   }
 

@@ -51,7 +51,8 @@ interface SwapInputCardProps {
   isHideWalletBalance?: boolean;
   isHideAssetSelector?: boolean;
   disabled?: boolean;
-  remainderValue?: number;
+  minInputValue?: number;
+  maxInputValue?: number;
   vaultChainId?: ChainId;
 }
 
@@ -79,7 +80,8 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   isHideWalletBalance = false,
   isHideAssetSelector = false,
   disabled,
-  remainderValue = Number.MAX_SAFE_INTEGER,
+  minInputValue = 0,
+  maxInputValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
 }) => {
   const [{ contentType }] = useVaultModalState();
@@ -128,12 +130,21 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
       !disabled
   );
 
-  const isShowMaxVaultCapReachedTitle = Boolean(
+  const isShowMinInputValueTitle = Boolean(
     !isShowInsufficientBalanceTitle &&
       isSource &&
       !isFlipped &&
       inputValueBig.gt(0) &&
-      inputValueBig.gt(remainderValue) &&
+      inputValueBig.lt(minInputValue) &&
+      contentType !== ModalContentType.withdrawClaim
+  );
+
+  const isShowMaxInputValueTitle = Boolean(
+    !isShowInsufficientBalanceTitle &&
+      isSource &&
+      !isFlipped &&
+      inputValueBig.gt(0) &&
+      inputValueBig.gt(maxInputValue) &&
       contentType !== ModalContentType.withdrawClaim
   );
 
@@ -167,7 +178,8 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                   disabled={disabled}
                   isError={
                     isShowInsufficientBalanceTitle ||
-                    isShowMaxVaultCapReachedTitle
+                    isShowMinInputValueTitle ||
+                    isShowMaxInputValueTitle
                   }
                   onChange={handleInputChange}
                   value={inputValue}

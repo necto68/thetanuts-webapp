@@ -46,7 +46,7 @@ export const WalletInfoAddressText = styled.span`
 export const WalletAddressAvatar = styled.img`
   width: 16px;
   height: 16px;
-  border-radius: 100%;
+  border-radius: 50%;
 `;
 export const WalletInfoAddressAvatar = styled(WalletAddressAvatar)`
   width: 32px;

@@ -17,7 +17,8 @@ export const InputCard = () => {
     isUseNativeData,
     setIsUseNativeData,
     priceValue,
-    remainderValue,
+    minInputValue,
+    maxInputValue,
   } = useBasicModalState();
 
   return (
@@ -31,11 +32,12 @@ export const InputCard = () => {
       isTokenDataLoading={isTokenDataLoading}
       isUseNativeData={isUseNativeData}
       isValueLoading={isTokenDataLoading}
+      maxInputValue={maxInputValue}
+      minInputValue={minInputValue}
       nativeData={nativeData}
       onInputChange={setInputValue}
       onUseNativeDataChange={setIsUseNativeData}
       priceValue={priceValue}
-      remainderValue={remainderValue}
       sourceTokenData={tokenData}
       tokenData={tokenData}
     />

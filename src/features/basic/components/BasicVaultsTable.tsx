@@ -19,7 +19,7 @@ import { getVaultModalType } from "../helpers";
 import { getVaultTitle } from "../../table/helpers";
 import { periodFormatter } from "../../shared/helpers";
 import { getVaultTypeStrategy } from "../../index-vault/helpers";
-import { useFilteredBasicVaultsIds } from "../hooks";
+import { useSortedBasicVaultsIds } from "../hooks";
 
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
@@ -77,7 +77,13 @@ const columns: Column<BasicVault>[] = [
     key: "type",
     title: "Strategy",
 
-    render: ({ type, period }) => <StrategyCell period={period} type={type} />,
+    render: ({ basicVaultType, type, period }) => (
+      <StrategyCell
+        basicVaultType={basicVaultType}
+        period={period}
+        type={type}
+      />
+    ),
 
     sortBy: ({ type }) => type,
   },
@@ -185,8 +191,8 @@ const columns: Column<BasicVault>[] = [
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
 export const BasicVaultsTable = () => {
-  const filteredBasicVaultIds = useFilteredBasicVaultsIds(basicVaults);
-  const basicVaultsQueries = useBasicVaults(filteredBasicVaultIds);
+  const sortedBasicVaultIds = useSortedBasicVaultsIds(basicVaults);
+  const basicVaultsQueries = useBasicVaults(sortedBasicVaultIds);
 
   const rows = basicVaultsQueries.map(({ data }) => data);
 
