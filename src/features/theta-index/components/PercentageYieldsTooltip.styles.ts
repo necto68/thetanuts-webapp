@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 `;
 
 export const Title = styled.span`
@@ -16,12 +16,12 @@ export const Title = styled.span`
 export const ContentContainer = styled(Container)`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 `;
 
 export const YieldContainer = styled.div`
   display: flex;
-  gap: 5px;
+  gap: 4px;
 `;
 
 export const YieldValue = styled.span`

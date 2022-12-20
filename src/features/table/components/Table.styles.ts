@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import { motion } from "framer-motion";
 
-import { BaseButton } from "../../shared/components";
 import type { AppTheme, Theme } from "../../app/constants/appTheme";
 
 export const Container = styled.div`
@@ -64,12 +63,13 @@ export const HeaderCell = styled.th.withConfig({
     `}
 `;
 
-export const SortButton = styled(BaseButton)`
+export const SortButton = styled.div`
   display: flex;
   flex: 1;
   border: none;
   border-radius: 0;
   padding: 0;
+  cursor: pointer;
 `;
 
 export const SortArrowContainer = styled(motion.div).attrs<{ show: boolean }>(
