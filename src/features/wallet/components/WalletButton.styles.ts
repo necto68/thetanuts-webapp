@@ -1,8 +1,15 @@
 import styled from "styled-components";
 
+import { BaseButton } from "../../shared/components";
+
 export const WalletInfo = styled.div`
   display: flex;
   position: relative;
+`;
+
+export const WalletConnectedButton = styled(BaseButton)`
+  padding-left: 8px;
+  padding-right: 8px;
 `;
 
 export const Separator = styled.div`
@@ -51,6 +58,28 @@ export const WalletAddressAvatar = styled.img`
 export const WalletInfoAddressAvatar = styled(WalletAddressAvatar)`
   width: 32px;
   height: 32px;
+`;
+
+export const DisconnectAction = styled.button`
+  padding: 2px 4px;
+  height: 20px;
+  width: 85px;
+  background: #323844;
+  border-radius: 4px;
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12.44px;
+  line-height: 16px;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+`;
+
+export const SubContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 export const CopyAction = styled.span`

@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from "react";
 import { useOutsideClick } from "rooks";
 import makeBlockie from "ethereum-blockies-base64";
 
-import { ArrowIcon, BaseButton } from "../../shared/components";
+import { ArrowIcon } from "../../shared/components";
 import { ChainId, web3ModalConfig } from "../constants";
 import { addressFormatter } from "../../shared/helpers";
 import { BaseOptionsContainer } from "../../select-option-button/components/BaseOptionsContainer";
@@ -15,9 +15,12 @@ import { PathType } from "../types";
 import {
   ButtonContentContainer,
   CopyAction,
+  DisconnectAction,
   ExplorerAction,
   Separator,
+  SubContainer,
   WalletAddressAvatar,
+  WalletConnectedButton,
   WalletInfo,
   WalletInfoAddress,
   WalletInfoAddressAvatar,
@@ -56,38 +59,44 @@ export const WalletButton = () => {
 
   return account ? (
     <WalletInfo ref={walletButtonContainerReference}>
-      <BaseButton onClick={handleOpen}>
+      <WalletConnectedButton onClick={handleOpen}>
         <ButtonContentContainer>
           <WalletAddressAvatar alt="" src={avatar} />
           {addressFormatter(account)}
           <ArrowIcon up={isShow} />
         </ButtonContentContainer>
-      </BaseButton>
+      </WalletConnectedButton>
       <BaseOptionsContainer
         isShow={isShow}
         parentReference={walletButtonContainerReference}
       >
         <WalletInfoContainer>
-          <WalletInfoAddress>
-            <WalletInfoAddressAvatar alt="" src={avatar} />
-            <WalletInfoAddressText>
-              {addressFormatter(account)}
-            </WalletInfoAddressText>
-          </WalletInfoAddress>
-          <BaseButton onClick={disconnect}>DISCONNECT</BaseButton>
+          <SubContainer>
+            <WalletInfoAddress>
+              <WalletInfoAddressAvatar alt="" src={avatar} />
+              <WalletInfoAddressText>
+                {addressFormatter(account)}
+              </WalletInfoAddressText>
+            </WalletInfoAddress>
+            <DisconnectAction onClick={disconnect}>DISCONNECT</DisconnectAction>
+          </SubContainer>
           <Separator />
-          <CopyAction onClick={copyAddress}>
-            <Copy />
-            Copy Address
-          </CopyAction>
-          <ExplorerAction href={explorerUrl} target="_blank">
-            <Explorer />
-            View on Explorer
-          </ExplorerAction>
+          <SubContainer>
+            <CopyAction onClick={copyAddress}>
+              <Copy />
+              Copy Address
+            </CopyAction>
+            <ExplorerAction href={explorerUrl} target="_blank">
+              <Explorer />
+              View on Explorer
+            </ExplorerAction>
+          </SubContainer>
         </WalletInfoContainer>
       </BaseOptionsContainer>
     </WalletInfo>
   ) : (
-    <BaseButton onClick={handleConnect}>Connect Wallet</BaseButton>
+    <WalletConnectedButton onClick={handleConnect}>
+      Connect Wallet
+    </WalletConnectedButton>
   );
 };
