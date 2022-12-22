@@ -30,10 +30,9 @@ export const DegenLayout = () => {
           <Title>Degen Vaults (High Risk)</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              Degen Vault earns a high yield by selling automated spreads to
-              market makers. The current weekly yield is extrapolated into the
-              current projected APY% so that users have a better understanding
-              of the vault&apos;s risk-reward profile.&nbsp;
+              Degen vaults allow users with higher risk appetites to take on
+              directional bets on the market and earn higher returns through
+              advanced strategies such as option spreads.&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -41,17 +40,20 @@ export const DegenLayout = () => {
           ) : (
             <>
               <Description>
-                Degen Vault earns a high yield by selling automated spreads to
-                market makers. The current weekly yield is extrapolated into the
-                current projected APY% so that users have a better understanding
-                of the vault&apos;s risk-reward profile. The yield generated is
-                in the form of the underlying asset deposited. In an event that
-                the degen vault expires ITM, users would still earn option
-                premiums but they would lose their initial deposit. Use with
-                caution.
+                Degen vaults allow users with higher risk appetites to take on
+                directional bets on the market and earn higher returns through
+                advanced strategies such as option spreads. Users of
+                Thetanut&apos;s degen vaults would only need to post collateral
+                which is leveraged to collateralize the range between the option
+                spread(s). This promotes capital efficiency as users can
+                implicitly choose their leverage by depositing part, or all
+                their assets into the vault.
               </Description>
               <Description>
-                Read the&nbsp;
+                The main risk is that users can lose part or all of their posted
+                collateral as the spot price of the underlying asset approaches
+                the long call/put option. As such we recommend users to read
+                the&nbsp;
                 <DescriptionLink href={links.docs}>
                   Thetanuts Docs
                 </DescriptionLink>
@@ -60,7 +62,7 @@ export const DegenLayout = () => {
                 <DescriptionLink href={links.discord}>
                   Thetanuts Discord
                 </DescriptionLink>
-                .
+                &nbsp;to clarify any concerns.
               </Description>
               {isMobile ? (
                 <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
