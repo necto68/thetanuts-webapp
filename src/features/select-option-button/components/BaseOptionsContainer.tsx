@@ -21,7 +21,7 @@ export const BaseOptionsContainer: FC<BaseOptionsContainerProps> = ({
   return (
     <AnimatePresence>
       {isShow ? (
-        <Container leftPosition={0} minWidth={width} topPosition={height + 10}>
+        <Container minWidth={width} topPosition={height + 10}>
           {children}
         </Container>
       ) : null}
