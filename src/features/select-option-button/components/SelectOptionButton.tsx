@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { useOutsideClick } from "rooks";
 
-import { IconContainer, ArrowIcon, BaseButton } from "../../shared/components";
+import { IconContainer, ArrowIcon } from "../../shared/components";
 import { getLogoBySymbol } from "../../logo/helpers";
 
 import { BaseOptionsContainer } from "./BaseOptionsContainer";
@@ -12,6 +12,7 @@ import {
   Container,
   ButtonTitle,
   ButtonIcon,
+  CurrentOptionButton,
 } from "./SelectOptionButton.styles";
 
 interface Option {
@@ -66,11 +67,10 @@ export const SelectOptionButton = <OptionType extends Option>({
   const buttonLogo = getLogoBySymbol(symbol);
 
   const buttonLogoSize = isSmall ? 11 : 18;
-  const optionLogoSize = buttonLogoSize + 7;
 
   return (
     <Container ref={chainButtonContainerReference}>
-      <BaseButton
+      <CurrentOptionButton
         isSmall={isSmall}
         onClick={handleSelectButtonClick}
         primaryColor={color}
@@ -89,32 +89,25 @@ export const SelectOptionButton = <OptionType extends Option>({
             </ButtonIcon>
           ) : null}
         </ButtonContentContainer>
-      </BaseButton>
+      </CurrentOptionButton>
       <BaseOptionsContainer
         isShow={isShowOptions}
         parentReference={chainButtonContainerReference}
       >
         <OptionsContainer>
           {options.map(
-            ({
-              id,
-              symbol: optionSymbol,
-              title: optionTitle = "",
-              color: optionColor = "#ffffff",
-            }) => (
+            ({ id, symbol: optionSymbol, title: optionTitle = "" }) => (
               <OptionButton
-                isSmall={isSmall}
                 key={id}
                 onClick={async () => {
                   await handleOptionClick(id);
                 }}
-                primaryColor={optionColor}
               >
                 <ButtonContentContainer isSmall={isSmall}>
                   {optionSymbol ? (
                     <IconContainer
-                      height={optionLogoSize}
-                      width={optionLogoSize}
+                      height={buttonLogoSize}
+                      width={buttonLogoSize}
                     >
                       {getLogoBySymbol(optionSymbol)}
                     </IconContainer>

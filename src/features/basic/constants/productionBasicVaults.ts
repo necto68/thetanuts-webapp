@@ -14,23 +14,25 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 
-  // {
-  //   id: "TN-CSCCv1-ETHUSD-B",
+  {
+    id: "TN-CSCCv1-ETHUSD-B",
+    basicVaultType: BasicVaultType.BASIC,
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0x28d604Ac5A841141791CeD298515381fdC3605B7",
-  //   },
-  // },
-  // {
-  //   id: "TN-CSCCv1-ETHUSD-C",
-  //   isFeatured: true,
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xcb317b4b7CB45ef6D5Aa4e43171d16760dFE5eeA",
+    },
+  },
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0x3be620c362a175A0c914e170AAfaE08022e7378B",
-  //   },
-  // },
+  {
+    id: "TN-CSCCv1-ETHUSD-C",
+    basicVaultType: BasicVaultType.BASIC,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0x71F5d6fa67c2C9D2b76246569093390d02F80678",
+    },
+  },
 
   // mainnet - btc call a/b/c
   {
@@ -43,22 +45,25 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 
-  // {
-  //   id: "TN-CSCCv1-BTCUSD-B",
+  {
+    id: "TN-CSCCv1-BTCUSD-B",
+    basicVaultType: BasicVaultType.BASIC,
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0xBdA5c42815E72a9ED48a9D3d8Dd62a2f491D1Ed4",
-  //   },
-  // },
-  // {
-  //   id: "TN-CSCCv1-BTCUSD-C",
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xB2d3102944dEc6c4D7B0d87cA9De6eB13B70c11e",
+    },
+  },
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0x3864fd723235B11d0A7Bba8EB68FD35172D2A109",
-  //   },
-  // },
+  {
+    id: "TN-CSCCv1-BTCUSD-C",
+    basicVaultType: BasicVaultType.BASIC,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xB1105529305f166531b7d857B1d6f28000278aff",
+    },
+  },
 
   // mainnet - eth put a/b
   {
@@ -71,18 +76,19 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 
-  // {
-  //   id: "TN-CSCPv1-ETHUSD-B",
+  {
+    id: "TN-CSCPv1-ETHUSD-B",
+    basicVaultType: BasicVaultType.BASIC,
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0xd6B7cE2BD328998Bb519304752619238BC2242DF",
-  //   },
-  // },
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xE1c93dE547cc85CBD568295f6CC322B1dbBCf8Ae",
+    },
+  },
 
   // mainnet - btc put
   {
-    id: "TN-CSCPv1-BTCUSD",
+    id: "TN-CSCPv1-BTCUSD-A",
     basicVaultType: BasicVaultType.BASIC,
 
     source: {
@@ -92,14 +98,15 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
 
   // mainnet - avax put
-  // {
-  //   id: "TN-CSCPv1-AVAXUSD",
+  {
+    id: "TN-CSCPv1-AVAXUSD-A",
+    basicVaultType: BasicVaultType.BASIC,
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0xCb846ADaBBB608933EBD1F8f2b2B9388b7c6571D",
-  //   },
-  // },
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0x248038fDb6F00f4B636812CA6A7F06b81a195AB8",
+    },
+  },
 
   // mainnet - sol put
   // {
@@ -112,24 +119,26 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   // },
 
   // mainnet - matic put
-  // {
-  //   id: "TN-CSCPv1-MATICUSD",
+  {
+    id: "TN-CSCPv1-MATICUSD-A",
+    basicVaultType: BasicVaultType.BASIC,
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0x38F83Bd0cceC5204530370a7524700b1c84C7bd1",
-  //   },
-  // },
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xAD57221ae9897DA08656aaaBd5B1D4673d4eDE71",
+    },
+  },
 
   // mainnet - bnb put
-  // {
-  //   id: "TN-CSCPv1-BNBUSD",
+  {
+    id: "TN-CSCPv1-BNBUSD-A",
+    basicVaultType: BasicVaultType.BASIC,
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0xE6741a3b7984Ef8C50D609cF3B0aD2F392Fd3160",
-  //   },
-  // },
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xE5e8caA04C4b9E1C9bd944A2a78a48b05c3ef3AF",
+    },
+  },
 
   // bsc = bnb call
   {

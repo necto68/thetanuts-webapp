@@ -1,5 +1,6 @@
 import type Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
 
 import { chains } from "./chains";
 
@@ -8,6 +9,14 @@ const rpc = Object.fromEntries(
 );
 
 const providerOptions = {
+  walletlink: {
+    package: CoinbaseWalletSDK,
+
+    options: {
+      rpc,
+    },
+  },
+
   walletconnect: {
     package: WalletConnectProvider,
 

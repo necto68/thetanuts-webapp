@@ -8,15 +8,21 @@ export const useSortedBasicVaultsIds = (
   const { network } = useWallet();
   const chainId = network?.chainId;
 
-  const filteredBasicVaults = Array.from(basicVaultsArray).sort(
-    ({ source }) => {
-      if (chainId) {
-        return source.chainId === chainId ? -1 : 1;
-      }
-
+  const filteredBasicVaults = Array.from(basicVaultsArray).sort((a, b) => {
+    if (chainId && a.source.chainId === b.source.chainId) {
       return 0;
     }
-  );
+
+    if (chainId && chainId === a.source.chainId) {
+      return -1;
+    }
+
+    if (chainId && chainId === b.source.chainId) {
+      return 1;
+    }
+
+    return 0;
+  });
 
   return filteredBasicVaults.map(({ id }) => id);
 };
