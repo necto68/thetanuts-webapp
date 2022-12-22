@@ -135,7 +135,7 @@ export const Table = <RowData extends object>({
                                 </TooltipContainer>
                               }
                               id={title}
-                              place="bottom"
+                              place="top"
                               root={<Header>{title}</Header>}
                             />
                           ) : (

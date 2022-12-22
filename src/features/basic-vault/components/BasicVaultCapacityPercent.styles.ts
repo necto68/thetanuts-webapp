@@ -18,4 +18,7 @@ export const Title = styled.span`
 
 export const SubTitle = styled(Title)`
   color: #000000;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
 `;

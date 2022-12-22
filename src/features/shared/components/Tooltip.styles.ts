@@ -1,5 +1,6 @@
+import "react-tooltip/dist/react-tooltip.css";
 import styled from "styled-components";
-import ReactTooltip from "react-tooltip";
+import { Tooltip } from "react-tooltip";
 
 export const RootContainer = styled.div`
   display: flex;
@@ -17,16 +18,15 @@ export const RootContainer = styled.div`
   }
 `;
 
-export const StyledTooltip = styled(ReactTooltip)`
+export const StyledTooltip = styled(Tooltip)`
   max-width: 250px;
   opacity: 1 !important;
   pointer-events: auto !important;
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
-  display: none;
+  z-index: 1;
 
   &:hover {
     visibility: visible !important;
-    display: flex;
   }
 `;
 
