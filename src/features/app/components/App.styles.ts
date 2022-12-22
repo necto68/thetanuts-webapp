@@ -33,4 +33,10 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #FFFFFF;
     border-radius: 2px;
   }
+  
+  .web3modal-modal-card {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+  }
 `;

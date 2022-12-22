@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import type { TooltipProps } from "react-tooltip";
+import type { ITooltip } from "react-tooltip";
 import { useCallback, useEffect, useState } from "react";
 import Big from "big.js";
 
@@ -22,7 +22,7 @@ interface SwapRateProps {
   targetTokenData: NativeToken | Token | undefined;
   title?: string;
   tooltip?: string;
-  tooltipPlace?: TooltipProps["place"];
+  tooltipPlace?: ITooltip["place"];
   customRates?: (string | undefined)[] | undefined;
   disabled?: boolean;
 }
