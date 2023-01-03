@@ -59,7 +59,7 @@ export const middleIndexPriceFetcher = async (
     : new Big(0);
   const withdrawingPrice = assetPriceBig.mul(outputAssetValue);
 
-  const middlePrice = depositingPrice.add(withdrawingPrice).div(2).round(2);
+  const middlePrice = depositingPrice.add(withdrawingPrice).div(2);
 
   return middlePrice.toNumber();
 };
