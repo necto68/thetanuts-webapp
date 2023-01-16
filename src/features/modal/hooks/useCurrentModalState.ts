@@ -16,6 +16,7 @@ const modalComponents = {
   [VaultModalType.index]: IndexVaultModal,
   [VaultModalType.basic]: BasicVaultModal,
   [VaultModalType.degen]: DegenVaultModal,
+  [VaultModalType.wheel]: BasicVaultModal,
   [VaultModalType.long]: LongVaultModal,
 };
 

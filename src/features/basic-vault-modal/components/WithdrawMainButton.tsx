@@ -130,12 +130,15 @@ export const WithdrawMainButton = () => {
     [BasicVaultType.DEGEN]:
       basicVaultCurrentPosition?.gt(0) && withdrawalPending?.eq(0),
 
+    [BasicVaultType.WHEEL]: inputValueBig.gt(0),
+
     [BasicVaultType.LONG]: currentContractsPosition?.gt(0),
   };
 
   const mainButtonClickHandlers = {
     [BasicVaultType.BASIC]: runInitWithdraw,
     [BasicVaultType.DEGEN]: runInitFullWithdraw,
+    [BasicVaultType.WHEEL]: runInitWithdraw,
     [BasicVaultType.LONG]: runClosePositionAndWithdraw,
   };
 

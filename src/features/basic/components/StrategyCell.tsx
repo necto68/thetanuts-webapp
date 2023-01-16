@@ -26,12 +26,14 @@ export const StrategyCell: FC<StrategyCellProps> = ({
   const strategyTitlesMap = {
     [BasicVaultType.BASIC]: getVaultTypeStrategy(type),
     [BasicVaultType.DEGEN]: getDegenVaultTypeShortName(type),
+    [BasicVaultType.WHEEL]: getVaultTypeStrategy(type),
     [BasicVaultType.LONG]: `${getVaultTypeStrategy(type)} LONG`,
   };
 
   const periodTitlesMap = {
     [BasicVaultType.BASIC]: periodFormatter(period),
     [BasicVaultType.DEGEN]: getDegenVaultTypeTitle(type),
+    [BasicVaultType.WHEEL]: periodFormatter(period),
     [BasicVaultType.LONG]: periodFormatter(period),
   };
 

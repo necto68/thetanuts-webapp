@@ -9,6 +9,7 @@ import {
   PriceFeedAbi__factory as PriceFeedAbiFactory,
   BasicVaultAbi__factory as BasicVaultAbiFactory,
   DegenVaultAbi__factory as DegenVaultAbiFactory,
+  WheelVaultAbi__factory as WheelVaultAbiFactory,
   BasicVaultDepositorAbi__factory as BasicVaultDepositorAbiFactory,
 } from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
@@ -43,7 +44,13 @@ export const basicVaultFetcher = async (
     provider
   );
 
-  const isDegenBasicVaultType = basicVaultType === BasicVaultType.DEGEN;
+  const wheelVaultContract = WheelVaultAbiFactory.connect(
+    basicVaultAddress,
+    provider
+  );
+
+  const isDegen = basicVaultType === BasicVaultType.DEGEN;
+  const isWheel = basicVaultType === BasicVaultType.WHEEL;
 
   const lpDivisor = new Big(10).pow(18);
   const priceDivisor = new Big(10).pow(6);
@@ -116,13 +123,27 @@ export const basicVaultFetcher = async (
       .then((priceValue) => normalizeVaultValue(priceValue, priceDivisor)),
   ]);
 
+  const isSettled = expiry === 0;
+  const isExpired = !isSettled && Date.now() > expiry;
+
   // only for PUT vaults
   const splitName = name.split(" ");
   const putVaultAssetSymbol = splitName.at(-2);
-  const isPutType = splitName.at(-4) === "Put";
   const isCondorType = splitName.at(-4) === "Condor";
 
-  const isDegenOrPutType = isDegenBasicVaultType || isPutType;
+  let isPutType = false;
+
+  if (isWheel) {
+    const optionType = await wheelVaultContract.optionType(
+      isSettled ? epoch + 1 : epoch
+    );
+
+    isPutType = optionType === 1;
+  } else {
+    isPutType = splitName.at(-4) === "Put";
+  }
+
+  const isDegenOrPutType = isDegen || isPutType;
 
   const assetSymbol =
     isDegenOrPutType && putVaultAssetSymbol
@@ -142,13 +163,10 @@ export const basicVaultFetcher = async (
     type = VaultType.CALL;
   }
 
-  const isSettled = expiry === 0;
-  const isExpired = !isSettled && Date.now() > expiry;
-
   let strikePrices: number[] = [];
 
   // get set of strike prices for degen vault
-  if (isDegenBasicVaultType) {
+  if (isDegen) {
     const [
       soldPutStrikePrice,
       soldCallStrikePrice,
@@ -192,7 +210,7 @@ export const basicVaultFetcher = async (
   let pendingBalanceWei = new Big(0);
 
   // fill pending balance in case of degen vault
-  if (isDegenBasicVaultType && basicVaultDepositorAddress) {
+  if (isDegen && basicVaultDepositorAddress) {
     const basicVaultDepositorContract = BasicVaultDepositorAbiFactory.connect(
       basicVaultDepositorAddress,
       provider
@@ -206,7 +224,13 @@ export const basicVaultFetcher = async (
   // getting balance and collatCap
   const balanceDivisor = new Big(10).pow(collateralDecimals);
   const balance = balanceWei.add(pendingBalanceWei).div(balanceDivisor);
-  const collatCap = collatCapWei.div(balanceDivisor);
+
+  const vaultCollatCapWei =
+    isWheel && isPutType
+      ? await wheelVaultContract.collatCapQuote().then(convertToBig)
+      : collatCapWei;
+
+  const collatCap = vaultCollatCapWei.div(balanceDivisor);
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
 
   // getting riskLevel
@@ -215,9 +239,7 @@ export const basicVaultFetcher = async (
     async () => await basicVaultRiskLevelFetcher(assetSymbol, type)
   );
 
-  const riskLevel = isDegenBasicVaultType
-    ? RiskLevel.HIGH
-    : basicVaultRiskLevel;
+  const riskLevel = isDegen ? RiskLevel.HIGH : basicVaultRiskLevel;
 
   // getting annual Percentage Yield
   const percentageYields = getPercentageYields(

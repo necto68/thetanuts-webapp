@@ -3,6 +3,7 @@ import type { ChainId } from "../../wallet/constants";
 export enum BasicVaultType {
   BASIC = "BASIC",
   DEGEN = "DEGEN",
+  WHEEL = "WHEEL",
   LONG = "LONG",
 }
 

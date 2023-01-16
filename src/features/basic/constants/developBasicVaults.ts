@@ -62,6 +62,18 @@ export const developDegenVaults: BasicVaultConfig[] = [
   },
 ];
 
+export const developWheelVaults: BasicVaultConfig[] = [
+  {
+    id: "W-TN-SMv1-ETHUSDC",
+    basicVaultType: BasicVaultType.WHEEL,
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x3f86B12EF226e83e7F8Ad2eAE4fA065f16f6A1A5",
+    },
+  },
+];
+
 export const developLongVaults: BasicVaultConfig[] = [
   {
     id: "L-TN-CSCCv0-ETHUSD-1DAY",
@@ -94,5 +106,6 @@ export const developLongVaults: BasicVaultConfig[] = [
 
 export const developAllBasicVaults = developBasicVaults.concat(
   developDegenVaults,
+  developWheelVaults,
   developLongVaults
 );

@@ -336,6 +336,8 @@ export const productionDegenVaults: BasicVaultConfig[] = [
   },
 ];
 
+export const productionWheelVaults = [];
+
 export const productionLongVaults = [
   {
     id: "L-TN-CSCPv1-BTCUSD",
@@ -386,5 +388,6 @@ export const productionLongVaults = [
 
 export const productionAllBasicVaults = productionBasicVaults.concat(
   productionDegenVaults,
+  productionWheelVaults,
   productionLongVaults
 );

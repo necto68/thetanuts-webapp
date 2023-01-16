@@ -33,6 +33,7 @@ export const useBasicModalConfig = () => {
   const spenderAddressesByBasicVaultType = {
     [BasicVaultType.BASIC]: basicVaultAddress,
     [BasicVaultType.DEGEN]: basicVaultDepositorAddress,
+    [BasicVaultType.WHEEL]: basicVaultAddress,
     [BasicVaultType.LONG]: longVaultPositionManagerAddress,
   };
 
