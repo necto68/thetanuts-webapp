@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 interface ButtonProps {
   isActive?: boolean;
+  isSmall?: boolean;
 }
 
 export const Button = styled(motion.button).attrs<ButtonProps>(
@@ -33,13 +34,13 @@ export const Button = styled(motion.button).attrs<ButtonProps>(
 
   font-family: Roboto;
   font-weight: 600;
-  font-size: 25px;
+  font-size: ${({ isSmall }) => (isSmall ? "15px" : "25px")};
 
   color: #ffffff;
 
   border-radius: 8px;
   border: none;
 
-  padding: 10px 43px;
+  padding: ${({ isSmall }) => (isSmall ? "8px 14px" : "10px 43px")};
   cursor: pointer;
 `;

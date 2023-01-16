@@ -17,6 +17,7 @@ import {
 import { useVaultModalState } from "../../modal/hooks";
 
 import { Header } from "./Header";
+import { ReturnOverview } from "./ReturnOverview";
 
 export const WheelModalContent = () => {
   const [vaultModalState] = useVaultModalState();
@@ -29,6 +30,7 @@ export const WheelModalContent = () => {
       <InputCard />
       <PositionInfo />
       <BasicCardWarning />
+      <ReturnOverview />
       <MainButtonsContainer>
         {tabType === TabType.deposit ? (
           <DepositMainButton />
