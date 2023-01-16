@@ -4,7 +4,7 @@ import { useOutsideClick } from "rooks";
 import makeBlockie from "ethereum-blockies-base64";
 
 import { ArrowIcon } from "../../shared/components";
-import { ChainId, web3ModalConfig } from "../constants";
+import { ChainId, chainsMap, web3ModalConfig } from "../constants";
 import { addressFormatter } from "../../shared/helpers";
 import { BaseOptionsContainer } from "../../select-option-button/components/BaseOptionsContainer";
 import { Copy } from "../../shared/icons/Copy";
@@ -31,7 +31,10 @@ import {
 export const WalletButton = () => {
   const [isShow, setIsShow] = useState(false);
   const { account = "", connect, disconnect, network } = useWallet();
-  const { chainId = ChainId.ETHEREUM } = network ?? {};
+
+  // use ETHEREUM as default chainId
+  let chainId = network?.chainId ?? ChainId.ETHEREUM;
+  chainId = chainId in chainsMap ? chainId : ChainId.ETHEREUM;
 
   const walletButtonContainerReference = useRef(null);
 
@@ -57,7 +60,15 @@ export const WalletButton = () => {
 
   const avatar = account ? makeBlockie(account) : "";
 
-  return account ? (
+  if (!account) {
+    return (
+      <WalletConnectedButton onClick={handleConnect}>
+        Connect Wallet
+      </WalletConnectedButton>
+    );
+  }
+
+  return (
     <WalletInfo ref={walletButtonContainerReference}>
       <WalletConnectedButton onClick={handleOpen}>
         <ButtonContentContainer>
@@ -94,9 +105,5 @@ export const WalletButton = () => {
         </WalletInfoContainer>
       </BaseOptionsContainer>
     </WalletInfo>
-  ) : (
-    <WalletConnectedButton onClick={handleConnect}>
-      Connect Wallet
-    </WalletConnectedButton>
   );
 };
