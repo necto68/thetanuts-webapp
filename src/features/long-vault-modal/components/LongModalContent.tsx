@@ -1,5 +1,6 @@
 import {
   InputCard,
+  BasicCardWarning,
   DepositMainButton,
   WithdrawMainButton,
   PendingDepositMainButton,
@@ -10,7 +11,6 @@ import {
   MainButtonsContainer,
 } from "../../basic-vault-modal/components/BasicModalContent.styles";
 import { TabType } from "../../basic-vault-modal/types";
-import { BasicCardWarning } from "../../basic-vault-modal/components/BasicCardWarning";
 import { useVaultModalState } from "../../modal/hooks";
 
 import { Switcher } from "./Switcher";

@@ -9,6 +9,7 @@ import {
   PendingWithdrawMainButton,
   VaultInfo,
 } from "../../basic-vault-modal/components";
+import { PositionInfo } from "../../basic-vault-modal/components/PositionInfo";
 import {
   Container,
   MainButtonsContainer,
@@ -16,9 +17,8 @@ import {
 import { useVaultModalState } from "../../modal/hooks";
 
 import { Header } from "./Header";
-import { PositionInfo } from "./PositionInfo";
 
-export const DegenModalContent = () => {
+export const WheelModalContent = () => {
   const [vaultModalState] = useVaultModalState();
   const { tabType } = vaultModalState;
 
@@ -26,7 +26,7 @@ export const DegenModalContent = () => {
     <Container>
       <Header />
       <Switcher />
-      {tabType === TabType.deposit ? <InputCard /> : null}
+      <InputCard />
       <PositionInfo />
       <BasicCardWarning />
       <MainButtonsContainer>
@@ -42,7 +42,7 @@ export const DegenModalContent = () => {
         )}
       </MainButtonsContainer>
       <VaultInfo />
-      {/* TODO: return later --> <AnalyticLink /> */}
+      {/* <AnalyticLink /> */}
     </Container>
   );
 };

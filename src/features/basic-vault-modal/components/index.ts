@@ -3,6 +3,7 @@ export * from "./BasicModalPendingMutationContent";
 export * from "./Switcher";
 export * from "./TabButton";
 export * from "./InputCard";
+export * from "./BasicCardWarning";
 export * from "./VaultStatus";
 export * from "./VaultStatusInfo";
 export * from "./CurrentPositionInfo";
