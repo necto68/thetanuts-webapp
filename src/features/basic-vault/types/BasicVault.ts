@@ -19,6 +19,7 @@ export interface PercentageYields {
   annualPercentageYield: number;
   monthlyPercentageYield: number;
   weeklyPercentageYield: number;
+  periodPercentageYield: number;
   annualPercentageRate: number;
 }
 

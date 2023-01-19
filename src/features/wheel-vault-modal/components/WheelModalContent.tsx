@@ -9,7 +9,6 @@ import {
   PendingWithdrawMainButton,
   VaultInfo,
 } from "../../basic-vault-modal/components";
-import { PositionInfo } from "../../basic-vault-modal/components/PositionInfo";
 import {
   Container,
   MainButtonsContainer,
@@ -17,6 +16,7 @@ import {
 import { useVaultModalState } from "../../modal/hooks";
 
 import { Header } from "./Header";
+import { PositionInfo } from "./PositionInfo";
 import { ReturnOverview } from "./ReturnOverview";
 
 export const WheelModalContent = () => {

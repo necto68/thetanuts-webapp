@@ -5,3 +5,7 @@ export const Content = styled.div`
   flex-direction: column;
   gap: 4px;
 `;
+
+export const APYValue = styled.span`
+  color: #12cc86;
+`;
