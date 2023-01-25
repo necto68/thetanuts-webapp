@@ -6,31 +6,26 @@ import {
   Table,
 } from "../../table/components";
 import type { Column } from "../../table/types";
-import { degenVaults } from "../../basic/constants";
+import { useBasicVaults } from "../../basic-vault/hooks";
+import { wheelVaults } from "../../basic/constants";
 import { Tooltip } from "../../shared/components";
 import { chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
 import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
+import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
+import { WithdrawButton } from "../../table/components/WithdrawButton";
+import { getVaultModalType } from "../../basic/helpers";
+import { getVaultTitle } from "../../table/helpers";
+import { periodFormatter } from "../../shared/helpers";
+import { getVaultTypeStrategy } from "../../index-vault/helpers";
+import { useSortedBasicVaultsIds } from "../../basic/hooks";
 import {
   BasicVaultAssetCell,
   StrategyCell,
-  StrikePriceCell,
-  RiskLevelCell,
   ActionsContainer,
+  StrikePriceCell,
 } from "../../basic/components";
-import { useBasicVaults } from "../../basic-vault/hooks";
-import { highYieldFormatter } from "../../shared/helpers";
-import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
-import { WithdrawButton } from "../../table/components/WithdrawButton";
-import { getVaultTitle } from "../../table/helpers";
-import { getVaultModalType } from "../../basic/helpers";
-import { getVaultTypeStrategy } from "../../index-vault/helpers";
-import {
-  getDegenVaultTypeShortName,
-  getDegenVaultTypeTitle,
-} from "../../degen-vault/helpers";
-import { useFilteredBasicVaultsIds } from "../../basic/hooks";
 
 const columns: Column<BasicVault>[] = [
   {
@@ -59,7 +54,13 @@ const columns: Column<BasicVault>[] = [
       />
     ),
 
-    filterBy: ({ assetSymbol, collateralSymbol, type, basicVaultType }) => [
+    filterBy: ({
+      assetSymbol,
+      collateralSymbol,
+      type,
+      basicVaultType,
+      period,
+    }) => [
       assetSymbol,
       collateralSymbol,
       getVaultTitle(
@@ -68,9 +69,8 @@ const columns: Column<BasicVault>[] = [
         assetSymbol,
         collateralSymbol
       ),
+      periodFormatter(period),
       getVaultTypeStrategy(type),
-      getDegenVaultTypeTitle(type),
-      getDegenVaultTypeShortName(type),
     ],
   },
   {
@@ -90,7 +90,6 @@ const columns: Column<BasicVault>[] = [
   {
     key: "strikePrices",
     title: "Strike Price",
-    minWidth: 120,
 
     render: ({
       type,
@@ -111,15 +110,6 @@ const columns: Column<BasicVault>[] = [
     sortBy: ({ strikePrices }) => strikePrices[0],
   },
   {
-    key: "riskLevel",
-    title: "Risk",
-
-    tooltipTitle:
-      "The risk rating is the approximate riskiness of an asset and the respective option strategy given the current market conditions. The volatility of the asset and the directional component of the option strategy is the 2 main factors in the risk rating calculations.",
-
-    render: ({ riskLevel }) => <RiskLevelCell riskLevel={riskLevel} />,
-  },
-  {
     key: "percentageYields",
     title: "APY",
 
@@ -132,9 +122,7 @@ const columns: Column<BasicVault>[] = [
           id={id}
           place="top"
           root={
-            <CellValue>{`${highYieldFormatter(
-              percentageYields.annualPercentageYield
-            )}%`}</CellValue>
+            <CellValue>{`${percentageYields.annualPercentageYield}%`}</CellValue>
           }
         />
       </APYCellContainer>
@@ -165,7 +153,7 @@ const columns: Column<BasicVault>[] = [
       <Chains
         chainIds={[chainId]}
         vaultId={id}
-        vaultType={VaultModalType.degen}
+        vaultType={VaultModalType.basic}
       />
     ),
 
@@ -179,12 +167,12 @@ const columns: Column<BasicVault>[] = [
         <DepositButton
           chainId={chainId}
           vaultId={id}
-          vaultType={VaultModalType.degen}
+          vaultType={VaultModalType.wheel}
         />
         <WithdrawButton
           chainId={chainId}
           vaultId={id}
-          vaultType={VaultModalType.degen}
+          vaultType={VaultModalType.wheel}
         />
       </ActionsContainer>
     ),
@@ -193,11 +181,11 @@ const columns: Column<BasicVault>[] = [
 
 const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 
-export const DegenVaultsTable = () => {
-  const sortedDegenVaultsIds = useFilteredBasicVaultsIds(degenVaults);
-  const degenVaultsQueries = useBasicVaults(sortedDegenVaultsIds);
+export const WheelVaultsTable = () => {
+  const sortedBasicVaultIds = useSortedBasicVaultsIds(wheelVaults);
+  const wheelVaultsQueries = useBasicVaults(sortedBasicVaultIds);
 
-  const rows = degenVaultsQueries.map(({ data }) => data);
+  const rows = wheelVaultsQueries.map(({ data }) => data);
 
   return (
     <Table

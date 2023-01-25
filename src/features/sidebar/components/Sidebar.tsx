@@ -4,6 +4,7 @@ import {
   IndexPage,
   BasicPage,
   DegenPage,
+  WheelPage,
   LongPage,
   Portfolio,
   Twitter,
@@ -47,6 +48,11 @@ const sellingOptions = [
     linkTitle: "Degen Vaults",
     navIcon: DegenPage,
     iconColor: "#EB5353",
+  },
+  {
+    to: PagePathname.wheel,
+    linkTitle: "Wheel Vaults",
+    navIcon: WheelPage,
   },
 ];
 

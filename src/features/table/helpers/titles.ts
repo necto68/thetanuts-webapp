@@ -9,11 +9,12 @@ export const getVaultTitle = (
   collateralSymbol: string
 ) => {
   const vaultPrefix = vaultTypesPrefixes[vaultType];
-  const isDegenOrPutType =
+  const isShowCollateralSymbol =
     vaultType === VaultModalType.degen ||
+    vaultType === VaultModalType.wheel ||
     (vaultType === VaultModalType.basic && type === VaultType.PUT);
 
-  const assets = isDegenOrPutType
+  const assets = isShowCollateralSymbol
     ? [collateralSymbol, assetSymbol]
     : [assetSymbol];
 

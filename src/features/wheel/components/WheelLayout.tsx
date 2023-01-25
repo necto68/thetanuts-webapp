@@ -13,8 +13,7 @@ import {
 } from "../../theta-index/components/ThetaIndexLayout.styles";
 
 import { FeaturedWheelVaultsList } from "./FeaturedWheelVaultsList";
-
-// import { WheelVaultsTable } from "./WheelVaultsTable";
+import { WheelVaultsTable } from "./WheelVaultsTable";
 
 export const WheelLayout = () => {
   const isMobile = useIsMobile();
@@ -77,7 +76,7 @@ export const WheelLayout = () => {
       </ContentContainer>
       <Title>Featured Wheel Vaults</Title>
       <FeaturedWheelVaultsList />
-      {/* <WheelVaultsTable /> */}
+      <WheelVaultsTable />
     </Container>
   );
 };
