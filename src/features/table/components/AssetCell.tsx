@@ -22,11 +22,12 @@ export const AssetCell: FC<AssetCellProps> = ({
 }) => {
   const assetLogo = getLogoBySymbol(assetSymbol);
 
-  const isDegenOrPutType =
+  const isShowCollateralLogo =
     vaultType === VaultModalType.degen ||
+    vaultType === VaultModalType.wheel ||
     (vaultType === VaultModalType.basic && type === VaultType.PUT);
 
-  const collateralLogo = isDegenOrPutType
+  const collateralLogo = isShowCollateralLogo
     ? getLogoBySymbol(collateralSymbol)
     : null;
 
