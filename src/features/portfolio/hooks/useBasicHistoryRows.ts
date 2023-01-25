@@ -5,7 +5,7 @@ import { TransactionType } from "../types/transaction";
 import { VaultType } from "../../basic-vault/types";
 import { BasicVaultType } from "../../basic/types";
 import { useFilteredBasicVaultsIds } from "../../basic/hooks";
-import { basicVaults, degenVaults } from "../../basic/constants";
+import { basicVaults, degenVaults, wheelVaults } from "../../basic/constants";
 
 import { useBasicHistoryQueries } from "./useBasicHistoryQueries";
 
@@ -13,7 +13,7 @@ export const useBasicHistoryRows = (): (
   | HistoryTransactionRow
   | undefined
 )[] => {
-  const basicVaultsArray = basicVaults.concat(degenVaults);
+  const basicVaultsArray = basicVaults.concat(degenVaults).concat(wheelVaults);
   const filteredBasicVaultsIds = useFilteredBasicVaultsIds(basicVaultsArray);
 
   const basicVaultsQueries = useBasicVaults(filteredBasicVaultsIds);

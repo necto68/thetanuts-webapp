@@ -30,7 +30,7 @@ export interface DegenVaultCardProps extends VaultCardProps {
 
 export const DegenVaultCard: FC<DegenVaultCardProps> = ({
   disabled = false,
-  title,
+  headerContent,
   icon,
   symbol,
   apy,
@@ -49,7 +49,13 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
   >
     <CardLink to={!disabled && link ? link : {}}>
       <Header>
-        <Title>{title}</Title>
+        {headerContent.map(
+          ({ title, backgroundColor: titleBackgroundColor }) => (
+            <Title backgroundColor={titleBackgroundColor} key={title}>
+              {title}
+            </Title>
+          )
+        )}
       </Header>
       <Content>
         <DataContainer>

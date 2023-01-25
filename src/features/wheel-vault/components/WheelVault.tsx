@@ -3,24 +3,23 @@ import Big from "big.js";
 import { generatePath } from "react-router-dom";
 import { useTheme } from "styled-components";
 
-import { useBasicVault } from "../hooks";
+import { useBasicVault } from "../../basic-vault/hooks";
 import { numberFormatter, periodFormatter } from "../../shared/helpers";
 import { getLogoBySymbol } from "../../logo/helpers";
 import { VaultCard } from "../../vault-card/components";
 import { ModalPathname } from "../../root/types";
-import { ProgressBarColor, VaultType } from "../types";
+import { ProgressBarColor, VaultType } from "../../basic-vault/types";
 import { getVaultTypeTitle } from "../../index-vault/helpers";
 import type { AppTheme } from "../../app/constants/appTheme";
 import { VaultStatus } from "../../basic-vault-modal/components";
+import { BasicVaultCapacity } from "../../basic-vault/components/BasicVaultCapacity";
 
-import { BasicVaultCapacity } from "./BasicVaultCapacity";
-
-interface BasicVaultProps {
-  basicVaultId: string;
+interface WheelVaultProps {
+  wheelVaultId: string;
 }
 
-export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
-  const { isLoading, data } = useBasicVault(basicVaultId);
+export const WheelVault: FC<WheelVaultProps> = ({ wheelVaultId }) => {
+  const { isLoading, data } = useBasicVault(wheelVaultId);
   const theme = useTheme() as AppTheme;
   const backgroundColor = theme.bgColor;
 
@@ -42,7 +41,14 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
 
   const headerContent = [
     {
-      title: getVaultTypeTitle(type),
+      title: getVaultTypeTitle(VaultType.CALL),
+
+      backgroundColor: type === VaultType.CALL ? "#17B579" : theme.transparent,
+    },
+    {
+      title: getVaultTypeTitle(VaultType.PUT),
+
+      backgroundColor: type === VaultType.PUT ? "#17B579" : theme.transparent,
     },
   ];
 
@@ -53,16 +59,15 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
 
   const assetLogo = getLogoBySymbol(assetSymbol);
 
-  const pathname = generatePath(ModalPathname.basicVaultModal, {
-    vaultId: basicVaultId,
+  const pathname = generatePath(ModalPathname.wheelVaultModal, {
+    vaultId: wheelVaultId,
   });
 
   const link = {
     pathname,
   };
 
-  const progressBarColor =
-    type === VaultType.CALL ? ProgressBarColor.blue : ProgressBarColor.orange;
+  const progressBarColor = ProgressBarColor.green;
 
   return (
     <VaultCard

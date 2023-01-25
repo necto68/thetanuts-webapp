@@ -12,6 +12,7 @@ export interface AppTheme {
   textColor: string;
   brandColor: string;
   warningColor: string;
+  transparent: string;
 }
 
 export const DarkAppTheme = {
@@ -24,4 +25,5 @@ export const DarkAppTheme = {
   textColor: "#FFFFFF",
   brandColor: "#1FFFAB",
   warningColor: "#EB5353",
+  transparent: "transparent",
 };

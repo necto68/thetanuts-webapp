@@ -36,7 +36,12 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
   } = data ?? {};
 
   const vaultTypeShortName = getDegenVaultTypeShortName(type);
-  const title = getDegenVaultTitle(type);
+
+  const headerContent = [
+    {
+      title: getDegenVaultTitle(type),
+    },
+  ];
 
   const symbol = assetSymbol;
 
@@ -80,13 +85,13 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
           isSettled={isSettled}
         />
       }
+      headerContent={headerContent}
       icon={assetLogo}
       isLoading={isLoading}
       link={link}
       shadowColor={backgroundColor}
       subTitle={vaultTypeShortName}
       symbol={symbol}
-      title={title}
       weeklyYield={formattedWeeklyYield}
     />
   );

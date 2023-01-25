@@ -1,7 +1,8 @@
-import { BasicVault, LoadingBasicVault } from "../../basic-vault/components";
+import { LoadingBasicVault } from "../../basic-vault/components";
 import { Container } from "../../theta-index/components/FeaturedIndexVaultsList.styles";
 import { wheelVaults } from "../../basic/constants";
 import { useFeaturedBasicVaults } from "../../basic/hooks";
+import { WheelVault } from "../../wheel-vault/components";
 
 // import { EmptyFeaturedVaultsList } from "../../theta-index/components";
 
@@ -17,7 +18,7 @@ export const FeaturedWheelVaultsList = () => {
     <Container>
       {featuredWheelVaults.map((wheelVault, index) =>
         wheelVault ? (
-          <BasicVault basicVaultId={wheelVault.id} key={wheelVault.id} />
+          <WheelVault key={wheelVault.id} wheelVaultId={wheelVault.id} />
         ) : (
           <LoadingBasicVault key={index.toString()} />
         )

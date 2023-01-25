@@ -12,6 +12,7 @@ const progressBarColors = {
   [ProgressBarColor.blue]: "#02d1ff",
   [ProgressBarColor.orange]: "#fe9902",
   [ProgressBarColor.red]: "#eb5353",
+  [ProgressBarColor.green]: "#1fffab",
 };
 
 export const Container = styled.div`
