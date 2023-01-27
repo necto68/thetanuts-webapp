@@ -8,7 +8,7 @@ import {
   InfoTitleContainer,
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
-import { numberFormatter } from "../../shared/helpers";
+import { assetFormatter } from "../../shared/helpers";
 import { BasicVaultType } from "../../basic/types";
 
 export const CurrentPositionInfo = () => {
@@ -34,9 +34,7 @@ export const CurrentPositionInfo = () => {
   const loadingPlaceholder = ".....";
 
   const formattedCurrentPosition = currentPosition
-    ? `${numberFormatter.format(
-        currentPosition.toNumber()
-      )} ${collateralSymbol}`
+    ? `${assetFormatter.format(currentPosition.toNumber())} ${collateralSymbol}`
     : "N/A";
 
   return (

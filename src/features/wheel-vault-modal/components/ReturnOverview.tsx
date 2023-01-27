@@ -12,7 +12,7 @@ import {
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { CurrentPositionInfo } from "../../basic-vault-modal/components";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
-import { numberFormatter } from "../../shared/helpers";
+import { assetFormatter } from "../../shared/helpers";
 import { VaultType } from "../../basic-vault/types";
 import { Tooltip } from "../../shared/components";
 import { ReturnOverviewTabType } from "../types";
@@ -67,7 +67,7 @@ export const ReturnOverview = () => {
     totalValue,
   ].map((value) =>
     value
-      ? `${numberFormatter.format(value.toNumber())} ${collateralSymbol}`
+      ? `${assetFormatter.format(value.toNumber())} ${collateralSymbol}`
       : "N/A"
   );
 
@@ -79,7 +79,7 @@ export const ReturnOverview = () => {
   const failedEpochSymbol = type === VaultType.CALL ? "USDC" : assetSymbol;
 
   const formattedFailedEpochValue = failedEpochValue
-    ? `${numberFormatter.format(
+    ? `${assetFormatter.format(
         failedEpochValue.toNumber()
       )} ${failedEpochSymbol}`
     : "N/A";

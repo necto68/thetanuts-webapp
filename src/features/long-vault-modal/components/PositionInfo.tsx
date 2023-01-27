@@ -1,4 +1,4 @@
-import { numberFormatter } from "../../shared/helpers";
+import { assetFormatter } from "../../shared/helpers";
 import {
   Container,
   InfoContainer,
@@ -46,7 +46,7 @@ export const PositionInfo = () => {
     borrowContractsPending,
   ].map((value) =>
     value
-      ? `${numberFormatter.format(value.toNumber())} ${contractsTitle}`
+      ? `${assetFormatter.format(value.toNumber())} ${contractsTitle}`
       : "N/A"
   );
 

@@ -1,6 +1,6 @@
 import Big from "big.js";
 
-import { numberFormatter } from "../../shared/helpers";
+import { assetFormatter } from "../../shared/helpers";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import {
   Container as VaultInfoContainer,
@@ -52,7 +52,7 @@ export const PositionInfo = () => {
     totalValue,
     premiumValue,
   ].map(
-    (value) => `${numberFormatter.format(value.toNumber())} ${collateralSymbol}`
+    (value) => `${assetFormatter.format(value.toNumber())} ${collateralSymbol}`
   );
 
   const successEpochTitle =
