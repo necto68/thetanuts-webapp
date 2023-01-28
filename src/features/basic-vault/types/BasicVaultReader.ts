@@ -5,5 +5,5 @@ export interface BasicVaultReader {
   currentPosition: Big | null;
   depositPending: Big | null;
   withdrawalPending: Big | null;
-  queuedExitEpoch: number | null;
+  isReadyToWithdraw: boolean;
 }

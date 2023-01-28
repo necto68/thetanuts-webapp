@@ -12,12 +12,9 @@ import { resetMutations } from "../helpers";
 
 // eslint-disable-next-line complexity
 export const PendingWithdrawMainButton = () => {
-  const {
-    walletChainId,
-    basicVaultChainId,
-    basicVaultQuery,
-    basicVaultReaderQuery,
-  } = useBasicModalConfig();
+  const { walletChainId, basicVaultChainId, basicVaultReaderQuery } =
+    useBasicModalConfig();
+
   const { tokenData } = useBasicModalState();
   const {
     initWithdrawMutation,
@@ -52,18 +49,14 @@ export const PendingWithdrawMainButton = () => {
   const isError = Boolean(isCancelWithdrawError) || Boolean(isWithdrawError);
   const error = cancelWithdrawError ?? withdrawError;
 
-  const { data: basicVaultData, isLoading: isBasicVaultLoading } =
-    basicVaultQuery;
-  const { data: basicVaultReaderData } = basicVaultReaderQuery;
+  const { data, isLoading } = basicVaultReaderQuery;
 
-  const { epoch = 0 } = basicVaultData ?? {};
-  const { withdrawalPending = null, queuedExitEpoch = null } =
-    basicVaultReaderData ?? {};
+  const { withdrawalPending = null, isReadyToWithdraw = false } = data ?? {};
 
   const isShow =
     account &&
     walletChainId === basicVaultChainId &&
-    !isBasicVaultLoading &&
+    !isLoading &&
     tokenData &&
     withdrawalPending &&
     withdrawalPending.gt(0);
@@ -84,7 +77,7 @@ export const PendingWithdrawMainButton = () => {
     return <LoadingMainButton>Claiming...</LoadingMainButton>;
   }
 
-  if (queuedExitEpoch && epoch > queuedExitEpoch) {
+  if (isReadyToWithdraw) {
     const formattedWithdrawalPending = numberFormatter.format(
       withdrawalPending.toNumber()
     );

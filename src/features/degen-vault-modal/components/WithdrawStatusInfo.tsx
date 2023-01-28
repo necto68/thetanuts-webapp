@@ -8,25 +8,17 @@ import {
 } from "../../index-vault-modal/components/VaultInfo.styles";
 
 export const WithdrawStatusInfo = () => {
-  const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
+  const { basicVaultReaderQuery } = useBasicModalConfig();
 
-  const { data: basicVaultData, isLoading: isBasicVaultLoading } =
-    basicVaultQuery;
-  const { data: basicVaultReaderData, isLoading: isBasicVaultReaderLoading } =
-    basicVaultReaderQuery;
+  const { data, isLoading } = basicVaultReaderQuery;
 
-  const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
-
-  const { epoch = 0 } = basicVaultData ?? {};
-
-  const { withdrawalPending = null, queuedExitEpoch = null } =
-    basicVaultReaderData ?? {};
+  const { withdrawalPending = null, isReadyToWithdraw = false } = data ?? {};
 
   const loadingPlaceholder = ".....";
 
   let withdrawStatus = "-";
 
-  if (queuedExitEpoch && epoch > queuedExitEpoch) {
+  if (isReadyToWithdraw) {
     withdrawStatus = "Ready to Claim";
   } else if (withdrawalPending?.gt(0)) {
     withdrawStatus = "Pending";

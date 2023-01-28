@@ -16,7 +16,7 @@ const defaultBasicVaultReader: BasicVaultReader = {
   currentPosition: null,
   depositPending: null,
   withdrawalPending: null,
-  queuedExitEpoch: null,
+  isReadyToWithdraw: false,
 };
 
 export const basicVaultReaderFetcher = async (
@@ -58,7 +58,7 @@ export const basicVaultReaderFetcher = async (
       .then((values) => values.map(convertToBig)),
   ]);
 
-  const { collateralDecimals, epoch } = basicVault;
+  const { collateralDecimals, epoch, expiry } = basicVault;
 
   const collateralTokenDivisor = new Big(10).pow(collateralDecimals);
 
@@ -76,14 +76,18 @@ export const basicVaultReaderFetcher = async (
     vaultPosition[7],
   ].map((value) => value.div(collateralTokenDivisor));
 
-  const currentPosition =
-    epoch > queuedExitEpoch ? totalPositionWithoutWithdrawal : totalPosition;
+  const isReadyToWithdraw =
+    queuedExitEpoch > 0 && (epoch > queuedExitEpoch || expiry === 0);
+
+  const currentPosition = isReadyToWithdraw
+    ? totalPositionWithoutWithdrawal
+    : totalPosition;
 
   return {
     totalPosition,
     currentPosition,
     depositPending,
     withdrawalPending,
-    queuedExitEpoch,
+    isReadyToWithdraw,
   };
 };
