@@ -54,6 +54,7 @@ export const basicVaultFetcher = async (
 
   const lpDivisor = new Big(10).pow(18);
   const priceDivisor = new Big(10).pow(6);
+  const feeDivisor = new Big(10).pow(6);
 
   const [
     { chainId },
@@ -68,6 +69,7 @@ export const basicVaultFetcher = async (
     currentEpochAmount,
     currentEpochPremium,
     period,
+    feePerYear,
   ] = await Promise.all([
     provider.getNetwork() as Promise<{ chainId: ChainId }>,
     vaultContract.COLLAT(),
@@ -90,6 +92,10 @@ export const basicVaultFetcher = async (
       .PERIOD()
       .then(convertToBig)
       .then((periodBig) => periodBig.toNumber()),
+    vaultContract
+      .feePerYearX1e6()
+      .then(convertToBig)
+      .then((feePerYearBig) => feePerYearBig.div(feeDivisor).toNumber()),
   ]);
 
   const collateralTokenContract = Erc20AbiFactory.connect(
@@ -269,6 +275,7 @@ export const basicVaultFetcher = async (
     balance,
     remainder,
     collatCap,
+    feePerYear,
     assetPrice,
     collateralPrice,
     strikePrices,

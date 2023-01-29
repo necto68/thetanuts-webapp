@@ -4,7 +4,6 @@ import Big from "big.js";
 import { Expander } from "../../index-vault-modal/components/Expander";
 import { SectionType } from "../../index-vault-modal/types";
 import {
-  Container as VaultInfoContainer,
   InfoContainer,
   InfoTitle,
   InfoTitleContainer,
@@ -18,7 +17,7 @@ import { Tooltip } from "../../shared/components";
 import { ReturnOverviewTabType } from "../types";
 
 import { ReturnOverviewSwitcher } from "./ReturnOverviewSwitcher";
-import { Content, APYValue } from "./ReturnOverview.styles";
+import { Content, VaultInfoContainer, APYValue } from "./ReturnOverview.styles";
 
 // eslint-disable-next-line complexity
 export const ReturnOverview = () => {

@@ -31,6 +31,7 @@ export const VaultInfo = () => {
     assetPrice = 0,
     balance: basicVaultBalance = new Big(0),
     collatCap = new Big(0),
+    feePerYear = 0,
   } = data ?? {};
 
   const { balance: longVaultBalance = new Big(0), supplyCap = new Big(0) } =
@@ -63,7 +64,7 @@ export const VaultInfo = () => {
     ? "Borrow Fee (APR)"
     : "Performance/Management Fee";
 
-  const feeValue = isLongVault ? "2%" : "0%";
+  const feeValue = isLongVault ? "2%" : `${feePerYear * 100}%`;
 
   return (
     <InfoGroupContainer>
