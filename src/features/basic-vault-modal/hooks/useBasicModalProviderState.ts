@@ -69,7 +69,15 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const { data: nativeData, isLoading: isNativeDataLoading } = nativeTokenQuery;
 
-  const withdrawalTokenBalance = lpBalance?.mul(valuePerLP) ?? null;
+  const lpDivisor = new Big(10).pow(18);
+  const withdrawalTokenDivisor = collateralTokenData?.tokenDivisor ?? lpDivisor;
+
+  const withdrawalTokenBalance =
+    lpBalance
+      ?.mul(valuePerLP)
+      .mul(lpDivisor)
+      .round()
+      .div(withdrawalTokenDivisor) ?? null;
 
   const withdrawalTokenData: Token | undefined = collateralTokenData
     ? {
