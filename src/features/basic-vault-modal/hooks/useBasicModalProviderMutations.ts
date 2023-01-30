@@ -255,7 +255,14 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       } else if (isFullPosition) {
         // isFullPosition for initWithdraw(currentPosition)
         // for degen vaults
-        inputAmount = lpBalance?.mul(valuePerLP) ?? new Big(0);
+
+        const lpDivisor = new Big(10).pow(18);
+
+        inputAmount =
+          lpBalance
+            ?.mul(valuePerLP)
+            .mul(lpDivisor)
+            .div(tokenData.tokenDivisor) ?? new Big(0);
       } else {
         // for other cases - initWithdraw(inputValue)
         inputAmount = inputValue ? new Big(inputValue) : new Big(0);
