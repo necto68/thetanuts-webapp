@@ -1,7 +1,10 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import { BasicVaultReaderAbi__factory as BasicVaultReaderAbiFactory } from "../../contracts/types";
+import {
+  BasicVaultAbi__factory as BasicVaultAbiFactory,
+  BasicVaultReaderAbi__factory as BasicVaultReaderAbiFactory,
+} from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { basicVaultsMap } from "../../basic/constants";
@@ -12,6 +15,7 @@ import { ChainId, chainsMap } from "../../wallet/constants";
 import { basicVaultFetcher } from "./basicVaultFetcher";
 
 const defaultBasicVaultReader: BasicVaultReader = {
+  lpBalance: null,
   totalPosition: null,
   currentPosition: null,
   depositPending: null,
@@ -35,12 +39,19 @@ export const basicVaultReaderFetcher = async (
     basicVaultsMap[basicVaultId]?.source.chainId ?? ChainId.ETHEREUM;
   const { basicVaultDepositorAddress } = chainsMap[chainId].addresses;
 
+  const basicVaultContract = BasicVaultAbiFactory.connect(
+    basicVaultAddress,
+    provider
+  );
+
   const basicVaultReaderContract = BasicVaultReaderAbiFactory.connect(
     basicVaultReaderAddress,
     provider
   );
 
-  const [basicVault, vaultPosition] = await Promise.all([
+  const lpDivisor = new Big(10).pow(18);
+
+  const [basicVault, lpBalance, vaultPosition] = await Promise.all([
     queryClient.fetchQuery(
       [QueryType.basicVault, basicVaultId, basicVaultType, chainId],
 
@@ -53,6 +64,10 @@ export const basicVaultReaderFetcher = async (
           basicVaultDepositorAddress
         )
     ),
+    basicVaultContract
+      .balanceOf(account)
+      .then(convertToBig)
+      .then((lpBalanceBig) => lpBalanceBig.div(lpDivisor)),
     basicVaultReaderContract
       .myVaultPosition(basicVaultAddress, { from: account })
       .then((values) => values.map(convertToBig)),
@@ -84,6 +99,7 @@ export const basicVaultReaderFetcher = async (
     : totalPosition;
 
   return {
+    lpBalance,
     totalPosition,
     currentPosition,
     depositPending,

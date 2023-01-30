@@ -16,6 +16,7 @@ import { useVaultModalState } from "../../modal/hooks";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
+// eslint-disable-next-line complexity
 export const useBasicModalProviderState = (): BasicModalState => {
   const [vaultModalState] = useVaultModalState();
   const { tabType } = vaultModalState;
@@ -46,10 +47,11 @@ export const useBasicModalProviderState = (): BasicModalState => {
   const {
     basicVaultType = BasicVaultType.BASIC,
     collateralPrice = 0,
+    valuePerLP = new Big(1),
     remainder: collateralTokenRemainder = Number.MAX_SAFE_INTEGER,
   } = basicVaultData ?? {};
 
-  const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
+  const { lpBalance = new Big(0) } = basicVaultReaderData ?? {};
 
   const { minSupplyValue = 0, maxSupplyValue = Number.MAX_SAFE_INTEGER } =
     longVaultReaderData ?? {};
@@ -67,10 +69,12 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const { data: nativeData, isLoading: isNativeDataLoading } = nativeTokenQuery;
 
+  const withdrawalTokenBalance = lpBalance?.mul(valuePerLP) ?? null;
+
   const withdrawalTokenData: Token | undefined = collateralTokenData
     ? {
         ...collateralTokenData,
-        balance: currentPosition,
+        balance: withdrawalTokenBalance,
         allowance: convertToBig(constants.MaxUint256),
       }
     : undefined;

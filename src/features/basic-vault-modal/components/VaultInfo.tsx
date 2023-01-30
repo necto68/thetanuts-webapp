@@ -64,7 +64,7 @@ export const VaultInfo = () => {
     ? "Borrow Fee (APR)"
     : "Performance/Management Fee";
 
-  const feeValue = isLongVault ? "2%" : `${feePerYear * 100}%`;
+  const formattedFee = isLongVault ? "2%" : `${feePerYear * 100}%`;
 
   return (
     <InfoGroupContainer>
@@ -92,7 +92,9 @@ export const VaultInfo = () => {
         </InfoContainer>
         <InfoContainer>
           <InfoTitleGray>{feeTitle}</InfoTitleGray>
-          <InfoValueGray isAlignRight>{feeValue}</InfoValueGray>
+          <InfoValueGray isAlignRight>
+            {isLoading ? loadingPlaceholder : formattedFee}
+          </InfoValueGray>
         </InfoContainer>
       </InfoGroup>
     </InfoGroupContainer>
