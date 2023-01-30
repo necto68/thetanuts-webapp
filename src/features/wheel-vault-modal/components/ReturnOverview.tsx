@@ -11,9 +11,11 @@ import {
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { CurrentPositionInfo } from "../../basic-vault-modal/components";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
+import { VaultStatus } from "../../basic-vault-modal/types";
+import { Tooltip } from "../../shared/components";
 import { assetFormatter } from "../../shared/helpers";
 import { VaultType } from "../../basic-vault/types";
-import { Tooltip } from "../../shared/components";
+import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
 import { ReturnOverviewTabType } from "../types";
 
 import { ReturnOverviewSwitcher } from "./ReturnOverviewSwitcher";
@@ -46,16 +48,28 @@ export const ReturnOverview = () => {
     assetSymbol = "",
     percentageYields = { periodPercentageYield: 0, annualPercentageYield: 0 },
     strikePrices = [0],
+    isSettled = false,
+    isExpired = false,
+    isAllowInteractions = false,
   } = basicVaultData ?? {};
 
   const { periodPercentageYield, annualPercentageYield } = percentageYields;
   const [strikePrice] = strikePrices;
 
+  const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
+  const vaultStatusesWithoutPremium = [
+    VaultStatus.SETTLED,
+    VaultStatus.AUCTION,
+  ];
+
   const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
 
   const loadingPlaceholder = ".....";
 
-  const premiumValue = currentPosition?.mul(periodPercentageYield).div(100);
+  const premiumValue = vaultStatusesWithoutPremium.includes(vaultStatus)
+    ? new Big(0)
+    : currentPosition?.mul(periodPercentageYield).div(100);
+
   const totalValue =
     currentPosition && premiumValue ? currentPosition.add(premiumValue) : null;
 
