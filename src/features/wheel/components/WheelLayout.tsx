@@ -31,9 +31,8 @@ export const WheelLayout = () => {
           <Title>Wheel Vaults</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
-              Degen vaults allow users with higher risk appetites to take on
-              directional bets on the market and earn higher returns through
-              advanced strategies such as option spreads.&nbsp;
+              The Thetanuts Wheel vaults earn yield by selling physically
+              settled puts and calls.&nbsp;
               <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>
                 (show more)
               </ExpandDescriptionLink>
@@ -41,29 +40,25 @@ export const WheelLayout = () => {
           ) : (
             <>
               <Description>
-                Degen vaults allow users with higher risk appetites to take on
-                directional bets on the market and earn higher returns through
-                advanced strategies such as option spreads. Users of
-                Thetanut&apos;s degen vaults would only need to post collateral
-                which is leveraged to collateralize the range between the option
-                spread(s). This promotes capital efficiency as users can
-                implicitly choose their leverage by depositing part, or all
-                their assets into the vault.
+                The Thetanuts Wheel vaults earn yield by selling physically
+                settled puts and calls. The goal of the wheel vaults is to sell
+                puts to receive the underlying asset at discount & sell calls to
+                sell the underlying asset at a higher price to generate overall
+                profit. When the wheel vault is struck, it automatically changes
+                from put-selling to covered call-selling and vice versa, which
+                creates the &quot;Buy Low Sell High&quot; effect.
               </Description>
               <Description>
-                The main risk is that users can lose part or all of their posted
-                collateral as the spot price of the underlying asset approaches
-                the long call/put option. As such we recommend users to read
-                the&nbsp;
+                Read the&nbsp;
                 <DescriptionLink href={links.docs}>
                   Thetanuts Docs
                 </DescriptionLink>
-                &nbsp; for a more detailed overview of Thetanuts Degen Vaults or
+                &nbsp; for a more detailed overview of Thetanuts Wheel Vaults or
                 contact us on&nbsp;
                 <DescriptionLink href={links.discord}>
                   Thetanuts Discord
                 </DescriptionLink>
-                &nbsp;to clarify any concerns.
+                .
               </Description>
               {isMobile ? (
                 <ExpandDescriptionLink onClick={handleExpandDescriptionClick}>

@@ -108,7 +108,7 @@ export const ReturnOverview = () => {
           <InfoContainer>
             <InfoTitleContainer>
               <Tooltip
-                content="YIELD_TOOLTIP"
+                content="Yield refers to the weekly premiums generated based on the user's position. Deposits made during mid-epoch do not generate yield."
                 id="yield"
                 root={
                   <InfoTitle>
@@ -124,7 +124,7 @@ export const ReturnOverview = () => {
           <InfoContainer>
             <InfoTitleContainer>
               <Tooltip
-                content="YOU_WILL_RECEIVE_TOOLTIP"
+                content='This shows 2 outcomes in case the call/put option expires ITM or OTM. If the option expired OTM, the user will receive the sum of the active position and the yield generated. If the option expired ITM, the user will receive "(Active position / Strike price ) + (Yield / Settlement Price)".'
                 id="youWillReceive"
                 root={<InfoTitle>You will Receive</InfoTitle>}
               />
