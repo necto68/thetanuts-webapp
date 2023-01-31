@@ -47,5 +47,5 @@ export const logosMap: Record<string, ComponentType> = {
   BCH: Bch,
   AURORA: Aurora,
   NEAR: Near,
-  ARB: Arb,
+  ARBITRUM: Arb,
 };
