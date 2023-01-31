@@ -21,6 +21,7 @@ import {
   Bch,
   Aurora,
   Near,
+  Arb,
 } from "../components";
 
 export const logosMap: Record<string, ComponentType> = {
@@ -46,4 +47,5 @@ export const logosMap: Record<string, ComponentType> = {
   BCH: Bch,
   AURORA: Aurora,
   NEAR: Near,
+  ARB: Arb,
 };
