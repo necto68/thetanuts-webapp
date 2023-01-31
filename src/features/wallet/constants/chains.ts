@@ -295,7 +295,7 @@ export const chains: ChainConfig[] = [
     symbol: "ETH",
 
     urls: {
-      rpc: "https://rpc.ankr.com/arbitrum",
+      rpc: "https://arb1.arbitrum.io/rpc",
       explorer: "https://arbiscan.io/",
       explorerApi: "https://api.arbiscan.io/",
     },
