@@ -1,5 +1,5 @@
 export const Arb = () => (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <svg height="100%" viewBox="0 0 32 32" width="100%">
     <rect width="32" height="32" fill="url(#pattern0)"/>
     <defs>
       <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
