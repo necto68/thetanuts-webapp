@@ -8,6 +8,7 @@ import {
   PendingDepositMainButton,
   PendingWithdrawMainButton,
   VaultInfo,
+  AnalyticLink,
 } from "../../basic-vault-modal/components";
 import {
   Container,
@@ -42,7 +43,7 @@ export const DegenModalContent = () => {
         )}
       </MainButtonsContainer>
       <VaultInfo />
-      {/* TODO: return later --> <AnalyticLink /> */}
+      <AnalyticLink />
     </Container>
   );
 };
