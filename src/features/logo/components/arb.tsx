@@ -1,6 +1,7 @@
 export const Arb = () => (
   <svg height="100%" viewBox="0 0 32 32" width="100%">
     <g fill="none">
+      <circle cx="16" cy="16" fill="#627EEA" r="16" />
       <g fill="#000" stroke="none">
         <path d="M0 160 l0 -160 160 0 160 0 0 160 0 160 -160 0 -160 0 0 -160z m278
                  9 c1 -35 -1 -69 -5 -74 -12 -16 -100 -65 -117 -65 -8 0 -31 9 -50 21 l-35 20
