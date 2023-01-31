@@ -4,5 +4,4 @@ export enum SectionType {
   withdrawSchedule = "withdrawSchedule",
   analytics = "analytics",
   vaultInfo = "vaultInfo",
-  returnOverview = "returnOverview",
 }

@@ -1,8 +1,6 @@
 import { useState, useCallback } from "react";
 import Big from "big.js";
 
-import { Expander } from "../../index-vault-modal/components/Expander";
-import { SectionType } from "../../index-vault-modal/types";
 import {
   InfoContainer,
   InfoTitle,
@@ -17,12 +15,16 @@ import { VaultType } from "../../basic-vault/types";
 import { ReturnOverviewTabType } from "../types";
 
 import { ReturnOverviewSwitcher } from "./ReturnOverviewSwitcher";
-import { Content, VaultInfoContainer, APYValue } from "./ReturnOverview.styles";
+import {
+  Container,
+  Title,
+  Content,
+  VaultInfoContainer,
+  APYValue,
+} from "./ReturnOverview.styles";
 
 // eslint-disable-next-line complexity
 export const ReturnOverview = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const [currentTabType, setCurrentTabType] = useState(
     ReturnOverviewTabType.successEpoch
   );
@@ -90,14 +92,8 @@ export const ReturnOverview = () => {
       : formattedFailedEpochValue;
 
   return (
-    <Expander
-      isOpen={isOpen}
-      onArrowClick={() => {
-        setIsOpen(!isOpen);
-      }}
-      title="Return Overview"
-      type={SectionType.returnOverview}
-    >
+    <Container isOpen>
+      <Title>Return Overview</Title>
       <Content>
         <ReturnOverviewSwitcher
           currentTabType={currentTabType}
@@ -108,7 +104,7 @@ export const ReturnOverview = () => {
           <InfoContainer>
             <InfoTitleContainer>
               <Tooltip
-                content="Yield refers to the weekly premiums generated based on the user's position. Deposits made during mid-epoch do not generate yield."
+                content="Yield refers to the premiums generated based on the user's position for the epoch in-progress. Deposits made during mid-epoch do not generate yield."
                 id="yield"
                 root={
                   <InfoTitle>
@@ -135,6 +131,6 @@ export const ReturnOverview = () => {
           </InfoContainer>
         </VaultInfoContainer>
       </Content>
-    </Expander>
+    </Container>
   );
 };
