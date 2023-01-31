@@ -11,6 +11,8 @@ import { basicVaultsMap } from "../../basic/constants";
 import type { BasicVaultReader } from "../types";
 import type { BasicVaultType } from "../../basic/types";
 import { ChainId, chainsMap } from "../../wallet/constants";
+import { VaultStatus } from "../../basic-vault-modal/types";
+import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
 
 import { basicVaultFetcher } from "./basicVaultFetcher";
 
@@ -73,7 +75,17 @@ export const basicVaultReaderFetcher = async (
       .then((values) => values.map(convertToBig)),
   ]);
 
-  const { collateralDecimals, epoch, expiry } = basicVault;
+  const {
+    collateralDecimals,
+    epoch,
+    expiry,
+    percentageYields: { periodPercentageYield },
+    isSettled,
+    isExpired,
+    isAllowInteractions,
+  } = basicVault;
+
+  const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
 
   const collateralTokenDivisor = new Big(10).pow(collateralDecimals);
 
@@ -94,9 +106,13 @@ export const basicVaultReaderFetcher = async (
   const isReadyToWithdraw =
     queuedExitEpoch > 0 && (epoch > queuedExitEpoch || expiry === 0);
 
-  const currentPosition = isReadyToWithdraw
+  let currentPosition = isReadyToWithdraw
     ? totalPositionWithoutWithdrawal
     : totalPosition;
+
+  if (vaultStatus === VaultStatus.ACTIVE_EPOCH) {
+    currentPosition = currentPosition.div(1 + periodPercentageYield / 100);
+  }
 
   return {
     lpBalance,
