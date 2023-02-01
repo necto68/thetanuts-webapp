@@ -86,6 +86,10 @@ export const basicVaultReaderFetcher = async (
   } = basicVault;
 
   const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
+  const vaultStatusesWithUpdatedCurrentPosition = [
+    VaultStatus.SETTLEMENT,
+    VaultStatus.ACTIVE_EPOCH,
+  ];
 
   const collateralTokenDivisor = new Big(10).pow(collateralDecimals);
 
@@ -110,7 +114,7 @@ export const basicVaultReaderFetcher = async (
     ? totalPositionWithoutWithdrawal
     : totalPosition;
 
-  if (vaultStatus === VaultStatus.ACTIVE_EPOCH) {
+  if (vaultStatusesWithUpdatedCurrentPosition.includes(vaultStatus)) {
     currentPosition = currentPosition.div(1 + periodPercentageYield / 100);
   }
 

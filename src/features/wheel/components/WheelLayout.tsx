@@ -28,7 +28,7 @@ export const WheelLayout = () => {
     <Container>
       <ContentContainer>
         <DescriptionContainer>
-          <Title>Wheel Vaults</Title>
+          <Title>Wheel Vaults (Physical Settlement)</Title>
           {isMobile && !isShowMoreDescription ? (
             <Description>
               The Thetanuts Wheel vaults earn yield by selling physically

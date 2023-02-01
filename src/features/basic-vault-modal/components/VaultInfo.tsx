@@ -60,9 +60,7 @@ export const VaultInfo = () => {
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
 
-  const feeTitle = isLongVault
-    ? "Borrow Fee (APR)"
-    : "Performance/Management Fee";
+  const feeTitle = isLongVault ? "Borrow Fee (APR)" : "Management Fee (APR)";
 
   const formattedFee = isLongVault ? "2%" : `${feePerYear * 100}%`;
 
