@@ -336,7 +336,17 @@ export const productionDegenVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const productionWheelVaults = [];
+export const productionWheelVaults = [
+  {
+    id: "TN-SMv1-ETHUSDC",
+    basicVaultType: BasicVaultType.WHEEL,
+
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0x3567e2A6E161f3623307Aa4e59ceab6dEFf6291f",
+    },
+  },
+];
 
 export const productionLongVaults = [
   {

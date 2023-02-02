@@ -64,7 +64,7 @@ export const developDegenVaults: BasicVaultConfig[] = [
 
 export const developWheelVaults: BasicVaultConfig[] = [
   {
-    id: "W-TN-SMv1-ETHUSDC",
+    id: "TN-SMv1-ETHtUSDC",
     basicVaultType: BasicVaultType.WHEEL,
 
     source: {
