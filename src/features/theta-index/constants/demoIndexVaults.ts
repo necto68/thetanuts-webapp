@@ -17,6 +17,7 @@ export const demoIndexVaults: DemoIndexVaultConfig[] = [
     totalPercentageYields: {
       annualPercentageYield: 139.25,
       monthlyPercentageYield: 9.02,
+      periodPercentageYield: 2.08,
       weeklyPercentageYield: 2.08,
       annualPercentageRate: 107.72,
     },

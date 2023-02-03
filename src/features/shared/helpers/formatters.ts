@@ -2,6 +2,10 @@ export const numberFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 2,
 });
 
+export const assetFormatter = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 6,
+});
+
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",

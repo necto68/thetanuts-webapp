@@ -17,12 +17,12 @@ import {
   StrategyCell,
   StrikePriceCell,
   RiskLevelCell,
+  ActionsContainer,
 } from "../../basic/components";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { highYieldFormatter } from "../../shared/helpers";
 import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
 import { WithdrawButton } from "../../table/components/WithdrawButton";
-import { ActionsContainer } from "../../basic/components/ActionsCell";
 import { getVaultTitle } from "../../table/helpers";
 import { getVaultModalType } from "../../basic/helpers";
 import { getVaultTypeStrategy } from "../../index-vault/helpers";

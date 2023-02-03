@@ -10,6 +10,8 @@ export const getModalPathname = (
       return ModalPathname.basicVaultModal;
     case VaultModalType.degen:
       return ModalPathname.degenVaultModal;
+    case VaultModalType.wheel:
+      return ModalPathname.wheelVaultModal;
     case VaultModalType.long:
       return ModalPathname.longVaultModal;
     default:
@@ -25,6 +27,8 @@ export const getPagePathname = (modalType: VaultModalType): PagePathname => {
       return PagePathname.basic;
     case VaultModalType.degen:
       return PagePathname.degen;
+    case VaultModalType.wheel:
+      return PagePathname.wheel;
     case VaultModalType.long:
       return PagePathname.long;
     default:

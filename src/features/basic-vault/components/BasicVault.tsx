@@ -40,7 +40,12 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
 
   const isCallType = type === VaultType.CALL;
 
-  const title = getVaultTypeTitle(type);
+  const headerContent = [
+    {
+      title: getVaultTypeTitle(type),
+    },
+  ];
+
   const subTitle = periodFormatter(period);
   const symbol = `${assetSymbol}-${isCallType ? "C" : "P"}`;
 
@@ -80,13 +85,13 @@ export const BasicVault: FC<BasicVaultProps> = ({ basicVaultId }) => {
           isSettled={isSettled}
         />
       }
+      headerContent={headerContent}
       icon={assetLogo}
       isLoading={isLoading}
       link={link}
       shadowColor={backgroundColor}
       subTitle={subTitle}
       symbol={symbol}
-      title={title}
     />
   );
 };

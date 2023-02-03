@@ -23,7 +23,10 @@ import {
 export interface VaultCardProps {
   isLoading?: boolean;
   disabled?: boolean;
-  title: string;
+  headerContent: {
+    title: string;
+    backgroundColor?: string;
+  }[];
   icon: ReactNode;
   symbol: string;
   subTitle: string;
@@ -33,14 +36,13 @@ export interface VaultCardProps {
   content?: ReactNode;
   footerContent?: ReactNode;
   link?: LocationDescriptor;
-  titleBgColor?: string;
   borderColor?: string;
 }
 
 export const VaultCard: FC<VaultCardProps> = ({
   isLoading = false,
   disabled = false,
-  title,
+  headerContent,
   icon,
   symbol,
   subTitle,
@@ -63,7 +65,15 @@ export const VaultCard: FC<VaultCardProps> = ({
             <SkeletonBox height={14} width={60} />
           </SkeletonContainer>
         ) : (
-          <Title>{title}</Title>
+          <>
+            {headerContent.map(
+              ({ title, backgroundColor: titleBackgroundColor }) => (
+                <Title backgroundColor={titleBackgroundColor} key={title}>
+                  {title}
+                </Title>
+              )
+            )}
+          </>
         )}
       </Header>
       <Content>

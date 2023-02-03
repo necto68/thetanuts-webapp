@@ -1,11 +1,11 @@
 import type { HistoryTransactionRow } from "../types";
 import { useBasicVaults } from "../../basic-vault/hooks";
-import { VaultModalType } from "../../root/types";
 import { TransactionType } from "../types/transaction";
 import { VaultType } from "../../basic-vault/types";
 import { BasicVaultType } from "../../basic/types";
 import { useFilteredBasicVaultsIds } from "../../basic/hooks";
-import { basicVaults, degenVaults } from "../../basic/constants";
+import { basicVaults, degenVaults, wheelVaults } from "../../basic/constants";
+import { getVaultModalType } from "../../basic/helpers";
 
 import { useBasicHistoryQueries } from "./useBasicHistoryQueries";
 
@@ -13,7 +13,7 @@ export const useBasicHistoryRows = (): (
   | HistoryTransactionRow
   | undefined
 )[] => {
-  const basicVaultsArray = basicVaults.concat(degenVaults);
+  const basicVaultsArray = basicVaults.concat(degenVaults).concat(wheelVaults);
   const filteredBasicVaultsIds = useFilteredBasicVaultsIds(basicVaultsArray);
 
   const basicVaultsQueries = useBasicVaults(filteredBasicVaultsIds);
@@ -45,9 +45,7 @@ export const useBasicHistoryRows = (): (
             ? collateralSymbol
             : assetSymbol;
 
-        const rowVaultType = isDegen
-          ? VaultModalType.degen
-          : VaultModalType.basic;
+        const rowVaultType = getVaultModalType(basicVaultType);
 
         return {
           id,

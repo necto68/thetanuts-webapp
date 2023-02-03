@@ -6,7 +6,7 @@ import {
   InfoTitleContainer,
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
-import { numberFormatter } from "../../shared/helpers";
+import { assetFormatter } from "../../shared/helpers";
 
 export const PendingDepositInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -25,7 +25,7 @@ export const PendingDepositInfo = () => {
   const loadingPlaceholder = ".....";
 
   const formattedDepositPending = depositPending
-    ? `${numberFormatter.format(depositPending.toNumber())} ${collateralSymbol}`
+    ? `${assetFormatter.format(depositPending.toNumber())} ${collateralSymbol}`
     : "N/A";
 
   return (

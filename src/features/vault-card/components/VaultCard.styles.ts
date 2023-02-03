@@ -11,28 +11,40 @@ type ContainerProps = Pick<
   "backgroundColor" | "borderColor" | "disabled" | "shadowColor"
 >;
 
+interface TitleProps {
+  backgroundColor?: VaultCardProps["backgroundColor"];
+}
+
 export const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-color: ${({ theme }: Theme<AppTheme>) => theme.secondaryBgColor};
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: 1px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
+  overflow: hidden;
 `;
 
 export const SkeletonContainer = styled.div`
   padding: 4px;
 `;
 
-export const Title = styled.span`
+export const Title = styled.span<TitleProps>`
   font-family: Roboto;
   font-weight: 700;
   font-size: 12px;
+  text-align: center;
+
   width: 100%;
   padding: 4px 0;
-  text-align: center;
-  background-color: ${({ theme }: Theme<AppTheme>) => theme.secondaryBgColor};
+
   color: ${({ theme }: Theme<AppTheme>) => theme.textColor};
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom: 1px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
+  background-color: ${({
+    backgroundColor,
+    theme,
+  }: Theme<AppTheme> & TitleProps) => backgroundColor ?? theme.transparent};
 `;
 
 export const Content = styled.div`

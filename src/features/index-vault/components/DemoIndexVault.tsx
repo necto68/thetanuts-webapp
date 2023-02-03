@@ -32,10 +32,10 @@ export const DemoIndexVault: FC<DemoIndexVaultProps> = ({
       backgroundColor={backgroundColor}
       disabled
       footerContent={<IndexVaultFooter title="Coming Soon" />}
+      headerContent={[{ title: "Put Selling" }]}
       icon={assetLogo}
       subTitle="Stronghold"
       symbol={assetSymbol}
-      title="Put Selling"
     />
   );
 };

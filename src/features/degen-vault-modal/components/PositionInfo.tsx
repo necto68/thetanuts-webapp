@@ -1,6 +1,6 @@
 import Big from "big.js";
 
-import { numberFormatter } from "../../shared/helpers";
+import { assetFormatter } from "../../shared/helpers";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import {
   Container as VaultInfoContainer,
@@ -35,24 +35,24 @@ export const PositionInfo = () => {
   const {
     type = VaultType.CALL,
     collateralSymbol = "",
-    percentageYields = { weeklyPercentageYield: 0 },
+    percentageYields = { periodPercentageYield: 0 },
   } = basicVaultData ?? {};
 
-  const { weeklyPercentageYield } = percentageYields;
+  const { periodPercentageYield } = percentageYields;
 
   const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
 
   const loadingPlaceholder = ".....";
 
   const positionValue = currentPosition ?? new Big(0);
-  const premiumValue = positionValue.mul(weeklyPercentageYield).div(100);
+  const premiumValue = positionValue.mul(periodPercentageYield).div(100);
   const totalValue = positionValue.add(premiumValue);
 
   const [formattedSuccessEpochPosition, formattedFailedEpochPosition] = [
     totalValue,
     premiumValue,
   ].map(
-    (value) => `${numberFormatter.format(value.toNumber())} ${collateralSymbol}`
+    (value) => `${assetFormatter.format(value.toNumber())} ${collateralSymbol}`
   );
 
   const successEpochTitle =

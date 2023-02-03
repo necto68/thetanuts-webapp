@@ -1,11 +1,10 @@
-import { basicVaults, degenVaults } from "../../basic/constants";
+import { basicVaults, degenVaults, wheelVaults } from "../../basic/constants";
 import { useBasicVaults, useBasicVaultReaders } from "../../basic-vault/hooks";
 import type { BasicVaultRow } from "../types";
-import { VaultModalType } from "../../root/types";
-import { BasicVaultType } from "../../basic/types";
+import { getVaultModalType } from "../../basic/helpers";
 
 export const useBasicPositionsRows = (): (BasicVaultRow | undefined)[] => {
-  const basicVaultsArray = basicVaults.concat(degenVaults);
+  const basicVaultsArray = basicVaults.concat(degenVaults).concat(wheelVaults);
   const basicVaultsIds = basicVaultsArray.map(({ id }) => id);
 
   const basicVaultsQueries = useBasicVaults(basicVaultsIds);
@@ -30,17 +29,17 @@ export const useBasicPositionsRows = (): (BasicVaultRow | undefined)[] => {
       annualPercentageYield,
     } = data;
 
+    const vaultType = getVaultModalType(basicVaultType);
+
     const { depositPending, totalPosition } = basicVaultReader;
     const balance =
       depositPending && totalPosition
         ? depositPending.add(totalPosition)
         : null;
 
-    const isDegen = basicVaultType === BasicVaultType.DEGEN;
-
     return {
       id,
-      vaultType: isDegen ? VaultModalType.degen : VaultModalType.basic,
+      vaultType,
       type,
       chainId,
       assetSymbol,

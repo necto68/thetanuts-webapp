@@ -8,7 +8,7 @@ import {
   InfoTitleContainer,
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
-import { numberFormatter } from "../../shared/helpers";
+import { assetFormatter } from "../../shared/helpers";
 
 export const PendingWithdrawInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -27,7 +27,7 @@ export const PendingWithdrawInfo = () => {
   const loadingPlaceholder = ".....";
 
   const formattedWithdrawalPending = withdrawalPending
-    ? `${numberFormatter.format(
+    ? `${assetFormatter.format(
         withdrawalPending.toNumber()
       )} ${collateralSymbol}`
     : "N/A";

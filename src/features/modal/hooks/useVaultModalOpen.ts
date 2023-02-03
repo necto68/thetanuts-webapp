@@ -15,6 +15,7 @@ const vaultsMaps = {
   [VaultModalType.index]: indexVaultsMap,
   [VaultModalType.basic]: basicVaultsMap,
   [VaultModalType.degen]: basicVaultsMap,
+  [VaultModalType.wheel]: basicVaultsMap,
   [VaultModalType.long]: basicVaultsMap,
 };
 
@@ -23,6 +24,7 @@ const getVaultType = (
   indexVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   basicVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   degenVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
+  wheelVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   longVaultModalUrlMatch: match<VaultModalRouteParameters> | null
 ) => {
   switch (vaultModalUrlMatch) {
@@ -32,6 +34,8 @@ const getVaultType = (
       return VaultModalType.basic;
     case degenVaultModalUrlMatch:
       return VaultModalType.degen;
+    case wheelVaultModalUrlMatch:
+      return VaultModalType.wheel;
     case longVaultModalUrlMatch:
       return VaultModalType.long;
     default:
@@ -48,12 +52,14 @@ export const useVaultModalOpen = () => {
   const indexPageUrlMatch = useRouteMatch(PagePathname.thetaIndex);
   const basicPageUrlMatch = useRouteMatch(PagePathname.basic);
   const degenPageUrlMatch = useRouteMatch(PagePathname.degen);
+  const wheelPageUrlMatch = useRouteMatch(PagePathname.wheel);
   const longPageUrlMatch = useRouteMatch(PagePathname.long);
 
   const pageUrlMatch =
     indexPageUrlMatch ??
     basicPageUrlMatch ??
     degenPageUrlMatch ??
+    wheelPageUrlMatch ??
     longPageUrlMatch;
 
   const indexVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
@@ -65,6 +71,9 @@ export const useVaultModalOpen = () => {
   const degenVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.degenVaultModal
   );
+  const wheelVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
+    ModalPathname.wheelVaultModal
+  );
   const longVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.longVaultModal
   );
@@ -73,6 +82,7 @@ export const useVaultModalOpen = () => {
     indexVaultModalUrlMatch ??
     basicVaultModalUrlMatch ??
     degenVaultModalUrlMatch ??
+    wheelVaultModalUrlMatch ??
     longVaultModalUrlMatch;
 
   const vaultType = getVaultType(
@@ -80,6 +90,7 @@ export const useVaultModalOpen = () => {
     indexVaultModalUrlMatch,
     basicVaultModalUrlMatch,
     degenVaultModalUrlMatch,
+    wheelVaultModalUrlMatch,
     longVaultModalUrlMatch
   );
   const vaultId = vaultModalUrlMatch?.params.vaultId;

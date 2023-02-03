@@ -31,6 +31,7 @@ export const VaultInfo = () => {
     assetPrice = 0,
     balance: basicVaultBalance = new Big(0),
     collatCap = new Big(0),
+    feePerYear = 0,
   } = data ?? {};
 
   const { balance: longVaultBalance = new Big(0), supplyCap = new Big(0) } =
@@ -59,11 +60,9 @@ export const VaultInfo = () => {
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
 
-  const feeTitle = isLongVault
-    ? "Borrow Fee (APR)"
-    : "Performance/Management Fee";
+  const feeTitle = isLongVault ? "Borrow Fee (APR)" : "Management Fee (APR)";
 
-  const feeValue = isLongVault ? "2%" : "0%";
+  const formattedFee = isLongVault ? "2%" : `${feePerYear * 100}%`;
 
   return (
     <InfoGroupContainer>
@@ -91,7 +90,9 @@ export const VaultInfo = () => {
         </InfoContainer>
         <InfoContainer>
           <InfoTitleGray>{feeTitle}</InfoTitleGray>
-          <InfoValueGray isAlignRight>{feeValue}</InfoValueGray>
+          <InfoValueGray isAlignRight>
+            {isLoading ? loadingPlaceholder : formattedFee}
+          </InfoValueGray>
         </InfoContainer>
       </InfoGroup>
     </InfoGroupContainer>

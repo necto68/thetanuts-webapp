@@ -1,22 +1,28 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import { BasicVaultReaderAbi__factory as BasicVaultReaderAbiFactory } from "../../contracts/types";
+import {
+  BasicVaultAbi__factory as BasicVaultAbiFactory,
+  BasicVaultReaderAbi__factory as BasicVaultReaderAbiFactory,
+} from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { basicVaultsMap } from "../../basic/constants";
 import type { BasicVaultReader } from "../types";
 import type { BasicVaultType } from "../../basic/types";
 import { ChainId, chainsMap } from "../../wallet/constants";
+import { VaultStatus } from "../../basic-vault-modal/types";
+import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
 
 import { basicVaultFetcher } from "./basicVaultFetcher";
 
 const defaultBasicVaultReader: BasicVaultReader = {
+  lpBalance: null,
   totalPosition: null,
   currentPosition: null,
   depositPending: null,
   withdrawalPending: null,
-  queuedExitEpoch: null,
+  isReadyToWithdraw: false,
 };
 
 export const basicVaultReaderFetcher = async (
@@ -35,12 +41,19 @@ export const basicVaultReaderFetcher = async (
     basicVaultsMap[basicVaultId]?.source.chainId ?? ChainId.ETHEREUM;
   const { basicVaultDepositorAddress } = chainsMap[chainId].addresses;
 
+  const basicVaultContract = BasicVaultAbiFactory.connect(
+    basicVaultAddress,
+    provider
+  );
+
   const basicVaultReaderContract = BasicVaultReaderAbiFactory.connect(
     basicVaultReaderAddress,
     provider
   );
 
-  const [basicVault, vaultPosition] = await Promise.all([
+  const lpDivisor = new Big(10).pow(18);
+
+  const [basicVault, lpBalance, vaultPosition] = await Promise.all([
     queryClient.fetchQuery(
       [QueryType.basicVault, basicVaultId, basicVaultType, chainId],
 
@@ -53,12 +66,30 @@ export const basicVaultReaderFetcher = async (
           basicVaultDepositorAddress
         )
     ),
+    basicVaultContract
+      .balanceOf(account)
+      .then(convertToBig)
+      .then((lpBalanceBig) => lpBalanceBig.div(lpDivisor)),
     basicVaultReaderContract
       .myVaultPosition(basicVaultAddress, { from: account })
       .then((values) => values.map(convertToBig)),
   ]);
 
-  const { collateralDecimals, epoch } = basicVault;
+  const {
+    collateralDecimals,
+    epoch,
+    expiry,
+    percentageYields: { periodPercentageYield },
+    isSettled,
+    isExpired,
+    isAllowInteractions,
+  } = basicVault;
+
+  const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
+  const vaultStatusesWithUpdatedCurrentPosition = [
+    VaultStatus.SETTLEMENT,
+    VaultStatus.ACTIVE_EPOCH,
+  ];
 
   const collateralTokenDivisor = new Big(10).pow(collateralDecimals);
 
@@ -76,14 +107,23 @@ export const basicVaultReaderFetcher = async (
     vaultPosition[7],
   ].map((value) => value.div(collateralTokenDivisor));
 
-  const currentPosition =
-    epoch > queuedExitEpoch ? totalPositionWithoutWithdrawal : totalPosition;
+  const isReadyToWithdraw =
+    queuedExitEpoch > 0 && (epoch > queuedExitEpoch || expiry === 0);
+
+  let currentPosition = isReadyToWithdraw
+    ? totalPositionWithoutWithdrawal
+    : totalPosition;
+
+  if (vaultStatusesWithUpdatedCurrentPosition.includes(vaultStatus)) {
+    currentPosition = currentPosition.div(1 + periodPercentageYield / 100);
+  }
 
   return {
+    lpBalance,
     totalPosition,
     currentPosition,
     depositPending,
     withdrawalPending,
-    queuedExitEpoch,
+    isReadyToWithdraw,
   };
 };

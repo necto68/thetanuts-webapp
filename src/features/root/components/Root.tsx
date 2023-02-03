@@ -31,6 +31,8 @@ import {
 //   AnnouncementTitle,
 // } from "./Root.styles";
 
+// import { WheelPage } from "../../wheel/components";
+
 export const Root = () => {
   const { isShow, toggleIsShow } = useSidebarState();
   const isTablet = useIsTablet();
@@ -94,6 +96,15 @@ export const Root = () => {
                   >
                     <DegenPage />
                   </Route>
+                  {/* <Route
+                    exact
+                    path={[
+                      RouterPathname.wheel,
+                      RouterPathname.wheelVaultModal,
+                    ]}
+                  >
+                    <WheelPage />
+                  </Route> */}
                   <Route
                     exact
                     path={[RouterPathname.long, RouterPathname.longVaultModal]}

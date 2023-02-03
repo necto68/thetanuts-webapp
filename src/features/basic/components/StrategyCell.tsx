@@ -8,6 +8,7 @@ import {
   getDegenVaultTypeTitle,
   getDegenVaultTypeShortName,
 } from "../../degen-vault/helpers";
+import { WheelStrategyTitle } from "../../wheel/components/WheelStrategyTitle";
 
 import { TitlesContainer } from "./BasicVaultAssetCell.styles";
 import {
@@ -26,12 +27,14 @@ export const StrategyCell: FC<StrategyCellProps> = ({
   const strategyTitlesMap = {
     [BasicVaultType.BASIC]: getVaultTypeStrategy(type),
     [BasicVaultType.DEGEN]: getDegenVaultTypeShortName(type),
+    [BasicVaultType.WHEEL]: <WheelStrategyTitle type={type} />,
     [BasicVaultType.LONG]: `${getVaultTypeStrategy(type)} LONG`,
   };
 
   const periodTitlesMap = {
     [BasicVaultType.BASIC]: periodFormatter(period),
     [BasicVaultType.DEGEN]: getDegenVaultTypeTitle(type),
+    [BasicVaultType.WHEEL]: periodFormatter(period),
     [BasicVaultType.LONG]: periodFormatter(period),
   };
 

@@ -22,6 +22,7 @@ const depositTitle = {
   [VaultModalType.index]: "swap",
   [VaultModalType.basic]: "deposit",
   [VaultModalType.degen]: "deposit",
+  [VaultModalType.wheel]: "deposit",
   [VaultModalType.long]: "supply",
 };
 

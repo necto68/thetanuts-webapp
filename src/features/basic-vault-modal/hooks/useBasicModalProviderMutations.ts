@@ -245,7 +245,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       const { valuePerLP = new Big(1) } = data ?? {};
 
       const { data: basicVaultReaderData } = basicVaultReaderQuery;
-      const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
+      const { lpBalance = new Big(0) } = basicVaultReaderData ?? {};
 
       let inputAmount = new Big(0);
 
@@ -255,7 +255,14 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       } else if (isFullPosition) {
         // isFullPosition for initWithdraw(currentPosition)
         // for degen vaults
-        inputAmount = currentPosition ?? new Big(0);
+
+        const lpDivisor = new Big(10).pow(18);
+
+        inputAmount =
+          lpBalance
+            ?.mul(valuePerLP)
+            .mul(lpDivisor)
+            .div(tokenData.tokenDivisor) ?? new Big(0);
       } else {
         // for other cases - initWithdraw(inputValue)
         inputAmount = inputValue ? new Big(inputValue) : new Big(0);

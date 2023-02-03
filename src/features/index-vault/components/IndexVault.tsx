@@ -46,13 +46,13 @@ export const IndexVault: FC<IndexVaultProps> = ({ indexVaultId }) => {
       apy={formattedTotalAPY}
       backgroundColor={backgroundColor}
       footerContent={<IndexVaultFooter title="Swap" />}
+      headerContent={[{ title }]}
       icon={assetLogo}
       isLoading={isLoading}
       link={link}
       shadowColor={backgroundColor}
       subTitle="Stronghold"
       symbol={assetSymbol}
-      title={title}
     />
   );
 };

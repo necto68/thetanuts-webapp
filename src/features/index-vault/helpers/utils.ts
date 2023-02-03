@@ -53,6 +53,7 @@ export const getTotalPercentageYields = (
     annualPercentageYield: new Big(0),
     monthlyPercentageYield: new Big(0),
     weeklyPercentageYield: new Big(0),
+    periodPercentageYield: new Big(0),
     annualPercentageRate: new Big(0),
   };
 
@@ -67,6 +68,7 @@ export const getTotalPercentageYields = (
       annualPercentageYield,
       monthlyPercentageYield,
       weeklyPercentageYield,
+      periodPercentageYield,
       annualPercentageRate,
     } = percentageYields;
 
@@ -79,6 +81,7 @@ export const getTotalPercentageYields = (
         .mul(monthlyPercentageYield),
 
       weeklyPercentageYield: weight.div(totalWeight).mul(weeklyPercentageYield),
+      periodPercentageYield: weight.div(totalWeight).mul(periodPercentageYield),
       annualPercentageRate: weight.div(totalWeight).mul(annualPercentageRate),
     };
   });
@@ -95,6 +98,10 @@ export const getTotalPercentageYields = (
 
       weeklyPercentageYield: accumulator.weeklyPercentageYield.add(
         current.weeklyPercentageYield
+      ),
+
+      periodPercentageYield: accumulator.periodPercentageYield.add(
+        current.periodPercentageYield
       ),
 
       annualPercentageRate: accumulator.annualPercentageRate.add(
@@ -117,6 +124,10 @@ export const getTotalPercentageYields = (
       .round(2)
       .toNumber(),
 
+    periodPercentageYield: totalPercentageYields.periodPercentageYield
+      .round(2)
+      .toNumber(),
+
     annualPercentageRate: totalPercentageYields.annualPercentageRate
       .round(2)
       .toNumber(),
@@ -133,6 +144,7 @@ export const getPercentageYields = (
       annualPercentageYield: 0,
       monthlyPercentageYield: 0,
       weeklyPercentageYield: 0,
+      periodPercentageYield: 0,
       annualPercentageRate: 0,
     };
   }
@@ -141,12 +153,15 @@ export const getPercentageYields = (
 
   const secondsPerDay = new Big(60 * 60 * 24);
   const compoundingFactor = secondsPerDay.div(period).toNumber();
+  const periodDays = new Big(period).div(secondsPerDay).toNumber();
 
   const baseValue = new Big(1).add(interestRate).toNumber();
 
   const annualYield = getYield(baseValue, compoundingFactor, 365);
   const monthlyYield = getYield(baseValue, compoundingFactor, 30);
   const weeklyYield = getYield(baseValue, compoundingFactor, 7);
+  const periodYield = getYield(baseValue, compoundingFactor, periodDays);
+
   const annualRate = interestRate
     .div(period)
     .mul(secondsPerDay.mul(365))
@@ -155,12 +170,14 @@ export const getPercentageYields = (
   const annualPercentageYield = convertYieldToPercentage(annualYield);
   const monthlyPercentageYield = convertYieldToPercentage(monthlyYield);
   const weeklyPercentageYield = convertYieldToPercentage(weeklyYield);
+  const periodPercentageYield = convertYieldToPercentage(periodYield);
   const annualPercentageRate = convertYieldToPercentage(annualRate);
 
   return {
     annualPercentageYield,
     monthlyPercentageYield,
     weeklyPercentageYield,
+    periodPercentageYield,
     annualPercentageRate,
   };
 };
@@ -218,6 +235,9 @@ export const getTotalRiskLevel = (
 
 export const getVaultTypeTitle = (type: VaultType): string =>
   type === VaultType.CALL ? "Covered Call" : "Put Selling";
+
+export const getVaultTypeShortTitle = (type: VaultType): string =>
+  type === VaultType.CALL ? "CC" : "PS";
 
 export const getVaultTypeStrategy = (type: VaultType): string =>
   type === VaultType.CALL ? "Call" : "Put";

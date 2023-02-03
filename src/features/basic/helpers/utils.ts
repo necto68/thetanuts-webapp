@@ -9,6 +9,8 @@ export const getVaultModalType = (
       return VaultModalType.basic;
     case BasicVaultType.DEGEN:
       return VaultModalType.degen;
+    case BasicVaultType.WHEEL:
+      return VaultModalType.wheel;
     case BasicVaultType.LONG:
       return VaultModalType.long;
     default:

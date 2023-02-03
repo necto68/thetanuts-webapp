@@ -74,12 +74,14 @@ export const PendingDepositMainButton = () => {
   const isShowForVaults = {
     [BasicVaultType.BASIC]: Boolean(depositPending?.gt(0)),
     [BasicVaultType.DEGEN]: Boolean(depositPending?.gt(0)),
+    [BasicVaultType.WHEEL]: Boolean(depositPending?.gt(0)),
     [BasicVaultType.LONG]: Boolean(borrowContractsPending?.gt(0)),
   };
 
   const mainButtonClickHandlers = {
     [BasicVaultType.BASIC]: runCancelDeposit,
     [BasicVaultType.DEGEN]: runCancelDeposit,
+    [BasicVaultType.WHEEL]: runCancelDeposit,
     [BasicVaultType.LONG]: runCancelPendingPosition,
   };
 

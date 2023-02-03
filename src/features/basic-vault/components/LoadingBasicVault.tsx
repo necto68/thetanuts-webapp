@@ -33,13 +33,13 @@ export const LoadingBasicVault = () => {
           isSettled={false}
         />
       }
+      headerContent={[{ title: "" }]}
       icon={null}
       isLoading
       link=""
       shadowColor={backgroundColor}
       subTitle=""
       symbol=""
-      title=""
     />
   );
 };

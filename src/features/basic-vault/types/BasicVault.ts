@@ -19,6 +19,7 @@ export interface PercentageYields {
   annualPercentageYield: number;
   monthlyPercentageYield: number;
   weeklyPercentageYield: number;
+  periodPercentageYield: number;
   annualPercentageRate: number;
 }
 
@@ -41,6 +42,7 @@ export interface BasicVault {
   balance: Big;
   remainder: number;
   collatCap: Big;
+  feePerYear: number;
   assetPrice: number;
   collateralPrice: number;
   strikePrices: number[];

@@ -4,12 +4,14 @@ import { isTestEnvironment } from "../../shared/constants";
 import {
   developBasicVaults,
   developDegenVaults,
+  developWheelVaults,
   developLongVaults,
   developAllBasicVaults,
 } from "./developBasicVaults";
 import {
   productionBasicVaults,
   productionDegenVaults,
+  productionWheelVaults,
   productionLongVaults,
   productionAllBasicVaults,
 } from "./productionBasicVaults";
@@ -21,6 +23,10 @@ export const basicVaults = isTestEnvironment
 export const degenVaults = isTestEnvironment
   ? developDegenVaults.concat(productionDegenVaults)
   : productionDegenVaults;
+
+export const wheelVaults = isTestEnvironment
+  ? developWheelVaults.concat(productionWheelVaults)
+  : productionWheelVaults;
 
 export const longVaults = isTestEnvironment
   ? developLongVaults.concat(productionLongVaults)
