@@ -3,7 +3,6 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { ThetaIndexPage } from "../../theta-index/components";
 import { BasicPage } from "../../basic/components";
 import { DegenPage } from "../../degen/components";
-import { WheelPage } from "../../wheel/components";
 import { LongPage } from "../../long/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal, Backdrop } from "../../modal/components";
@@ -31,6 +30,8 @@ import {
 //   AnnouncementLink,
 //   AnnouncementTitle,
 // } from "./Root.styles";
+
+// import { WheelPage } from "../../wheel/components";
 
 export const Root = () => {
   const { isShow, toggleIsShow } = useSidebarState();
@@ -95,7 +96,7 @@ export const Root = () => {
                   >
                     <DegenPage />
                   </Route>
-                  <Route
+                  {/* <Route
                     exact
                     path={[
                       RouterPathname.wheel,
@@ -103,7 +104,7 @@ export const Root = () => {
                     ]}
                   >
                     <WheelPage />
-                  </Route>
+                  </Route> */}
                   <Route
                     exact
                     path={[RouterPathname.long, RouterPathname.longVaultModal]}
