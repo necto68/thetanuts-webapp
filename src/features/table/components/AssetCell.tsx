@@ -23,9 +23,8 @@ export const AssetCell: FC<AssetCellProps> = ({
   const assetLogo = getLogoBySymbol(assetSymbol);
 
   const isShowCollateralLogo =
-    vaultType === VaultModalType.degen ||
-    vaultType === VaultModalType.wheel ||
-    (vaultType === VaultModalType.basic && type === VaultType.PUT);
+    (vaultType === VaultModalType.basic && type === VaultType.PUT) ||
+    vaultType === VaultModalType.degen;
 
   const collateralLogo = isShowCollateralLogo
     ? getLogoBySymbol(collateralSymbol)

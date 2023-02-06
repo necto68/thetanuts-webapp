@@ -10,9 +10,13 @@ export const getVaultTitle = (
 ) => {
   const vaultPrefix = vaultTypesPrefixes[vaultType];
   const isShowCollateralSymbol =
-    vaultType === VaultModalType.degen ||
-    vaultType === VaultModalType.wheel ||
-    (vaultType === VaultModalType.basic && type === VaultType.PUT);
+    (vaultType === VaultModalType.basic && type === VaultType.PUT) ||
+    vaultType === VaultModalType.degen;
+
+  const isShowTypePrefix =
+    vaultType === VaultModalType.index ||
+    vaultType === VaultModalType.basic ||
+    vaultType === VaultModalType.degen;
 
   const assets = isShowCollateralSymbol
     ? [collateralSymbol, assetSymbol]
@@ -20,7 +24,11 @@ export const getVaultTitle = (
 
   const typePrefix = basicVaultTypesPrefixes[type];
 
-  const titleArray = [vaultPrefix, ...assets, typePrefix];
+  const titleArray = [vaultPrefix, ...assets];
+
+  if (isShowTypePrefix) {
+    titleArray.push(typePrefix);
+  }
 
   return titleArray.join("-");
 };
