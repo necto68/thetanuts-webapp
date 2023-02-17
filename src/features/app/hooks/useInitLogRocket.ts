@@ -1,7 +1,7 @@
+import { useEffect } from "react";
 import { useWallet } from "@gimmixorg/use-wallet";
 import LogRocket from "logrocket";
 import setupLogRocketReact from "logrocket-react";
-import { useEffect } from "react";
 
 import { isTestEnvironment } from "../../shared/constants";
 import { logRocketId } from "../constants";
