@@ -10,23 +10,28 @@ import { queryClient } from "../../shared/helpers";
 import { liveChatLicense } from "../constants";
 import { SidebarStateProvider } from "../../sidebar/providers";
 import { DarkAppTheme } from "../constants/appTheme";
+import { useInitLogRocket } from "../hooks";
 
 import { GlobalStyle } from "./App.styles";
 
 Big.NE = -20;
 Big.PE = 80;
 
-export const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <Router>
-      <ThemeProvider theme={DarkAppTheme}>
-        <GlobalStyle />
-        <SidebarStateProvider>
-          <Root />
-        </SidebarStateProvider>
-      </ThemeProvider>
-    </Router>
-    <LiveChatWidget license={liveChatLicense} />
-    <ReactQueryDevtools />
-  </QueryClientProvider>
-);
+export const App = () => {
+  useInitLogRocket();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router>
+        <ThemeProvider theme={DarkAppTheme}>
+          <GlobalStyle />
+          <SidebarStateProvider>
+            <Root />
+          </SidebarStateProvider>
+        </ThemeProvider>
+      </Router>
+      <LiveChatWidget license={liveChatLicense} />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  );
+};
