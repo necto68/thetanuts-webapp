@@ -109,14 +109,15 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
 
   // mainnet - sol put
-  // {
-  //   id: "TN-CSCPv1-SOLUSD",
+  {
+    id: "TN-CSCPv1-SOLUSD-A",
+    basicVaultType: BasicVaultType.BASIC,
 
-  //   source: {
-  //     chainId: ChainId.ETHEREUM,
-  //     basicVaultAddress: "0xC7B354259aD25cBefdca8515851895AD8f06F3E4",
-  //   },
-  // },
+    source: {
+      chainId: ChainId.ETHEREUM,
+      basicVaultAddress: "0xb466a23c77df358B8B1e86514411c5Fe0D613896",
+    },
+  },
 
   // mainnet - matic put
   {
