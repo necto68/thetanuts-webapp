@@ -18,3 +18,4 @@ export * from "./ada";
 export * from "./bch";
 export * from "./aurora";
 export * from "./near";
+export * from "./arb";

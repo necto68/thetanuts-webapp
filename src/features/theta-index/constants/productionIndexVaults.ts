@@ -32,6 +32,11 @@ export const productionIndexVaults: IndexVaultConfig[] = [
         assetTokenAddress: "0x04068DA6C83AFCFA0e13ba15A6696662335D5B75",
         indexTokenAddress: "0x29b662dE10ceAA7cb254E475622277B6Fc25DA71",
       },
+      {
+        chainId: ChainId.ARBITRUM,
+        assetTokenAddress: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+        indexTokenAddress: "0x9cB7C512Da0b6BA5f06eA1C04f2cC82F132e348B",
+      },
     ],
 
     priceFeeds: {
