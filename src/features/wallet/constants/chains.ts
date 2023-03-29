@@ -130,7 +130,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: "0x74af0AcF759dcB803993F14b22C2e500063ba0Fe",
 
       longVaultPositionManagerAddress:
-        "0xe29F56fC26Cc6e02e6BE570ac5D7CBc1F0903431",
+        "0xA3ea5326771a28F7dF4e2f7980dBB238a62f9e9C",
 
       longVaultProtocolDataProviderAddress:
         "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",

@@ -218,6 +218,8 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     const longVaultPositionManagerContract =
       LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
 
+    const methodName = "closeVaultAndWithdrawPosition(address,address,address)";
+
     const closePositionParameters = [
       account,
       basicVaultAddress,
@@ -227,14 +229,13 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     let transaction = null;
 
     try {
-      await longVaultPositionManagerContract.callStatic.closeVaultAndWithdrawPosition(
+      await longVaultPositionManagerContract.callStatic[methodName](
         ...closePositionParameters
       );
 
-      transaction =
-        await longVaultPositionManagerContract.closeVaultAndWithdrawPosition(
-          ...closePositionParameters
-        );
+      transaction = await longVaultPositionManagerContract[methodName](
+        ...closePositionParameters
+      );
     } catch (walletError) {
       processWalletError(walletError);
     }

@@ -48,7 +48,13 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "amount",
+        "name": "collateralRemoved",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amountRepayed",
         "type": "uint256"
       }
     ],
@@ -79,7 +85,13 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "amount",
+        "name": "amountBorrowed",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "collateralReceived",
         "type": "uint256"
       }
     ],
@@ -228,6 +240,11 @@
         "internalType": "contract ILendingPool",
         "name": "LP",
         "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxCollateralToUse",
+        "type": "uint256"
       }
     ],
     "name": "closeVaultAndWithdrawPosition",
@@ -238,6 +255,81 @@
         "type": "uint256"
       }
     ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "contract CashVaultV1",
+        "name": "vault",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ILendingPool",
+        "name": "LP",
+        "type": "address"
+      }
+    ],
+    "name": "closeVaultAndWithdrawPosition",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "amtWithdrawable",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" },
+      {
+        "internalType": "contract CashVaultV1",
+        "name": "vault",
+        "type": "address"
+      },
+      {
+        "internalType": "contract ILendingPool",
+        "name": "LP",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "maxCollateralToUse",
+        "type": "uint256"
+      }
+    ],
+    "name": "closeVaultBySwap",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "contract ERC20", "name": "collat", "type": "address" },
+      { "internalType": "uint256", "name": "amtToDeposit", "type": "uint256" },
+      {
+        "internalType": "contract ILendingPool",
+        "name": "LP",
+        "type": "address"
+      },
+      {
+        "internalType": "contract CashVaultV1",
+        "name": "vault",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "amtToBorrow", "type": "uint256" },
+      {
+        "internalType": "uint256",
+        "name": "minSwapCollateralToReceive",
+        "type": "uint256"
+      }
+    ],
+    "name": "depositAndOpenBySwapOptionPosition",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -397,6 +489,15 @@
     "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "uniswapV3Router",
+    "outputs": [
+      { "internalType": "contract ISwapRouter", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
