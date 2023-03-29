@@ -21,6 +21,7 @@ export interface ChainConfig {
     basicVaultDepositorAddress: string;
     longVaultPositionManagerAddress: string;
     longVaultProtocolDataProviderAddress: string;
+    quoterAddress: string;
   };
 
   deployerAddresses?: {

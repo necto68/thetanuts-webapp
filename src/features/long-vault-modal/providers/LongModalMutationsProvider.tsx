@@ -7,6 +7,7 @@ import type { LongModalMutations } from "../types";
 const defaultLongModalMutations: LongModalMutations = {
   approveDelegationMutation: undefined,
   openPositionMutation: undefined,
+  openPositionImmediatelyMutation: undefined,
   cancelPendingPositionMutation: undefined,
   closePositionAndWithdrawMutation: undefined,
 
@@ -14,8 +15,10 @@ const defaultLongModalMutations: LongModalMutations = {
 
   runApproveDelegation: () => undefined,
   runOpenPosition: () => undefined,
+  runOpenPositionImmediately: () => undefined,
   runCancelPendingPosition: () => undefined,
   runClosePositionAndWithdraw: () => undefined,
+  runClosePositionAndWithdrawImmediately: () => undefined,
 };
 
 export const LongModalMutationsContext = createContext<LongModalMutations>(

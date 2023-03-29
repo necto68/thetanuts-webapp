@@ -56,6 +56,8 @@ export const chains: ChainConfig[] = [
 
       longVaultProtocolDataProviderAddress:
         "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
+
+      quoterAddress: ZERO_ADDRESS,
     },
 
     deployerAddresses: {
@@ -99,6 +101,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -134,6 +137,8 @@ export const chains: ChainConfig[] = [
 
       longVaultProtocolDataProviderAddress:
         "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",
+
+      quoterAddress: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
     },
 
     deployerAddresses: {
@@ -169,6 +174,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -199,6 +205,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -229,6 +236,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -259,6 +267,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -289,6 +298,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -319,6 +329,7 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
