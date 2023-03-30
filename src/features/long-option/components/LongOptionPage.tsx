@@ -1,11 +1,11 @@
 import { Header } from "../../theta-index/components";
 import { Container } from "../../theta-index/components/ThetaIndexPage.styles";
 
-import { TradingLayout } from "./TradingLayout";
+import { LongOptionLayout } from "./LongOptionLayout";
 
-export const TradingPage = () => (
+export const LongOptionPage = () => (
   <Container>
     <Header />
-    <TradingLayout />
+    <LongOptionLayout />
   </Container>
 );

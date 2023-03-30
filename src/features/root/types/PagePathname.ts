@@ -4,6 +4,7 @@ export enum PagePathname {
   degen = "/degen-vault",
   wheel = "/wheel-vault",
   long = "/long-vault",
-  trading = "/trading",
+  longCall = "/long-call",
+  longPut = "/long-put",
   portfolio = "/portfolio",
 }

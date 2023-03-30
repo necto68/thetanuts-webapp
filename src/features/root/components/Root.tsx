@@ -5,7 +5,7 @@ import { BasicPage } from "../../basic/components";
 import { DegenPage } from "../../degen/components";
 import { WheelPage } from "../../wheel/components";
 import { LongPage } from "../../long/components";
-import { TradingPage } from "../../trading/components";
+import { LongOptionPage } from "../../long-option/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
@@ -111,8 +111,11 @@ export const Root = () => {
                   >
                     <LongPage />
                   </Route>
-                  <Route exact path={RouterPathname.trading}>
-                    <TradingPage />
+                  <Route
+                    exact
+                    path={[RouterPathname.longCall, RouterPathname.longPut]}
+                  >
+                    <LongOptionPage />
                   </Route>
                   <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />

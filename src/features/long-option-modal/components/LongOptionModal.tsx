@@ -4,9 +4,9 @@ import { StrikePriceInput } from "./StrikePriceInput";
 import { ExpirationInput } from "./ExpirationInput";
 import { OrderInfo } from "./OrderInfo";
 import { OrderCostInfo } from "./OrderCostInfo";
-import { Container } from "./TradingModal.styles";
+import { Container } from "./LongOptionModal.styles";
 
-export const TradingModal = () => (
+export const LongOptionModal = () => (
   <Container>
     <Switcher currentTabType="call" onTabButtonClick={() => null} />
     <PositionInput />
