@@ -359,7 +359,7 @@ export const productionDegenVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const productionWheelVaults = [
+export const productionWheelVaults: BasicVaultConfig[] = [
   {
     id: "TN-SMv1-ETHUSDC",
     basicVaultType: BasicVaultType.WHEEL,
@@ -371,7 +371,19 @@ export const productionWheelVaults = [
   },
 ];
 
-export const productionLongVaults = [
+export const productionLongCallVaults: BasicVaultConfig[] = [
+  {
+    id: "L-TN-CSCCv1-MATICUSD",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x9dA79023Af00d1f2054BB1eED0D49004fe41C5b5",
+    },
+  },
+];
+
+export const productionLongPutVaults: BasicVaultConfig[] = [
   {
     id: "L-TN-CSCPv1-BTCUSD",
     basicVaultType: BasicVaultType.LONG,
@@ -417,6 +429,11 @@ export const productionLongVaults = [
       basicVaultAddress: "0xAD57221ae9897DA08656aaaBd5B1D4673d4eDE71",
     },
   },
+];
+
+export const productionLongVaults: BasicVaultConfig[] = [
+  ...productionLongCallVaults,
+  ...productionLongPutVaults,
 ];
 
 export const productionAllBasicVaults = productionBasicVaults.concat(

@@ -74,7 +74,7 @@ export const developWheelVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const developLongVaults: BasicVaultConfig[] = [
+export const developLongCallVaults: BasicVaultConfig[] = [
   {
     id: "L-TN-CSCCv0-ETHUSD-1DAY",
     basicVaultType: BasicVaultType.LONG,
@@ -103,6 +103,11 @@ export const developLongVaults: BasicVaultConfig[] = [
     },
   },
 ];
+
+export const developLongPutVaults: BasicVaultConfig[] = [];
+
+export const developLongVaults =
+  developLongCallVaults.concat(developLongPutVaults);
 
 export const developAllBasicVaults = developBasicVaults.concat(
   developDegenVaults,
