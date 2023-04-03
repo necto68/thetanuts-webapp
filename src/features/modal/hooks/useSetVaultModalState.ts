@@ -17,6 +17,8 @@ const vaultsMaps = {
   [VaultModalType.degen]: basicVaultsMap,
   [VaultModalType.wheel]: basicVaultsMap,
   [VaultModalType.long]: basicVaultsMap,
+  [VaultModalType.longCall]: basicVaultsMap,
+  [VaultModalType.longPut]: basicVaultsMap,
 };
 
 const getVaultType = (
@@ -25,7 +27,9 @@ const getVaultType = (
   basicVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   degenVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   wheelVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
-  longVaultModalUrlMatch: match<VaultModalRouteParameters> | null
+  longVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
+  longCallVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
+  longPutVaultModalUrlMatch: match<VaultModalRouteParameters> | null
 ) => {
   switch (vaultModalUrlMatch) {
     case indexVaultModalUrlMatch:
@@ -38,12 +42,17 @@ const getVaultType = (
       return VaultModalType.wheel;
     case longVaultModalUrlMatch:
       return VaultModalType.long;
+    case longCallVaultModalUrlMatch:
+      return VaultModalType.longCall;
+    case longPutVaultModalUrlMatch:
+      return VaultModalType.longPut;
     default:
       return null;
   }
 };
 
-export const useVaultModalOpen = () => {
+// eslint-disable-next-line complexity
+export const useSetVaultModalState = () => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
 
   const routerHistory = useHistory();
@@ -54,13 +63,17 @@ export const useVaultModalOpen = () => {
   const degenPageUrlMatch = useRouteMatch(PagePathname.degen);
   const wheelPageUrlMatch = useRouteMatch(PagePathname.wheel);
   const longPageUrlMatch = useRouteMatch(PagePathname.long);
+  const longCallPageUrlMatch = useRouteMatch(PagePathname.longCall);
+  const longPutPageUrlMatch = useRouteMatch(PagePathname.longPut);
 
   const pageUrlMatch =
     indexPageUrlMatch ??
     basicPageUrlMatch ??
     degenPageUrlMatch ??
     wheelPageUrlMatch ??
-    longPageUrlMatch;
+    longPageUrlMatch ??
+    longCallPageUrlMatch ??
+    longPutPageUrlMatch;
 
   const indexVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.indexVaultModal
@@ -77,13 +90,21 @@ export const useVaultModalOpen = () => {
   const longVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.longVaultModal
   );
+  const longCallVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
+    ModalPathname.longCallVaultModal
+  );
+  const longPutVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
+    ModalPathname.longPutVaultModal
+  );
 
   const vaultModalUrlMatch =
     indexVaultModalUrlMatch ??
     basicVaultModalUrlMatch ??
     degenVaultModalUrlMatch ??
     wheelVaultModalUrlMatch ??
-    longVaultModalUrlMatch;
+    longVaultModalUrlMatch ??
+    longCallVaultModalUrlMatch ??
+    longPutVaultModalUrlMatch;
 
   const vaultType = getVaultType(
     vaultModalUrlMatch,
@@ -91,8 +112,11 @@ export const useVaultModalOpen = () => {
     basicVaultModalUrlMatch,
     degenVaultModalUrlMatch,
     wheelVaultModalUrlMatch,
-    longVaultModalUrlMatch
+    longVaultModalUrlMatch,
+    longCallVaultModalUrlMatch,
+    longPutVaultModalUrlMatch
   );
+
   const vaultId = vaultModalUrlMatch?.params.vaultId;
 
   useEffect(() => {

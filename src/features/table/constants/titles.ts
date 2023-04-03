@@ -7,6 +7,8 @@ export const vaultTypesPrefixes = {
   [VaultModalType.degen]: "D",
   [VaultModalType.wheel]: "W",
   [VaultModalType.long]: "L",
+  [VaultModalType.longCall]: "L",
+  [VaultModalType.longPut]: "L",
 };
 
 export const basicVaultTypesPrefixes = {

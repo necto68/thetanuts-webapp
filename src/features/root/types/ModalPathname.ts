@@ -6,4 +6,6 @@ export const ModalPathname = {
   degenVaultModal: `/${VaultModalType.degen}/:vaultId`,
   wheelVaultModal: `/${VaultModalType.wheel}/:vaultId`,
   longVaultModal: `/${VaultModalType.long}/:vaultId`,
+  longCallVaultModal: `/${VaultModalType.longCall}/:vaultId`,
+  longPutVaultModal: `/${VaultModalType.longPut}/:vaultId`,
 } as const;

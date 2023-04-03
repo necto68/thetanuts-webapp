@@ -1,4 +1,4 @@
-import { useVaultModalOpen } from "../../modal/hooks";
+import { useSetVaultModalState } from "../../modal/hooks";
 import { useAnalyticsPageview } from "../../root/hooks";
 import { PagePathname } from "../../root/types";
 
@@ -9,7 +9,7 @@ import { Container } from "./ThetaIndexPage.styles";
 export const ThetaIndexPage = () => {
   useAnalyticsPageview(PagePathname.thetaIndex, "Stronghold Vaults");
 
-  useVaultModalOpen();
+  useSetVaultModalState();
 
   return (
     <Container>

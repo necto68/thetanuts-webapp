@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { ComponentContainer } from "./LongOptionLayout.styles";
+import { ComponentContainer } from "./LongOptionContent.styles";
 
 export const Container = styled(ComponentContainer)`
   flex: 1;

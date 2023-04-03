@@ -19,6 +19,8 @@ const modalComponents = {
   [VaultModalType.degen]: DegenVaultModal,
   [VaultModalType.wheel]: WheelVaultModal,
   [VaultModalType.long]: LongVaultModal,
+  [VaultModalType.longCall]: null,
+  [VaultModalType.longPut]: null,
 };
 
 export const useCurrentModalState = (): CurrentModalState => {

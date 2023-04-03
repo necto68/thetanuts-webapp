@@ -24,6 +24,8 @@ const depositTitle = {
   [VaultModalType.degen]: "deposit",
   [VaultModalType.wheel]: "deposit",
   [VaultModalType.long]: "supply",
+  [VaultModalType.longCall]: "supply",
+  [VaultModalType.longPut]: "supply",
 };
 
 interface PriceWarningProps {

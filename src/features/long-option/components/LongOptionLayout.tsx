@@ -1,15 +1,15 @@
-import { LongOptionModal } from "../../long-option-modal/components";
+import { BasicModalStateProvider } from "../../basic-vault-modal/providers/BasicModalStateProvider";
+import { BasicModalMutationsProvider } from "../../basic-vault-modal/providers/BasicModalMutationsProvider";
+import { LongModalMutationsProvider } from "../../long-vault-modal/providers/LongModalMutationsProvider";
 
-import { AssetHeader } from "./AssetHeader";
-import { ChartHeader } from "./ChartHeader";
-import { Container, Content } from "./LongOptionLayout.styles";
+import { LongOptionContent } from "./LongOptionContent";
 
 export const LongOptionLayout = () => (
-  <Container>
-    <AssetHeader />
-    <Content>
-      <ChartHeader />
-      <LongOptionModal />
-    </Content>
-  </Container>
+  <BasicModalStateProvider>
+    <BasicModalMutationsProvider>
+      <LongModalMutationsProvider>
+        <LongOptionContent />
+      </LongModalMutationsProvider>
+    </BasicModalMutationsProvider>
+  </BasicModalStateProvider>
 );

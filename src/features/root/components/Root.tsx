@@ -5,7 +5,10 @@ import { BasicPage } from "../../basic/components";
 import { DegenPage } from "../../degen/components";
 import { WheelPage } from "../../wheel/components";
 import { LongPage } from "../../long/components";
-import { LongOptionPage } from "../../long-option/components";
+import {
+  LongOptionPage,
+  LongOptionRedirect,
+} from "../../long-option/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
@@ -114,6 +117,15 @@ export const Root = () => {
                   <Route
                     exact
                     path={[RouterPathname.longCall, RouterPathname.longPut]}
+                  >
+                    <LongOptionRedirect />
+                  </Route>
+                  <Route
+                    exact
+                    path={[
+                      RouterPathname.longCallVaultModal,
+                      RouterPathname.longPutVaultModal,
+                    ]}
                   >
                     <LongOptionPage />
                   </Route>
