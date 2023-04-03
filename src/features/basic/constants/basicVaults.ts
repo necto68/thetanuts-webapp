@@ -1,4 +1,4 @@
-import type { BasicVaultConfig } from "../types";
+import type { BasicVaultConfig, LongVaultConfig } from "../types";
 import { isTestEnvironment } from "../../shared/constants";
 
 import {
@@ -53,6 +53,13 @@ export const basicVaultsMap: Record<
   BasicVaultConfig | undefined
 > = Object.fromEntries(
   allBasicVaults.map((basicVault) => [basicVault.id, basicVault])
+);
+
+export const longVaultsMap: Record<
+  LongVaultConfig["id"],
+  LongVaultConfig | undefined
+> = Object.fromEntries(
+  longVaults.map((longVault) => [longVault.id, longVault])
 );
 
 // all develop Basic Vaults + BTC and ETH call/put production Basic Vaults

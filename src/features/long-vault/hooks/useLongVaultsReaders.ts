@@ -3,7 +3,7 @@ import { useQueries } from "react-query";
 
 import { QueryType } from "../../shared/types";
 import { longVaultReaderFetcher } from "../helpers";
-import { basicVaultsMap } from "../../basic/constants";
+import { longVaultsMap } from "../../basic/constants";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
 
@@ -11,17 +11,17 @@ export const useLongVaultsReaders = (basicVaultIds: string[]) => {
   const { account = "" } = useWallet();
 
   const readersConfigs = basicVaultIds.map((basicVaultId) => {
-    const basicVaultConfig = basicVaultsMap[basicVaultId];
+    const basicVaultConfig = longVaultsMap[basicVaultId];
 
-    const { basicVaultType = BasicVaultType.BASIC } = basicVaultConfig ?? {};
+    const {
+      basicVaultType = BasicVaultType.BASIC,
+      protocolDataProviderAddress = "",
+    } = basicVaultConfig ?? {};
     const { chainId = ChainId.ETHEREUM, basicVaultAddress = "" } =
       basicVaultConfig?.source ?? {};
 
     const {
-      addresses: {
-        longVaultPositionManagerAddress,
-        longVaultProtocolDataProviderAddress,
-      },
+      addresses: { longVaultPositionManagerAddress },
     } = chainsMap[chainId];
 
     const provider = chainProvidersMap[chainId];
@@ -31,7 +31,7 @@ export const useLongVaultsReaders = (basicVaultIds: string[]) => {
       basicVaultType,
       basicVaultAddress,
       longVaultPositionManagerAddress,
-      longVaultProtocolDataProviderAddress,
+      protocolDataProviderAddress,
       provider,
     };
   });
@@ -43,7 +43,7 @@ export const useLongVaultsReaders = (basicVaultIds: string[]) => {
         basicVaultType,
         basicVaultAddress,
         longVaultPositionManagerAddress,
-        longVaultProtocolDataProviderAddress,
+        protocolDataProviderAddress,
         provider,
       }) => ({
         queryKey: [
@@ -59,7 +59,7 @@ export const useLongVaultsReaders = (basicVaultIds: string[]) => {
             basicVaultType,
             basicVaultAddress,
             longVaultPositionManagerAddress,
-            longVaultProtocolDataProviderAddress,
+            protocolDataProviderAddress,
             account,
             provider
           ),

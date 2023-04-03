@@ -24,7 +24,7 @@ export const longVaultReaderFetcher = async (
   basicVaultType: BasicVaultType,
   basicVaultAddress: string,
   longVaultPositionManagerAddress: string,
-  longVaultProtocolDataProviderAddress: string,
+  protocolDataProviderAddress: string,
   account: string,
   provider: Provider
 ): Promise<LongVaultReader> => {
@@ -36,7 +36,7 @@ export const longVaultReaderFetcher = async (
 
   const longVaultProtocolDataProviderContract =
     ProtocolDataProviderAbiFactory.connect(
-      longVaultProtocolDataProviderAddress,
+      protocolDataProviderAddress,
       provider
     );
 

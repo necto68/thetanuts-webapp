@@ -1,4 +1,4 @@
-import type { BasicVaultConfig } from "../types";
+import type { BasicVaultConfig, LongVaultConfig } from "../types";
 import { BasicVaultType } from "../types";
 import { ChainId } from "../../wallet/constants";
 
@@ -371,7 +371,7 @@ export const productionWheelVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const productionLongCallVaults: BasicVaultConfig[] = [
+export const productionLongCallVaults: LongVaultConfig[] = [
   {
     id: "L-TN-CSCCv1-MATICUSD",
     basicVaultType: BasicVaultType.LONG,
@@ -380,10 +380,12 @@ export const productionLongCallVaults: BasicVaultConfig[] = [
       chainId: ChainId.POLYGON,
       basicVaultAddress: "0x9dA79023Af00d1f2054BB1eED0D49004fe41C5b5",
     },
+
+    protocolDataProviderAddress: "0x6F712293B16bAb8b9f66d1AF979925872A059AAE",
   },
 ];
 
-export const productionLongPutVaults: BasicVaultConfig[] = [
+export const productionLongPutVaults: LongVaultConfig[] = [
   {
     id: "L-TN-CSCPv1-BTCUSD",
     basicVaultType: BasicVaultType.LONG,
@@ -392,6 +394,8 @@ export const productionLongPutVaults: BasicVaultConfig[] = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0x3BA337F3167eA35910E6979D5BC3b0AeE60E7d59",
     },
+
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
     id: "L-TN-CSCPv1-ETHUSD",
@@ -401,6 +405,8 @@ export const productionLongPutVaults: BasicVaultConfig[] = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0xE1c93dE547cc85CBD568295f6CC322B1dbBCf8Ae",
     },
+
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
     id: "L-TN-CSCPv1-AVAXUSD",
@@ -410,6 +416,8 @@ export const productionLongPutVaults: BasicVaultConfig[] = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0x248038fDb6F00f4B636812CA6A7F06b81a195AB8",
     },
+
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
     id: "L-TN-CSCPv1-BNBUSD",
@@ -419,6 +427,8 @@ export const productionLongPutVaults: BasicVaultConfig[] = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0xE5e8caA04C4b9E1C9bd944A2a78a48b05c3ef3AF",
     },
+
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
     id: "L-TN-CSCPv1-MATICUSD",
@@ -428,10 +438,12 @@ export const productionLongPutVaults: BasicVaultConfig[] = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0xAD57221ae9897DA08656aaaBd5B1D4673d4eDE71",
     },
+
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
 ];
 
-export const productionLongVaults: BasicVaultConfig[] = [
+export const productionLongVaults: LongVaultConfig[] = [
   ...productionLongCallVaults,
   ...productionLongPutVaults,
 ];
