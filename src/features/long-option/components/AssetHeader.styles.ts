@@ -8,6 +8,12 @@ export const Container = styled(ComponentContainer)`
   align-items: center;
 `;
 
+export const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
 export const Title = styled.span`
   font-family: "Roboto";
   font-weight: 600;

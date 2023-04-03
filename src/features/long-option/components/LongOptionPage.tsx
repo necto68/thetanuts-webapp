@@ -2,7 +2,7 @@ import { Header } from "../../theta-index/components";
 import { Container } from "../../theta-index/components/ThetaIndexPage.styles";
 import { useSetVaultModalState } from "../../modal/hooks";
 
-import { LongOptionContent } from "./LongOptionContent";
+import { LongOptionLayout } from "./LongOptionLayout";
 
 export const LongOptionPage = () => {
   useSetVaultModalState();
@@ -10,7 +10,7 @@ export const LongOptionPage = () => {
   return (
     <Container>
       <Header />
-      <LongOptionContent />
+      <LongOptionLayout />
     </Container>
   );
 };
