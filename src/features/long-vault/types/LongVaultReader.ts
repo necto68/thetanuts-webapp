@@ -16,4 +16,5 @@ export interface LongVaultReader {
   minSupplyValue: number;
   maxSupplyValue: number;
   borrowRemainder: number;
+  borrowRate: number;
 }

@@ -118,25 +118,30 @@ export const longVaultReaderFetcher = async (
 
   const priceDivisor = new Big(10).pow(8);
 
-  const [debtTokenPrice, debtTokenAddress, rawBorrowPending, minBorrowValue] =
-    await Promise.all([
-      priceOracleContract
-        .getAssetPrice(basicVaultAddress)
-        .then((value) => convertToBig(value).div(priceDivisor).toNumber()),
-      lendingPoolContract
-        .getReserveData(basicVaultAddress)
-        .then((data) => data.variableDebtTokenAddress),
-      account
-        ? longVaultPositionManagerContract.callStatic
-            .cancelQueue(basicVaultAddress, lendingPoolAddress, {
-              from: account,
-            })
-            .then(convertToBig)
-        : null,
-      longVaultPositionManagerContract
-        .minQueueValue()
-        .then((value) => convertToBig(value).div(priceDivisor)),
-    ]);
+  const [
+    debtTokenPrice,
+    {
+      variableDebtTokenAddress: debtTokenAddress,
+      currentVariableBorrowRate: rawCurrentVariableBorrowRate,
+    },
+    rawBorrowPending,
+    minBorrowValue,
+  ] = await Promise.all([
+    priceOracleContract
+      .getAssetPrice(basicVaultAddress)
+      .then((value) => convertToBig(value).div(priceDivisor).toNumber()),
+    lendingPoolContract.getReserveData(basicVaultAddress),
+    account
+      ? longVaultPositionManagerContract.callStatic
+          .cancelQueue(basicVaultAddress, lendingPoolAddress, {
+            from: account,
+          })
+          .then(convertToBig)
+      : null,
+    longVaultPositionManagerContract
+      .minQueueValue()
+      .then((value) => convertToBig(value).div(priceDivisor)),
+  ]);
 
   const balanceDivisor = collateralToken.tokenDivisor;
   const availableLiquidity = convertToBig(rawAvailableLiquidity).div(
@@ -169,6 +174,11 @@ export const longVaultReaderFetcher = async (
     .toNumber();
 
   const balance = supplyCap.sub(maxSupplyValue);
+
+  const borrowRateDivisor = new Big(10).pow(25);
+  const borrowRate = convertToBig(rawCurrentVariableBorrowRate)
+    .div(borrowRateDivisor)
+    .toNumber();
 
   const debtTokenContract = DebtTokenAbiFactory.connect(
     debtTokenAddress,
@@ -223,5 +233,6 @@ export const longVaultReaderFetcher = async (
     minSupplyValue,
     maxSupplyValue,
     borrowRemainder,
+    borrowRate,
   };
 };
