@@ -3,7 +3,7 @@ import {
   Title,
   Input,
   InputContainer,
-} from "./PositionInput.styles";
+} from "./CollateralInput.styles";
 
 export const StrikePriceInput = () => (
   <Container>

@@ -64,7 +64,7 @@ export const SwapInputCardAnimateContainer = styled.div<{ disabled?: boolean }>`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 15px;
   background-color: ${({ disabled }) => (disabled ? "#949494" : "#323844")};
 `;
