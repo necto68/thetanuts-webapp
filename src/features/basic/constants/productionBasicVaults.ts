@@ -313,7 +313,7 @@ export const productionBasicVaults: BasicVaultConfig[] = [
 
     source: {
       chainId: ChainId.ARBITRUM,
-      basicVaultAddress: "0x156D422436F4441dDE6ac0aB41ff58C9258C438B",
+      basicVaultAddress: "0x0833EC3262Dcc417D88f85Ed5E1EBAf768080f41",
     },
   },
 ];
