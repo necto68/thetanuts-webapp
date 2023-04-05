@@ -12,7 +12,7 @@ export enum ChainId {
   BOBA = 288,
   CRONOS = 25,
   AURORA = 1_313_161_554,
-  ARBITRUM = 42161
+  ARBITRUM = 42_161,
 }
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
@@ -26,7 +26,7 @@ export const chainIconSymbols: Record<ChainId, string> = {
   [ChainId.BOBA]: "BOBA",
   [ChainId.CRONOS]: "CRO",
   [ChainId.AURORA]: "AURORA",
-  [ChainId.ARBITRUM]: "ARBITRUM",
+  [ChainId.ARBITRUM]: "ARB",
 };
 
 export const chains: ChainConfig[] = [
@@ -295,16 +295,16 @@ export const chains: ChainConfig[] = [
     symbol: "ETH",
 
     urls: {
-      rpc: "https://arb1.arbitrum.io/rpc",
+      rpc: "https://rpc.ankr.com/arbitrum",
       explorer: "https://arbiscan.io/",
       explorerApi: "https://api.arbiscan.io/",
     },
 
     keys: {
       explorerApi: [
-        "TNBBN9GNQTQEXEFUW7UC5JFK4KD5NPWFBY",
-        "TNBBN9GNQTQEXEFUW7UC5JFK4KD5NPWFBY",
-        "TNBBN9GNQTQEXEFUW7UC5JFK4KD5NPWFBY",
+        "X2ETFTJS4ZZVPDNKF9EQ891ZHGVZHHTF9G",
+        "6IM79QYRMFRNITXQBYTE7PWP6GX7DP3DA4",
+        "2I5YPG6JH5UN48GKPYRVEHPY2TTRCYDDDE",
       ],
     },
 
@@ -313,7 +313,7 @@ export const chains: ChainConfig[] = [
       lendingPoolAddress: ZERO_ADDRESS,
       directDepositorAddress: ZERO_ADDRESS,
       directWithdrawalAddress: ZERO_ADDRESS,
-      basicVaultReaderAddress: ZERO_ADDRESS,
+      basicVaultReaderAddress: "0xE061c3E9eec0AbD0a21AF480F48D4FeA538a6C66",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
