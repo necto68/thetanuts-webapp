@@ -13,15 +13,14 @@ import {
 // import { ExpirationInput } from "./ExpirationInput";
 import { CollateralInput } from "./CollateralInput";
 import { OrderInfo } from "./OrderInfo";
-import { OrderCostInfo } from "./OrderCostInfo";
-import { Container } from "./LongOptionModal.styles";
+import { Container, Separator } from "./LongOptionModal.styles";
 
 export const LongOptionModal = () => (
   <Container>
     {/* <Switcher currentTabType="call" onTabButtonClick={() => null} /> */}
     <CollateralInput />
+    <Separator />
     <OrderInfo />
-    <OrderCostInfo />
     <BasicCardWarning />
     <DepositMainButton />
   </Container>

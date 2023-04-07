@@ -1,6 +1,5 @@
-import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
-import { VaultType } from "../../basic-vault/types";
-import { getVaultTypeStrategy } from "../../index-vault/helpers";
+import { useLongModalConfig } from "../../long-vault-modal/hooks";
+import { numberFormatter } from "../../shared/helpers";
 
 import {
   Container,
@@ -10,41 +9,33 @@ import {
 } from "./OrderInfo.styles";
 
 export const OrderInfo = () => {
-  const { basicVaultQuery } = useBasicModalConfig();
-  const { data, isLoading } = basicVaultQuery;
-  const { type = VaultType.CALL, assetSymbol = "" } = data ?? {};
+  const { longVaultReaderQuery } = useLongModalConfig();
+  const { data, isLoading } = longVaultReaderQuery;
+  const { borrowRate = 0 } = data ?? {};
 
-  const strategy = getVaultTypeStrategy(type);
+  const formattedBorrowRate = numberFormatter.format(borrowRate);
 
   const loadingPlaceholder = ".....";
 
   return (
     <Container>
       <InfoContainer>
-        <InfoTitle>Type</InfoTitle>
-        <InfoValue>
-          {isLoading ? loadingPlaceholder : `Long ${strategy}`}
-        </InfoValue>
-      </InfoContainer>
-      <InfoContainer>
-        <InfoTitle>Pool</InfoTitle>
-        <InfoValue>
-          {isLoading
-            ? loadingPlaceholder
-            : `10 Delta ${assetSymbol} Long ${strategy}`}
-        </InfoValue>
+        <InfoTitle>IV</InfoTitle>
+        <InfoValue>XX.XX%</InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoTitle>Leverage</InfoTitle>
         <InfoValue>10x</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoTitle>Profit Zone</InfoTitle>
-        <InfoValue>{"<$XX.XX"}</InfoValue>
+        <InfoTitle>Spread Cost</InfoTitle>
+        <InfoValue>X.XX%</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoTitle>Max Loss Zone</InfoTitle>
-        <InfoValue>{">$XX.XX"}</InfoValue>
+        <InfoTitle>Borrowing Fee</InfoTitle>
+        <InfoValue>
+          {isLoading ? loadingPlaceholder : `${formattedBorrowRate}%`}
+        </InfoValue>
       </InfoContainer>
     </Container>
   );

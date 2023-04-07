@@ -8,3 +8,9 @@ export const Container = styled(ComponentContainer)`
   padding: 16px;
   width: 344px;
 `;
+
+export const Separator = styled.div`
+  display: flex;
+  height: 1px;
+  background: #323844;
+`;

@@ -1,11 +1,11 @@
 import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
-import type { FC } from "react";
+import { memo } from "react";
 
 import type { ChartProps } from "../types/Chart";
 
 import { Container } from "./Chart.styles";
 
-export const Chart: FC<ChartProps> = ({ chartSymbol }) => (
+const Chart = memo(({ chartSymbol }: ChartProps) => (
   <Container>
     <AdvancedRealTimeChart
       allow_symbol_change={false}
@@ -23,4 +23,8 @@ export const Chart: FC<ChartProps> = ({ chartSymbol }) => (
       withdateranges={false}
     />
   </Container>
-);
+));
+
+Chart.displayName = "Chart";
+
+export { Chart };
