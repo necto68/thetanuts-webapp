@@ -381,6 +381,7 @@ export const productionLongCallVaults: LongVaultConfig[] = [
       basicVaultAddress: "0x9dA79023Af00d1f2054BB1eED0D49004fe41C5b5",
     },
 
+    chartSymbol: "MATICUSDT",
     protocolDataProviderAddress: "0x6F712293B16bAb8b9f66d1AF979925872A059AAE",
   },
 ];
@@ -395,6 +396,7 @@ export const productionLongPutVaults: LongVaultConfig[] = [
       basicVaultAddress: "0x3BA337F3167eA35910E6979D5BC3b0AeE60E7d59",
     },
 
+    chartSymbol: "BTCUSDT",
     protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
@@ -406,6 +408,7 @@ export const productionLongPutVaults: LongVaultConfig[] = [
       basicVaultAddress: "0xE1c93dE547cc85CBD568295f6CC322B1dbBCf8Ae",
     },
 
+    chartSymbol: "ETHUSDT",
     protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
@@ -417,6 +420,7 @@ export const productionLongPutVaults: LongVaultConfig[] = [
       basicVaultAddress: "0x248038fDb6F00f4B636812CA6A7F06b81a195AB8",
     },
 
+    chartSymbol: "AVAXUSDT",
     protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
@@ -428,6 +432,7 @@ export const productionLongPutVaults: LongVaultConfig[] = [
       basicVaultAddress: "0xE5e8caA04C4b9E1C9bd944A2a78a48b05c3ef3AF",
     },
 
+    chartSymbol: "BNBUSDT",
     protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
@@ -439,6 +444,7 @@ export const productionLongPutVaults: LongVaultConfig[] = [
       basicVaultAddress: "0xAD57221ae9897DA08656aaaBd5B1D4673d4eDE71",
     },
 
+    chartSymbol: "MATICUSDT",
     protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
 ];

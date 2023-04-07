@@ -1,14 +1,14 @@
 import { LongOptionModal } from "../../long-option-modal/components";
 
 import { AssetHeader } from "./AssetHeader";
-import { ChartHeader } from "./ChartHeader";
+import { AssetChart } from "./AssetChart";
 import { Container, Content } from "./LongOptionContent.styles";
 
 export const LongOptionContent = () => (
   <Container>
     <AssetHeader />
     <Content>
-      <ChartHeader />
+      <AssetChart />
       <LongOptionModal />
     </Content>
   </Container>

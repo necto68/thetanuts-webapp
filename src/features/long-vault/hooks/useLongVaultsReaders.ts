@@ -11,14 +11,14 @@ export const useLongVaultsReaders = (basicVaultIds: string[]) => {
   const { account = "" } = useWallet();
 
   const readersConfigs = basicVaultIds.map((basicVaultId) => {
-    const basicVaultConfig = longVaultsMap[basicVaultId];
+    const longVaultConfig = longVaultsMap[basicVaultId];
 
     const {
       basicVaultType = BasicVaultType.BASIC,
       protocolDataProviderAddress = "",
-    } = basicVaultConfig ?? {};
+    } = longVaultConfig ?? {};
     const { chainId = ChainId.ETHEREUM, basicVaultAddress = "" } =
-      basicVaultConfig?.source ?? {};
+      longVaultConfig?.source ?? {};
 
     const {
       addresses: { longVaultPositionManagerAddress },
