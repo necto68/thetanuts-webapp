@@ -34,6 +34,8 @@ export const BoostCurrentPositionInfo = () => {
 
   const boostBalance = activePositionData?.balance?.toNumber()
 
+  const boostSymbol = basicVaultData?.id
+
   const tooltipContents = {
     [BasicVaultType.BASIC]:
       "Refers to the user's current active position in the option vault. If the user has made a deposit during mid-epoch, although it appears in the current position, no premiums would be generated on that deposited amount until the new epoch has started. Premiums generated from previous epochs would be included into the user's current position.",
@@ -53,7 +55,7 @@ export const BoostCurrentPositionInfo = () => {
   const loadingPlaceholder = ".....";
 
   const formattedCurrentPosition = boostBalance
-    ? `${assetFormatter.format(boostBalance)} ${collateralSymbol}`
+    ? `${assetFormatter.format(boostBalance)} ${boostSymbol}`
     : "N/A";
 
   return (

@@ -14,11 +14,12 @@ export interface BoostExpanderProps {
   title: string;
   onClick?: () => void;
   currentPosition: number; // Add currentPosition prop here
+  suppliedTokenAddress: string;
   // to: string;
 }
 
-export const BoostExpander: FC<BoostExpanderProps> = ({ title, onClick, currentPosition }) => (
-  <Container currentPosition={currentPosition} onClick={onClick}>
+export const BoostExpander: FC<BoostExpanderProps> = ({ title, onClick, currentPosition, suppliedTokenAddress }) => (
+  <Container currentPosition={currentPosition} suppliedTokenAddress={suppliedTokenAddress} onClick={onClick}>
     <HeaderLink>
       <Title>{title}</Title>
       <Rocket />

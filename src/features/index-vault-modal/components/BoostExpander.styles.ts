@@ -5,6 +5,7 @@ import { BaseButton } from "../../shared/components";
 
 interface BoostExpanderProps {
   currentPosition: number;
+  suppliedTokenAddress: string;
 }
 
 export const Container = styled.span<BoostExpanderProps>`
@@ -12,15 +13,15 @@ export const Container = styled.span<BoostExpanderProps>`
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  background-color: ${({ currentPosition }) =>
-    currentPosition > 0 ? "#17B579" : "#323844"};
+  background-color: ${({ currentPosition, suppliedTokenAddress }) =>
+    currentPosition > 0 && suppliedTokenAddress !== "0x0000000000000000000000000000000000000000" ? "#17B579" : "#323844"};
   border-width: 1px;
   border-style: solid;
-  cursor: ${({ currentPosition }) =>
-    currentPosition > 0 ? "pointer" : "default"}; // Set cursor to "pointer" if currentPosition > 0
+  cursor: ${({ currentPosition, suppliedTokenAddress }) =>
+    currentPosition > 0 && suppliedTokenAddress !== "0x0000000000000000000000000000000000000000" ? "pointer" : "default"}; // Set cursor to "pointer" if currentPosition > 0
   &:hover {
-    cursor: ${({ currentPosition }) =>
-      currentPosition > 0 ? "pointer" : "default"}; // Set cursor to "pointer" if currentPosition > 0
+    cursor: ${({ currentPosition, suppliedTokenAddress }) =>
+      currentPosition > 0 && suppliedTokenAddress !== "0x0000000000000000000000000000000000000000" ? "pointer" : "default"}; // Set cursor to "pointer" if currentPosition > 0
   }
 `;
 

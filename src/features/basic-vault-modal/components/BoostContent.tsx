@@ -23,7 +23,7 @@ export const BoostContent = () => {
   const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
 
   const handleButtonClick = useCallback(() => {
-    if (lpBalanceNumber > 0) {
+    if (lpBalanceNumber > 0 && aTokenAddress !== "0x0000000000000000000000000000000000000000") {
       setVaultModalState({
         ...vaultModalState,
         isShow: true,
@@ -38,6 +38,7 @@ export const BoostContent = () => {
       onClick={handleButtonClick}
       title={aTokenAddress !== "0x0000000000000000000000000000000000000000" ? `Boost APY = ${formattedAPY}%` : 'Boost is Unavailable'}
       currentPosition={lpBalanceNumber}
+      suppliedTokenAddress={aTokenAddress || ""}
     />
   );
   
