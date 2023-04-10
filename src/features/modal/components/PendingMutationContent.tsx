@@ -2,14 +2,15 @@ import type { FC } from "react";
 import { useCallback, useMemo, useState } from "react";
 import Lottie from "react-lottie-player";
 
-import pendingMutation from "../animations/pendingMutation.json";
-import succeedMutation from "../animations/succeedMutation.json";
+import pendingMutationNew from "../animations/pendingMutationNew.json";
+import succeedMutationNew from "../animations/succeedMutationNew.json";
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
 import { Link } from "../../shared/components";
 import { useVaultModalState } from "../hooks";
 import type { ChainId } from "../../wallet/constants";
 import { getPagePathname } from "../../root/helpers";
+import { useBasicModalConfig } from "../../basic-vault-modal/hooks/useBasicModalConfig";
 
 import {
   Container,
@@ -49,10 +50,13 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   successTitle,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
-  const { isRouterModal, vaultType } = vaultModalState;
+  const { isRouterModal, vaultType, isBoostContentShown } = vaultModalState;
+  const { basicVaultReaderQuery, lendingPoolReaderQuery } = useBasicModalConfig();
+
+  const { data: lendingPoolReaderData, isLoading: isBasicVaultLoading } = lendingPoolReaderQuery;
 
   const pathname = getPagePathname(vaultType);
-  const pageRoute = isRouterModal ? { pathname } : {};
+  // const pageRoute = isRouterModal ? { pathname } : {};
 
   // background animation
   const [isFirstLoopCompleted, setIsFirstLoopCompleted] = useState(false);
@@ -64,40 +68,40 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   }, [isFirstLoopCompleted]);
 
   const backgroundAnimationSegments = useMemo<[number, number]>(
-    () => (isFirstLoopCompleted ? [38, 80] : [0, 80]),
+    () => (isFirstLoopCompleted ? [0, 100] : [0, 100]),
     [isFirstLoopCompleted]
   );
 
-  // close button
   const handleCloseButtonClick = useCallback(() => {
-    setVaultModalState((previousState) => ({
-      ...previousState,
-      isShow: false,
-    }));
-  }, [setVaultModalState]);
+    setVaultModalState({...vaultModalState, 
+      isBoostContentShown: true});
+  }, [setVaultModalState, vaultModalState]);
 
   const transactionUrl = getExplorerUrl(PathType.tx, chainId, mutationHash);
+
+  const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
+  const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
 
   return (
     <Container>
       {isMutationSucceed ? (
         <BackgroundAnimationContainer>
           <Lottie
-            animationData={succeedMutation}
+            animationData={succeedMutationNew}
             loop
             onLoopComplete={handleLoopComplete}
             play
-            segments={backgroundAnimationSegments}
+            // segments={backgroundAnimationSegments}
           />
         </BackgroundAnimationContainer>
       ) : null}
       <ContentContainer>
         <InfoContainer>
-          <AnimationContainer isShow={!isMutationSucceed}>
-            <Lottie animationData={pendingMutation} loop play />
-          </AnimationContainer>
-          <Title>{isMutationSucceed ? successTitle : pendingTitle}</Title>
-          <RatioTitleContainer>
+          {/* <AnimationContainer isShow={!isMutationSucceed}>
+            <Lottie animationData={pendingMutationNew} loop play />
+          </AnimationContainer> */}
+          <Title>
+            {isMutationSucceed ? successTitle : pendingTitle}
             {sourceTokenData ? (
               <RatioTitle>{`${sourceTokenData.value} ${sourceTokenData.symbol}`}</RatioTitle>
             ) : null}
@@ -105,7 +109,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             {targetTokenData ? (
               <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>
             ) : null}
-          </RatioTitleContainer>
+          </Title>
           <TransactionLink
             href={transactionUrl}
             isMutationSucceed={isMutationSucceed}
@@ -114,11 +118,11 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             View Transaction in Explorer
           </TransactionLink>
         </InfoContainer>
-        <Link to={pageRoute}>
+        {!isBoostContentShown && isMutationSucceed && (
           <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
-            Close
+            {`Boost for ${formattedAPY}% more yield`}
           </CloseButton>
-        </Link>
+        )}
       </ContentContainer>
     </Container>
   );

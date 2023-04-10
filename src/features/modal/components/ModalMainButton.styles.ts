@@ -12,8 +12,8 @@ export const ModalMainButton = styled(
   motion.button
 ).attrs<ModalMainButtonProps>(
   ({
-    primaryColor = "#dddddd",
-    secondaryColor = "#9f9f9f",
+    primaryColor = "#323844",
+    secondaryColor = "#ffffff",
     disabled = false,
     isLoading = false,
   }) => ({

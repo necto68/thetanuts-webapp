@@ -182,6 +182,13 @@ export const WithdrawMainButton = () => {
     return <LoadingMainButton>{loadingButtonTitle}</LoadingMainButton>;
   }
 
+  const withdrawalPendingNumber = withdrawalPending?.toNumber();
+
+  if (withdrawalPendingNumber > 0) {
+    return null; // Return nothing
+  }
+  
+  // Continue with the component's rendering logic
   return isMainButtonDisabled ? (
     <ModalMainButton disabled>{buttonTitle}</ModalMainButton>
   ) : (

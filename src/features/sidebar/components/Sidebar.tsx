@@ -11,6 +11,8 @@ import {
   Medium,
   Discord,
   Substack,
+  TriangleDown,
+  TriangleUp,
 } from "../icons";
 import { CircleButton, CircleButtonIconType } from "../../shared/components";
 import { PagePathname } from "../../root/types";
@@ -43,6 +45,22 @@ const sellingOptions = [
     linkTitle: "Basic Vaults",
     navIcon: BasicPage,
   },
+];
+
+const buyingOptions = [
+  {
+    to: PagePathname.long,
+    linkTitle: "Calls",
+    navIcon: TriangleUp,
+  },
+  {
+    to: PagePathname.long,
+    linkTitle: "Puts",
+    navIcon: TriangleDown,
+  },
+];
+
+const exoticOptions = [
   {
     to: PagePathname.degen,
     linkTitle: "Degen Vaults",
@@ -53,14 +71,6 @@ const sellingOptions = [
     to: PagePathname.wheel,
     linkTitle: "Wheel Vaults",
     navIcon: WheelPage,
-  },
-];
-
-const buyingOptions = [
-  {
-    to: PagePathname.long,
-    linkTitle: "Long Vaults",
-    navIcon: LongPage,
   },
 ];
 
@@ -133,11 +143,11 @@ export const Sidebar = () => {
         </CircleButtonContainer>
       </LogoContainer>
       <MainNavContainer>
-        <MainNavTitle>Selling Options</MainNavTitle>
+        <MainNavTitle>Short Options</MainNavTitle>
         {sellingOptions.map((navItem) => (
           <SidebarItem
             active={pathname === navItem.to}
-            iconColor={navItem.iconColor}
+            // iconColor={navItem.iconColor}
             key={navItem.linkTitle}
             linkTitle={navItem.linkTitle}
             navIcon={navItem.navIcon}
@@ -146,8 +156,20 @@ export const Sidebar = () => {
         ))}
       </MainNavContainer>
       <MainNavContainer>
-        <MainNavTitle>Buying Options</MainNavTitle>
+        <MainNavTitle>Long Options</MainNavTitle>
         {buyingOptions.map((navItem) => (
+          <SidebarItem
+            active={pathname === navItem.to}
+            key={navItem.linkTitle}
+            linkTitle={navItem.linkTitle}
+            navIcon={navItem.navIcon}
+            to={navItem.to}
+          />
+        ))}
+      </MainNavContainer>
+      <MainNavContainer>
+        <MainNavTitle>Exotic Options</MainNavTitle>
+        {exoticOptions.map((navItem) => (
           <SidebarItem
             active={pathname === navItem.to}
             key={navItem.linkTitle}

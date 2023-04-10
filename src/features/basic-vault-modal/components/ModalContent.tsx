@@ -1,4 +1,5 @@
 import { AnimatePresence } from "framer-motion";
+import { useVaultModalState } from "../../modal/hooks";
 
 import {
   Container,
@@ -8,17 +9,28 @@ import { useBasicModalMutations } from "../hooks";
 
 import { BasicModalContent } from "./BasicModalContent";
 import { BasicModalPendingMutationContent } from "./BasicModalPendingMutationContent";
+import { BoostModalPendingMutationContent } from "./BoostModalPendingMutationContent";
+import { BoostModalContent } from "./BoostModalContent";
 
 export const ModalContent = () => {
-  const { mutationHash } = useBasicModalMutations();
+  const { mutationHash, boostHash } = useBasicModalMutations();
+  const [vaultModalState] = useVaultModalState();
+  const { isBoostContentShown } = vaultModalState;
 
   const isShowPendingMutation = Boolean(mutationHash);
+  const isShowPendingBoostMutation = Boolean(boostHash);
 
   return (
     <Container>
       <AnimatePresence exitBeforeEnter>
         <ContentAnimatedContainer>
-          {isShowPendingMutation ? (
+          {isBoostContentShown ? (
+            isShowPendingBoostMutation ? (
+              <BoostModalPendingMutationContent />
+            ) : (
+              <BoostModalContent />
+            )
+          ) : isShowPendingMutation ? (
             <BasicModalPendingMutationContent />
           ) : (
             <BasicModalContent />

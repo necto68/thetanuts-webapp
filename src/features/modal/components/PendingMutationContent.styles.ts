@@ -2,19 +2,26 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { screens } from "../../shared/constants";
-import { BaseButton } from "../../shared/components";
+import { BoostButton } from "../../shared/components";
 
 export const Container = styled.div`
   display: flex;
   position: relative;
   flex-direction: column;
   justify-content: end;
-  min-height: 575px;
+  min-height: 409px;
+  min-width: 432px;
 `;
 
 export const BackgroundAnimationContainer = styled.div`
-  position: absolute;
-  z-index: 1;
+  position: relative;
+  // z-index: 1;
+  // flex: 1;
+  width: 147px; 
+  height: 147px; 
+  top: 100px; /* update to be relative to the Container */
+  left: 50%; /* update to be relative to the Container */
+  transform: translate(-50%, -50%);
 `;
 
 export const ContentContainer = styled.div`
@@ -38,14 +45,15 @@ export const InfoContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 25px;
+  text-align: center;
 `;
 
 export const Title = styled.span`
   font-family: Barlow;
-  font-weight: 700;
-  font-size: 40px;
+  font-weight: 600;
+  font-size: 25px;
   color: #ffffff;
-  text-align: center;
+  // text-align: center;
 `;
 
 export const AnimationContainer = styled(motion.div).attrs<{ isShow: boolean }>(
@@ -63,14 +71,14 @@ export const AnimationContainer = styled(motion.div).attrs<{ isShow: boolean }>(
 
 export const RatioTitleContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
+  align-items: center;
+  margin-left: 10px;
 `;
 
 export const RatioTitle = styled(Title)`
-  font-size: 23px;
+  font-size: 25px;
   color: #ffffff;
+  white-space: nowrap;
 `;
 
 export const ToTitle = styled(RatioTitle)`
@@ -83,14 +91,14 @@ export const TransactionLink = styled(motion.a).attrs<{
   initial: false,
 
   animate: {
-    color: isMutationSucceed ? "#061F3A" : "#1FFFAB",
+    color: isMutationSucceed ? "#1FFFAB" : "#1FFFAB",
   },
 }))<{ isMutationSucceed: boolean }>`
   font-family: Barlow;
-  font-weight: 700;
-  font-size: 17px;
+  font-weight: 600;
+  font-size: 20px;
 `;
 
-export const CloseButton = styled(BaseButton)`
+export const CloseButton = styled(BoostButton)`
   width: 100%;
 `;

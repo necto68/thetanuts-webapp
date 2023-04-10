@@ -10,3 +10,6 @@ export * from "./ArrowBack";
 export * from "./ArrowFront";
 export * from "./Plus";
 export * from "./Chain";
+export * from "./NavigateBack";
+export * from "./Rocket";
+export * from "./NewWindow";

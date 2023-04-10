@@ -16,10 +16,13 @@ import { useVaultModalState } from "../../modal/hooks";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
+import { LPOOL_ADDRESS } from "../constants";
+import { lendingPoolTokenAddresses } from "../constants";
+
 // eslint-disable-next-line complexity
 export const useBasicModalProviderState = (): BasicModalState => {
   const [vaultModalState] = useVaultModalState();
-  const { tabType } = vaultModalState;
+  const { tabType, isBoostContentShown, vaultId } = vaultModalState;
   const [inputValue, setInputValue] = useState("");
   const [isUseNativeData, setIsUseNativeData] = useState(false);
 
@@ -27,7 +30,6 @@ export const useBasicModalProviderState = (): BasicModalState => {
     setInputValue("");
     setIsUseNativeData(false);
   }, [tabType]);
-
   const {
     collateralTokenAddress,
     routerAddress,
@@ -36,6 +38,20 @@ export const useBasicModalProviderState = (): BasicModalState => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
+
+  // for boosting - get vault address instead of native token
+  let updatedCollateralTokenAddress = collateralTokenAddress;
+  if (isBoostContentShown && tabType === "deposit") {
+    updatedCollateralTokenAddress = spenderAddress;
+  } else if (isBoostContentShown && tabType === "withdraw") {
+    const lendingPoolToken = lendingPoolTokenAddresses.find(token => token.id === vaultId);
+    if (lendingPoolToken) {
+      updatedCollateralTokenAddress = lendingPoolToken.source.suppliedTokenAddress;
+    }
+  }
+
+  const updatedSpenderAddress = isBoostContentShown ? LPOOL_ADDRESS : spenderAddress;
+
   const { longVaultReaderQuery } = useLongModalConfig();
 
   const inputValueBig = new Big(inputValue || 0);
@@ -56,9 +72,10 @@ export const useBasicModalProviderState = (): BasicModalState => {
   const { minSupplyValue = 0, maxSupplyValue = Number.MAX_SAFE_INTEGER } =
     longVaultReaderData ?? {};
 
+
   const collateralTokenQuery = useTokenQuery(
-    collateralTokenAddress,
-    spenderAddress,
+    updatedCollateralTokenAddress,
+    updatedSpenderAddress,
     provider
   );
 
@@ -86,9 +103,9 @@ export const useBasicModalProviderState = (): BasicModalState => {
         allowance: convertToBig(constants.MaxUint256),
       }
     : undefined;
-
+  
   const tokenData =
-    tabType === TabType.deposit ? collateralTokenData : withdrawalTokenData;
+    tabType === TabType.withdraw && !isBoostContentShown ? withdrawalTokenData : collateralTokenData;
 
   // use the same price for Deposit/Withdraw tab
   const priceValue = inputValueBig.mul(collateralPrice).toNumber();

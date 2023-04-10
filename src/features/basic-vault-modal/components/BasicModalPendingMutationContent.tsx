@@ -51,10 +51,10 @@ export const BasicModalPendingMutationContent = () => {
     symbol: tokenData?.symbol ?? "",
   };
 
-  const pendingTitle = isDepositMutation ? "Depositing..." : "Withdrawing...";
+  const pendingTitle = isDepositMutation ? "Depositing... " : "Withdrawing... ";
   const successTitle = isDepositMutation
-    ? "Deposit Successful"
-    : "Withdraw Successful";
+    ? "Successfully Deposited "
+    : "Withdraw Successful ";
 
   return (
     <PendingMutationContent

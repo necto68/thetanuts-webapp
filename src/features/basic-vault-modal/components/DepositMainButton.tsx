@@ -249,7 +249,7 @@ export const DepositMainButton = () => {
 
     handleMainButtonClick = runOpenPosition;
   } else {
-    buttonTitle = "Initiate Deposit";
+    buttonTitle = "Enter An Amount";
     handleMainButtonClick = runDeposit;
   }
 
@@ -261,7 +261,7 @@ export const DepositMainButton = () => {
       primaryColor="#12CC86"
       secondaryColor="#ffffff"
     >
-      {buttonTitle}
+      {"Initiate Deposit"}
     </ModalMainButton>
   );
 };

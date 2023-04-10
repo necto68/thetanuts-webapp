@@ -14,6 +14,7 @@ export interface VaultModalState {
   isRouterModal?: boolean;
   contentType?: ModalContentType;
   withdrawId?: number;
+  isBoostContentShown: boolean;
 }
 
 export interface GlobalState {
@@ -26,5 +27,6 @@ export const { useGlobalState } = createGlobalState<GlobalState>({
     vaultType: VaultModalType.index,
     tabType: TabType.deposit,
     vaultId: "",
+    isBoostContentShown: false,
   },
 });

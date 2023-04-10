@@ -135,6 +135,7 @@ export const useVaultModalOpen = () => {
       setVaultModalState((previousState) => ({
         ...previousState,
         isShow: false,
+        isBoostContentShown: false,
       }));
     }
   }, [
