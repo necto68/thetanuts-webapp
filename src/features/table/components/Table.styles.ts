@@ -17,10 +17,10 @@ export const TableContainerWrapper = styled.div`
   overflow-x: auto;
 `;
 
-export const TableContainer = styled.table`
+export const TableContainer = styled.table<{ minWidth: number }>`
   border-collapse: collapse;
-  min-width: 1000px;
   width: 100%;
+  min-width: ${({ minWidth }) => minWidth}px;
   border: 1px solid ${({ theme }: Theme<AppTheme>) => theme.borderColor};
 `;
 
@@ -43,7 +43,7 @@ export const TooltipContainer = styled.div`
 export const HeaderCell = styled.th.withConfig({
   shouldForwardProp: (property, defaultValidatorFunction) =>
     ["align"].includes(property) || defaultValidatorFunction(property),
-})<{ minWidth?: string }>`
+})<{ minWidth?: number }>`
   &:first-child {
     ${SortContainer} {
       padding-left: 15px;

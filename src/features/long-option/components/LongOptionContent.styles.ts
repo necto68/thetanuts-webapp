@@ -13,6 +13,10 @@ export const Container = styled.div`
   gap: 8px;
 `;
 
+export const AssetChartColumnContainer = styled(Container)`
+  flex: 1;
+`;
+
 export const Content = styled.div`
   display: flex;
   gap: 8px;
