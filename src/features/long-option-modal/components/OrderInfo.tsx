@@ -9,10 +9,19 @@ import {
 } from "./OrderInfo.styles";
 
 export const OrderInfo = () => {
-  const { longVaultReaderQuery } = useLongModalConfig();
-  const { data, isLoading } = longVaultReaderQuery;
-  const { borrowRate = 0 } = data ?? {};
+  const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
 
+  const { data: longVaultReaderData, isLoading: isLongVaultReaderLoading } =
+    longVaultReaderQuery;
+  const { data: collateralAssetData, isLoading: isCollateralAssetLoading } =
+    collateralAssetQuery;
+
+  const { borrowRate = 0 } = longVaultReaderData ?? {};
+  const { availableLeverage = 1 } = collateralAssetData ?? {};
+
+  const isLoading = isLongVaultReaderLoading || isCollateralAssetLoading;
+
+  const formattedLeverage = numberFormatter.format(availableLeverage);
   const formattedBorrowRate = numberFormatter.format(borrowRate);
 
   const loadingPlaceholder = ".....";
@@ -25,7 +34,9 @@ export const OrderInfo = () => {
       </InfoContainer>
       <InfoContainer>
         <InfoTitle>Leverage</InfoTitle>
-        <InfoValue>10x</InfoValue>
+        <InfoValue>
+          {isLoading ? loadingPlaceholder : `${formattedLeverage}x`}
+        </InfoValue>
       </InfoContainer>
       <InfoContainer>
         <InfoTitle>Spread Cost</InfoTitle>

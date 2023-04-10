@@ -13,13 +13,13 @@ import { convertToBig } from "../../shared/helpers";
 import { useLongModalConfig } from "../../long-vault-modal/hooks/useLongModalConfig";
 import { BasicVaultType } from "../../basic/types";
 import { useVaultModalState } from "../../modal/hooks";
+import { VaultModalType } from "../../root/types";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
 // eslint-disable-next-line complexity
 export const useBasicModalProviderState = (): BasicModalState => {
-  const [vaultModalState] = useVaultModalState();
-  const { tabType } = vaultModalState;
+  const [{ tabType, vaultType }] = useVaultModalState();
   const [inputValue, setInputValue] = useState("");
   const [isUseNativeData, setIsUseNativeData] = useState(false);
 
@@ -90,6 +90,12 @@ export const useBasicModalProviderState = (): BasicModalState => {
   const tokenData =
     tabType === TabType.deposit ? collateralTokenData : withdrawalTokenData;
 
+  const isLongVault = basicVaultType === BasicVaultType.LONG;
+  const isLongOptionModal = [
+    VaultModalType.longCall,
+    VaultModalType.longPut,
+  ].includes(vaultType);
+
   // use the same price for Deposit/Withdraw tab
   const priceValue = inputValueBig.mul(collateralPrice).toNumber();
 
@@ -97,12 +103,8 @@ export const useBasicModalProviderState = (): BasicModalState => {
   let maxInputValue: number | undefined = Number.MAX_SAFE_INTEGER;
 
   if (tabType === TabType.deposit) {
-    minInputValue = basicVaultType === BasicVaultType.LONG ? minSupplyValue : 0;
-
-    maxInputValue =
-      basicVaultType === BasicVaultType.LONG
-        ? maxSupplyValue
-        : collateralTokenRemainder;
+    minInputValue = isLongVault && !isLongOptionModal ? minSupplyValue : 0;
+    maxInputValue = isLongVault ? maxSupplyValue : collateralTokenRemainder;
   } else {
     minInputValue = undefined;
     maxInputValue = undefined;

@@ -23,11 +23,14 @@ import {
 import { BasicVaultType } from "../../basic/types";
 import { VaultType } from "../../basic-vault/types";
 import { getLongVaultContractsTitle } from "../../table/helpers";
+import { useVaultModalState } from "../../modal/hooks";
+import { VaultModalType } from "../../root/types";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
 // eslint-disable-next-line complexity
 export const DepositMainButton = () => {
+  const [{ vaultType }] = useVaultModalState();
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
   const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
@@ -51,8 +54,10 @@ export const DepositMainButton = () => {
   const {
     approveDelegationMutation,
     openPositionMutation,
+    openPositionImmediatelyMutation,
     runApproveDelegation,
     runOpenPosition,
+    runOpenPositionImmediately,
   } = useLongModalMutations();
 
   const { account } = useWallet();
@@ -72,6 +77,10 @@ export const DepositMainButton = () => {
   const { availableLeverage = 1 } = collateralAssetData ?? {};
 
   const isLongVault = basicVaultType === BasicVaultType.LONG;
+  const isLongOptionModal = [
+    VaultModalType.longCall,
+    VaultModalType.longPut,
+  ].includes(vaultType);
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [
@@ -80,6 +89,7 @@ export const DepositMainButton = () => {
       depositMutation,
       approveDelegationMutation,
       openPositionMutation,
+      openPositionImmediatelyMutation,
     ];
 
     resetMutations(mutations);
@@ -89,6 +99,7 @@ export const DepositMainButton = () => {
     depositMutation,
     approveDelegationMutation,
     openPositionMutation,
+    openPositionImmediatelyMutation,
   ]);
 
   const {
@@ -121,19 +132,27 @@ export const DepositMainButton = () => {
     error: openPositionError,
   } = openPositionMutation ?? {};
 
+  const {
+    isLoading: isOpenPositionImmediatelyLoading,
+    isError: isOpenPositionImmediatelyError,
+    error: openPositionImmediatelyError,
+  } = openPositionImmediatelyMutation ?? {};
+
   const isError =
     Boolean(isApproveAllowanceError) ||
     Boolean(isWrapError) ||
     Boolean(isDepositError) ||
     Boolean(isApproveDelegationError) ||
-    Boolean(isOpenPositionError);
+    Boolean(isOpenPositionError) ||
+    Boolean(isOpenPositionImmediatelyError);
 
   const error =
     approveAllowanceError ??
     wrapError ??
     depositError ??
     approveDelegationError ??
-    openPositionError;
+    openPositionError ??
+    openPositionImmediatelyError;
 
   const inputValueBig = new Big(inputValue || 0);
 
@@ -221,7 +240,7 @@ export const DepositMainButton = () => {
     return <LoadingMainButton>Depositing...</LoadingMainButton>;
   }
 
-  if (isOpenPositionLoading) {
+  if (isOpenPositionLoading || isOpenPositionImmediatelyLoading) {
     return <LoadingMainButton>Opening Position...</LoadingMainButton>;
   }
 
@@ -247,7 +266,9 @@ export const DepositMainButton = () => {
       ? `Open Position: Long ${longValue} ${contractsTitle} Contracts`
       : "Open Position";
 
-    handleMainButtonClick = runOpenPosition;
+    handleMainButtonClick = isLongOptionModal
+      ? runOpenPositionImmediately
+      : runOpenPosition;
   } else {
     buttonTitle = "Initiate Deposit";
     handleMainButtonClick = runDeposit;

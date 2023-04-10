@@ -6,7 +6,7 @@ import Big from "big.js";
 
 import type { LongModalMutations } from "../types";
 import type { MutationError } from "../../index-vault-modal/types";
-import { chains } from "../../wallet/constants";
+import { chainsMap } from "../../wallet/constants";
 import {
   delay,
   processWalletError,
@@ -165,69 +165,135 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     collateralTokenAddress,
   ]);
 
-  const runOpenPositionImmediatelyMutation = useCallback(
-    () => true,
+  // eslint-disable-next-line complexity
+  const runOpenPositionImmediatelyMutation = useCallback(async () => {
+    if (!tokenData || !walletProvider) {
+      return false;
+    }
 
-    // if (!tokenData || !walletProvider) {
-    //   return false;
-    // }
-    // const signer = walletProvider.getSigner();
-    // const longVaultPositionManagerContract =
-    //   LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
-    // const { loanToValue = 0, collateralPrice = 0 } = collateralAssetData ?? {};
-    // const { data } = longVaultReaderQuery;
-    // const { debtTokenPrice = 0 } = data ?? {};
-    // const depositAmount = new Big(inputValue)
-    //   .mul(tokenData.tokenDivisor)
-    //   .round();
-    // const availableForBorrow = depositAmount
-    //   .mul(collateralPrice)
-    //   .mul(loanToValue);
-    // const LPToBorrowAmount = availableForBorrow
-    //   .div(1 - loanToValue)
-    //   .div(debtTokenPrice)
-    //   .round()
-    //   .toString();
-    // const openPositionImmediatelyParameters = [
-    //   collateralTokenAddress,
-    //   depositAmount.toString(),
-    //   lendingPoolAddress,
-    //   basicVaultAddress,
-    //   LPToBorrowAmount,
-    // ] as const;
-    // let transaction = null;
-    // try {
-    //   await longVaultPositionManagerContract.callStatic.depositAndQueueOptionPosition(
-    //     ...openPositionImmediatelyParameters
-    //   );
-    //   transaction =
-    //     await longVaultPositionManagerContract.depositAndQueueOptionPosition(
-    //       ...openPositionImmediatelyParameters
-    //     );
-    // } catch (walletError) {
-    //   processWalletError(walletError);
-    // }
-    // if (transaction) {
-    //   setMutationHash(transaction.hash);
-    //   try {
-    //     await transaction.wait();
-    //   } catch (transactionError) {
-    //     processTransactionError(transactionError);
-    //   }
-    // }
-    //  return true;
-    [
-      // basicVaultAddress,
-      // collateralAssetData,
-      // inputValue,
-      // longVaultReaderQuery,
-      // lendingPoolAddress,
-      // spenderAddress,
-      // tokenData,
-      // walletProvider,
-      // collateralTokenAddress,
-    ]
-  );
+    const signer = walletProvider.getSigner();
+
+    const { quoterAddress } = chainsMap[basicVaultChainId].addresses;
+    const quoterContract = QuoterAbiFactory.connect(quoterAddress, signer);
+
+    const longVaultPositionManagerContract =
+      LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
+
+    const { loanToValue = 0, collateralPrice = 0 } = collateralAssetData ?? {};
+
+    const { data } = longVaultReaderQuery;
+    const { debtTokenPrice = 0 } = data ?? {};
+
+    const depositAmount = new Big(inputValue)
+      .mul(tokenData.tokenDivisor)
+      .round();
+
+    const availableForBorrow = depositAmount
+      .mul(collateralPrice)
+      .mul(loanToValue);
+
+    let left = 0;
+    let right = 100;
+    let mid = 0;
+    let depth = 0;
+    let bestLPToBorrowAmount = new Big(0);
+    let bestMinAmountToReceive = new Big(0);
+
+    while (left <= right) {
+      depth += 1;
+      mid = Math.floor((left + right) / 2);
+
+      const LPToBorrowAmount = availableForBorrow
+        .div(1 - loanToValue)
+        .div(debtTokenPrice)
+        .mul(100 - mid)
+        .div(100)
+        .round();
+
+      const minAmountToReceive =
+        // eslint-disable-next-line no-await-in-loop
+        await quoterContract.callStatic
+          .quoteExactInputSingle(
+            basicVaultAddress,
+            collateralTokenAddress,
+            500,
+            depositAmount.toString(),
+            0
+          )
+          .then(convertToBig);
+
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        await longVaultPositionManagerContract.callStatic.depositAndOpenBySwapOptionPosition(
+          collateralTokenAddress,
+          depositAmount.toString(),
+          lendingPoolAddress,
+          basicVaultAddress,
+          LPToBorrowAmount.toString(),
+          minAmountToReceive.toString()
+        );
+
+        // console.log(`Succeeded for ${mid}`);
+
+        bestLPToBorrowAmount = LPToBorrowAmount;
+        bestMinAmountToReceive = minAmountToReceive;
+
+        if (depth > 5) {
+          break;
+        }
+
+        right = mid - 1;
+      } catch {
+        // console.log(`Failed for ${mid}`);
+        left = mid + 1;
+      }
+    }
+
+    const openPositionImmediatelyParameters = [
+      collateralTokenAddress,
+      depositAmount.toString(),
+      lendingPoolAddress,
+      basicVaultAddress,
+      bestLPToBorrowAmount.toString(),
+      bestMinAmountToReceive.mul(0.9995).round().toString(),
+    ] as const;
+
+    let transaction = null;
+
+    try {
+      await longVaultPositionManagerContract.callStatic.depositAndOpenBySwapOptionPosition(
+        ...openPositionImmediatelyParameters
+      );
+
+      transaction =
+        await longVaultPositionManagerContract.depositAndOpenBySwapOptionPosition(
+          ...openPositionImmediatelyParameters
+        );
+    } catch (walletError) {
+      processWalletError(walletError);
+    }
+
+    if (transaction) {
+      setMutationHash(transaction.hash);
+      try {
+        await transaction.wait();
+      } catch (transactionError) {
+        processTransactionError(transactionError);
+      }
+    }
+    return true;
+  }, [
+    tokenData,
+    walletProvider,
+    basicVaultChainId,
+    spenderAddress,
+    collateralAssetData,
+    longVaultReaderQuery,
+    inputValue,
+    collateralTokenAddress,
+    lendingPoolAddress,
+    basicVaultAddress,
+  ]);
 
   const runCancelPendingPositionMutation = useCallback(async () => {
     if (!walletProvider || !account) {
@@ -334,7 +400,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
       const signer = walletProvider.getSigner();
 
-      const { quoterAddress } = chains[basicVaultChainId].addresses;
+      const { quoterAddress } = chainsMap[basicVaultChainId].addresses;
       const quoterContract = QuoterAbiFactory.connect(quoterAddress, signer);
 
       const longVaultPositionManagerContract =
@@ -433,8 +499,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
   );
 
   const openPositionImmediatelyMutation = useMutation<boolean, MutationError>(
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async () => runOpenPositionImmediatelyMutation(),
+    async () => await runOpenPositionImmediatelyMutation(),
     {
       onSuccess: handleMutationSuccess,
     }
