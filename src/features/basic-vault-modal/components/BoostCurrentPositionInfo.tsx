@@ -16,7 +16,8 @@ export const BoostCurrentPositionInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
 
   const {
-    tokenData,
+    activePositionData,
+
   } = useBasicModalState();
 
   const { data: basicVaultData, isLoading: isBasicVaultLoading } =
@@ -31,7 +32,7 @@ export const BoostCurrentPositionInfo = () => {
 
   const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
 
-  const boostBalance = tokenData?.balance?.toNumber()
+  const boostBalance = activePositionData?.balance?.toNumber()
 
   const tooltipContents = {
     [BasicVaultType.BASIC]:

@@ -54,4 +54,6 @@ export interface SwapRouterState {
     targetTokenQuery?: UseQueryResult<Token>;
     nativeTokenQuery?: UseQueryResult<NativeToken>;
   };
+
+  activePositionData?: Token;
 }

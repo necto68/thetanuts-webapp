@@ -254,8 +254,6 @@ export const basicVaultFetcher = async (
     period
   );
 
-  console.log(percentageYields)
-
   const { annualPercentageYield } = percentageYields;
 
   return {

@@ -54,6 +54,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   const { basicVaultReaderQuery, lendingPoolReaderQuery } = useBasicModalConfig();
 
   const { data: lendingPoolReaderData, isLoading: isBasicVaultLoading } = lendingPoolReaderQuery;
+  const { aTokenAddress = '' } = lendingPoolReaderData ?? {};
 
   const pathname = getPagePathname(vaultType);
   // const pageRoute = isRouterModal ? { pathname } : {};
@@ -84,7 +85,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
 
   return (
     <Container>
-      {isMutationSucceed ? (
+      {/* {isMutationSucceed ? ( */}
         <BackgroundAnimationContainer>
           <Lottie
             animationData={succeedMutationNew}
@@ -94,7 +95,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             // segments={backgroundAnimationSegments}
           />
         </BackgroundAnimationContainer>
-      ) : null}
+      {/* ) : null} */}
       <ContentContainer>
         <InfoContainer>
           {/* <AnimationContainer isShow={!isMutationSucceed}>
@@ -118,7 +119,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             View Transaction in Explorer
           </TransactionLink>
         </InfoContainer>
-        {!isBoostContentShown && isMutationSucceed && (
+        {!isBoostContentShown && isMutationSucceed && aTokenAddress !== "0x0000000000000000000000000000000000000000" && (
           <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
             {`Boost for ${formattedAPY}% more yield`}
           </CloseButton>

@@ -83,7 +83,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const { data: collateralTokenData, isLoading: isTokenDataLoading } =
     collateralTokenQuery;
-
+    
   const { data: nativeData, isLoading: isNativeDataLoading } = nativeTokenQuery;
 
   const lpDivisor = new Big(10).pow(18);
@@ -103,6 +103,18 @@ export const useBasicModalProviderState = (): BasicModalState => {
         allowance: convertToBig(constants.MaxUint256),
       }
     : undefined;
+
+  const lpToken = lendingPoolTokenAddresses.find(token => token.id === vaultId);
+  const lpTokenAddress = lpToken?.source?.suppliedTokenAddress;
+  
+  const activePositionQuery = useTokenQuery(
+    lpTokenAddress,
+    updatedSpenderAddress,
+    provider
+  );
+
+  const { data: activePositionData, isLoading: isPositionDataLoading } =
+  activePositionQuery;
   
   const tokenData =
     tabType === TabType.withdraw && !isBoostContentShown ? withdrawalTokenData : collateralTokenData;
@@ -146,5 +158,8 @@ export const useBasicModalProviderState = (): BasicModalState => {
       collateralTokenQuery,
       nativeTokenQuery,
     },
+
+    activePositionData,
+
   };
 };
