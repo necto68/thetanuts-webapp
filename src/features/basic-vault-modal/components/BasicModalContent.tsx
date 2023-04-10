@@ -15,7 +15,7 @@ import { BasicCardWarning } from "./BasicCardWarning";
 
 export const BasicModalContent = () => {
   const [vaultModalState] = useVaultModalState();
-  const { tabType } = vaultModalState;
+  const { tabType, vaultId } = vaultModalState;
 
   return (
     <Container>
@@ -36,7 +36,8 @@ export const BasicModalContent = () => {
         )}
       </MainButtonsContainer>
       <VaultInfo />
-      <AnalyticLink />
+      {/* TODO: remove for ARB vault */}
+      {vaultId === "TN-CSCCv1-ARBUSD" ? null : <AnalyticLink />}
     </Container>
   );
 };
