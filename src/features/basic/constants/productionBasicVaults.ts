@@ -305,6 +305,17 @@ export const productionBasicVaults: BasicVaultConfig[] = [
       basicVaultAddress: "0xfc7F11Bb0d97d9db1f701eEA0fDE611536F1EB5F",
     },
   },
+
+  // arbitrum - arb call
+  {
+    id: "TN-CSCCv1-ARBUSD",
+    basicVaultType: BasicVaultType.BASIC,
+
+    source: {
+      chainId: ChainId.ARBITRUM,
+      basicVaultAddress: "0x0833EC3262Dcc417D88f85Ed5E1EBAf768080f41",
+    },
+  },
 ];
 
 export const productionDegenVaults: BasicVaultConfig[] = [
