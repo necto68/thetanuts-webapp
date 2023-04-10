@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
 `;
 
 export const ChainLogoContainer = styled.div<{
@@ -14,9 +14,7 @@ export const ChainLogoContainer = styled.div<{
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 5px;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.8);
   outline: ${({ isHighlighted }) => (isHighlighted ? "1px solid #1fffab" : 0)};
   cursor: ${({ isClickable }) => (isClickable ? "pointer" : "default")};
 `;

@@ -85,7 +85,7 @@ export const Chains: FC<ChainsProps> = ({
               handleChainClick(chainId);
             }}
           >
-            <IconContainer height={18} width={18}>
+            <IconContainer height={28} width={28}>
               {getLogoBySymbol(chainIconSymbols[chainId])}
             </IconContainer>
           </ChainLogoContainer>
