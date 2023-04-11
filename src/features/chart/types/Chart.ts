@@ -1,3 +1,3 @@
 export interface ChartProps {
-  chartSymbol: string;
+  chartSymbol?: string;
 }
