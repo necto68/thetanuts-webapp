@@ -1,11 +1,11 @@
-import { useLocation } from "react-router-dom";
-
 import {
   IndexPage,
   BasicPage,
   DegenPage,
   WheelPage,
   LongPage,
+  LongCallsPage,
+  LongPutsPage,
   Portfolio,
   Twitter,
   Medium,
@@ -23,16 +23,14 @@ import { Documentation } from "../icons/Documentation";
 import {
   CircleButtonContainer,
   LogoContainer,
-  MainNavContainer,
   MainNavSeparator,
-  MainNavTitle,
   SidebarContainer,
 } from "./Sidebar.styles";
 import { AppSidebarLogo } from "./AppSidebarLogo";
-import { SidebarItem } from "./SidebarItem";
+import { MainNavSection } from "./MainNavSection";
 
 // navbar items stored here and mapped to JSX later so it is easier to add on
-const sellingOptions = [
+const shortOptions = [
   {
     to: PagePathname.thetaIndex,
     linkTitle: "Stronghold",
@@ -43,6 +41,27 @@ const sellingOptions = [
     linkTitle: "Basic Vaults",
     navIcon: BasicPage,
   },
+];
+
+const longOptions = [
+  {
+    to: PagePathname.long,
+    linkTitle: "Long Vaults",
+    navIcon: LongPage,
+  },
+  {
+    to: PagePathname.longCall,
+    linkTitle: "Calls",
+    navIcon: LongCallsPage,
+  },
+  {
+    to: PagePathname.longPut,
+    linkTitle: "Puts",
+    navIcon: LongPutsPage,
+  },
+];
+
+const exoticStrategies = [
   {
     to: PagePathname.degen,
     linkTitle: "Degen Vaults",
@@ -53,14 +72,6 @@ const sellingOptions = [
     to: PagePathname.wheel,
     linkTitle: "Wheel Vaults",
     navIcon: WheelPage,
-  },
-];
-
-const buyingOptions = [
-  {
-    to: PagePathname.long,
-    linkTitle: "Long Vaults",
-    navIcon: LongPage,
   },
 ];
 
@@ -83,38 +94,38 @@ const documentation = [
     to: links.docs,
     linkTitle: "DOCS",
     navIcon: Documentation,
+    target: "_blank",
   },
 ];
 
 const socials = [
   {
     to: links.twitter,
-    navIcon: Twitter,
-    alt: "Twitter",
     linkTitle: "Twitter",
+    navIcon: Twitter,
+    target: "_blank",
   },
   {
     to: links.medium,
-    navIcon: Medium,
-    alt: "Medium",
     linkTitle: "Medium",
+    navIcon: Medium,
+    target: "_blank",
   },
   {
     to: links.discord,
-    navIcon: Discord,
-    alt: "Discord",
     linkTitle: "Discord",
+    navIcon: Discord,
+    target: "_blank",
   },
   {
     to: links.substack,
-    navIcon: Substack,
-    alt: "Substack",
     linkTitle: "Substack",
+    navIcon: Substack,
+    target: "_blank",
   },
 ];
 
 export const Sidebar = () => {
-  const { pathname } = useLocation();
   const { isShow, toggleIsShow } = useSidebarState();
 
   const mobileHeight = useViewportHeight();
@@ -132,70 +143,13 @@ export const Sidebar = () => {
           />
         </CircleButtonContainer>
       </LogoContainer>
-      <MainNavContainer>
-        <MainNavTitle>Selling Options</MainNavTitle>
-        {sellingOptions.map((navItem) => (
-          <SidebarItem
-            active={pathname === navItem.to}
-            iconColor={navItem.iconColor}
-            key={navItem.linkTitle}
-            linkTitle={navItem.linkTitle}
-            navIcon={navItem.navIcon}
-            to={navItem.to}
-          />
-        ))}
-      </MainNavContainer>
-      <MainNavContainer>
-        <MainNavTitle>Buying Options</MainNavTitle>
-        {buyingOptions.map((navItem) => (
-          <SidebarItem
-            active={pathname === navItem.to}
-            key={navItem.linkTitle}
-            linkTitle={navItem.linkTitle}
-            navIcon={navItem.navIcon}
-            to={navItem.to}
-          />
-        ))}
-      </MainNavContainer>
-      <MainNavContainer>
-        <MainNavTitle>Tools</MainNavTitle>
-        {tools.map((navItem) => (
-          <SidebarItem
-            active={pathname === navItem.to}
-            key={navItem.linkTitle}
-            linkTitle={navItem.linkTitle}
-            navIcon={navItem.navIcon}
-            target={navItem.target}
-            to={navItem.to}
-          />
-        ))}
-      </MainNavContainer>
+      <MainNavSection navItems={shortOptions} title="Short Options" />
+      <MainNavSection navItems={longOptions} title="Long Options" />
+      <MainNavSection navItems={exoticStrategies} title="Exotic Strategies" />
+      <MainNavSection navItems={tools} title="Tools" />
       <MainNavSeparator />
-      <MainNavContainer>
-        {documentation.map((navItem) => (
-          <SidebarItem
-            active={navItem.to === pathname}
-            key={navItem.linkTitle}
-            linkTitle={navItem.linkTitle}
-            navIcon={navItem.navIcon}
-            target="_blank"
-            to={navItem.to}
-          />
-        ))}
-      </MainNavContainer>
-      <MainNavContainer>
-        <MainNavTitle>Socials</MainNavTitle>
-        {socials.map((navItem) => (
-          <SidebarItem
-            active={pathname === navItem.to}
-            key={navItem.linkTitle}
-            linkTitle={navItem.linkTitle}
-            navIcon={navItem.navIcon}
-            target="_blank"
-            to={navItem.to}
-          />
-        ))}
-      </MainNavContainer>
+      <MainNavSection navItems={documentation} />
+      <MainNavSection navItems={socials} title="Socials" />
     </SidebarContainer>
   );
 };

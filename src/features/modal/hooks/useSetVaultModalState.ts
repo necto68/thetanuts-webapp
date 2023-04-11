@@ -6,7 +6,7 @@ import { useQueryParameters } from "../../shared/hooks/useQueryParameters";
 import type { VaultModalRouteParameters } from "../../root/types";
 import { ModalPathname, PagePathname, VaultModalType } from "../../root/types";
 import { indexVaultsMap } from "../../theta-index/constants";
-import { basicVaultsMap } from "../../basic/constants";
+import { basicVaultsMap, longVaultsMap } from "../../basic/constants";
 import { ModalContentType } from "../../index-vault-modal/types";
 
 import { useVaultModalState } from "./useVaultModalState";
@@ -16,9 +16,9 @@ const vaultsMaps = {
   [VaultModalType.basic]: basicVaultsMap,
   [VaultModalType.degen]: basicVaultsMap,
   [VaultModalType.wheel]: basicVaultsMap,
-  [VaultModalType.long]: basicVaultsMap,
-  [VaultModalType.longCall]: basicVaultsMap,
-  [VaultModalType.longPut]: basicVaultsMap,
+  [VaultModalType.long]: longVaultsMap,
+  [VaultModalType.longCall]: longVaultsMap,
+  [VaultModalType.longPut]: longVaultsMap,
 };
 
 const getVaultType = (
@@ -141,6 +141,7 @@ export const useSetVaultModalState = () => {
 
       if (vaultsMap[vaultId]) {
         const chainId = Number(queryParameters.get("chain"));
+
         setVaultModalState((previousState) => ({
           ...previousState,
           vaultType,
@@ -171,4 +172,13 @@ export const useSetVaultModalState = () => {
     vaultType,
     vaultId,
   ]);
+
+  useEffect(() => {
+    if (vaultId) {
+      setVaultModalState((previousState) => ({
+        ...previousState,
+        vaultId,
+      }));
+    }
+  }, [vaultId, setVaultModalState]);
 };

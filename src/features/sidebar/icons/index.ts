@@ -4,6 +4,8 @@ export * from "./BasicPage";
 export * from "./DegenPage";
 export * from "./WheelPage";
 export * from "./LongPage";
+export * from "./LongCallsPage";
+export * from "./LongPutsPage";
 export * from "./Portfolio";
 export * from "./Twitter";
 export * from "./Medium";
