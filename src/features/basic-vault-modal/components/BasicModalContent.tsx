@@ -52,12 +52,8 @@ export const BasicModalContent = () => {
         ) : null}
       </MainButtonsContainer>
       <VaultInfo />
-<<<<<<< HEAD
       {shouldHideAnalyticLink ? null : <AnalyticLink />}
-=======
-      <AnalyticLink />
       <BoostContent />
->>>>>>> 6f44531 (boost function, sidebar edits)
     </Container>
   );
 };
