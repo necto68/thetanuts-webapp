@@ -52,6 +52,7 @@ export const basicVaultReaderFetcher = async (
   );
 
   const lpDivisor = new Big(10).pow(18);
+  const zeroBig = new Big(0);
 
   const [basicVault, lpBalance, vaultPosition] = await Promise.all([
     queryClient.fetchQuery(
@@ -71,8 +72,20 @@ export const basicVaultReaderFetcher = async (
       .then(convertToBig)
       .then((lpBalanceBig) => lpBalanceBig.div(lpDivisor)),
     basicVaultReaderContract
-      .myVaultPosition(basicVaultAddress, { from: account })
-      .then((values) => values.map(convertToBig)),
+      .myVaultPosition(basicVaultAddress, {
+        from: account,
+      })
+      .then((values) => values.map(convertToBig))
+      .catch(() => [
+        zeroBig,
+        zeroBig,
+        zeroBig,
+        zeroBig,
+        zeroBig,
+        zeroBig,
+        zeroBig,
+        zeroBig,
+      ]),
   ]);
 
   const {

@@ -13,6 +13,7 @@ export enum ChainId {
   CRONOS = 25,
   AURORA = 1_313_161_554,
   ARBITRUM = 42_161,
+  FILECOIN = 314,
 }
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
@@ -27,6 +28,7 @@ export const chainIconSymbols: Record<ChainId, string> = {
   [ChainId.CRONOS]: "CRO",
   [ChainId.AURORA]: "AURORA",
   [ChainId.ARBITRUM]: "ARB",
+  [ChainId.FILECOIN]: "FIL",
 };
 
 export const chains: ChainConfig[] = [
@@ -314,6 +316,29 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: ZERO_ADDRESS,
       directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xE061c3E9eec0AbD0a21AF480F48D4FeA538a6C66",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      longVaultPositionManagerAddress: ZERO_ADDRESS,
+      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+    },
+  },
+  {
+    chainId: ChainId.FILECOIN,
+    title: "Filecoin",
+    symbol: "FIL",
+
+    urls: {
+      rpc: "https://rpc.ankr.com/filecoin",
+      explorer: "https://filfox.info/en",
+    },
+
+    keys: {},
+
+    addresses: {
+      routerAddress: ZERO_ADDRESS,
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
+      basicVaultReaderAddress: "0xFf5fE7909Fc4d0D6643f1e8be8cba72610d0B485",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
