@@ -36,7 +36,7 @@ export const chains: ChainConfig[] = [
     symbol: "ETH",
 
     urls: {
-      rpc: "https://rpc.ankr.com/eth",
+      rpc: "https://eth.llamarpc.com",
       explorer: "https://etherscan.io/",
       explorerApi: "https://api.etherscan.io/",
     },
@@ -75,7 +75,7 @@ export const chains: ChainConfig[] = [
     symbol: "BNB",
 
     urls: {
-      rpc: "https://rpc.ankr.com/bsc",
+      rpc: "https://bsc.publicnode.com",
       explorer: "https://bscscan.com/",
       explorerApi: "https://api.bscscan.com/",
     },
@@ -106,7 +106,7 @@ export const chains: ChainConfig[] = [
     minGasPrice: 30_000_000_000,
 
     urls: {
-      rpc: "https://rpc.ankr.com/polygon",
+      rpc: "https://polygon.llamarpc.com",
       explorer: "https://polygonscan.com/",
       explorerApi: "https://api.polygonscan.com/",
     },
@@ -175,7 +175,7 @@ export const chains: ChainConfig[] = [
     symbol: "FTM",
 
     urls: {
-      rpc: "https://rpc.ankr.com/fantom",
+      rpc: "https://rpcapi.fantom.network",
       explorer: "https://ftmscan.com/",
       explorerApi: "https://api.ftmscan.com/",
     },
@@ -295,7 +295,7 @@ export const chains: ChainConfig[] = [
     symbol: "ETH",
 
     urls: {
-      rpc: "https://rpc.ankr.com/arbitrum",
+      rpc: "https://arb1.arbitrum.io/rpc",
       explorer: "https://arbiscan.io/",
       explorerApi: "https://api.arbiscan.io/",
     },
