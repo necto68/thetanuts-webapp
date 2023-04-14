@@ -36,7 +36,7 @@ export const chains: ChainConfig[] = [
     symbol: "ETH",
 
     urls: {
-      rpc: "https://eth.llamarpc.com",
+      rpc: "https://ethereum.publicnode.com",
       explorer: "https://etherscan.io/",
       explorerApi: "https://api.etherscan.io/",
     },
@@ -106,7 +106,7 @@ export const chains: ChainConfig[] = [
     minGasPrice: 30_000_000_000,
 
     urls: {
-      rpc: "https://polygon.llamarpc.com",
+      rpc: "https://polygon-bor.publicnode.com",
       explorer: "https://polygonscan.com/",
       explorerApi: "https://api.polygonscan.com/",
     },
