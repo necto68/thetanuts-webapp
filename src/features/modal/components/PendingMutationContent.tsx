@@ -50,7 +50,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   successTitle,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
-  const { isRouterModal, vaultType, isBoostContentShown } = vaultModalState;
+  const { tabType, vaultType, isBoostContentShown } = vaultModalState;
   const { basicVaultReaderQuery, lendingPoolReaderQuery } = useBasicModalConfig();
 
   const { data: lendingPoolReaderData, isLoading: isBasicVaultLoading } = lendingPoolReaderQuery;
@@ -83,8 +83,10 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
   const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
 
+  const showCloseButton = !isBoostContentShown && tabType === 'deposit' && aTokenAddress !== '0x0000000000000000000000000000000000000000';
+
   return (
-    <Container>
+    <Container showCloseButton={showCloseButton}>
       {/* {isMutationSucceed ? ( */}
         <BackgroundAnimationContainer>
           <Lottie
@@ -119,8 +121,11 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             View Transaction in Explorer
           </TransactionLink>
         </InfoContainer>
-        {!isBoostContentShown && isMutationSucceed && aTokenAddress !== "0x0000000000000000000000000000000000000000" && (
-          <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
+        {showCloseButton && (
+          <CloseButton
+            onClick={handleCloseButtonClick}
+            disabled={!isMutationSucceed ? true : false}
+          >
             {`Boost for ${formattedAPY}% more yield`}
           </CloseButton>
         )}

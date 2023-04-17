@@ -4,12 +4,17 @@ import { motion } from "framer-motion";
 import { screens } from "../../shared/constants";
 import { BoostButton } from "../../shared/components";
 
-export const Container = styled.div`
+type Props = {
+  children: React.ReactNode;
+  showCloseButton: boolean;
+};
+
+export const Container = styled.div<Props>`
   display: flex;
   position: relative;
   flex-direction: column;
   justify-content: end;
-  min-height: 409px;
+  min-height: ${props => props.showCloseButton ? '409px' : '327px'};
   min-width: 432px;
 `;
 
