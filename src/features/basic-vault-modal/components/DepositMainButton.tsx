@@ -22,15 +22,19 @@ import {
 } from "../../long-vault-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
 import { VaultType } from "../../basic-vault/types";
-import { getLongVaultContractsTitle } from "../../table/helpers";
+import {
+  getLongOptionTitle,
+  getLongVaultContractsTitle,
+} from "../../table/helpers";
 import { useVaultModalState } from "../../modal/hooks";
 import { VaultModalType } from "../../root/types";
+import { TabType } from "../types";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
 // eslint-disable-next-line complexity
 export const DepositMainButton = () => {
-  const [{ vaultType }] = useVaultModalState();
+  const [{ vaultType }, setVaultModalState] = useVaultModalState();
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
   const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
@@ -81,6 +85,7 @@ export const DepositMainButton = () => {
     VaultModalType.longCall,
     VaultModalType.longPut,
   ].includes(vaultType);
+  const isLongOptionPositionModal = vaultType === VaultModalType.longPosition;
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [
@@ -253,6 +258,33 @@ export const DepositMainButton = () => {
       : "Wrap";
 
     handleMainButtonClick = runWrap;
+  } else if (isLongOptionPositionModal) {
+    const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
+    const optionTitle = getLongOptionTitle(type, assetSymbol);
+
+    buttonTitle = inputValueBig.gt(0)
+      ? `Bid ${longValue} ${optionTitle}`
+      : "Bid";
+
+    handleMainButtonClick = runOpenPositionImmediately;
+  } else if (isLongOptionModal) {
+    const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
+    const optionTitle = getLongOptionTitle(type, assetSymbol);
+
+    buttonTitle = inputValueBig.gt(0)
+      ? `Bid ${longValue} ${optionTitle}`
+      : "Bid";
+
+    handleMainButtonClick = () => {
+      setVaultModalState((previousState) => ({
+        ...previousState,
+        vaultType: VaultModalType.longPosition,
+        tabType: TabType.deposit,
+        isShow: true,
+        isRouterModal: false,
+        defaultInputValue: inputValue,
+      }));
+    };
   } else if (isLongVault) {
     const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
 
@@ -266,9 +298,7 @@ export const DepositMainButton = () => {
       ? `Open Position: Long ${longValue} ${contractsTitle} Contracts`
       : "Open Position";
 
-    handleMainButtonClick = isLongOptionModal
-      ? runOpenPositionImmediately
-      : runOpenPosition;
+    handleMainButtonClick = runOpenPosition;
   } else {
     buttonTitle = "Initiate Deposit";
     handleMainButtonClick = runDeposit;

@@ -50,3 +50,10 @@ export const getLongVaultContractsTitle = (
 
   return titleArray.join(" ");
 };
+
+export const getLongOptionTitle = (type: VaultType, assetSymbol: string) => {
+  const typePostfix = type === VaultType.PUT ? "P" : "C";
+  const titleArray = [assetSymbol, typePostfix];
+
+  return titleArray.join("-");
+};

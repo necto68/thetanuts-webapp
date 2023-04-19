@@ -9,6 +9,7 @@ export const vaultTypesPrefixes = {
   [VaultModalType.long]: "L",
   [VaultModalType.longCall]: "L",
   [VaultModalType.longPut]: "L",
+  [VaultModalType.longPosition]: "L",
 };
 
 export const basicVaultTypesPrefixes = {

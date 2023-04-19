@@ -26,6 +26,7 @@ const depositTitle = {
   [VaultModalType.long]: "supply",
   [VaultModalType.longCall]: "supply",
   [VaultModalType.longPut]: "supply",
+  [VaultModalType.longPosition]: "supply",
 };
 
 interface PriceWarningProps {

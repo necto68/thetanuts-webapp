@@ -6,4 +6,5 @@ export enum VaultModalType {
   long = "long-vault",
   longCall = "long-call",
   longPut = "long-put",
+  longPosition = "long-position",
 }

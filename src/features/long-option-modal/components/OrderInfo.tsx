@@ -28,10 +28,11 @@ export const OrderInfo = () => {
 
   return (
     <Container>
-      <InfoContainer>
+      {/* TODO: return later */}
+      {/* <InfoContainer>
         <InfoTitle>IV</InfoTitle>
         <InfoValue>XX.XX%</InfoValue>
-      </InfoContainer>
+      </InfoContainer> */}
       <InfoContainer>
         <InfoTitle>Leverage</InfoTitle>
         <InfoValue>
@@ -43,7 +44,7 @@ export const OrderInfo = () => {
         <InfoValue>X.XX%</InfoValue>
       </InfoContainer>
       <InfoContainer>
-        <InfoTitle>Borrowing Fee</InfoTitle>
+        <InfoTitle>Borrowing Fee (APR)</InfoTitle>
         <InfoValue>
           {isLoading ? loadingPlaceholder : `${formattedBorrowRate}%`}
         </InfoValue>

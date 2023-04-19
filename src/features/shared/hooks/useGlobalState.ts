@@ -14,6 +14,7 @@ export interface VaultModalState {
   isRouterModal?: boolean;
   contentType?: ModalContentType;
   withdrawId?: number;
+  defaultInputValue?: string;
 }
 
 export interface GlobalState {

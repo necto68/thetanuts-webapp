@@ -94,6 +94,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
   const isLongOptionModal = [
     VaultModalType.longCall,
     VaultModalType.longPut,
+    VaultModalType.longPosition,
   ].includes(vaultType);
 
   // use the same price for Deposit/Withdraw tab

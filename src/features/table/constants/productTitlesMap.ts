@@ -8,4 +8,5 @@ export const productTitlesMap = {
   [VaultModalType.long]: "Long",
   [VaultModalType.longCall]: "Long",
   [VaultModalType.longPut]: "Long",
+  [VaultModalType.longPosition]: "Long",
 };
