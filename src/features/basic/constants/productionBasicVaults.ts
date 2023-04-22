@@ -316,6 +316,17 @@ export const productionBasicVaults: BasicVaultConfig[] = [
       basicVaultAddress: "0x0833EC3262Dcc417D88f85Ed5E1EBAf768080f41",
     },
   },
+
+  // filecoin - fil call
+  {
+    id: "TN-CSCCv1-FILUSD",
+    basicVaultType: BasicVaultType.BASIC,
+
+    source: {
+      chainId: ChainId.FILECOIN,
+      basicVaultAddress: "0x03e35ed48101587F1A7B2C75f9A181D32BdF2D7D",
+    },
+  },
 ];
 
 export const productionDegenVaults: BasicVaultConfig[] = [

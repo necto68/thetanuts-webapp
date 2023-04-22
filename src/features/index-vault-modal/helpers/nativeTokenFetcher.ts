@@ -7,7 +7,7 @@ import {
   Erc20Abi__factory as Erc20AbiFactory,
 } from "../../contracts/types";
 import { convertToBig } from "../../shared/helpers";
-import type { ChainId } from "../../wallet/constants";
+import { ChainId } from "../../wallet/constants";
 import type { NativeToken } from "../types";
 
 export const nativeTokenFetcher = async (
@@ -17,12 +17,17 @@ export const nativeTokenFetcher = async (
 ): Promise<NativeToken> => {
   const routerContract = RouterV2AbiFactory.connect(routerAddress, provider);
 
-  const [{ chainId }, wrappedNativeTokenAddress, balance] = await Promise.all([
+  const [{ chainId }, balance] = await Promise.all([
     provider.getNetwork() as Promise<{ chainId: ChainId }>,
-    // eslint-disable-next-line new-cap
-    routerContract.WETH(),
     account ? provider.getBalance(account).then(convertToBig) : null,
   ]);
+
+  // TODO: remove this when we have a RouterV2 contract for Filecoin
+  const wrappedNativeTokenAddress =
+    chainId === ChainId.FILECOIN
+      ? "0x60E1773636CF5E4A227d9AC24F20fEca034ee25A"
+      : // eslint-disable-next-line new-cap
+        await routerContract.WETH();
 
   const wrappedTokenContract = Erc20AbiFactory.connect(
     wrappedNativeTokenAddress,
