@@ -327,7 +327,7 @@ export const chains: ChainConfig[] = [
     symbol: "FIL",
 
     urls: {
-      rpc: "https://rpc.ankr.com/filecoin",
+      rpc: "https://filecoin.chainup.net/rpc/v1",
       explorer: "https://filfox.info/en",
     },
 
