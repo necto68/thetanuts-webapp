@@ -16,6 +16,8 @@ import { BasicCardWarning } from "./BasicCardWarning";
 export const BasicModalContent = () => {
   const [vaultModalState] = useVaultModalState();
   const { tabType, vaultId } = vaultModalState;
+
+  // TODO: remove later
   const shouldHideAnalyticLink = [
     "TN-CSCCv1-ARBUSD",
     "TN-CSCCv1-FILUSD",
@@ -40,7 +42,6 @@ export const BasicModalContent = () => {
         )}
       </MainButtonsContainer>
       <VaultInfo />
-      {/* TODO: remove for ARB vault */}
       {shouldHideAnalyticLink ? null : <AnalyticLink />}
     </Container>
   );
