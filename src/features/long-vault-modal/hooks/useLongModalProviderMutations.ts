@@ -23,6 +23,7 @@ import {
   DebtTokenAbi__factory as DebtTokenAbiFactory,
 } from "../../contracts/types";
 import { convertToBig } from "../../shared/helpers/converters";
+import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
 
 import { useLongModalConfig } from "./useLongModalConfig";
 
@@ -37,6 +38,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     collateralTokenAddress,
   } = useBasicModalConfig();
   const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
+  const { longOptionReaderQuery } = useLongOptionModalConfig();
 
   const { inputValue, tokenData, tokensQueries } = useBasicModalState();
 
@@ -165,7 +167,6 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     collateralTokenAddress,
   ]);
 
-  // eslint-disable-next-line complexity
   const runOpenPositionImmediatelyMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
       return false;
@@ -173,89 +174,24 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     const signer = walletProvider.getSigner();
 
-    const { quoterAddress } = chainsMap[basicVaultChainId].addresses;
-    const quoterContract = QuoterAbiFactory.connect(quoterAddress, signer);
+    const { data } = longOptionReaderQuery;
+    const { LPToBorrowValue = new Big(0), minToReceiveValue = new Big(0) } =
+      data ?? {};
 
     const longVaultPositionManagerContract =
       LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
 
-    const { loanToValue = 0, collateralPrice = 0 } = collateralAssetData ?? {};
-
-    const { data } = longVaultReaderQuery;
-    const { debtTokenPrice = 0 } = data ?? {};
-
     const depositAmount = new Big(inputValue)
       .mul(tokenData.tokenDivisor)
       .round();
-
-    const availableForBorrow = depositAmount
-      .mul(collateralPrice)
-      .mul(loanToValue);
-
-    let left = 0;
-    let right = 100;
-    let mid = 0;
-    let depth = 0;
-    let bestLPToBorrowAmount = new Big(0);
-    let bestMinAmountToReceive = new Big(0);
-
-    while (left <= right) {
-      depth += 1;
-      mid = Math.floor((left + right) / 2);
-
-      const LPToBorrowAmount = availableForBorrow
-        .div(1 - loanToValue)
-        .div(debtTokenPrice)
-        .mul(100 - mid)
-        .div(100)
-        .round();
-
-      const minAmountToReceive =
-        // eslint-disable-next-line no-await-in-loop
-        await quoterContract.callStatic
-          .quoteExactInputSingle(
-            basicVaultAddress,
-            collateralTokenAddress,
-            500,
-            depositAmount.toString(),
-            0
-          )
-          .then(convertToBig);
-
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        await longVaultPositionManagerContract.callStatic.depositAndOpenBySwapOptionPosition(
-          collateralTokenAddress,
-          depositAmount.toString(),
-          lendingPoolAddress,
-          basicVaultAddress,
-          LPToBorrowAmount.toString(),
-          minAmountToReceive.toString()
-        );
-
-        // console.log(`Succeeded for ${mid}`);
-
-        bestLPToBorrowAmount = LPToBorrowAmount;
-        bestMinAmountToReceive = minAmountToReceive;
-
-        if (depth > 5) {
-          break;
-        }
-
-        right = mid - 1;
-      } catch {
-        // console.log(`Failed for ${mid}`);
-        left = mid + 1;
-      }
-    }
 
     const openPositionImmediatelyParameters = [
       collateralTokenAddress,
       depositAmount.toString(),
       lendingPoolAddress,
       basicVaultAddress,
-      bestLPToBorrowAmount.toString(),
-      bestMinAmountToReceive.mul(0.9995).round().toString(),
+      LPToBorrowValue.toString(),
+      minToReceiveValue.mul(0.9995).round().toString(),
     ] as const;
 
     let transaction = null;
@@ -285,10 +221,8 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
   }, [
     tokenData,
     walletProvider,
-    basicVaultChainId,
+    longOptionReaderQuery,
     spenderAddress,
-    collateralAssetData,
-    longVaultReaderQuery,
     inputValue,
     collateralTokenAddress,
     lendingPoolAddress,

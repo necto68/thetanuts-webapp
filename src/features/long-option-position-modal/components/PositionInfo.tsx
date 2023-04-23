@@ -7,7 +7,7 @@ import {
   useBasicModalState,
 } from "../../basic-vault-modal/hooks";
 import { numberFormatter } from "../../shared/helpers";
-import { useLongModalConfig } from "../../long-vault-modal/hooks";
+import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
 import { getLongOptionTitle } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
 
@@ -17,17 +17,18 @@ export const PositionInfo = () => {
   const [{ defaultInputValue }] = useVaultModalState();
   const { inputValue, setInputValue } = useBasicModalState();
   const { basicVaultQuery } = useBasicModalConfig();
-  const { collateralAssetQuery } = useLongModalConfig();
+  const { longOptionReaderQuery } = useLongOptionModalConfig();
 
   const { data: basicVaultData } = basicVaultQuery;
-  const { data: collateralAssetData } = collateralAssetQuery;
+  const { data: longOptionReaderData } = longOptionReaderQuery;
 
   const {
     type = VaultType.CALL,
     assetSymbol = "",
     collateralSymbol = "",
   } = basicVaultData ?? {};
-  const { availableLeverage = 1 } = collateralAssetData ?? {};
+  const { swapLeverage = null } = longOptionReaderData ?? {};
+  const swapLeverageValue = swapLeverage ?? 0;
 
   useEffect(() => {
     if (defaultInputValue) {
@@ -47,7 +48,7 @@ export const PositionInfo = () => {
 
   const targetTokenData = {
     value: numberFormatter.format(
-      inputValueBig.mul(availableLeverage).toNumber()
+      inputValueBig.mul(swapLeverageValue).toNumber()
     ),
 
     symbol: getLongOptionTitle(type, assetSymbol),

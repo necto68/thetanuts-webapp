@@ -339,7 +339,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xFf5fE7909Fc4d0D6643f1e8be8cba72610d0B485",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
 ];

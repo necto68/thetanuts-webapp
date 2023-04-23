@@ -20,6 +20,7 @@ import {
   useLongModalConfig,
   useLongModalMutations,
 } from "../../long-vault-modal/hooks";
+import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
 import { VaultType } from "../../basic-vault/types";
 import {
@@ -38,6 +39,7 @@ export const DepositMainButton = () => {
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
   const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
+  const { longOptionReaderQuery } = useLongOptionModalConfig();
   const {
     inputValue,
     tokenData,
@@ -79,6 +81,9 @@ export const DepositMainButton = () => {
 
   const { data: collateralAssetData } = collateralAssetQuery;
   const { availableLeverage = 1 } = collateralAssetData ?? {};
+
+  const { data: longOptionReaderData } = longOptionReaderQuery;
+  const { swapLeverage = null } = longOptionReaderData ?? {};
 
   const isLongVault = basicVaultType === BasicVaultType.LONG;
   const isLongOptionModal = [
@@ -177,8 +182,13 @@ export const DepositMainButton = () => {
   const isApproveLoading =
     Boolean(isApproveAllowanceLoading) || Boolean(isApproveDelegationLoading);
 
+  const isLongOptionMainButtonDisabled =
+    (isLongOptionModal || isLongOptionPositionModal) && !swapLeverage;
   const isMainButtonDisabled =
-    isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
+    isTokenDataLoading ||
+    !currentTokenData ||
+    inputValueBig.lte(0) ||
+    isLongOptionMainButtonDisabled;
 
   if (!account) {
     return <ConnectWalletMainButton />;
@@ -258,24 +268,21 @@ export const DepositMainButton = () => {
       : "Wrap";
 
     handleMainButtonClick = runWrap;
-  } else if (isLongOptionPositionModal) {
-    const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
+  } else if (isLongOptionPositionModal || isLongOptionModal) {
+    // need to show loading while we are fetching current swapLeverage
+    const loadingPlaceholder = ".....";
+
+    const longValue = swapLeverage
+      ? inputValueBig.mul(swapLeverage).toFixed(2)
+      : loadingPlaceholder;
+
     const optionTitle = getLongOptionTitle(type, assetSymbol);
 
     buttonTitle = inputValueBig.gt(0)
       ? `Bid ${longValue} ${optionTitle}`
       : "Bid";
 
-    handleMainButtonClick = runOpenPositionImmediately;
-  } else if (isLongOptionModal) {
-    const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
-    const optionTitle = getLongOptionTitle(type, assetSymbol);
-
-    buttonTitle = inputValueBig.gt(0)
-      ? `Bid ${longValue} ${optionTitle}`
-      : "Bid";
-
-    handleMainButtonClick = () => {
+    const openLongOptionPositionModal = () => {
       setVaultModalState((previousState) => ({
         ...previousState,
         vaultType: VaultModalType.longPosition,
@@ -285,6 +292,10 @@ export const DepositMainButton = () => {
         defaultInputValue: inputValue,
       }));
     };
+
+    handleMainButtonClick = isLongOptionPositionModal
+      ? runOpenPositionImmediately
+      : openLongOptionPositionModal;
   } else if (isLongVault) {
     const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
 
