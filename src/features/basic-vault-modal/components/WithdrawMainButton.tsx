@@ -22,11 +22,15 @@ import {
   loadingButtonTitles,
   buttonTitles,
 } from "../constants/withdrawMainButtonTitles";
+import { useVaultModalState } from "../../modal/hooks";
+import { VaultModalType } from "../../root/types";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
 // eslint-disable-next-line complexity
 export const WithdrawMainButton = () => {
+  const [{ vaultType }] = useVaultModalState();
+
   const {
     walletChainId,
     walletProvider,
@@ -50,8 +54,12 @@ export const WithdrawMainButton = () => {
     runInitWithdraw,
     runInitFullWithdraw,
   } = useBasicModalMutations();
-  const { closePositionAndWithdrawMutation, runClosePositionAndWithdraw } =
-    useLongModalMutations();
+  const {
+    closePositionAndWithdrawMutation,
+    closePositionAndWithdrawImmediatelyMutation,
+    runClosePositionAndWithdraw,
+    runClosePositionAndWithdrawImmediately,
+  } = useLongModalMutations();
 
   const { account } = useWallet();
 
@@ -67,11 +75,14 @@ export const WithdrawMainButton = () => {
   const { data: longVaultReaderData } = longVaultReaderQuery;
   const { currentContractsPosition = new Big(0) } = longVaultReaderData ?? {};
 
+  const isLongOptionPositionModal = vaultType === VaultModalType.longPosition;
+
   const handleResetButtonClick = useCallback(() => {
     const mutations = [
       initWithdrawMutation,
       initFullWithdrawMutation,
       closePositionAndWithdrawMutation,
+      closePositionAndWithdrawImmediatelyMutation,
     ];
 
     resetMutations(mutations);
@@ -79,6 +90,7 @@ export const WithdrawMainButton = () => {
     initWithdrawMutation,
     initFullWithdrawMutation,
     closePositionAndWithdrawMutation,
+    closePositionAndWithdrawImmediatelyMutation,
   ]);
 
   const {
@@ -102,15 +114,25 @@ export const WithdrawMainButton = () => {
     error: closePositionAndWithdrawError,
   } = closePositionAndWithdrawMutation ?? {};
 
+  const {
+    isLoading: isClosePositionAndWithdrawImmediatelyLoading,
+    isError: isClosePositionAndWithdrawImmediatelyError,
+    error: closePositionAndWithdrawImmediatelyError,
+  } = closePositionAndWithdrawImmediatelyMutation ?? {};
+
   const isCancelWithdrawOrWithdrawMutationLoading =
     Boolean(isCancelWithdrawLoading) || Boolean(isWithdrawLoading);
 
   const isError =
     Boolean(isInitWithdrawError) ||
     Boolean(isInitFullWithdrawError) ||
-    Boolean(isClosePositionAndWithdrawError);
+    Boolean(isClosePositionAndWithdrawError) ||
+    Boolean(isClosePositionAndWithdrawImmediatelyError);
   const error =
-    initWithdrawError ?? initFullWithdrawError ?? closePositionAndWithdrawError;
+    initWithdrawError ??
+    initFullWithdrawError ??
+    closePositionAndWithdrawError ??
+    closePositionAndWithdrawImmediatelyError;
 
   const inputValueBig = new Big(inputValue || 0);
 
@@ -119,33 +141,60 @@ export const WithdrawMainButton = () => {
   const isMainButtonLoading =
     Boolean(isInitWithdrawLoading) ||
     Boolean(isInitFullWithdrawLoading) ||
-    Boolean(isClosePositionAndWithdrawLoading);
+    Boolean(isClosePositionAndWithdrawLoading) ||
+    Boolean(isClosePositionAndWithdrawImmediatelyLoading);
 
   // for basic vault we need to check if user input is greater than 0
   // for degen vault we need to check if currentPosition is greater > 0 and withdrawalPending === 0
   // for long vault we need to check if currentContractsPosition is greater > 0
-  const isValidInputMap = {
-    [BasicVaultType.BASIC]: inputValueBig.gt(0),
-
-    [BasicVaultType.DEGEN]:
-      basicVaultCurrentPosition?.gt(0) && withdrawalPending?.eq(0),
-
-    [BasicVaultType.WHEEL]: inputValueBig.gt(0),
-
-    [BasicVaultType.LONG]: currentContractsPosition?.gt(0),
+  const isValidInput = () => {
+    switch (basicVaultType) {
+      case BasicVaultType.BASIC: {
+        return inputValueBig.gt(0);
+      }
+      case BasicVaultType.DEGEN: {
+        return basicVaultCurrentPosition?.gt(0) && withdrawalPending?.eq(0);
+      }
+      case BasicVaultType.WHEEL: {
+        return inputValueBig.gt(0);
+      }
+      case BasicVaultType.LONG: {
+        return isLongOptionPositionModal
+          ? inputValueBig.gt(0)
+          : currentContractsPosition?.gt(0);
+      }
+      default: {
+        return true;
+      }
+    }
   };
 
-  const mainButtonClickHandlers = {
-    [BasicVaultType.BASIC]: runInitWithdraw,
-    [BasicVaultType.DEGEN]: runInitFullWithdraw,
-    [BasicVaultType.WHEEL]: runInitWithdraw,
-    [BasicVaultType.LONG]: runClosePositionAndWithdraw,
+  const getMainButtonClickHandler = () => {
+    switch (basicVaultType) {
+      case BasicVaultType.BASIC: {
+        return runInitWithdraw;
+      }
+      case BasicVaultType.DEGEN: {
+        return runInitFullWithdraw;
+      }
+      case BasicVaultType.WHEEL: {
+        return runInitWithdraw;
+      }
+      case BasicVaultType.LONG: {
+        return isLongOptionPositionModal
+          ? runClosePositionAndWithdrawImmediately
+          : runClosePositionAndWithdraw;
+      }
+      default: {
+        return () => undefined;
+      }
+    }
   };
 
-  const isInputValueValid = isValidInputMap[basicVaultType];
+  const isInputValueValid = isValidInput();
   const loadingButtonTitle = loadingButtonTitles[basicVaultType];
   const buttonTitle = buttonTitles[basicVaultType];
-  const handleMainButtonClick = mainButtonClickHandlers[basicVaultType];
+  const handleMainButtonClick = getMainButtonClickHandler();
 
   const isMainButtonDisabled =
     isTokenDataLoading ||

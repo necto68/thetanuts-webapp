@@ -1,22 +1,17 @@
-import { useEffect, useState } from "react";
-
 import { PendingMutationContent } from "../../modal/components/PendingMutationContent";
-import { numberFormatter } from "../../shared/helpers";
 import {
   useBasicModalConfig,
   useBasicModalState,
 } from "../../basic-vault-modal/hooks";
-import {
-  useLongModalConfig,
-  useLongModalMutations,
-} from "../../long-vault-modal/hooks";
-import { getLongOptionTitle } from "../../table/helpers";
+import { useLongModalMutations } from "../../long-vault-modal/hooks";
+import { getLongOptionTokenSymbol } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
 
 // eslint-disable-next-line complexity
 export const LongOptionPositionModalPendingMutationContent = () => {
   const { basicVaultChainId, basicVaultQuery } = useBasicModalConfig();
-  const { longVaultReaderQuery } = useLongModalConfig();
+
+  // const { longVaultReaderQuery } = useLongModalConfig();
   const { inputValue, tokenData } = useBasicModalState();
   const {
     openPositionImmediatelyMutation,
@@ -28,26 +23,26 @@ export const LongOptionPositionModalPendingMutationContent = () => {
   const { type = VaultType.CALL, assetSymbol = "" } =
     basicVaultQuery.data ?? {};
 
-  const { currentContractsPosition: rawCurrentContractsPosition } =
-    longVaultReaderQuery.data ?? {};
+  // const { currentContractsPosition: rawCurrentContractsPosition } =
+  //   longVaultReaderQuery.data ?? {};
 
-  const [currentContractsPosition, setCurrentContractsPosition] = useState(
-    rawCurrentContractsPosition
-  );
+  // const [currentContractsPosition, setCurrentContractsPosition] = useState(
+  //   rawCurrentContractsPosition
+  // );
 
   // we need to avoid the case where the user has already closed position
   // and currentContractsPosition === 0
   // so we need to show previous value
 
-  useEffect(() => {
-    if (rawCurrentContractsPosition?.gt(0)) {
-      setCurrentContractsPosition(rawCurrentContractsPosition);
-    }
-  }, [rawCurrentContractsPosition]);
+  // useEffect(() => {
+  //   if (rawCurrentContractsPosition?.gt(0)) {
+  //     setCurrentContractsPosition(rawCurrentContractsPosition);
+  //   }
+  // }, [rawCurrentContractsPosition]);
 
-  const formattedCurrentPosition = currentContractsPosition
-    ? numberFormatter.format(currentContractsPosition.toNumber())
-    : "";
+  // const formattedCurrentPosition = currentContractsPosition
+  //   ? numberFormatter.format(currentContractsPosition.toNumber())
+  //   : "";
 
   const {
     data: openPositionImmediatelyData,
@@ -66,11 +61,12 @@ export const LongOptionPositionModalPendingMutationContent = () => {
     Boolean(closePositionImmediatelyData);
 
   const tokenSymbol = tokenData?.symbol ?? "";
-  const optionTitle = getLongOptionTitle(type, assetSymbol);
+  const optionSymbol = getLongOptionTokenSymbol(type, assetSymbol);
 
   const sourceTokenData = {
-    value: isOpenPositionMutation ? inputValue : formattedCurrentPosition,
-    symbol: isOpenPositionMutation ? tokenSymbol : optionTitle,
+    // value: isOpenPositionMutation ? inputValue : formattedCurrentPosition,
+    value: inputValue,
+    symbol: isOpenPositionMutation ? tokenSymbol : optionSymbol,
   };
 
   const pendingTitle = isOpenPositionMutation

@@ -24,12 +24,12 @@ import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
 import { VaultType } from "../../basic-vault/types";
 import {
-  getLongOptionTitle,
+  getLongOptionTokenSymbol,
   getLongVaultContractsTitle,
 } from "../../table/helpers";
 import { useVaultModalState } from "../../modal/hooks";
 import { VaultModalType } from "../../root/types";
-import { TabType } from "../types";
+import { ModalContentType } from "../../index-vault-modal/types";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -276,17 +276,17 @@ export const DepositMainButton = () => {
       ? inputValueBig.mul(swapLeverage).toFixed(2)
       : loadingPlaceholder;
 
-    const optionTitle = getLongOptionTitle(type, assetSymbol);
+    const optionSymbol = getLongOptionTokenSymbol(type, assetSymbol);
 
     buttonTitle = inputValueBig.gt(0)
-      ? `Bid ${longValue} ${optionTitle}`
+      ? `Bid ${longValue} ${optionSymbol}`
       : "Bid";
 
-    const openLongOptionPositionModal = () => {
+    const showOpenLongOptionPositionModal = () => {
       setVaultModalState((previousState) => ({
         ...previousState,
         vaultType: VaultModalType.longPosition,
-        tabType: TabType.deposit,
+        contentType: ModalContentType.openLongOptionPosition,
         isShow: true,
         isRouterModal: false,
         defaultInputValue: inputValue,
@@ -295,7 +295,7 @@ export const DepositMainButton = () => {
 
     handleMainButtonClick = isLongOptionPositionModal
       ? runOpenPositionImmediately
-      : openLongOptionPositionModal;
+      : showOpenLongOptionPositionModal;
   } else if (isLongVault) {
     const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
 

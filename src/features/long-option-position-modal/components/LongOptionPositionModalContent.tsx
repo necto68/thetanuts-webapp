@@ -1,10 +1,18 @@
-import { TabType } from "../../basic-vault-modal/types";
 import { useVaultModalState } from "../../modal/hooks";
+import { ModalContentType } from "../../index-vault-modal/types";
+import { ClosePositionModalStateProvider } from "../providers/ClosePositionModalStateProvider";
 
 import { OpenPositionModalContent } from "./OpenPositionModalContent";
+import { ClosePositionModalContent } from "./ClosePositionModalContent";
 
 export const LongOptionPositionModalContent = () => {
-  const [{ tabType }] = useVaultModalState();
+  const [{ contentType }] = useVaultModalState();
 
-  return tabType === TabType.deposit ? <OpenPositionModalContent /> : null;
+  return contentType === ModalContentType.openLongOptionPosition ? (
+    <OpenPositionModalContent />
+  ) : (
+    <ClosePositionModalStateProvider>
+      <ClosePositionModalContent />
+    </ClosePositionModalStateProvider>
+  );
 };

@@ -327,6 +327,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
   ]);
 
   const runClosePositionAndWithdrawImmediatelyMutation =
+    // eslint-disable-next-line complexity
     useCallback(async () => {
       if (!walletProvider || !account) {
         return false;
@@ -339,6 +340,11 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
       const longVaultPositionManagerContract =
         LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
+
+      // TODO: return when partial withdrawals are supported
+      // const depositAmount = new Big(inputValue)
+      //   .mul(tokenData.tokenDivisor)
+      //   .round();
 
       const { data } = longVaultReaderQuery;
       const { balance = undefined, tokenDivisor = undefined } =
@@ -357,9 +363,9 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
         .then(convertToBig);
 
       // slippage allowance - 0.05%
-      const maxCollateralToUse = quoteOutput.mul(1.0005);
+      const maxCollateralToUse = quoteOutput.mul(1.0005).round();
 
-      const methodName =
+      const closePositionImmediatelyMethodName =
         "closeVaultAndWithdrawPosition(address,address,address,uint256)";
 
       const closePositionImmediatelyParameters = [
@@ -369,16 +375,49 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
         maxCollateralToUse.toString(),
       ] as const;
 
+      const closePositionMethodName =
+        "closeVaultAndWithdrawPosition(address,address,address)";
+
+      const closePositionParameters = [
+        account,
+        basicVaultAddress,
+        lendingPoolAddress,
+      ] as const;
+
       let transaction = null;
 
-      try {
-        await longVaultPositionManagerContract.callStatic[methodName](
-          ...closePositionImmediatelyParameters
-        );
+      let isUseImmediateMethod = false;
 
-        transaction = await longVaultPositionManagerContract[methodName](
-          ...closePositionImmediatelyParameters
-        );
+      try {
+        // we try to close position immediately with swap firstly
+        await longVaultPositionManagerContract.callStatic[
+          closePositionImmediatelyMethodName
+        ](...closePositionImmediatelyParameters);
+
+        isUseImmediateMethod = true;
+      } catch {
+        // but if it fails we try to close position using old method
+        isUseImmediateMethod = false;
+      }
+
+      try {
+        if (isUseImmediateMethod) {
+          await longVaultPositionManagerContract.callStatic[
+            closePositionImmediatelyMethodName
+          ](...closePositionImmediatelyParameters);
+
+          transaction = await longVaultPositionManagerContract[
+            closePositionImmediatelyMethodName
+          ](...closePositionImmediatelyParameters);
+        } else {
+          await longVaultPositionManagerContract.callStatic[
+            closePositionMethodName
+          ](...closePositionParameters);
+
+          transaction = await longVaultPositionManagerContract[
+            closePositionMethodName
+          ](...closePositionParameters);
+        }
       } catch (walletError) {
         processWalletError(walletError);
       }

@@ -8,7 +8,7 @@ import {
 } from "../../basic-vault-modal/hooks";
 import { numberFormatter } from "../../shared/helpers";
 import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
-import { getLongOptionTitle } from "../../table/helpers";
+import { getLongOptionTokenSymbol } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
 
 import { Container, Title, ToTitle } from "./PositionInfo.styles";
@@ -51,7 +51,7 @@ export const PositionInfo = () => {
       inputValueBig.mul(swapLeverageValue).toNumber()
     ),
 
-    symbol: getLongOptionTitle(type, assetSymbol),
+    symbol: getLongOptionTokenSymbol(type, assetSymbol),
   };
 
   return (
