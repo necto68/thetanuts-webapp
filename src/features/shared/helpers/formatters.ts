@@ -128,3 +128,28 @@ export const timerFormatter = (initialSeconds: number) => {
 
   return [days, hours, minutes, seconds].join(" ");
 };
+
+export const expiryFormatter = (expiry: number) => {
+  const date = new Date(expiry);
+
+  const months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
+
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear().toString().slice(-2);
+
+  return [day, month, year].join("");
+};
