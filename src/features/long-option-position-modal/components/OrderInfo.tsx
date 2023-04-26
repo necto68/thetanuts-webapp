@@ -57,10 +57,10 @@ export const OrderInfo = () => {
       </InfoItemContainer>
       <Separator />
       <InfoItemContainer>
-        <InfoContainer>
+        {/* <InfoContainer>
           <InfoTitle>Fees</InfoTitle>
           <InfoValue>X.XX%</InfoValue>
-        </InfoContainer>
+        </InfoContainer> */}
         <BorrowFeeInfo />
       </InfoItemContainer>
     </Container>

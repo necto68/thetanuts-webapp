@@ -3,9 +3,10 @@ import { LeverageInfo } from "./LeverageInfo";
 import { BorrowFeeInfo } from "./BorrowFeeInfo";
 import {
   Container,
-  InfoContainer,
-  InfoTitle,
-  InfoValue,
+
+  // InfoContainer,
+  // InfoTitle,
+  // InfoValue,
 } from "./OrderInfo.styles";
 
 export const OrderInfo = () => (
@@ -17,10 +18,10 @@ export const OrderInfo = () => (
       </InfoContainer> */}
     <PoolTypeInfo />
     <LeverageInfo />
-    <InfoContainer>
+    {/* <InfoContainer>
       <InfoTitle>Spread Cost</InfoTitle>
       <InfoValue>X.XX%</InfoValue>
-    </InfoContainer>
+    </InfoContainer> */}
     <BorrowFeeInfo />
   </Container>
 );
