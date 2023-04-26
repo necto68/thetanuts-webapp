@@ -68,7 +68,7 @@ export const DepositMainButton = () => {
 
   const { account } = useWallet();
 
-  const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
+  const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
   const {
     type = VaultType.CALL,
     basicVaultType = BasicVaultType.BASIC,
@@ -194,7 +194,7 @@ export const DepositMainButton = () => {
     return <ConnectWalletMainButton />;
   }
 
-  if (!isBasicVaultQueryLoading && walletChainId !== basicVaultChainId) {
+  if (!isBasicVaultLoading && walletChainId !== basicVaultChainId) {
     return (
       <SwitchToChainIdMainButton
         chainId={basicVaultChainId}

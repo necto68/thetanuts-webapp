@@ -175,7 +175,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     const signer = walletProvider.getSigner();
 
     const { data } = longOptionReaderQuery;
-    const { LPToBorrowValue = new Big(0), minToReceiveValue = new Big(0) } =
+    const { LPToBorrowValue = new Big(0), minToReceiveLPValue = new Big(0) } =
       data ?? {};
 
     const longVaultPositionManagerContract =
@@ -191,7 +191,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
       lendingPoolAddress,
       basicVaultAddress,
       LPToBorrowValue.toString(),
-      minToReceiveValue.mul(0.9995).round().toString(),
+      minToReceiveLPValue.mul(0.9995).round().toString(),
     ] as const;
 
     let transaction = null;

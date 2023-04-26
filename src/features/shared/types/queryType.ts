@@ -22,6 +22,7 @@ export enum QueryType {
   longVaultReader = "longVaultReader",
 
   longOptionReader = "longOptionReader",
+  longOptionClosePositionReader = "longOptionClosePositionReader",
 
   chainIndexSwapsHistory = "chainIndexSwapsHistory",
   indexDepositsHistory = "indexDepositsHistory",

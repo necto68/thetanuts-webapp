@@ -9,21 +9,18 @@ import {
 } from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
-import { basicVaultFetcher } from "../../basic-vault/helpers";
 import { longVaultsMap } from "../../basic/constants";
 import { longVaultReaderFetcher } from "../../long-vault/helpers";
 import { collateralAssetFetcher } from "../../long/helpers";
 import { collateralAssetsMap } from "../../long/constants";
-import type { LongOptionReader } from "../types";
+import type { LongOptionClosePositionReader } from "../types";
 
-const defaultLongOptionReader: LongOptionReader = {
+const defaultLongOptionClosePositionReader: LongOptionClosePositionReader = {
   inputValue: "",
-  LPToBorrowValue: new Big(0),
-  minToReceiveValue: new Big(0),
-  swapLeverage: null,
+  minToReceiveCollateralValue: null,
 };
 
-export const longOptionReaderFetcher = async (
+export const longOptionClosePositionReaderFetcher = async (
   basicVaultId: string,
   basicVaultType: BasicVaultType,
   basicVaultAddress: string,
@@ -32,7 +29,7 @@ export const longOptionReaderFetcher = async (
   account: string,
   provider: Provider,
   inputValue: string
-): Promise<LongOptionReader> => {
+): Promise<LongOptionClosePositionReader> => {
   const signer = new VoidSigner(account, provider);
 
   const longVaultPositionManagerContract =
@@ -44,22 +41,10 @@ export const longOptionReaderFetcher = async (
   const quoterContract = QuoterAbiFactory.connect(quoterAddress, signer);
 
   const longVaultConfig = longVaultsMap[basicVaultId];
-  const chainId = longVaultConfig?.source.chainId ?? 0;
 
   const { protocolDataProviderAddress = "" } = longVaultConfig ?? {};
 
-  const [basicVault, longVaultReader] = await Promise.all([
-    queryClient.fetchQuery(
-      [QueryType.basicVault, basicVaultId, basicVaultType, chainId],
-      async () =>
-        await basicVaultFetcher(
-          basicVaultId,
-          basicVaultType,
-          basicVaultAddress,
-          provider
-        )
-    ),
-
+  const [longVaultReader] = await Promise.all([
     queryClient.fetchQuery(
       [QueryType.longVaultReader, basicVaultId, basicVaultType, account],
       async () =>
@@ -71,7 +56,8 @@ export const longOptionReaderFetcher = async (
           protocolDataProviderAddress,
           account,
           provider
-        )
+        ),
+      { staleTime: 10_000 }
     ),
   ]);
 
@@ -100,88 +86,55 @@ export const longOptionReaderFetcher = async (
           lendingPoolAddressesProviderAddress,
           provider,
           account
-        )
+        ),
+      { staleTime: 10_000 }
     ),
   ]);
 
-  const { debtTokenPrice } = longVaultReader;
-  const { loanToValue, collateralToken, collateralPrice, lendingPoolAddress } =
-    collateralAsset;
+  const { collateralToken, lendingPoolAddress } = collateralAsset;
   const collateralTokenAddress = collateralToken.tokenAddress;
 
   const inputValueBig = new Big(inputValue || 0);
 
   if (inputValueBig.lte(0)) {
-    return defaultLongOptionReader;
+    return defaultLongOptionClosePositionReader;
   }
 
-  const depositAmount = inputValueBig.mul(collateralToken.tokenDivisor).round();
+  const inputAmount = inputValueBig.mul(collateralToken.tokenDivisor).round();
 
-  const availableForBorrow = depositAmount
-    .mul(collateralPrice)
-    .mul(loanToValue);
-
-  let left = 0;
-  let right = 100;
-  let mid = 0;
-  let depth = 0;
-  let LPToBorrowValue = new Big(0);
-
-  const minToReceiveValue = await quoterContract.callStatic
-    .quoteExactInputSingle(
-      basicVaultAddress,
+  const quoteOutput = await quoterContract.callStatic
+    .quoteExactOutputSingle(
       collateralTokenAddress,
+      basicVaultAddress,
       500,
-      depositAmount.toString(),
+      inputAmount.toString(),
       0
     )
     .then(convertToBig);
 
-  while (left <= right) {
-    depth += 1;
-    mid = Math.floor((left + right) / 2);
+  // slippage allowance - 0.05%
+  const maxCollateralToUse = quoteOutput.mul(1.0005).round();
 
-    const bestLPToBorrowAmount = availableForBorrow
-      .div(1 - loanToValue)
-      .div(debtTokenPrice)
-      .mul(100 - mid)
-      .div(100)
-      .round();
+  let minToReceiveCollateralValue = null;
 
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      await longVaultPositionManagerContract.callStatic.depositAndOpenBySwapOptionPosition(
-        collateralTokenAddress,
-        depositAmount.toString(),
-        lendingPoolAddress,
+  try {
+    minToReceiveCollateralValue =
+      await longVaultPositionManagerContract.callStatic[
+        "closeVaultAndWithdrawPosition(address,address,address,uint256)"
+      ](
+        account,
         basicVaultAddress,
-        bestLPToBorrowAmount.toString(),
-        minToReceiveValue.toString()
-      );
-
-      // console.log(`Succeeded for ${mid}`);
-
-      LPToBorrowValue = bestLPToBorrowAmount;
-
-      if (depth > 5) {
-        break;
-      }
-
-      right = mid - 1;
-    } catch {
-      // console.log(`Failed for ${mid}`);
-      left = mid + 1;
-    }
+        lendingPoolAddress,
+        maxCollateralToUse.toString()
+      )
+        .then(convertToBig)
+        .then((value) => value.div(collateralToken.tokenDivisor));
+  } catch {
+    minToReceiveCollateralValue = null;
   }
-
-  const swapLeverage = LPToBorrowValue.mul(basicVault.valuePerLP)
-    .div(depositAmount)
-    .toNumber();
 
   return {
     inputValue,
-    LPToBorrowValue,
-    minToReceiveValue,
-    swapLeverage,
+    minToReceiveCollateralValue,
   };
 };

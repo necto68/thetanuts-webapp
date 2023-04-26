@@ -8,8 +8,7 @@ import {
   WithdrawMainButtonContainer,
 } from "../../long-vault-modal/components/LongModalContent.styles";
 
-import { SizeInfo } from "./SizeInfo";
-import { ExpiryInfo } from "./ExpiryInfo";
+import { ClosePositionOrderInfo } from "./ClosePositionOrderInfo";
 
 // import { Container } from "../../long-option-modal/components/LongOptionModal.styles";
 
@@ -30,8 +29,7 @@ export const ClosePositionModalContent = () => {
     <Container>
       {/* <ClosePositionSwitcher /> */}
       {/* <InputCard /> */}
-      <SizeInfo />
-      <ExpiryInfo />
+      <ClosePositionOrderInfo />
       <WithdrawMainButtonContainer>
         <WithdrawMainButton />
         <WarningTitle>

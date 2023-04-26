@@ -17,6 +17,7 @@ import {
 } from "../../long-option-modal/components";
 
 import { Container } from "./OrderInfo.styles";
+import { ExpiryInfo } from "./ExpiryInfo";
 
 export const OrderInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
@@ -47,10 +48,7 @@ export const OrderInfo = () => {
           <InfoTitle>Strike Price</InfoTitle>
           <InfoValue>{isLoading ? loadingPlaceholder : strikePrice}</InfoValue>
         </InfoContainer>
-        <InfoContainer>
-          <InfoTitle>Expiration</InfoTitle>
-          <InfoValue>{isLoading ? loadingPlaceholder : "17MAR23"}</InfoValue>
-        </InfoContainer>
+        <ExpiryInfo />
       </InfoItemContainer>
       <Separator />
       <InfoItemContainer>

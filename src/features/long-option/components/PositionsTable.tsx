@@ -1,10 +1,15 @@
-import { Table } from "../../table/components";
+import { assetFormatter } from "../../shared/helpers";
+import { CellValue, Table } from "../../table/components";
 import type { Column } from "../../table/types";
-import type { OptionPositionRow } from "../types";
+import { useLongOptionPositions } from "../hooks";
+import type { LongOptionPositionRow } from "../types";
 
-const columns: Column<OptionPositionRow>[] = [
+import { ClosePositionButton } from "./ClosePositionButton";
+import { ComponentContainer } from "./LongOptionContent.styles";
+
+const columns: Column<LongOptionPositionRow>[] = [
   {
-    key: "instrument",
+    key: "title",
     title: "Instrument",
   },
   {
@@ -14,28 +19,29 @@ const columns: Column<OptionPositionRow>[] = [
   {
     key: "size",
     title: "Size",
+
+    render: ({ size, symbol }) =>
+      `${assetFormatter.format(size.toNumber())} ${symbol}`,
   },
   {
-    key: "IV",
-    title: "IV",
-  },
-  {
-    key: "PnL",
-    title: "PnL",
+    key: "id",
+    title: "",
+
+    render: () => <ClosePositionButton />,
   },
 ];
 
+// eslint-disable-next-line react/no-multi-comp
 export const PositionsTable = () => {
-  // test data
-  const rows: OptionPositionRow[] = [
-    {
-      instrument: "MATIC-17MAR23-1700-C",
-      side: "Long",
-      size: 100,
-      IV: "106%",
-      PnL: 100,
-    },
-  ];
+  const rows = useLongOptionPositions();
+
+  if (rows.length === 0) {
+    return (
+      <ComponentContainer>
+        <CellValue>You have no open positions</CellValue>
+      </ComponentContainer>
+    );
+  }
 
   return <Table columns={columns} minWidth={0} rows={rows} />;
 };

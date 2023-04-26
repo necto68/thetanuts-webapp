@@ -54,7 +54,7 @@ export const chains: ChainConfig[] = [
       longVaultPositionManagerAddress:
         "0xd588A0297e8C1Eb4670b1bB55f38F4Ca77d053E8",
 
-      quoterAddress: ZERO_ADDRESS,
+      quoterAddress: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
     },
 
     deployerAddresses: {

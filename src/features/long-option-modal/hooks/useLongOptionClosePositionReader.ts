@@ -5,9 +5,9 @@ import { QueryType } from "../../shared/types";
 import { longVaultsMap } from "../../basic/constants";
 import { BasicVaultType } from "../../basic/types";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
-import { longOptionReaderFetcher } from "../helpers";
+import { longOptionClosePositionReaderFetcher } from "../helpers";
 
-export const useLongOptionReader = (
+export const useLongOptionClosePositionReader = (
   basicVaultId: string,
   inputValue: string
 ) => {
@@ -27,7 +27,7 @@ export const useLongOptionReader = (
 
   return useQuery({
     queryKey: [
-      QueryType.longOptionReader,
+      QueryType.longOptionClosePositionReader,
       basicVaultId,
       basicVaultType,
       account,
@@ -35,7 +35,7 @@ export const useLongOptionReader = (
     ],
 
     queryFn: async () =>
-      await longOptionReaderFetcher(
+      await longOptionClosePositionReaderFetcher(
         basicVaultId,
         basicVaultType,
         basicVaultAddress,
