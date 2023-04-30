@@ -52,7 +52,9 @@ export const BasicModalContent = () => {
       </MainButtonsContainer>
       <VaultInfo />
       {shouldHideAnalyticLink ? null : <AnalyticLink />}
-      {aTokenAddress !== "" && <BoostContent />}
+      {aTokenAddress !== "0x0000000000000000000000000000000000000000" && (
+        <BoostContent />
+      )}
     </Container>
   );
 };
