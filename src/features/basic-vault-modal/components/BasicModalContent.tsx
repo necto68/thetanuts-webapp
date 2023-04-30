@@ -43,7 +43,8 @@ export const BasicModalContent = () => {
           <>
             <WithdrawMainButton />
             <PendingWithdrawMainButton />
-            {aTokenAddress !== "0x0000000000000000000000000000000000000000" ? (
+            {aTokenAddress !== "" &&
+            aTokenAddress !== "0x0000000000000000000000000000000000000000" ? (
               <WithdrawNowMainButton />
             ) : null}
           </>
@@ -52,9 +53,10 @@ export const BasicModalContent = () => {
       </MainButtonsContainer>
       <VaultInfo />
       {shouldHideAnalyticLink ? null : <AnalyticLink />}
-      {aTokenAddress !== "0x0000000000000000000000000000000000000000" && (
-        <BoostContent />
-      )}
+      {aTokenAddress !== "" &&
+        aTokenAddress !== "0x0000000000000000000000000000000000000000" && (
+          <BoostContent />
+        )}
     </Container>
   );
 };
