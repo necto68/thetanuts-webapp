@@ -21,6 +21,8 @@ const defaultBasicModalState: BasicModalState = {
     collateralTokenQuery: undefined,
     nativeTokenQuery: undefined,
   },
+
+  activePositionData: undefined,
 };
 
 export const BasicModalStateContext = createContext<BasicModalState>(

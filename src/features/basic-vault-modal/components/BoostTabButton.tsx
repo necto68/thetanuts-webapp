@@ -10,7 +10,10 @@ interface BoostTabButtonProps {
   tabType: TabType;
 }
 
-export const BoostTabButton: FC<BoostTabButtonProps> = ({ tabType, children }) => {
+export const BoostTabButton: FC<BoostTabButtonProps> = ({
+  tabType,
+  children,
+}) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
   const { tabType: currentTabType } = vaultModalState;
 

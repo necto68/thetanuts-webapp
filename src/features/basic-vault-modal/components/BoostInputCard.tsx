@@ -20,7 +20,7 @@ export const BoostInputCard = () => {
     minInputValue,
     maxInputValue,
   } = useBasicModalState();
-  
+
   return (
     <SwapInputCard
       inputValue={inputValue}

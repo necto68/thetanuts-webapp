@@ -21,6 +21,6 @@ export interface BasicModalState {
     collateralTokenQuery: SwapRouterState["tokensQueries"]["sourceTokenQuery"];
     nativeTokenQuery: SwapRouterState["tokensQueries"]["nativeTokenQuery"];
   };
-  
+
   activePositionData: SwapRouterState["activePositionData"];
 }

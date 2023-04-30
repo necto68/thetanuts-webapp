@@ -24,7 +24,7 @@ export const CurrentPositionInfo = () => {
   const { basicVaultType = BasicVaultType.BASIC, collateralSymbol = "" } =
     basicVaultData ?? {};
 
-  const { currentPosition = new Big(0) } = basicVaultReaderData ?? {};
+  const { totalPosition = new Big(0) } = basicVaultReaderData ?? {};
 
   const tooltipContents = {
     [BasicVaultType.BASIC]:
@@ -44,8 +44,8 @@ export const CurrentPositionInfo = () => {
 
   const loadingPlaceholder = ".....";
 
-  const formattedCurrentPosition = currentPosition
-    ? `${assetFormatter.format(currentPosition.toNumber())} ${collateralSymbol}`
+  const formattedCurrentPosition = totalPosition
+    ? `${assetFormatter.format(totalPosition.toNumber())} ${collateralSymbol}`
     : "N/A";
 
   return (

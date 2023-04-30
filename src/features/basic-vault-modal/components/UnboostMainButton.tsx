@@ -18,10 +18,7 @@ import {
   useLongModalConfig,
   useLongModalMutations,
 } from "../../long-vault-modal/hooks";
-import {
-  loadingButtonTitles,
-  buttonTitles,
-} from "../constants/withdrawMainButtonTitles";
+import { loadingButtonTitles } from "../constants/withdrawMainButtonTitles";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -47,12 +44,9 @@ export const UnboostMainButton = () => {
     initFullWithdrawMutation,
     cancelWithdrawMutation,
     withdrawMutation,
-    runInitWithdraw,
-    runInitFullWithdraw,
     runUnboost,
   } = useBasicModalMutations();
-  const { closePositionAndWithdrawMutation, runClosePositionAndWithdraw } =
-    useLongModalMutations();
+  const { closePositionAndWithdrawMutation } = useLongModalMutations();
 
   const { account } = useWallet();
 
@@ -145,7 +139,6 @@ export const UnboostMainButton = () => {
 
   const isInputValueValid = isValidInputMap[basicVaultType];
   const loadingButtonTitle = loadingButtonTitles[basicVaultType];
-  const buttonTitle = buttonTitles[basicVaultType];
   const handleMainButtonClick = mainButtonClickHandlers[basicVaultType];
 
   const isMainButtonDisabled =
@@ -184,14 +177,14 @@ export const UnboostMainButton = () => {
   }
 
   return isMainButtonDisabled ? (
-    <ModalMainButton disabled>{'Enter An Amount'}</ModalMainButton>
+    <ModalMainButton disabled>Enter An Amount</ModalMainButton>
   ) : (
     <ModalMainButton
       onClick={handleMainButtonClick}
       primaryColor="#12CC86"
       secondaryColor="#ffffff"
     >
-      {'Unboost'}
+      Unboost
     </ModalMainButton>
   );
 };

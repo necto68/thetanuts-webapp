@@ -261,7 +261,7 @@ export const DepositMainButton = () => {
       primaryColor="#12CC86"
       secondaryColor="#ffffff"
     >
-      {"Initiate Deposit"}
+      Initiate Deposit
     </ModalMainButton>
   );
 };

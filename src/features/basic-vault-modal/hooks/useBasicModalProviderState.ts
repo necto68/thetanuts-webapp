@@ -13,11 +13,9 @@ import { convertToBig } from "../../shared/helpers";
 import { useLongModalConfig } from "../../long-vault-modal/hooks/useLongModalConfig";
 import { BasicVaultType } from "../../basic/types";
 import { useVaultModalState } from "../../modal/hooks";
+import { LPOOL_ADDRESS, lendingPoolTokenAddresses } from "../constants";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
-
-import { LPOOL_ADDRESS } from "../constants";
-import { lendingPoolTokenAddresses } from "../constants";
 
 // eslint-disable-next-line complexity
 export const useBasicModalProviderState = (): BasicModalState => {
@@ -43,14 +41,20 @@ export const useBasicModalProviderState = (): BasicModalState => {
   let updatedCollateralTokenAddress = collateralTokenAddress;
   if (isBoostContentShown && tabType === "deposit") {
     updatedCollateralTokenAddress = spenderAddress;
+    // eslint-disable-next-line sonarjs/elseif-without-else
   } else if (isBoostContentShown && tabType === "withdraw") {
-    const lendingPoolToken = lendingPoolTokenAddresses.find(token => token.id === vaultId);
+    const lendingPoolToken = lendingPoolTokenAddresses.find(
+      (token) => token.id === vaultId
+    );
     if (lendingPoolToken) {
-      updatedCollateralTokenAddress = lendingPoolToken.source.suppliedTokenAddress;
+      updatedCollateralTokenAddress =
+        lendingPoolToken.source.suppliedTokenAddress;
     }
   }
 
-  const updatedSpenderAddress = isBoostContentShown ? LPOOL_ADDRESS : spenderAddress;
+  const updatedSpenderAddress = isBoostContentShown
+    ? LPOOL_ADDRESS
+    : spenderAddress;
 
   const { longVaultReaderQuery } = useLongModalConfig();
 
@@ -72,7 +76,6 @@ export const useBasicModalProviderState = (): BasicModalState => {
   const { minSupplyValue = 0, maxSupplyValue = Number.MAX_SAFE_INTEGER } =
     longVaultReaderData ?? {};
 
-
   const collateralTokenQuery = useTokenQuery(
     updatedCollateralTokenAddress,
     updatedSpenderAddress,
@@ -83,7 +86,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const { data: collateralTokenData, isLoading: isTokenDataLoading } =
     collateralTokenQuery;
-    
+
   const { data: nativeData, isLoading: isNativeDataLoading } = nativeTokenQuery;
 
   const lpDivisor = new Big(10).pow(18);
@@ -104,20 +107,23 @@ export const useBasicModalProviderState = (): BasicModalState => {
       }
     : undefined;
 
-  const lpToken = lendingPoolTokenAddresses.find(token => token.id === vaultId);
-  const lpTokenAddress = lpToken?.source?.suppliedTokenAddress;
-  
+  const lpToken = lendingPoolTokenAddresses.find(
+    (token) => token.id === vaultId
+  );
+  const lpTokenAddress = lpToken?.source.suppliedTokenAddress ?? "";
+
   const activePositionQuery = useTokenQuery(
     lpTokenAddress,
     updatedSpenderAddress,
     provider
   );
 
-  const { data: activePositionData, isLoading: isPositionDataLoading } =
-  activePositionQuery;
-  
+  const { data: activePositionData } = activePositionQuery;
+
   const tokenData =
-    tabType === TabType.withdraw && !isBoostContentShown ? withdrawalTokenData : collateralTokenData;
+    tabType === TabType.withdraw && !isBoostContentShown
+      ? withdrawalTokenData
+      : collateralTokenData;
 
   // use the same price for Deposit/Withdraw tab
   const priceValue = inputValueBig.mul(collateralPrice).toNumber();
@@ -160,6 +166,5 @@ export const useBasicModalProviderState = (): BasicModalState => {
     },
 
     activePositionData,
-
   };
 };

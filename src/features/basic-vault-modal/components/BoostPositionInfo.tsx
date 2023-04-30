@@ -6,14 +6,14 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 
-import { VaultStatusInfo } from "./VaultStatusInfo";
 import { BoostCurrentPositionInfo } from "./BoostCurrentPositionInfo";
-import { BoostUtilization } from "./BoostUtilization";
 
 export const BoostPositionInfo = () => {
-  const { basicVaultQuery, basicVaultReaderQuery, lendingPoolReaderQuery } = useBasicModalConfig();
+  const { basicVaultReaderQuery, lendingPoolReaderQuery } =
+    useBasicModalConfig();
 
-  const { data: lendingPoolReaderData, isLoading: isBasicVaultLoading } = lendingPoolReaderQuery;
+  const { data: lendingPoolReaderData, isLoading: isBasicVaultLoading } =
+    lendingPoolReaderQuery;
 
   const { isLoading: isBasicVaultReaderLoading } = basicVaultReaderQuery;
 
@@ -29,10 +29,9 @@ export const BoostPositionInfo = () => {
       <InfoContainer>
         <InfoTitle>APY</InfoTitle>
         <InfoValue isAlignRight>
-        {isLoading ? loadingPlaceholder : `${formattedAPY}%`}
+          {isLoading ? loadingPlaceholder : `${formattedAPY}%`}
         </InfoValue>
       </InfoContainer>
-      {/* <BoostUtilization /> */}
       <BoostCurrentPositionInfo />
     </Container>
   );

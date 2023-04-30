@@ -4,24 +4,23 @@ import { motion } from "framer-motion";
 import { BaseButton } from "../../shared/components";
 
 interface BoostExpanderProps {
-  currentPosition: number;
-  suppliedTokenAddress: string;
+  isBoostEnabledForUser: boolean;
 }
 
 export const Container = styled.span<BoostExpanderProps>`
-  borderColor: #323844;
+  bordercolor: #323844;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
-  background-color: ${({ currentPosition, suppliedTokenAddress }) =>
-    currentPosition > 0 && suppliedTokenAddress !== "0x0000000000000000000000000000000000000000" ? "#17B579" : "#323844"};
+  background-color: ${({ isBoostEnabledForUser }) =>
+    isBoostEnabledForUser ? "#17B579" : "#323844"};
   border-width: 1px;
   border-style: solid;
-  cursor: ${({ currentPosition, suppliedTokenAddress }) =>
-    currentPosition > 0 && suppliedTokenAddress !== "0x0000000000000000000000000000000000000000" ? "pointer" : "default"}; // Set cursor to "pointer" if currentPosition > 0
+  cursor: ${({ isBoostEnabledForUser }) =>
+    isBoostEnabledForUser ? "pointer" : "default"};
   &:hover {
-    cursor: ${({ currentPosition, suppliedTokenAddress }) =>
-      currentPosition > 0 && suppliedTokenAddress !== "0x0000000000000000000000000000000000000000" ? "pointer" : "default"}; // Set cursor to "pointer" if currentPosition > 0
+    cursor: ${({ isBoostEnabledForUser }) =>
+      isBoostEnabledForUser ? "pointer" : "default"};
   }
 `;
 

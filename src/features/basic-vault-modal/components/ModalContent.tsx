@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
-import { useVaultModalState } from "../../modal/hooks";
 
+import { useVaultModalState } from "../../modal/hooks";
 import {
   Container,
   ContentAnimatedContainer,

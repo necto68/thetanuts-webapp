@@ -1,14 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 
 import { PendingMutationContent } from "../../modal/components/PendingMutationContent";
-import { numberFormatter } from "../../shared/helpers";
 import {
   useBasicModalConfig,
   useBasicModalState,
   useBasicModalMutations,
 } from "../hooks";
 
-// eslint-disable-next-line complexity
 export const BoostModalPendingMutationContent = () => {
   const { basicVaultChainId, basicVaultReaderQuery } = useBasicModalConfig();
   const { inputValue, tokenData } = useBasicModalState();
@@ -34,13 +33,8 @@ export const BoostModalPendingMutationContent = () => {
     }
   }, [rawWithdrawalPending]);
 
-  const formattedWithdrawalPending = withdrawalPending
-    ? numberFormatter.format(withdrawalPending.toNumber())
-    : "";
-
-
   const { data: depositData, isLoading: isDepositLoading } =
-  boostMutation ?? {};
+    boostMutation ?? {};
   const { data: withdrawData } = unboostMutation ?? {};
 
   const isDepositMutation = Boolean(depositData) || isDepositLoading;
@@ -48,7 +42,11 @@ export const BoostModalPendingMutationContent = () => {
   const isMutationSucceed = Boolean(depositData) || Boolean(withdrawData);
 
   const sourceTokenData = {
-    value: isDepositMutation ? Number(inputValue).toFixed(2)  : Number(inputValue).toFixed(2) ,
+    // eslint-disable-next-line sonarjs/no-all-duplicated-branches
+    value: isDepositMutation
+      ? Number(inputValue).toFixed(2)
+      : Number(inputValue).toFixed(2),
+
     symbol: tokenData?.symbol ?? "",
   };
 

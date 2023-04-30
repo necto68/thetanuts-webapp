@@ -204,12 +204,15 @@ export const BoostMainButton = () => {
   }
 
   if (isNeedApprove) {
+    // eslint-disable-next-line sonarjs/no-all-duplicated-branches
     const title = isLongVault
       ? `Approve ${currentTokenData.symbol} for Boost`
       : `Approve ${currentTokenData.symbol} for Boost`;
 
     return (
-      <ActionMainButton onClick={runApproveLpoolAllowance}>{title}</ActionMainButton>
+      <ActionMainButton onClick={runApproveLpoolAllowance}>
+        {title}
+      </ActionMainButton>
     );
   }
 
@@ -261,7 +264,7 @@ export const BoostMainButton = () => {
       primaryColor="#12CC86"
       secondaryColor="#ffffff"
     >
-      {"Boost"}
+      Boost
     </ModalMainButton>
   );
 };

@@ -19,11 +19,10 @@ import {
 import { useResetMutationError } from "../../index-vault-modal/hooks/useResetMutationError";
 import { BasicVaultType } from "../../basic/types/basicVaultConfig";
 import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants";
+import { LPOOL_ADDRESS } from "../constants";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 import { useBasicModalState } from "./useBasicModalState";
-
-import { LPOOL_ADDRESS } from "../constants";
 
 export const useBasicModalProviderMutations = (): BasicModalMutations => {
   const {
@@ -349,7 +348,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
     const signer = walletProvider.getSigner();
 
-
     const lpTokenContract = Erc20AbiFactory.connect(
       tokenData.tokenAddress,
       signer
@@ -375,7 +373,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
 
     return true;
-  }, [tokenData, walletProvider, spenderAddress]);
+  }, [tokenData, walletProvider]);
 
   const runBoostMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
@@ -389,8 +387,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       signer
     );
 
-    const { data } = basicVaultQuery;
-
     const depositAmount = new Big(inputValue)
       .mul(tokenData.tokenDivisor)
       .round()
@@ -399,9 +395,19 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     let transaction = null;
 
     try {
-      await lendingPoolContract.callStatic.deposit(basicVaultAddress, depositAmount, await signer.getAddress(), 0);
+      await lendingPoolContract.callStatic.deposit(
+        basicVaultAddress,
+        depositAmount,
+        await signer.getAddress(),
+        0
+      );
 
-      transaction = await lendingPoolContract.deposit(basicVaultAddress, depositAmount, await signer.getAddress(), 0);
+      transaction = await lendingPoolContract.deposit(
+        basicVaultAddress,
+        depositAmount,
+        await signer.getAddress(),
+        0
+      );
     } catch (walletError) {
       processWalletError(walletError);
     }
@@ -418,14 +424,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
 
     return true;
-  }, [
-    tokenData,
-    walletProvider,
-    basicVaultAddress,
-    basicVaultDepositorAddress,
-    basicVaultQuery,
-    inputValue,
-  ]);
+  }, [tokenData, walletProvider, basicVaultAddress, inputValue]);
 
   const runUnboostMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
@@ -439,8 +438,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       signer
     );
 
-    const { data } = basicVaultQuery;
-
     const depositAmount = new Big(inputValue)
       .mul(tokenData.tokenDivisor)
       .round()
@@ -449,9 +446,17 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     let transaction = null;
 
     try {
-      await lendingPoolContract.callStatic.withdraw(basicVaultAddress, depositAmount, await signer.getAddress());
+      await lendingPoolContract.callStatic.withdraw(
+        basicVaultAddress,
+        depositAmount,
+        await signer.getAddress()
+      );
 
-      transaction = await lendingPoolContract.withdraw(basicVaultAddress, depositAmount, await signer.getAddress());
+      transaction = await lendingPoolContract.withdraw(
+        basicVaultAddress,
+        depositAmount,
+        await signer.getAddress()
+      );
     } catch (walletError) {
       processWalletError(walletError);
     }
@@ -468,14 +473,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
 
     return true;
-  }, [
-    tokenData,
-    walletProvider,
-    basicVaultAddress,
-    basicVaultDepositorAddress,
-    basicVaultQuery,
-    inputValue,
-  ]);
+  }, [tokenData, walletProvider, basicVaultAddress, inputValue]);
 
   const handleMutationSuccess = useCallback(async () => {
     const { collateralTokenQuery, nativeTokenQuery } = tokensQueries;

@@ -1,5 +1,6 @@
 import { TabType } from "../types";
 import { useVaultModalState } from "../../modal/hooks";
+import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 
 import { Switcher } from "./Switcher";
 import { InputCard } from "./InputCard";
@@ -14,11 +15,10 @@ import { AnalyticLink } from "./AnalyticLink";
 import { Container, MainButtonsContainer } from "./BasicModalContent.styles";
 import { BasicCardWarning } from "./BasicCardWarning";
 import { BoostContent } from "./BoostContent";
-import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
 
 export const BasicModalContent = () => {
   const [vaultModalState] = useVaultModalState();
-  const { basicVaultReaderQuery, lendingPoolReaderQuery } = useBasicModalConfig();
+  const { lendingPoolReaderQuery } = useBasicModalConfig();
   const { tabType, vaultId } = vaultModalState;
 
   // TODO: remove later
@@ -27,9 +27,8 @@ export const BasicModalContent = () => {
     "TN-CSCCv1-FILUSD",
   ].includes(vaultId);
 
-
-  const { data: lendingPoolReaderData, isLoading: isBasicVaultLoading } = lendingPoolReaderQuery;
-  const { aTokenAddress = '' } = lendingPoolReaderData ?? {};
+  const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
+  const { aTokenAddress = "" } = lendingPoolReaderData ?? {};
 
   return (
     <Container>
@@ -42,18 +41,18 @@ export const BasicModalContent = () => {
           <DepositMainButton />
         ) : (
           <>
-          <WithdrawMainButton />
-          <PendingWithdrawMainButton />
-          {aTokenAddress !== "0x0000000000000000000000000000000000000000" ? <WithdrawNowMainButton /> : null}
+            <WithdrawMainButton />
+            <PendingWithdrawMainButton />
+            {aTokenAddress !== "0x0000000000000000000000000000000000000000" ? (
+              <WithdrawNowMainButton />
+            ) : null}
           </>
         )}
-        {tabType === TabType.deposit ? (
-          <PendingDepositMainButton />
-        ) : null}
+        {tabType === TabType.deposit ? <PendingDepositMainButton /> : null}
       </MainButtonsContainer>
       <VaultInfo />
       {shouldHideAnalyticLink ? null : <AnalyticLink />}
-      <BoostContent />
+      {aTokenAddress !== "" && <BoostContent />}
     </Container>
   );
 };

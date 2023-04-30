@@ -11,7 +11,11 @@ export interface BasicModalMutations {
   initFullWithdrawMutation?: UseMutationResult<boolean, MutationError, void>;
   cancelWithdrawMutation?: UseMutationResult<boolean, MutationError, void>;
   withdrawMutation?: UseMutationResult<boolean, MutationError, void>;
-  approveLpoolAllowanceMutation?: UseMutationResult<boolean, MutationError, void>;
+  approveLpoolAllowanceMutation?: UseMutationResult<
+    boolean,
+    MutationError,
+    void
+  >;
   boostMutation?: UseMutationResult<boolean, MutationError, void>;
   unboostMutation?: UseMutationResult<boolean, MutationError, void>;
 
@@ -26,7 +30,7 @@ export interface BasicModalMutations {
   runInitFullWithdraw: () => void;
   runCancelWithdraw: () => void;
   runWithdraw: () => void;
-  runApproveLpoolAllowance: () => void,
+  runApproveLpoolAllowance: () => void;
   runBoost: () => void;
   runUnboost: () => void;
 }

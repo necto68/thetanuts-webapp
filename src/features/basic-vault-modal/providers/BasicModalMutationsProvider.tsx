@@ -4,7 +4,6 @@ import { createContext } from "react";
 import { useBasicModalProviderMutations } from "../hooks/useBasicModalProviderMutations";
 import type { BasicModalMutations } from "../types";
 
-
 const defaultBasicModalMutations: BasicModalMutations = {
   approveAllowanceMutation: undefined,
   wrapMutation: undefined,
