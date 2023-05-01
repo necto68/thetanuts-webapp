@@ -10,6 +10,7 @@ import { numberFormatter } from "../../shared/helpers";
 import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
 import { getLongOptionTokenSymbol } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
+import { Separator } from "../../long-option-modal/components/LongOptionModal.styles";
 
 import { Container, Title, ToTitle } from "./PositionInfo.styles";
 
@@ -59,6 +60,7 @@ export const PositionInfo = () => {
       <Title>{`Pay ${sourceTokenData.value} ${sourceTokenData.symbol}`}</Title>
       <ToTitle>↓</ToTitle>
       <Title>{`Bid ${targetTokenData.value} ${targetTokenData.symbol}`}</Title>
+      <Separator />
     </Container>
   );
 };

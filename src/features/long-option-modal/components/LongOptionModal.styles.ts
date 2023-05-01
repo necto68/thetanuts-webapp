@@ -7,10 +7,12 @@ export const Container = styled(ComponentContainer)`
   gap: 16px;
   padding: 16px;
   width: 344px;
+  border-radius: 10px;
 `;
 
 export const Separator = styled.div`
   display: flex;
   height: 1px;
+  width: 100%;
   background: #323844;
 `;

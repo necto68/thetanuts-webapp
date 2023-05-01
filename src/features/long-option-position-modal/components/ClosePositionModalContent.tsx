@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 
 import { WithdrawMainButton } from "../../basic-vault-modal/components";
-import { Container } from "../../basic-vault-modal/components/BasicModalContent.styles";
 import { useBasicModalState } from "../../basic-vault-modal/hooks";
 import {
   WarningTitle,
   WithdrawMainButtonContainer,
 } from "../../long-vault-modal/components/LongModalContent.styles";
+import { Container } from "../../long-option-modal/components/LongOptionModal.styles";
 
 import { ClosePositionOrderInfo } from "./ClosePositionOrderInfo";
-
-// import { Container } from "../../long-option-modal/components/LongOptionModal.styles";
+import { ModalTitle } from "./ModalTitle";
 
 export const ClosePositionModalContent = () => {
   const { setInputValue, tokenData } = useBasicModalState();
@@ -27,6 +26,7 @@ export const ClosePositionModalContent = () => {
 
   return (
     <Container>
+      <ModalTitle />
       {/* <ClosePositionSwitcher /> */}
       {/* <InputCard /> */}
       <ClosePositionOrderInfo />
