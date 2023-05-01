@@ -24,6 +24,8 @@ export enum QueryType {
   longOptionReader = "longOptionReader",
   longOptionClosePositionReader = "longOptionClosePositionReader",
 
+  assetPrices = "assetPrices",
+
   chainIndexSwapsHistory = "chainIndexSwapsHistory",
   indexDepositsHistory = "indexDepositsHistory",
   indexWithdrawalsHistory = "indexWithdrawalsHistory",

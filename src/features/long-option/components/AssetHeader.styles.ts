@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
+import type { AppTheme, Theme } from "../../app/constants/appTheme";
+
 import { ComponentContainer } from "./LongOptionContent.styles";
+
+interface PriceChangeTitleProps {
+  isPositive: boolean;
+}
 
 export const Container = styled(ComponentContainer)`
   flex: 1;
-  justify-content: space-between;
+  gap: 32px;
   align-items: center;
 `;
 
@@ -12,6 +18,12 @@ export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+`;
+
+export const PricesContainer = styled.div`
+  display: flex;
+  gap: 32px;
+  align-items: center;
 `;
 
 export const Title = styled.span`
@@ -32,12 +44,13 @@ export const PriceTitle = styled(Title)`
   font-size: 16px;
 `;
 
+export const PriceChangeTitle = styled(PriceTitle)<PriceChangeTitleProps>`
+  color: ${({ isPositive, theme }: PriceChangeTitleProps & Theme<AppTheme>) =>
+    isPositive ? "#12CC86" : theme.warningColor};
+`;
+
 export const PriceContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-`;
-
-export const CurrentPriceContainer = styled(PriceContainer)`
-  align-items: end;
 `;
