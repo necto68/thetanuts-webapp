@@ -15,23 +15,24 @@ const BoostButton = styled(motion.button).attrs<Required<BoostButtonProps>>(
     whileHover: !disabled && {
       scale: 1.03,
     },
+
     primaryColor,
     disabled,
   })
 )<BoostButtonProps>`
   font-family: Barlow;
   font-weight: 600;
-  font-size: ${({ isSmall }) => (isSmall ? "16px" : "16px")};
+  font-size: "16px";
 
   border-radius: 5px;
   border-width: 1px;
   border-style: solid;
   border-color: ${({ disabled, primaryColor, secondaryColor }) =>
-  disabled ? primaryColor : secondaryColor};
+    disabled ? primaryColor : secondaryColor};
 
-  color: ${({ disabled }) => (disabled ? "#ffffff" : "#ffffff")};
+  color: "#ffffff";
   background-color: ${({ disabled, primaryColor, secondaryColor }) =>
-  disabled ? primaryColor : secondaryColor};
+    disabled ? primaryColor : secondaryColor};
 
   padding: ${({ isSmall }) => (isSmall ? "4px 12px" : "7px 24px")};
   opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};

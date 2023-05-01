@@ -4,8 +4,9 @@ import { useQuery } from "react-query";
 import { QueryType } from "../../shared/types";
 import { lendingPoolReaderFetcher } from "../helpers";
 import { basicVaultsMap } from "../../basic/constants";
-import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
+import { ChainId, chainProvidersMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
+import { LPOOL_ADDRESS } from "../../basic-vault-modal/constants";
 
 export const useLendingPoolReader = (basicVaultId: string) => {
   const { account = "" } = useWallet();
@@ -16,15 +17,11 @@ export const useLendingPoolReader = (basicVaultId: string) => {
   const { chainId = ChainId.ETHEREUM, basicVaultAddress = "" } =
     basicVaultConfig?.source ?? {};
 
-  const {
-    addresses: { basicVaultReaderAddress },
-  } = chainsMap[chainId];
-
   const provider = chainProvidersMap[chainId];
 
   return useQuery({
     queryKey: [
-      '0x7f36BC14e5B5c9C712c9B738563a57a784DD4D93',
+      LPOOL_ADDRESS,
       QueryType.basicVaultReader,
       basicVaultId,
       basicVaultType,
@@ -33,7 +30,7 @@ export const useLendingPoolReader = (basicVaultId: string) => {
 
     queryFn: async () =>
       await lendingPoolReaderFetcher(
-        '0x7f36BC14e5B5c9C712c9B738563a57a784DD4D93',
+        LPOOL_ADDRESS,
         basicVaultId,
         basicVaultAddress,
         account,

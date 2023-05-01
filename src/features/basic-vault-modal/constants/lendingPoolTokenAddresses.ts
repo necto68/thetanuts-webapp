@@ -11,4 +11,4 @@ export const lendingPoolTokenAddresses: LendingPoolTokenConfig[] = [
       suppliedTokenAddress: "0x53F02b56822C0FD9Eb97559FA28d2243ce2A1C1C",
     },
   },
-]
+];

@@ -22,8 +22,11 @@ export const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {/* @ts-expect-error Server Component */}
       <Router>
+        {/* @ts-expect-error Server Component */}
         <ThemeProvider theme={DarkAppTheme}>
+          {/* @ts-expect-error Server Component */}
           <GlobalStyle />
           <SidebarStateProvider>
             <Root />

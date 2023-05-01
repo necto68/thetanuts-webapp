@@ -1,3 +1,4 @@
+/* eslint-disable etc/no-commented-out-code */
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import { ThetaIndexPage } from "../../theta-index/components";

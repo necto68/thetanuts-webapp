@@ -4,17 +4,17 @@ import { motion } from "framer-motion";
 import { screens } from "../../shared/constants";
 import { BoostButton } from "../../shared/components";
 
-type Props = {
+interface Props {
   children: React.ReactNode;
   showCloseButton: boolean;
-};
+}
 
 export const Container = styled.div<Props>`
   display: flex;
   position: relative;
   flex-direction: column;
   justify-content: end;
-  min-height: ${props => props.showCloseButton ? '409px' : '327px'};
+  min-height: ${(props) => (props.showCloseButton ? "409px" : "327px")};
   min-width: 432px;
 `;
 
@@ -22,8 +22,8 @@ export const BackgroundAnimationContainer = styled.div`
   position: relative;
   // z-index: 1;
   // flex: 1;
-  width: 147px; 
-  height: 147px; 
+  width: 147px;
+  height: 147px;
   top: 100px; /* update to be relative to the Container */
   left: 50%; /* update to be relative to the Container */
   transform: translate(-50%, -50%);
@@ -96,6 +96,7 @@ export const TransactionLink = styled(motion.a).attrs<{
   initial: false,
 
   animate: {
+    // eslint-disable-next-line sonarjs/no-all-duplicated-branches
     color: isMutationSucceed ? "#1FFFAB" : "#1FFFAB",
   },
 }))<{ isMutationSucceed: boolean }>`

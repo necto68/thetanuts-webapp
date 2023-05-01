@@ -12,5 +12,4 @@ export interface LendingPoolReader {
   variableDebtTokenAddress: string | null;
   interestRateStrategyAddress: string | null;
   lPoolId: Big | null;
-
 }

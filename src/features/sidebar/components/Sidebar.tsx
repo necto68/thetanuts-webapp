@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-identical-functions */
 import { useLocation } from "react-router-dom";
 
 import {
@@ -5,7 +6,6 @@ import {
   BasicPage,
   DegenPage,
   WheelPage,
-  LongPage,
   Portfolio,
   Twitter,
   Medium,
@@ -147,7 +147,6 @@ export const Sidebar = () => {
         {sellingOptions.map((navItem) => (
           <SidebarItem
             active={pathname === navItem.to}
-            // iconColor={navItem.iconColor}
             key={navItem.linkTitle}
             linkTitle={navItem.linkTitle}
             navIcon={navItem.navIcon}

@@ -1,12 +1,8 @@
 import type { Provider } from "@ethersproject/providers";
 import Big from "big.js";
 
-import {
-  LendingPoolAbi__factory as LendingPoolAbiFactory,
-} from "../../contracts/types";
-import { basicVaultsMap } from "../../basic/constants";
+import { LendingPoolAbi__factory as LendingPoolAbiFactory } from "../../contracts/types";
 import type { LendingPoolReader } from "../types";
-import { ChainId, chainsMap } from "../../wallet/constants";
 
 const defaultLendingPoolReader: LendingPoolReader = {
   liquidityIndex: null,
@@ -33,25 +29,20 @@ export const lendingPoolReaderFetcher = async (
     return defaultLendingPoolReader;
   }
 
-  const chainId =
-    basicVaultsMap[basicVaultId]?.source.chainId ?? ChainId.ETHEREUM;
-  const { basicVaultDepositorAddress } = chainsMap[chainId].addresses;
-
-  const lPoolContract = LendingPoolAbiFactory.connect(
-    lPoolAddress,
-    provider
-  );
+  const lPoolContract = LendingPoolAbiFactory.connect(lPoolAddress, provider);
 
   const [lendingPoolPosition] = await Promise.all([
-    lPoolContract
-      .getReserveData(basicVaultAddress)
-      // .then((values) => values.map(convertToBig)),
+    lPoolContract.getReserveData(basicVaultAddress),
   ]);
 
   const liquidityIndex = new Big(lendingPoolPosition[1].toString());
   const variableBorrowIndex = new Big(lendingPoolPosition[2].toString());
-  const currentLiquidityRate = new Big(lendingPoolPosition[3].toString()).div('1e25');
-  const currentVariableBorrowRate = new Big(lendingPoolPosition[4].toString()).div('1e25');
+  const currentLiquidityRate = new Big(lendingPoolPosition[3].toString()).div(
+    "1e25"
+  );
+  const currentVariableBorrowRate = new Big(
+    lendingPoolPosition[4].toString()
+  ).div("1e25");
   const currentStableBorrowRate = new Big(lendingPoolPosition[5].toString());
   const lastUpdateTimestamp = new Big(lendingPoolPosition[6].toString());
   const aTokenAddress = lendingPoolPosition[7].toString();

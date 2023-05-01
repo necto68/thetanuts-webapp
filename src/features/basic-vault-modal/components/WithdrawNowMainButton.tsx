@@ -9,12 +9,8 @@ import {
   useBasicModalMutations,
 } from "../hooks";
 import { ConnectWalletMainButton } from "../../modal/components/ConnectWalletMainButton";
-import { resetMutations } from "../helpers";
 import { BasicVaultType } from "../../basic/types";
-import {
-  useLongModalConfig,
-  useLongModalMutations,
-} from "../../long-vault-modal/hooks";
+import { useLongModalConfig } from "../../long-vault-modal/hooks";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -35,22 +31,13 @@ export const WithdrawNowMainButton = () => {
     nativeData,
     isUseNativeData,
   } = useBasicModalState();
-  const {
-    initWithdrawMutation,
-    initFullWithdrawMutation,
-    cancelWithdrawMutation,
-    withdrawMutation,
-    runInitWithdraw,
-    runInitFullWithdraw,
-  } = useBasicModalMutations();
-  const { closePositionAndWithdrawMutation, runClosePositionAndWithdraw } =
-    useLongModalMutations();
+  const { cancelWithdrawMutation, withdrawMutation } = useBasicModalMutations();
 
   const { account } = useWallet();
 
   const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
-  const { basicVaultAddress = '' } = data ?? {};
+  const { basicVaultAddress = "" } = data ?? {};
 
   const { data: basicVaultReaderData } = basicVaultReaderQuery;
   const {
@@ -61,59 +48,15 @@ export const WithdrawNowMainButton = () => {
   const { data: longVaultReaderData } = longVaultReaderQuery;
   const { currentContractsPosition = new Big(0) } = longVaultReaderData ?? {};
 
-  const handleResetButtonClick = useCallback(() => {
-    const mutations = [
-      initWithdrawMutation,
-      initFullWithdrawMutation,
-      closePositionAndWithdrawMutation,
-    ];
-
-    resetMutations(mutations);
-  }, [
-    initWithdrawMutation,
-    initFullWithdrawMutation,
-    closePositionAndWithdrawMutation,
-  ]);
-
-  const {
-    isLoading: isInitWithdrawLoading,
-    isError: isInitWithdrawError,
-    error: initWithdrawError,
-  } = initWithdrawMutation ?? {};
-
-  const {
-    isLoading: isInitFullWithdrawLoading,
-    isError: isInitFullWithdrawError,
-    error: initFullWithdrawError,
-  } = initFullWithdrawMutation ?? {};
-
   const { isLoading: isCancelWithdrawLoading } = cancelWithdrawMutation ?? {};
   const { isLoading: isWithdrawLoading } = withdrawMutation ?? {};
-
-  const {
-    isLoading: isClosePositionAndWithdrawLoading,
-    isError: isClosePositionAndWithdrawError,
-    error: closePositionAndWithdrawError,
-  } = closePositionAndWithdrawMutation ?? {};
 
   const isCancelWithdrawOrWithdrawMutationLoading =
     Boolean(isCancelWithdrawLoading) || Boolean(isWithdrawLoading);
 
-  const isError =
-    Boolean(isInitWithdrawError) ||
-    Boolean(isInitFullWithdrawError) ||
-    Boolean(isClosePositionAndWithdrawError);
-  const error =
-    initWithdrawError ?? initFullWithdrawError ?? closePositionAndWithdrawError;
-
   const inputValueBig = new Big(inputValue || 0);
 
   const currentTokenData = isUseNativeData ? nativeData : tokenData;
-
-  const isMainButtonLoading =
-    Boolean(isInitWithdrawLoading) ||
-    Boolean(isInitFullWithdrawLoading) ||
-    Boolean(isClosePositionAndWithdrawLoading);
 
   // for basic vault we need to check if user input is greater than 0
   // for degen vault we need to check if currentPosition is greater > 0 and withdrawalPending === 0
@@ -129,18 +72,14 @@ export const WithdrawNowMainButton = () => {
     [BasicVaultType.LONG]: currentContractsPosition?.gt(0),
   };
 
-  const mainButtonClickHandlers = {
-    [BasicVaultType.BASIC]: runInitWithdraw,
-    [BasicVaultType.DEGEN]: runInitFullWithdraw,
-    [BasicVaultType.WHEEL]: runInitWithdraw,
-    [BasicVaultType.LONG]: runClosePositionAndWithdraw,
-  };
-
   const isInputValueValid = isValidInputMap[basicVaultType];
-  const buttonTitle = 'Withdraw Now';
+  const buttonTitle = "Withdraw Now";
   const handleMainButtonClick = useCallback(() => {
-    window.open("https://app.uniswap.org/#/swap?inputCurrency=" + basicVaultAddress, "_blank");
-  }, []);
+    window.open(
+      `https://app.uniswap.org/#/swap?inputCurrency=${basicVaultAddress}`,
+      "_blank"
+    );
+  }, [basicVaultAddress]);
 
   const isMainButtonDisabled =
     isTokenDataLoading ||
@@ -160,7 +99,6 @@ export const WithdrawNowMainButton = () => {
       />
     );
   }
-
 
   return isMainButtonDisabled ? (
     <ModalMainButton disabled>{buttonTitle}</ModalMainButton>

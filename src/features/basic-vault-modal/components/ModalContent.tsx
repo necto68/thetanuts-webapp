@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { AnimatePresence } from "framer-motion";
 
 import { useVaultModalState } from "../../modal/hooks";

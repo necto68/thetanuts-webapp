@@ -1,15 +1,12 @@
 import type { FC } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import Lottie from "react-lottie-player";
 
-import pendingMutationNew from "../animations/pendingMutationNew.json";
 import succeedMutationNew from "../animations/succeedMutationNew.json";
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
-import { Link } from "../../shared/components";
 import { useVaultModalState } from "../hooks";
 import type { ChainId } from "../../wallet/constants";
-import { getPagePathname } from "../../root/helpers";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks/useBasicModalConfig";
 
 import {
@@ -18,8 +15,6 @@ import {
   InfoContainer,
   ContentContainer,
   Title,
-  AnimationContainer,
-  RatioTitleContainer,
   RatioTitle,
   ToTitle,
   TransactionLink,
@@ -50,14 +45,11 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   successTitle,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
-  const { tabType, vaultType, isBoostContentShown } = vaultModalState;
-  const { basicVaultReaderQuery, lendingPoolReaderQuery } = useBasicModalConfig();
+  const { tabType, isBoostContentShown } = vaultModalState;
+  const { lendingPoolReaderQuery } = useBasicModalConfig();
 
-  const { data: lendingPoolReaderData, isLoading: isBasicVaultLoading } = lendingPoolReaderQuery;
-  const { aTokenAddress = '' } = lendingPoolReaderData ?? {};
-
-  const pathname = getPagePathname(vaultType);
-  // const pageRoute = isRouterModal ? { pathname } : {};
+  const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
+  const { aTokenAddress = "" } = lendingPoolReaderData ?? {};
 
   // background animation
   const [isFirstLoopCompleted, setIsFirstLoopCompleted] = useState(false);
@@ -68,14 +60,8 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
     }
   }, [isFirstLoopCompleted]);
 
-  const backgroundAnimationSegments = useMemo<[number, number]>(
-    () => (isFirstLoopCompleted ? [0, 100] : [0, 100]),
-    [isFirstLoopCompleted]
-  );
-
   const handleCloseButtonClick = useCallback(() => {
-    setVaultModalState({...vaultModalState, 
-      isBoostContentShown: true});
+    setVaultModalState({ ...vaultModalState, isBoostContentShown: true });
   }, [setVaultModalState, vaultModalState]);
 
   const transactionUrl = getExplorerUrl(PathType.tx, chainId, mutationHash);
@@ -83,26 +69,25 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
   const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
 
-  const showCloseButton = !isBoostContentShown && tabType === 'deposit' && aTokenAddress !== '0x0000000000000000000000000000000000000000';
+  const showCloseButton =
+    !isBoostContentShown &&
+    tabType === "deposit" &&
+    aTokenAddress !== "0x0000000000000000000000000000000000000000";
 
   return (
     <Container showCloseButton={showCloseButton}>
       {/* {isMutationSucceed ? ( */}
-        <BackgroundAnimationContainer>
-          <Lottie
-            animationData={succeedMutationNew}
-            loop
-            onLoopComplete={handleLoopComplete}
-            play
-            // segments={backgroundAnimationSegments}
-          />
-        </BackgroundAnimationContainer>
+      <BackgroundAnimationContainer>
+        <Lottie
+          animationData={succeedMutationNew}
+          loop
+          onLoopComplete={handleLoopComplete}
+          play
+        />
+      </BackgroundAnimationContainer>
       {/* ) : null} */}
       <ContentContainer>
         <InfoContainer>
-          {/* <AnimationContainer isShow={!isMutationSucceed}>
-            <Lottie animationData={pendingMutationNew} loop play />
-          </AnimationContainer> */}
           <Title>
             {isMutationSucceed ? successTitle : pendingTitle}
             {sourceTokenData ? (
@@ -123,8 +108,8 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
         </InfoContainer>
         {showCloseButton && (
           <CloseButton
+            disabled={!isMutationSucceed}
             onClick={handleCloseButtonClick}
-            disabled={!isMutationSucceed ? true : false}
           >
             {`Boost for ${formattedAPY}% more yield`}
           </CloseButton>
