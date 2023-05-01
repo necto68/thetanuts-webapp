@@ -1,5 +1,6 @@
 import { PoolTypeInfo } from "./PoolTypeInfo";
 import { LeverageInfo } from "./LeverageInfo";
+import { FeesInfo } from "./FeesInfo";
 import { BorrowFeeInfo } from "./BorrowFeeInfo";
 import {
   Container,
@@ -22,6 +23,7 @@ export const OrderInfo = () => (
       <InfoTitle>Spread Cost</InfoTitle>
       <InfoValue>X.XX%</InfoValue>
     </InfoContainer> */}
+    <FeesInfo />
     <BorrowFeeInfo />
   </Container>
 );

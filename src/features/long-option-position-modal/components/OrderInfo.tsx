@@ -13,6 +13,7 @@ import { getFormattedStrikePrices } from "../../basic-vault-modal/helpers";
 import {
   PoolTypeInfo,
   LeverageInfo,
+  FeesInfo,
   BorrowFeeInfo,
 } from "../../long-option-modal/components";
 
@@ -57,10 +58,7 @@ export const OrderInfo = () => {
       </InfoItemContainer>
       <Separator />
       <InfoItemContainer>
-        {/* <InfoContainer>
-          <InfoTitle>Fees</InfoTitle>
-          <InfoValue>X.XX%</InfoValue>
-        </InfoContainer> */}
+        <FeesInfo />
         <BorrowFeeInfo />
       </InfoItemContainer>
     </Container>
