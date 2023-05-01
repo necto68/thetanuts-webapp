@@ -17,7 +17,6 @@ export const Paginator = (props: PaginationProps) => {
 
   return total > pageSize ? (
     <PaginationContainer>
-      {/* @ts-expect-error Server Component */}
       <Pagination
         {...props}
         locale={locale}
