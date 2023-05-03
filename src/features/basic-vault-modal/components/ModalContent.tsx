@@ -7,14 +7,16 @@ import {
   ContentAnimatedContainer,
 } from "../../index-vault-modal/components/ModalContent.styles";
 import { useBasicModalMutations } from "../hooks";
+import { useBoostModalMutations } from "../../boost/hooks";
+import { BoostModalContent } from "../../boost/components/BoostModalContent";
+import { BoostModalPendingMutationContent } from "../../boost/components/BoostModalPendingMutationContent";
 
 import { BasicModalContent } from "./BasicModalContent";
 import { BasicModalPendingMutationContent } from "./BasicModalPendingMutationContent";
-import { BoostModalPendingMutationContent } from "./BoostModalPendingMutationContent";
-import { BoostModalContent } from "./BoostModalContent";
 
 export const ModalContent = () => {
-  const { mutationHash, boostHash } = useBasicModalMutations();
+  const { mutationHash } = useBasicModalMutations();
+  const { boostHash } = useBoostModalMutations();
   const [vaultModalState] = useVaultModalState();
   const { isBoostContentShown } = vaultModalState;
 

@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useCallback } from "react";
 
-import type { TabType } from "../types";
+import type { TabType } from "../../basic-vault-modal/types";
 import { useVaultModalState } from "../../modal/hooks";
 
 import { Button } from "./BoostTabButton.styles";

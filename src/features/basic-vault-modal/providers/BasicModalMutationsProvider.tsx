@@ -13,12 +13,8 @@ const defaultBasicModalMutations: BasicModalMutations = {
   initFullWithdrawMutation: undefined,
   cancelWithdrawMutation: undefined,
   withdrawMutation: undefined,
-  approveLpoolAllowanceMutation: undefined,
-  boostMutation: undefined,
-  unboostMutation: undefined,
 
   mutationHash: undefined,
-  boostHash: undefined,
 
   runApproveAllowance: () => undefined,
   runWrap: () => undefined,
@@ -28,9 +24,6 @@ const defaultBasicModalMutations: BasicModalMutations = {
   runInitFullWithdraw: () => undefined,
   runCancelWithdraw: () => undefined,
   runWithdraw: () => undefined,
-  runApproveLpoolAllowance: () => undefined,
-  runBoost: () => undefined,
-  runUnboost: () => undefined,
 };
 
 export const BasicModalMutationsContext = createContext<BasicModalMutations>(

@@ -11,7 +11,8 @@ const defaultLendingPoolReader: LendingPoolReader = {
   currentVariableBorrowRate: null,
   currentStableBorrowRate: null,
   lastUpdateTimestamp: null,
-  aTokenAddress: null,
+  suppliedTokenAddress: null,
+  shouldShowBoost: null,
   stableDebtTokenAddress: null,
   variableDebtTokenAddress: null,
   interestRateStrategyAddress: null,
@@ -45,11 +46,15 @@ export const lendingPoolReaderFetcher = async (
   ).div("1e25");
   const currentStableBorrowRate = new Big(lendingPoolPosition[5].toString());
   const lastUpdateTimestamp = new Big(lendingPoolPosition[6].toString());
-  const aTokenAddress = lendingPoolPosition[7].toString();
+  const suppliedTokenAddress = lendingPoolPosition[7].toString();
   const stableDebtTokenAddress = lendingPoolPosition[8].toString();
   const variableDebtTokenAddress = lendingPoolPosition[9].toString();
   const interestRateStrategyAddress = lendingPoolPosition[10].toString();
   const lPoolId = new Big(lendingPoolPosition[11].toString());
+
+  const shouldShowBoost =
+    suppliedTokenAddress !== "" &&
+    suppliedTokenAddress !== "0x0000000000000000000000000000000000000000";
 
   return {
     liquidityIndex,
@@ -58,7 +63,8 @@ export const lendingPoolReaderFetcher = async (
     currentVariableBorrowRate,
     currentStableBorrowRate,
     lastUpdateTimestamp,
-    aTokenAddress,
+    suppliedTokenAddress,
+    shouldShowBoost,
     stableDebtTokenAddress,
     variableDebtTokenAddress,
     interestRateStrategyAddress,

@@ -10,6 +10,7 @@ export enum QueryType {
 
   basicVault = "basicVault",
   basicVaultReader = "basicVaultReader",
+  lendingPoolReader = "lendingPoolReader",
 
   riskLevel = "riskLevel",
 

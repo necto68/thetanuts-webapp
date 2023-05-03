@@ -14,12 +14,10 @@ import {
   Erc20Abi__factory as Erc20AbiFactory,
   BasicVaultAbi__factory as BasicVaultAbiFactory,
   BasicVaultDepositorAbi__factory as BasicVaultDepositorAbiFactory,
-  LendingPoolAbi__factory as LendingPoolAbiFactory,
 } from "../../contracts/types";
 import { useResetMutationError } from "../../index-vault-modal/hooks/useResetMutationError";
 import { BasicVaultType } from "../../basic/types/basicVaultConfig";
 import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants";
-import { LPOOL_ADDRESS } from "../constants";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 import { useBasicModalState } from "./useBasicModalState";
@@ -37,7 +35,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     useBasicModalState();
 
   const [mutationHash, setMutationHash] = useState<string>();
-  const [boostHash, setBoostHash] = useState<string>();
 
   const runApproveAllowanceMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
@@ -341,140 +338,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     return true;
   }, [walletProvider, basicVaultAddress]);
 
-  const runApproveLpoolAllowanceMutation = useCallback(async () => {
-    if (!tokenData || !walletProvider) {
-      return false;
-    }
-
-    const signer = walletProvider.getSigner();
-
-    const lpTokenContract = Erc20AbiFactory.connect(
-      tokenData.tokenAddress,
-      signer
-    );
-
-    const approveParameters = [LPOOL_ADDRESS, constants.MaxUint256] as const;
-    let transaction = null;
-
-    try {
-      await lpTokenContract.callStatic.approve(...approveParameters);
-
-      transaction = await lpTokenContract.approve(...approveParameters);
-    } catch (walletError) {
-      processWalletError(walletError);
-    }
-
-    if (transaction) {
-      try {
-        await transaction.wait();
-      } catch (transactionError) {
-        processTransactionError(transactionError);
-      }
-    }
-
-    return true;
-  }, [tokenData, walletProvider]);
-
-  const runBoostMutation = useCallback(async () => {
-    if (!tokenData || !walletProvider) {
-      return false;
-    }
-
-    const signer = walletProvider.getSigner();
-
-    const lendingPoolContract = LendingPoolAbiFactory.connect(
-      LPOOL_ADDRESS,
-      signer
-    );
-
-    const depositAmount = new Big(inputValue)
-      .mul(tokenData.tokenDivisor)
-      .round()
-      .toString();
-
-    let transaction = null;
-
-    try {
-      await lendingPoolContract.callStatic.deposit(
-        basicVaultAddress,
-        depositAmount,
-        await signer.getAddress(),
-        0
-      );
-
-      transaction = await lendingPoolContract.deposit(
-        basicVaultAddress,
-        depositAmount,
-        await signer.getAddress(),
-        0
-      );
-    } catch (walletError) {
-      processWalletError(walletError);
-    }
-
-    if (transaction) {
-      setMutationHash(transaction.hash);
-      setBoostHash(transaction.hash);
-
-      try {
-        await transaction.wait();
-      } catch (transactionError) {
-        processTransactionError(transactionError);
-      }
-    }
-
-    return true;
-  }, [tokenData, walletProvider, basicVaultAddress, inputValue]);
-
-  const runUnboostMutation = useCallback(async () => {
-    if (!tokenData || !walletProvider) {
-      return false;
-    }
-
-    const signer = walletProvider.getSigner();
-
-    const lendingPoolContract = LendingPoolAbiFactory.connect(
-      LPOOL_ADDRESS,
-      signer
-    );
-
-    const depositAmount = new Big(inputValue)
-      .mul(tokenData.tokenDivisor)
-      .round()
-      .toString();
-
-    let transaction = null;
-
-    try {
-      await lendingPoolContract.callStatic.withdraw(
-        basicVaultAddress,
-        depositAmount,
-        await signer.getAddress()
-      );
-
-      transaction = await lendingPoolContract.withdraw(
-        basicVaultAddress,
-        depositAmount,
-        await signer.getAddress()
-      );
-    } catch (walletError) {
-      processWalletError(walletError);
-    }
-
-    if (transaction) {
-      setMutationHash(transaction.hash);
-      setBoostHash(transaction.hash);
-
-      try {
-        await transaction.wait();
-      } catch (transactionError) {
-        processTransactionError(transactionError);
-      }
-    }
-
-    return true;
-  }, [tokenData, walletProvider, basicVaultAddress, inputValue]);
-
   const handleMutationSuccess = useCallback(async () => {
     const { collateralTokenQuery, nativeTokenQuery } = tokensQueries;
 
@@ -554,27 +417,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
   );
 
-  const approveLpoolAllowanceMutation = useMutation<boolean, MutationError>(
-    async () => await runApproveLpoolAllowanceMutation(),
-    {
-      onSuccess: handleMutationSuccess,
-    }
-  );
-
-  const boostMutation = useMutation<boolean, MutationError>(
-    async () => await runBoostMutation(),
-    {
-      onSuccess: handleMutationSuccess,
-    }
-  );
-
-  const unboostMutation = useMutation<boolean, MutationError>(
-    async () => await runUnboostMutation(),
-    {
-      onSuccess: handleMutationSuccess,
-    }
-  );
-
   useResetMutationError(approveAllowanceMutation);
   useResetMutationError(wrapMutation);
   useResetMutationError(depositMutation);
@@ -583,9 +425,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
   useResetMutationError(initFullWithdrawMutation);
   useResetMutationError(cancelWithdrawMutation);
   useResetMutationError(withdrawMutation);
-  useResetMutationError(approveLpoolAllowanceMutation);
-  useResetMutationError(boostMutation);
-  useResetMutationError(unboostMutation);
 
   return {
     approveAllowanceMutation,
@@ -596,12 +435,8 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     initFullWithdrawMutation,
     cancelWithdrawMutation,
     withdrawMutation,
-    approveLpoolAllowanceMutation,
-    boostMutation,
-    unboostMutation,
 
     mutationHash,
-    boostHash,
 
     runApproveAllowance: () => {
       approveAllowanceMutation.mutate();
@@ -633,18 +468,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
     runWithdraw: () => {
       withdrawMutation.mutate();
-    },
-
-    runApproveLpoolAllowance: () => {
-      approveLpoolAllowanceMutation.mutate();
-    },
-
-    runBoost: () => {
-      boostMutation.mutate();
-    },
-
-    runUnboost: () => {
-      unboostMutation.mutate();
     },
   };
 };

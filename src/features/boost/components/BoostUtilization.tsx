@@ -1,7 +1,7 @@
 import Big from "big.js";
 
 import { Tooltip } from "../../shared/components";
-import { useBasicModalConfig } from "../hooks";
+import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import {
   InfoContainer,
   InfoTitle,

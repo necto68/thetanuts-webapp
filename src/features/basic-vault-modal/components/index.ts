@@ -1,7 +1,5 @@
 export * from "./BasicVaultModal";
-export * from "./BoostModalContent";
 export * from "./BasicModalPendingMutationContent";
-export * from "./BoostModalPendingMutationContent";
 export * from "./Switcher";
 export * from "./TabButton";
 export * from "./InputCard";
@@ -18,5 +16,3 @@ export * from "./WithdrawNowMainButton";
 export * from "./PendingDepositMainButton";
 export * from "./PendingWithdrawMainButton";
 export * from "./AnalyticLink";
-export * from "./BoostContent";
-export * from "./BoostBackButton";

@@ -50,6 +50,4 @@ export const logosMap: Record<string, ComponentType> = {
   NEAR: Near,
   ARB: Arb,
   FIL: Fil,
-  "TN-CSCCv1-MATICUSD": Matic,
-  "sTN-CSCCv1-MATICUSD": Matic,
 };

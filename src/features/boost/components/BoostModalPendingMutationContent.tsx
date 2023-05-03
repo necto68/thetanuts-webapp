@@ -5,8 +5,8 @@ import { PendingMutationContent } from "../../modal/components/PendingMutationCo
 import {
   useBasicModalConfig,
   useBasicModalState,
-  useBasicModalMutations,
-} from "../hooks";
+} from "../../basic-vault-modal/hooks";
+import { useBoostModalMutations } from "../hooks";
 
 export const BoostModalPendingMutationContent = () => {
   const { basicVaultChainId, basicVaultReaderQuery } = useBasicModalConfig();
@@ -15,7 +15,7 @@ export const BoostModalPendingMutationContent = () => {
     boostMutation,
     unboostMutation,
     boostHash = "",
-  } = useBasicModalMutations();
+  } = useBoostModalMutations();
 
   const { withdrawalPending: rawWithdrawalPending } =
     basicVaultReaderQuery.data ?? {};

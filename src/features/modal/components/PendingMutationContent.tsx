@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable complexity */
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import Lottie from "react-lottie-player";
 
-import succeedMutationNew from "../animations/succeedMutationNew.json";
+import { TabType } from "../../basic-vault-modal/types";
+import succeedMutation from "../animations/succeedMutation.json";
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
 import { useVaultModalState } from "../hooks";
 import type { ChainId } from "../../wallet/constants";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks/useBasicModalConfig";
+import { Link } from "../../shared/components";
+import { getPagePathname } from "../../root/helpers";
 
 import {
   Container,
@@ -19,6 +24,7 @@ import {
   ToTitle,
   TransactionLink,
   CloseButton,
+  ModalBoostButton,
 } from "./PendingMutationContent.styles";
 
 interface TokenData {
@@ -45,11 +51,15 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   successTitle,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
-  const { tabType, isBoostContentShown } = vaultModalState;
-  const { lendingPoolReaderQuery } = useBasicModalConfig();
+  const { isRouterModal, vaultType, tabType, isBoostContentShown } =
+    vaultModalState;
 
+  const pathname = getPagePathname(vaultType);
+  const pageRoute = isRouterModal ? { pathname } : {};
+
+  const { lendingPoolReaderQuery } = useBasicModalConfig();
   const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
-  const { aTokenAddress = "" } = lendingPoolReaderData ?? {};
+  const { shouldShowBoost = false } = lendingPoolReaderData ?? {};
 
   // background animation
   const [isFirstLoopCompleted, setIsFirstLoopCompleted] = useState(false);
@@ -60,26 +70,33 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
     }
   }, [isFirstLoopCompleted]);
 
-  const handleCloseButtonClick = useCallback(() => {
+  const handleModalBoostButtonClick = useCallback(() => {
     setVaultModalState({ ...vaultModalState, isBoostContentShown: true });
   }, [setVaultModalState, vaultModalState]);
+
+  // close button
+  const handleCloseButtonClick = useCallback(() => {
+    setVaultModalState((previousState) => ({
+      ...previousState,
+      isShow: false,
+    }));
+  }, [setVaultModalState]);
 
   const transactionUrl = getExplorerUrl(PathType.tx, chainId, mutationHash);
 
   const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
   const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
 
-  const showCloseButton =
-    !isBoostContentShown &&
-    tabType === "deposit" &&
-    aTokenAddress !== "0x0000000000000000000000000000000000000000";
+  const showModalBoostButton =
+    (!isBoostContentShown && tabType === TabType.deposit && shouldShowBoost) ||
+    false;
 
   return (
-    <Container showCloseButton={showCloseButton}>
+    <Container showModalBoostButton={showModalBoostButton}>
       {/* {isMutationSucceed ? ( */}
       <BackgroundAnimationContainer>
         <Lottie
-          animationData={succeedMutationNew}
+          animationData={succeedMutation}
           loop
           onLoopComplete={handleLoopComplete}
           play
@@ -106,13 +123,24 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             View Transaction in Explorer
           </TransactionLink>
         </InfoContainer>
-        {showCloseButton && (
-          <CloseButton
+        {showModalBoostButton && (
+          <ModalBoostButton
             disabled={!isMutationSucceed}
-            onClick={handleCloseButtonClick}
+            onClick={handleModalBoostButtonClick}
           >
             {`Boost for ${formattedAPY}% more yield`}
-          </CloseButton>
+          </ModalBoostButton>
+
+          // ) : (
+          //   <Link to={pageRoute}>
+          //     <CloseButton
+          //       onClick={handleCloseButtonClick}
+          //       primaryColor="#FFFFFF"
+          //     >
+          //       Close
+          //     </CloseButton>
+          //   </Link>
+          // )}
         )}
       </ContentContainer>
     </Container>

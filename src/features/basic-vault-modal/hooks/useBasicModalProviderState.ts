@@ -13,7 +13,10 @@ import { convertToBig } from "../../shared/helpers";
 import { useLongModalConfig } from "../../long-vault-modal/hooks/useLongModalConfig";
 import { BasicVaultType } from "../../basic/types";
 import { useVaultModalState } from "../../modal/hooks";
-import { LPOOL_ADDRESS, lendingPoolTokenAddresses } from "../constants";
+import {
+  lendingPoolAddresses,
+  lendingPoolTokenAddresses,
+} from "../../boost/constants";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
@@ -29,6 +32,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
     setIsUseNativeData(false);
   }, [tabType]);
   const {
+    walletChainId,
     collateralTokenAddress,
     routerAddress,
     spenderAddress,
@@ -39,10 +43,10 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   // for boosting - get vault address instead of native token
   let updatedCollateralTokenAddress = collateralTokenAddress;
-  if (isBoostContentShown && tabType === "deposit") {
+  if (isBoostContentShown && tabType === TabType.deposit) {
     updatedCollateralTokenAddress = spenderAddress;
     // eslint-disable-next-line sonarjs/elseif-without-else
-  } else if (isBoostContentShown && tabType === "withdraw") {
+  } else if (isBoostContentShown && tabType === TabType.withdraw) {
     const lendingPoolToken = lendingPoolTokenAddresses.find(
       (token) => token.id === vaultId
     );
@@ -53,7 +57,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
   }
 
   const updatedSpenderAddress = isBoostContentShown
-    ? LPOOL_ADDRESS
+    ? lendingPoolAddresses[walletChainId]
     : spenderAddress;
 
   const { longVaultReaderQuery } = useLongModalConfig();

@@ -7,7 +7,8 @@ export interface LendingPoolReader {
   currentVariableBorrowRate: Big | null;
   currentStableBorrowRate: Big | null;
   lastUpdateTimestamp: Big | null;
-  aTokenAddress: string | null;
+  suppliedTokenAddress: string | null;
+  shouldShowBoost: boolean | null;
   stableDebtTokenAddress: string | null;
   variableDebtTokenAddress: string | null;
   interestRateStrategyAddress: string | null;

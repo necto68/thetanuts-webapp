@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { useBasicModalConfig, useBasicModalState } from "../hooks";
+import {
+  useBasicModalConfig,
+  useBasicModalState,
+} from "../../basic-vault-modal/hooks";
 import {
   InfoContainer,
   InfoTitle,

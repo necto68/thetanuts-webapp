@@ -1,13 +1,16 @@
-import { TabType } from "../types";
+import { TabType } from "../../basic-vault-modal/types";
 import { useVaultModalState } from "../../modal/hooks";
+import {
+  Container,
+  MainButtonsContainer,
+} from "../../basic-vault-modal/components/BasicModalContent.styles";
+import { BasicCardWarning } from "../../basic-vault-modal/components/BasicCardWarning";
+import { InputCard } from "../../basic-vault-modal/components/InputCard";
 
+import { UnboostMainButton } from "./UnboostMainButton";
 import { BoostSwitcher } from "./BoostSwitcher";
-import { BoostInputCard } from "./BoostInputCard";
 import { BoostPositionInfo } from "./BoostPositionInfo";
 import { BoostMainButton } from "./BoostMainButton";
-import { UnboostMainButton } from "./UnboostMainButton";
-import { Container, MainButtonsContainer } from "./BasicModalContent.styles";
-import { BasicCardWarning } from "./BasicCardWarning";
 import { BoostBackButton } from "./BoostBackButton";
 
 export const BoostModalContent = () => {
@@ -18,7 +21,7 @@ export const BoostModalContent = () => {
     <Container>
       <BoostBackButton />
       <BoostSwitcher />
-      <BoostInputCard />
+      <InputCard />
       <BoostPositionInfo />
       <BasicCardWarning />
       <MainButtonsContainer>

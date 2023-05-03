@@ -18,10 +18,6 @@ export const Container = styled.span<BoostExpanderProps>`
   border-style: solid;
   cursor: ${({ isBoostEnabledForUser }) =>
     isBoostEnabledForUser ? "pointer" : "default"};
-  &:hover {
-    cursor: ${({ isBoostEnabledForUser }) =>
-      isBoostEnabledForUser ? "pointer" : "default"};
-  }
 `;
 
 export const HeaderLink = styled(motion.a).attrs(() => ({

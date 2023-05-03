@@ -30,7 +30,7 @@ const BoostButton = styled(motion.button).attrs<Required<BoostButtonProps>>(
   border-color: ${({ disabled, primaryColor, secondaryColor }) =>
     disabled ? primaryColor : secondaryColor};
 
-  color: "#ffffff";
+  color: ${({ textColor }) => textColor};
   background-color: ${({ disabled, primaryColor, secondaryColor }) =>
     disabled ? primaryColor : secondaryColor};
 
@@ -46,7 +46,7 @@ BoostButton.defaultProps = {
   isSmall: false,
   primaryColor: "#323844",
   secondaryColor: "#17B579",
-  textColor: "ffffff",
+  textColor: "#ffffff",
 };
 
 export type { BoostButtonProps };

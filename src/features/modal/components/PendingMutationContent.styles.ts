@@ -2,11 +2,11 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { screens } from "../../shared/constants";
-import { BoostButton } from "../../shared/components";
+import { BaseButton, BoostButton } from "../../shared/components";
 
 interface Props {
   children: React.ReactNode;
-  showCloseButton: boolean;
+  showModalBoostButton: boolean;
 }
 
 export const Container = styled.div<Props>`
@@ -14,7 +14,7 @@ export const Container = styled.div<Props>`
   position: relative;
   flex-direction: column;
   justify-content: end;
-  min-height: ${(props) => (props.showCloseButton ? "409px" : "327px")};
+  min-height: ${(props) => (props.showModalBoostButton ? "409px" : "327px")};
   min-width: 432px;
 `;
 
@@ -105,6 +105,10 @@ export const TransactionLink = styled(motion.a).attrs<{
   font-size: 20px;
 `;
 
-export const CloseButton = styled(BoostButton)`
+export const CloseButton = styled(BaseButton)`
+  width: 100%;
+`;
+
+export const ModalBoostButton = styled(BoostButton)`
   width: 100%;
 `;

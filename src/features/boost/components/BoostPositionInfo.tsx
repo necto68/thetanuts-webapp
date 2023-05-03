@@ -1,4 +1,4 @@
-import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
+import { useBasicModalConfig } from "../../basic-vault-modal/hooks/useBasicModalConfig";
 import {
   Container,
   InfoContainer,

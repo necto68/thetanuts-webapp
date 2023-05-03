@@ -1,6 +1,7 @@
 import { TabType } from "../types";
 import { useVaultModalState } from "../../modal/hooks";
 import { useBasicModalConfig } from "../hooks/useBasicModalConfig";
+import { BoostContent } from "../../boost/components/BoostContent";
 
 import { Switcher } from "./Switcher";
 import { InputCard } from "./InputCard";
@@ -14,7 +15,6 @@ import { VaultInfo } from "./VaultInfo";
 import { AnalyticLink } from "./AnalyticLink";
 import { Container, MainButtonsContainer } from "./BasicModalContent.styles";
 import { BasicCardWarning } from "./BasicCardWarning";
-import { BoostContent } from "./BoostContent";
 
 export const BasicModalContent = () => {
   const [vaultModalState] = useVaultModalState();
@@ -28,7 +28,7 @@ export const BasicModalContent = () => {
   ].includes(vaultId);
 
   const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
-  const { aTokenAddress = "" } = lendingPoolReaderData ?? {};
+  const { shouldShowBoost = false } = lendingPoolReaderData ?? {};
 
   return (
     <Container>
@@ -43,20 +43,14 @@ export const BasicModalContent = () => {
           <>
             <WithdrawMainButton />
             <PendingWithdrawMainButton />
-            {aTokenAddress !== "" &&
-            aTokenAddress !== "0x0000000000000000000000000000000000000000" ? (
-              <WithdrawNowMainButton />
-            ) : null}
+            {shouldShowBoost ? <WithdrawNowMainButton /> : null}
           </>
         )}
         {tabType === TabType.deposit ? <PendingDepositMainButton /> : null}
       </MainButtonsContainer>
       <VaultInfo />
       {shouldHideAnalyticLink ? null : <AnalyticLink />}
-      {aTokenAddress !== "" &&
-        aTokenAddress !== "0x0000000000000000000000000000000000000000" && (
-          <BoostContent />
-        )}
+      {shouldShowBoost && <BoostContent />}
     </Container>
   );
 };
