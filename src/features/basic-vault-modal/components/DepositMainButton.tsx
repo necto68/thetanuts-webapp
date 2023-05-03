@@ -23,10 +23,7 @@ import {
 import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
 import { VaultType } from "../../basic-vault/types";
-import {
-  getLongOptionTokenSymbol,
-  getLongVaultContractsTitle,
-} from "../../table/helpers";
+import { getLongVaultContractsTitle } from "../../table/helpers";
 import { useVaultModalState } from "../../modal/hooks";
 import { VaultModalType } from "../../root/types";
 import { ModalContentType } from "../../index-vault-modal/types";
@@ -83,7 +80,7 @@ export const DepositMainButton = () => {
   const { availableLeverage = 1 } = collateralAssetData ?? {};
 
   const { data: longOptionReaderData } = longOptionReaderQuery;
-  const { swapLeverage = null } = longOptionReaderData ?? {};
+  const { contractsToBorrow = null } = longOptionReaderData ?? {};
 
   const isLongVault = basicVaultType === BasicVaultType.LONG;
   const isLongOptionModal = [
@@ -183,7 +180,7 @@ export const DepositMainButton = () => {
     Boolean(isApproveAllowanceLoading) || Boolean(isApproveDelegationLoading);
 
   const isLongOptionMainButtonDisabled =
-    (isLongOptionModal || isLongOptionPositionModal) && !swapLeverage;
+    (isLongOptionModal || isLongOptionPositionModal) && !contractsToBorrow;
   const isMainButtonDisabled =
     isTokenDataLoading ||
     !currentTokenData ||
@@ -269,17 +266,21 @@ export const DepositMainButton = () => {
 
     handleMainButtonClick = runWrap;
   } else if (isLongOptionPositionModal || isLongOptionModal) {
-    // need to show loading while we are fetching current swapLeverage
+    // need to show loading while we are fetching current contractsToBorrow
     const loadingPlaceholder = ".....";
 
-    const longValue = swapLeverage
-      ? inputValueBig.mul(swapLeverage).toFixed(2)
+    const longValue = contractsToBorrow
+      ? contractsToBorrow.toFixed(2)
       : loadingPlaceholder;
 
-    const optionSymbol = getLongOptionTokenSymbol(type, assetSymbol);
+    const contractsTitle = getLongVaultContractsTitle(
+      type,
+      assetSymbol,
+      collateralSymbol
+    );
 
     buttonTitle = inputValueBig.gt(0)
-      ? `Bid ${longValue} ${optionSymbol}`
+      ? `Bid ${longValue} ${contractsTitle}`
       : "Bid";
 
     const showOpenLongOptionPositionModal = () => {

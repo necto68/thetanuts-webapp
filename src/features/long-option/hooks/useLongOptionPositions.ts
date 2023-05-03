@@ -3,7 +3,7 @@ import { VaultType } from "../../basic-vault/types";
 import { useLongModalConfig } from "../../long-vault-modal/hooks";
 import {
   getLongOptionTokenTitle,
-  getLongOptionTokenSymbol,
+  getLongVaultContractsTitle,
 } from "../../table/helpers";
 import type { LongOptionPositionRow } from "../types";
 
@@ -23,11 +23,12 @@ export const useLongOptionPositions = (): (
   const {
     type = VaultType.CALL,
     assetSymbol = "",
+    collateralSymbol = "",
     expiry = 0,
     strikePrices = [0],
   } = basicVaultData ?? {};
 
-  const { debtToken } = longVaultReaderData ?? {};
+  const { debtToken, currentContractsPosition } = longVaultReaderData ?? {};
 
   const isLoading = isBasicVaultLoading || isLongVaultReaderLoading;
 
@@ -35,7 +36,11 @@ export const useLongOptionPositions = (): (
     return [undefined];
   }
 
-  if (!debtToken || !debtToken.balance || debtToken.balance.eq(0)) {
+  if (
+    !debtToken ||
+    !currentContractsPosition ||
+    currentContractsPosition.eq(0)
+  ) {
     return [];
   }
 
@@ -45,15 +50,20 @@ export const useLongOptionPositions = (): (
     expiry,
     strikePrices
   );
-  const optionSymbol = getLongOptionTokenSymbol(type, assetSymbol);
+
+  const contractsTitle = getLongVaultContractsTitle(
+    type,
+    assetSymbol,
+    collateralSymbol
+  );
 
   return [
     {
       id: debtToken.tokenAddress,
       title: optionTitle,
       side: "Long",
-      size: debtToken.balance,
-      symbol: optionSymbol,
+      size: currentContractsPosition,
+      symbol: contractsTitle,
     },
   ];
 };

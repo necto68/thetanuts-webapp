@@ -21,6 +21,7 @@ const defaultLongOptionReader: LongOptionReader = {
   LPToBorrowValue: new Big(0),
   minToReceiveLPValue: new Big(0),
   swapLeverage: null,
+  contractsToBorrow: null,
 };
 
 export const longOptionReaderFetcher = async (
@@ -107,7 +108,7 @@ export const longOptionReaderFetcher = async (
     ),
   ]);
 
-  const { debtTokenPrice } = longVaultReader;
+  const { debtToken, debtTokenPrice } = longVaultReader;
   const { loanToValue, collateralToken, collateralPrice, lendingPoolAddress } =
     collateralAsset;
   const collateralTokenAddress = collateralToken.tokenAddress;
@@ -175,14 +176,16 @@ export const longOptionReaderFetcher = async (
     }
   }
 
-  const swapLeverage = LPToBorrowValue.mul(basicVault.valuePerLP)
-    .div(inputAmount)
-    .toNumber();
+  const rawContractsToBorrow = LPToBorrowValue.mul(basicVault.valuePerLP);
+  const contractsToBorrow = rawContractsToBorrow.div(debtToken.tokenDivisor);
+
+  const swapLeverage = rawContractsToBorrow.div(inputAmount).toNumber();
 
   return {
     inputValue,
     LPToBorrowValue,
     minToReceiveLPValue,
     swapLeverage,
+    contractsToBorrow,
   };
 };

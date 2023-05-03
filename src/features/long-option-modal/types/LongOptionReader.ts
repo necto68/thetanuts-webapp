@@ -5,4 +5,5 @@ export interface LongOptionReader {
   LPToBorrowValue: Big;
   minToReceiveLPValue: Big;
   swapLeverage: number | null;
+  contractsToBorrow: Big | null;
 }

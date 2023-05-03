@@ -8,7 +8,7 @@ import {
 } from "../../basic-vault-modal/hooks";
 import { numberFormatter } from "../../shared/helpers";
 import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
-import { getLongOptionTokenSymbol } from "../../table/helpers";
+import { getLongVaultContractsTitle } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
 import { Separator } from "../../long-option-modal/components/LongOptionModal.styles";
 
@@ -28,8 +28,7 @@ export const PositionInfo = () => {
     assetSymbol = "",
     collateralSymbol = "",
   } = basicVaultData ?? {};
-  const { swapLeverage = null } = longOptionReaderData ?? {};
-  const swapLeverageValue = swapLeverage ?? 0;
+  const { contractsToBorrow = new Big(0) } = longOptionReaderData ?? {};
 
   useEffect(() => {
     if (defaultInputValue) {
@@ -48,11 +47,11 @@ export const PositionInfo = () => {
   };
 
   const targetTokenData = {
-    value: numberFormatter.format(
-      inputValueBig.mul(swapLeverageValue).toNumber()
-    ),
+    value: contractsToBorrow
+      ? numberFormatter.format(contractsToBorrow.toNumber())
+      : 0,
 
-    symbol: getLongOptionTokenSymbol(type, assetSymbol),
+    symbol: getLongVaultContractsTitle(type, assetSymbol, collateralSymbol),
   };
 
   return (
