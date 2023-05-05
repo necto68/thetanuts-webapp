@@ -10,15 +10,16 @@ export const LeverageInfo = () => {
   const { swapLeverage = null } = data ?? {};
 
   const formattedLeverage =
-    swapLeverage === null ? "0" : numberFormatter.format(swapLeverage);
-  const leverageValue = swapLeverage === null ? "N/A" : `${formattedLeverage}x`;
+    swapLeverage === null ? "N/A" : `${numberFormatter.format(swapLeverage)}x`;
 
   const loadingPlaceholder = ".....";
 
   return (
     <InfoContainer>
       <InfoTitle>Leverage</InfoTitle>
-      <InfoValue>{isLoading ? loadingPlaceholder : leverageValue}</InfoValue>
+      <InfoValue>
+        {isLoading ? loadingPlaceholder : formattedLeverage}
+      </InfoValue>
     </InfoContainer>
   );
 };

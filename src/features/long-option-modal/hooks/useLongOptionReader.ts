@@ -47,6 +47,5 @@ export const useLongOptionReader = (
       ),
 
     enabled: basicVaultType === BasicVaultType.LONG,
-    staleTime: Number.POSITIVE_INFINITY,
   });
 };
