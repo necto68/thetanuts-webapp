@@ -8,7 +8,7 @@ export const loadingButtonTitles = {
 };
 
 export const buttonTitles = {
-  [BasicVaultType.BASIC]: "Initiate Withdraw",
+  [BasicVaultType.BASIC]: "Withdraw Upon Expiry",
   [BasicVaultType.DEGEN]: "Initiate Full Withdraw",
   [BasicVaultType.WHEEL]: "Initiate Withdraw",
   [BasicVaultType.LONG]: "Close Position",

@@ -11,3 +11,5 @@ export * from "./Twitter";
 export * from "./Medium";
 export * from "./Discord";
 export * from "./Substack";
+export * from "./TriangleDown";
+export * from "./TriangleUp";

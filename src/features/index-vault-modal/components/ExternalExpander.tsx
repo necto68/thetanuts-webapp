@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { Chain } from "../../shared/icons";
+import { NewWindow } from "../../shared/icons";
 
 import { Container, HeaderLink, Title } from "./Expander.styles";
 
@@ -13,7 +13,7 @@ export const ExternalExpander: FC<ExternalExpanderProps> = ({ title, to }) => (
   <Container>
     <HeaderLink href={to} target="_blank">
       <Title>{title}</Title>
-      <Chain />
+      <NewWindow />
     </HeaderLink>
   </Container>
 );

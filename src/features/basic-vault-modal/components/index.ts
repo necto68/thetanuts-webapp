@@ -12,6 +12,7 @@ export * from "./PendingDepositInfo";
 export * from "./VaultInfo";
 export * from "./DepositMainButton";
 export * from "./WithdrawMainButton";
+export * from "./WithdrawNowMainButton";
 export * from "./PendingDepositMainButton";
 export * from "./PendingWithdrawMainButton";
 export * from "./AnalyticLink";

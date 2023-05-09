@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable complexity */
 import type { FC } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import Lottie from "react-lottie-player";
 
-import pendingMutation from "../animations/pendingMutation.json";
+import { TabType } from "../../basic-vault-modal/types";
 import succeedMutation from "../animations/succeedMutation.json";
 import { getExplorerUrl } from "../../wallet/helpers";
 import { PathType } from "../../wallet/types";
-import { Link } from "../../shared/components";
 import { useVaultModalState } from "../hooks";
 import type { ChainId } from "../../wallet/constants";
+import { useBasicModalConfig } from "../../basic-vault-modal/hooks/useBasicModalConfig";
+import { Link } from "../../shared/components";
 import { getPagePathname } from "../../root/helpers";
 
 import {
@@ -17,12 +20,11 @@ import {
   InfoContainer,
   ContentContainer,
   Title,
-  AnimationContainer,
-  RatioTitleContainer,
   RatioTitle,
   ToTitle,
   TransactionLink,
   CloseButton,
+  ModalBoostButton,
 } from "./PendingMutationContent.styles";
 
 interface TokenData {
@@ -49,10 +51,15 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   successTitle,
 }) => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
-  const { isRouterModal, vaultType } = vaultModalState;
+  const { isRouterModal, vaultType, tabType, isBoostContentShown } =
+    vaultModalState;
 
   const pathname = getPagePathname(vaultType);
   const pageRoute = isRouterModal ? { pathname } : {};
+
+  const { lendingPoolReaderQuery } = useBasicModalConfig();
+  const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
+  const { shouldShowBoost = false } = lendingPoolReaderData ?? {};
 
   // background animation
   const [isFirstLoopCompleted, setIsFirstLoopCompleted] = useState(false);
@@ -63,10 +70,9 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
     }
   }, [isFirstLoopCompleted]);
 
-  const backgroundAnimationSegments = useMemo<[number, number]>(
-    () => (isFirstLoopCompleted ? [38, 80] : [0, 80]),
-    [isFirstLoopCompleted]
-  );
+  const handleModalBoostButtonClick = useCallback(() => {
+    setVaultModalState({ ...vaultModalState, isBoostContentShown: true });
+  }, [setVaultModalState, vaultModalState]);
 
   // close button
   const handleCloseButtonClick = useCallback(() => {
@@ -78,26 +84,29 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
 
   const transactionUrl = getExplorerUrl(PathType.tx, chainId, mutationHash);
 
+  const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
+  const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
+
+  const showModalBoostButton =
+    (!isBoostContentShown && tabType === TabType.deposit && shouldShowBoost) ||
+    false;
+
   return (
-    <Container>
-      {isMutationSucceed ? (
-        <BackgroundAnimationContainer>
-          <Lottie
-            animationData={succeedMutation}
-            loop
-            onLoopComplete={handleLoopComplete}
-            play
-            segments={backgroundAnimationSegments}
-          />
-        </BackgroundAnimationContainer>
-      ) : null}
+    <Container showModalBoostButton={showModalBoostButton}>
+      {/* {isMutationSucceed ? ( */}
+      <BackgroundAnimationContainer>
+        <Lottie
+          animationData={succeedMutation}
+          loop
+          onLoopComplete={handleLoopComplete}
+          play
+        />
+      </BackgroundAnimationContainer>
+      {/* ) : null} */}
       <ContentContainer>
         <InfoContainer>
-          <AnimationContainer isShow={!isMutationSucceed}>
-            <Lottie animationData={pendingMutation} loop play />
-          </AnimationContainer>
-          <Title>{isMutationSucceed ? successTitle : pendingTitle}</Title>
-          <RatioTitleContainer>
+          <Title>
+            {isMutationSucceed ? successTitle : pendingTitle}
             {sourceTokenData ? (
               <RatioTitle>{`${sourceTokenData.value} ${sourceTokenData.symbol}`}</RatioTitle>
             ) : null}
@@ -105,7 +114,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             {targetTokenData ? (
               <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>
             ) : null}
-          </RatioTitleContainer>
+          </Title>
           <TransactionLink
             href={transactionUrl}
             isMutationSucceed={isMutationSucceed}
@@ -114,11 +123,25 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             View Transaction in Explorer
           </TransactionLink>
         </InfoContainer>
-        <Link to={pageRoute}>
-          <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
-            Close
-          </CloseButton>
-        </Link>
+        {showModalBoostButton && (
+          <ModalBoostButton
+            disabled={!isMutationSucceed}
+            onClick={handleModalBoostButtonClick}
+          >
+            {`Boost for ${formattedAPY}% more yield`}
+          </ModalBoostButton>
+
+          // ) : (
+          //   <Link to={pageRoute}>
+          //     <CloseButton
+          //       onClick={handleCloseButtonClick}
+          //       primaryColor="#FFFFFF"
+          //     >
+          //       Close
+          //     </CloseButton>
+          //   </Link>
+          // )}
+        )}
       </ContentContainer>
     </Container>
   );

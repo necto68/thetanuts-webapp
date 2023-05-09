@@ -1,3 +1,4 @@
+/* eslint-disable etc/no-commented-out-code */
 import { useCallback, useState } from "react";
 
 import { links } from "../../shared/constants";

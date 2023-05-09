@@ -22,6 +22,7 @@ export const useVaultModalClose = () => {
       setVaultModalState((previousState) => ({
         ...previousState,
         isShow: false,
+        isBoostContentShown: false,
       }));
     }
   }, [isRouterModal, vaultType, setVaultModalState, routerHistory]);

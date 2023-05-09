@@ -31,7 +31,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
-
   const { inputValue, setInputValue, tokenData, nativeData, tokensQueries } =
     useBasicModalState();
 

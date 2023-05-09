@@ -160,6 +160,7 @@ export const useSetVaultModalState = () => {
       setVaultModalState((previousState) => ({
         ...previousState,
         isShow: false,
+        isBoostContentShown: false,
       }));
     }
   }, [
