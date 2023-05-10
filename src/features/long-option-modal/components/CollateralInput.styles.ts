@@ -29,3 +29,10 @@ export const InputContainer = styled.div`
 export const Input = styled(SwapInput)`
   font-size: 14px;
 `;
+
+export const InputValue = styled.div`
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 14px;
+  color: #e5e5e5;
+`;

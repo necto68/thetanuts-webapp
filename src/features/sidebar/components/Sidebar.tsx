@@ -5,7 +5,6 @@ import {
   WheelPage,
   LongPage,
   LongCallsPage,
-  LongPutsPage,
   Portfolio,
   Twitter,
   Medium,
@@ -51,14 +50,15 @@ const longOptions = [
   },
   {
     to: PagePathname.longCall,
-    linkTitle: "Calls",
+    linkTitle: "Trade Long",
     navIcon: LongCallsPage,
   },
-  {
-    to: PagePathname.longPut,
-    linkTitle: "Puts",
-    navIcon: LongPutsPage,
-  },
+
+  // {
+  //   to: PagePathname.longPut,
+  //   linkTitle: "Puts",
+  //   navIcon: LongPutsPage,
+  // },
 ];
 
 const exoticStrategies = [

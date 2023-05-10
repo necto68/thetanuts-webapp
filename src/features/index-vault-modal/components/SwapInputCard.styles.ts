@@ -91,13 +91,13 @@ export const AssetContainer = styled.div`
   gap: 5px;
 `;
 
-export const SwapInput = styled.input.attrs<{ isError: boolean }>(() => ({
+export const SwapInput = styled.input.attrs<{ isError?: boolean }>(() => ({
   type: "number",
   inputMode: "decimal",
   placeholder: "0",
   min: "0",
   step: "any",
-}))<{ isError: boolean }>`
+}))<{ isError?: boolean }>`
   font-family: Roboto;
   font-weight: 400;
   font-size: 22px;
