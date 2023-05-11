@@ -13,6 +13,7 @@ import type { ChainId } from "../../wallet/constants";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks/useBasicModalConfig";
 import { Link } from "../../shared/components";
 import { getPagePathname } from "../../root/helpers";
+import { BasicVaultType } from "../../basic/types";
 
 import {
   Container,
@@ -57,8 +58,12 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   const pathname = getPagePathname(vaultType);
   const pageRoute = isRouterModal ? { pathname } : {};
 
-  const { lendingPoolReaderQuery } = useBasicModalConfig();
+  const { basicVaultQuery, lendingPoolReaderQuery } = useBasicModalConfig();
+
+  const { data: basicVaultData } = basicVaultQuery;
   const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
+
+  const { basicVaultType = BasicVaultType.BASIC } = basicVaultData ?? {};
   const { shouldShowBoost = false } = lendingPoolReaderData ?? {};
 
   // background animation
@@ -88,7 +93,10 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
 
   const showModalBoostButton =
-    (!isBoostContentShown && tabType === TabType.deposit && shouldShowBoost) ||
+    (!isBoostContentShown &&
+      tabType === TabType.deposit &&
+      shouldShowBoost &&
+      basicVaultType === BasicVaultType.BASIC) ||
     false;
 
   return (
@@ -105,16 +113,14 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
       {/* ) : null} */}
       <ContentContainer>
         <InfoContainer>
-          <Title>
-            {isMutationSucceed ? successTitle : pendingTitle}
-            {sourceTokenData ? (
-              <RatioTitle>{`${sourceTokenData.value} ${sourceTokenData.symbol}`}</RatioTitle>
-            ) : null}
-            {targetTokenData ? <ToTitle>↓</ToTitle> : null}
-            {targetTokenData ? (
-              <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>
-            ) : null}
-          </Title>
+          <Title>{isMutationSucceed ? successTitle : pendingTitle}</Title>
+          {sourceTokenData ? (
+            <RatioTitle>{`${sourceTokenData.value} ${sourceTokenData.symbol}`}</RatioTitle>
+          ) : null}
+          {targetTokenData ? <ToTitle>↓</ToTitle> : null}
+          {targetTokenData ? (
+            <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>
+          ) : null}
           <TransactionLink
             href={transactionUrl}
             isMutationSucceed={isMutationSucceed}

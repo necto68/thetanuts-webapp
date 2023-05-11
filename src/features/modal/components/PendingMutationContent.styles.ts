@@ -11,11 +11,11 @@ interface Props {
 
 export const Container = styled.div<Props>`
   display: flex;
-  position: relative;
   flex-direction: column;
+  gap: 20px;
+  position: relative;
   justify-content: end;
   min-height: ${(props) => (props.showModalBoostButton ? "409px" : "327px")};
-  min-width: 432px;
 `;
 
 export const BackgroundAnimationContainer = styled.div`
