@@ -10,6 +10,7 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { assetFormatter } from "../../shared/helpers";
+import { lendingPoolTokenAddresses } from "../constants";
 
 export const BoostCurrentPositionInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
@@ -25,10 +26,17 @@ export const BoostCurrentPositionInfo = () => {
 
   const boostSymbol = basicVaultData?.id;
 
+  const lpToken = lendingPoolTokenAddresses.find(
+    (token) => token.id === boostSymbol
+  );
+  const lpTokenLabel = lpToken?.source.suppliedTokenAddressLabel ?? "";
+
+  const tokenSymbol = lpTokenLabel === "" ? boostSymbol : lpTokenLabel;
+
   const loadingPlaceholder = ".....";
 
   const formattedCurrentPosition = boostBalance
-    ? `${assetFormatter.format(boostBalance)} ${boostSymbol}`
+    ? `${assetFormatter.format(boostBalance)} ${tokenSymbol}`
     : "N/A";
 
   return (

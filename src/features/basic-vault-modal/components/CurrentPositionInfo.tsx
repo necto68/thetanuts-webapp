@@ -10,6 +10,7 @@ import {
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { assetFormatter } from "../../shared/helpers";
 import { BasicVaultType } from "../../basic/types";
+import { lendingPoolTokenAddresses } from "../../boost/constants";
 
 export const CurrentPositionInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -23,6 +24,8 @@ export const CurrentPositionInfo = () => {
 
   const { basicVaultType = BasicVaultType.BASIC, collateralSymbol = "" } =
     basicVaultData ?? {};
+
+  const { id = "" } = basicVaultData ?? {};
 
   const { totalPosition = new Big(0) } = basicVaultReaderData ?? {};
 
@@ -44,8 +47,13 @@ export const CurrentPositionInfo = () => {
 
   const loadingPlaceholder = ".....";
 
+  const lpToken = lendingPoolTokenAddresses.find((token) => token.id === id);
+  const lpTokenLabel = lpToken?.source.tokenAddressLabel ?? "";
+
+  const tokenSymbol = lpTokenLabel === "" ? collateralSymbol : lpTokenLabel;
+
   const formattedCurrentPosition = totalPosition
-    ? `${assetFormatter.format(totalPosition.toNumber())} ${collateralSymbol}`
+    ? `${assetFormatter.format(totalPosition.toNumber())} ${tokenSymbol}`
     : "N/A";
 
   return (

@@ -12,12 +12,20 @@ interface ErrorMainButtonProps {
 export const ErrorMainButton: FC<ErrorMainButtonProps> = ({
   error,
   onClick,
-}) => (
-  <ModalMainButton
-    onClick={onClick}
-    primaryColor="#EB5853"
-    secondaryColor="#ffffff"
-  >
-    {error.data?.message ?? error.message}
-  </ModalMainButton>
-);
+}) => {
+  const errorMessage = error.data?.message ?? error.message;
+  const buttonMessage =
+    errorMessage === "execution reverted: 5"
+      ? "Not Enough Liquidity"
+      : errorMessage;
+
+  return (
+    <ModalMainButton
+      onClick={onClick}
+      primaryColor="#EB5853"
+      secondaryColor="#ffffff"
+    >
+      {buttonMessage}
+    </ModalMainButton>
+  );
+};

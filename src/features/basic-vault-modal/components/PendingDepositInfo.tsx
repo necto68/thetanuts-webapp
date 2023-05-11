@@ -7,6 +7,7 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { assetFormatter } from "../../shared/helpers";
+import { lendingPoolTokenAddresses } from "../../boost/constants";
 
 export const PendingDepositInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -20,12 +21,19 @@ export const PendingDepositInfo = () => {
 
   const { collateralSymbol = "" } = basicVaultData ?? {};
 
+  const { id = "" } = basicVaultData ?? {};
+
   const { depositPending = null } = basicVaultReaderData ?? {};
 
   const loadingPlaceholder = ".....";
 
+  const lpToken = lendingPoolTokenAddresses.find((token) => token.id === id);
+  const lpTokenLabel = lpToken?.source.tokenAddressLabel ?? "";
+
+  const tokenSymbol = lpTokenLabel === "" ? collateralSymbol : lpTokenLabel;
+
   const formattedDepositPending = depositPending
-    ? `${assetFormatter.format(depositPending.toNumber())} ${collateralSymbol}`
+    ? `${assetFormatter.format(depositPending.toNumber())} ${tokenSymbol}`
     : "N/A";
 
   return (
