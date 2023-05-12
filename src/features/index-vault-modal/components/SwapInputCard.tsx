@@ -3,6 +3,11 @@ import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import Big from "big.js";
 
+import {
+  useBasicModalConfig,
+  useBasicModalState,
+} from "../../basic-vault-modal/hooks";
+
 import { IconContainer, SkeletonBox } from "../../shared/components";
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
@@ -12,6 +17,11 @@ import { ModalContentType } from "../types";
 import { useVaultModalState } from "../../modal/hooks";
 import { TabType } from "../../basic-vault-modal/types";
 import { lendingPoolTokenAddresses } from "../../boost/constants";
+import {
+  getLendingPoolTokenTitle,
+  getLongVaultContractsTitle,
+} from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
 
 import { AssetSelector } from "./AssetSelector";
 import { PriceImpact } from "./PriceImpact";
@@ -86,7 +96,17 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   maxInputValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
 }) => {
-  const [{ contentType, tabType }] = useVaultModalState();
+  const [{ contentType, tabType, isBoostContentShown, vaultType }] =
+    useVaultModalState();
+  const { basicVaultQuery } = useBasicModalConfig();
+  const { data: basicVaultData, isLoading: isBasicVaultLoading } =
+    basicVaultQuery;
+
+  const {
+    collateralSymbol = "",
+    type = VaultType.CALL,
+    assetSymbol = "",
+  } = basicVaultData ?? {};
 
   const isShowAssetSelector =
     !isHideAssetSelector &&
@@ -164,21 +184,15 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
-  const lpToken =
-    tabType === TabType.deposit
-      ? lendingPoolTokenAddresses.find(
-          (token) => token.id === currentData?.symbol
-        )
-      : lendingPoolTokenAddresses.find(
-          (token) => token.sid === currentData?.symbol
-        );
+  const vaultTitle =
+    // eslint-disable-next-line no-nested-ternary
+    isBoostContentShown && tabType === TabType.deposit
+      ? getLongVaultContractsTitle(type, assetSymbol, collateralSymbol)
+      : isBoostContentShown && tabType === TabType.withdraw
+      ? getLendingPoolTokenTitle(type, assetSymbol, collateralSymbol)
+      : currentData?.symbol;
 
-  const lpTokenLabel =
-    tabType === TabType.deposit
-      ? lpToken?.source.tokenAddressLabel ?? ""
-      : lpToken?.source.suppliedTokenAddressLabel ?? "";
-
-  const tokenSymbol = lpTokenLabel === "" ? currentData?.symbol : lpTokenLabel;
+  const tokenSymbol = vaultTitle;
 
   return (
     <Container>

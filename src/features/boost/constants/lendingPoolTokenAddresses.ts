@@ -9,8 +9,8 @@ export const lendingPoolTokenAddresses: LendingPoolTokenConfig[] = [
     source: {
       chainId: ChainId.POLYGON,
       suppliedTokenAddress: "0x53F02b56822C0FD9Eb97559FA28d2243ce2A1C1C",
-      tokenAddressLabel: "WMATIC Calls",
-      suppliedTokenAddressLabel: "aWMATIC Calls",
+      assetSymbol: "WMATIC",
+      type: 'CALL'
     },
   },
 ];

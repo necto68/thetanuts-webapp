@@ -7,7 +7,8 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { assetFormatter } from "../../shared/helpers";
-import { lendingPoolTokenAddresses } from "../../boost/constants";
+import { getLongVaultContractsTitle } from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
 
 export const PendingDepositInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -19,18 +20,25 @@ export const PendingDepositInfo = () => {
 
   const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
 
-  const { collateralSymbol = "" } = basicVaultData ?? {};
-
-  const { id = "" } = basicVaultData ?? {};
+  const {
+    collateralSymbol = "",
+    id = "",
+    type = VaultType.CALL,
+    assetSymbol = "",
+  } = basicVaultData ?? {};
 
   const { depositPending = null } = basicVaultReaderData ?? {};
 
   const loadingPlaceholder = ".....";
 
-  const lpToken = lendingPoolTokenAddresses.find((token) => token.id === id);
-  const lpTokenLabel = lpToken?.source.tokenAddressLabel ?? "";
+  const vaultTitle = getLongVaultContractsTitle(
+    type,
+    assetSymbol,
+    collateralSymbol
+  );
 
-  const tokenSymbol = lpTokenLabel === "" ? collateralSymbol : lpTokenLabel;
+  const tokenSymbol =
+    id === "TN-CSCCv1-MATICUSD" ? vaultTitle : collateralSymbol;
 
   const formattedDepositPending = depositPending
     ? `${assetFormatter.format(depositPending.toNumber())} ${tokenSymbol}`

@@ -16,6 +16,10 @@ export const processWalletError = (walletError: unknown) => {
     throw new Error("Transaction Cancelled");
   }
 
+  if (JSON.stringify(walletError).includes("execution reverted: 5")) {
+    throw new Error(TransactionErrorMessage.notEnoughLiquidityForUnboost);
+  }
+
   if (
     JSON.stringify(walletError).includes(
       TransactionErrorMessageTemplate.settlementInProgress

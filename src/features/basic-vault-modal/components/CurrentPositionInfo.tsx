@@ -10,7 +10,8 @@ import {
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { assetFormatter } from "../../shared/helpers";
 import { BasicVaultType } from "../../basic/types";
-import { lendingPoolTokenAddresses } from "../../boost/constants";
+import { getLongVaultContractsTitle } from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
 
 export const CurrentPositionInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -22,10 +23,13 @@ export const CurrentPositionInfo = () => {
 
   const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
 
-  const { basicVaultType = BasicVaultType.BASIC, collateralSymbol = "" } =
-    basicVaultData ?? {};
-
-  const { id = "" } = basicVaultData ?? {};
+  const {
+    basicVaultType = BasicVaultType.BASIC,
+    collateralSymbol = "",
+    id = "",
+    assetSymbol = "",
+    type = VaultType.CALL,
+  } = basicVaultData ?? {};
 
   const { totalPosition = new Big(0) } = basicVaultReaderData ?? {};
 
@@ -47,10 +51,14 @@ export const CurrentPositionInfo = () => {
 
   const loadingPlaceholder = ".....";
 
-  const lpToken = lendingPoolTokenAddresses.find((token) => token.id === id);
-  const lpTokenLabel = lpToken?.source.tokenAddressLabel ?? "";
+  const vaultTitle = getLongVaultContractsTitle(
+    type,
+    assetSymbol,
+    collateralSymbol
+  );
 
-  const tokenSymbol = lpTokenLabel === "" ? collateralSymbol : lpTokenLabel;
+  const tokenSymbol =
+    id === "TN-CSCCv1-MATICUSD" ? vaultTitle : collateralSymbol;
 
   const formattedCurrentPosition = totalPosition
     ? `${assetFormatter.format(totalPosition.toNumber())} ${tokenSymbol}`
