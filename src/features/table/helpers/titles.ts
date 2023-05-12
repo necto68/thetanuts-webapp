@@ -81,3 +81,21 @@ export const getLongOptionTokenTitle = (
 
   return titleArray.join("-");
 };
+
+export const getLendingPoolTokenTitle = (
+  type: BasicVault["type"],
+  assetSymbol: BasicVault["assetSymbol"],
+  collateralSymbol: BasicVault["collateralSymbol"]
+) => {
+  const isPutType = type === VaultType.PUT;
+
+  const assetsTitle = isPutType
+    ? `a${collateralSymbol}-${assetSymbol}`
+    : `a${assetSymbol}`;
+
+  const typeTitle = isPutType ? "Puts" : "Calls";
+
+  const titleArray = [assetsTitle, typeTitle];
+
+  return titleArray.join(" ");
+};

@@ -10,6 +10,9 @@ import {
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { assetFormatter } from "../../shared/helpers";
 import { BasicVaultType } from "../../basic/types";
+import { getLongVaultContractsTitle } from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
+import { lendingPoolTokenAddresses } from "../../boost/constants";
 
 export const CurrentPositionInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -21,8 +24,13 @@ export const CurrentPositionInfo = () => {
 
   const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
 
-  const { basicVaultType = BasicVaultType.BASIC, collateralSymbol = "" } =
-    basicVaultData ?? {};
+  const {
+    basicVaultType = BasicVaultType.BASIC,
+    collateralSymbol = "",
+    id = "",
+    assetSymbol = "",
+    type = VaultType.CALL,
+  } = basicVaultData ?? {};
 
   const { totalPosition = new Big(0) } = basicVaultReaderData ?? {};
 
@@ -44,8 +52,20 @@ export const CurrentPositionInfo = () => {
 
   const loadingPlaceholder = ".....";
 
+  const vaultTitle = getLongVaultContractsTitle(
+    type,
+    assetSymbol,
+    collateralSymbol
+  );
+
+  const tokenExists = lendingPoolTokenAddresses.some(
+    (token) => token.id === id
+  );
+
+  const tokenSymbol = tokenExists ? vaultTitle : collateralSymbol;
+
   const formattedCurrentPosition = totalPosition
-    ? `${assetFormatter.format(totalPosition.toNumber())} ${collateralSymbol}`
+    ? `${assetFormatter.format(totalPosition.toNumber())} ${tokenSymbol}`
     : "N/A";
 
   return (

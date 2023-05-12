@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import {
   useBasicModalConfig,
   useBasicModalState,
@@ -10,6 +9,8 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { assetFormatter } from "../../shared/helpers";
+import { getLendingPoolTokenTitle } from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
 
 export const BoostCurrentPositionInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
@@ -23,12 +24,22 @@ export const BoostCurrentPositionInfo = () => {
 
   const boostBalance = activePositionData?.balance?.toNumber();
 
-  const boostSymbol = basicVaultData?.id;
+  const {
+    collateralSymbol = "",
+    type = VaultType.CALL,
+    assetSymbol = "",
+  } = basicVaultData ?? {};
 
   const loadingPlaceholder = ".....";
 
+  const vaultTitle = getLendingPoolTokenTitle(
+    type,
+    assetSymbol,
+    collateralSymbol
+  );
+
   const formattedCurrentPosition = boostBalance
-    ? `${assetFormatter.format(boostBalance)} ${boostSymbol}`
+    ? `${assetFormatter.format(boostBalance)} ${vaultTitle}`
     : "N/A";
 
   return (
