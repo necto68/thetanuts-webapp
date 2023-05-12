@@ -4,7 +4,6 @@ import { ChainId } from "../../wallet/constants";
 export const lendingPoolTokenAddresses: LendingPoolTokenConfig[] = [
   {
     id: "TN-CSCCv1-MATICUSD",
-    sid: "sTN-CSCCv1-MATICUSD",
 
     source: {
       chainId: ChainId.POLYGON,

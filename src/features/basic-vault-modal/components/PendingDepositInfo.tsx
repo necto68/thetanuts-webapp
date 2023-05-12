@@ -9,6 +9,7 @@ import {
 import { assetFormatter } from "../../shared/helpers";
 import { getLongVaultContractsTitle } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
+import { lendingPoolTokenAddresses } from "../../boost/constants";
 
 export const PendingDepositInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -37,8 +38,11 @@ export const PendingDepositInfo = () => {
     collateralSymbol
   );
 
-  const tokenSymbol =
-    id === "TN-CSCCv1-MATICUSD" ? vaultTitle : collateralSymbol;
+  const tokenExists = lendingPoolTokenAddresses.some(
+    (token) => token.id === id
+  );
+
+  const tokenSymbol = tokenExists ? vaultTitle : collateralSymbol;
 
   const formattedDepositPending = depositPending
     ? `${assetFormatter.format(depositPending.toNumber())} ${tokenSymbol}`

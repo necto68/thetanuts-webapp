@@ -12,6 +12,7 @@ import { assetFormatter } from "../../shared/helpers";
 import { BasicVaultType } from "../../basic/types";
 import { getLongVaultContractsTitle } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
+import { lendingPoolTokenAddresses } from "../../boost/constants";
 
 export const CurrentPositionInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -57,8 +58,11 @@ export const CurrentPositionInfo = () => {
     collateralSymbol
   );
 
-  const tokenSymbol =
-    id === "TN-CSCCv1-MATICUSD" ? vaultTitle : collateralSymbol;
+  const tokenExists = lendingPoolTokenAddresses.some(
+    (token) => token.id === id
+  );
+
+  const tokenSymbol = tokenExists ? vaultTitle : collateralSymbol;
 
   const formattedCurrentPosition = totalPosition
     ? `${assetFormatter.format(totalPosition.toNumber())} ${tokenSymbol}`

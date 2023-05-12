@@ -177,13 +177,18 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
-  const vaultTitle =
-    // eslint-disable-next-line no-nested-ternary
-    isBoostContentShown && tabType === TabType.deposit
-      ? getLongVaultContractsTitle(type, assetSymbol, collateralSymbol)
-      : isBoostContentShown && tabType === TabType.withdraw
-      ? getLendingPoolTokenTitle(type, assetSymbol, collateralSymbol)
-      : currentData?.symbol;
+  let vaultTitle = currentData?.symbol;
+  if (isBoostContentShown && tabType === TabType.deposit) {
+    vaultTitle = getLongVaultContractsTitle(
+      type,
+      assetSymbol,
+      collateralSymbol
+    );
+  } else if (isBoostContentShown && tabType === TabType.withdraw) {
+    vaultTitle = getLendingPoolTokenTitle(type, assetSymbol, collateralSymbol);
+  } else {
+    vaultTitle = currentData?.symbol;
+  }
 
   const tokenSymbol = vaultTitle;
 
