@@ -3,11 +3,7 @@ import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import Big from "big.js";
 
-import {
-  useBasicModalConfig,
-  useBasicModalState,
-} from "../../basic-vault-modal/hooks";
-
+import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import { IconContainer, SkeletonBox } from "../../shared/components";
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
@@ -16,7 +12,6 @@ import type { ChainId } from "../../wallet/constants";
 import { ModalContentType } from "../types";
 import { useVaultModalState } from "../../modal/hooks";
 import { TabType } from "../../basic-vault-modal/types";
-import { lendingPoolTokenAddresses } from "../../boost/constants";
 import {
   getLendingPoolTokenTitle,
   getLongVaultContractsTitle,
@@ -96,11 +91,9 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   maxInputValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
 }) => {
-  const [{ contentType, tabType, isBoostContentShown, vaultType }] =
-    useVaultModalState();
+  const [{ contentType, tabType, isBoostContentShown }] = useVaultModalState();
   const { basicVaultQuery } = useBasicModalConfig();
-  const { data: basicVaultData, isLoading: isBasicVaultLoading } =
-    basicVaultQuery;
+  const { data: basicVaultData } = basicVaultQuery;
 
   const {
     collateralSymbol = "",
