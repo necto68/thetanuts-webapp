@@ -8,28 +8,49 @@ import {
   InfoTitleContainer,
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
+import { assetFormatter } from "../../shared/helpers";
+import { getLongVaultContractsTitle } from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
+import { lendingPoolTokenAddresses } from "../../boost/constants";
 
 export const PendingWithdrawInfo = () => {
-  const { basicVaultReaderQuery } = useBasicModalConfig();
+  const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
 
+  const { data: basicVaultData, isLoading: isBasicVaultLoading } =
+    basicVaultQuery;
   const { data: basicVaultReaderData, isLoading: isBasicVaultReaderLoading } =
     basicVaultReaderQuery;
 
-  const isLoading = isBasicVaultReaderLoading;
+  const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
+
+  const {
+    collateralSymbol = "",
+    id = "",
+    assetSymbol = "",
+    type = VaultType.CALL,
+  } = basicVaultData ?? {};
 
   const withdrawalPending =
     basicVaultReaderData?.withdrawalPending ?? new Big(0);
-  const isReadyToWithdraw = basicVaultReaderData?.isReadyToWithdraw ?? false;
 
   const loadingPlaceholder = ".....";
 
-  const formattedWithdrawalPending =
-    // eslint-disable-next-line no-nested-ternary
+  const vaultTitle = getLongVaultContractsTitle(
+    type,
+    assetSymbol,
+    collateralSymbol
+  );
+
+  const tokenExists = lendingPoolTokenAddresses.some(
+    (token) => token.id === id
+  );
+
+  const tokenSymbol = tokenExists ? vaultTitle : collateralSymbol;
+
+  const formattedCurrentPosition =
     withdrawalPending.toNumber() > 0
-      ? isReadyToWithdraw
-        ? "Ready to Claim"
-        : "Pending"
-      : "-";
+      ? `${assetFormatter.format(withdrawalPending.toNumber())} ${tokenSymbol}`
+      : "N/A";
 
   return (
     <InfoContainer>
@@ -41,7 +62,7 @@ export const PendingWithdrawInfo = () => {
         />
       </InfoTitleContainer>
       <InfoValue isAlignRight>
-        {isLoading ? loadingPlaceholder : formattedWithdrawalPending}
+        {isLoading ? loadingPlaceholder : formattedCurrentPosition}
       </InfoValue>
     </InfoContainer>
   );

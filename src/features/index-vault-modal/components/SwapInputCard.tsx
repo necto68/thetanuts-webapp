@@ -64,7 +64,7 @@ interface SwapInputCardProps {
 }
 
 const getBalanceValue = (tokenData: NativeToken | Token | undefined) =>
-  tokenData?.balance ? tokenData.balance.round(6).toString() : "N/A";
+  tokenData?.balance ? tokenData.balance.round(4).toString() : "N/A";
 
 // eslint-disable-next-line complexity
 export const SwapInputCard: FC<SwapInputCardProps> = ({
@@ -177,20 +177,20 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
-  let vaultTitle = currentData?.symbol;
+  let symbolTitle = currentData?.symbol;
   if (isBoostContentShown && tabType === TabType.deposit) {
-    vaultTitle = getLongVaultContractsTitle(
+    symbolTitle = getLongVaultContractsTitle(
       type,
       assetSymbol,
       collateralSymbol
     );
   } else if (isBoostContentShown && tabType === TabType.withdraw) {
-    vaultTitle = getLendingPoolTokenTitle(type, assetSymbol, collateralSymbol);
+    symbolTitle = getLendingPoolTokenTitle(type, assetSymbol, collateralSymbol);
   } else {
-    vaultTitle = currentData?.symbol;
+    symbolTitle = currentData?.symbol;
   }
 
-  const tokenSymbol = vaultTitle;
+  const tokenSymbol = symbolTitle;
 
   return (
     <Container>

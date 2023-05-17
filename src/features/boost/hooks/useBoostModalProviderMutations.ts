@@ -31,6 +31,10 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
 
   const [boostHash, setBoostHash] = useState<string>();
 
+  const resetBoostHash = useCallback(() => {
+    setBoostHash("");
+  }, []);
+
   const runApproveLpoolAllowanceMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
       return false;
@@ -102,7 +106,7 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
         0
       );
     } catch (walletError) {
-      processWalletError(walletError);
+      processWalletError(walletError, "boost");
     }
 
     if (transaction) {
@@ -150,7 +154,7 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
         await signer.getAddress()
       );
     } catch (walletError) {
-      processWalletError(walletError);
+      processWalletError(walletError, "boost");
     }
 
     if (transaction) {
@@ -210,6 +214,7 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
     unboostMutation,
 
     boostHash,
+    resetBoostHash,
 
     runApproveLpoolAllowance: () => {
       approveLpoolAllowanceMutation.mutate();

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable complexity */
 import type { FC } from "react";
 import { useCallback, useState } from "react";
@@ -14,6 +13,12 @@ import { useBasicModalConfig } from "../../basic-vault-modal/hooks/useBasicModal
 import { Link } from "../../shared/components";
 import { getPagePathname } from "../../root/helpers";
 import { BasicVaultType } from "../../basic/types";
+import {
+  getLendingPoolTokenTitle,
+  getLongVaultContractsTitle,
+} from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
+import { BoostBackButton } from "../../boost/components/BoostBackButton";
 
 import {
   Container,
@@ -99,8 +104,28 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
       basicVaultType === BasicVaultType.BASIC) ||
     false;
 
+  const {
+    collateralSymbol = "",
+    type = VaultType.CALL,
+    assetSymbol = "",
+  } = basicVaultData ?? {};
+
+  let symbolTitle = "";
+  if (isBoostContentShown && tabType === TabType.deposit) {
+    symbolTitle = getLongVaultContractsTitle(
+      type,
+      assetSymbol,
+      collateralSymbol
+    );
+  } else if (isBoostContentShown && tabType === TabType.withdraw) {
+    symbolTitle = getLendingPoolTokenTitle(type, assetSymbol, collateralSymbol);
+  } else {
+    symbolTitle = sourceTokenData?.symbol ?? "";
+  }
+
   return (
     <Container showModalBoostButton={showModalBoostButton}>
+      {isBoostContentShown && <BoostBackButton />}
       {/* {isMutationSucceed ? ( */}
       <BackgroundAnimationContainer>
         <Lottie
@@ -113,14 +138,16 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
       {/* ) : null} */}
       <ContentContainer>
         <InfoContainer>
-          <Title>{isMutationSucceed ? successTitle : pendingTitle}</Title>
-          {sourceTokenData ? (
-            <RatioTitle>{`${sourceTokenData.value} ${sourceTokenData.symbol}`}</RatioTitle>
-          ) : null}
-          {targetTokenData ? <ToTitle>↓</ToTitle> : null}
-          {targetTokenData ? (
-            <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>
-          ) : null}
+          <Title>
+            {isMutationSucceed ? successTitle : pendingTitle}
+            {sourceTokenData ? (
+              <RatioTitle>{`${sourceTokenData.value} ${symbolTitle}`}</RatioTitle>
+            ) : null}
+            {targetTokenData ? <ToTitle>↓</ToTitle> : null}
+            {targetTokenData ? (
+              <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>
+            ) : null}
+          </Title>
           <TransactionLink
             href={transactionUrl}
             isMutationSucceed={isMutationSucceed}
@@ -129,26 +156,22 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
             View Transaction in Explorer
           </TransactionLink>
         </InfoContainer>
-        {showModalBoostButton && (
-          <ModalBoostButton
-            disabled={!isMutationSucceed}
-            onClick={handleModalBoostButtonClick}
-          >
-            {`Boost for ${formattedAPY}% more yield`}
-          </ModalBoostButton>
-
-          // ) : (
-          //   <Link to={pageRoute}>
-          //     <CloseButton
-          //       onClick={handleCloseButtonClick}
-          //       primaryColor="#FFFFFF"
-          //     >
-          //       Close
-          //     </CloseButton>
-          //   </Link>
-          // )}
-        )}
       </ContentContainer>
+      {showModalBoostButton && (
+        <ModalBoostButton
+          disabled={!isMutationSucceed}
+          onClick={handleModalBoostButtonClick}
+        >
+          {`Boost for ${formattedAPY}% more yield`}
+        </ModalBoostButton>
+      )}
+      {!showModalBoostButton && !isBoostContentShown && (
+        <Link to={pageRoute}>
+          <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
+            Close
+          </CloseButton>
+        </Link>
+      )}
     </Container>
   );
 };

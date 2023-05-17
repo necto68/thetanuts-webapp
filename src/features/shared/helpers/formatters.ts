@@ -3,7 +3,7 @@ export const numberFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export const assetFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 6,
+  maximumFractionDigits: 4,
 });
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {

@@ -15,7 +15,16 @@ export const Container = styled.div<Props>`
   gap: 20px;
   position: relative;
   justify-content: end;
+  gap: 12px;
+
   min-height: ${(props) => (props.showModalBoostButton ? "409px" : "327px")};
+  min-width: 432px;
+
+  padding: 24px;
+
+  ${screens.md} {
+    padding: 16px;
+  }
 `;
 
 export const BackgroundAnimationContainer = styled.div`
@@ -24,7 +33,7 @@ export const BackgroundAnimationContainer = styled.div`
   // flex: 1;
   width: 147px;
   height: 147px;
-  top: 100px; /* update to be relative to the Container */
+  top: 70px; /* update to be relative to the Container */
   left: 50%; /* update to be relative to the Container */
   transform: translate(-50%, -50%);
 `;

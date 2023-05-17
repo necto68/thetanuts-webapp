@@ -10,6 +10,7 @@ const defaultBoostModalMutations: BoostModalMutations = {
   unboostMutation: undefined,
 
   boostHash: undefined,
+  resetBoostHash: () => undefined,
 
   runApproveLpoolAllowance: () => undefined,
   runBoost: () => undefined,
