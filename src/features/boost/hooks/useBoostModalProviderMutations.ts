@@ -134,10 +134,15 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
       signer
     );
 
-    const depositAmount = new Big(inputValue)
-      .mul(tokenData.tokenDivisor)
-      .round()
-      .toString();
+    const inputValueNumber = new Big(inputValue).toNumber();
+    const tokenDataBalanceNumber = tokenData.balance
+      ? tokenData.balance.toNumber()
+      : 0;
+
+    const depositAmount =
+      inputValueNumber >= tokenDataBalanceNumber
+        ? constants.MaxUint256
+        : new Big(inputValue).mul(tokenData.tokenDivisor).round().toString();
 
     let transaction = null;
 
