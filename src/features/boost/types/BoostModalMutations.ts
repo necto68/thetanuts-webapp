@@ -12,6 +12,7 @@ export interface BoostModalMutations {
   unboostMutation?: UseMutationResult<boolean, MutationError, void>;
 
   boostHash?: string;
+  resetBoostHash: () => void;
 
   runApproveLpoolAllowance: () => void;
   runBoost: () => void;

@@ -31,6 +31,10 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
 
   const [boostHash, setBoostHash] = useState<string>();
 
+  const resetBoostHash = useCallback(() => {
+    setBoostHash("");
+  }, []);
+
   const runApproveLpoolAllowanceMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
       return false;
@@ -102,7 +106,7 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
         0
       );
     } catch (walletError) {
-      processWalletError(walletError);
+      processWalletError(walletError, "boost");
     }
 
     if (transaction) {
@@ -130,10 +134,15 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
       signer
     );
 
-    const depositAmount = new Big(inputValue)
-      .mul(tokenData.tokenDivisor)
-      .round()
-      .toString();
+    const inputValueNumber = new Big(inputValue).toNumber();
+    const tokenDataBalanceNumber = tokenData.balance
+      ? tokenData.balance.toNumber()
+      : 0;
+
+    const depositAmount =
+      inputValueNumber >= tokenDataBalanceNumber
+        ? constants.MaxUint256
+        : new Big(inputValue).mul(tokenData.tokenDivisor).round().toString();
 
     let transaction = null;
 
@@ -150,7 +159,7 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
         await signer.getAddress()
       );
     } catch (walletError) {
-      processWalletError(walletError);
+      processWalletError(walletError, "boost");
     }
 
     if (transaction) {
@@ -210,6 +219,7 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
     unboostMutation,
 
     boostHash,
+    resetBoostHash,
 
     runApproveLpoolAllowance: () => {
       approveLpoolAllowanceMutation.mutate();

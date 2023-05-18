@@ -1,5 +1,6 @@
 import Big from "big.js";
 
+import { Tooltip } from "../../shared/components";
 import { useBasicModalConfig } from "../hooks";
 import { currencyFormatter, numberFormatter } from "../../shared/helpers";
 import {
@@ -56,7 +57,8 @@ export const VaultInfo = () => {
   );
   const formattedBalance = numberFormatter.format(balanceValue.toNumber());
   const formattedCap = numberFormatter.format(capValue.toNumber());
-  const formattedCapacity = `${formattedPercentage}% (${formattedBalance} / ${formattedCap} ${collateralSymbol})`;
+  const formattedCapacity = `${formattedPercentage}%`;
+  const formattedCapacityTooltip = `(${formattedBalance} / ${formattedCap} ${collateralSymbol})`;
 
   const formattedAssetPrice = currencyFormatter.format(assetPrice);
 
@@ -83,7 +85,11 @@ export const VaultInfo = () => {
           </InfoValueGray>
         </InfoContainer>
         <InfoContainer>
-          <InfoTitleGray>Capacity</InfoTitleGray>
+          <Tooltip
+            content={formattedCapacityTooltip}
+            id="capacity"
+            root={<InfoTitleGray>Capacity</InfoTitleGray>}
+          />
           <InfoValueGray isAlignRight>
             {isLoading ? loadingPlaceholder : formattedCapacity}
           </InfoValueGray>

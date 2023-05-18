@@ -6,10 +6,20 @@ import {
   TransactionErrorMessageTemplate,
 } from "../types";
 
-export const processWalletError = (walletError: unknown) => {
+export const processWalletError = (
+  walletError: unknown,
+  stateError?: unknown
+) => {
   const { code } = walletError as {
     code: number;
   };
+
+  if (
+    JSON.stringify(walletError).includes("execution reverted: 5") &&
+    stateError === "boost"
+  ) {
+    throw new Error(TransactionErrorMessage.notEnoughLiquidityForUnboost);
+  }
 
   // userRejectedRequest error
   if (code === 4001) {
@@ -32,6 +42,14 @@ export const processTransactionError = (transactionError: unknown) => {
     code: ErrorCode | number;
     cancelled: boolean;
   };
+
+  if (
+    JSON.stringify(transactionError).includes(
+      TransactionErrorMessageTemplate.replacementTxnUnderpriced
+    )
+  ) {
+    throw new Error(TransactionErrorMessage.replacementTxnUnderpriced);
+  }
 
   if (
     code === -32_603 ||

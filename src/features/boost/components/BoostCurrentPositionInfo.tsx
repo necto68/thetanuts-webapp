@@ -32,14 +32,14 @@ export const BoostCurrentPositionInfo = () => {
 
   const loadingPlaceholder = ".....";
 
-  const vaultTitle = getLendingPoolTokenTitle(
+  const symbolTitle = getLendingPoolTokenTitle(
     type,
     assetSymbol,
     collateralSymbol
   );
 
   const formattedCurrentPosition = boostBalance
-    ? `${assetFormatter.format(boostBalance)} ${vaultTitle}`
+    ? `${assetFormatter.format(boostBalance)} ${symbolTitle}`
     : "N/A";
 
   return (

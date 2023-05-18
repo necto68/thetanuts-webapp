@@ -6,5 +6,6 @@ export interface LendingPoolTokenConfig {
   source: {
     chainId: ChainId;
     suppliedTokenAddress: string;
+    aavePDP: string;
   };
 }
