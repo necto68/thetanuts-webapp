@@ -86,7 +86,7 @@ export const VaultInfo = () => {
         </InfoContainer>
         <InfoContainer>
           <Tooltip
-            content={String(formattedCapacityTooltip)}
+            content={formattedCapacityTooltip}
             id="capacity"
             root={<InfoTitleGray>Capacity</InfoTitleGray>}
           />
