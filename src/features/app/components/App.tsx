@@ -1,13 +1,11 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { LiveChatWidget } from "@livechat/widget-react";
 import Big from "big.js";
 import { ThemeProvider } from "styled-components";
 
 import { Root } from "../../root/components";
 import { queryClient } from "../../shared/helpers";
-import { liveChatLicense } from "../constants";
 import { SidebarStateProvider } from "../../sidebar/providers";
 import { DarkAppTheme } from "../constants/appTheme";
 import { useInitLogRocket } from "../hooks";
@@ -30,7 +28,6 @@ export const App = () => {
           </SidebarStateProvider>
         </ThemeProvider>
       </Router>
-      <LiveChatWidget license={liveChatLicense} />
       <ReactQueryDevtools />
     </QueryClientProvider>
   );

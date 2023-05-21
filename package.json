@@ -25,7 +25,6 @@
     "@coinbase/wallet-sdk": "^3.6.2",
     "@ethersproject/providers": "^5.5.3",
     "@gimmixorg/use-wallet": "^0.0.31",
-    "@livechat/widget-react": "^1.1.0",
     "@walletconnect/web3-provider": "^1.7.1",
     "big.js": "^6.1.1",
     "ethereum-blockies-base64": "^1.0.2",

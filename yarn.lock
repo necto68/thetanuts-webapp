@@ -1360,18 +1360,6 @@
   version "2.2.5"
   resolved "https://registry.npmjs.org/@iarna/toml/-/toml-2.2.5.tgz"
 
-"@livechat/widget-core@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@livechat/widget-core/-/widget-core-1.1.0.tgz#c774439f651184eed9069e74a5bec8983390f22a"
-  dependencies:
-    mitt "3.0.0"
-
-"@livechat/widget-react@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@livechat/widget-react/-/widget-react-1.1.0.tgz#b5064230ef564721a6113825ed1cdf21fc26479b"
-  dependencies:
-    "@livechat/widget-core" "^1.1.0"
-
 "@metamask/safe-event-emitter@2.0.0", "@metamask/safe-event-emitter@^2.0.0":
   version "2.0.0"
   resolved "https://registry.npmjs.org/@metamask/safe-event-emitter/-/safe-event-emitter-2.0.0.tgz"
@@ -7716,10 +7704,6 @@ minimisted@^2.0.0:
   resolved "https://registry.npmjs.org/minimisted/-/minimisted-2.0.1.tgz"
   dependencies:
     minimist "^1.2.5"
-
-mitt@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/mitt/-/mitt-3.0.0.tgz#69ef9bd5c80ff6f57473e8d89326d01c414be0bd"
 
 mkdirp@^0.5.1:
   version "0.5.5"
