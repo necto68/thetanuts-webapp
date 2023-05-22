@@ -6,7 +6,7 @@ import {
 } from "../../long-option-modal/components/OrderInfo.styles";
 import { expiryFormatter } from "../../shared/helpers";
 
-export const ExpiryInfo = () => {
+export const ExpirationInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
 
   const { data, isLoading } = basicVaultQuery;
@@ -19,7 +19,7 @@ export const ExpiryInfo = () => {
 
   return (
     <InfoContainer>
-      <InfoTitle>Expiry</InfoTitle>
+      <InfoTitle>Expiration</InfoTitle>
       <InfoValue>{isLoading ? loadingPlaceholder : formattedExpiry}</InfoValue>
     </InfoContainer>
   );

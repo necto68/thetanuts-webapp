@@ -181,11 +181,10 @@ export const DepositMainButton = () => {
 
   const isLongOptionMainButtonDisabled =
     (isLongOptionModal || isLongOptionPositionModal) && !contractsToBorrow;
+  const isInputNotReady =
+    isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
   const isMainButtonDisabled =
-    isTokenDataLoading ||
-    !currentTokenData ||
-    inputValueBig.lte(0) ||
-    isLongOptionMainButtonDisabled;
+    isInputNotReady || isLongOptionMainButtonDisabled;
 
   if (!account) {
     return <ConnectWalletMainButton />;
@@ -254,6 +253,14 @@ export const DepositMainButton = () => {
 
   if (isOpenPositionLoading || isOpenPositionImmediatelyLoading) {
     return <LoadingMainButton>Opening Position...</LoadingMainButton>;
+  }
+
+  if (
+    (isLongOptionPositionModal || isLongOptionModal) &&
+    !contractsToBorrow &&
+    !isInputNotReady
+  ) {
+    return <LoadingMainButton>Bid...</LoadingMainButton>;
   }
 
   let buttonTitle = "";

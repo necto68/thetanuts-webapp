@@ -13,12 +13,11 @@ import { getFormattedStrikePrices } from "../../basic-vault-modal/helpers";
 import {
   PoolTypeInfo,
   LeverageInfo,
-  FeesInfo,
   BorrowFeeInfo,
 } from "../../long-option-modal/components";
 
 import { Container } from "./OrderInfo.styles";
-import { ExpiryInfo } from "./ExpiryInfo";
+import { ExpirationInfo } from "./ExpirationInfo";
 
 export const OrderInfo = () => {
   const { basicVaultQuery } = useBasicModalConfig();
@@ -49,16 +48,12 @@ export const OrderInfo = () => {
           <InfoTitle>Strike Price</InfoTitle>
           <InfoValue>{isLoading ? loadingPlaceholder : strikePrice}</InfoValue>
         </InfoContainer>
-        <ExpiryInfo />
+        <ExpirationInfo />
       </InfoItemContainer>
       <Separator />
       <InfoItemContainer>
         <PoolTypeInfo />
         <LeverageInfo />
-      </InfoItemContainer>
-      <Separator />
-      <InfoItemContainer>
-        <FeesInfo />
         <BorrowFeeInfo />
       </InfoItemContainer>
     </Container>
