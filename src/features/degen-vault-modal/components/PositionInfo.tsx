@@ -44,6 +44,8 @@ export const PositionInfo = () => {
 
   const loadingPlaceholder = ".....";
 
+  const formattedPeriodYield = `${periodPercentageYield}%`;
+
   const positionValue = currentPosition ?? new Big(0);
   const premiumValue = positionValue.mul(periodPercentageYield).div(100);
   const totalValue = positionValue.add(premiumValue);
@@ -71,6 +73,12 @@ export const PositionInfo = () => {
     <Container>
       <VaultInfoContainer>
         <VaultStatusInfo />
+        <InfoContainer>
+          <InfoTitle>Epoch Yield%</InfoTitle>
+          <InfoValue isAlignRight>
+            {isLoading ? loadingPlaceholder : formattedPeriodYield}
+          </InfoValue>
+        </InfoContainer>
         <PendingPositionInfo />
         <CurrentPositionInfo />
       </VaultInfoContainer>

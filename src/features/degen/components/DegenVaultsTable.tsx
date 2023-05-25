@@ -20,7 +20,7 @@ import {
   ActionsContainer,
 } from "../../basic/components";
 import { useBasicVaults } from "../../basic-vault/hooks";
-import { highYieldFormatter } from "../../shared/helpers";
+import { numberFormatter } from "../../shared/helpers";
 import { BasicVaultCapacityPercent } from "../../basic-vault/components/BasicVaultCapacityPercent";
 import { WithdrawButton } from "../../table/components/WithdrawButton";
 import { getVaultTitle } from "../../table/helpers";
@@ -121,7 +121,7 @@ const columns: Column<BasicVault>[] = [
   },
   {
     key: "percentageYields",
-    title: "APY",
+    title: "Epoch Yield",
 
     render: ({ id, percentageYields }) => (
       <APYCellContainer>
@@ -132,15 +132,15 @@ const columns: Column<BasicVault>[] = [
           id={id}
           place="top"
           root={
-            <CellValue>{`${highYieldFormatter(
-              percentageYields.annualPercentageYield
+            <CellValue>{`${numberFormatter.format(
+              percentageYields.periodPercentageYield
             )}%`}</CellValue>
           }
         />
       </APYCellContainer>
     ),
 
-    sortBy: ({ percentageYields }) => percentageYields.annualPercentageYield,
+    sortBy: ({ percentageYields }) => percentageYields.periodPercentageYield,
   },
   {
     key: "balance",
