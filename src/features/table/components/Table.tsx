@@ -75,10 +75,6 @@ export const Table = <RowData extends object>({
 
   const { sortedRows, sortState, updateSort } = useSortBy(filteredRows);
 
-  const skeletonRows: RowData[] = Array.from({
-    length: sortedRows.length > rowsPerPage ? rowsPerPage : sortedRows.length,
-  });
-
   const { paginatedRows, paginate, paginationConfig } = usePagination(
     sortedRows,
     rowsPerPage
@@ -86,8 +82,6 @@ export const Table = <RowData extends object>({
   const { page: currentPage } = paginationConfig;
 
   const isRowsLoaded = useMemo(() => sortedRows.every(Boolean), [sortedRows]);
-
-  const currentRows = isRowsLoaded ? paginatedRows : skeletonRows;
 
   return (
     <Container>
@@ -153,7 +147,7 @@ export const Table = <RowData extends object>({
             </HeaderRow>
           </thead>
           <tbody>
-            {currentRows.map((row, rowIndex) => (
+            {paginatedRows.map((row, rowIndex) => (
               <Row key={row && getRowKey ? getRowKey(row) : rowIndex}>
                 {columns.map((column, columnIndex) => (
                   <Cell key={column.key?.toString() ?? columnIndex.toString()}>
