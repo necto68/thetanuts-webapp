@@ -25,7 +25,7 @@ import {
 import type { VaultCardProps } from "./VaultCard";
 
 export interface DegenVaultCardProps extends VaultCardProps {
-  weeklyYield: VaultCardProps["apy"];
+  periodYield: VaultCardProps["apy"];
 }
 
 export const DegenVaultCard: FC<DegenVaultCardProps> = ({
@@ -33,13 +33,13 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
   headerContent,
   icon,
   symbol,
-  apy,
   backgroundColor,
   shadowColor,
   borderColor,
   content,
   footerContent,
   link,
+  periodYield,
 }) => (
   <Container
     backgroundColor={backgroundColor}
@@ -71,8 +71,8 @@ export const DegenVaultCard: FC<DegenVaultCardProps> = ({
                 </TextContainer>
               </SymbolContainer>
               <APYContainer>
-                <APYValue>{`${apy}%`}</APYValue>
-                <APYTitle>APY</APYTitle>
+                <APYValue>{`${periodYield}%`}</APYValue>
+                <APYTitle>Epoch Yield</APYTitle>
               </APYContainer>
             </DataItemContainer>
           </DataContent>

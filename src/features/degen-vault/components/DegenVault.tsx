@@ -26,7 +26,7 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
     assetSymbol = "",
     collateralSymbol = "",
     annualPercentageYield = 0,
-    percentageYields: { weeklyPercentageYield = 0 } = {},
+    percentageYields: { periodPercentageYield = 0 } = {},
     balance = new Big(0),
     collatCap = new Big(0),
     expiry = 0,
@@ -49,7 +49,7 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
   const { warningColor, bgColor: backgroundColor } = theme;
 
   const formattedTotalAPY = highYieldFormatter(annualPercentageYield);
-  const formattedWeeklyYield = numberFormatter.format(weeklyPercentageYield);
+  const formattedPeriodYield = numberFormatter.format(periodPercentageYield);
 
   const assetLogo = getLogoBySymbol(assetSymbol);
 
@@ -89,10 +89,10 @@ export const DegenVault: FC<DegenVaultProps> = ({ degenVaultId }) => {
       icon={assetLogo}
       isLoading={isLoading}
       link={link}
+      periodYield={formattedPeriodYield}
       shadowColor={backgroundColor}
       subTitle={vaultTypeShortName}
       symbol={symbol}
-      weeklyYield={formattedWeeklyYield}
     />
   );
 };
