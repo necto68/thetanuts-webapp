@@ -24,7 +24,6 @@ import { useSortedBasicVaultsIds } from "../hooks";
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
-import { RiskLevelCell } from "./RiskLevelCell";
 import { ActionsContainer } from "./ActionsCell";
 
 const columns: Column<BasicVault>[] = [
@@ -108,15 +107,6 @@ const columns: Column<BasicVault>[] = [
     ),
 
     sortBy: ({ strikePrices }) => strikePrices[0],
-  },
-  {
-    key: "riskLevel",
-    title: "Risk",
-
-    tooltipTitle:
-      "The risk rating is the approximate riskiness of an asset and the respective option strategy given the current market conditions. The volatility of the asset and the directional component of the option strategy is the 2 main factors in the risk rating calculations.",
-
-    render: ({ riskLevel }) => <RiskLevelCell riskLevel={riskLevel} />,
   },
   {
     key: "percentageYields",
