@@ -12,7 +12,7 @@ import {
   WheelVaultAbi__factory as WheelVaultAbiFactory,
   BasicVaultDepositorAbi__factory as BasicVaultDepositorAbiFactory,
 } from "../../contracts/types";
-import { convertToBig, queryClient } from "../../shared/helpers";
+import { convertToBig } from "../../shared/helpers";
 import {
   getPercentageYields,
   normalizeVaultValue,
@@ -20,11 +20,7 @@ import {
 import type { ChainId } from "../../wallet/constants";
 import type { BasicVault } from "../types";
 import { VaultType } from "../types";
-import { QueryType } from "../../shared/types";
 import { BasicVaultType } from "../../basic/types";
-import { RiskLevel } from "../types/BasicVault";
-
-import { basicVaultRiskLevelFetcher } from "./basicVaultRiskLevelFetcher";
 
 // eslint-disable-next-line complexity
 export const basicVaultFetcher = async (
@@ -239,14 +235,6 @@ export const basicVaultFetcher = async (
   const collatCap = vaultCollatCapWei.div(balanceDivisor);
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
 
-  // getting riskLevel
-  const basicVaultRiskLevel = await queryClient.fetchQuery(
-    [QueryType.riskLevel, assetSymbol, type],
-    async () => await basicVaultRiskLevelFetcher(assetSymbol, type)
-  );
-
-  const riskLevel = isDegen ? RiskLevel.HIGH : basicVaultRiskLevel;
-
   // getting annual Percentage Yield
   const percentageYields = getPercentageYields(
     currentEpochAmount,
@@ -267,7 +255,6 @@ export const basicVaultFetcher = async (
     collateralSymbol,
     collateralDecimals,
     collateralTokenAddress,
-    riskLevel,
     epoch,
     expiry,
     period,

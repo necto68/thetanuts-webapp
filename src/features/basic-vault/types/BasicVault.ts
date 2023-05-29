@@ -34,7 +34,6 @@ export interface BasicVault {
   collateralSymbol: string;
   collateralDecimals: number;
   collateralTokenAddress: string;
-  riskLevel: RiskLevel | null;
   epoch: number;
   expiry: number;
   period: number;

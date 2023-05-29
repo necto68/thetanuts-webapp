@@ -17,7 +17,6 @@ import { chainsMap } from "../../wallet/constants";
 import type { DemoIndexVaultConfig } from "../types";
 import { VaultModalType } from "../../root/types";
 import { getVaultTypeTitle } from "../../index-vault/helpers";
-import { RiskLevelCell } from "../../basic/components/RiskLevelCell";
 import { getVaultTitle } from "../../table/helpers";
 
 import { PercentageYieldsTooltip } from "./PercentageYieldsTooltip";
@@ -51,17 +50,6 @@ const columns: Column<IndexVaultRow>[] = [
     render: ({ type }) => <CellValue>{getVaultTypeTitle(type)}</CellValue>,
 
     filterBy: ({ type }) => getVaultTypeTitle(type),
-  },
-  {
-    key: "totalRiskLevel",
-    title: "Risk",
-
-    tooltipTitle:
-      "The risk rating is the approximate riskiness of an asset and the respective option strategy given the current market conditions. The volatility of the asset and the directional component of the option strategy is the 2 main factors in the risk rating calculations.",
-
-    render: ({ totalRiskLevel }) => (
-      <RiskLevelCell riskLevel={totalRiskLevel} />
-    ),
   },
   {
     key: "totalPercentageYields",
