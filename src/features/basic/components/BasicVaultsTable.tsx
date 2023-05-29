@@ -24,7 +24,6 @@ import { useSortedBasicVaultsIds } from "../hooks";
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
-import { RiskLevelCell } from "./RiskLevelCell";
 import { ActionsContainer } from "./ActionsCell";
 
 const columns: Column<BasicVault>[] = [
