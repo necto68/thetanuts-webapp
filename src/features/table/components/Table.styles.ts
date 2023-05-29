@@ -144,8 +144,9 @@ export const CellValueContainer = styled.div`
 
 export const APYCellContainer = styled.div`
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: start;
+  gap: 5px;
 `;
 
 export { TooltipText } from "../../shared/components/Tooltip.styles";

@@ -1,6 +1,7 @@
 import {
   APYCellContainer,
   CellValue,
+  GreenCellValue,
   Chains,
   DepositButton,
   Table,
@@ -124,6 +125,15 @@ const columns: Column<BasicVault>[] = [
             <CellValue>{`${percentageYields.annualPercentageYield}%`}</CellValue>
           }
         />
+        {/* TODO: remove for stMATIC vault */}
+        {id === "TN-CSCCv1-STMATICUSD" ? (
+          <Tooltip
+            content="Reward APY"
+            id={`${id}-reward`}
+            place="top"
+            root={<GreenCellValue>+20%</GreenCellValue>}
+          />
+        ) : null}
       </APYCellContainer>
     ),
 

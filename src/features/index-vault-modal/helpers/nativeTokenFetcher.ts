@@ -10,6 +10,11 @@ import { convertToBig } from "../../shared/helpers";
 import { ChainId } from "../../wallet/constants";
 import type { NativeToken } from "../types";
 
+const wrappedNativeTokenAddressesByChainId: { [key in ChainId]?: string } = {
+  [ChainId.FILECOIN]: "0x60E1773636CF5E4A227d9AC24F20fEca034ee25A",
+  [ChainId.ZK_EVM]: "0x4F9A0e7FD2Bf6067db6994CF12E4495Df938E6e9",
+};
+
 export const nativeTokenFetcher = async (
   routerAddress: string,
   provider: Provider,
@@ -22,12 +27,13 @@ export const nativeTokenFetcher = async (
     account ? provider.getBalance(account).then(convertToBig) : null,
   ]);
 
-  // TODO: remove this when we have a RouterV2 contract for Filecoin
+  const savedWrappedNativeTokenAddress =
+    wrappedNativeTokenAddressesByChainId[chainId];
+
+  // TODO: remove this when we have a RouterV2 contract for Filecoin and zkEVM
   const wrappedNativeTokenAddress =
-    chainId === ChainId.FILECOIN
-      ? "0x60E1773636CF5E4A227d9AC24F20fEca034ee25A"
-      : // eslint-disable-next-line new-cap
-        await routerContract.WETH();
+    // eslint-disable-next-line new-cap
+    savedWrappedNativeTokenAddress ?? (await routerContract.WETH());
 
   const wrappedTokenContract = Erc20AbiFactory.connect(
     wrappedNativeTokenAddress,
