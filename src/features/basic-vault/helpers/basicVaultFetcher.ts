@@ -21,6 +21,7 @@ import type { ChainId } from "../../wallet/constants";
 import type { BasicVault } from "../types";
 import { VaultType } from "../types";
 import { BasicVaultType } from "../../basic/types";
+import { RiskLevel } from "../types/BasicVault";
 
 // eslint-disable-next-line complexity
 export const basicVaultFetcher = async (
@@ -235,6 +236,9 @@ export const basicVaultFetcher = async (
   const collatCap = vaultCollatCapWei.div(balanceDivisor);
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
 
+  const basicVaultRiskLevel = null;
+  const riskLevel = isDegen ? RiskLevel.HIGH : basicVaultRiskLevel;
+
   // getting annual Percentage Yield
   const percentageYields = getPercentageYields(
     currentEpochAmount,
@@ -255,6 +259,7 @@ export const basicVaultFetcher = async (
     collateralSymbol,
     collateralDecimals,
     collateralTokenAddress,
+    riskLevel,
     epoch,
     expiry,
     period,
