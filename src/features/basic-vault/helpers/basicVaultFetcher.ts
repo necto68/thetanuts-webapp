@@ -237,6 +237,7 @@ export const basicVaultFetcher = async (
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
 
   const basicVaultRiskLevel = null;
+  
   const riskLevel = isDegen ? RiskLevel.HIGH : basicVaultRiskLevel;
 
   // getting annual Percentage Yield
