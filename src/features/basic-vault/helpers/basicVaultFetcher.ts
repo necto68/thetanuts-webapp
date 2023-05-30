@@ -23,9 +23,6 @@ import { VaultType } from "../types";
 import { BasicVaultType } from "../../basic/types";
 import { RiskLevel } from "../types/BasicVault";
 
-// import { QueryType } from "../../shared/types";
-// import { basicVaultRiskLevelFetcher } from "./basicVaultRiskLevelFetcher";
-
 // eslint-disable-next-line complexity
 export const basicVaultFetcher = async (
   id: string,
@@ -238,13 +235,6 @@ export const basicVaultFetcher = async (
 
   const collatCap = vaultCollatCapWei.div(balanceDivisor);
   const remainder = collatCap.sub(balance).round(0, Big.roundDown).toNumber();
-
-  // TODO: for now risk level endpoint is not working
-  // getting riskLevel
-  // const basicVaultRiskLevel = await queryClient.fetchQuery(
-  //   [QueryType.riskLevel, assetSymbol, type],
-  //   async () => await basicVaultRiskLevelFetcher(assetSymbol, type)
-  // );
 
   const basicVaultRiskLevel = null;
 
