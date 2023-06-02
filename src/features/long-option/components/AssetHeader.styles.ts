@@ -12,6 +12,7 @@ export const Container = styled(ComponentContainer)`
   flex: 1;
   gap: 32px;
   align-items: center;
+  padding: 12px 24px;
 `;
 
 export const TitleContainer = styled.div`

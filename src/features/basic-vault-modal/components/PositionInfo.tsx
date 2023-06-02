@@ -4,8 +4,10 @@ import {
   InfoContainer,
   InfoTitle,
   InfoValue,
+  TooltipContentContainer,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { Tooltip } from "../../shared/components";
+import { TooltipText } from "../../shared/components/Tooltip.styles";
 
 import { VaultStatusInfo } from "./VaultStatusInfo";
 import { CurrentPositionInfo } from "./CurrentPositionInfo";
@@ -39,13 +41,11 @@ export const PositionInfo = () => {
       <InfoContainer>
         <Tooltip
           content={
-            <>
-              {`Premiums APY: ${formattedAPY}`}
-              <br />
-              {`Boost APY: ${boostFormattedAPY}%`}
-              <br />
-              {`Total APY: ${totalAPY}`}
-            </>
+            <TooltipContentContainer>
+              <TooltipText>{`Premiums APY: ${formattedAPY}`}</TooltipText>
+              <TooltipText>{`Boost APY: ${boostFormattedAPY}%`} </TooltipText>
+              <TooltipText>{`Total APY: ${totalAPY}`}</TooltipText>
+            </TooltipContentContainer>
           }
           id="ApyWithBoost"
           root={<InfoTitle>Projected APY%</InfoTitle>}

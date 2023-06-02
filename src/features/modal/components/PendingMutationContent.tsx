@@ -138,16 +138,14 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
       {/* ) : null} */}
       <ContentContainer>
         <InfoContainer>
-          <Title>
-            {isMutationSucceed ? successTitle : pendingTitle}
-            {sourceTokenData ? (
-              <RatioTitle>{`${sourceTokenData.value} ${symbolTitle}`}</RatioTitle>
-            ) : null}
-            {targetTokenData ? <ToTitle>↓</ToTitle> : null}
-            {targetTokenData ? (
-              <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>
-            ) : null}
-          </Title>
+          <Title>{isMutationSucceed ? successTitle : pendingTitle}</Title>
+          {sourceTokenData ? (
+            <RatioTitle>{`${sourceTokenData.value} ${symbolTitle}`}</RatioTitle>
+          ) : null}
+          {targetTokenData ? <ToTitle>↓</ToTitle> : null}
+          {targetTokenData ? (
+            <RatioTitle>{`${targetTokenData.value} ${targetTokenData.symbol}`}</RatioTitle>
+          ) : null}
           <TransactionLink
             href={transactionUrl}
             isMutationSucceed={isMutationSucceed}

@@ -1,6 +1,9 @@
 import { AnimatePresence } from "framer-motion";
 
-import { ContentAnimatedContainer } from "../../index-vault-modal/components/ModalContent.styles";
+import {
+  ContentAnimatedContainer,
+  Container as BaseContainer,
+} from "../../index-vault-modal/components/ModalContent.styles";
 import { LongModalPendingMutationContent } from "../../long-vault-modal/components";
 import { useLongModalMutations } from "../../long-vault-modal/hooks";
 
@@ -12,15 +15,23 @@ export const ModalContent = () => {
 
   const isShowPendingMutation = Boolean(mutationHash);
 
+  if (isShowPendingMutation) {
+    return (
+      <BaseContainer>
+        <AnimatePresence exitBeforeEnter>
+          <ContentAnimatedContainer>
+            <LongModalPendingMutationContent />
+          </ContentAnimatedContainer>
+        </AnimatePresence>
+      </BaseContainer>
+    );
+  }
+
   return (
     <Container>
       <AnimatePresence exitBeforeEnter>
         <ContentAnimatedContainer>
-          {isShowPendingMutation ? (
-            <LongModalPendingMutationContent />
-          ) : (
-            <LongOptionPositionModalContent />
-          )}
+          <LongOptionPositionModalContent />
         </ContentAnimatedContainer>
       </AnimatePresence>
     </Container>
