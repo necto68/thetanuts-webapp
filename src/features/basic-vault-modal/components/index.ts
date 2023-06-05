@@ -16,3 +16,4 @@ export * from "./WithdrawNowMainButton";
 export * from "./PendingDepositMainButton";
 export * from "./PendingWithdrawMainButton";
 export * from "./AnalyticLink";
+export * from "./BasicBackButton";
