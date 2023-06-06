@@ -58,7 +58,7 @@ export const PendingWithdrawInfo = () => {
         <Tooltip
           content="Refers to the amount that is pending to be withdrawn once the current epoch has ended. Once the current epoch has ended, users can claim their withdrawn amount."
           id="withdrawalPending"
-          root={<InfoTitle>Withdrawal Status</InfoTitle>}
+          root={<InfoTitle>Pending Withdraw Amount</InfoTitle>}
         />
       </InfoTitleContainer>
       <InfoValue isAlignRight>

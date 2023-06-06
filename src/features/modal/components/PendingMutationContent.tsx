@@ -19,6 +19,7 @@ import {
 } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
 import { BoostBackButton } from "../../boost/components/BoostBackButton";
+import { BasicBackButton } from "../../basic-vault-modal/components/BasicBackButton";
 
 import {
   Container,
@@ -125,7 +126,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
 
   return (
     <Container showModalBoostButton={showModalBoostButton}>
-      {isBoostContentShown && <BoostBackButton />}
+      {isBoostContentShown ? <BoostBackButton /> : <BasicBackButton />}
       {/* {isMutationSucceed ? ( */}
       <BackgroundAnimationContainer>
         <Lottie

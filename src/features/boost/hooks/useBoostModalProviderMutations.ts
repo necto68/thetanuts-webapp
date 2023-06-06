@@ -32,7 +32,7 @@ export const useBoostModalProviderMutations = (): BoostModalMutations => {
   const [boostHash, setBoostHash] = useState<string>();
 
   const resetBoostHash = useCallback(() => {
-    setBoostHash("");
+    setBoostHash(undefined);
   }, []);
 
   const runApproveLpoolAllowanceMutation = useCallback(async () => {
