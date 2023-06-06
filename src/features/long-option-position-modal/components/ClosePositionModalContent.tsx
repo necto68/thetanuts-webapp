@@ -2,10 +2,7 @@ import { useEffect } from "react";
 
 import { WithdrawMainButton } from "../../basic-vault-modal/components";
 import { useBasicModalState } from "../../basic-vault-modal/hooks";
-import {
-  WarningTitle,
-  WithdrawMainButtonContainer,
-} from "../../long-vault-modal/components/LongModalContent.styles";
+import { WithdrawMainButtonContainer } from "../../long-vault-modal/components/LongModalContent.styles";
 import { Container } from "../../long-option-modal/components/LongOptionModal.styles";
 
 import { ClosePositionOrderInfo } from "./ClosePositionOrderInfo";
@@ -32,10 +29,6 @@ export const ClosePositionModalContent = () => {
       <ClosePositionOrderInfo />
       <WithdrawMainButtonContainer>
         <WithdrawMainButton />
-        <WarningTitle>
-          Warning - You would give up any potential upside if you close your
-          position mid epoch
-        </WarningTitle>
       </WithdrawMainButtonContainer>
     </Container>
   );

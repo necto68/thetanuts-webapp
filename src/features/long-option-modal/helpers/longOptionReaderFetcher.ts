@@ -9,12 +9,12 @@ import {
 } from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
-import { basicVaultFetcher } from "../../basic-vault/helpers";
 import { longVaultsMap } from "../../basic/constants";
 import { longVaultReaderFetcher } from "../../long-vault/helpers";
 import { collateralAssetFetcher } from "../../long/helpers";
 import { collateralAssetsMap } from "../../long/constants";
 import type { LongOptionReader } from "../types";
+import type { BasicVault } from "../../basic-vault/types";
 
 const defaultLongOptionReader: LongOptionReader = {
   inputValue: "",
@@ -50,17 +50,12 @@ export const longOptionReaderFetcher = async (
   const { protocolDataProviderAddress = "" } = longVaultConfig ?? {};
 
   const [basicVault, longVaultReader] = await Promise.all([
-    queryClient.fetchQuery(
-      [QueryType.basicVault, basicVaultId, basicVaultType, chainId],
-      async () =>
-        await basicVaultFetcher(
-          basicVaultId,
-          basicVaultType,
-          basicVaultAddress,
-          provider
-        ),
-      { staleTime: 10_000 }
-    ),
+    queryClient.getQueryData<BasicVault>([
+      QueryType.basicVault,
+      basicVaultId,
+      basicVaultType,
+      chainId,
+    ]),
 
     queryClient.fetchQuery(
       [QueryType.longVaultReader, basicVaultId, basicVaultType, account],
@@ -176,7 +171,9 @@ export const longOptionReaderFetcher = async (
     }
   }
 
-  const rawContractsToBorrow = LPToBorrowValue.mul(basicVault.valuePerLP);
+  const rawContractsToBorrow = basicVault
+    ? LPToBorrowValue.mul(basicVault.valuePerLP)
+    : new Big(0);
   const contractsToBorrow = rawContractsToBorrow.div(debtToken.tokenDivisor);
 
   const swapLeverage = rawContractsToBorrow.div(inputAmount).toNumber();

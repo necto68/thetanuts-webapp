@@ -10,6 +10,7 @@ interface PriceChangeTitleProps {
 
 export const Container = styled(ComponentContainer)`
   flex: 1;
+  flex-wrap: wrap;
   gap: 32px;
   align-items: center;
   padding: 12px 24px;
