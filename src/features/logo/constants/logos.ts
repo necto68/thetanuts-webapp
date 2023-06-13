@@ -23,6 +23,7 @@ import {
   Near,
   Arb,
   Fil,
+  stMatic,
 } from "../components";
 
 export const logosMap: Record<string, ComponentType> = {
@@ -50,4 +51,5 @@ export const logosMap: Record<string, ComponentType> = {
   NEAR: Near,
   ARB: Arb,
   FIL: Fil,
+  stMATIC: stMatic,
 };

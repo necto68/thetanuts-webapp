@@ -1,6 +1,7 @@
 import {
   APYCellContainer,
   CellValue,
+  GreenCellValue,
   Chains,
   DepositButton,
   Table,
@@ -8,8 +9,8 @@ import {
 import type { Column } from "../../table/types";
 import { useBasicVaults } from "../../basic-vault/hooks";
 import { basicVaults } from "../constants";
-import { Tooltip } from "../../shared/components";
-import { chainsMap } from "../../wallet/constants";
+import { IconContainer, Tooltip } from "../../shared/components";
+import { chainIconSymbols, ChainId, chainsMap } from "../../wallet/constants";
 import { PercentageYieldsTooltip } from "../../theta-index/components";
 import { VaultModalType } from "../../root/types";
 import type { BasicVault } from "../../basic-vault/types";
@@ -20,11 +21,13 @@ import { getVaultTitle } from "../../table/helpers";
 import { periodFormatter } from "../../shared/helpers";
 import { getVaultTypeStrategy } from "../../index-vault/helpers";
 import { useSortedBasicVaultsIds } from "../hooks";
+import { getLogoBySymbol } from "../../logo/helpers";
 
 import { StrikePriceCell } from "./StrikePriceCell";
 import { BasicVaultAssetCell } from "./BasicVaultAssetCell";
 import { StrategyCell } from "./StrategyCell";
 import { ActionsContainer } from "./ActionsCell";
+import { RewardAPYContainer } from "./BasicVaultsTable.styles";
 
 const columns: Column<BasicVault>[] = [
   {
@@ -124,6 +127,22 @@ const columns: Column<BasicVault>[] = [
             <CellValue>{`${percentageYields.annualPercentageYield}%`}</CellValue>
           }
         />
+        {/* TODO: remove for stMATIC vault */}
+        {id === "TN-CSCCv1-STMATICUSD" ? (
+          <Tooltip
+            content="Reward APY"
+            id={`${id}-reward`}
+            place="top"
+            root={
+              <RewardAPYContainer>
+                <GreenCellValue>+20%</GreenCellValue>
+                <IconContainer height={16} width={16}>
+                  {getLogoBySymbol(chainIconSymbols[ChainId.ZK_EVM])}
+                </IconContainer>
+              </RewardAPYContainer>
+            }
+          />
+        ) : null}
       </APYCellContainer>
     ),
 

@@ -11,4 +11,5 @@ export const lendingPoolAddresses: Record<ChainId, string> = {
   [ChainId.AURORA]: "",
   [ChainId.ARBITRUM]: "",
   [ChainId.FILECOIN]: "",
+  [ChainId.ZK_EVM]: "",
 };
