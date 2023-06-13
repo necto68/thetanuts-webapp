@@ -14,6 +14,7 @@ export enum ChainId {
   AURORA = 1_313_161_554,
   ARBITRUM = 42_161,
   FILECOIN = 314,
+  ZK_EVM = 1101,
 }
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
@@ -29,6 +30,7 @@ export const chainIconSymbols: Record<ChainId, string> = {
   [ChainId.AURORA]: "AURORA",
   [ChainId.ARBITRUM]: "ARB",
   [ChainId.FILECOIN]: "FIL",
+  [ChainId.ZK_EVM]: "MATIC",
 };
 
 export const chains: ChainConfig[] = [
@@ -339,6 +341,29 @@ export const chains: ChainConfig[] = [
       directDepositorAddress: ZERO_ADDRESS,
       directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xFf5fE7909Fc4d0D6643f1e8be8cba72610d0B485",
+      basicVaultDepositorAddress: ZERO_ADDRESS,
+      longVaultPositionManagerAddress: ZERO_ADDRESS,
+      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+    },
+  },
+  {
+    chainId: ChainId.ZK_EVM,
+    title: "zkEVM",
+    symbol: "ETH",
+
+    urls: {
+      rpc: "https://zkevm-rpc.com",
+      explorer: "https://zkevm.polygonscan.com",
+    },
+
+    keys: {},
+
+    addresses: {
+      routerAddress: ZERO_ADDRESS,
+      lendingPoolAddress: ZERO_ADDRESS,
+      directDepositorAddress: ZERO_ADDRESS,
+      directWithdrawalAddress: ZERO_ADDRESS,
+      basicVaultReaderAddress: "0xDC7a1FfDAeB3D57273be1d4f7eE63727a04733f5",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
       longVaultProtocolDataProviderAddress: ZERO_ADDRESS,

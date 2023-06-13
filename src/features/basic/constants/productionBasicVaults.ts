@@ -327,6 +327,17 @@ export const productionBasicVaults: BasicVaultConfig[] = [
       basicVaultAddress: "0x03e35ed48101587F1A7B2C75f9A181D32BdF2D7D",
     },
   },
+
+  // zkEVM - stMATIC call
+  {
+    id: "TN-CSCCv1-STMATICUSD",
+    basicVaultType: BasicVaultType.BASIC,
+
+    source: {
+      chainId: ChainId.ZK_EVM,
+      basicVaultAddress: "0x7bF3c7C23501EA3E09B237D6F8AdcB7Ea3CeF41C",
+    },
+  },
 ];
 
 export const productionDegenVaults: BasicVaultConfig[] = [
