@@ -4,7 +4,6 @@ export enum VaultModalType {
   degen = "degen-vault",
   wheel = "wheel-vault",
   long = "long-vault",
-  longCall = "long-call",
-  longPut = "long-put",
+  longTrade = "trade-long",
   longPosition = "long-position",
 }

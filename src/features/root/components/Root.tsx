@@ -115,19 +115,10 @@ export const Root = () => {
                   >
                     <LongPage />
                   </Route>
-                  <Route
-                    exact
-                    path={[RouterPathname.longCall, RouterPathname.longPut]}
-                  >
+                  <Route exact path={[RouterPathname.longTrade]}>
                     <LongOptionRedirect />
                   </Route>
-                  <Route
-                    exact
-                    path={[
-                      RouterPathname.longCallVaultModal,
-                      RouterPathname.longPutVaultModal,
-                    ]}
-                  >
+                  <Route exact path={[RouterPathname.longTradeVaultModal]}>
                     <LongOptionPage />
                   </Route>
                   <Route exact path={RouterPathname.portfolio}>

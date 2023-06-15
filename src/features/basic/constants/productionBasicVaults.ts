@@ -382,7 +382,8 @@ export const productionWheelVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const productionLongCallVaults: LongVaultConfig[] = [
+export const productionLongVaults: LongVaultConfig[] = [
+  // call vaults
   {
     id: "L-TN-CSCCv1-MATICUSD",
     basicVaultType: BasicVaultType.LONG,
@@ -394,10 +395,10 @@ export const productionLongCallVaults: LongVaultConfig[] = [
 
     chartSymbol: "MATICUSDT",
     protocolDataProviderAddress: "0x6F712293B16bAb8b9f66d1AF979925872A059AAE",
+    isForLongTrade: true,
   },
-];
 
-export const productionLongPutVaults: LongVaultConfig[] = [
+  // put vaults
   {
     id: "L-TN-CSCPv1-BTCUSD",
     basicVaultType: BasicVaultType.LONG,
@@ -460,10 +461,9 @@ export const productionLongPutVaults: LongVaultConfig[] = [
   },
 ];
 
-export const productionLongVaults: LongVaultConfig[] = [
-  ...productionLongCallVaults,
-  ...productionLongPutVaults,
-];
+export const productionLongTradeVaults = productionLongVaults.filter(
+  ({ isForLongTrade }) => isForLongTrade
+);
 
 export const productionAllBasicVaults = productionBasicVaults.concat(
   productionDegenVaults,

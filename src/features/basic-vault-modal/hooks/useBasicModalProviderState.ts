@@ -107,8 +107,7 @@ export const useBasicModalProviderState = (): BasicModalState => {
   // only for LongOptionModal and LongOptionPositionModal
   const isLongVault = basicVaultType === BasicVaultType.LONG;
   const isLongOptionModal = [
-    VaultModalType.longCall,
-    VaultModalType.longPut,
+    VaultModalType.longTrade,
     VaultModalType.longPosition,
   ].includes(vaultType);
   const isLongOptionClosePositionModal =

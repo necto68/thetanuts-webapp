@@ -6,7 +6,6 @@ export const productTitlesMap = {
   [VaultModalType.degen]: "Degen",
   [VaultModalType.wheel]: "Wheel",
   [VaultModalType.long]: "Long",
-  [VaultModalType.longCall]: "Long",
-  [VaultModalType.longPut]: "Long",
+  [VaultModalType.longTrade]: "Long",
   [VaultModalType.longPosition]: "Long",
 };

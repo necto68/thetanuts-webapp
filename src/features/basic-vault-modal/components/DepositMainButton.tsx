@@ -83,10 +83,7 @@ export const DepositMainButton = () => {
   const { contractsToBorrow = null } = longOptionReaderData ?? {};
 
   const isLongVault = basicVaultType === BasicVaultType.LONG;
-  const isLongOptionModal = [
-    VaultModalType.longCall,
-    VaultModalType.longPut,
-  ].includes(vaultType);
+  const isLongOptionModal = vaultType === VaultModalType.longTrade;
   const isLongOptionPositionModal = vaultType === VaultModalType.longPosition;
 
   const handleResetButtonClick = useCallback(() => {

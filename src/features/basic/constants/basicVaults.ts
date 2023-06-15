@@ -5,8 +5,7 @@ import {
   developBasicVaults,
   developDegenVaults,
   developWheelVaults,
-  developLongCallVaults,
-  developLongPutVaults,
+  developLongTradeVaults,
   developLongVaults,
   developAllBasicVaults,
 } from "./developBasicVaults";
@@ -14,9 +13,8 @@ import {
   productionBasicVaults,
   productionDegenVaults,
   productionWheelVaults,
-  productionLongCallVaults,
-  productionLongPutVaults,
   productionLongVaults,
+  productionLongTradeVaults,
   productionAllBasicVaults,
 } from "./productionBasicVaults";
 
@@ -32,13 +30,9 @@ export const wheelVaults = isTestEnvironment
   ? developWheelVaults.concat(productionWheelVaults)
   : productionWheelVaults;
 
-export const longCallVaults = isTestEnvironment
-  ? developLongCallVaults.concat(productionLongCallVaults)
-  : productionLongCallVaults;
-
-export const longPutVaults = isTestEnvironment
-  ? developLongPutVaults.concat(productionLongPutVaults)
-  : productionLongPutVaults;
+export const longTradeVaults = isTestEnvironment
+  ? developLongTradeVaults.concat(productionLongTradeVaults)
+  : productionLongTradeVaults;
 
 export const longVaults = isTestEnvironment
   ? developLongVaults.concat(productionLongVaults)

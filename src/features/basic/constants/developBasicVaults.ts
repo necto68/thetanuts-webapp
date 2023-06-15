@@ -74,7 +74,7 @@ export const developWheelVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const developLongCallVaults: LongVaultConfig[] = [
+export const developLongVaults: LongVaultConfig[] = [
   // TODO: hide long vaults
   // {
   //   id: "L-TN-CSCCv0-ETHUSD-1DAY",
@@ -108,11 +108,9 @@ export const developLongCallVaults: LongVaultConfig[] = [
   // },
 ];
 
-export const developLongPutVaults: LongVaultConfig[] = [];
-
-export const developLongVaults: LongVaultConfig[] =
-  // eslint-disable-next-line sonarjs/no-empty-collection
-  developLongCallVaults.concat(developLongPutVaults);
+export const developLongTradeVaults = developLongVaults.filter(
+  ({ isForLongTrade }) => isForLongTrade
+);
 
 export const developAllBasicVaults = developBasicVaults.concat(
   developDegenVaults,

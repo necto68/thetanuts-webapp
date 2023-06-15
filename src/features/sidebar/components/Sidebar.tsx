@@ -4,7 +4,7 @@ import {
   DegenPage,
   WheelPage,
   LongPage,
-  LongCallsPage,
+  LongTradePage,
   Portfolio,
   Twitter,
   Medium,
@@ -49,16 +49,10 @@ const longOptions = [
     navIcon: LongPage,
   },
   {
-    to: PagePathname.longCall,
+    to: PagePathname.longTrade,
     linkTitle: "Trade Long",
-    navIcon: LongCallsPage,
+    navIcon: LongTradePage,
   },
-
-  // {
-  //   to: PagePathname.longPut,
-  //   linkTitle: "Puts",
-  //   navIcon: LongPutsPage,
-  // },
 ];
 
 const exoticStrategies = [
