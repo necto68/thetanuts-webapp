@@ -383,9 +383,9 @@ export const productionWheelVaults: BasicVaultConfig[] = [
 ];
 
 export const productionLongVaults: LongVaultConfig[] = [
-  // call vaults
+  // long trade vaults
   {
-    id: "L-TN-CSCCv1-MATICUSD",
+    id: "L-TN-CSCCv1-MATICUSD-A",
     basicVaultType: BasicVaultType.LONG,
 
     source: {
@@ -397,8 +397,47 @@ export const productionLongVaults: LongVaultConfig[] = [
     protocolDataProviderAddress: "0x6F712293B16bAb8b9f66d1AF979925872A059AAE",
     isForLongTrade: true,
   },
+  {
+    id: "L-TN-CSCCv1-MATICUSD-B",
+    basicVaultType: BasicVaultType.LONG,
 
-  // put vaults
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x86acF4C7f74A82D28aBC370f333fBcbE34e50972",
+    },
+
+    chartSymbol: "MATICUSDT",
+    protocolDataProviderAddress: "0x6F712293B16bAb8b9f66d1AF979925872A059AAE",
+    isForLongTrade: true,
+  },
+  {
+    id: "L-TN-CSCCv1-BNBUSD",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.BSC,
+      basicVaultAddress: "0x9EF72De1782431cf54518c42C06e26014E7201D1",
+    },
+
+    chartSymbol: "BNBUSDT",
+    protocolDataProviderAddress: "0x2B2bAe3712484A4952cb9e6894f6D9dD2F257F0B",
+    isForLongTrade: true,
+  },
+  {
+    id: "L-TN-CSCPv1-BNBUSD-A",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.BSC,
+      basicVaultAddress: "0xc75C3BE0Bc41857B9c1a675475F6E0a7c5Db63fC",
+    },
+
+    chartSymbol: "BNBUSDT",
+    protocolDataProviderAddress: "0x4Ca4A837EA940737eBB4e3edd79c12D1040075cA",
+    isForLongTrade: true,
+  },
+
+  // long vaults
   {
     id: "L-TN-CSCPv1-BTCUSD",
     basicVaultType: BasicVaultType.LONG,
@@ -436,7 +475,7 @@ export const productionLongVaults: LongVaultConfig[] = [
     protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
-    id: "L-TN-CSCPv1-BNBUSD",
+    id: "L-TN-CSCPv1-BNBUSD-B",
     basicVaultType: BasicVaultType.LONG,
 
     source: {

@@ -24,4 +24,26 @@ export const productionCollateralAssets: CollateralAssetConfig[] = [
         "0x4925b00EC8697bEbF5a2335510131DD3E58efD9F",
     },
   },
+  {
+    id: "WBNB",
+
+    source: {
+      chainId: ChainId.BSC,
+      collateralAssetAddress: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+
+      lendingPoolAddressesProviderAddress:
+        "0xE3C0715811EfFfD7298E25eDFBf723275D8BD5df",
+    },
+  },
+  {
+    id: "BUSD",
+
+    source: {
+      chainId: ChainId.BSC,
+      collateralAssetAddress: "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+
+      lendingPoolAddressesProviderAddress:
+        "0x201002211CA46E7577411b5F1D45B7d9d19271e0",
+    },
+  },
 ];

@@ -19,6 +19,7 @@ import { convertToBig } from "../../shared/helpers/converters";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
 import type { LongVaultReader } from "../types";
 
+// eslint-disable-next-line complexity
 export const longVaultReaderFetcher = async (
   basicVaultId: string,
   basicVaultType: BasicVaultType,
@@ -168,10 +169,13 @@ export const longVaultReaderFetcher = async (
     .round(5, Big.roundDown)
     .toNumber();
 
-  const minSupplyValue = minBorrowValue
-    .div(new Big(borrowRemainder).div(maxSupplyValue))
-    .round(0, Big.roundDown)
-    .toNumber();
+  const minSupplyValue =
+    maxSupplyValue !== 0
+      ? minBorrowValue
+          .div(new Big(borrowRemainder).div(maxSupplyValue))
+          .round(0, Big.roundDown)
+          .toNumber()
+      : 0;
 
   const balance = supplyCap.sub(maxSupplyValue);
 

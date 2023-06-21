@@ -3,10 +3,7 @@ import { VoidSigner } from "ethers";
 import Big from "big.js";
 
 import type { BasicVaultType } from "../../basic/types";
-import {
-  LongVaultPositionManagerAbi__factory as LongVaultPositionManagerAbiFactory,
-  QuoterAbi__factory as QuoterAbiFactory,
-} from "../../contracts/types";
+import { LongVaultPositionManagerAbi__factory as LongVaultPositionManagerAbiFactory } from "../../contracts/types";
 import { convertToBig, queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { longVaultsMap } from "../../basic/constants";
@@ -14,6 +11,7 @@ import { longVaultReaderFetcher } from "../../long-vault/helpers";
 import { collateralAssetFetcher } from "../../long/helpers";
 import { collateralAssetsMap } from "../../long/constants";
 import type { LongOptionClosePositionReader } from "../types";
+import { quoteExactOutputSingle } from "../../long-vault-modal/helpers";
 
 const defaultLongOptionClosePositionReader: LongOptionClosePositionReader = {
   inputValue: "",
@@ -38,9 +36,8 @@ export const longOptionClosePositionReaderFetcher = async (
       signer
     );
 
-  const quoterContract = QuoterAbiFactory.connect(quoterAddress, signer);
-
   const longVaultConfig = longVaultsMap[basicVaultId];
+  const chainId = longVaultConfig?.source.chainId ?? 0;
 
   const { protocolDataProviderAddress = "" } = longVaultConfig ?? {};
 
@@ -102,15 +99,20 @@ export const longOptionClosePositionReaderFetcher = async (
 
   const inputAmount = inputValueBig.mul(collateralToken.tokenDivisor).round();
 
-  const quoteOutput = await quoterContract.callStatic
-    .quoteExactOutputSingle(
-      collateralTokenAddress,
-      basicVaultAddress,
-      500,
-      inputAmount.toString(),
-      0
-    )
-    .then(convertToBig);
+  const parameters = {
+    tokenIn: collateralTokenAddress,
+    tokenOut: basicVaultAddress,
+    amount: inputAmount.toString(),
+    fee: 500,
+    sqrtPriceLimitX96: 0,
+  };
+
+  const quoteOutput = await quoteExactOutputSingle(
+    parameters,
+    chainId,
+    quoterAddress,
+    signer
+  );
 
   // slippage allowance - 0.05%
   const maxCollateralToUse = quoteOutput.mul(1.0005).round();

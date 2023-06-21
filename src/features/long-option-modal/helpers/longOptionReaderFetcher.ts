@@ -3,11 +3,8 @@ import { VoidSigner } from "ethers";
 import Big from "big.js";
 
 import type { BasicVaultType } from "../../basic/types";
-import {
-  LongVaultPositionManagerAbi__factory as LongVaultPositionManagerAbiFactory,
-  QuoterAbi__factory as QuoterAbiFactory,
-} from "../../contracts/types";
-import { convertToBig, queryClient } from "../../shared/helpers";
+import { LongVaultPositionManagerAbi__factory as LongVaultPositionManagerAbiFactory } from "../../contracts/types";
+import { queryClient } from "../../shared/helpers";
 import { QueryType } from "../../shared/types";
 import { longVaultsMap } from "../../basic/constants";
 import { longVaultReaderFetcher } from "../../long-vault/helpers";
@@ -15,6 +12,7 @@ import { collateralAssetFetcher } from "../../long/helpers";
 import { collateralAssetsMap } from "../../long/constants";
 import type { LongOptionReader } from "../types";
 import type { BasicVault } from "../../basic-vault/types";
+import { quoteExactInputSingle } from "../../long-vault-modal/helpers";
 
 const defaultLongOptionReader: LongOptionReader = {
   inputValue: "",
@@ -41,8 +39,6 @@ export const longOptionReaderFetcher = async (
       longVaultPositionManagerAddress,
       signer
     );
-
-  const quoterContract = QuoterAbiFactory.connect(quoterAddress, signer);
 
   const longVaultConfig = longVaultsMap[basicVaultId];
   const chainId = longVaultConfig?.source.chainId ?? 0;
@@ -124,15 +120,20 @@ export const longOptionReaderFetcher = async (
   let depth = 0;
   let LPToBorrowValue = new Big(0);
 
-  const minToReceiveLPValue = await quoterContract.callStatic
-    .quoteExactInputSingle(
-      basicVaultAddress,
-      collateralTokenAddress,
-      500,
-      inputAmount.toString(),
-      0
-    )
-    .then(convertToBig);
+  const parameters = {
+    tokenIn: basicVaultAddress,
+    tokenOut: collateralTokenAddress,
+    fee: 500,
+    amountIn: inputAmount.toString(),
+    sqrtPriceLimitX96: 0,
+  };
+
+  const minToReceiveLPValue = await quoteExactInputSingle(
+    parameters,
+    chainId,
+    quoterAddress,
+    signer
+  );
 
   while (left <= right) {
     depth += 1;

@@ -98,8 +98,11 @@ export const chains: ChainConfig[] = [
       directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xe016D63bd3ce7BbAF9Eb8aBf76dA7e3f6E4721a3",
       basicVaultDepositorAddress: ZERO_ADDRESS,
-      longVaultPositionManagerAddress: ZERO_ADDRESS,
-      quoterAddress: ZERO_ADDRESS,
+
+      longVaultPositionManagerAddress:
+        "0x03Cd40F93Ae3b80f996691238F742568c24C9C3D",
+
+      quoterAddress: "0x78D78E420Da98ad378D7799bE8f4AF69033EB077",
     },
   },
   {

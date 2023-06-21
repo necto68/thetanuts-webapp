@@ -7,8 +7,7 @@ import {
   // VaultInfo,
 } from "../../basic-vault-modal/components";
 
-// import { Switcher } from "./Switcher";
-
+import { VaultTypeSwitcher } from "./VaultTypeSwitcher";
 import { CollateralInput } from "./CollateralInput";
 import { OrderInfo } from "./OrderInfo";
 import { Container, Separator } from "./LongOptionModal.styles";
@@ -17,7 +16,7 @@ import { ExpiryInput } from "./ExpiryInput";
 
 export const LongOptionModal = () => (
   <Container>
-    {/* <Switcher currentTabType="call" onTabButtonClick={() => null} /> */}
+    <VaultTypeSwitcher />
     <CollateralInput />
     <StrikePriceInput />
     <ExpiryInput />

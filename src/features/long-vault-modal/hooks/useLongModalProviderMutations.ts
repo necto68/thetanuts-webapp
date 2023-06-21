@@ -18,12 +18,11 @@ import {
   useBasicModalState,
 } from "../../basic-vault-modal/hooks";
 import {
-  QuoterAbi__factory as QuoterAbiFactory,
   LongVaultPositionManagerAbi__factory as LongVaultPositionManagerAbiFactory,
   DebtTokenAbi__factory as DebtTokenAbiFactory,
 } from "../../contracts/types";
-import { convertToBig } from "../../shared/helpers/converters";
 import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
+import { quoteExactOutputSingle } from "../helpers";
 
 import { useLongModalConfig } from "./useLongModalConfig";
 
@@ -336,7 +335,6 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
       const signer = walletProvider.getSigner();
 
       const { quoterAddress } = chainsMap[basicVaultChainId].addresses;
-      const quoterContract = QuoterAbiFactory.connect(quoterAddress, signer);
 
       const longVaultPositionManagerContract =
         LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
@@ -352,15 +350,20 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
       const debtTokenBalance =
         balance && tokenDivisor ? balance.mul(tokenDivisor) : new Big(0);
 
-      const quoteOutput = await quoterContract.callStatic
-        .quoteExactOutputSingle(
-          collateralTokenAddress,
-          basicVaultAddress,
-          500,
-          debtTokenBalance.toString(),
-          0
-        )
-        .then(convertToBig);
+      const parameters = {
+        tokenIn: collateralTokenAddress,
+        tokenOut: basicVaultAddress,
+        amount: debtTokenBalance.toString(),
+        fee: 500,
+        sqrtPriceLimitX96: 0,
+      };
+
+      const quoteOutput = await quoteExactOutputSingle(
+        parameters,
+        basicVaultChainId,
+        quoterAddress,
+        signer
+      );
 
       // slippage allowance - 0.05%
       const maxCollateralToUse = quoteOutput.mul(1.0005).round();

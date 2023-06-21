@@ -1,32 +1,31 @@
 import type { FC } from "react";
 
 import { Container } from "../../basic-vault-modal/components/Switcher.styles";
+import { VaultType } from "../../basic-vault/types";
 
 import { TabButton } from "./TabButton";
 
-type TabType = "call" | "put";
-
 interface SwitcherProps {
-  currentTabType: TabType;
-  onTabButtonClick: (tabType: TabType) => void;
+  currentVaultType: VaultType;
+  onTabButtonClick: (vaultType: VaultType) => void;
 }
 
 export const Switcher: FC<SwitcherProps> = ({
-  currentTabType,
+  currentVaultType,
   onTabButtonClick,
 }) => (
   <Container>
     <TabButton
-      currentTabType={currentTabType}
+      currentVaultType={currentVaultType}
       onClick={onTabButtonClick}
-      tabType="call"
+      vaultType={VaultType.CALL}
     >
       Call
     </TabButton>
     <TabButton
-      currentTabType={currentTabType}
+      currentVaultType={currentVaultType}
       onClick={onTabButtonClick}
-      tabType="put"
+      vaultType={VaultType.PUT}
     >
       Put
     </TabButton>

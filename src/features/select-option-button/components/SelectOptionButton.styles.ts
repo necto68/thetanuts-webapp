@@ -12,6 +12,7 @@ export const Container = styled.div`
 `;
 
 export const CurrentOptionButton = styled(BaseButton)`
+  width: 100%;
   padding-left: 8px;
   padding-right: 8px;
 `;
@@ -30,7 +31,7 @@ export const OptionsContainer = styled.div`
 export const ButtonContentContainer = styled.div<IsSmallProps>`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: ${({ isSmall }) => (isSmall ? "5px" : "10px")};
 `;
 

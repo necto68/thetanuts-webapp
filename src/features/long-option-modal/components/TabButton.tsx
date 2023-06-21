@@ -2,26 +2,25 @@ import type { FC } from "react";
 import { useCallback } from "react";
 
 import { Button } from "../../basic-vault-modal/components/TabButton.styles";
-
-type TabType = "call" | "put";
+import type { VaultType } from "../../basic-vault/types";
 
 interface TabButtonProps {
-  tabType: TabType;
-  currentTabType: TabType;
-  onClick: (tabType: TabType) => void;
+  currentVaultType: VaultType;
+  vaultType: VaultType;
+  onClick: (vaultType: VaultType) => void;
 }
 
 export const TabButton: FC<TabButtonProps> = ({
-  tabType,
-  currentTabType,
+  currentVaultType,
+  vaultType,
   onClick,
   children,
 }) => {
-  const isActive = tabType === currentTabType;
+  const isActive = vaultType === currentVaultType;
 
   const handleButtonClick = useCallback(() => {
-    onClick(tabType);
-  }, [onClick, tabType]);
+    onClick(vaultType);
+  }, [onClick, vaultType]);
 
   return (
     <Button isActive={isActive} isSmall onClick={handleButtonClick}>

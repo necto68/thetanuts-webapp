@@ -3,6 +3,7 @@ import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import { VaultStatus } from "../../basic-vault-modal/types";
 import { VaultType } from "../../basic-vault/types";
 import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
+import { strikePricesGroups } from "../constants";
 
 import {
   Container,
@@ -10,6 +11,7 @@ import {
   InputContainer,
   InputValue,
 } from "./CollateralInput.styles";
+import { StrikePriceSelect } from "./StrikePriceSelect";
 
 export const StrikePriceInput = () => {
   const { basicVaultQuery } = useBasicModalConfig();
@@ -17,6 +19,7 @@ export const StrikePriceInput = () => {
   const { data, isLoading } = basicVaultQuery;
 
   const {
+    id = "",
     type = VaultType.CALL,
     strikePrices = [0],
     isSettled = false,
@@ -33,12 +36,22 @@ export const StrikePriceInput = () => {
 
   const loadingPlaceholder = ".....";
 
+  const isShowStrikePriceSelect = strikePricesGroups.some((group) =>
+    group.includes(id)
+  );
+
   return (
     <Container>
       <Title>Strike Price</Title>
-      <InputContainer>
-        <InputValue>{isLoading ? loadingPlaceholder : strikePrice}</InputValue>
-      </InputContainer>
+      {isShowStrikePriceSelect ? (
+        <StrikePriceSelect />
+      ) : (
+        <InputContainer>
+          <InputValue>
+            {isLoading ? loadingPlaceholder : strikePrice}
+          </InputValue>
+        </InputContainer>
+      )}
     </Container>
   );
 };

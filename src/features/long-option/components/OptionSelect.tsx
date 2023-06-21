@@ -15,15 +15,11 @@ export const OptionSelect = () => {
     ModalPathname.longTradeVaultModal
   );
 
-  const modalPathname = ModalPathname.longTradeVaultModal;
-
   const longVaultIds = longTradeVaults.map(({ id }) => id);
   const longVaultQueries = useBasicVaults(longVaultIds);
   const longVaultsData = longVaultQueries.map(({ data }) => data);
 
-  const urlMatch = longTradeVaultModalUrlMatch;
-
-  const selectedVaultId = urlMatch?.params.vaultId;
+  const selectedVaultId = longTradeVaultModalUrlMatch?.params.vaultId;
 
   const longVaultsWithoutSelectedVaultId = longVaultsData.filter(
     (data) => data?.id !== selectedVaultId
@@ -45,13 +41,13 @@ export const OptionSelect = () => {
 
   const optionClickHandler = useCallback(
     (id: string) => {
-      const pathname = generatePath(modalPathname, {
+      const pathname = generatePath(ModalPathname.longTradeVaultModal, {
         vaultId: id,
       });
 
       routerHistory.push({ pathname });
     },
-    [routerHistory, modalPathname]
+    [routerHistory]
   );
 
   const isLoading =
