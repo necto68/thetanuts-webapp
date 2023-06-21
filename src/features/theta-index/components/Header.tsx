@@ -8,7 +8,7 @@ export const Header = () => {
 
   return (
     <HeaderContainer>
-      <Metrics />
+      {isMobile ? null : <Metrics />}
       {isMobile ? null : <HeaderButtons />}
     </HeaderContainer>
   );
