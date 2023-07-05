@@ -1,12 +1,13 @@
 import { useQueries } from "react-query";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { indexTokensFetcher } from "../helpers";
 import { useIndexVaults } from "../../index-vault/hooks";
 import { QueryType } from "../../shared/types";
 
 export const useIndexTokensQueries = (indexVaultIds: string[]) => {
-  const { account = "" } = useWallet();
+  const [{ wallet }] = useConnectWallet();
+  const walletAddress = wallet?.accounts[0]?.address ?? "";
 
   const indexVaultsQueries = useIndexVaults(indexVaultIds);
 
@@ -15,10 +16,10 @@ export const useIndexTokensQueries = (indexVaultIds: string[]) => {
       const { id = "", indexTokenAddress = "" } = data ?? {};
 
       return {
-        queryKey: [QueryType.indexTokens, id, indexTokenAddress, account],
+        queryKey: [QueryType.indexTokens, id, indexTokenAddress, walletAddress],
 
         queryFn: async () =>
-          await indexTokensFetcher(id, indexTokenAddress, account),
+          await indexTokensFetcher(id, indexTokenAddress, walletAddress),
 
         enabled: Boolean(data),
       };

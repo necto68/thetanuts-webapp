@@ -1,5 +1,5 @@
 import type Big from "big.js";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import type { Column } from "../../table/types";
 import {
@@ -124,8 +124,10 @@ const getRowKey = ({ id, chainId, type }: HistoryTransactionRow) =>
   `${id}${chainId}${type}`;
 
 export const TransactionHistoryTable = () => {
-  const { network } = useWallet();
-  const chainId: ChainId | undefined = network?.chainId;
+  const [{ wallet }] = useConnectWallet();
+  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+
+  const chainId: ChainId | undefined = currentChainId;
 
   const indexSwapsHistoryRows = useIndexSwapsHistoryRows();
   const indexDepositsHistoryRows = useIndexDepositsHistoryRows();

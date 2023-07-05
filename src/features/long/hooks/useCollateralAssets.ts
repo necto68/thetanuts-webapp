@@ -1,5 +1,5 @@
 import { useQueries } from "react-query";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { collateralAssetsMap } from "../constants";
 import { ChainId, chainProvidersMap } from "../../wallet/constants";
@@ -7,7 +7,8 @@ import { collateralAssetFetcher } from "../helpers";
 import { QueryType } from "../../shared/types";
 
 export const useCollateralAssets = (collateralAssetsIds: string[]) => {
-  const { account = "" } = useWallet();
+  const [{ wallet }] = useConnectWallet();
+  const walletAddress = wallet?.accounts[0]?.address ?? "";
 
   const tokensConfigs = collateralAssetsIds.map((collateralAssetId) => {
     const tokenConfig = collateralAssetsMap[collateralAssetId];
@@ -41,7 +42,7 @@ export const useCollateralAssets = (collateralAssetsIds: string[]) => {
           id,
           collateralAssetAddress,
           lendingPoolAddressesProviderAddress,
-          account,
+          walletAddress,
         ],
 
         queryFn: async () =>
@@ -50,7 +51,7 @@ export const useCollateralAssets = (collateralAssetsIds: string[]) => {
             collateralAssetAddress,
             lendingPoolAddressesProviderAddress,
             provider,
-            account
+            walletAddress
           ),
       })
     )

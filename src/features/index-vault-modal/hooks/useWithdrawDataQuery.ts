@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { withdrawalDataFetcher } from "../helpers/withdrawDataFetcher";
 import { ModalContentType } from "../types";
@@ -22,7 +22,8 @@ export const useWithdrawDataQuery = () => {
   const [{ contentType }] = useVaultModalState();
 
   // Define user account.
-  const { account = "" } = useWallet();
+  const [{ wallet }] = useConnectWallet();
+  const walletAddress = wallet?.accounts[0]?.address ?? "";
 
   // Define vault query data.
   const { data } = indexVaultQuery;
@@ -40,7 +41,7 @@ export const useWithdrawDataQuery = () => {
     queryKey: [
       QueryType.directWithdrawData,
       directWithdrawalAddress,
-      account,
+      walletAddress,
       sourceData,
       targetData,
       contentType === ModalContentType.withdrawClaim
@@ -51,7 +52,7 @@ export const useWithdrawDataQuery = () => {
     queryFn: async () =>
       await withdrawalDataFetcher(
         provider,
-        account,
+        walletAddress,
         sourceData,
         targetData,
         vaults,
@@ -66,6 +67,6 @@ export const useWithdrawDataQuery = () => {
       (contentType === ModalContentType.withdraw ||
         contentType === ModalContentType.withdrawClaim ||
         contentType === ModalContentType.withdrawSummary) &&
-      Boolean(account),
+      Boolean(wallet),
   });
 };

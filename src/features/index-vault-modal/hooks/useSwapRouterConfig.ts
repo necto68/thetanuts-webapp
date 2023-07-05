@@ -1,15 +1,21 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { useIndexVault } from "../../index-vault/hooks";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { useVaultModalState } from "../../modal/hooks";
+import { ethers } from "ethers";
 
 // eslint-disable-next-line complexity
 export const useSwapRouterConfig = () => {
   const [{ vaultId, contentType }] = useVaultModalState();
   const indexVaultQuery = useIndexVault(vaultId);
-  const { account, network, provider: walletProvider } = useWallet();
+
+  const [{ wallet }] = useConnectWallet();
+  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+  const walletProvider = wallet?.provider
+    ? new ethers.providers.Web3Provider(wallet.provider as any)
+    : undefined;
 
   const { data } = indexVaultQuery;
   const {
@@ -30,14 +36,12 @@ export const useSwapRouterConfig = () => {
     source: {},
   };
 
-  const walletChainId: ChainId = network?.chainId ?? 0;
+  const walletChainId: ChainId = currentChainId ?? 0;
   const isUserOnSupportedChainId = Boolean(
-    account && network && supportedChainIds.includes(walletChainId)
+    wallet && supportedChainIds.includes(walletChainId)
   );
 
-  const isUserOnMainChainId = Boolean(
-    account && network && mainChainId === walletChainId
-  );
+  const isUserOnMainChainId = Boolean(wallet && mainChainId === walletChainId);
 
   const tokenReplication = replications.find(
     ({ chainId }) => chainId === walletChainId

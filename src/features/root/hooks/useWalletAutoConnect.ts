@@ -1,12 +1,14 @@
 import { useEffect } from "react";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet, useWallets } from "@web3-onboard/react";
 
 export const useWalletAutoConnect = () => {
-  const { account, connect, web3Modal } = useWallet();
+  const [{ wallet }, connect] = useConnectWallet();
+  const connectedWallets = useWallets();
 
   useEffect(() => {
-    if (!account && web3Modal?.cachedProvider) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!connectedWallets) {
       void connect();
     }
-  }, [account, connect, web3Modal]);
+  }, [wallet, connect, connectedWallets]);
 };

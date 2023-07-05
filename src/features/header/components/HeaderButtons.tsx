@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { ChainSelect, WalletButton } from "../../wallet/components";
 
@@ -12,14 +12,14 @@ import {
 } from "./HeaderButtons.styles";
 
 export const HeaderButtons = () => {
-  const { network } = useWallet();
+  const [{ wallet }] = useConnectWallet();
 
   return (
     <Container>
       {/* <SwitchToV0ButtonContainer>
         <SwitchToV0Button />
       </SwitchToV0ButtonContainer> */}
-      {network ? (
+      {wallet ? (
         <ButtonsContainer>
           <ChainSelect />
           <WalletButton />

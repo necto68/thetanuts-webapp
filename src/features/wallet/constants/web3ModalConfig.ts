@@ -1,37 +1,54 @@
-import type Web3Modal from "web3modal";
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import { CoinbaseWalletSDK } from "@coinbase/wallet-sdk";
+import { init } from "@web3-onboard/react";
+import injectedModule, { ProviderLabel } from "@web3-onboard/injected-wallets";
+import walletConnectModule from "@web3-onboard/walletconnect";
+import coinbaseWalletModule from "@web3-onboard/coinbase";
 
 import { chains } from "./chains";
 
-const rpc = Object.fromEntries(
-  chains.map(({ chainId, urls }) => [chainId, urls.rpc])
-);
+const rpc = chains.map(({ chainId, urls }) => ({
+  id: `0x${chainId.toString(16)}`,
+  rpcUrl: urls.rpc,
+}));
 
-const providerOptions = {
-  walletlink: {
-    package: CoinbaseWalletSDK,
+const chainArray = chains.map(({ chainId }) => chainId);
 
-    options: {
-      rpc,
-    },
+const coinbaseWalletSdk = coinbaseWalletModule();
+const walletConnect = walletConnectModule({
+  version: 2,
+  handleUri: (uri) => {
+    console.log(uri);
+    return Promise.resolve();
   },
+  projectId: "800f916e0fe9421fb73c01c96cdda221",
+  requiredChains: chainArray,
+});
 
-  walletconnect: {
-    package: WalletConnectProvider,
+const injected = injectedModule({
+  displayUnavailable: [ProviderLabel.OKXWallet]
+})
 
-    options: {
-      rpc,
-    },
-  },
-};
+const wallets = [injected, coinbaseWalletSdk, walletConnect];
 
-export interface Web3ModalContextData {
-  web3Modal: Web3Modal;
-}
-
-export const web3ModalConfig = {
-  providerOptions,
+export const web3Onboard = init({
+  wallets,
+  chains: rpc,
   theme: "dark",
-  cacheProvider: true,
-};
+  appMetadata: {
+    name: "Thetanuts Finance",
+    icon: 'https://www.thetanuts.finance/images/landing-page/logo-thetanuts-2.svg',
+    logo: 'https://www.thetanuts.finance/images/landing-page/logo-thetanuts-2.svg',
+    description: "Thetanuts Finance",
+  },
+  connect: {
+    removeWhereIsMyWalletWarning: true,
+    showSidebar: false,
+  },
+  accountCenter: {
+    desktop: {
+      enabled: false,
+    },
+    mobile: {
+      enabled: false,
+    },
+  }
+});

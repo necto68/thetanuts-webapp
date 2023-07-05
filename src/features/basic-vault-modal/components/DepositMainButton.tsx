@@ -1,4 +1,3 @@
-import { useWallet } from "@gimmixorg/use-wallet";
 import { useCallback } from "react";
 import Big from "big.js";
 
@@ -25,6 +24,8 @@ import { VaultType } from "../../basic-vault/types";
 import { getLongVaultContractsTitle } from "../../table/helpers";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
+
+import { useConnectWallet } from "@web3-onboard/react";
 
 // eslint-disable-next-line complexity
 export const DepositMainButton = () => {
@@ -55,7 +56,7 @@ export const DepositMainButton = () => {
     runOpenPosition,
   } = useLongModalMutations();
 
-  const { account } = useWallet();
+  const [{ wallet }, connect, disconnect] = useConnectWallet();
 
   const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
   const {
@@ -156,7 +157,7 @@ export const DepositMainButton = () => {
   const isMainButtonDisabled =
     isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
 
-  if (!account) {
+  if (!wallet) {
     return <ConnectWalletMainButton />;
   }
 

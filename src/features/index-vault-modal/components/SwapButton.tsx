@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import Big from "big.js";
@@ -63,7 +63,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   const { claimableBalance = "", fullyClaimed = false } = withdrawData ?? {};
 
-  const { account } = useWallet();
+  const [{ wallet }] = useConnectWallet();
 
   const [isDirectModeBetterIgnore, setIsDirectModeBetterIgnore] =
     useState(false);
@@ -154,7 +154,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   const error = approveAllowanceError ?? swapError;
 
-  if (!account) {
+  if (!wallet) {
     return <ConnectWalletMainButton />;
   }
 

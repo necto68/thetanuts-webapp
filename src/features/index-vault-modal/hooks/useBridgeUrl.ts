@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { ChainId } from "../../wallet/constants";
 import { TokenSymbol } from "../types/tokenSymbol";
@@ -53,8 +53,10 @@ export const getBridgeByChainAndSymbol = (chain: number, symbol: string) => {
 };
 
 export const useBridgeUrl = () => {
-  const { network } = useWallet();
-  const { chainId = ChainId.ETHEREUM } = network ?? {};
+  const [{ wallet }] = useConnectWallet();
+  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+
+  const chainId = currentChainId ?? ChainId.ETHEREUM;
 
   const { sourceData } = useSwapRouterState();
   const { symbol = TokenSymbol.ETH } = sourceData ?? {};

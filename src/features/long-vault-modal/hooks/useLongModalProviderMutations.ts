@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 import { useMutation } from "react-query";
 import { useCallback, useState } from "react";
 import { constants } from "ethers";
@@ -24,7 +24,8 @@ import {
 import { useLongModalConfig } from "./useLongModalConfig";
 
 export const useLongModalProviderMutations = (): LongModalMutations => {
-  const { account } = useWallet();
+  const [{ wallet }] = useConnectWallet();
+  const walletAddress = wallet?.accounts[0]?.address ?? "";
 
   const { walletProvider, basicVaultAddress, spenderAddress } =
     useBasicModalConfig();
@@ -163,7 +164,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
   ]);
 
   const runCancelPendingPositionMutation = useCallback(async () => {
-    if (!walletProvider || !account) {
+    if (!walletProvider || !wallet) {
       return false;
     }
 
@@ -201,7 +202,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
-    account,
+    walletAddress,
     basicVaultAddress,
     lendingPoolAddress,
     spenderAddress,
@@ -209,7 +210,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
   ]);
 
   const runClosePositionAndWithdrawMutation = useCallback(async () => {
-    if (!walletProvider || !account) {
+    if (!walletProvider || !wallet) {
       return false;
     }
 
@@ -219,7 +220,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
       LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
 
     const closePositionParameters = [
-      account,
+      walletAddress,
       basicVaultAddress,
       lendingPoolAddress,
     ] as const;
@@ -251,7 +252,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
-    account,
+    walletAddress,
     basicVaultAddress,
     lendingPoolAddress,
     spenderAddress,

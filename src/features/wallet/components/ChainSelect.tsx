@@ -1,18 +1,21 @@
 import type { FC } from "react";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import type { ChainId } from "../constants";
 import { chainIconSymbols, chains, chainsMap } from "../constants";
 import { SelectOptionButton } from "../../select-option-button/components";
 import { switchToChain } from "../helpers";
-
+import { ethers } from 'ethers'
 interface ChainSelectProps {
   chainIds?: ChainId[];
 }
 
 export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
-  const { provider, network } = useWallet();
-  const selectedChainId: ChainId | undefined = network?.chainId;
+  const [{ wallet }] = useConnectWallet();
+  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+  const walletProvider = wallet?.provider ? new ethers.providers.Web3Provider(wallet.provider as any) : undefined;
+
+  const selectedChainId: ChainId | undefined = currentChainId;
 
   if (!selectedChainId) {
     return null;
@@ -51,7 +54,7 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
     <SelectOptionButton
       color={buttonColor}
       onOptionClick={(id) => {
-        void switchToChain(id, provider);
+        void switchToChain(id, walletProvider);
       }}
       options={options}
       symbol={buttonSymbol}

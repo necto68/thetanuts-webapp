@@ -1,6 +1,6 @@
 import type { Provider } from "@ethersproject/providers";
 import { useQuery } from "react-query";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { nativeTokenFetcher } from "../helpers";
 import { QueryType } from "../../shared/types";
@@ -9,12 +9,13 @@ export const useNativeTokenQuery = (
   routerAddress: string,
   provider: Provider
 ) => {
-  const { account = "" } = useWallet();
+  const [{ wallet }] = useConnectWallet();
+  const walletAddress = wallet?.accounts[0]?.address ?? "";
 
   return useQuery({
-    queryKey: [QueryType.nativeToken, routerAddress, account],
+    queryKey: [QueryType.nativeToken, routerAddress, walletAddress],
 
     queryFn: async () =>
-      await nativeTokenFetcher(routerAddress, provider, account),
+      await nativeTokenFetcher(routerAddress, provider, walletAddress),
   });
 };

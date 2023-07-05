@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 import { useCallback } from "react";
 import Big from "big.js";
 
@@ -53,7 +53,7 @@ export const WithdrawMainButton = () => {
   const { closePositionAndWithdrawMutation, runClosePositionAndWithdraw } =
     useLongModalMutations();
 
-  const { account } = useWallet();
+  const [{ wallet }] = useConnectWallet();
 
   const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
@@ -153,7 +153,7 @@ export const WithdrawMainButton = () => {
     !currentTokenData ||
     !isInputValueValid;
 
-  if (!account) {
+  if (!wallet) {
     return <ConnectWalletMainButton />;
   }
 

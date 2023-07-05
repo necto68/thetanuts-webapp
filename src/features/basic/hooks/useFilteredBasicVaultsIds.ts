@@ -1,12 +1,14 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import type { BasicVaultConfig } from "../types";
 
 export const useFilteredBasicVaultsIds = (
   basicVaultsArray: BasicVaultConfig[]
 ) => {
-  const { network } = useWallet();
-  const chainId = network?.chainId;
+  const [{ wallet }] = useConnectWallet();
+  const currentChainId = Number.parseInt(wallet?.chains[0]?.id ?? "0", 16);
+
+  const chainId = currentChainId;
 
   const filteredBasicVaults = basicVaultsArray.filter(({ source }) =>
     chainId ? source.chainId === chainId : true

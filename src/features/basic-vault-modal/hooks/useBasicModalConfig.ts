@@ -1,10 +1,11 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { useVaultModalState } from "../../modal/hooks";
 import { useBasicVault, useBasicVaultReader } from "../../basic-vault/hooks";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
 import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants/basicVaults";
+import { ethers } from "ethers";
 
 export const useBasicModalConfig = () => {
   const [{ vaultId }] = useVaultModalState();
@@ -12,7 +13,11 @@ export const useBasicModalConfig = () => {
   const basicVaultQuery = useBasicVault(vaultId);
   const basicVaultReaderQuery = useBasicVaultReader(vaultId);
 
-  const { network, provider: walletProvider } = useWallet();
+  const [{ wallet }] = useConnectWallet();
+  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+  const walletProvider = wallet?.provider
+    ? new ethers.providers.Web3Provider(wallet.provider as any)
+    : undefined;
 
   const { data } = basicVaultQuery;
   const {
@@ -22,7 +27,7 @@ export const useBasicModalConfig = () => {
     basicVaultType = BasicVaultType.BASIC,
     collateralTokenAddress = "",
   } = data ?? {};
-  const walletChainId: ChainId = network?.chainId ?? 0;
+  const walletChainId: ChainId = currentChainId ?? 0;
 
   const {
     routerAddress,

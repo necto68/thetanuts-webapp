@@ -1,5 +1,5 @@
 import { useQueries } from "react-query";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { chainProvidersMap, ChainId } from "../../wallet/constants";
 import { QueryType } from "../../shared/types";
@@ -8,7 +8,8 @@ import { basicHistoryFetcher } from "../helpers";
 import { BasicVaultType } from "../../basic/types";
 
 export const useBasicHistoryQueries = (basicVaultIds: string[]) => {
-  const { account = "" } = useWallet();
+  const [{ wallet }] = useConnectWallet();
+  const walletAddress = wallet?.accounts[0]?.address ?? "";
 
   const basicVaultsQueries = useBasicVaults(basicVaultIds);
 
@@ -29,7 +30,7 @@ export const useBasicHistoryQueries = (basicVaultIds: string[]) => {
           basicVaultId,
           basicVaultType,
           basicVaultAddress,
-          account,
+          walletAddress,
         ],
 
         queryFn: async () =>
@@ -38,7 +39,7 @@ export const useBasicHistoryQueries = (basicVaultIds: string[]) => {
             basicVaultType,
             basicVaultAddress,
             provider,
-            account
+            walletAddress
           ),
 
         enabled: Boolean(data),

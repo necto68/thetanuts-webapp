@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { PortfolioTabs } from "./PortfolioTabs";
 import {
@@ -9,14 +9,15 @@ import {
 } from "./PortfolioLayout.styles";
 
 export const PortfolioLayout = () => {
-  const { account } = useWallet();
+  const [{ wallet }, connect, disconnect] = useConnectWallet();
+  const walletAddress = wallet?.accounts[0]?.address ?? "";
 
   return (
     <Container>
       <TitleContainer>
         <Title>Portfolio</Title>
       </TitleContainer>
-      {account ? (
+      {wallet ? (
         <PortfolioTabs />
       ) : (
         <TitleContainer>

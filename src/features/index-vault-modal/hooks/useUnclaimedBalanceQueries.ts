@@ -1,5 +1,5 @@
 import { useQueries } from "react-query";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { unclaimedBalanceFetcher } from "../helpers/unclaimedBalanceFetcher";
 import type { ChainId } from "../../wallet/constants";
@@ -7,7 +7,8 @@ import { chainProvidersMap } from "../../wallet/constants";
 import { QueryType } from "../../shared/types";
 
 export const useUnclaimedBalanceQueries = (chainIds: ChainId[]) => {
-  const { account = "" } = useWallet();
+  const [{ wallet }] = useConnectWallet();
+  const walletAddress = wallet?.accounts[0]?.address ?? "";
 
   return useQueries(
     chainIds.map((chainId: ChainId) => {
@@ -17,7 +18,7 @@ export const useUnclaimedBalanceQueries = (chainIds: ChainId[]) => {
         queryKey: [QueryType.unclaimedBalance, chainId],
 
         queryFn: async () =>
-          await unclaimedBalanceFetcher(chainId, account, provider),
+          await unclaimedBalanceFetcher(chainId, walletAddress, provider),
       };
     })
   );
