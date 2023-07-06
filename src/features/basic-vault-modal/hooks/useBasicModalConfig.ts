@@ -1,5 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
-
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { useVaultModalState } from "../../modal/hooks";
 import {
   useBasicVault,
@@ -18,7 +17,7 @@ export const useBasicModalConfig = () => {
 
   const lendingPoolReaderQuery = useLendingPoolReader(vaultId);
 
-  const { network, provider: walletProvider } = useWallet();
+  const { walletChainId, walletProvider } = useWallet();
 
   const { data } = basicVaultQuery;
 
@@ -29,7 +28,6 @@ export const useBasicModalConfig = () => {
     basicVaultType = BasicVaultType.BASIC,
     collateralTokenAddress = "",
   } = data ?? {};
-  const walletChainId: ChainId = network?.chainId ?? 0;
 
   const {
     routerAddress,

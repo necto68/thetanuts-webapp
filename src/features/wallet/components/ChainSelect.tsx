@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import { useWallet } from "@gimmixorg/use-wallet";
 
+import { useWallet } from "../hooks";
 import type { ChainId } from "../constants";
 import { chainIconSymbols, chains, chainsMap } from "../constants";
 import { SelectOptionButton } from "../../select-option-button/components";
@@ -11,10 +11,11 @@ interface ChainSelectProps {
 }
 
 export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
-  const { provider, network } = useWallet();
-  const selectedChainId: ChainId | undefined = network?.chainId;
+  const { walletAddress, walletChainId, walletProvider } = useWallet();
 
-  if (!selectedChainId) {
+  const selectedChainId = walletChainId;
+
+  if (!walletAddress) {
     return null;
   }
 
@@ -51,7 +52,7 @@ export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
     <SelectOptionButton
       color={buttonColor}
       onOptionClick={(id) => {
-        void switchToChain(id, provider);
+        void switchToChain(id, walletProvider);
       }}
       options={options}
       symbol={buttonSymbol}

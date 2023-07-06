@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { useWallet } from "@gimmixorg/use-wallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
@@ -24,7 +24,7 @@ export const PendingWithdrawMainButton = () => {
     runWithdraw,
   } = useBasicModalMutations();
 
-  const { account } = useWallet();
+  const { wallet } = useWallet();
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [cancelWithdrawMutation, withdrawMutation];
@@ -54,7 +54,7 @@ export const PendingWithdrawMainButton = () => {
   const { withdrawalPending = null, isReadyToWithdraw = false } = data ?? {};
 
   const isShow =
-    account &&
+    wallet &&
     walletChainId === basicVaultChainId &&
     !isLoading &&
     tokenData &&

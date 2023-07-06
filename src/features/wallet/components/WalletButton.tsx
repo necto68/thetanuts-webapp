@@ -1,16 +1,16 @@
-import { useWallet } from "@gimmixorg/use-wallet";
 import { useCallback, useRef, useState } from "react";
 import { useOutsideClick } from "rooks";
 import makeBlockie from "ethereum-blockies-base64";
 
 import { ArrowIcon } from "../../shared/components";
-import { ChainId, chainsMap, web3ModalConfig } from "../constants";
+import { ChainId, chainsMap } from "../constants";
 import { addressFormatter } from "../../shared/helpers";
 import { BaseOptionsContainer } from "../../select-option-button/components/BaseOptionsContainer";
 import { Copy } from "../../shared/icons/Copy";
 import { Explorer } from "../../shared/icons/Explorer";
 import { getExplorerUrl } from "../helpers";
 import { PathType } from "../types";
+import { useWallet } from "../hooks/useWallet";
 
 import {
   ButtonContentContainer,
@@ -30,16 +30,23 @@ import {
 
 export const WalletButton = () => {
   const [isShow, setIsShow] = useState(false);
-  const { account = "", connect, disconnect, network } = useWallet();
 
-  // use ETHEREUM as default chainId
-  let chainId = network?.chainId ?? ChainId.ETHEREUM;
+  const { wallet, connect, disconnect, walletAddress, walletChainId } =
+    useWallet();
+
+  let chainId = walletChainId;
   chainId = chainId in chainsMap ? chainId : ChainId.ETHEREUM;
 
   const walletButtonContainerReference = useRef(null);
 
   const handleConnect = async () => {
-    await connect(web3ModalConfig);
+    await connect();
+  };
+
+  const handleDisconnect = async () => {
+    if (wallet !== null) {
+      await disconnect(wallet);
+    }
   };
 
   const handleOpen = useCallback(() => {
@@ -51,16 +58,16 @@ export const WalletButton = () => {
   }, [setIsShow]);
 
   const copyAddress = () => {
-    void navigator.clipboard.writeText(account || "");
+    void navigator.clipboard.writeText(walletAddress || "");
   };
 
   useOutsideClick(walletButtonContainerReference, handleClose);
 
-  const explorerUrl = getExplorerUrl(PathType.address, chainId, account);
+  const explorerUrl = getExplorerUrl(PathType.address, chainId, walletAddress);
 
-  const avatar = account ? makeBlockie(account) : "";
+  const avatar = wallet ? makeBlockie(walletAddress) : "";
 
-  if (!account) {
+  if (!wallet) {
     return (
       <WalletConnectedButton onClick={handleConnect}>
         Connect Wallet
@@ -73,7 +80,7 @@ export const WalletButton = () => {
       <WalletConnectedButton onClick={handleOpen}>
         <ButtonContentContainer>
           <WalletAddressAvatar alt="" src={avatar} />
-          {addressFormatter(account)}
+          {addressFormatter(walletAddress)}
           <ArrowIcon up={isShow} />
         </ButtonContentContainer>
       </WalletConnectedButton>
@@ -86,10 +93,12 @@ export const WalletButton = () => {
             <WalletInfoAddress>
               <WalletInfoAddressAvatar alt="" src={avatar} />
               <WalletInfoAddressText>
-                {addressFormatter(account)}
+                {addressFormatter(walletAddress)}
               </WalletInfoAddressText>
             </WalletInfoAddress>
-            <DisconnectAction onClick={disconnect}>DISCONNECT</DisconnectAction>
+            <DisconnectAction onClick={handleDisconnect}>
+              DISCONNECT
+            </DisconnectAction>
           </SubContainer>
           <Separator />
           <SubContainer>

@@ -1,7 +1,7 @@
-import { useWallet } from "@gimmixorg/use-wallet";
 import { useCallback } from "react";
 import Big from "big.js";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
 import {
   useBasicModalConfig,
@@ -61,7 +61,7 @@ export const WithdrawMainButton = () => {
     runClosePositionAndWithdrawImmediately,
   } = useLongModalMutations();
 
-  const { account } = useWallet();
+  const { wallet } = useWallet();
 
   const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};
@@ -202,7 +202,7 @@ export const WithdrawMainButton = () => {
     !currentTokenData ||
     !isInputValueValid;
 
-  if (!account) {
+  if (!wallet) {
     return <ConnectWalletMainButton />;
   }
 

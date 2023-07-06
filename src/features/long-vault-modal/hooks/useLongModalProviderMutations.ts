@@ -1,9 +1,9 @@
-import { useWallet } from "@gimmixorg/use-wallet";
 import { useMutation } from "react-query";
 import { useCallback, useState } from "react";
 import { constants } from "ethers";
 import Big from "big.js";
 
+import { useWallet } from "../../wallet/hooks";
 import type { LongModalMutations } from "../types";
 import type { MutationError } from "../../index-vault-modal/types";
 import { chainsMap } from "../../wallet/constants";
@@ -27,7 +27,7 @@ import { quoteExactOutputSingle } from "../helpers";
 import { useLongModalConfig } from "./useLongModalConfig";
 
 export const useLongModalProviderMutations = (): LongModalMutations => {
-  const { account } = useWallet();
+  const { wallet, walletAddress } = useWallet();
 
   const {
     walletProvider,
@@ -229,7 +229,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
   ]);
 
   const runCancelPendingPositionMutation = useCallback(async () => {
-    if (!walletProvider || !account) {
+    if (!walletProvider || !wallet) {
       return false;
     }
 
@@ -267,7 +267,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
-    account,
+    wallet,
     basicVaultAddress,
     lendingPoolAddress,
     spenderAddress,
@@ -275,7 +275,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
   ]);
 
   const runClosePositionAndWithdrawMutation = useCallback(async () => {
-    if (!walletProvider || !account) {
+    if (!walletProvider || !wallet) {
       return false;
     }
 
@@ -287,7 +287,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     const methodName = "closeVaultAndWithdrawPosition(address,address,address)";
 
     const closePositionParameters = [
-      account,
+      walletAddress,
       basicVaultAddress,
       lendingPoolAddress,
     ] as const;
@@ -318,7 +318,8 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
-    account,
+    wallet,
+    walletAddress,
     basicVaultAddress,
     lendingPoolAddress,
     spenderAddress,
@@ -328,7 +329,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
   const runClosePositionAndWithdrawImmediatelyMutation =
     // eslint-disable-next-line complexity
     useCallback(async () => {
-      if (!walletProvider || !account) {
+      if (!walletProvider || !walletAddress) {
         return false;
       }
 
@@ -372,7 +373,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
         "closeVaultAndWithdrawPosition(address,address,address,uint256)";
 
       const closePositionImmediatelyParameters = [
-        account,
+        walletAddress,
         basicVaultAddress,
         lendingPoolAddress,
         maxCollateralToUse.toString(),
@@ -382,7 +383,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
         "closeVaultAndWithdrawPosition(address,address,address)";
 
       const closePositionParameters = [
-        account,
+        walletAddress,
         basicVaultAddress,
         lendingPoolAddress,
       ] as const;
@@ -437,7 +438,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
       return true;
     }, [
-      account,
+      walletAddress,
       basicVaultAddress,
       lendingPoolAddress,
       spenderAddress,

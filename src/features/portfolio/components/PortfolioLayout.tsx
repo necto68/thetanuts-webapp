@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { PortfolioTabs } from "./PortfolioTabs";
 import {
@@ -9,14 +9,14 @@ import {
 } from "./PortfolioLayout.styles";
 
 export const PortfolioLayout = () => {
-  const { account } = useWallet();
+  const { wallet } = useWallet();
 
   return (
     <Container>
       <TitleContainer>
         <Title>Portfolio</Title>
       </TitleContainer>
-      {account ? (
+      {wallet ? (
         <PortfolioTabs />
       ) : (
         <TitleContainer>

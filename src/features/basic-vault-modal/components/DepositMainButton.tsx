@@ -1,4 +1,3 @@
-import { useWallet } from "@gimmixorg/use-wallet";
 import { useCallback } from "react";
 import Big from "big.js";
 
@@ -27,6 +26,11 @@ import { getLongVaultContractsTitle } from "../../table/helpers";
 import { useVaultModalState } from "../../modal/hooks";
 import { VaultModalType } from "../../root/types";
 import { ModalContentType } from "../../index-vault-modal/types";
+import { useWallet } from "../../wallet/hooks";
+import { PriceItmMainButton } from "../../modal/components/PriceItmMainButton";
+import { VaultStatus } from "../types";
+import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
+import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -63,14 +67,20 @@ export const DepositMainButton = () => {
     runOpenPositionImmediately,
   } = useLongModalMutations();
 
-  const { account } = useWallet();
+  const { wallet } = useWallet();
 
   const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
   const {
+    id = "",
     type = VaultType.CALL,
     basicVaultType = BasicVaultType.BASIC,
     assetSymbol = "",
     collateralSymbol = "",
+    assetPrice = 0,
+    strikePrices = [0],
+    isSettled = false,
+    isExpired = false,
+    isAllowInteractions = false,
   } = data ?? {};
 
   const { data: longVaultReaderData } = longVaultReaderQuery;
@@ -81,6 +91,9 @@ export const DepositMainButton = () => {
 
   const { data: longOptionReaderData } = longOptionReaderQuery;
   const { contractsToBorrow = null } = longOptionReaderData ?? {};
+
+  const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
+  const isActiveEpochStatus = vaultStatus === VaultStatus.ACTIVE_EPOCH;
 
   const isLongVault = basicVaultType === BasicVaultType.LONG;
   const isLongOptionModal = vaultType === VaultModalType.longTrade;
@@ -183,7 +196,17 @@ export const DepositMainButton = () => {
   const isMainButtonDisabled =
     isInputNotReady || isLongOptionMainButtonDisabled;
 
-  if (!account) {
+  const isPriceITM =
+    (type === VaultType.CALL && strikePrices[0] < assetPrice) ||
+    (type === VaultType.PUT && strikePrices[0] > assetPrice);
+
+  const isShowPriceITMError =
+    isActiveEpochStatus &&
+    basicVaultType === BasicVaultType.BASIC &&
+    !basicVaultsIdsThatSupportDepositor.includes(id) &&
+    isPriceITM;
+
+  if (!wallet) {
     return <ConnectWalletMainButton />;
   }
 
@@ -198,6 +221,10 @@ export const DepositMainButton = () => {
 
   if (isError && error) {
     return <ErrorMainButton error={error} onClick={handleResetButtonClick} />;
+  }
+
+  if (isShowPriceITMError) {
+    return <PriceItmMainButton />;
   }
 
   if (

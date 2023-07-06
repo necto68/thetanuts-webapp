@@ -1,15 +1,14 @@
-import { useWallet } from "@gimmixorg/use-wallet";
-
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { ChainSelect, WalletButton } from "../../wallet/components";
 
 import { Container, ButtonsContainer } from "./HeaderButtons.styles";
 
 export const HeaderButtons = () => {
-  const { network } = useWallet();
+  const { wallet } = useWallet();
 
   return (
     <Container>
-      {network ? (
+      {wallet ? (
         <ButtonsContainer>
           <ChainSelect />
           <WalletButton />

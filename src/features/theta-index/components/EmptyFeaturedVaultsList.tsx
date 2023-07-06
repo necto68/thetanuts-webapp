@@ -1,16 +1,13 @@
-import { useWallet } from "@gimmixorg/use-wallet";
-
-import type { ChainId } from "../../wallet/constants";
+import { useWallet } from "../../wallet/hooks";
 import { chainsMap } from "../../wallet/constants";
 
 import { Container } from "./FeaturedIndexVaultsList.styles";
 import { Description } from "./ThetaIndexLayout.styles";
 
 export const EmptyFeaturedVaultsList = () => {
-  const { network } = useWallet();
-  const chainId: ChainId | undefined = network?.chainId;
+  const { walletChainId } = useWallet();
 
-  const chainTitle = chainId ? chainsMap[chainId].title : null;
+  const chainTitle = chainsMap[walletChainId].title;
 
   return (
     <Container>

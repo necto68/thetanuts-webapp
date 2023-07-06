@@ -1,7 +1,6 @@
-import { useWallet } from "@gimmixorg/use-wallet";
 import { useCallback } from "react";
 
-import { web3ModalConfig } from "../../wallet/constants";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { ModalMainButton } from "./ModalMainButton.styles";
 
@@ -9,7 +8,7 @@ export const ConnectWalletMainButton = () => {
   const { connect } = useWallet();
 
   const handleConnectWalletButtonClick = useCallback(async () => {
-    await connect(web3ModalConfig);
+    await connect();
   }, [connect]);
 
   return (
