@@ -22,10 +22,13 @@ import {
 import { BasicVaultType } from "../../basic/types";
 import { VaultType } from "../../basic-vault/types";
 import { getLongVaultContractsTitle } from "../../table/helpers";
+import { useWallet } from "../../wallet/hooks";
+import { PriceItmMainButton } from "../../modal/components/PriceItmMainButton";
+import { VaultStatus } from "../types";
+import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
+import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
-
-import { useWallet } from "../../wallet/hooks/useWallet";
 
 // eslint-disable-next-line complexity
 export const DepositMainButton = () => {
@@ -60,10 +63,16 @@ export const DepositMainButton = () => {
 
   const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
   const {
+    id = "",
     type = VaultType.CALL,
     basicVaultType = BasicVaultType.BASIC,
     assetSymbol = "",
     collateralSymbol = "",
+    assetPrice = 0,
+    strikePrices = [0],
+    isSettled = false,
+    isExpired = false,
+    isAllowInteractions = false,
   } = data ?? {};
 
   const { data: longVaultReaderData } = longVaultReaderQuery;
@@ -72,7 +81,9 @@ export const DepositMainButton = () => {
   const { data: collateralAssetData } = collateralAssetQuery;
   const { availableLeverage = 1 } = collateralAssetData ?? {};
 
+  const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
   const isLongVault = basicVaultType === BasicVaultType.LONG;
+  const isActiveEpochStatus = vaultStatus === VaultStatus.ACTIVE_EPOCH;
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [
@@ -157,6 +168,16 @@ export const DepositMainButton = () => {
   const isMainButtonDisabled =
     isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
 
+  const isPriceITM =
+    (type === VaultType.CALL && strikePrices[0] < assetPrice) ||
+    (type === VaultType.PUT && strikePrices[0] > assetPrice);
+
+  const isShowPriceITMError =
+    isActiveEpochStatus &&
+    basicVaultType === BasicVaultType.BASIC &&
+    !basicVaultsIdsThatSupportDepositor.includes(id) &&
+    isPriceITM;
+
   if (!wallet) {
     return <ConnectWalletMainButton />;
   }
@@ -172,6 +193,10 @@ export const DepositMainButton = () => {
 
   if (isError && error) {
     return <ErrorMainButton error={error} onClick={handleResetButtonClick} />;
+  }
+
+  if (isShowPriceITMError) {
+    return <PriceItmMainButton />;
   }
 
   if (
