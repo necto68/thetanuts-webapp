@@ -35,7 +35,6 @@ export const WalletButton = () => {
   const { wallet, connect, disconnect, walletAddress, walletChainId } =
     useWallet();
 
-  // use ETHEREUM as default chainId
   let chainId = walletChainId;
   chainId = chainId in chainsMap ? chainId : ChainId.ETHEREUM;
 
