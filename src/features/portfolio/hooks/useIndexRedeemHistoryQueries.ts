@@ -1,5 +1,5 @@
 import { useQueries } from "react-query";
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { indexVaultsMap } from "../../theta-index/constants";
 import { chainsMap, chainProvidersMap, ChainId } from "../../wallet/constants";
@@ -8,7 +8,7 @@ import { QueryType } from "../../shared/types";
 import { indexRedeemHistoryFetcher } from "../helpers/indexRedeemHistoryFetcher";
 
 export const useIndexRedeemHistoryQueries = (indexVaultIds: string[]) => {
-  const { account = "" } = useWallet();
+  const { walletAddress } = useWallet();
 
   const indexVaultsQueries = useIndexVaults(indexVaultIds);
 
@@ -38,7 +38,7 @@ export const useIndexRedeemHistoryQueries = (indexVaultIds: string[]) => {
           indexTokenAddress,
           indexVaultAddress,
           directWithdrawalAddress,
-          account,
+          walletAddress,
         ],
 
         queryFn: async () =>
@@ -48,7 +48,7 @@ export const useIndexRedeemHistoryQueries = (indexVaultIds: string[]) => {
             indexVaultAddress,
             directWithdrawalAddress,
             provider,
-            account
+            walletAddress
           ),
 
         enabled: Boolean(data),

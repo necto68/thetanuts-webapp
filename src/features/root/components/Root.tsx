@@ -10,7 +10,6 @@ import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
 import { CurrentDateProvider } from "../../basic-vault/providers";
 import { RouterPathname } from "../types";
-import { useWalletAutoConnect } from "../hooks";
 import { useIsTablet } from "../../shared/hooks";
 import { useSidebarState } from "../../sidebar/hooks";
 
@@ -41,8 +40,6 @@ export const Root = () => {
       toggleIsShow();
     }
   };
-
-  useWalletAutoConnect();
 
   return (
     <CurrentDateProvider>

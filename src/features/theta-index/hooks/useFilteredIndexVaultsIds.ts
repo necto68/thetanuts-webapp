@@ -1,10 +1,12 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useConnectWallet } from "@web3-onboard/react";
 
 import { indexVaults } from "../constants";
 
 export const useFilteredIndexVaultsIds = () => {
-  const { network } = useWallet();
-  const chainId = network?.chainId;
+  const [{ wallet }] = useConnectWallet();
+  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+
+  const chainId = currentChainId;
 
   const filteredIndexVaults = indexVaults.filter(({ source }) =>
     chainId ? source.chainId === chainId : true

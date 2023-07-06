@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { useIndexVault } from "../../index-vault/hooks";
 import { indexVaultsMap } from "../../theta-index/constants";
@@ -9,7 +9,8 @@ import { useVaultModalState } from "../../modal/hooks";
 export const useSwapRouterConfig = () => {
   const [{ vaultId, contentType }] = useVaultModalState();
   const indexVaultQuery = useIndexVault(vaultId);
-  const { account, network, provider: walletProvider } = useWallet();
+
+  const { wallet, walletChainId, walletProvider } = useWallet();
 
   const { data } = indexVaultQuery;
   const {
@@ -30,14 +31,11 @@ export const useSwapRouterConfig = () => {
     source: {},
   };
 
-  const walletChainId: ChainId = network?.chainId ?? 0;
   const isUserOnSupportedChainId = Boolean(
-    account && network && supportedChainIds.includes(walletChainId)
+    wallet && supportedChainIds.includes(walletChainId)
   );
 
-  const isUserOnMainChainId = Boolean(
-    account && network && mainChainId === walletChainId
-  );
+  const isUserOnMainChainId = Boolean(wallet && mainChainId === walletChainId);
 
   const tokenReplication = replications.find(
     ({ chainId }) => chainId === walletChainId

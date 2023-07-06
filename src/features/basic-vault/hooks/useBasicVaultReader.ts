@@ -1,4 +1,4 @@
-import { useWallet } from "@gimmixorg/use-wallet";
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { useQuery } from "react-query";
 
 import { QueryType } from "../../shared/types";
@@ -8,7 +8,7 @@ import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
 
 export const useBasicVaultReader = (basicVaultId: string) => {
-  const { account = "" } = useWallet();
+  const { walletAddress } = useWallet();
 
   const basicVaultConfig = basicVaultsMap[basicVaultId];
 
@@ -27,7 +27,7 @@ export const useBasicVaultReader = (basicVaultId: string) => {
       QueryType.basicVaultReader,
       basicVaultId,
       basicVaultType,
-      account,
+      walletAddress,
     ],
 
     queryFn: async () =>
@@ -36,7 +36,7 @@ export const useBasicVaultReader = (basicVaultId: string) => {
         basicVaultType,
         basicVaultAddress,
         basicVaultReaderAddress,
-        account,
+        walletAddress,
         provider
       ),
   });

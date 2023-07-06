@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { useWallet } from "@gimmixorg/use-wallet";
 import Big from "big.js";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
@@ -36,7 +36,7 @@ export const PendingDepositMainButton = () => {
     runCancelPendingPosition,
   } = useLongModalMutations();
 
-  const { account } = useWallet();
+  const { wallet } = useWallet();
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [cancelDepositMutation, cancelPendingPositionMutation];
@@ -90,7 +90,7 @@ export const PendingDepositMainButton = () => {
   const handleMainButtonClick = mainButtonClickHandlers[basicVaultType];
 
   const isShow =
-    account &&
+    wallet &&
     walletChainId === basicVaultChainId &&
     !isBasicVaultLoading &&
     tokenData &&

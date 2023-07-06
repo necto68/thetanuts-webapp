@@ -8,7 +8,6 @@ export const switchToChain = async (
   provider: Web3Provider | undefined
 ) => {
   const chainIdHex = `0x${chainId.toString(16)}`;
-
   try {
     await provider?.send("wallet_switchEthereumChain", [
       {

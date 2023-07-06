@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { useWallet } from "@gimmixorg/use-wallet";
 import LogRocket from "logrocket";
 import setupLogRocketReact from "logrocket-react";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { isTestEnvironment } from "../../shared/constants";
 import { logRocketId } from "../constants";
 
 export const useInitLogRocket = () => {
-  const { account } = useWallet();
+  const { wallet, walletAddress } = useWallet();
 
   useEffect(() => {
     if (!isTestEnvironment) {
@@ -17,10 +17,10 @@ export const useInitLogRocket = () => {
   }, []);
 
   useEffect(() => {
-    if (!isTestEnvironment && account) {
-      LogRocket.identify(account, {
-        walletAddress: account,
+    if (!isTestEnvironment && wallet) {
+      LogRocket.identify(walletAddress, {
+        walletAddress,
       });
     }
-  }, [account]);
+  }, [wallet, walletAddress]);
 };
