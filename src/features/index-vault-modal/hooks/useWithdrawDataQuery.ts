@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { withdrawalDataFetcher } from "../helpers/withdrawDataFetcher";
 import { ModalContentType } from "../types";
@@ -22,8 +22,8 @@ export const useWithdrawDataQuery = () => {
   const [{ contentType }] = useVaultModalState();
 
   // Define user account.
-  const [{ wallet }] = useConnectWallet();
-  const walletAddress = wallet?.accounts[0]?.address ?? "";
+
+  const { wallet, walletAddress } = useWallet();
 
   // Define vault query data.
   const { data } = indexVaultQuery;

@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { useVaultModalState } from "../../modal/hooks";
 import { useBasicVault, useBasicVaultReader } from "../../basic-vault/hooks";
@@ -13,11 +13,7 @@ export const useBasicModalConfig = () => {
   const basicVaultQuery = useBasicVault(vaultId);
   const basicVaultReaderQuery = useBasicVaultReader(vaultId);
 
-  const [{ wallet }] = useConnectWallet();
-  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
-  const walletProvider = wallet?.provider
-    ? new ethers.providers.Web3Provider(wallet.provider as any)
-    : undefined;
+  const { walletChainId, walletProvider } = useWallet();
 
   const { data } = basicVaultQuery;
   const {
@@ -27,7 +23,6 @@ export const useBasicModalConfig = () => {
     basicVaultType = BasicVaultType.BASIC,
     collateralTokenAddress = "",
   } = data ?? {};
-  const walletChainId: ChainId = currentChainId ?? 0;
 
   const {
     routerAddress,

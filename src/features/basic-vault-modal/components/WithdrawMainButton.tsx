@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { useCallback } from "react";
 import Big from "big.js";
 
@@ -53,7 +53,7 @@ export const WithdrawMainButton = () => {
   const { closePositionAndWithdrawMutation, runClosePositionAndWithdraw } =
     useLongModalMutations();
 
-  const [{ wallet }] = useConnectWallet();
+  const { wallet } = useWallet();
 
   const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
   const { basicVaultType = BasicVaultType.BASIC } = data ?? {};

@@ -1,17 +1,13 @@
-import { useConnectWallet } from "@web3-onboard/react";
-
+import { useWallet } from "../../wallet/hooks/useWallet";
 import type { BasicVaultConfig } from "../types";
 
 export const useFilteredBasicVaultsIds = (
   basicVaultsArray: BasicVaultConfig[]
 ) => {
-  const [{ wallet }] = useConnectWallet();
-  const currentChainId = Number.parseInt(wallet?.chains[0]?.id ?? "0", 16);
+  const { walletChainId } = useWallet();
 
-  const chainId = currentChainId;
-
-  const filteredBasicVaults = basicVaultsArray.filter(({ source }) =>
-    chainId ? source.chainId === chainId : true
+  const filteredBasicVaults = basicVaultsArray.filter(
+    ({ source }) => source.chainId === walletChainId
   );
 
   return filteredBasicVaults.map(({ id }) => id);

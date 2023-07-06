@@ -1,13 +1,12 @@
 import { useQueries } from "react-query";
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { indexTokensFetcher } from "../helpers";
 import { useIndexVaults } from "../../index-vault/hooks";
 import { QueryType } from "../../shared/types";
 
 export const useIndexTokensQueries = (indexVaultIds: string[]) => {
-  const [{ wallet }] = useConnectWallet();
-  const walletAddress = wallet?.accounts[0]?.address ?? "";
+  const { walletAddress } = useWallet();
 
   const indexVaultsQueries = useIndexVaults(indexVaultIds);
 

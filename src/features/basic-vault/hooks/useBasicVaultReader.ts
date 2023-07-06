@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { useQuery } from "react-query";
 
 import { QueryType } from "../../shared/types";
@@ -8,8 +8,7 @@ import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
 
 export const useBasicVaultReader = (basicVaultId: string) => {
-  const [{ wallet }] = useConnectWallet();
-  const walletAddress = wallet?.accounts[0]?.address ?? "";
+  const { walletAddress } = useWallet();
 
   const basicVaultConfig = basicVaultsMap[basicVaultId];
 

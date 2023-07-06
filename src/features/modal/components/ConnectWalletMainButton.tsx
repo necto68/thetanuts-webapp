@@ -1,10 +1,11 @@
 import { useCallback } from "react";
-import { useConnectWallet } from "@web3-onboard/react";
+
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { ModalMainButton } from "./ModalMainButton.styles";
 
 export const ConnectWalletMainButton = () => {
-  const [, connect] = useConnectWallet();
+  const { connect } = useWallet();
 
   const handleConnectWalletButtonClick = useCallback(async () => {
     await connect();

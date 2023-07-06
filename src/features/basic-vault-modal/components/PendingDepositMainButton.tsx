@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import Big from "big.js";
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
@@ -36,7 +36,7 @@ export const PendingDepositMainButton = () => {
     runCancelPendingPosition,
   } = useLongModalMutations();
 
-  const [{ wallet }] = useConnectWallet();
+  const { wallet } = useWallet();
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [cancelDepositMutation, cancelPendingPositionMutation];

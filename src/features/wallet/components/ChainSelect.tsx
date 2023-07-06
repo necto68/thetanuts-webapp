@@ -1,21 +1,19 @@
 import type { FC } from "react";
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../hooks/useWallet";
 
 import type { ChainId } from "../constants";
 import { chainIconSymbols, chains, chainsMap } from "../constants";
 import { SelectOptionButton } from "../../select-option-button/components";
 import { switchToChain } from "../helpers";
-import { ethers } from 'ethers'
+import { ethers } from "ethers";
 interface ChainSelectProps {
   chainIds?: ChainId[];
 }
 
 export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
-  const [{ wallet }] = useConnectWallet();
-  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
-  const walletProvider = wallet?.provider ? new ethers.providers.Web3Provider(wallet.provider as any) : undefined;
+  const { walletChainId, walletProvider } = useWallet();
 
-  const selectedChainId: ChainId | undefined = currentChainId;
+  const selectedChainId: ChainId | undefined = walletChainId;
 
   if (!selectedChainId) {
     return null;

@@ -1,5 +1,5 @@
 import { useQueries } from "react-query";
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { indexVaultsMap } from "../../theta-index/constants";
 import { chainsMap, chainProvidersMap, ChainId } from "../../wallet/constants";
@@ -8,8 +8,7 @@ import { QueryType } from "../../shared/types";
 import { indexWithdrawHistoryFetcher } from "../helpers/indexWithdrawHistoryFetcher";
 
 export const useIndexWithdrawHistoryQueries = (indexVaultIds: string[]) => {
-  const [{ wallet }] = useConnectWallet();
-  const walletAddress = wallet?.accounts[0]?.address ?? "";
+  const { walletAddress } = useWallet();
 
   const indexVaultsQueries = useIndexVaults(indexVaultIds);
 

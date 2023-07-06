@@ -25,7 +25,7 @@ import { getLongVaultContractsTitle } from "../../table/helpers";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 // eslint-disable-next-line complexity
 export const DepositMainButton = () => {
@@ -56,7 +56,7 @@ export const DepositMainButton = () => {
     runOpenPosition,
   } = useLongModalMutations();
 
-  const [{ wallet }, connect, disconnect] = useConnectWallet();
+  const { wallet } = useWallet();
 
   const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
   const {

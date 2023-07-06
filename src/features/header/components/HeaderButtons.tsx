@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { ChainSelect, WalletButton } from "../../wallet/components";
 
@@ -12,7 +12,7 @@ import {
 } from "./HeaderButtons.styles";
 
 export const HeaderButtons = () => {
-  const [{ wallet }] = useConnectWallet();
+  const { wallet } = useWallet();
 
   return (
     <Container>

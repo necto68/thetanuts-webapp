@@ -1,6 +1,6 @@
 import type { Provider } from "@ethersproject/providers";
 import { useQuery } from "react-query";
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { tokenFetcher } from "../helpers";
 import { QueryType } from "../../shared/types";
@@ -10,8 +10,7 @@ export const useTokenQuery = (
   spenderAddress: string,
   provider: Provider
 ) => {
-  const [{ wallet }] = useConnectWallet();
-  const walletAddress = wallet?.accounts[0]?.address ?? "";
+  const { walletAddress } = useWallet();
 
   return useQuery({
     queryKey: [QueryType.token, tokenAddress, spenderAddress, walletAddress],

@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { useMutation } from "react-query";
 import { useCallback, useState } from "react";
 import { constants } from "ethers";
@@ -24,8 +24,7 @@ import {
 import { useLongModalConfig } from "./useLongModalConfig";
 
 export const useLongModalProviderMutations = (): LongModalMutations => {
-  const [{ wallet }] = useConnectWallet();
-  const walletAddress = wallet?.accounts[0]?.address ?? "";
+  const { wallet, walletAddress } = useWallet();
 
   const { walletProvider, basicVaultAddress, spenderAddress } =
     useBasicModalConfig();

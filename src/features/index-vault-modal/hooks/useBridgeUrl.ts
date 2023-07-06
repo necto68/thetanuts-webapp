@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { ChainId } from "../../wallet/constants";
 import { TokenSymbol } from "../types/tokenSymbol";
@@ -53,10 +53,9 @@ export const getBridgeByChainAndSymbol = (chain: number, symbol: string) => {
 };
 
 export const useBridgeUrl = () => {
-  const [{ wallet }] = useConnectWallet();
-  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+  const { walletChainId } = useWallet();
 
-  const chainId = currentChainId ?? ChainId.ETHEREUM;
+  const chainId = walletChainId ?? ChainId.ETHEREUM;
 
   const { sourceData } = useSwapRouterState();
   const { symbol = TokenSymbol.ETH } = sourceData ?? {};

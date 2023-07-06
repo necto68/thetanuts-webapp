@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
@@ -24,7 +24,7 @@ export const PendingWithdrawMainButton = () => {
     runWithdraw,
   } = useBasicModalMutations();
 
-  const [{ wallet }] = useConnectWallet();
+  const { wallet } = useWallet();
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [cancelWithdrawMutation, withdrawMutation];

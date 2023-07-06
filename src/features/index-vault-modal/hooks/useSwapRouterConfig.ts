@@ -1,21 +1,16 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { useIndexVault } from "../../index-vault/hooks";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { useVaultModalState } from "../../modal/hooks";
-import { ethers } from "ethers";
 
 // eslint-disable-next-line complexity
 export const useSwapRouterConfig = () => {
   const [{ vaultId, contentType }] = useVaultModalState();
   const indexVaultQuery = useIndexVault(vaultId);
 
-  const [{ wallet }] = useConnectWallet();
-  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
-  const walletProvider = wallet?.provider
-    ? new ethers.providers.Web3Provider(wallet.provider as any)
-    : undefined;
+  const { wallet, walletChainId, walletProvider } = useWallet();
 
   const { data } = indexVaultQuery;
   const {
@@ -36,7 +31,6 @@ export const useSwapRouterConfig = () => {
     source: {},
   };
 
-  const walletChainId: ChainId = currentChainId ?? 0;
   const isUserOnSupportedChainId = Boolean(
     wallet && supportedChainIds.includes(walletChainId)
   );

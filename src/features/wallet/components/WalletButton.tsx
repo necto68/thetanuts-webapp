@@ -11,7 +11,7 @@ import { Explorer } from "../../shared/icons/Explorer";
 import { getExplorerUrl } from "../helpers";
 import { PathType } from "../types";
 
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../hooks/useWallet";
 
 import {
   ButtonContentContainer,
@@ -32,13 +32,11 @@ import {
 export const WalletButton = () => {
   const [isShow, setIsShow] = useState(false);
 
-  const [{ wallet }, connect, disconnect] = useConnectWallet();
-  const walletAddress = wallet?.accounts[0]?.address ?? "";
-  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+  const { wallet, connect, disconnect, walletAddress, walletChainId } =
+    useWallet();
 
   // use ETHEREUM as default chainId
-  // let chainId = network?.chainId ?? ChainId.ETHEREUM;
-  let chainId = currentChainId;
+  let chainId = walletChainId;
   chainId = chainId in chainsMap ? chainId : ChainId.ETHEREUM;
 
   const walletButtonContainerReference = useRef(null);

@@ -3,6 +3,7 @@ import injectedModule, { ProviderLabel } from "@web3-onboard/injected-wallets";
 import walletConnectModule from "@web3-onboard/walletconnect";
 import coinbaseWalletModule from "@web3-onboard/coinbase";
 
+import { walletConnectProjectId } from "./environment";
 import { chains } from "./chains";
 
 const rpc = chains.map(({ chainId, urls }) => ({
@@ -19,7 +20,7 @@ const walletConnect = walletConnectModule({
     console.log(uri);
     return Promise.resolve();
   },
-  projectId: "800f916e0fe9421fb73c01c96cdda221",
+  projectId: walletConnectProjectId,
   requiredChains: chainArray,
 });
 
@@ -42,6 +43,7 @@ export const web3Onboard = init({
   connect: {
     removeWhereIsMyWalletWarning: true,
     showSidebar: false,
+    autoConnectLastWallet: true,
   },
   accountCenter: {
     desktop: {

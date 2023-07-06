@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 
 import { PortfolioTabs } from "./PortfolioTabs";
 import {
@@ -9,8 +9,7 @@ import {
 } from "./PortfolioLayout.styles";
 
 export const PortfolioLayout = () => {
-  const [{ wallet }, connect, disconnect] = useConnectWallet();
-  const walletAddress = wallet?.accounts[0]?.address ?? "";
+  const { wallet } = useWallet();
 
   return (
     <Container>

@@ -1,4 +1,4 @@
-import { useConnectWallet } from "@web3-onboard/react";
+import { useWallet } from "../../wallet/hooks/useWallet";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import Big from "big.js";
@@ -63,7 +63,7 @@ export const SwapButton: FC<SwapButtonProps> = ({
 
   const { claimableBalance = "", fullyClaimed = false } = withdrawData ?? {};
 
-  const [{ wallet }] = useConnectWallet();
+  const { wallet } = useWallet();
 
   const [isDirectModeBetterIgnore, setIsDirectModeBetterIgnore] =
     useState(false);
