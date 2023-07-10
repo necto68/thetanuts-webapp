@@ -1,4 +1,3 @@
-import { useWallet } from "@gimmixorg/use-wallet";
 import { useCallback } from "react";
 import Big from "big.js";
 
@@ -17,6 +16,7 @@ import { LoadingMainButton } from "../../modal/components/LoadingMainButton";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
 import { resetMutations } from "../../basic-vault-modal/helpers";
 import { SwitchToChainIdMainButton } from "../../basic-vault-modal/components/SwitchToChainIdMainButton";
+import { useWallet } from "../../wallet/hooks";
 
 // eslint-disable-next-line complexity
 export const BoostMainButton = () => {
@@ -38,7 +38,7 @@ export const BoostMainButton = () => {
     runBoost,
   } = useBoostModalMutations();
 
-  const { account } = useWallet();
+  const { walletAddress } = useWallet();
 
   const { isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
 
@@ -77,7 +77,7 @@ export const BoostMainButton = () => {
   const isMainButtonDisabled =
     isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
 
-  if (!account) {
+  if (!walletAddress) {
     return <ConnectWalletMainButton />;
   }
 

@@ -1,4 +1,3 @@
-import { useWallet } from "@gimmixorg/use-wallet";
 import { useQuery } from "react-query";
 
 import { QueryType } from "../../shared/types";
@@ -6,12 +5,13 @@ import { longVaultsMap } from "../../basic/constants";
 import { BasicVaultType } from "../../basic/types";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { longOptionReaderFetcher } from "../helpers";
+import { useWallet } from "../../wallet/hooks";
 
 export const useLongOptionReader = (
   basicVaultId: string,
   inputValue: string
 ) => {
-  const { account = "" } = useWallet();
+  const { walletAddress } = useWallet();
 
   const longVaultConfig = longVaultsMap[basicVaultId];
 
@@ -30,7 +30,7 @@ export const useLongOptionReader = (
       QueryType.longOptionReader,
       basicVaultId,
       basicVaultType,
-      account,
+      walletAddress,
       inputValue,
     ],
 
@@ -41,7 +41,7 @@ export const useLongOptionReader = (
         basicVaultAddress,
         longVaultPositionManagerAddress,
         quoterAddress,
-        account,
+        walletAddress,
         provider,
         inputValue
       ),
