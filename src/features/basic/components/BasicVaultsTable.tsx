@@ -130,12 +130,12 @@ const columns: Column<BasicVault>[] = [
         {/* TODO: remove for stMATIC vault */}
         {id === "TN-CSCCv1-STMATICUSD" ? (
           <Tooltip
-            content="Reward APY"
+            content="Reward APY (if Vault is full)"
             id={`${id}-reward`}
             place="top"
             root={
               <RewardAPYContainer>
-                <GreenCellValue>+20%</GreenCellValue>
+                <GreenCellValue>+40%</GreenCellValue>
                 <IconContainer height={16} width={16}>
                   {getLogoBySymbol(chainIconSymbols[ChainId.ZK_EVM])}
                 </IconContainer>
