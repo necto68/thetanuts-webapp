@@ -15,9 +15,6 @@ export const HeaderButtons = () => {
 
   return (
     <Container>
-      {/* <SwitchToV0ButtonContainer>
-        <SwitchToV0Button />
-      </SwitchToV0ButtonContainer> */}
       {wallet ? (
         <ButtonsContainer>
           <ChainSelect />

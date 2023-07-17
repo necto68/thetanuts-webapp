@@ -4,7 +4,7 @@ import { indexVaults } from "../constants";
 
 export const useFilteredIndexVaultsIds = () => {
   const [{ wallet }] = useConnectWallet();
-  const currentChainId = parseInt(wallet?.chains?.[0]?.id ?? "0", 16);
+  const currentChainId = Number.parseInt(wallet?.chains[0]?.id ?? "0", 16);
 
   const chainId = currentChainId;
 

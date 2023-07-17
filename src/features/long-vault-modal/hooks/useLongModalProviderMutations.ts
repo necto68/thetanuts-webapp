@@ -251,11 +251,12 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
+    walletProvider,
+    wallet,
+    spenderAddress,
     walletAddress,
     basicVaultAddress,
     lendingPoolAddress,
-    spenderAddress,
-    walletProvider,
   ]);
 
   const handleMutationSuccess = useCallback(async () => {

@@ -12,7 +12,6 @@ import {
   ExpandDescriptionLink,
 } from "../../theta-index/components/ThetaIndexLayout.styles";
 
-import { FeaturedBasicVaultsList } from "./FeaturedBasicVaultsList";
 import { BasicVaultsTable } from "./BasicVaultsTable";
 
 export const BasicLayout = () => {
@@ -70,8 +69,6 @@ export const BasicLayout = () => {
           )}
         </DescriptionContainer>
       </ContentContainer>
-      {/* <Title>Featured Basic Vaults</Title> */}
-      {/* <FeaturedBasicVaultsList /> */}
       <BasicVaultsTable />
     </Container>
   );
