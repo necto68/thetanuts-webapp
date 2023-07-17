@@ -1,6 +1,6 @@
 import { useQueries } from "react-query";
-import { useWallet } from "../../wallet/hooks/useWallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { collateralAssetsMap } from "../constants";
 import { ChainId, chainProvidersMap } from "../../wallet/constants";
 import { collateralAssetFetcher } from "../helpers";

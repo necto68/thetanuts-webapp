@@ -1,9 +1,9 @@
-import { useWallet } from "../../wallet/hooks/useWallet";
 import { useMutation } from "react-query";
 import { useCallback, useState } from "react";
 import { constants } from "ethers";
 import Big from "big.js";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import type { LongModalMutations } from "../types";
 import type { MutationError } from "../../index-vault-modal/types";
 import {
@@ -201,11 +201,11 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
-    walletAddress,
+    walletProvider,
+    wallet,
+    spenderAddress,
     basicVaultAddress,
     lendingPoolAddress,
-    spenderAddress,
-    walletProvider,
   ]);
 
   const runClosePositionAndWithdrawMutation = useCallback(async () => {
@@ -251,11 +251,12 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
+    walletProvider,
+    wallet,
+    spenderAddress,
     walletAddress,
     basicVaultAddress,
     lendingPoolAddress,
-    spenderAddress,
-    walletProvider,
   ]);
 
   const handleMutationSuccess = useCallback(async () => {

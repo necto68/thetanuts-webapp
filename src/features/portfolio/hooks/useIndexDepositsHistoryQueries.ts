@@ -1,6 +1,6 @@
 import { useQueries } from "react-query";
-import { useWallet } from "../../wallet/hooks/useWallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { indexDepositsHistoryFetcher } from "../helpers";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { chainsMap, chainProvidersMap, ChainId } from "../../wallet/constants";

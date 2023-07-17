@@ -22,7 +22,7 @@ export const AppSidebarLogo = () => {
   };
 
   return (
-    <LogoLink onClick={closeSidebar} to={PagePathname.thetaIndex}>
+    <LogoLink onClick={closeSidebar} to={PagePathname.basic}>
       <Container>
         <IconContainer height={21} width={21}>
           <AppLogo />

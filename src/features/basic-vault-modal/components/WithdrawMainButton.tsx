@@ -1,7 +1,7 @@
-import { useWallet } from "../../wallet/hooks/useWallet";
 import { useCallback } from "react";
 import Big from "big.js";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
 import {
   useBasicModalConfig,

@@ -1,10 +1,11 @@
 import { useConnectWallet } from "@web3-onboard/react";
-import { ethers } from "ethers";
-import { ChainId } from "../constants";
+import { Web3Provider } from "@ethersproject/providers";
+
+import type { ChainId } from "../constants";
 
 export const useWallet = () => {
   const [
-    { wallet, connecting },
+    { wallet },
     connect,
     disconnect,
     updateBalances,
@@ -12,10 +13,13 @@ export const useWallet = () => {
     setPrimaryWallet,
   ] = useConnectWallet();
 
-  const walletChainId: ChainId = Number.parseInt(wallet?.chains[0]?.id ?? "0", 16);
+  const walletChainId: ChainId = Number.parseInt(
+    wallet?.chains[0]?.id ?? "0",
+    16
+  );
   const walletAddress = wallet?.accounts[0]?.address ?? "";
   const walletProvider = wallet?.provider
-    ? new ethers.providers.Web3Provider(wallet.provider as any)
+    ? new Web3Provider(wallet.provider, "any")
     : undefined;
 
   return {
@@ -27,6 +31,6 @@ export const useWallet = () => {
     setPrimaryWallet,
     walletChainId,
     walletAddress,
-    walletProvider
+    walletProvider,
   };
 };

@@ -1,8 +1,8 @@
-import { useWallet } from "../../wallet/hooks/useWallet";
 import type { FC } from "react";
 import { useCallback, useState } from "react";
 import Big from "big.js";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import {
   useSwapRouterConfig,
   useSwapRouterMutations,

@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
-import { useWallet } from "../../wallet/hooks/useWallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { withdrawalDataFetcher } from "../helpers/withdrawDataFetcher";
 import { ModalContentType } from "../types";
 import { QueryType } from "../../shared/types";

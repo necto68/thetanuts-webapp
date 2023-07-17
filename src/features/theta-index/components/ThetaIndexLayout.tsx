@@ -3,7 +3,6 @@ import { useCallback, useState } from "react";
 import { links } from "../../shared/constants";
 import { useIsMobile } from "../../shared/hooks";
 
-import { FeaturedIndexVaultsList } from "./FeaturedIndexVaultsList";
 import { IndexVaultsTable } from "./IndexVaultsTable";
 import {
   Container,
@@ -71,8 +70,8 @@ export const ThetaIndexLayout = () => {
           )}
         </DescriptionContainer>
       </ContentContainer>
-      <Title>Featured Strongholds</Title>
-      <FeaturedIndexVaultsList />
+      {/* <Title>Featured Strongholds</Title>
+      <FeaturedIndexVaultsList /> */}
       <IndexVaultsTable />
     </Container>
   );

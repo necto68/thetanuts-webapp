@@ -1,5 +1,4 @@
 import { useWallet } from "../../wallet/hooks/useWallet";
-
 import { useIndexVault } from "../../index-vault/hooks";
 import { indexVaultsMap } from "../../theta-index/constants";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";

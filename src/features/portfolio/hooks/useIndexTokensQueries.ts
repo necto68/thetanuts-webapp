@@ -1,6 +1,6 @@
 import { useQueries } from "react-query";
-import { useWallet } from "../../wallet/hooks/useWallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { indexTokensFetcher } from "../helpers";
 import { useIndexVaults } from "../../index-vault/hooks";
 import { QueryType } from "../../shared/types";

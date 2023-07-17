@@ -1,6 +1,6 @@
 import type Big from "big.js";
-import { useWallet } from "../../wallet/hooks/useWallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import type { Column } from "../../table/types";
 import {
   Table,
@@ -149,7 +149,7 @@ export const TransactionHistoryTable = () => {
     });
 
   if (sortedRows.length === 0) {
-    const chainTitle = chainId ? chainsMap[chainId].title : null;
+    const chainTitle = chainsMap[chainId].title;
 
     return (
       <CellValue>

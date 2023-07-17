@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { useWallet } from "../../wallet/hooks/useWallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { ActionMainButton } from "../../modal/components/ActionMainButton";
 import { ErrorMainButton } from "../../modal/components/ErrorMainButton";
 import { ModalMainButton } from "../../modal/components/ModalMainButton.styles";
