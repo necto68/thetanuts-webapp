@@ -267,11 +267,11 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
+    walletProvider,
     wallet,
+    spenderAddress,
     basicVaultAddress,
     lendingPoolAddress,
-    spenderAddress,
-    walletProvider,
   ]);
 
   const runClosePositionAndWithdrawMutation = useCallback(async () => {

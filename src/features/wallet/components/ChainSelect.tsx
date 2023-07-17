@@ -1,6 +1,6 @@
 import type { FC } from "react";
 
-import { useWallet } from "../hooks";
+import { useWallet } from "../hooks/useWallet";
 import type { ChainId } from "../constants";
 import { chainIconSymbols, chains, chainsMap } from "../constants";
 import { SelectOptionButton } from "../../select-option-button/components";
@@ -11,11 +11,11 @@ interface ChainSelectProps {
 }
 
 export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
-  const { walletAddress, walletChainId, walletProvider } = useWallet();
+  const { wallet, walletChainId, walletProvider } = useWallet();
 
   const selectedChainId = walletChainId;
 
-  if (!walletAddress) {
+  if (!wallet) {
     return null;
   }
 

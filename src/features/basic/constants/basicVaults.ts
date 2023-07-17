@@ -56,7 +56,9 @@ export const longVaultsMap: Record<
   longVaults.map((longVault) => [longVault.id, longVault])
 );
 
-// all develop Basic Vaults + BTC and ETH call/put production Basic Vaults
+// all develop Basic Vaults
+// + BTC and ETH call/put production Basic Vaults
+// + stMATIC call production Basic Vault
 // TODO: Remove this when we support depositor for all basic vaults
 export const basicVaultsIdsThatSupportDepositor = developBasicVaults
   .map(({ id }) => id)
@@ -65,4 +67,5 @@ export const basicVaultsIdsThatSupportDepositor = developBasicVaults
     "TN-CSCCv1-BTCUSD-A",
     "TN-CSCPv1-ETHUSD-A",
     "TN-CSCPv1-BTCUSD",
+    "TN-CSCCv1-STMATICUSD",
   ]);

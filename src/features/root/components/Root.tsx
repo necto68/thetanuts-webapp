@@ -122,7 +122,7 @@ export const Root = () => {
                     <PortfolioPage />
                   </Route>
                   <Route>
-                    <Redirect to={RouterPathname.thetaIndex} />
+                    <Redirect to={RouterPathname.basic} />
                   </Route>
                 </Switch>
               </PageContainer>

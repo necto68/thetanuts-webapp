@@ -1,5 +1,5 @@
 import { useConnectWallet } from "@web3-onboard/react";
-import { ethers } from "ethers";
+import { Web3Provider } from "@ethersproject/providers";
 
 import type { ChainId } from "../constants";
 
@@ -19,7 +19,7 @@ export const useWallet = () => {
   );
   const walletAddress = wallet?.accounts[0]?.address ?? "";
   const walletProvider = wallet?.provider
-    ? new ethers.providers.Web3Provider(wallet.provider)
+    ? new Web3Provider(wallet.provider, "any")
     : undefined;
 
   return {

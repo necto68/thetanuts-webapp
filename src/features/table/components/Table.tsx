@@ -76,10 +76,6 @@ export const Table = <RowData extends object>({
 
   const { sortedRows, sortState, updateSort } = useSortBy(filteredRows);
 
-  // const skeletonRows: RowData[] = Array.from({
-  //   length: sortedRows.length > rowsPerPage ? rowsPerPage : sortedRows.length,
-  // });
-
   const { paginatedRows, paginate, paginationConfig } = usePagination(
     sortedRows,
     rowsPerPage
@@ -87,8 +83,6 @@ export const Table = <RowData extends object>({
   const { page: currentPage } = paginationConfig;
 
   const isRowsLoaded = useMemo(() => sortedRows.every(Boolean), [sortedRows]);
-
-  // const currentRows = isRowsLoaded ? paginatedRows : skeletonRows;
 
   return (
     <Container>
