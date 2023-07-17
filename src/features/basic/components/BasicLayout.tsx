@@ -70,8 +70,8 @@ export const BasicLayout = () => {
           )}
         </DescriptionContainer>
       </ContentContainer>
-      <Title>Featured Basic Vaults</Title>
-      <FeaturedBasicVaultsList />
+      {/* <Title>Featured Basic Vaults</Title> */}
+      {/* <FeaturedBasicVaultsList /> */}
       <BasicVaultsTable />
     </Container>
   );

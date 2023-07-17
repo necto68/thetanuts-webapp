@@ -71,8 +71,8 @@ export const ThetaIndexLayout = () => {
           )}
         </DescriptionContainer>
       </ContentContainer>
-      <Title>Featured Strongholds</Title>
-      <FeaturedIndexVaultsList />
+      {/* <Title>Featured Strongholds</Title>
+      <FeaturedIndexVaultsList /> */}
       <IndexVaultsTable />
     </Container>
   );

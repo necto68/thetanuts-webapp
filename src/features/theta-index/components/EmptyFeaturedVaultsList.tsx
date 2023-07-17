@@ -1,5 +1,4 @@
 import { useWallet } from "../../wallet/hooks/useWallet";
-
 import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 
@@ -11,7 +10,7 @@ export const EmptyFeaturedVaultsList = () => {
 
   const chainId: ChainId | undefined = walletChainId;
 
-  const chainTitle = chainId ? chainsMap[chainId].title : null;
+  const chainTitle = chainsMap[chainId].title;
 
   return (
     <Container>

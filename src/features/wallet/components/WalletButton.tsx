@@ -10,7 +10,6 @@ import { Copy } from "../../shared/icons/Copy";
 import { Explorer } from "../../shared/icons/Explorer";
 import { getExplorerUrl } from "../helpers";
 import { PathType } from "../types";
-
 import { useWallet } from "../hooks/useWallet";
 
 import {

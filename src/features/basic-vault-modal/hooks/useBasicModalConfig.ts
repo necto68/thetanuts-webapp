@@ -1,11 +1,9 @@
 import { useWallet } from "../../wallet/hooks/useWallet";
-
 import { useVaultModalState } from "../../modal/hooks";
 import { useBasicVault, useBasicVaultReader } from "../../basic-vault/hooks";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
 import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants/basicVaults";
-import { ethers } from "ethers";
 
 export const useBasicModalConfig = () => {
   const [{ vaultId }] = useVaultModalState();

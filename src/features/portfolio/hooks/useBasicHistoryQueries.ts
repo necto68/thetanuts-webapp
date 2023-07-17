@@ -1,6 +1,6 @@
 import { useQueries } from "react-query";
-import { useWallet } from "../../wallet/hooks/useWallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { chainProvidersMap, ChainId } from "../../wallet/constants";
 import { QueryType } from "../../shared/types";
 import { useBasicVaults } from "../../basic-vault/hooks";

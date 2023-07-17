@@ -1,6 +1,6 @@
-import { useWallet } from "../../wallet/hooks/useWallet";
 import { useQueries } from "react-query";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { QueryType } from "../../shared/types";
 import { basicVaultReaderFetcher } from "../helpers";
 import { basicVaultsMap } from "../../basic/constants";

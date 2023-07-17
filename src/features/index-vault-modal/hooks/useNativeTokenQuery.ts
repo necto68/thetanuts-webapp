@@ -1,7 +1,7 @@
 import type { Provider } from "@ethersproject/providers";
 import { useQuery } from "react-query";
-import { useWallet } from "../../wallet/hooks/useWallet";
 
+import { useWallet } from "../../wallet/hooks/useWallet";
 import { nativeTokenFetcher } from "../helpers";
 import { QueryType } from "../../shared/types";
 
