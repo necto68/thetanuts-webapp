@@ -48,6 +48,7 @@ export interface BasicVault {
   strikePrices: number[];
   percentageYields: PercentageYields;
   annualPercentageYield: number;
+  rewardAnnualPercentageRate: number;
   isSettled: boolean;
   isExpired: boolean;
   isAllowInteractions: boolean;
