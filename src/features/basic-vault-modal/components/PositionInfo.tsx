@@ -39,7 +39,7 @@ export const PositionInfo = () => {
         <InfoContainer>
           <InfoTitle>Reward APY%</InfoTitle>
           <InfoValue isAlignRight>
-            {isLoading ? loadingPlaceholder : "20%"}
+            {isLoading ? loadingPlaceholder : "40%"}
           </InfoValue>
         </InfoContainer>
       ) : null}
