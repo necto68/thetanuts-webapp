@@ -253,7 +253,22 @@ export const basicVaultFetcher = async (
     period
   );
 
+  // getting annual Reward Percentage Yield
+  const totalReward = new Big("23527.277335588715");
+
+  // need to update each epoch
+  const currentEpochRewardMultiplier = new Big(0.2);
+  const currentEpochReward = totalReward.mul(currentEpochRewardMultiplier);
+
+  const rewardPercentageYields = getPercentageYields(
+    id === "TN-CSCCv1-STMATICUSD" ? balance : new Big(0),
+    id === "TN-CSCCv1-STMATICUSD" ? currentEpochReward : new Big(0),
+    period
+  );
+
   const { annualPercentageYield } = percentageYields;
+  const { annualPercentageRate: rewardAnnualPercentageRate } =
+    rewardPercentageYields;
 
   return {
     id,
@@ -280,6 +295,7 @@ export const basicVaultFetcher = async (
     strikePrices,
     percentageYields,
     annualPercentageYield,
+    rewardAnnualPercentageRate,
     isSettled,
     isExpired,
     isAllowInteractions,

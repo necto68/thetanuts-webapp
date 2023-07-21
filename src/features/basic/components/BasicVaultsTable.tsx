@@ -115,7 +115,7 @@ const columns: Column<BasicVault>[] = [
     key: "percentageYields",
     title: "APY",
 
-    render: ({ id, percentageYields }) => (
+    render: ({ id, percentageYields, rewardAnnualPercentageRate }) => (
       <APYCellContainer>
         <Tooltip
           content={
@@ -130,12 +130,12 @@ const columns: Column<BasicVault>[] = [
         {/* TODO: remove for stMATIC vault */}
         {id === "TN-CSCCv1-STMATICUSD" ? (
           <Tooltip
-            content="Reward APY (if Vault is full)"
+            content="Reward APR"
             id={`${id}-reward`}
             place="top"
             root={
               <RewardAPYContainer>
-                <GreenCellValue>+40%</GreenCellValue>
+                <GreenCellValue>{rewardAnnualPercentageRate}%</GreenCellValue>
                 <IconContainer height={16} width={16}>
                   {getLogoBySymbol(chainIconSymbols[ChainId.ZK_EVM])}
                 </IconContainer>
