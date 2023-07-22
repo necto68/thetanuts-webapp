@@ -83,14 +83,8 @@ export const basicVaultFetcher = async (
     vaultContract.priceReader(),
     vaultContract.LINK_AGGREGATOR(),
     vaultContract.collatCap().then(convertToBig),
-
-    // TODO: remove for stMATIC vault
-    id === "TN-CSCCv1-STMATICUSD"
-      ? new Big("122369000000000000000000")
-      : vaultContract.currentEpochAmount().then(convertToBig),
-    id === "TN-CSCCv1-STMATICUSD"
-      ? new Big("904593900000000000000")
-      : vaultContract.currentEpochPremium().then(convertToBig),
+    vaultContract.currentEpochAmount().then(convertToBig),
+    vaultContract.currentEpochPremium().then(convertToBig),
     vaultContract
       .PERIOD()
       .then(convertToBig)
