@@ -11,11 +11,7 @@ import {
 } from "../../table/components";
 import type { IndexVaultRow, BasicVaultRow } from "../types";
 import { useIndexPositionsRows, useBasicPositionsRows } from "../hooks";
-import {
-  currencyFormatter,
-  highYieldFormatter,
-  numberFormatter,
-} from "../../shared/helpers";
+import { currencyFormatter, highYieldFormatter } from "../../shared/helpers";
 import { chainsMap } from "../../wallet/constants";
 import { VaultModalType } from "../../root/types";
 import { productTitlesMap } from "../../table/constants";
@@ -24,6 +20,7 @@ import { getVaultTitle } from "../../table/helpers";
 import { getVaultTypeStrategy } from "../../index-vault/helpers";
 
 import { ButtonsContainer } from "./PositionsTableActions.styles";
+import { PositionCell } from "./PositionCell";
 
 type PositionTableRow = BasicVaultRow | IndexVaultRow;
 
@@ -65,30 +62,50 @@ const columns: Column<PositionTableRow>[] = [
     ),
   },
   {
-    key: "balance",
-    title: "Current Position",
+    key: "currentPosition",
+    title: "Position",
 
-    render: ({ symbol, balance }) =>
-      balance ? `${numberFormatter.format(balance.toNumber())} ${symbol}` : "",
+    tooltipTitle:
+      '"Deposit Pending" users do not earn option premiums (yield) until the start of the next epoch. "Withdrawal Pending" users will continue to receive the option premiums (yield) or can cancel their withdrawal at any point before the end of the epoch.',
 
-    sortBy: ({ balance }) => (balance ? balance.toNumber() : 0),
+    render: (row) => {
+      const { id, symbol, currentPosition } = row;
+
+      const depositPending =
+        "depositPending" in row ? row.depositPending : null;
+      const withdrawalPending =
+        "withdrawalPending" in row ? row.withdrawalPending : null;
+
+      return (
+        <PositionCell
+          currentPosition={currentPosition}
+          depositPending={depositPending}
+          id={id}
+          symbol={symbol}
+          withdrawalPending={withdrawalPending}
+        />
+      );
+    },
+
+    sortBy: ({ currentPosition }) =>
+      currentPosition ? currentPosition.toNumber() : 0,
   },
   {
     key: "assetPrice",
     title: "Value (USD)",
 
-    render: ({ balance, assetPrice }) => {
-      if (!balance) {
+    render: ({ currentPosition, assetPrice }) => {
+      if (!currentPosition) {
         return "";
       }
 
-      const price = balance.mul(assetPrice).round(2).toNumber();
+      const price = currentPosition.mul(assetPrice).round(2).toNumber();
 
       return currencyFormatter.format(price);
     },
 
-    sortBy: ({ balance, assetPrice }) =>
-      balance ? balance.mul(assetPrice).toNumber() : 0,
+    sortBy: ({ currentPosition, assetPrice }) =>
+      currentPosition ? currentPosition.mul(assetPrice).toNumber() : 0,
   },
   {
     key: "chainId",
@@ -153,7 +170,11 @@ export const PositionsTable = () => {
       return true;
     }
 
-    if (row.balance?.gt(0)) {
+    if (
+      row.currentPosition?.gt(0) ||
+      ("depositPending" in row && row.depositPending?.gt(0)) ||
+      ("withdrawalPending" in row && row.withdrawalPending?.gt(0))
+    ) {
       return true;
     }
 
