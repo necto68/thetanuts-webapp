@@ -44,7 +44,7 @@ export const useIndexPositionsRows = (): (IndexVaultRow | undefined)[] => {
       assetPrice: middleIndexPriceByChainId[chainId] ?? 0,
       annualPercentageYield,
       symbol,
-      balance,
+      currentPosition: balance,
       chainId,
       unclaimed: unclaimed?.[tokenAddress] ?? false,
       withdrawId: withdrawId ?? 0,
