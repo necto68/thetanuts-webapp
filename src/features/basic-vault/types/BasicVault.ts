@@ -43,6 +43,8 @@ export interface BasicVault {
   remainder: number;
   collatCap: Big;
   feePerYear: number;
+  depositorFee: Big;
+  minDepositorValue: Big;
   assetPrice: number;
   collateralPrice: number;
   strikePrices: number[];
@@ -52,4 +54,5 @@ export interface BasicVault {
   isSettled: boolean;
   isExpired: boolean;
   isAllowInteractions: boolean;
+  isSupportDepositor: boolean;
 }

@@ -16,8 +16,6 @@ import {
   BasicVaultDepositorAbi__factory as BasicVaultDepositorAbiFactory,
 } from "../../contracts/types";
 import { useResetMutationError } from "../../index-vault-modal/hooks/useResetMutationError";
-import { BasicVaultType } from "../../basic/types/basicVaultConfig";
-import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants";
 
 import { useBasicModalConfig } from "./useBasicModalConfig";
 import { useBasicModalState } from "./useBasicModalState";
@@ -112,7 +110,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     return true;
   }, [nativeData, walletProvider, inputValue]);
 
-  const runDepositMutation = useCallback(async () => {
+  const runDirectDepositMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
       return false;
     }
@@ -124,13 +122,45 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       signer
     );
 
+    const depositAmount = new Big(inputValue)
+      .mul(tokenData.tokenDivisor)
+      .round()
+      .toString();
+
+    let transaction = null;
+
+    try {
+      await basicVaultContract.callStatic.deposit(depositAmount);
+
+      transaction = await basicVaultContract.deposit(depositAmount);
+    } catch (walletError) {
+      processWalletError(walletError);
+    }
+
+    if (transaction) {
+      setMutationHash(transaction.hash);
+
+      try {
+        await transaction.wait();
+      } catch (transactionError) {
+        processTransactionError(transactionError);
+      }
+    }
+
+    return true;
+  }, [tokenData, walletProvider, basicVaultAddress, inputValue]);
+
+  const runDepositAndQueueMutation = useCallback(async () => {
+    if (!tokenData || !walletProvider) {
+      return false;
+    }
+
+    const signer = walletProvider.getSigner();
+
     const basicVaultDepositorContract = BasicVaultDepositorAbiFactory.connect(
       basicVaultDepositorAddress,
       signer
     );
-
-    const { data } = basicVaultQuery;
-    const { id = "", basicVaultType = BasicVaultType.BASIC } = data ?? {};
 
     const depositAmount = new Big(inputValue)
       .mul(tokenData.tokenDivisor)
@@ -140,27 +170,15 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     let transaction = null;
 
     try {
-      // we are using basicVaultDepositorContract only for degen vaults
-      // and for ETH and BTC call/put basic vaults
-      // TODO: Remove this when we support depositor for all basic vaults
-      if (
-        basicVaultType === BasicVaultType.DEGEN ||
-        basicVaultsIdsThatSupportDepositor.includes(id)
-      ) {
-        await basicVaultDepositorContract.callStatic.deposit(
-          basicVaultAddress,
-          depositAmount
-        );
+      await basicVaultDepositorContract.callStatic.deposit(
+        basicVaultAddress,
+        depositAmount
+      );
 
-        transaction = await basicVaultDepositorContract.deposit(
-          basicVaultAddress,
-          depositAmount
-        );
-      } else {
-        await basicVaultContract.callStatic.deposit(depositAmount);
-
-        transaction = await basicVaultContract.deposit(depositAmount);
-      }
+      transaction = await basicVaultDepositorContract.deposit(
+        basicVaultAddress,
+        depositAmount
+      );
     } catch (walletError) {
       processWalletError(walletError);
     }
@@ -181,7 +199,6 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     walletProvider,
     basicVaultAddress,
     basicVaultDepositorAddress,
-    basicVaultQuery,
     inputValue,
   ]);
 
@@ -366,8 +383,15 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     }
   );
 
-  const depositMutation = useMutation<boolean, MutationError>(
-    async () => await runDepositMutation(),
+  const directDepositMutation = useMutation<boolean, MutationError>(
+    async () => await runDirectDepositMutation(),
+    {
+      onSuccess: handleMutationSuccess,
+    }
+  );
+
+  const depositAndQueueMutation = useMutation<boolean, MutationError>(
+    async () => await runDepositAndQueueMutation(),
     {
       onSuccess: handleMutationSuccess,
     }
@@ -420,7 +444,8 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
 
   useResetMutationError(approveAllowanceMutation);
   useResetMutationError(wrapMutation);
-  useResetMutationError(depositMutation);
+  useResetMutationError(directDepositMutation);
+  useResetMutationError(depositAndQueueMutation);
   useResetMutationError(cancelDepositMutation);
   useResetMutationError(initWithdrawMutation);
   useResetMutationError(initFullWithdrawMutation);
@@ -430,7 +455,8 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
   return {
     approveAllowanceMutation,
     wrapMutation,
-    depositMutation,
+    directDepositMutation,
+    depositAndQueueMutation,
     cancelDepositMutation,
     initWithdrawMutation,
     initFullWithdrawMutation,
@@ -447,8 +473,12 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
       wrapMutation.mutate();
     },
 
-    runDeposit: () => {
-      depositMutation.mutate();
+    runDirectDeposit: () => {
+      directDepositMutation.mutate();
+    },
+
+    runDepositAndQueue: () => {
+      depositAndQueueMutation.mutate();
     },
 
     runCancelDeposit: () => {
