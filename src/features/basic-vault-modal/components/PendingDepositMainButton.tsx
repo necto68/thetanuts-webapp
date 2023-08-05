@@ -28,8 +28,12 @@ export const PendingDepositMainButton = () => {
   } = useBasicModalConfig();
   const { longVaultReaderQuery } = useLongModalConfig();
   const { tokenData } = useBasicModalState();
-  const { depositMutation, cancelDepositMutation, runCancelDeposit } =
-    useBasicModalMutations();
+  const {
+    directDepositMutation,
+    depositAndQueueMutation,
+    cancelDepositMutation,
+    runCancelDeposit,
+  } = useBasicModalMutations();
   const {
     openPositionMutation,
     cancelPendingPositionMutation,
@@ -44,7 +48,8 @@ export const PendingDepositMainButton = () => {
     resetMutations(mutations);
   }, [cancelDepositMutation, cancelPendingPositionMutation]);
 
-  const { isLoading: isDepositLoading } = depositMutation ?? {};
+  const { isLoading: isDirectDepositLoading } = directDepositMutation ?? {};
+  const { isLoading: isDepositAndQueueLoading } = depositAndQueueMutation ?? {};
   const { isLoading: isOpenPositionLoading } = openPositionMutation ?? {};
 
   const {
@@ -108,7 +113,11 @@ export const PendingDepositMainButton = () => {
     return <LoadingMainButton>{loadingButtonTitle}</LoadingMainButton>;
   }
 
-  if (isDepositLoading || isOpenPositionLoading) {
+  if (
+    isDirectDepositLoading ||
+    isDepositAndQueueLoading ||
+    isOpenPositionLoading
+  ) {
     return <ModalMainButton disabled>{buttonTitle}</ModalMainButton>;
   }
 

@@ -26,7 +26,6 @@ import { useWallet } from "../../wallet/hooks";
 import { PriceItmMainButton } from "../../modal/components/PriceItmMainButton";
 import { VaultStatus } from "../types";
 import { getVaultStatus } from "../../degen-vault-modal/helpers/utils";
-import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants";
 
 import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
@@ -47,10 +46,12 @@ export const DepositMainButton = () => {
   const {
     approveAllowanceMutation,
     wrapMutation,
-    depositMutation,
+    directDepositMutation,
+    depositAndQueueMutation,
     runApproveAllowance,
     runWrap,
-    runDeposit,
+    runDirectDeposit,
+    runDepositAndQueue,
   } = useBasicModalMutations();
   const {
     approveDelegationMutation,
@@ -63,16 +64,17 @@ export const DepositMainButton = () => {
 
   const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
   const {
-    id = "",
     type = VaultType.CALL,
     basicVaultType = BasicVaultType.BASIC,
     assetSymbol = "",
     collateralSymbol = "",
     assetPrice = 0,
     strikePrices = [0],
+    minDepositorValue = new Big(0),
     isSettled = false,
     isExpired = false,
     isAllowInteractions = false,
+    isSupportDepositor = false,
   } = data ?? {};
 
   const { data: longVaultReaderData } = longVaultReaderQuery;
@@ -89,7 +91,8 @@ export const DepositMainButton = () => {
     const mutations = [
       approveAllowanceMutation,
       wrapMutation,
-      depositMutation,
+      directDepositMutation,
+      depositAndQueueMutation,
       approveDelegationMutation,
       openPositionMutation,
     ];
@@ -98,7 +101,8 @@ export const DepositMainButton = () => {
   }, [
     approveAllowanceMutation,
     wrapMutation,
-    depositMutation,
+    directDepositMutation,
+    depositAndQueueMutation,
     approveDelegationMutation,
     openPositionMutation,
   ]);
@@ -116,10 +120,16 @@ export const DepositMainButton = () => {
   } = wrapMutation ?? {};
 
   const {
-    isLoading: isDepositLoading,
-    isError: isDepositError,
-    error: depositError,
-  } = depositMutation ?? {};
+    isLoading: isDirectDepositLoading,
+    isError: isDirectDepositError,
+    error: directDepositError,
+  } = directDepositMutation ?? {};
+
+  const {
+    isLoading: isDepositAndQueueLoading,
+    isError: isDepositAndQueueError,
+    error: depositAndQueueError,
+  } = depositAndQueueMutation ?? {};
 
   const {
     isLoading: isApproveDelegationLoading,
@@ -136,14 +146,16 @@ export const DepositMainButton = () => {
   const isError =
     Boolean(isApproveAllowanceError) ||
     Boolean(isWrapError) ||
-    Boolean(isDepositError) ||
+    Boolean(isDirectDepositError) ||
+    Boolean(isDepositAndQueueError) ||
     Boolean(isApproveDelegationError) ||
     Boolean(isOpenPositionError);
 
   const error =
     approveAllowanceError ??
     wrapError ??
-    depositError ??
+    directDepositError ??
+    depositAndQueueError ??
     approveDelegationError ??
     openPositionError;
 
@@ -175,7 +187,7 @@ export const DepositMainButton = () => {
   const isShowPriceITMError =
     isActiveEpochStatus &&
     basicVaultType === BasicVaultType.BASIC &&
-    !basicVaultsIdsThatSupportDepositor.includes(id) &&
+    (isSupportDepositor ? inputValueBig.lt(minDepositorValue) : true) &&
     isPriceITM;
 
   if (!wallet) {
@@ -243,7 +255,7 @@ export const DepositMainButton = () => {
     return <LoadingMainButton>Wrapping...</LoadingMainButton>;
   }
 
-  if (isDepositLoading) {
+  if (isDirectDepositLoading || isDepositAndQueueLoading) {
     return <LoadingMainButton>Depositing...</LoadingMainButton>;
   }
 
@@ -274,9 +286,12 @@ export const DepositMainButton = () => {
       : "Open Position";
 
     handleMainButtonClick = runOpenPosition;
+  } else if (isSupportDepositor && inputValueBig.gte(minDepositorValue)) {
+    buttonTitle = "Deposit and Queue";
+    handleMainButtonClick = runDepositAndQueue;
   } else {
-    buttonTitle = "Initiate Deposit";
-    handleMainButtonClick = runDeposit;
+    buttonTitle = "Direct Deposit";
+    handleMainButtonClick = runDirectDeposit;
   }
 
   return isMainButtonDisabled ? (

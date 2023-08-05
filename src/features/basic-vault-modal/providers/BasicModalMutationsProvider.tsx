@@ -7,7 +7,8 @@ import type { BasicModalMutations } from "../types";
 const defaultBasicModalMutations: BasicModalMutations = {
   approveAllowanceMutation: undefined,
   wrapMutation: undefined,
-  depositMutation: undefined,
+  directDepositMutation: undefined,
+  depositAndQueueMutation: undefined,
   cancelDepositMutation: undefined,
   initWithdrawMutation: undefined,
   initFullWithdrawMutation: undefined,
@@ -18,7 +19,8 @@ const defaultBasicModalMutations: BasicModalMutations = {
 
   runApproveAllowance: () => undefined,
   runWrap: () => undefined,
-  runDeposit: () => undefined,
+  runDirectDeposit: () => undefined,
+  runDepositAndQueue: () => undefined,
   runCancelDeposit: () => undefined,
   runInitWithdraw: () => undefined,
   runInitFullWithdraw: () => undefined,
