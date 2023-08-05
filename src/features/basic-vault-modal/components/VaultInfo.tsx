@@ -103,7 +103,7 @@ export const VaultInfo = () => {
       {isSupportDepositor ? (
         <InfoGroup>
           <InfoContainer>
-            <InfoTitleGray>Queue Fee</InfoTitleGray>
+            <InfoTitleGray>Queue Gas Fee</InfoTitleGray>
             <InfoValueGray isAlignRight>
               {isLoading ? loadingPlaceholder : formattedDepositorFee}
             </InfoValueGray>
