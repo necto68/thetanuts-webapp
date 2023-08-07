@@ -14,6 +14,7 @@ import { useLongModalConfig } from "../../long-vault-modal/hooks/useLongModalCon
 import { BasicVaultType } from "../../basic/types";
 import { useVaultModalState } from "../../modal/hooks";
 
+// eslint-disable-next-line import/no-cycle
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
 // eslint-disable-next-line complexity
