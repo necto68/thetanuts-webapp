@@ -1,16 +1,25 @@
+import Big from "big.js";
+
 import { useWallet } from "../../wallet/hooks/useWallet";
 import { useVaultModalState } from "../../modal/hooks";
 import { useBasicVault, useBasicVaultReader } from "../../basic-vault/hooks";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
 
+// eslint-disable-next-line import/no-cycle
+import { useBasicModalState } from "./useBasicModalState";
+
 export const useBasicModalConfig = () => {
   const [{ vaultId }] = useVaultModalState();
+
+  const { inputValue } = useBasicModalState();
 
   const basicVaultQuery = useBasicVault(vaultId);
   const basicVaultReaderQuery = useBasicVaultReader(vaultId);
 
   const { walletChainId, walletProvider } = useWallet();
+
+  const inputValueBig = new Big(inputValue || 0);
 
   const { data } = basicVaultQuery;
   const {
@@ -19,6 +28,7 @@ export const useBasicModalConfig = () => {
     basicVaultType = BasicVaultType.BASIC,
     collateralTokenAddress = "",
     isSupportDepositor = false,
+    minDepositorValue = new Big(0),
   } = data ?? {};
 
   const {
@@ -36,9 +46,10 @@ export const useBasicModalConfig = () => {
 
   // TODO: Remove this when we support depositor for all basic vaults
   // const spenderAddress = spenderAddressesByBasicVaultType[basicVaultType];
-  const spenderAddress = isSupportDepositor
-    ? basicVaultDepositorAddress
-    : spenderAddressesByBasicVaultType[basicVaultType];
+  const spenderAddress =
+    isSupportDepositor && inputValueBig.gte(minDepositorValue)
+      ? basicVaultDepositorAddress
+      : spenderAddressesByBasicVaultType[basicVaultType];
 
   const provider = chainProvidersMap[basicVaultChainId];
 
