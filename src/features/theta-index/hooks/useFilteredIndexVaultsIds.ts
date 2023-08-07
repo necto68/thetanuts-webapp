@@ -8,8 +8,11 @@ export const useFilteredIndexVaultsIds = () => {
 
   const chainId = currentChainId;
 
-  const filteredIndexVaults = indexVaults.filter(({ source }) =>
-    chainId ? source.chainId === chainId : true
+  const filteredIndexVaults = indexVaults.filter(({ source, replications }) =>
+    chainId
+      ? source.chainId === chainId ||
+        replications.some((replication) => replication.chainId === chainId)
+      : true
   );
 
   return filteredIndexVaults.map(({ id }) => id);
