@@ -13,6 +13,7 @@ import { convertToBig } from "../../shared/helpers";
 import { useLongModalConfig } from "../../long-vault-modal/hooks/useLongModalConfig";
 import { BasicVaultType } from "../../basic/types";
 import { useVaultModalState } from "../../modal/hooks";
+import { ChainId, chainsMap } from "../../wallet/constants";
 
 // eslint-disable-next-line import/no-cycle
 import { useBasicModalConfig } from "./useBasicModalConfig";
@@ -47,9 +48,12 @@ export const useBasicModalProviderState = (): BasicModalState => {
 
   const {
     basicVaultType = BasicVaultType.BASIC,
+    chainId = ChainId.ETHEREUM,
     collateralPrice = 0,
     valuePerLP = new Big(1),
     remainder: collateralTokenRemainder = Number.MAX_SAFE_INTEGER,
+    isSupportDepositor = false,
+    minDepositorValue = new Big(0),
   } = basicVaultData ?? {};
 
   const { lpBalance = new Big(0) } = basicVaultReaderData ?? {};
@@ -57,9 +61,17 @@ export const useBasicModalProviderState = (): BasicModalState => {
   const { minSupplyValue = 0, maxSupplyValue = Number.MAX_SAFE_INTEGER } =
     longVaultReaderData ?? {};
 
+  // only if basic vault support depositor and input value less than minDepositorValue
+  // we need to use depositor for "Deposit and Queue"
+  const { basicVaultDepositorAddress } = chainsMap[chainId].addresses;
+  const collateralTokenSpenderAddress =
+    isSupportDepositor && inputValueBig.gte(minDepositorValue)
+      ? basicVaultDepositorAddress
+      : spenderAddress;
+
   const collateralTokenQuery = useTokenQuery(
     collateralTokenAddress,
-    spenderAddress,
+    collateralTokenSpenderAddress,
     provider
   );
 
