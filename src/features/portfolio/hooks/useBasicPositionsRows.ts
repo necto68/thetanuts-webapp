@@ -31,11 +31,8 @@ export const useBasicPositionsRows = (): (BasicVaultRow | undefined)[] => {
 
     const vaultType = getVaultModalType(basicVaultType);
 
-    const { depositPending, totalPosition } = basicVaultReader;
-    const balance =
-      depositPending && totalPosition
-        ? depositPending.add(totalPosition)
-        : null;
+    const { depositPending, withdrawalPending, currentPosition } =
+      basicVaultReader;
 
     return {
       id,
@@ -45,7 +42,9 @@ export const useBasicPositionsRows = (): (BasicVaultRow | undefined)[] => {
       assetSymbol,
       collateralSymbol,
       assetPrice: collateralPrice,
-      balance,
+      currentPosition,
+      depositPending,
+      withdrawalPending,
       symbol: collateralSymbol,
       annualPercentageYield,
     };

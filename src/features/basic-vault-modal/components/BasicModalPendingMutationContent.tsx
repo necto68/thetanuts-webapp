@@ -13,7 +13,8 @@ export const BasicModalPendingMutationContent = () => {
   const { basicVaultChainId, basicVaultReaderQuery } = useBasicModalConfig();
   const { inputValue, tokenData } = useBasicModalState();
   const {
-    depositMutation,
+    directDepositMutation,
+    depositAndQueueMutation,
     withdrawMutation,
     mutationHash = "",
   } = useBasicModalMutations();
@@ -25,7 +26,7 @@ export const BasicModalPendingMutationContent = () => {
     useState(rawWithdrawalPending);
 
   // we need to avoid the case where the user has already withdrawn the funds
-  // and withdrawalPending === 0
+  // and withdrawalPending === 0,
   // so we need to show previous value
 
   useEffect(() => {
@@ -38,13 +39,23 @@ export const BasicModalPendingMutationContent = () => {
     ? numberFormatter.format(withdrawalPending.toNumber())
     : "";
 
-  const { data: depositData, isLoading: isDepositLoading } =
-    depositMutation ?? {};
+  const { data: directDepositData, isLoading: isDirectDepositLoading } =
+    directDepositMutation ?? {};
+  const { data: depositAndQueueData, isLoading: isDepositAndQueueLoading } =
+    depositAndQueueMutation ?? {};
   const { data: withdrawData } = withdrawMutation ?? {};
 
-  const isDepositMutation = Boolean(depositData) || isDepositLoading;
+  const isDirectDepositMutation =
+    Boolean(directDepositData) || Boolean(isDirectDepositLoading);
+  const isDepositAndQueueMutation =
+    Boolean(depositAndQueueData) || Boolean(isDepositAndQueueLoading);
+  const isDepositMutation =
+    isDirectDepositMutation || isDepositAndQueueMutation;
 
-  const isMutationSucceed = Boolean(depositData) || Boolean(withdrawData);
+  const isMutationSucceed =
+    Boolean(directDepositData) ||
+    Boolean(depositAndQueueData) ||
+    Boolean(withdrawData);
 
   const sourceTokenData = {
     value: isDepositMutation ? inputValue : formattedWithdrawalPending,

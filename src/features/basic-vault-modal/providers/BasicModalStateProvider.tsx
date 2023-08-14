@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { createContext } from "react";
 
+// eslint-disable-next-line import/no-cycle
 import { useBasicModalProviderState } from "../hooks/useBasicModalProviderState";
 import type { BasicModalState } from "../types";
 

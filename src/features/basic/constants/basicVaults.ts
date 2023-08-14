@@ -62,6 +62,7 @@ export const longVaultsMap: Record<
 // TODO: Remove this when we support depositor for all basic vaults
 export const basicVaultsIdsThatSupportDepositor = developBasicVaults
   .map(({ id }) => id)
+  .concat(degenVaults.map(({ id }) => id))
   .concat([
     "TN-CSCCv1-ETHUSD-A",
     "TN-CSCCv1-BTCUSD-A",

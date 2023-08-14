@@ -22,6 +22,8 @@ import type { BasicVault } from "../types";
 import { VaultType } from "../types";
 import { BasicVaultType } from "../../basic/types";
 import { RiskLevel } from "../types/BasicVault";
+import { basicVaultsIdsThatSupportDepositor } from "../../basic/constants";
+import { ZERO_ADDRESS } from "../../wallet/constants";
 
 // eslint-disable-next-line complexity
 export const basicVaultFetcher = async (
@@ -83,14 +85,8 @@ export const basicVaultFetcher = async (
     vaultContract.priceReader(),
     vaultContract.LINK_AGGREGATOR(),
     vaultContract.collatCap().then(convertToBig),
-
-    // TODO: remove for stMATIC vault
-    id === "TN-CSCCv1-STMATICUSD"
-      ? new Big("122369000000000000000000")
-      : vaultContract.currentEpochAmount().then(convertToBig),
-    id === "TN-CSCCv1-STMATICUSD"
-      ? new Big("904593900000000000000")
-      : vaultContract.currentEpochPremium().then(convertToBig),
+    vaultContract.currentEpochAmount().then(convertToBig),
+    vaultContract.currentEpochPremium().then(convertToBig),
     vaultContract
       .PERIOD()
       .then(convertToBig)
@@ -215,24 +211,40 @@ export const basicVaultFetcher = async (
     ];
   }
 
-  // setup pending balance
+  // setup minDepositorValue and pending balance
+  let minDepositorValue = new Big(0);
+  let depositorFee = new Big(0);
   let pendingBalanceWei = new Big(0);
 
+  // getting balance and collatCap
+  const balanceDivisor = new Big(10).pow(collateralDecimals);
+  const balance = balanceWei.add(pendingBalanceWei).div(balanceDivisor);
+
   // fill pending balance in case of degen vault
-  if (isDegen && basicVaultDepositorAddress) {
+  if (
+    basicVaultDepositorAddress &&
+    basicVaultDepositorAddress !== ZERO_ADDRESS
+  ) {
     const basicVaultDepositorContract = BasicVaultDepositorAbiFactory.connect(
       basicVaultDepositorAddress,
       provider
     );
 
-    pendingBalanceWei = await basicVaultDepositorContract
-      .totalPending(basicVaultAddress)
-      .then(convertToBig);
+    [{ minDepositorValue, depositorFee }, pendingBalanceWei] =
+      await Promise.all([
+        basicVaultDepositorContract
+          .vaultParams(basicVaultAddress)
+          .then(({ minAmt, feeAmt }) => ({
+            minDepositorValue: convertToBig(minAmt).div(balanceDivisor),
+            depositorFee: convertToBig(feeAmt).div(balanceDivisor),
+          })),
+        isDegen
+          ? basicVaultDepositorContract
+              .totalPending(basicVaultAddress)
+              .then(convertToBig)
+          : new Big(0),
+      ]);
   }
-
-  // getting balance and collatCap
-  const balanceDivisor = new Big(10).pow(collateralDecimals);
-  const balance = balanceWei.add(pendingBalanceWei).div(balanceDivisor);
 
   const vaultCollatCapWei =
     isWheel && isPutType
@@ -253,7 +265,24 @@ export const basicVaultFetcher = async (
     period
   );
 
+  // getting annual Reward Percentage Yield
+  const totalReward = new Big("23527.277335588715");
+
+  // need to update each epoch
+  const currentEpochRewardMultiplier = new Big(0.2);
+  const currentEpochReward = totalReward.mul(currentEpochRewardMultiplier);
+
+  const rewardPercentageYields = getPercentageYields(
+    id === "TN-CSCCv1-STMATICUSD" ? balance : new Big(0),
+    id === "TN-CSCCv1-STMATICUSD" ? currentEpochReward : new Big(0),
+    period
+  );
+
   const { annualPercentageYield } = percentageYields;
+  const { annualPercentageRate: rewardAnnualPercentageRate } =
+    rewardPercentageYields;
+
+  const isSupportDepositor = basicVaultsIdsThatSupportDepositor.includes(id);
 
   return {
     id,
@@ -275,13 +304,17 @@ export const basicVaultFetcher = async (
     remainder,
     collatCap,
     feePerYear,
+    depositorFee,
+    minDepositorValue,
     assetPrice,
     collateralPrice,
     strikePrices,
     percentageYields,
     annualPercentageYield,
+    rewardAnnualPercentageRate,
     isSettled,
     isExpired,
     isAllowInteractions,
+    isSupportDepositor,
   };
 };

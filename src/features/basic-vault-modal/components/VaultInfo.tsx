@@ -33,6 +33,9 @@ export const VaultInfo = () => {
     balance: basicVaultBalance = new Big(0),
     collatCap = new Big(0),
     feePerYear = 0,
+    depositorFee = new Big(0),
+    minDepositorValue = new Big(0),
+    isSupportDepositor = false,
   } = data ?? {};
 
   const { balance: longVaultBalance = new Big(0), supplyCap = new Big(0) } =
@@ -65,6 +68,8 @@ export const VaultInfo = () => {
   const feeTitle = isLongVault ? "Borrow Fee (APR)" : "Management Fee (APR)";
 
   const formattedFee = isLongVault ? "2%" : `${feePerYear * 100}%`;
+  const formattedDepositorFee = `${depositorFee.toString()} ${collateralSymbol}`;
+  const formattedMinDepositorValue = `${minDepositorValue.toString()} ${collateralSymbol}`;
 
   return (
     <InfoGroupContainer>
@@ -101,6 +106,22 @@ export const VaultInfo = () => {
           </InfoValueGray>
         </InfoContainer>
       </InfoGroup>
+      {isSupportDepositor ? (
+        <InfoGroup>
+          <InfoContainer>
+            <InfoTitleGray>Queue Gas Fee</InfoTitleGray>
+            <InfoValueGray isAlignRight>
+              {isLoading ? loadingPlaceholder : formattedDepositorFee}
+            </InfoValueGray>
+          </InfoContainer>
+          <InfoContainer>
+            <InfoTitleGray>Min Deposit and Queue Value</InfoTitleGray>
+            <InfoValueGray isAlignRight>
+              {isLoading ? loadingPlaceholder : formattedMinDepositorValue}
+            </InfoValueGray>
+          </InfoContainer>
+        </InfoGroup>
+      ) : null}
     </InfoGroupContainer>
   );
 };

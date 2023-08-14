@@ -24,9 +24,14 @@ export const PositionInfo = () => {
 
   const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
 
-  const { id = "", annualPercentageYield = 0 } = basicVaultData ?? {};
+  const {
+    id = "",
+    annualPercentageYield = 0,
+    rewardAnnualPercentageRate = 0,
+  } = basicVaultData ?? {};
   const loadingPlaceholder = ".....";
   const formattedAPY = `${annualPercentageYield}%`;
+  const formattedRewardAPR = `${rewardAnnualPercentageRate}%`;
 
   const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
   const boostFormattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
@@ -58,9 +63,9 @@ export const PositionInfo = () => {
       {/* TODO: remove later */}
       {id === "TN-CSCCv1-STMATICUSD" ? (
         <InfoContainer>
-          <InfoTitle>Reward APY%</InfoTitle>
+          <InfoTitle>Reward APR%</InfoTitle>
           <InfoValue isAlignRight>
-            {isLoading ? loadingPlaceholder : "20%"}
+            {isLoading ? loadingPlaceholder : formattedRewardAPR}
           </InfoValue>
         </InfoContainer>
       ) : null}

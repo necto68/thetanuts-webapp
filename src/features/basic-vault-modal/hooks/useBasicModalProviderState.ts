@@ -21,7 +21,9 @@ import {
   lendingPoolAddresses,
   lendingPoolTokenAddresses,
 } from "../../boost/constants";
+import { ChainId, chainsMap } from "../../wallet/constants";
 
+// eslint-disable-next-line import/no-cycle
 import { useBasicModalConfig } from "./useBasicModalConfig";
 
 // eslint-disable-next-line complexity
@@ -46,6 +48,26 @@ export const useBasicModalProviderState = (): BasicModalState => {
     basicVaultReaderQuery,
   } = useBasicModalConfig();
 
+  const { longVaultReaderQuery } = useLongModalConfig();
+
+  const { data: basicVaultData } = basicVaultQuery;
+  const { data: basicVaultReaderData } = basicVaultReaderQuery;
+  const { data: longVaultReaderData } = longVaultReaderQuery;
+
+  const {
+    type = VaultType.CALL,
+    basicVaultType = BasicVaultType.BASIC,
+    chainId = ChainId.ETHEREUM,
+    assetSymbol = "",
+    collateralPrice = 0,
+    valuePerLP = new Big(1),
+    remainder: collateralTokenRemainder = Number.MAX_SAFE_INTEGER,
+    isSupportDepositor = false,
+    minDepositorValue = new Big(0),
+  } = basicVaultData ?? {};
+
+  const inputValueBig = new Big(inputValue || 0);
+
   // for boosting - get vault address instead of native token
   let updatedCollateralTokenAddress = collateralTokenAddress;
   if (isBoostContentShown && tabType === TabType.deposit) {
@@ -61,26 +83,19 @@ export const useBasicModalProviderState = (): BasicModalState => {
     }
   }
 
-  const updatedSpenderAddress = isBoostContentShown
-    ? lendingPoolAddresses[walletChainId]
-    : spenderAddress;
+  const { basicVaultDepositorAddress } = chainsMap[chainId].addresses;
 
-  const { longVaultReaderQuery } = useLongModalConfig();
+  let updatedSpenderAddress = spenderAddress;
+  if (isBoostContentShown) {
+    updatedSpenderAddress = lendingPoolAddresses[walletChainId];
+  } else if (isSupportDepositor && inputValueBig.gte(minDepositorValue)) {
+    // only if basic vault support depositor and input value less than minDepositorValue
+    // we need to use depositor for "Deposit and Queue"
 
-  const inputValueBig = new Big(inputValue || 0);
-
-  const { data: basicVaultData } = basicVaultQuery;
-  const { data: basicVaultReaderData } = basicVaultReaderQuery;
-  const { data: longVaultReaderData } = longVaultReaderQuery;
-
-  const {
-    type = VaultType.CALL,
-    basicVaultType = BasicVaultType.BASIC,
-    assetSymbol = "",
-    collateralPrice = 0,
-    valuePerLP = new Big(1),
-    remainder: collateralTokenRemainder = Number.MAX_SAFE_INTEGER,
-  } = basicVaultData ?? {};
+    updatedSpenderAddress = basicVaultDepositorAddress;
+  } else {
+    updatedSpenderAddress = spenderAddress;
+  }
 
   const { lpBalance = new Big(0) } = basicVaultReaderData ?? {};
 
