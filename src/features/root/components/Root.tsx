@@ -6,10 +6,6 @@ import { BasicPage } from "../../basic/components";
 import { DegenPage } from "../../degen/components";
 import { WheelPage } from "../../wheel/components";
 import { LongPage } from "../../long/components";
-import {
-  LongOptionPage,
-  LongOptionRedirect,
-} from "../../long-option/components";
 import { PortfolioPage } from "../../portfolio/components";
 import { Modal, Backdrop } from "../../modal/components";
 import { Sidebar } from "../../sidebar/components";
@@ -35,6 +31,12 @@ import {
 //   AnnouncementLink,
 //   AnnouncementTitle,
 // } from "./Root.styles";
+
+// TODO: uncomment when ready to deploy long trade
+// import {
+//   LongOptionPage,
+//   LongOptionRedirect,
+// } from "../../long-option/components";
 
 export const Root = () => {
   const { isShow, toggleIsShow } = useSidebarState();
@@ -112,12 +114,13 @@ export const Root = () => {
                   >
                     <LongPage />
                   </Route>
-                  <Route exact path={[RouterPathname.longTrade]}>
-                    <LongOptionRedirect />
-                  </Route>
-                  <Route exact path={[RouterPathname.longTradeVaultModal]}>
-                    <LongOptionPage />
-                  </Route>
+                  {/* TODO: uncomment when ready to deploy long trade */}
+                  {/* <Route exact path={[RouterPathname.longTrade]}> */}
+                  {/*  <LongOptionRedirect /> */}
+                  {/* </Route> */}
+                  {/* <Route exact path={[RouterPathname.longTradeVaultModal]}> */}
+                  {/*  <LongOptionPage /> */}
+                  {/* </Route> */}
                   <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
                   </Route>
