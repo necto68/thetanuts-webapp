@@ -50,7 +50,7 @@ export const BasicModalContent = () => {
       </MainButtonsContainer>
       <VaultInfo />
       {shouldHideAnalyticLink ? null : <AnalyticLink />}
-      {shouldShowBoost && <BoostContent />}
+      {/* {shouldShowBoost && <BoostContent />} */}
     </Container>
   );
 };

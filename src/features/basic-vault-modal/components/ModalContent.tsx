@@ -27,13 +27,18 @@ export const ModalContent = () => {
     <Container>
       <AnimatePresence exitBeforeEnter>
         <ContentAnimatedContainer>
-          {isBoostContentShown ? (
+          {/* {isBoostContentShown ? (
             isShowPendingBoostMutation ? (
               <BoostModalPendingMutationContent />
             ) : (
               <BoostModalContent />
             )
           ) : isShowPendingMutation ? (
+            <BasicModalPendingMutationContent />
+          ) : (
+            <BasicModalContent />
+          )} */}
+          {isShowPendingMutation ? (
             <BasicModalPendingMutationContent />
           ) : (
             <BasicModalContent />
