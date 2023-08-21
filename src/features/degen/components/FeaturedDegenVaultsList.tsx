@@ -4,15 +4,9 @@ import { Container } from "../../theta-index/components/FeaturedIndexVaultsList.
 import { degenVaults } from "../../basic/constants";
 import { useFeaturedBasicVaults } from "../../basic/hooks";
 
-// import { EmptyFeaturedVaultsList } from "../../theta-index/components";
-
 export const FeaturedDegenVaultsList = () => {
   const degenVaultIds = degenVaults.map(({ id }) => id);
   const featuredDegenVaults = useFeaturedBasicVaults(degenVaultIds);
-
-  // if (featuredDegenVaults.length === 0) {
-  //   return <EmptyFeaturedVaultsList />;
-  // }
 
   return (
     <Container>

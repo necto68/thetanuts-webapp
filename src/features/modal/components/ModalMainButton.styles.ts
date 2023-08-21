@@ -12,8 +12,8 @@ export const ModalMainButton = styled(
   motion.button
 ).attrs<ModalMainButtonProps>(
   ({
-    primaryColor = "#dddddd",
-    secondaryColor = "#9f9f9f",
+    primaryColor = "#323844",
+    secondaryColor = "#ffffff",
     disabled = false,
     isLoading = false,
   }) => ({
@@ -48,7 +48,7 @@ export const ModalMainButton = styled(
   font-size: 14px;
   border-radius: 10px;
   border: 0;
-  padding: 16px 0;
+  padding: 12px 0;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
 `;
 

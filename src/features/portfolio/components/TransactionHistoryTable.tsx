@@ -1,6 +1,6 @@
 import type Big from "big.js";
 
-import { useWallet } from "../../wallet/hooks/useWallet";
+import { useWallet } from "../../wallet/hooks";
 import type { Column } from "../../table/types";
 import {
   Table,
@@ -23,7 +23,6 @@ import {
   useIndexRedeemHistoryRows,
   useBasicHistoryRows,
 } from "../hooks";
-import type { ChainId } from "../../wallet/constants";
 import { chainsMap } from "../../wallet/constants";
 import { productTitlesMap } from "../../table/constants";
 import { getVaultTitle } from "../../table/helpers";
@@ -126,8 +125,6 @@ const getRowKey = ({ id, chainId, type }: HistoryTransactionRow) =>
 export const TransactionHistoryTable = () => {
   const { walletChainId } = useWallet();
 
-  const chainId: ChainId | undefined = walletChainId;
-
   const indexSwapsHistoryRows = useIndexSwapsHistoryRows();
   const indexDepositsHistoryRows = useIndexDepositsHistoryRows();
   const indexWithdrawHistoryRows = useIndexWithdrawHistoryRows();
@@ -149,7 +146,7 @@ export const TransactionHistoryTable = () => {
     });
 
   if (sortedRows.length === 0) {
-    const chainTitle = chainsMap[chainId].title;
+    const chainTitle = chainsMap[walletChainId].title;
 
     return (
       <CellValue>

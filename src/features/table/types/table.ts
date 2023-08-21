@@ -14,4 +14,5 @@ export interface TableProps<RowData> {
   getRowKey?: (row: RowData) => string;
   filterInputPlaceholder?: string;
   rowsPerPage?: number;
+  minWidth?: number;
 }

@@ -16,6 +16,7 @@ const defaultBasicModalMutations: BasicModalMutations = {
   withdrawMutation: undefined,
 
   mutationHash: undefined,
+  resetMutationHash: () => undefined,
 
   runApproveAllowance: () => undefined,
   runWrap: () => undefined,

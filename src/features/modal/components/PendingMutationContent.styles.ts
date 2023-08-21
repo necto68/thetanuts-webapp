@@ -2,19 +2,40 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 import { screens } from "../../shared/constants";
-import { BaseButton } from "../../shared/components";
+import { BaseButton, BoostButton } from "../../shared/components";
 
-export const Container = styled.div`
+interface Props {
+  children: React.ReactNode;
+  showModalBoostButton: boolean;
+}
+
+export const Container = styled.div<Props>`
   display: flex;
-  position: relative;
   flex-direction: column;
+  gap: 20px;
+  position: relative;
   justify-content: end;
-  min-height: 575px;
+  gap: 12px;
+
+  min-height: ${(props) => (props.showModalBoostButton ? "409px" : "327px")};
+  min-width: 432px;
+
+  padding: 24px;
+
+  ${screens.md} {
+    padding: 16px;
+  }
 `;
 
 export const BackgroundAnimationContainer = styled.div`
-  position: absolute;
-  z-index: 1;
+  position: relative;
+  // z-index: 1;
+  // flex: 1;
+  width: 147px;
+  height: 147px;
+  top: 70px; /* update to be relative to the Container */
+  left: 50%; /* update to be relative to the Container */
+  transform: translate(-50%, -50%);
 `;
 
 export const ContentContainer = styled.div`
@@ -38,14 +59,15 @@ export const InfoContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 25px;
+  text-align: center;
 `;
 
 export const Title = styled.span`
   font-family: Barlow;
-  font-weight: 700;
-  font-size: 40px;
+  font-weight: 600;
+  font-size: 25px;
   color: #ffffff;
-  text-align: center;
+  // text-align: center;
 `;
 
 export const AnimationContainer = styled(motion.div).attrs<{ isShow: boolean }>(
@@ -63,14 +85,14 @@ export const AnimationContainer = styled(motion.div).attrs<{ isShow: boolean }>(
 
 export const RatioTitleContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
+  align-items: center;
+  margin-left: 10px;
 `;
 
 export const RatioTitle = styled(Title)`
-  font-size: 23px;
+  font-size: 25px;
   color: #ffffff;
+  white-space: nowrap;
 `;
 
 export const ToTitle = styled(RatioTitle)`
@@ -83,14 +105,19 @@ export const TransactionLink = styled(motion.a).attrs<{
   initial: false,
 
   animate: {
-    color: isMutationSucceed ? "#061F3A" : "#1FFFAB",
+    // eslint-disable-next-line sonarjs/no-all-duplicated-branches
+    color: isMutationSucceed ? "#1FFFAB" : "#1FFFAB",
   },
 }))<{ isMutationSucceed: boolean }>`
   font-family: Barlow;
-  font-weight: 700;
-  font-size: 17px;
+  font-weight: 600;
+  font-size: 20px;
 `;
 
 export const CloseButton = styled(BaseButton)`
+  width: 100%;
+`;
+
+export const ModalBoostButton = styled(BoostButton)`
   width: 100%;
 `;

@@ -14,6 +14,7 @@ export interface BasicModalMutations {
   withdrawMutation?: UseMutationResult<boolean, MutationError, void>;
 
   mutationHash?: string;
+  resetMutationHash: () => void;
 
   runApproveAllowance: () => void;
   runWrap: () => void;

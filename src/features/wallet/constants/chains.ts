@@ -56,8 +56,7 @@ export const chains: ChainConfig[] = [
       longVaultPositionManagerAddress:
         "0xd588A0297e8C1Eb4670b1bB55f38F4Ca77d053E8",
 
-      longVaultProtocolDataProviderAddress:
-        "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
+      quoterAddress: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
     },
 
     deployerAddresses: {
@@ -99,8 +98,11 @@ export const chains: ChainConfig[] = [
       directWithdrawalAddress: ZERO_ADDRESS,
       basicVaultReaderAddress: "0xe016D63bd3ce7BbAF9Eb8aBf76dA7e3f6E4721a3",
       basicVaultDepositorAddress: ZERO_ADDRESS,
-      longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+
+      longVaultPositionManagerAddress:
+        "0x03Cd40F93Ae3b80f996691238F742568c24C9C3D",
+
+      quoterAddress: "0x78D78E420Da98ad378D7799bE8f4AF69033EB077",
     },
   },
   {
@@ -132,10 +134,9 @@ export const chains: ChainConfig[] = [
       basicVaultDepositorAddress: "0x74af0AcF759dcB803993F14b22C2e500063ba0Fe",
 
       longVaultPositionManagerAddress:
-        "0xe29F56fC26Cc6e02e6BE570ac5D7CBc1F0903431",
+        "0xA3ea5326771a28F7dF4e2f7980dBB238a62f9e9C",
 
-      longVaultProtocolDataProviderAddress:
-        "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",
+      quoterAddress: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
     },
 
     deployerAddresses: {
@@ -170,7 +171,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xA9c4b4f5Efcb3bC9a400D699943E0760065CA09A",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -200,7 +201,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0x10572d1A9d38178C3d95666803f0551B77301003",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -230,7 +231,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xe50d41E66A70D087F5480Ef84ABcF2e312534b05",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -260,7 +261,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xaF724813e860B462a3387Fb97CC2600179CAF9e1",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -290,7 +291,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xd07C970e8F8534Da02096862F23A9a91C6F716a3",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -320,7 +321,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xE061c3E9eec0AbD0a21AF480F48D4FeA538a6C66",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -343,7 +344,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xFf5fE7909Fc4d0D6643f1e8be8cba72610d0B485",
       basicVaultDepositorAddress: ZERO_ADDRESS,
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
   {
@@ -366,7 +367,7 @@ export const chains: ChainConfig[] = [
       basicVaultReaderAddress: "0xDC7a1FfDAeB3D57273be1d4f7eE63727a04733f5",
       basicVaultDepositorAddress: "0x6D31e1126b4Abf8502fc80A1f61f1e930862B075",
       longVaultPositionManagerAddress: ZERO_ADDRESS,
-      longVaultProtocolDataProviderAddress: ZERO_ADDRESS,
+      quoterAddress: ZERO_ADDRESS,
     },
   },
 ];

@@ -1,10 +1,11 @@
-import type { BasicVaultConfig } from "../types";
+import type { BasicVaultConfig, LongVaultConfig } from "../types";
 import { isTestEnvironment } from "../../shared/constants";
 
 import {
   developBasicVaults,
   developDegenVaults,
   developWheelVaults,
+  developLongTradeVaults,
   developLongVaults,
   developAllBasicVaults,
 } from "./developBasicVaults";
@@ -13,6 +14,7 @@ import {
   productionDegenVaults,
   productionWheelVaults,
   productionLongVaults,
+  productionLongTradeVaults,
   productionAllBasicVaults,
 } from "./productionBasicVaults";
 
@@ -28,6 +30,10 @@ export const wheelVaults = isTestEnvironment
   ? developWheelVaults.concat(productionWheelVaults)
   : productionWheelVaults;
 
+export const longTradeVaults = isTestEnvironment
+  ? developLongTradeVaults.concat(productionLongTradeVaults)
+  : productionLongTradeVaults;
+
 export const longVaults = isTestEnvironment
   ? developLongVaults.concat(productionLongVaults)
   : productionLongVaults;
@@ -41,6 +47,13 @@ export const basicVaultsMap: Record<
   BasicVaultConfig | undefined
 > = Object.fromEntries(
   allBasicVaults.map((basicVault) => [basicVault.id, basicVault])
+);
+
+export const longVaultsMap: Record<
+  LongVaultConfig["id"],
+  LongVaultConfig | undefined
+> = Object.fromEntries(
+  longVaults.map((longVault) => [longVault.id, longVault])
 );
 
 // all develop Basic Vaults

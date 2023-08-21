@@ -4,18 +4,23 @@ import {
   InfoContainer,
   InfoTitle,
   InfoValue,
+  TooltipContentContainer,
 } from "../../index-vault-modal/components/VaultInfo.styles";
+import { Tooltip } from "../../shared/components";
+import { TooltipText } from "../../shared/components/Tooltip.styles";
 
 import { VaultStatusInfo } from "./VaultStatusInfo";
 import { CurrentPositionInfo } from "./CurrentPositionInfo";
 import { PendingPositionInfo } from "./PendingPositionInfo";
 
 export const PositionInfo = () => {
-  const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
+  const { basicVaultQuery, basicVaultReaderQuery, lendingPoolReaderQuery } =
+    useBasicModalConfig();
 
   const { data: basicVaultData, isLoading: isBasicVaultLoading } =
     basicVaultQuery;
   const { isLoading: isBasicVaultReaderLoading } = basicVaultReaderQuery;
+  const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
 
   const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
 
@@ -24,19 +29,35 @@ export const PositionInfo = () => {
     annualPercentageYield = 0,
     rewardAnnualPercentageRate = 0,
   } = basicVaultData ?? {};
-
   const loadingPlaceholder = ".....";
-
   const formattedAPY = `${annualPercentageYield}%`;
   const formattedRewardAPR = `${rewardAnnualPercentageRate}%`;
 
+  const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
+  const boostFormattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
+
+  const totalAPY = `${(
+    annualPercentageYield +
+    Number(currentLiquidityRate) * 100
+  ).toFixed(2)}%`;
+
   return (
     <Container>
-      <VaultStatusInfo />
       <InfoContainer>
-        <InfoTitle>Projected APY%</InfoTitle>
+        <Tooltip
+          content={
+            <TooltipContentContainer>
+              <TooltipText>{`Premiums APY: ${formattedAPY}`}</TooltipText>
+              <TooltipText>{`Boost APY: ${boostFormattedAPY}%`} </TooltipText>
+              <TooltipText>{`Total APY: ${totalAPY}`}</TooltipText>
+            </TooltipContentContainer>
+          }
+          id="ApyWithBoost"
+          root={<InfoTitle>Projected APY%</InfoTitle>}
+        />
+
         <InfoValue isAlignRight>
-          {isLoading ? loadingPlaceholder : formattedAPY}
+          {isLoading ? loadingPlaceholder : totalAPY}
         </InfoValue>
       </InfoContainer>
       {/* TODO: remove later */}
@@ -48,6 +69,7 @@ export const PositionInfo = () => {
           </InfoValue>
         </InfoContainer>
       ) : null}
+      <VaultStatusInfo />
       <PendingPositionInfo />
       <CurrentPositionInfo />
     </Container>

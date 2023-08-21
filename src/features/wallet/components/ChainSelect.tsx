@@ -13,7 +13,7 @@ interface ChainSelectProps {
 export const ChainSelect: FC<ChainSelectProps> = ({ chainIds }) => {
   const { wallet, walletChainId, walletProvider } = useWallet();
 
-  const selectedChainId: ChainId | undefined = walletChainId;
+  const selectedChainId = walletChainId;
 
   if (!wallet) {
     return null;

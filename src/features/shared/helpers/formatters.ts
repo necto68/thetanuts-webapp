@@ -3,7 +3,7 @@ export const numberFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export const assetFormatter = new Intl.NumberFormat("en-US", {
-  maximumFractionDigits: 6,
+  maximumFractionDigits: 4,
 });
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
@@ -127,4 +127,29 @@ export const timerFormatter = (initialSeconds: number) => {
   const seconds = secondsValue > 0 ? `${secondsValue}s` : "";
 
   return [days, hours, minutes, seconds].join(" ");
+};
+
+export const expiryFormatter = (expiry: number) => {
+  const date = new Date(expiry);
+
+  const months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
+
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear().toString().slice(-2);
+
+  return [day, month, year].join("");
 };

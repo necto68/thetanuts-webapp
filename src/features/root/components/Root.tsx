@@ -1,3 +1,4 @@
+/* eslint-disable etc/no-commented-out-code */
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import { ThetaIndexPage } from "../../theta-index/components";
@@ -30,6 +31,12 @@ import {
 //   AnnouncementLink,
 //   AnnouncementTitle,
 // } from "./Root.styles";
+
+// TODO: uncomment when ready to deploy long trade
+// import {
+//   LongOptionPage,
+//   LongOptionRedirect,
+// } from "../../long-option/components";
 
 export const Root = () => {
   const { isShow, toggleIsShow } = useSidebarState();
@@ -107,6 +114,13 @@ export const Root = () => {
                   >
                     <LongPage />
                   </Route>
+                  {/* TODO: uncomment when ready to deploy long trade */}
+                  {/* <Route exact path={[RouterPathname.longTrade]}> */}
+                  {/*  <LongOptionRedirect /> */}
+                  {/* </Route> */}
+                  {/* <Route exact path={[RouterPathname.longTradeVaultModal]}> */}
+                  {/*  <LongOptionPage /> */}
+                  {/* </Route> */}
                   <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
                   </Route>

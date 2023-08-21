@@ -3,9 +3,10 @@ import { useCallback, useState } from "react";
 import { constants } from "ethers";
 import Big from "big.js";
 
-import { useWallet } from "../../wallet/hooks/useWallet";
+import { useWallet } from "../../wallet/hooks";
 import type { LongModalMutations } from "../types";
 import type { MutationError } from "../../index-vault-modal/types";
+import { chainsMap } from "../../wallet/constants";
 import {
   delay,
   processWalletError,
@@ -20,15 +21,23 @@ import {
   LongVaultPositionManagerAbi__factory as LongVaultPositionManagerAbiFactory,
   DebtTokenAbi__factory as DebtTokenAbiFactory,
 } from "../../contracts/types";
+import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
+import { quoteExactOutputSingle } from "../helpers";
 
 import { useLongModalConfig } from "./useLongModalConfig";
 
 export const useLongModalProviderMutations = (): LongModalMutations => {
   const { wallet, walletAddress } = useWallet();
 
-  const { walletProvider, basicVaultAddress, spenderAddress } =
-    useBasicModalConfig();
+  const {
+    walletProvider,
+    basicVaultChainId,
+    basicVaultAddress,
+    spenderAddress,
+    collateralTokenAddress,
+  } = useBasicModalConfig();
   const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
+  const { longOptionReaderQuery } = useLongOptionModalConfig();
 
   const { inputValue, tokenData, tokensQueries } = useBasicModalState();
 
@@ -92,16 +101,10 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     const longVaultPositionManagerContract =
       LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
 
-    const {
-      collateralToken,
-      loanToValue = 0,
-      collateralPrice = 0,
-    } = collateralAssetData ?? {};
+    const { loanToValue = 0, collateralPrice = 0 } = collateralAssetData ?? {};
 
     const { data } = longVaultReaderQuery;
     const { debtTokenPrice = 0 } = data ?? {};
-
-    const { tokenAddress: collateralAssetAddress = "" } = collateralToken ?? {};
 
     const depositAmount = new Big(inputValue)
       .mul(tokenData.tokenDivisor)
@@ -118,7 +121,7 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
       .toString();
 
     const openPositionParameters = [
-      collateralAssetAddress,
+      collateralTokenAddress,
       depositAmount.toString(),
       lendingPoolAddress,
       basicVaultAddress,
@@ -160,6 +163,69 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     spenderAddress,
     tokenData,
     walletProvider,
+    collateralTokenAddress,
+  ]);
+
+  const runOpenPositionImmediatelyMutation = useCallback(async () => {
+    if (!tokenData || !walletProvider) {
+      return false;
+    }
+
+    const signer = walletProvider.getSigner();
+
+    const { data } = longOptionReaderQuery;
+    const { LPToBorrowValue = new Big(0), minToReceiveLPValue = new Big(0) } =
+      data ?? {};
+
+    const longVaultPositionManagerContract =
+      LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
+
+    const depositAmount = new Big(inputValue)
+      .mul(tokenData.tokenDivisor)
+      .round();
+
+    const openPositionImmediatelyParameters = [
+      collateralTokenAddress,
+      depositAmount.toString(),
+      lendingPoolAddress,
+      basicVaultAddress,
+      LPToBorrowValue.toString(),
+      minToReceiveLPValue.mul(0.9995).round().toString(),
+    ] as const;
+
+    let transaction = null;
+
+    try {
+      await longVaultPositionManagerContract.callStatic.depositAndOpenBySwapOptionPosition(
+        ...openPositionImmediatelyParameters
+      );
+
+      transaction =
+        await longVaultPositionManagerContract.depositAndOpenBySwapOptionPosition(
+          ...openPositionImmediatelyParameters
+        );
+    } catch (walletError) {
+      processWalletError(walletError);
+    }
+
+    if (transaction) {
+      setMutationHash(transaction.hash);
+      try {
+        await transaction.wait();
+      } catch (transactionError) {
+        processTransactionError(transactionError);
+      }
+    }
+    return true;
+  }, [
+    tokenData,
+    walletProvider,
+    longOptionReaderQuery,
+    spenderAddress,
+    inputValue,
+    collateralTokenAddress,
+    lendingPoolAddress,
+    basicVaultAddress,
   ]);
 
   const runCancelPendingPositionMutation = useCallback(async () => {
@@ -218,6 +284,8 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     const longVaultPositionManagerContract =
       LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
 
+    const methodName = "closeVaultAndWithdrawPosition(address,address,address)";
+
     const closePositionParameters = [
       walletAddress,
       basicVaultAddress,
@@ -227,14 +295,13 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     let transaction = null;
 
     try {
-      await longVaultPositionManagerContract.callStatic.closeVaultAndWithdrawPosition(
+      await longVaultPositionManagerContract.callStatic[methodName](
         ...closePositionParameters
       );
 
-      transaction =
-        await longVaultPositionManagerContract.closeVaultAndWithdrawPosition(
-          ...closePositionParameters
-        );
+      transaction = await longVaultPositionManagerContract[methodName](
+        ...closePositionParameters
+      );
     } catch (walletError) {
       processWalletError(walletError);
     }
@@ -251,13 +318,135 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
 
     return true;
   }, [
-    walletProvider,
     wallet,
-    spenderAddress,
     walletAddress,
     basicVaultAddress,
     lendingPoolAddress,
+    spenderAddress,
+    walletProvider,
   ]);
+
+  const runClosePositionAndWithdrawImmediatelyMutation =
+    // eslint-disable-next-line complexity
+    useCallback(async () => {
+      if (!walletProvider || !walletAddress) {
+        return false;
+      }
+
+      const signer = walletProvider.getSigner();
+
+      const { quoterAddress } = chainsMap[basicVaultChainId].addresses;
+
+      const longVaultPositionManagerContract =
+        LongVaultPositionManagerAbiFactory.connect(spenderAddress, signer);
+
+      // TODO: return when partial withdrawals are supported
+      // const depositAmount = new Big(inputValue)
+      //   .mul(tokenData.tokenDivisor)
+      //   .round();
+
+      const { data } = longVaultReaderQuery;
+      const { balance = undefined, tokenDivisor = undefined } =
+        data?.debtToken ?? {};
+      const debtTokenBalance =
+        balance && tokenDivisor ? balance.mul(tokenDivisor) : new Big(0);
+
+      const parameters = {
+        tokenIn: collateralTokenAddress,
+        tokenOut: basicVaultAddress,
+        amount: debtTokenBalance.toString(),
+        fee: 500,
+        sqrtPriceLimitX96: 0,
+      };
+
+      const quoteOutput = await quoteExactOutputSingle(
+        parameters,
+        basicVaultChainId,
+        quoterAddress,
+        signer
+      );
+
+      // slippage allowance - 0.05%
+      const maxCollateralToUse = quoteOutput.mul(1.0005).round();
+
+      const closePositionImmediatelyMethodName =
+        "closeVaultAndWithdrawPosition(address,address,address,uint256)";
+
+      const closePositionImmediatelyParameters = [
+        walletAddress,
+        basicVaultAddress,
+        lendingPoolAddress,
+        maxCollateralToUse.toString(),
+      ] as const;
+
+      const closePositionMethodName =
+        "closeVaultAndWithdrawPosition(address,address,address)";
+
+      const closePositionParameters = [
+        walletAddress,
+        basicVaultAddress,
+        lendingPoolAddress,
+      ] as const;
+
+      let transaction = null;
+
+      let isUseImmediateMethod = false;
+
+      try {
+        // we try to close position immediately with swap firstly
+        await longVaultPositionManagerContract.callStatic[
+          closePositionImmediatelyMethodName
+        ](...closePositionImmediatelyParameters);
+
+        isUseImmediateMethod = true;
+      } catch {
+        // but if it fails we try to close position using old method
+        isUseImmediateMethod = false;
+      }
+
+      try {
+        if (isUseImmediateMethod) {
+          await longVaultPositionManagerContract.callStatic[
+            closePositionImmediatelyMethodName
+          ](...closePositionImmediatelyParameters);
+
+          transaction = await longVaultPositionManagerContract[
+            closePositionImmediatelyMethodName
+          ](...closePositionImmediatelyParameters);
+        } else {
+          await longVaultPositionManagerContract.callStatic[
+            closePositionMethodName
+          ](...closePositionParameters);
+
+          transaction = await longVaultPositionManagerContract[
+            closePositionMethodName
+          ](...closePositionParameters);
+        }
+      } catch (walletError) {
+        processWalletError(walletError);
+      }
+
+      if (transaction) {
+        setMutationHash(transaction.hash);
+
+        try {
+          await transaction.wait();
+        } catch (transactionError) {
+          processTransactionError(transactionError);
+        }
+      }
+
+      return true;
+    }, [
+      walletAddress,
+      basicVaultAddress,
+      lendingPoolAddress,
+      spenderAddress,
+      walletProvider,
+      basicVaultChainId,
+      longVaultReaderQuery,
+      collateralTokenAddress,
+    ]);
 
   const handleMutationSuccess = useCallback(async () => {
     const { collateralTokenQuery, nativeTokenQuery } = tokensQueries;
@@ -286,6 +475,13 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     }
   );
 
+  const openPositionImmediatelyMutation = useMutation<boolean, MutationError>(
+    async () => await runOpenPositionImmediatelyMutation(),
+    {
+      onSuccess: handleMutationSuccess,
+    }
+  );
+
   const cancelPendingPositionMutation = useMutation<boolean, MutationError>(
     async () => await runCancelPendingPositionMutation(),
     {
@@ -300,13 +496,23 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
     }
   );
 
+  const closePositionAndWithdrawImmediatelyMutation = useMutation<
+    boolean,
+    MutationError
+  >(async () => await runClosePositionAndWithdrawImmediatelyMutation(), {
+    onSuccess: handleMutationSuccess,
+  });
+
   useResetMutationError(openPositionMutation);
+  useResetMutationError(openPositionImmediatelyMutation);
 
   return {
     approveDelegationMutation,
     openPositionMutation,
+    openPositionImmediatelyMutation,
     cancelPendingPositionMutation,
     closePositionAndWithdrawMutation,
+    closePositionAndWithdrawImmediatelyMutation,
 
     mutationHash,
 
@@ -318,12 +524,20 @@ export const useLongModalProviderMutations = (): LongModalMutations => {
       openPositionMutation.mutate();
     },
 
+    runOpenPositionImmediately: () => {
+      openPositionImmediatelyMutation.mutate();
+    },
+
     runCancelPendingPosition: () => {
       cancelPendingPositionMutation.mutate();
     },
 
     runClosePositionAndWithdraw: () => {
       closePositionAndWithdrawMutation.mutate();
+    },
+
+    runClosePositionAndWithdrawImmediately: () => {
+      closePositionAndWithdrawImmediatelyMutation.mutate();
     },
   };
 };

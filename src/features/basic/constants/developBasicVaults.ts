@@ -1,4 +1,4 @@
-import type { BasicVaultConfig } from "../types";
+import type { BasicVaultConfig, LongVaultConfig } from "../types";
 import { BasicVaultType } from "../types";
 import { ChainId } from "../../wallet/constants";
 
@@ -74,35 +74,43 @@ export const developWheelVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const developLongVaults: BasicVaultConfig[] = [
-  {
-    id: "L-TN-CSCCv0-ETHUSD-1DAY",
-    basicVaultType: BasicVaultType.LONG,
-
-    source: {
-      chainId: ChainId.POLYGON,
-      basicVaultAddress: "0x6BA28c5a069455ccB6a25723acDf2Eec0A436Db6",
-    },
-  },
-  {
-    id: "L-TN-CSCCv0-ETHUSD-2DAY",
-    basicVaultType: BasicVaultType.LONG,
-
-    source: {
-      chainId: ChainId.POLYGON,
-      basicVaultAddress: "0x619761Cf639DD8D30d671CE6bC912A75a79B8f34",
-    },
-  },
-  {
-    id: "L-TN-CSCCv0-ETHUSD-3DAY",
-    basicVaultType: BasicVaultType.LONG,
-
-    source: {
-      chainId: ChainId.POLYGON,
-      basicVaultAddress: "0xb375b56cAf4eD3b31b44c431E30Cc4Cb344D7f0F",
-    },
-  },
+export const developLongVaults: LongVaultConfig[] = [
+  // TODO: hide long vaults
+  // {
+  //   id: "L-TN-CSCCv0-ETHUSD-1DAY",
+  //   basicVaultType: BasicVaultType.LONG,
+  //   source: {
+  //     chainId: ChainId.POLYGON,
+  //     basicVaultAddress: "0x6BA28c5a069455ccB6a25723acDf2Eec0A436Db6",
+  //   },
+  //   chartSymbol: "ETHUSDT",
+  //   protocolDataProviderAddress: "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",
+  // },
+  // {
+  //   id: "L-TN-CSCCv0-ETHUSD-2DAY",
+  //   basicVaultType: BasicVaultType.LONG,
+  //   source: {
+  //     chainId: ChainId.POLYGON,
+  //     basicVaultAddress: "0x619761Cf639DD8D30d671CE6bC912A75a79B8f34",
+  //   },
+  //   chartSymbol: "ETHUSDT",
+  //   protocolDataProviderAddress: "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",
+  // },
+  // {
+  //   id: "L-TN-CSCCv0-ETHUSD-3DAY",
+  //   basicVaultType: BasicVaultType.LONG,
+  //   source: {
+  //     chainId: ChainId.POLYGON,
+  //     basicVaultAddress: "0xb375b56cAf4eD3b31b44c431E30Cc4Cb344D7f0F",
+  //   },
+  //   chartSymbol: "ETHUSDT",
+  //   protocolDataProviderAddress: "0x42e93Ece796F510FD35a4c603E2521fd6e76a64D",
+  // },
 ];
+
+export const developLongTradeVaults = developLongVaults.filter(
+  ({ isForLongTrade }) => isForLongTrade
+);
 
 export const developAllBasicVaults = developBasicVaults.concat(
   developDegenVaults,

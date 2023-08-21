@@ -9,6 +9,9 @@ import {
   InfoValue,
 } from "../../index-vault-modal/components/VaultInfo.styles";
 import { assetFormatter } from "../../shared/helpers";
+import { getLongVaultContractsTitle } from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
+import { lendingPoolTokenAddresses } from "../../boost/constants";
 
 export const PendingWithdrawInfo = () => {
   const { basicVaultQuery, basicVaultReaderQuery } = useBasicModalConfig();
@@ -20,17 +23,34 @@ export const PendingWithdrawInfo = () => {
 
   const isLoading = isBasicVaultLoading || isBasicVaultReaderLoading;
 
-  const { collateralSymbol = "" } = basicVaultData ?? {};
+  const {
+    collateralSymbol = "",
+    id = "",
+    assetSymbol = "",
+    type = VaultType.CALL,
+  } = basicVaultData ?? {};
 
-  const { withdrawalPending = new Big(0) } = basicVaultReaderData ?? {};
+  const withdrawalPending =
+    basicVaultReaderData?.withdrawalPending ?? new Big(0);
 
   const loadingPlaceholder = ".....";
 
-  const formattedWithdrawalPending = withdrawalPending
-    ? `${assetFormatter.format(
-        withdrawalPending.toNumber()
-      )} ${collateralSymbol}`
-    : "N/A";
+  const vaultTitle = getLongVaultContractsTitle(
+    type,
+    assetSymbol,
+    collateralSymbol
+  );
+
+  const tokenExists = lendingPoolTokenAddresses.some(
+    (token) => token.id === id
+  );
+
+  const tokenSymbol = tokenExists ? vaultTitle : collateralSymbol;
+
+  const formattedCurrentPosition =
+    withdrawalPending.toNumber() > 0
+      ? `${assetFormatter.format(withdrawalPending.toNumber())} ${tokenSymbol}`
+      : "N/A";
 
   return (
     <InfoContainer>
@@ -38,11 +58,11 @@ export const PendingWithdrawInfo = () => {
         <Tooltip
           content="Refers to the amount that is pending to be withdrawn once the current epoch has ended. Once the current epoch has ended, users can claim their withdrawn amount."
           id="withdrawalPending"
-          root={<InfoTitle>Withdrawal Pending</InfoTitle>}
+          root={<InfoTitle>Pending Withdraw Amount</InfoTitle>}
         />
       </InfoTitleContainer>
       <InfoValue isAlignRight>
-        {isLoading ? loadingPlaceholder : formattedWithdrawalPending}
+        {isLoading ? loadingPlaceholder : formattedCurrentPosition}
       </InfoValue>
     </InfoContainer>
   );

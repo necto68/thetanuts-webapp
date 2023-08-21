@@ -1,8 +1,10 @@
 import type { FC } from "react";
 import { createElement } from "react";
+import { useLocation } from "react-router-dom";
 
 import { IconContainer } from "../../shared/components";
 import { useSidebarState } from "../hooks";
+import type { NavItem } from "../types";
 
 import {
   SidebarItemContainer,
@@ -10,29 +12,22 @@ import {
   Underline,
 } from "./SidebarItem.styles";
 
-interface SidebarItemProps {
-  to: string;
-  navIcon: () => JSX.Element;
-  linkTitle: string;
-  active: boolean;
-  target?: HTMLLinkElement["target"];
-  iconColor?: string;
-}
-
-export const SidebarItem: FC<SidebarItemProps> = ({
+export const SidebarItem: FC<NavItem> = ({
   to,
   navIcon,
   linkTitle,
-  active,
   target = "_self",
   iconColor = "#1fffab",
 }) => {
   const { toggleIsShow } = useSidebarState();
+  const { pathname } = useLocation();
+
+  const isActive = pathname.includes(to);
 
   return (
-    <SidebarItemContainer active={active} iconColor={iconColor}>
+    <SidebarItemContainer active={isActive} iconColor={iconColor}>
       <SidebarLink
-        active={active}
+        active={isActive}
         onClick={toggleIsShow}
         target={target}
         to={to}
@@ -42,7 +37,7 @@ export const SidebarItem: FC<SidebarItemProps> = ({
         </IconContainer>
         {linkTitle}
       </SidebarLink>
-      <Underline active={active} iconColor={iconColor} />
+      <Underline active={isActive} iconColor={iconColor} />
     </SidebarItemContainer>
   );
 };

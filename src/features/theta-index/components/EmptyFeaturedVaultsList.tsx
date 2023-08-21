@@ -1,5 +1,4 @@
-import { useWallet } from "../../wallet/hooks/useWallet";
-import type { ChainId } from "../../wallet/constants";
+import { useWallet } from "../../wallet/hooks";
 import { chainsMap } from "../../wallet/constants";
 
 import { Container } from "./FeaturedIndexVaultsList.styles";
@@ -8,9 +7,7 @@ import { Description } from "./ThetaIndexLayout.styles";
 export const EmptyFeaturedVaultsList = () => {
   const { walletChainId } = useWallet();
 
-  const chainId: ChainId | undefined = walletChainId;
-
-  const chainTitle = chainsMap[chainId].title;
+  const chainTitle = chainsMap[walletChainId].title;
 
   return (
     <Container>

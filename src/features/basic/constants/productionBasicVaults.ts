@@ -1,4 +1,4 @@
-import type { BasicVaultConfig } from "../types";
+import type { BasicVaultConfig, LongVaultConfig } from "../types";
 import { BasicVaultType } from "../types";
 import { ChainId } from "../../wallet/constants";
 
@@ -370,7 +370,7 @@ export const productionDegenVaults: BasicVaultConfig[] = [
   },
 ];
 
-export const productionWheelVaults = [
+export const productionWheelVaults: BasicVaultConfig[] = [
   {
     id: "TN-SMv1-ETHUSDC",
     basicVaultType: BasicVaultType.WHEEL,
@@ -382,7 +382,62 @@ export const productionWheelVaults = [
   },
 ];
 
-export const productionLongVaults = [
+export const productionLongVaults: LongVaultConfig[] = [
+  // long trade vaults
+  {
+    id: "L-TN-CSCCv1-MATICUSD-A",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x9dA79023Af00d1f2054BB1eED0D49004fe41C5b5",
+    },
+
+    chartSymbol: "MATICUSDT",
+    protocolDataProviderAddress: "0x6F712293B16bAb8b9f66d1AF979925872A059AAE",
+    isForLongTrade: true,
+  },
+  {
+    id: "L-TN-CSCCv1-MATICUSD-B",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.POLYGON,
+      basicVaultAddress: "0x86acF4C7f74A82D28aBC370f333fBcbE34e50972",
+    },
+
+    chartSymbol: "MATICUSDT",
+    protocolDataProviderAddress: "0x6F712293B16bAb8b9f66d1AF979925872A059AAE",
+    isForLongTrade: true,
+  },
+  {
+    id: "L-TN-CSCCv1-BNBUSD",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.BSC,
+      basicVaultAddress: "0x9EF72De1782431cf54518c42C06e26014E7201D1",
+    },
+
+    chartSymbol: "BNBUSDT",
+    protocolDataProviderAddress: "0x2B2bAe3712484A4952cb9e6894f6D9dD2F257F0B",
+    isForLongTrade: true,
+  },
+  {
+    id: "L-TN-CSCPv1-BNBUSD-A",
+    basicVaultType: BasicVaultType.LONG,
+
+    source: {
+      chainId: ChainId.BSC,
+      basicVaultAddress: "0xc75C3BE0Bc41857B9c1a675475F6E0a7c5Db63fC",
+    },
+
+    chartSymbol: "BNBUSDT",
+    protocolDataProviderAddress: "0x4Ca4A837EA940737eBB4e3edd79c12D1040075cA",
+    isForLongTrade: true,
+  },
+
+  // long vaults
   {
     id: "L-TN-CSCPv1-BTCUSD",
     basicVaultType: BasicVaultType.LONG,
@@ -391,6 +446,9 @@ export const productionLongVaults = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0x3BA337F3167eA35910E6979D5BC3b0AeE60E7d59",
     },
+
+    chartSymbol: "BTCUSDT",
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
     id: "L-TN-CSCPv1-ETHUSD",
@@ -400,6 +458,9 @@ export const productionLongVaults = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0xE1c93dE547cc85CBD568295f6CC322B1dbBCf8Ae",
     },
+
+    chartSymbol: "ETHUSDT",
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
     id: "L-TN-CSCPv1-AVAXUSD",
@@ -409,15 +470,21 @@ export const productionLongVaults = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0x248038fDb6F00f4B636812CA6A7F06b81a195AB8",
     },
+
+    chartSymbol: "AVAXUSDT",
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
-    id: "L-TN-CSCPv1-BNBUSD",
+    id: "L-TN-CSCPv1-BNBUSD-B",
     basicVaultType: BasicVaultType.LONG,
 
     source: {
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0xE5e8caA04C4b9E1C9bd944A2a78a48b05c3ef3AF",
     },
+
+    chartSymbol: "BNBUSDT",
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
   {
     id: "L-TN-CSCPv1-MATICUSD",
@@ -427,8 +494,15 @@ export const productionLongVaults = [
       chainId: ChainId.ETHEREUM,
       basicVaultAddress: "0xAD57221ae9897DA08656aaaBd5B1D4673d4eDE71",
     },
+
+    chartSymbol: "MATICUSDT",
+    protocolDataProviderAddress: "0xD5B0856991E944714B8fA163E903AA4F15F58F2A",
   },
 ];
+
+export const productionLongTradeVaults = productionLongVaults.filter(
+  ({ isForLongTrade }) => isForLongTrade
+);
 
 export const productionAllBasicVaults = productionBasicVaults.concat(
   productionDegenVaults,

@@ -17,7 +17,9 @@ export const LongModalPendingMutationContent = () => {
   const { inputValue, tokenData } = useBasicModalState();
   const {
     openPositionMutation,
+    openPositionImmediatelyMutation,
     closePositionAndWithdrawMutation,
+    closePositionAndWithdrawImmediatelyMutation,
     mutationHash = "",
   } = useLongModalMutations();
 
@@ -50,13 +52,26 @@ export const LongModalPendingMutationContent = () => {
 
   const { data: openPositionData, isLoading: isOpenPositionLoading } =
     openPositionMutation ?? {};
+  const {
+    data: openPositionImmediatelyData,
+    isLoading: isOpenPositionImmediatelyLoading,
+  } = openPositionImmediatelyMutation ?? {};
+
   const { data: closePositionData } = closePositionAndWithdrawMutation ?? {};
+  const { data: closePositionImmediatelyData } =
+    closePositionAndWithdrawImmediatelyMutation ?? {};
 
   const isOpenPositionMutation =
-    Boolean(openPositionData) || isOpenPositionLoading;
+    Boolean(openPositionData) ||
+    Boolean(isOpenPositionLoading) ||
+    Boolean(openPositionImmediatelyData) ||
+    Boolean(isOpenPositionImmediatelyLoading);
 
   const isMutationSucceed =
-    Boolean(openPositionData) || Boolean(closePositionData);
+    Boolean(openPositionData) ||
+    Boolean(openPositionImmediatelyData) ||
+    Boolean(closePositionData) ||
+    Boolean(closePositionImmediatelyData);
 
   const tokenSymbol = tokenData?.symbol ?? "";
   const contractsTitle = getLongVaultContractsTitle(

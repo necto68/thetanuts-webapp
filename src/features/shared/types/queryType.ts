@@ -10,6 +10,7 @@ export enum QueryType {
 
   basicVault = "basicVault",
   basicVaultReader = "basicVaultReader",
+  lendingPoolReader = "lendingPoolReader",
 
   riskLevel = "riskLevel",
 
@@ -20,6 +21,11 @@ export enum QueryType {
 
   collateralAsset = "collateralAsset",
   longVaultReader = "longVaultReader",
+
+  longOptionReader = "longOptionReader",
+  longOptionClosePositionReader = "longOptionClosePositionReader",
+
+  assetPrices = "assetPrices",
 
   chainIndexSwapsHistory = "chainIndexSwapsHistory",
   indexDepositsHistory = "indexDepositsHistory",

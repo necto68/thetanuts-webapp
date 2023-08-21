@@ -29,7 +29,7 @@ export const SidebarContainer = styled(motion.div).attrs<{
   overflow-y: auto;
   overflow-x: hidden;
   width: 180px;
-  gap: 48px;
+  gap: 40px;
 
   ${screens.xl} {
     top: 0;
@@ -72,19 +72,6 @@ export const CircleButtonContainer = styled.div`
   ${screens.xl} {
     display: flex;
   }
-`;
-
-export const MainNavContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-export const MainNavTitle = styled.span`
-  font-family: Roboto;
-  font-size: 12px;
-  line-height: 16px;
-  color: #949494;
 `;
 
 export const SwitchToV0ButtonContainer = styled.div`

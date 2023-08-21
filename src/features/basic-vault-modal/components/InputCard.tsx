@@ -5,7 +5,7 @@ import { useVaultModalState } from "../../modal/hooks";
 
 export const InputCard = () => {
   const [vaultModalState] = useVaultModalState();
-  const { tabType } = vaultModalState;
+  const { tabType, isBoostContentShown } = vaultModalState;
 
   const {
     inputValue,
@@ -25,8 +25,8 @@ export const InputCard = () => {
     <SwapInputCard
       inputValue={inputValue}
       isFlipped={false}
-      isHideAssetSelector={tabType === TabType.withdraw}
-      isHideWalletBalance={tabType === TabType.withdraw}
+      isHideAssetSelector={tabType === TabType.withdraw && !isBoostContentShown}
+      isHideWalletBalance={tabType === TabType.withdraw && !isBoostContentShown}
       isNativeDataLoading={isNativeDataLoading}
       isSource
       isTokenDataLoading={isTokenDataLoading}

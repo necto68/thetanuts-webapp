@@ -88,3 +88,9 @@ export const InfoLink = styled.a<{
   text-align: ${({ isAlignRight = false }) =>
     isAlignRight ? "right" : "left"};
 `;
+
+export const TooltipContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;

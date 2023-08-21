@@ -2,7 +2,11 @@ import Big from "big.js";
 
 import { useWallet } from "../../wallet/hooks/useWallet";
 import { useVaultModalState } from "../../modal/hooks";
-import { useBasicVault, useBasicVaultReader } from "../../basic-vault/hooks";
+import {
+  useBasicVault,
+  useBasicVaultReader,
+  useLendingPoolReader,
+} from "../../basic-vault/hooks";
 import { ChainId, chainProvidersMap, chainsMap } from "../../wallet/constants";
 import { BasicVaultType } from "../../basic/types";
 
@@ -17,11 +21,14 @@ export const useBasicModalConfig = () => {
   const basicVaultQuery = useBasicVault(vaultId);
   const basicVaultReaderQuery = useBasicVaultReader(vaultId);
 
+  const lendingPoolReaderQuery = useLendingPoolReader(vaultId);
+
   const { walletChainId, walletProvider } = useWallet();
 
   const inputValueBig = new Big(inputValue || 0);
 
   const { data } = basicVaultQuery;
+
   const {
     chainId: basicVaultChainId = ChainId.ETHEREUM,
     basicVaultAddress = "",
@@ -71,5 +78,7 @@ export const useBasicModalConfig = () => {
 
     basicVaultQuery,
     basicVaultReaderQuery,
+
+    lendingPoolReaderQuery,
   };
 };

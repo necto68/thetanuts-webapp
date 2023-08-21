@@ -5,6 +5,7 @@ import { BasicVaultModal } from "../../basic-vault-modal/components";
 import { DegenVaultModal } from "../../degen-vault-modal/components";
 import { WheelVaultModal } from "../../wheel-vault-modal/components";
 import { LongVaultModal } from "../../long-vault-modal/components";
+import { LongOptionPositionModal } from "../../long-option-position-modal/components";
 import type { CurrentModalState } from "../types";
 import { VaultModalType } from "../../root/types";
 
@@ -19,6 +20,8 @@ const modalComponents = {
   [VaultModalType.degen]: DegenVaultModal,
   [VaultModalType.wheel]: WheelVaultModal,
   [VaultModalType.long]: LongVaultModal,
+  [VaultModalType.longTrade]: null,
+  [VaultModalType.longPosition]: LongOptionPositionModal,
 };
 
 export const useCurrentModalState = (): CurrentModalState => {

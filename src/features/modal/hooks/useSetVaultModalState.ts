@@ -6,7 +6,7 @@ import { useQueryParameters } from "../../shared/hooks/useQueryParameters";
 import type { VaultModalRouteParameters } from "../../root/types";
 import { ModalPathname, PagePathname, VaultModalType } from "../../root/types";
 import { indexVaultsMap } from "../../theta-index/constants";
-import { basicVaultsMap } from "../../basic/constants";
+import { basicVaultsMap, longVaultsMap } from "../../basic/constants";
 import { ModalContentType } from "../../index-vault-modal/types";
 
 import { useVaultModalState } from "./useVaultModalState";
@@ -16,7 +16,8 @@ const vaultsMaps = {
   [VaultModalType.basic]: basicVaultsMap,
   [VaultModalType.degen]: basicVaultsMap,
   [VaultModalType.wheel]: basicVaultsMap,
-  [VaultModalType.long]: basicVaultsMap,
+  [VaultModalType.long]: longVaultsMap,
+  [VaultModalType.longTrade]: longVaultsMap,
 };
 
 const getVaultType = (
@@ -25,7 +26,8 @@ const getVaultType = (
   basicVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   degenVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
   wheelVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
-  longVaultModalUrlMatch: match<VaultModalRouteParameters> | null
+  longVaultModalUrlMatch: match<VaultModalRouteParameters> | null,
+  longTradeVaultModalUrlMatch: match<VaultModalRouteParameters> | null
 ) => {
   switch (vaultModalUrlMatch) {
     case indexVaultModalUrlMatch:
@@ -38,12 +40,15 @@ const getVaultType = (
       return VaultModalType.wheel;
     case longVaultModalUrlMatch:
       return VaultModalType.long;
+    case longTradeVaultModalUrlMatch:
+      return VaultModalType.longTrade;
     default:
       return null;
   }
 };
 
-export const useVaultModalOpen = () => {
+// eslint-disable-next-line complexity
+export const useSetVaultModalState = () => {
   const [vaultModalState, setVaultModalState] = useVaultModalState();
 
   const routerHistory = useHistory();
@@ -54,13 +59,15 @@ export const useVaultModalOpen = () => {
   const degenPageUrlMatch = useRouteMatch(PagePathname.degen);
   const wheelPageUrlMatch = useRouteMatch(PagePathname.wheel);
   const longPageUrlMatch = useRouteMatch(PagePathname.long);
+  const longTradePageUrlMatch = useRouteMatch(PagePathname.longTrade);
 
   const pageUrlMatch =
     indexPageUrlMatch ??
     basicPageUrlMatch ??
     degenPageUrlMatch ??
     wheelPageUrlMatch ??
-    longPageUrlMatch;
+    longPageUrlMatch ??
+    longTradePageUrlMatch;
 
   const indexVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.indexVaultModal
@@ -77,13 +84,17 @@ export const useVaultModalOpen = () => {
   const longVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
     ModalPathname.longVaultModal
   );
+  const longTradeVaultModalUrlMatch = useRouteMatch<VaultModalRouteParameters>(
+    ModalPathname.longTradeVaultModal
+  );
 
   const vaultModalUrlMatch =
     indexVaultModalUrlMatch ??
     basicVaultModalUrlMatch ??
     degenVaultModalUrlMatch ??
     wheelVaultModalUrlMatch ??
-    longVaultModalUrlMatch;
+    longVaultModalUrlMatch ??
+    longTradeVaultModalUrlMatch;
 
   const vaultType = getVaultType(
     vaultModalUrlMatch,
@@ -91,8 +102,10 @@ export const useVaultModalOpen = () => {
     basicVaultModalUrlMatch,
     degenVaultModalUrlMatch,
     wheelVaultModalUrlMatch,
-    longVaultModalUrlMatch
+    longVaultModalUrlMatch,
+    longTradeVaultModalUrlMatch
   );
+
   const vaultId = vaultModalUrlMatch?.params.vaultId;
 
   useEffect(() => {
@@ -117,6 +130,7 @@ export const useVaultModalOpen = () => {
 
       if (vaultsMap[vaultId]) {
         const chainId = Number(queryParameters.get("chain"));
+
         setVaultModalState((previousState) => ({
           ...previousState,
           vaultType,
@@ -135,6 +149,7 @@ export const useVaultModalOpen = () => {
       setVaultModalState((previousState) => ({
         ...previousState,
         isShow: false,
+        isBoostContentShown: false,
       }));
     }
   }, [
@@ -147,4 +162,13 @@ export const useVaultModalOpen = () => {
     vaultType,
     vaultId,
   ]);
+
+  useEffect(() => {
+    if (vaultId) {
+      setVaultModalState((previousState) => ({
+        ...previousState,
+        vaultId,
+      }));
+    }
+  }, [vaultId, setVaultModalState]);
 };

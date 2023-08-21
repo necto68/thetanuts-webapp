@@ -1,4 +1,4 @@
-import { useWallet } from "../../wallet/hooks/useWallet";
+import { useWallet } from "../../wallet/hooks";
 import { ChainId } from "../../wallet/constants";
 import { TokenSymbol } from "../types/tokenSymbol";
 
@@ -54,10 +54,8 @@ export const getBridgeByChainAndSymbol = (chain: number, symbol: string) => {
 export const useBridgeUrl = () => {
   const { walletChainId } = useWallet();
 
-  const chainId = walletChainId;
-
   const { sourceData } = useSwapRouterState();
   const { symbol = TokenSymbol.ETH } = sourceData ?? {};
 
-  return getBridgeByChainAndSymbol(chainId, symbol);
+  return getBridgeByChainAndSymbol(walletChainId, symbol);
 };

@@ -49,6 +49,8 @@ export const useBasicVaults = (basicVaultIds: string[]) => {
           ),
 
         staleTime: Number.POSITIVE_INFINITY,
+
+        enabled: Boolean(basicVaultAddress),
       })
     )
   );

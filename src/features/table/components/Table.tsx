@@ -67,6 +67,7 @@ export const Table = <RowData extends object>({
   getRowKey,
   filterInputPlaceholder,
   rowsPerPage = 10,
+  minWidth = 1000,
 }: TableProps<RowData>) => {
   const { filteredRows, filterInputValue, setFilterInputValue } = useFilteredBy(
     columns,
@@ -96,12 +97,18 @@ export const Table = <RowData extends object>({
         />
       ) : null}
       <TableContainerWrapper>
-        <TableContainer>
+        <TableContainer minWidth={minWidth}>
           <thead>
             <HeaderRow>
               {columns.map(
                 (
-                  { key, title, tooltipTitle, sortBy, minWidth },
+                  {
+                    key,
+                    title,
+                    tooltipTitle,
+                    sortBy,
+                    minWidth: columnMinWidth,
+                  },
                   columnIndex
                 ) => (
                   <HeaderCell
@@ -109,7 +116,7 @@ export const Table = <RowData extends object>({
                       columnIndex === columns.length - 1 ? "right" : undefined
                     }
                     key={title ?? columnIndex.toString()}
-                    minWidth={minWidth?.toString()}
+                    minWidth={columnMinWidth}
                   >
                     {title ? (
                       <SortButton

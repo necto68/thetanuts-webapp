@@ -4,4 +4,7 @@ export enum ModalContentType {
   withdraw = 3,
   withdrawSummary = 4,
   withdrawClaim = 5,
+
+  openLongOptionPosition = 6,
+  closeLongOptionPosition = 7,
 }

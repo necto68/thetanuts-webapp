@@ -1,3 +1,4 @@
+/* eslint-disable etc/no-commented-out-code */
 import { LoadingBasicVault } from "../../basic-vault/components";
 import { Container } from "../../theta-index/components/FeaturedIndexVaultsList.styles";
 import { wheelVaults } from "../../basic/constants";

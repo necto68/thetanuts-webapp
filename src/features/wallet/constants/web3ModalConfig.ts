@@ -21,9 +21,7 @@ const chainArray = chains
 const coinbaseWalletSdk = coinbaseWalletModule();
 const walletConnect = walletConnectModule({
   version: 2,
-
   projectId: walletConnectProjectId,
-
   requiredChains: chainArray,
 });
 

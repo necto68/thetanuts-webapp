@@ -3,6 +3,7 @@ import { useCallback } from "react";
 import { AnimatePresence } from "framer-motion";
 import Big from "big.js";
 
+import { useBasicModalConfig } from "../../basic-vault-modal/hooks";
 import { IconContainer, SkeletonBox } from "../../shared/components";
 import { currencyFormatter } from "../../shared/helpers";
 import type { NativeToken, Token } from "../types";
@@ -10,6 +11,12 @@ import { getLogoBySymbol } from "../../logo/helpers";
 import type { ChainId } from "../../wallet/constants";
 import { ModalContentType } from "../types";
 import { useVaultModalState } from "../../modal/hooks";
+import { TabType } from "../../basic-vault-modal/types";
+import {
+  getLendingPoolTokenTitle,
+  getLongVaultContractsTitle,
+} from "../../table/helpers";
+import { VaultType } from "../../basic-vault/types";
 
 import { AssetSelector } from "./AssetSelector";
 import { PriceImpact } from "./PriceImpact";
@@ -57,7 +64,7 @@ interface SwapInputCardProps {
 }
 
 const getBalanceValue = (tokenData: NativeToken | Token | undefined) =>
-  tokenData?.balance ? tokenData.balance.round(5).toString() : "N/A";
+  tokenData?.balance ? tokenData.balance.round(4).toString() : "N/A";
 
 // eslint-disable-next-line complexity
 export const SwapInputCard: FC<SwapInputCardProps> = ({
@@ -84,7 +91,15 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   maxInputValue = Number.MAX_SAFE_INTEGER,
   vaultChainId,
 }) => {
-  const [{ contentType }] = useVaultModalState();
+  const [{ contentType, tabType, isBoostContentShown }] = useVaultModalState();
+  const { basicVaultQuery } = useBasicModalConfig();
+  const { data: basicVaultData } = basicVaultQuery;
+
+  const {
+    collateralSymbol = "",
+    type = VaultType.CALL,
+    assetSymbol = "",
+  } = basicVaultData ?? {};
 
   const isShowAssetSelector =
     !isHideAssetSelector &&
@@ -162,6 +177,21 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
 
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
+  let symbolTitle = currentData?.symbol;
+  if (isBoostContentShown && tabType === TabType.deposit) {
+    symbolTitle = getLongVaultContractsTitle(
+      type,
+      assetSymbol,
+      collateralSymbol
+    );
+  } else if (isBoostContentShown && tabType === TabType.withdraw) {
+    symbolTitle = getLendingPoolTokenTitle(type, assetSymbol, collateralSymbol);
+  } else {
+    symbolTitle = currentData?.symbol;
+  }
+
+  const tokenSymbol = symbolTitle;
+
   return (
     <Container>
       <AnimatePresence exitBeforeEnter initial={false}>
@@ -206,7 +236,7 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
                   <IconContainer height={20} width={20}>
                     {assetLogo}
                   </IconContainer>
-                  <AssetTitle>{currentData?.symbol}</AssetTitle>
+                  <AssetTitle>{tokenSymbol}</AssetTitle>
                 </AssetTitleContainer>
               ) : null}
               {!isDataLoading && isShowAssetSelector ? (

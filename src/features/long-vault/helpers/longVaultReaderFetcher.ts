@@ -19,12 +19,13 @@ import { convertToBig } from "../../shared/helpers/converters";
 import { tokenFetcher } from "../../index-vault-modal/helpers";
 import type { LongVaultReader } from "../types";
 
+// eslint-disable-next-line complexity
 export const longVaultReaderFetcher = async (
   basicVaultId: string,
   basicVaultType: BasicVaultType,
   basicVaultAddress: string,
   longVaultPositionManagerAddress: string,
-  longVaultProtocolDataProviderAddress: string,
+  protocolDataProviderAddress: string,
   account: string,
   provider: Provider
 ): Promise<LongVaultReader> => {
@@ -36,7 +37,7 @@ export const longVaultReaderFetcher = async (
 
   const longVaultProtocolDataProviderContract =
     ProtocolDataProviderAbiFactory.connect(
-      longVaultProtocolDataProviderAddress,
+      protocolDataProviderAddress,
       provider
     );
 
@@ -118,25 +119,30 @@ export const longVaultReaderFetcher = async (
 
   const priceDivisor = new Big(10).pow(8);
 
-  const [debtTokenPrice, debtTokenAddress, rawBorrowPending, minBorrowValue] =
-    await Promise.all([
-      priceOracleContract
-        .getAssetPrice(basicVaultAddress)
-        .then((value) => convertToBig(value).div(priceDivisor).toNumber()),
-      lendingPoolContract
-        .getReserveData(basicVaultAddress)
-        .then((data) => data.variableDebtTokenAddress),
-      account
-        ? longVaultPositionManagerContract.callStatic
-            .cancelQueue(basicVaultAddress, lendingPoolAddress, {
-              from: account,
-            })
-            .then(convertToBig)
-        : null,
-      longVaultPositionManagerContract
-        .minQueueValue()
-        .then((value) => convertToBig(value).div(priceDivisor)),
-    ]);
+  const [
+    debtTokenPrice,
+    {
+      variableDebtTokenAddress: debtTokenAddress,
+      currentVariableBorrowRate: rawCurrentVariableBorrowRate,
+    },
+    rawBorrowPending,
+    minBorrowValue,
+  ] = await Promise.all([
+    priceOracleContract
+      .getAssetPrice(basicVaultAddress)
+      .then((value) => convertToBig(value).div(priceDivisor).toNumber()),
+    lendingPoolContract.getReserveData(basicVaultAddress),
+    account
+      ? longVaultPositionManagerContract.callStatic
+          .cancelQueue(basicVaultAddress, lendingPoolAddress, {
+            from: account,
+          })
+          .then(convertToBig)
+      : null,
+    longVaultPositionManagerContract
+      .minQueueValue()
+      .then((value) => convertToBig(value).div(priceDivisor)),
+  ]);
 
   const balanceDivisor = collateralToken.tokenDivisor;
   const availableLiquidity = convertToBig(rawAvailableLiquidity).div(
@@ -163,12 +169,20 @@ export const longVaultReaderFetcher = async (
     .round(5, Big.roundDown)
     .toNumber();
 
-  const minSupplyValue = minBorrowValue
-    .div(new Big(borrowRemainder).div(maxSupplyValue))
-    .round(0, Big.roundDown)
-    .toNumber();
+  const minSupplyValue =
+    maxSupplyValue !== 0
+      ? minBorrowValue
+          .div(new Big(borrowRemainder).div(maxSupplyValue))
+          .round(0, Big.roundDown)
+          .toNumber()
+      : 0;
 
   const balance = supplyCap.sub(maxSupplyValue);
+
+  const borrowRateDivisor = new Big(10).pow(25);
+  const borrowRate = convertToBig(rawCurrentVariableBorrowRate)
+    .div(borrowRateDivisor)
+    .toNumber();
 
   const debtTokenContract = DebtTokenAbiFactory.connect(
     debtTokenAddress,
@@ -223,5 +237,6 @@ export const longVaultReaderFetcher = async (
     minSupplyValue,
     maxSupplyValue,
     borrowRemainder,
+    borrowRate,
   };
 };

@@ -29,11 +29,14 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     basicVaultQuery,
     basicVaultReaderQuery,
   } = useBasicModalConfig();
-
   const { inputValue, setInputValue, tokenData, nativeData, tokensQueries } =
     useBasicModalState();
 
   const [mutationHash, setMutationHash] = useState<string>();
+
+  const resetMutationHash = useCallback(() => {
+    setMutationHash(undefined);
+  }, []);
 
   const runApproveAllowanceMutation = useCallback(async () => {
     if (!tokenData || !walletProvider) {
@@ -464,6 +467,7 @@ export const useBasicModalProviderMutations = (): BasicModalMutations => {
     withdrawMutation,
 
     mutationHash,
+    resetMutationHash,
 
     runApproveAllowance: () => {
       approveAllowanceMutation.mutate();

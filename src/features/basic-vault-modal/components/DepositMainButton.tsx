@@ -19,9 +19,13 @@ import {
   useLongModalConfig,
   useLongModalMutations,
 } from "../../long-vault-modal/hooks";
+import { useLongOptionModalConfig } from "../../long-option-modal/hooks";
 import { BasicVaultType } from "../../basic/types";
 import { VaultType } from "../../basic-vault/types";
 import { getLongVaultContractsTitle } from "../../table/helpers";
+import { useVaultModalState } from "../../modal/hooks";
+import { VaultModalType } from "../../root/types";
+import { ModalContentType } from "../../index-vault-modal/types";
 import { useWallet } from "../../wallet/hooks";
 import { PriceItmMainButton } from "../../modal/components/PriceItmMainButton";
 import { VaultStatus } from "../types";
@@ -31,9 +35,11 @@ import { SwitchToChainIdMainButton } from "./SwitchToChainIdMainButton";
 
 // eslint-disable-next-line complexity
 export const DepositMainButton = () => {
+  const [{ vaultType }, setVaultModalState] = useVaultModalState();
   const { walletChainId, walletProvider, basicVaultChainId, basicVaultQuery } =
     useBasicModalConfig();
   const { longVaultReaderQuery, collateralAssetQuery } = useLongModalConfig();
+  const { longOptionReaderQuery } = useLongOptionModalConfig();
   const {
     inputValue,
     tokenData,
@@ -56,13 +62,15 @@ export const DepositMainButton = () => {
   const {
     approveDelegationMutation,
     openPositionMutation,
+    openPositionImmediatelyMutation,
     runApproveDelegation,
     runOpenPosition,
+    runOpenPositionImmediately,
   } = useLongModalMutations();
 
   const { wallet } = useWallet();
 
-  const { data, isLoading: isBasicVaultQueryLoading } = basicVaultQuery;
+  const { data, isLoading: isBasicVaultLoading } = basicVaultQuery;
   const {
     type = VaultType.CALL,
     basicVaultType = BasicVaultType.BASIC,
@@ -83,9 +91,15 @@ export const DepositMainButton = () => {
   const { data: collateralAssetData } = collateralAssetQuery;
   const { availableLeverage = 1 } = collateralAssetData ?? {};
 
+  const { data: longOptionReaderData } = longOptionReaderQuery;
+  const { contractsToBorrow = null } = longOptionReaderData ?? {};
+
   const vaultStatus = getVaultStatus(isSettled, isExpired, isAllowInteractions);
-  const isLongVault = basicVaultType === BasicVaultType.LONG;
   const isActiveEpochStatus = vaultStatus === VaultStatus.ACTIVE_EPOCH;
+
+  const isLongVault = basicVaultType === BasicVaultType.LONG;
+  const isLongOptionModal = vaultType === VaultModalType.longTrade;
+  const isLongOptionPositionModal = vaultType === VaultModalType.longPosition;
 
   const handleResetButtonClick = useCallback(() => {
     const mutations = [
@@ -95,6 +109,7 @@ export const DepositMainButton = () => {
       depositAndQueueMutation,
       approveDelegationMutation,
       openPositionMutation,
+      openPositionImmediatelyMutation,
     ];
 
     resetMutations(mutations);
@@ -105,6 +120,7 @@ export const DepositMainButton = () => {
     depositAndQueueMutation,
     approveDelegationMutation,
     openPositionMutation,
+    openPositionImmediatelyMutation,
   ]);
 
   const {
@@ -143,13 +159,20 @@ export const DepositMainButton = () => {
     error: openPositionError,
   } = openPositionMutation ?? {};
 
+  const {
+    isLoading: isOpenPositionImmediatelyLoading,
+    isError: isOpenPositionImmediatelyError,
+    error: openPositionImmediatelyError,
+  } = openPositionImmediatelyMutation ?? {};
+
   const isError =
     Boolean(isApproveAllowanceError) ||
     Boolean(isWrapError) ||
     Boolean(isDirectDepositError) ||
     Boolean(isDepositAndQueueError) ||
     Boolean(isApproveDelegationError) ||
-    Boolean(isOpenPositionError);
+    Boolean(isOpenPositionError) ||
+    Boolean(isOpenPositionImmediatelyError);
 
   const error =
     approveAllowanceError ??
@@ -157,7 +180,8 @@ export const DepositMainButton = () => {
     directDepositError ??
     depositAndQueueError ??
     approveDelegationError ??
-    openPositionError;
+    openPositionError ??
+    openPositionImmediatelyError;
 
   const inputValueBig = new Big(inputValue || 0);
 
@@ -177,8 +201,12 @@ export const DepositMainButton = () => {
   const isApproveLoading =
     Boolean(isApproveAllowanceLoading) || Boolean(isApproveDelegationLoading);
 
-  const isMainButtonDisabled =
+  const isLongOptionMainButtonDisabled =
+    (isLongOptionModal || isLongOptionPositionModal) && !contractsToBorrow;
+  const isInputNotReady =
     isTokenDataLoading || !currentTokenData || inputValueBig.lte(0);
+  const isMainButtonDisabled =
+    isInputNotReady || isLongOptionMainButtonDisabled;
 
   const isPriceITM =
     (type === VaultType.CALL && strikePrices[0] < assetPrice) ||
@@ -194,7 +222,7 @@ export const DepositMainButton = () => {
     return <ConnectWalletMainButton />;
   }
 
-  if (!isBasicVaultQueryLoading && walletChainId !== basicVaultChainId) {
+  if (!isBasicVaultLoading && walletChainId !== basicVaultChainId) {
     return (
       <SwitchToChainIdMainButton
         chainId={basicVaultChainId}
@@ -259,8 +287,16 @@ export const DepositMainButton = () => {
     return <LoadingMainButton>Depositing...</LoadingMainButton>;
   }
 
-  if (isOpenPositionLoading) {
+  if (isOpenPositionLoading || isOpenPositionImmediatelyLoading) {
     return <LoadingMainButton>Opening Position...</LoadingMainButton>;
+  }
+
+  if (
+    (isLongOptionPositionModal || isLongOptionModal) &&
+    !contractsToBorrow &&
+    !isInputNotReady
+  ) {
+    return <LoadingMainButton>Bid...</LoadingMainButton>;
   }
 
   let buttonTitle = "";
@@ -272,6 +308,38 @@ export const DepositMainButton = () => {
       : "Wrap";
 
     handleMainButtonClick = runWrap;
+  } else if (isLongOptionPositionModal || isLongOptionModal) {
+    // need to show loading while we are fetching current contractsToBorrow
+    const loadingPlaceholder = ".....";
+
+    const longValue = contractsToBorrow
+      ? contractsToBorrow.toFixed(2)
+      : loadingPlaceholder;
+
+    const contractsTitle = getLongVaultContractsTitle(
+      type,
+      assetSymbol,
+      collateralSymbol
+    );
+
+    buttonTitle = inputValueBig.gt(0)
+      ? `Bid ${longValue} ${contractsTitle}`
+      : "Bid";
+
+    const showOpenLongOptionPositionModal = () => {
+      setVaultModalState((previousState) => ({
+        ...previousState,
+        vaultType: VaultModalType.longPosition,
+        contentType: ModalContentType.openLongOptionPosition,
+        isShow: true,
+        isRouterModal: false,
+        defaultInputValue: inputValue,
+      }));
+    };
+
+    handleMainButtonClick = isLongOptionPositionModal
+      ? runOpenPositionImmediately
+      : showOpenLongOptionPositionModal;
   } else if (isLongVault) {
     const longValue = inputValueBig.mul(availableLeverage).toFixed(2);
 
