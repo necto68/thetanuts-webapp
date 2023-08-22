@@ -66,7 +66,9 @@ export const basicVaultFetcher = async (
     linkAggregator,
     collatCapWei,
     currentEpochAmount,
-    currentEpochPremium,
+
+    // TODO: uncomment when wheel vault epoch will be 16
+    // currentEpochPremium,
     period,
     feePerYear,
   ] = await Promise.all([
@@ -86,7 +88,9 @@ export const basicVaultFetcher = async (
     vaultContract.LINK_AGGREGATOR(),
     vaultContract.collatCap().then(convertToBig),
     vaultContract.currentEpochAmount().then(convertToBig),
-    vaultContract.currentEpochPremium().then(convertToBig),
+
+    // TODO: uncomment when wheel vault epoch will be 16
+    // vaultContract.currentEpochPremium().then(convertToBig),
     vaultContract
       .PERIOD()
       .then(convertToBig)
@@ -96,6 +100,12 @@ export const basicVaultFetcher = async (
       .then(convertToBig)
       .then((feePerYearBig) => feePerYearBig.div(feeDivisor).toNumber()),
   ]);
+
+  // TODO: remove when wheel vault epoch will be 16
+  const currentEpochPremium =
+    id === "TN-SMv1-ETHUSDC" && epoch === 15
+      ? new Big("968000000000000000")
+      : await vaultContract.currentEpochPremium().then(convertToBig);
 
   const collateralTokenContract = Erc20AbiFactory.connect(
     collateralTokenAddress,
