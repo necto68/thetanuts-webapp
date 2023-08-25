@@ -78,7 +78,7 @@ export const chains: ChainConfig[] = [
     symbol: "BNB",
 
     urls: {
-      rpc: "https://bsc.publicnode.com",
+      rpc: "https://bsc-dataseed1.binance.org/",
       explorer: "https://bscscan.com/",
       explorerApi: "https://api.bscscan.com/",
     },
@@ -240,7 +240,7 @@ export const chains: ChainConfig[] = [
     symbol: "CRO",
 
     urls: {
-      rpc: "https://node.croswap.com/rpc",
+      rpc: "https://cronos-evm.publicnode.com",
       explorer: "https://cronoscan.com/",
       explorerApi: "https://api.cronoscan.com/",
     },
@@ -330,7 +330,7 @@ export const chains: ChainConfig[] = [
     symbol: "FIL",
 
     urls: {
-      rpc: "https://rpc.ankr.com/filecoin",
+      rpc: "https://filecoin.chainup.net/rpc/v1",
       explorer: "https://filfox.info/en",
     },
 
