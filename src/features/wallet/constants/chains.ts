@@ -240,7 +240,7 @@ export const chains: ChainConfig[] = [
     symbol: "CRO",
 
     urls: {
-      rpc: "https://node.croswap.com/rpc",
+      rpc: "https://cronos-evm.publicnode.com",
       explorer: "https://cronoscan.com/",
       explorerApi: "https://api.cronoscan.com/",
     },
