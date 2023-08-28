@@ -127,7 +127,8 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   return (
     // <Container showModalBoostButton={showModalBoostButton}>
     <Container>
-      {isBoostContentShown ? <BoostBackButton /> : <BasicBackButton />}
+      {/* {isBoostContentShown ? <BoostBackButton /> : <BasicBackButton />} */}
+      <BasicBackButton />
       {/* {isMutationSucceed ? ( */}
       <BackgroundAnimationContainer>
         <Lottie
