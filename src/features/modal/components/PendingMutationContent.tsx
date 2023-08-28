@@ -166,13 +166,13 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
           {`Boost for ${formattedAPY}% more yield`}
         </ModalBoostButton>
       )} */}
-      {!showModalBoostButton && !isBoostContentShown && (
-        <Link to={pageRoute}>
-          <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
-            Close
-          </CloseButton>
-        </Link>
-      )}
+      {/* {!showModalBoostButton && !isBoostContentShown && ( */}
+      <Link to={pageRoute}>
+        <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
+          Close
+        </CloseButton>
+      </Link>
+      {/* )} */}
     </Container>
   );
 };
