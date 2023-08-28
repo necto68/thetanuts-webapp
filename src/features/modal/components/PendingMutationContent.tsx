@@ -125,8 +125,10 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   }
 
   return (
-    <Container showModalBoostButton={showModalBoostButton}>
-      {isBoostContentShown ? <BoostBackButton /> : <BasicBackButton />}
+    // <Container showModalBoostButton={showModalBoostButton}>
+    <Container>
+      {/* {isBoostContentShown ? <BoostBackButton /> : <BasicBackButton />} */}
+      <BasicBackButton />
       {/* {isMutationSucceed ? ( */}
       <BackgroundAnimationContainer>
         <Lottie
@@ -156,21 +158,21 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
           </TransactionLink>
         </InfoContainer>
       </ContentContainer>
-      {showModalBoostButton && (
+      {/* {showModalBoostButton && (
         <ModalBoostButton
           disabled={!isMutationSucceed}
           onClick={handleModalBoostButtonClick}
         >
           {`Boost for ${formattedAPY}% more yield`}
         </ModalBoostButton>
-      )}
-      {!showModalBoostButton && !isBoostContentShown && (
-        <Link to={pageRoute}>
-          <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
-            Close
-          </CloseButton>
-        </Link>
-      )}
+      )} */}
+      {/* {!showModalBoostButton && !isBoostContentShown && ( */}
+      <Link to={pageRoute}>
+        <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
+          Close
+        </CloseButton>
+      </Link>
+      {/* )} */}
     </Container>
   );
 };
