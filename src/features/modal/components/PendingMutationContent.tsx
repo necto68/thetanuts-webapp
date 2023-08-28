@@ -125,7 +125,8 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   }
 
   return (
-    <Container showModalBoostButton={showModalBoostButton}>
+    // <Container showModalBoostButton={showModalBoostButton}>
+    <Container>
       {isBoostContentShown ? <BoostBackButton /> : <BasicBackButton />}
       {/* {isMutationSucceed ? ( */}
       <BackgroundAnimationContainer>
@@ -156,14 +157,14 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
           </TransactionLink>
         </InfoContainer>
       </ContentContainer>
-      {showModalBoostButton && (
+      {/* {showModalBoostButton && (
         <ModalBoostButton
           disabled={!isMutationSucceed}
           onClick={handleModalBoostButtonClick}
         >
           {`Boost for ${formattedAPY}% more yield`}
         </ModalBoostButton>
-      )}
+      )} */}
       {!showModalBoostButton && !isBoostContentShown && (
         <Link to={pageRoute}>
           <CloseButton onClick={handleCloseButtonClick} primaryColor="#FFFFFF">
