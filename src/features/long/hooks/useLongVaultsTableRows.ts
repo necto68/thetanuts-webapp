@@ -5,7 +5,10 @@ import type { LongVaultRow } from "../types";
 import { useSortedBasicVaultsIds } from "../../basic/hooks";
 
 export const useLongVaultsTableRows = (): (LongVaultRow | undefined)[] => {
-  const sortedLongVaultsIds = useSortedBasicVaultsIds(longVaults);
+  const longVaultsConfigs = longVaults.filter(
+    ({ isForLongTrade }) => !isForLongTrade
+  );
+  const sortedLongVaultsIds = useSortedBasicVaultsIds(longVaultsConfigs);
 
   const longVaultsQueries = useBasicVaults(sortedLongVaultsIds);
   const longVaultsReaderQueries = useLongVaultsReaders(sortedLongVaultsIds);

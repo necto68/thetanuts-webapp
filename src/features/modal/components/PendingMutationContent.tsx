@@ -12,13 +12,11 @@ import type { ChainId } from "../../wallet/constants";
 import { useBasicModalConfig } from "../../basic-vault-modal/hooks/useBasicModalConfig";
 import { Link } from "../../shared/components";
 import { getPagePathname } from "../../root/helpers";
-import { BasicVaultType } from "../../basic/types";
 import {
   getLendingPoolTokenTitle,
   getLongVaultContractsTitle,
 } from "../../table/helpers";
 import { VaultType } from "../../basic-vault/types";
-import { BoostBackButton } from "../../boost/components/BoostBackButton";
 import { BasicBackButton } from "../../basic-vault-modal/components/BasicBackButton";
 
 import {
@@ -31,9 +29,10 @@ import {
   ToTitle,
   TransactionLink,
   CloseButton,
-  ModalBoostButton,
 } from "./PendingMutationContent.styles";
 
+// import { BoostBackButton } from "../../boost/components/BoostBackButton";
+// import { BasicVaultType } from "../../basic/types";
 interface TokenData {
   value: string;
   symbol: string;
@@ -64,13 +63,14 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   const pathname = getPagePathname(vaultType);
   const pageRoute = isRouterModal ? { pathname } : {};
 
-  const { basicVaultQuery, lendingPoolReaderQuery } = useBasicModalConfig();
+  const { basicVaultQuery } = useBasicModalConfig();
 
   const { data: basicVaultData } = basicVaultQuery;
-  const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
 
-  const { basicVaultType = BasicVaultType.BASIC } = basicVaultData ?? {};
-  const { shouldShowBoost = false } = lendingPoolReaderData ?? {};
+  // const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
+
+  // const { basicVaultType = BasicVaultType.BASIC } = basicVaultData ?? {};
+  // const { shouldShowBoost = false } = lendingPoolReaderData ?? {};
 
   // background animation
   const [isFirstLoopCompleted, setIsFirstLoopCompleted] = useState(false);
@@ -81,9 +81,9 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
     }
   }, [isFirstLoopCompleted]);
 
-  const handleModalBoostButtonClick = useCallback(() => {
-    setVaultModalState({ ...vaultModalState, isBoostContentShown: true });
-  }, [setVaultModalState, vaultModalState]);
+  // const handleModalBoostButtonClick = useCallback(() => {
+  //   setVaultModalState({ ...vaultModalState, isBoostContentShown: true });
+  // }, [setVaultModalState, vaultModalState]);
 
   // close button
   const handleCloseButtonClick = useCallback(() => {
@@ -95,15 +95,15 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
 
   const transactionUrl = getExplorerUrl(PathType.tx, chainId, mutationHash);
 
-  const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
-  const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
+  // const { currentLiquidityRate = 0 } = lendingPoolReaderData ?? {};
+  // const formattedAPY = (Number(currentLiquidityRate) * 100).toFixed(2);
 
-  const showModalBoostButton =
-    (!isBoostContentShown &&
-      tabType === TabType.deposit &&
-      shouldShowBoost &&
-      basicVaultType === BasicVaultType.BASIC) ||
-    false;
+  // const showModalBoostButton =
+  //   (!isBoostContentShown &&
+  //     tabType === TabType.deposit &&
+  //     shouldShowBoost &&
+  //     basicVaultType === BasicVaultType.BASIC) ||
+  //   false;
 
   const {
     collateralSymbol = "",
@@ -125,8 +125,7 @@ export const PendingMutationContent: FC<PendingMutationContentProps> = ({
   }
 
   return (
-    // <Container showModalBoostButton={showModalBoostButton}>
-    <Container>
+    <Container showModalBoostButton={false}>
       {/* {isBoostContentShown ? <BoostBackButton /> : <BasicBackButton />} */}
       <BasicBackButton />
       {/* {isMutationSucceed ? ( */}
