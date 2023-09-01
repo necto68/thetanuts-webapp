@@ -279,7 +279,7 @@ export const basicVaultFetcher = async (
   const totalReward = new Big("23527.277335588715");
 
   // need to update each epoch
-  const currentEpochRewardMultiplier = new Big(0.25);
+  const currentEpochRewardMultiplier = new Big(0.35);
   const currentEpochReward = totalReward.mul(currentEpochRewardMultiplier);
 
   const rewardPercentageYields = getPercentageYields(
