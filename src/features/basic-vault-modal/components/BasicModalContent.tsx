@@ -23,8 +23,7 @@ export const BasicModalContent = () => {
 
   // TODO: remove later
   const shouldHideAnalyticLink = [
-    "TN-CSCCv1-FILUSD",
-    "TN-CSCCv1-STMATICUSD",
+    "TN-CSCCv1-FILUSD"
   ].includes(vaultId);
 
   const { data: lendingPoolReaderData } = lendingPoolReaderQuery;
