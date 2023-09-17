@@ -210,7 +210,7 @@ export const chains: ChainConfig[] = [
     symbol: "ETH",
 
     urls: {
-      rpc: "https://boba-mainnet.gateway.pokt.network/v1/lb/623ad21b20354900396fed7f",
+      rpc: "https://mainnet.boba.network",
       explorer: "https://bobascan.com/",
       explorerApi: "https://api.bobascan.com/",
     },
