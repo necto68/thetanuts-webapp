@@ -202,7 +202,6 @@ const getRowKey = ({ id, chainId }: BasicVault) => `${id}${chainId}`;
 export const BasicVaultsTable = () => {
   const sortedBasicVaultIds = useSortedBasicVaultsIds(basicVaults);
   const basicVaultsQueries = useBasicVaults(sortedBasicVaultIds);
-
   const rows = basicVaultsQueries.map(({ data }) => data);
 
   return (
