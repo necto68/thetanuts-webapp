@@ -353,7 +353,7 @@ export const chains: ChainConfig[] = [
     symbol: "ETH",
 
     urls: {
-      rpc: "https://1rpc.io/polygon/zkevm",
+      rpc: "https://zkevm-rpc.com",
       explorer: "https://zkevm.polygonscan.com",
     },
 
