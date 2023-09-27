@@ -78,7 +78,7 @@ export const chains: ChainConfig[] = [
     symbol: "BNB",
 
     urls: {
-      rpc: "https://bsc-dataseed1.binance.org/",
+      rpc: "https://bsc-dataseed4.binance.org/",
       explorer: "https://bscscan.com/",
       explorerApi: "https://api.bscscan.com/",
     },
