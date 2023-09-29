@@ -128,7 +128,7 @@ const columns: Column<BasicVault>[] = [
           }
         />
         {/* TODO: remove for stMATIC vault */}
-        {id === "TN-CSCCv1-STMATICUSD" ? (
+        {/* {id === "TN-CSCCv1-STMATICUSD" ? (
           <Tooltip
             content="Reward APR"
             id={`${id}-reward`}
@@ -142,7 +142,7 @@ const columns: Column<BasicVault>[] = [
               </RewardAPYContainer>
             }
           />
-        ) : null}
+        ) : null} */}
       </APYCellContainer>
     ),
 
