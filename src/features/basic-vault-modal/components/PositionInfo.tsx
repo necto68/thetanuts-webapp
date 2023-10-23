@@ -61,14 +61,14 @@ export const PositionInfo = () => {
         </InfoValue>
       </InfoContainer>
       {/* TODO: remove later */}
-      {id === "TN-CSCCv1-STMATICUSD" ? (
+      {/* {id === "TN-CSCCv1-STMATICUSD" ? (
         <InfoContainer>
           <InfoTitle>Reward APR%</InfoTitle>
           <InfoValue isAlignRight>
             {isLoading ? loadingPlaceholder : formattedRewardAPR}
           </InfoValue>
         </InfoContainer>
-      ) : null}
+      ) : null} */}
       <VaultStatusInfo />
       <PendingPositionInfo />
       <CurrentPositionInfo />
