@@ -180,7 +180,7 @@ export const chains: ChainConfig[] = [
     symbol: "FTM",
 
     urls: {
-      rpc: "https://rpcapi.fantom.network",
+      rpc: "https://fantom.publicnode.com",
       explorer: "https://ftmscan.com/",
       explorerApi: "https://api.ftmscan.com/",
     },
