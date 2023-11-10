@@ -72,7 +72,7 @@ export const Root = () => {
               </MobileHeaderContainer>
               <PageContainer>
                 <Switch>
-                  <Route
+                  {/* <Route
                     exact
                     path={[
                       RouterPathname.thetaIndex,
@@ -98,7 +98,7 @@ export const Root = () => {
                     ]}
                   >
                     <DegenPage />
-                  </Route>
+                  </Route> */}
                   <Route
                     exact
                     path={[
@@ -108,24 +108,24 @@ export const Root = () => {
                   >
                     <WheelPage />
                   </Route>
-                  <Route
+                  {/* <Route
                     exact
                     path={[RouterPathname.long, RouterPathname.longVaultModal]}
                   >
                     <LongPage />
-                  </Route>
+                  </Route> */}
                   {/* TODO: uncomment when ready to deploy long trade */}
                   {/* <Route exact path={[RouterPathname.longTrade]}> */}
                   {/*  <LongOptionRedirect /> */}
                   {/* </Route> */}
-                  {/* <Route exact path={[RouterPathname.longTradeVaultModal]}> */}
-                  {/*  <LongOptionPage /> */}
-                  {/* </Route> */}
-                  <Route exact path={RouterPathname.portfolio}>
+                  {/* <Route exact path={[RouterPathname.longTradeVaultModal]}>
+                   <LongOptionPage />
+                  </Route> */}
+                  {/* <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
-                  </Route>
+                  </Route> */}
                   <Route>
-                    <Redirect to={RouterPathname.basic} />
+                    <Redirect to={RouterPathname.wheel} />
                   </Route>
                 </Switch>
               </PageContainer>

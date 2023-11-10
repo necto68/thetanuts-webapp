@@ -30,25 +30,25 @@ import { AppSidebarLogo } from "./AppSidebarLogo";
 import { MainNavSection } from "./MainNavSection";
 
 // navbar items stored here and mapped to JSX later so it is easier to add on
-const shortOptions = [
-  {
-    to: PagePathname.thetaIndex,
-    linkTitle: "Stronghold",
-    navIcon: IndexPage,
-  },
-  {
-    to: PagePathname.basic,
-    linkTitle: "Basic Vaults",
-    navIcon: BasicPage,
-  },
-];
+// const shortOptions = [
+//   {
+//     to: PagePathname.thetaIndex,
+//     linkTitle: "Stronghold",
+//     navIcon: IndexPage,
+//   },
+//   {
+//     to: PagePathname.basic,
+//     linkTitle: "Basic Vaults",
+//     navIcon: BasicPage,
+//   },
+// ];
 
-const longOptions = [
-  {
-    to: PagePathname.long,
-    linkTitle: "Long Vaults",
-    navIcon: LongPage,
-  },
+// const longOptions = [
+//   {
+//     to: PagePathname.long,
+//     linkTitle: "Long Vaults",
+//     navIcon: LongPage,
+//   },
 
   // TODO: uncomment when ready to deploy long trade
   // {
@@ -56,15 +56,15 @@ const longOptions = [
   //   linkTitle: "Trade Long",
   //   navIcon: LongTradePage,
   // },
-];
+// ];
 
 const exoticStrategies = [
-  {
-    to: PagePathname.degen,
-    linkTitle: "Degen Vaults",
-    navIcon: DegenPage,
-    iconColor: "#EB5353",
-  },
+  // {
+  //   to: PagePathname.degen,
+  //   linkTitle: "Degen Vaults",
+  //   navIcon: DegenPage,
+  //   iconColor: "#EB5353",
+  // },
   {
     to: PagePathname.wheel,
     linkTitle: "Wheel Vaults",
@@ -72,53 +72,61 @@ const exoticStrategies = [
   },
 ];
 
-const tools = [
-  {
-    to: PagePathname.portfolio,
-    linkTitle: "Portfolio",
-    navIcon: Portfolio,
-  },
-  {
-    to: links.analytics,
-    linkTitle: "Analytics",
-    navIcon: Analytics,
-    target: "_blank",
-  },
-];
+// const tools = [
+//   {
+//     to: PagePathname.portfolio,
+//     linkTitle: "Portfolio",
+//     navIcon: Portfolio,
+//   },
+//   {
+//     to: links.analytics,
+//     linkTitle: "Analytics",
+//     navIcon: Analytics,
+//     target: "_blank",
+//   },
+// ];
 
-const documentation = [
-  {
-    to: links.docs,
-    linkTitle: "DOCS",
-    navIcon: Documentation,
-    target: "_blank",
-  },
-];
+// const documentation = [
+//   {
+//     to: links.docs,
+//     linkTitle: "DOCS",
+//     navIcon: Documentation,
+//     target: "_blank",
+//   },
+// ];
 
-const socials = [
+// const socials = [
+//   {
+//     to: links.twitter,
+//     linkTitle: "Twitter",
+//     navIcon: Twitter,
+//     target: "_blank",
+//   },
+//   {
+//     to: links.medium,
+//     linkTitle: "Medium",
+//     navIcon: Medium,
+//     target: "_blank",
+//   },
+//   {
+//     to: links.discord,
+//     linkTitle: "Discord",
+//     navIcon: Discord,
+//     target: "_blank",
+//   },
+//   {
+//     to: links.substack,
+//     linkTitle: "Substack",
+//     navIcon: Substack,
+//     target: "_blank",
+//   },
+// ];
+
+const newDapp = [
   {
-    to: links.twitter,
-    linkTitle: "Twitter",
-    navIcon: Twitter,
-    target: "_blank",
-  },
-  {
-    to: links.medium,
-    linkTitle: "Medium",
-    navIcon: Medium,
-    target: "_blank",
-  },
-  {
-    to: links.discord,
-    linkTitle: "Discord",
-    navIcon: Discord,
-    target: "_blank",
-  },
-  {
-    to: links.substack,
-    linkTitle: "Substack",
-    navIcon: Substack,
-    target: "_blank",
+    to: "https://www.google.com",
+    linkTitle: "Go to v3",
+    navIcon: LongPage,
   },
 ];
 
@@ -140,13 +148,13 @@ export const Sidebar = () => {
           />
         </CircleButtonContainer>
       </LogoContainer>
-      <MainNavSection navItems={shortOptions} title="Short Options" />
-      <MainNavSection navItems={longOptions} title="Long Options" />
+      {/* <MainNavSection navItems={shortOptions} title="Short Options" /> */}
       <MainNavSection navItems={exoticStrategies} title="Exotic Strategies" />
-      <MainNavSection navItems={tools} title="Tools" />
-      <MainNavSeparator />
-      <MainNavSection navItems={documentation} />
-      <MainNavSection navItems={socials} title="Socials" />
+      {/* <MainNavSection navItems={tools} title="Tools" /> */}
+      {/* <MainNavSeparator /> */}
+      <MainNavSection navItems={newDapp} title="Thetanuts v3" />
+      {/* <MainNavSection navItems={documentation} />
+      <MainNavSection navItems={socials} title="Socials" /> */}
     </SidebarContainer>
   );
 };
