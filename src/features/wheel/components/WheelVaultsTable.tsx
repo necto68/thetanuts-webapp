@@ -164,11 +164,11 @@ const columns: Column<BasicVault>[] = [
 
     render: ({ id, chainId }) => (
       <ActionsContainer>
-        <DepositButton
+        {/* <DepositButton
           chainId={chainId}
           vaultId={id}
           vaultType={VaultModalType.wheel}
-        />
+        /> */}
         <WithdrawButton
           chainId={chainId}
           vaultId={id}

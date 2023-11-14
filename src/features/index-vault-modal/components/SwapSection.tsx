@@ -81,13 +81,13 @@ export const SwapSection = () => {
           sourceTokenData={sourceData}
           tokenData={sourceData}
         />
-        <FlipButtonContainer>
+        {/* <FlipButtonContainer>
           <FlipButton isFlipped={isFlipped} onClick={swapInputs}>
             <IconContainer height={14} width={14}>
               <Flip />
             </IconContainer>
           </FlipButton>
-        </FlipButtonContainer>
+        </FlipButtonContainer> */}
         <SwapInputCard
           inputValue={targetValue}
           isDirectModeBetterThanSwapMode={isDirectModeBetterThanSwapMode}

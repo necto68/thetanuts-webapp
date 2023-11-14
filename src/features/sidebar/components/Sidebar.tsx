@@ -30,18 +30,18 @@ import { AppSidebarLogo } from "./AppSidebarLogo";
 import { MainNavSection } from "./MainNavSection";
 
 // navbar items stored here and mapped to JSX later so it is easier to add on
-// const shortOptions = [
-//   {
-//     to: PagePathname.thetaIndex,
-//     linkTitle: "Stronghold",
-//     navIcon: IndexPage,
-//   },
-//   {
-//     to: PagePathname.basic,
-//     linkTitle: "Basic Vaults",
-//     navIcon: BasicPage,
-//   },
-// ];
+const shortOptions = [
+  {
+    to: PagePathname.thetaIndex,
+    linkTitle: "Stronghold",
+    navIcon: IndexPage,
+  },
+  // {
+  //   to: PagePathname.basic,
+  //   linkTitle: "Basic Vaults",
+  //   navIcon: BasicPage,
+  // },
+];
 
 // const longOptions = [
 //   {
@@ -59,12 +59,12 @@ import { MainNavSection } from "./MainNavSection";
 // ];
 
 const exoticStrategies = [
-  // {
-  //   to: PagePathname.degen,
-  //   linkTitle: "Degen Vaults",
-  //   navIcon: DegenPage,
-  //   iconColor: "#EB5353",
-  // },
+  {
+    to: PagePathname.degen,
+    linkTitle: "Degen Vaults",
+    navIcon: DegenPage,
+    iconColor: "#EB5353",
+  },
   {
     to: PagePathname.wheel,
     linkTitle: "Wheel Vaults",
@@ -148,7 +148,7 @@ export const Sidebar = () => {
           />
         </CircleButtonContainer>
       </LogoContainer>
-      {/* <MainNavSection navItems={shortOptions} title="Short Options" /> */}
+      <MainNavSection navItems={shortOptions} title="Short Options" />
       <MainNavSection navItems={exoticStrategies} title="Exotic Strategies" />
       {/* <MainNavSection navItems={tools} title="Tools" /> */}
       {/* <MainNavSeparator /> */}

@@ -72,7 +72,7 @@ export const Root = () => {
               </MobileHeaderContainer>
               <PageContainer>
                 <Switch>
-                  {/* <Route
+                  <Route
                     exact
                     path={[
                       RouterPathname.thetaIndex,
@@ -81,7 +81,7 @@ export const Root = () => {
                   >
                     <ThetaIndexPage />
                   </Route>
-                  <Route
+                  {/* <Route
                     exact
                     path={[
                       RouterPathname.basic,
@@ -89,7 +89,7 @@ export const Root = () => {
                     ]}
                   >
                     <BasicPage />
-                  </Route>
+                  </Route> */}
                   <Route
                     exact
                     path={[
@@ -98,7 +98,7 @@ export const Root = () => {
                     ]}
                   >
                     <DegenPage />
-                  </Route> */}
+                  </Route>
                   <Route
                     exact
                     path={[
