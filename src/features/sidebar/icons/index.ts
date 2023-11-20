@@ -1,4 +1,5 @@
 export * from "./AppLogo";
+export * from "./Announcement";
 export * from "./IndexPage";
 export * from "./BasicPage";
 export * from "./DegenPage";

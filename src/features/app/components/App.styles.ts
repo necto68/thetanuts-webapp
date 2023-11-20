@@ -42,7 +42,8 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const BannerContainer = styled.div`
-  padding: 8px 5%;
+  // padding: 8px 5%;
+  height: 44px;
   background-color: #000; /* Change the background color as desired */
   display: flex;
   justify-content: center;
@@ -51,8 +52,10 @@ export const BannerContainer = styled.div`
 `;
 
 export const BannerText = styled.div`
+  padding: 8px 5%;
   font-size: 0.875rem; /* Change the font size as desired */
-  // font-weight: bold; /* Change the font weight as desired */
+  display: flex;
+  font-weight: bold; /* Change the font weight as desired */
   font-family: Roboto;
 `;
 
@@ -60,4 +63,10 @@ export const BannerLink = styled.a`
   color: #1fffab; /* Change the link color as desired */
   text-decoration: underline; /* Add underline to links */
   margin-left: 5px; /* Adjust spacing as needed */
+`;
+
+export const IconWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 `;

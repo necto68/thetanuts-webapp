@@ -61,28 +61,28 @@ import { MainNavSection } from "./MainNavSection";
 const exoticStrategies = [
   {
     to: PagePathname.basic,
-    linkTitle: "Basic Vaults",
+    linkTitle: "Basic Vaults (Deposit & Withdraw)",
     navIcon: BasicPage,
   },
   {
     to: PagePathname.thetaIndex,
-    linkTitle: "Stronghold",
+    linkTitle: "Stronghold (Withdraw Only)",
     navIcon: IndexPage,
   },
   {
     to: PagePathname.long,
-    linkTitle: "Long Vaults",
+    linkTitle: "Long Vaults (Withdraw Only)",
     navIcon: LongPage,
   },
   {
     to: PagePathname.degen,
-    linkTitle: "Degen Vaults",
+    linkTitle: "Degen Vaults (Withdraw Only)",
     navIcon: DegenPage,
     iconColor: "#EB5353",
   },
   {
     to: PagePathname.wheel,
-    linkTitle: "Wheel Vaults",
+    linkTitle: "Wheel Vaults (Deposit & Withdraw)",
     navIcon: WheelPage,
   },
 ];
