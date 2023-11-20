@@ -1,6 +1,7 @@
 export * from "./BasicVaultModal";
 export * from "./BasicModalPendingMutationContent";
 export * from "./Switcher";
+export * from "./SwitcherDisableDeposit";
 export * from "./TabButton";
 export * from "./InputCard";
 export * from "./BasicCardWarning";

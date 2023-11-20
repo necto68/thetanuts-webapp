@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
 import type { AppTheme, Theme } from "../constants/appTheme";
@@ -39,4 +39,25 @@ export const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     max-width: 400px;
   }
+`;
+
+export const BannerContainer = styled.div`
+  padding: 8px 5%;
+  background-color: #000; /* Change the background color as desired */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Change the text color as desired */
+`;
+
+export const BannerText = styled.div`
+  font-size: 0.875rem; /* Change the font size as desired */
+  // font-weight: bold; /* Change the font weight as desired */
+  font-family: Roboto;
+`;
+
+export const BannerLink = styled.a`
+  color: #1fffab; /* Change the link color as desired */
+  text-decoration: underline; /* Add underline to links */
+  margin-left: 5px; /* Adjust spacing as needed */
 `;

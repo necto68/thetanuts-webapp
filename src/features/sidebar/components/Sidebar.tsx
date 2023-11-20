@@ -30,18 +30,18 @@ import { AppSidebarLogo } from "./AppSidebarLogo";
 import { MainNavSection } from "./MainNavSection";
 
 // navbar items stored here and mapped to JSX later so it is easier to add on
-const shortOptions = [
-  {
-    to: PagePathname.thetaIndex,
-    linkTitle: "Stronghold",
-    navIcon: IndexPage,
-  },
-  // {
-  //   to: PagePathname.basic,
-  //   linkTitle: "Basic Vaults",
-  //   navIcon: BasicPage,
-  // },
-];
+// const shortOptions = [
+//   {
+//     to: PagePathname.thetaIndex,
+//     linkTitle: "Stronghold",
+//     navIcon: IndexPage,
+//   },
+//   {
+//     to: PagePathname.basic,
+//     linkTitle: "Basic Vaults",
+//     navIcon: BasicPage,
+//   },
+// ];
 
 // const longOptions = [
 //   {
@@ -59,6 +59,21 @@ const shortOptions = [
 // ];
 
 const exoticStrategies = [
+  {
+    to: PagePathname.basic,
+    linkTitle: "Basic Vaults",
+    navIcon: BasicPage,
+  },
+  {
+    to: PagePathname.thetaIndex,
+    linkTitle: "Stronghold",
+    navIcon: IndexPage,
+  },
+  {
+    to: PagePathname.long,
+    linkTitle: "Long Vaults",
+    navIcon: LongPage,
+  },
   {
     to: PagePathname.degen,
     linkTitle: "Degen Vaults",
@@ -124,8 +139,8 @@ const exoticStrategies = [
 
 const newDapp = [
   {
-    to: "https://www.google.com",
-    linkTitle: "Go to v3",
+    to: "https://app.thetanuts.finance/",
+    linkTitle: "Access Thetanuts Finance v3",
     navIcon: LongPage,
   },
 ];
@@ -148,11 +163,11 @@ export const Sidebar = () => {
           />
         </CircleButtonContainer>
       </LogoContainer>
-      <MainNavSection navItems={shortOptions} title="Short Options" />
-      <MainNavSection navItems={exoticStrategies} title="Exotic Strategies" />
+      {/* <MainNavSection navItems={shortOptions} title="Short Options" /> */}
+      <MainNavSection navItems={exoticStrategies} title="Legacy" />
       {/* <MainNavSection navItems={tools} title="Tools" /> */}
       {/* <MainNavSeparator /> */}
-      <MainNavSection navItems={newDapp} title="Thetanuts v3" />
+      <MainNavSection navItems={newDapp} title="v3 Upgrade" />
       {/* <MainNavSection navItems={documentation} />
       <MainNavSection navItems={socials} title="Socials" /> */}
     </SidebarContainer>

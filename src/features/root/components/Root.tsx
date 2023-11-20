@@ -81,7 +81,7 @@ export const Root = () => {
                   >
                     <ThetaIndexPage />
                   </Route>
-                  {/* <Route
+                  <Route
                     exact
                     path={[
                       RouterPathname.basic,
@@ -89,7 +89,7 @@ export const Root = () => {
                     ]}
                   >
                     <BasicPage />
-                  </Route> */}
+                  </Route>
                   <Route
                     exact
                     path={[
@@ -108,12 +108,12 @@ export const Root = () => {
                   >
                     <WheelPage />
                   </Route>
-                  {/* <Route
+                  <Route
                     exact
                     path={[RouterPathname.long, RouterPathname.longVaultModal]}
                   >
                     <LongPage />
-                  </Route> */}
+                  </Route>
                   {/* TODO: uncomment when ready to deploy long trade */}
                   {/* <Route exact path={[RouterPathname.longTrade]}> */}
                   {/*  <LongOptionRedirect /> */}

@@ -10,6 +10,7 @@ import { SidebarStateProvider } from "../../sidebar/providers";
 import { DarkAppTheme } from "../constants/appTheme";
 import { useInitLogRocket } from "../hooks";
 
+import { Banner } from "./Banner";
 import { GlobalStyle } from "./App.styles";
 
 Big.NE = -20;
@@ -23,6 +24,7 @@ export const App = () => {
       <Router>
         <ThemeProvider theme={DarkAppTheme}>
           <GlobalStyle />
+          <Banner />
           <SidebarStateProvider>
             <Root />
           </SidebarStateProvider>

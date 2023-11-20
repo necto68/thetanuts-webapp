@@ -1,6 +1,7 @@
 import { TabType } from "../../basic-vault-modal/types";
 import {
   Switcher,
+  SwitcherDisableDeposit,
   InputCard,
   BasicCardWarning,
   DepositMainButton,
@@ -26,7 +27,7 @@ export const DegenModalContent = () => {
   return (
     <Container>
       <Header />
-      <Switcher />
+      <SwitcherDisableDeposit />
       {tabType === TabType.deposit ? <InputCard /> : null}
       <PositionInfo />
       <BasicCardWarning />
