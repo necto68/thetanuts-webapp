@@ -50,19 +50,24 @@ import { MainNavSection } from "./MainNavSection";
 //     navIcon: LongPage,
 //   },
 
-  // TODO: uncomment when ready to deploy long trade
-  // {
-  //   to: PagePathname.longTrade,
-  //   linkTitle: "Trade Long",
-  //   navIcon: LongTradePage,
-  // },
+// TODO: uncomment when ready to deploy long trade
+// {
+//   to: PagePathname.longTrade,
+//   linkTitle: "Trade Long",
+//   navIcon: LongTradePage,
+// },
 // ];
 
 const exoticStrategies = [
   {
     to: PagePathname.basic,
-    linkTitle: "Basic Vaults (Deposit & Withdraw)",
+    linkTitle: "Basic Vaults",
     navIcon: BasicPage,
+  },
+  {
+    to: PagePathname.wheel,
+    linkTitle: "Wheel Vaults",
+    navIcon: WheelPage,
   },
   {
     to: PagePathname.thetaIndex,
@@ -79,11 +84,6 @@ const exoticStrategies = [
     linkTitle: "Degen Vaults (Withdraw Only)",
     navIcon: DegenPage,
     iconColor: "#EB5353",
-  },
-  {
-    to: PagePathname.wheel,
-    linkTitle: "Wheel Vaults (Deposit & Withdraw)",
-    navIcon: WheelPage,
   },
 ];
 
@@ -164,10 +164,10 @@ export const Sidebar = () => {
         </CircleButtonContainer>
       </LogoContainer>
       {/* <MainNavSection navItems={shortOptions} title="Short Options" /> */}
-      <MainNavSection navItems={exoticStrategies} title="Legacy" />
+      <MainNavSection navItems={exoticStrategies} title="Legacy Products" />
       {/* <MainNavSection navItems={tools} title="Tools" /> */}
       {/* <MainNavSeparator /> */}
-      <MainNavSection navItems={newDapp} title="v3 Upgrade" />
+      <MainNavSection navItems={newDapp} title="Thetanuts Finance v3 Upgrade" />
       {/* <MainNavSection navItems={documentation} />
       <MainNavSection navItems={socials} title="Socials" /> */}
     </SidebarContainer>

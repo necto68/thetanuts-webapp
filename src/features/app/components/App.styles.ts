@@ -52,10 +52,10 @@ export const BannerContainer = styled.div`
 `;
 
 export const BannerText = styled.div`
-  padding: 8px 5%;
+  // padding: 8px 5%;
   font-size: 0.875rem; /* Change the font size as desired */
   display: flex;
-  font-weight: bold; /* Change the font weight as desired */
+  // font-weight: bold; /* Change the font weight as desired */
   font-family: Roboto;
 `;
 
