@@ -28,7 +28,7 @@ export const SidebarContainer = styled(motion.div).attrs<{
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
-  width: 180px;
+  width: 190px;
   gap: 40px;
 
   ${screens.xl} {

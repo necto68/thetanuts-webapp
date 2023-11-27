@@ -66,17 +66,25 @@ const exoticStrategies = [
   },
   {
     to: PagePathname.wheel,
-    linkTitle: "Wheel Vaults",
+    linkTitle: <span style={{ paddingRight: "20px" }}>Wheel Vaults</span>,
     navIcon: WheelPage,
   },
   {
     to: PagePathname.thetaIndex,
-    linkTitle: "Stronghold (Withdraw Only)",
+
+    linkTitle: (
+      <span style={{ paddingRight: "20px" }}>Stronghold (Withdraw Only)</span>
+    ),
+
     navIcon: IndexPage,
   },
   {
     to: PagePathname.long,
-    linkTitle: "Long Vaults (Withdraw Only)",
+
+    linkTitle: (
+      <span style={{ paddingRight: "20px" }}>Long Vaults (Withdraw Only)</span>
+    ),
+
     navIcon: LongPage,
   },
   {
