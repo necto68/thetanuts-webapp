@@ -24,38 +24,32 @@ export const DisclaimerModal = () => {
     <Container>
       <Title>Terms of Service Agreement</Title>
       <Subtitle>
-        By using Thetanuts dApp, I agree to the{" "}
-        <Link href="https://thetanuts.finance/basic/disclaimer" target="_blank">
-          Important Disclaimer
-        </Link>
-        &nbsp; the{" "}
-        <Link href="https://thetanuts.finance/basic/termscondition">
-          Terms of Use
-        </Link>{" "}
-        and{" "}
-        <Link href="https://thetanuts.finance/basic/privacypolicy">
-          Privacy Policy
+        Thetanuts Finance is a decentralized, non-custodial options protocol. By
+        accessing Thetanuts Finance website, you agree to the {" "}
+        <Link href="https://docs.thetanuts.finance/other-information/terms-of-service">
+          Terms of Service
         </Link>
         .
       </Subtitle>
       <UnorderedList>
         <ListItem>
           I am not a person or entity who resides in, are citizens of, are
-          incorporated in , or have a registered office in the USA or any
-          Prohibited Jurisdictions, as defined in the Terms of Use
+          incorporated in, or have a registered office in the United States or
+          any Restricted Territory, as defined in the Terms of Service.
         </ListItem>
         <ListItem>
-          I will not in the future access this site or use the Thetanuts dApp
-          while located within the United States or any Prohibited
-          Jurisdictions, as defined in the Terms of Use
+          I will not in the future access this site or use the Thetanuts Finance
+          protocol while located within the United States or any Restricted
+          Territory, as defined in the Terms of Service.
         </ListItem>
         <ListItem>
-          I am lawfully permitted to access this site and use the Thetanuts dApp
-          under the laws of the jurisdiction on which I reside and am located
+          I am lawfully permitted to access this site and use the Thetanuts
+          Finance protocol under the laws of the jurisdiction on which I reside
+          and am located.
         </ListItem>
         <ListItem>
-          I understand the risks associated with entering into and using
-          Thetanuts Finance protocols
+          I understand the risks associated with entering into and using the
+          Thetanuts Finance protocol.
         </ListItem>
       </UnorderedList>
       <ActionContainer>

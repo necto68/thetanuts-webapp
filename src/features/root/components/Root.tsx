@@ -125,7 +125,7 @@ export const Root = () => {
                     <PortfolioPage />
                   </Route> */}
                   <Route>
-                    <Redirect to={RouterPathname.wheel} />
+                    <Redirect to={RouterPathname.basic} />
                   </Route>
                 </Switch>
               </PageContainer>
