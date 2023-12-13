@@ -50,9 +50,9 @@ export const BasicVaultAssetCell: FC<BasicVaultAssetCellProps> = ({
   return (
     <Container>
       <IconsContainer isPair={isDegenOrPutType}>
-        <IconContainer height={25} width={25}>
+        {/* <IconContainer height={25} width={25}>
           {collateralAssetLogo}
-        </IconContainer>
+        </IconContainer> */}
         {isDegenOrPutType ? (
           <IconContainer height={25} width={25}>
             {assetLogo}

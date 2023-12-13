@@ -43,10 +43,10 @@ export const Underline = styled(motion.div).attrs<SidebarItemContainerProps>(
     },
   })
 )<SidebarItemContainerProps>`
-  width: 2px;
+  width: 1px;
   border-radius: 1px;
   background-color: ${({ iconColor }) => iconColor};
-  transform: translateX(21px);
+  transform: translateX(20px);
 `;
 
 export const SidebarLink = styled(Link)<LinkProps>`
