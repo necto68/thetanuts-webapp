@@ -10,6 +10,9 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
 
     background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
+
+    overflow-x:hidden;
+    overflow-y:hidden;
   }
 
   * {
@@ -21,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar {
-    width: 3px;
+    width: 1px;
     height: 2px;
   }
 
