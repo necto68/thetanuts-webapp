@@ -66,7 +66,7 @@ export const Table = <RowData extends object>({
   rows,
   getRowKey,
   filterInputPlaceholder,
-  rowsPerPage = 7,
+  rowsPerPage = 10,
   minWidth = 1000,
 }: TableProps<RowData>) => {
   const { filteredRows, filterInputValue, setFilterInputValue } = useFilteredBy(

@@ -11,8 +11,8 @@ export const GlobalStyle = createGlobalStyle`
 
     background-color: ${({ theme }: Theme<AppTheme>) => theme.bgColor};
 
-    overflow-x:hidden;
-    overflow-y:hidden;
+    overflow-x:auto;
+    overflow-y:auto;
   }
 
   * {
@@ -24,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar {
-    width: 1px;
+    width: 0px;
     height: 2px;
   }
 
