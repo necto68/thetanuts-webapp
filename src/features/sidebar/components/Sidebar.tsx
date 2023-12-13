@@ -61,13 +61,15 @@ import { MainNavSection } from "./MainNavSection";
 const exoticStrategies = [
   {
     to: PagePathname.basic,
-    linkTitle: "Basic Vaults",
+    linkTitle: <span style={{ paddingRight: "20px" }}>Basic Vaults</span>,
     navIcon: BasicPage,
+    iconColor: "#1fffab",
   },
   {
     to: PagePathname.wheel,
     linkTitle: <span style={{ paddingRight: "20px" }}>Wheel Vaults</span>,
     navIcon: WheelPage,
+    iconColor: "#1fffab",
   },
   {
     to: PagePathname.thetaIndex,
@@ -77,6 +79,7 @@ const exoticStrategies = [
     ),
 
     navIcon: IndexPage,
+    iconColor: "#1fffab",
   },
   {
     to: PagePathname.long,
@@ -86,12 +89,13 @@ const exoticStrategies = [
     ),
 
     navIcon: LongPage,
+    iconColor: "#1fffab",
   },
   {
     to: PagePathname.degen,
     linkTitle: "Degen Vaults (Withdraw Only)",
     navIcon: DegenPage,
-    iconColor: "#EB5353",
+    iconColor: "#1fffab",
   },
 ];
 
@@ -167,17 +171,12 @@ export const Sidebar = () => {
             iconSize={13}
             iconType={CircleButtonIconType.cross}
             onClick={toggleIsShow}
-            primaryColor="#FFFFFF"
+            primaryColor="#1fffab"
           />
         </CircleButtonContainer>
       </LogoContainer>
-      {/* <MainNavSection navItems={shortOptions} title="Short Options" /> */}
       <MainNavSection navItems={exoticStrategies} title="Legacy Products" />
-      {/* <MainNavSection navItems={tools} title="Tools" /> */}
-      {/* <MainNavSeparator /> */}
       <MainNavSection navItems={newDapp} title="Thetanuts Finance v3 Upgrade" />
-      {/* <MainNavSection navItems={documentation} />
-      <MainNavSection navItems={socials} title="Socials" /> */}
     </SidebarContainer>
   );
 };
