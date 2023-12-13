@@ -13,7 +13,7 @@ export const Container = styled.div`
 export const TableContainerWrapper = styled.div`
   display: flex;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
+  // -webkit-overflow-scrolling: touch;
   overflow-x: auto;
 `;
 
