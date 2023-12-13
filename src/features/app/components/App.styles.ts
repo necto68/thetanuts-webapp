@@ -21,7 +21,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   *::-webkit-scrollbar {
-    width: 1px;
+    width: 3px;
     height: 2px;
   }
 
@@ -42,7 +42,6 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const BannerContainer = styled.div`
-  // padding: 8px 5%;
   height: 44px;
   background-color: #000; /* Change the background color as desired */
   display: flex;
@@ -52,10 +51,8 @@ export const BannerContainer = styled.div`
 `;
 
 export const BannerText = styled.div`
-  // padding: 8px 5%;
   font-size: 0.875rem; /* Change the font size as desired */
   display: flex;
-  // font-weight: bold; /* Change the font weight as desired */
   font-family: Roboto;
 `;
 
