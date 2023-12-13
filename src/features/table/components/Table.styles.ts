@@ -14,7 +14,7 @@ export const TableContainerWrapper = styled.div`
   display: flex;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  overflow-x: auto;
+  // overflow-x: hidden;
 `;
 
 export const TableContainer = styled.table<{ minWidth: number }>`

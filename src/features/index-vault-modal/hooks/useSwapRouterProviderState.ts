@@ -96,7 +96,7 @@ export const useSwapRouterProviderState = (): SwapRouterState => {
     indexVaultQuery,
   } = useSwapRouterConfig();
 
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(true);
 
   const routerPath = useMemo(
     () =>

@@ -263,15 +263,15 @@ export const productionBasicVaults: BasicVaultConfig[] = [
   },
 
   // fantom - ftm put
-  {
-    id: "TN-CSCPv1-FTMUSD",
-    basicVaultType: BasicVaultType.BASIC,
+  // {
+  //   id: "TN-CSCPv1-FTMUSD",
+  //   basicVaultType: BasicVaultType.BASIC,
 
-    source: {
-      chainId: ChainId.FANTOM,
-      basicVaultAddress: "0x7EDa4C29726355D0d8E85001B9152158b35Eae4f",
-    },
-  },
+  //   source: {
+  //     chainId: ChainId.FANTOM,
+  //     basicVaultAddress: "0x7EDa4C29726355D0d8E85001B9152158b35Eae4f",
+  //   },
+  // },
 
   // boba - boba call
   {

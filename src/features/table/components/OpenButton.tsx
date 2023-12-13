@@ -1,5 +1,7 @@
 import type { FC } from "react";
 
+import { TabType } from "../../basic-vault-modal/types";
+
 import type { VaultModalButtonProps } from "./VaultModalButton";
 import { VaultModalButton } from "./VaultModalButton";
 
@@ -16,9 +18,10 @@ export const OpenButton: FC<OpenButtonProps> = ({
   <VaultModalButton
     borderColor="#0DDBE8"
     chainId={chainId}
+    tabType={TabType.withdraw}
     vaultId={vaultId}
     vaultType={vaultType}
   >
-    Open
+    Close
   </VaultModalButton>
 );

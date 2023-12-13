@@ -118,14 +118,14 @@ export const Root = () => {
                   {/* <Route exact path={[RouterPathname.longTrade]}> */}
                   {/*  <LongOptionRedirect /> */}
                   {/* </Route> */}
-                  {/* <Route exact path={[RouterPathname.longTradeVaultModal]}> */}
-                  {/*  <LongOptionPage /> */}
-                  {/* </Route> */}
-                  <Route exact path={RouterPathname.portfolio}>
+                  {/* <Route exact path={[RouterPathname.longTradeVaultModal]}>
+                   <LongOptionPage />
+                  </Route> */}
+                  {/* <Route exact path={RouterPathname.portfolio}>
                     <PortfolioPage />
-                  </Route>
+                  </Route> */}
                   <Route>
-                    <Redirect to={RouterPathname.basic} />
+                    <Redirect to={RouterPathname.wheel} />
                   </Route>
                 </Switch>
               </PageContainer>

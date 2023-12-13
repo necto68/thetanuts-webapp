@@ -30,95 +30,130 @@ import { AppSidebarLogo } from "./AppSidebarLogo";
 import { MainNavSection } from "./MainNavSection";
 
 // navbar items stored here and mapped to JSX later so it is easier to add on
-const shortOptions = [
-  {
-    to: PagePathname.thetaIndex,
-    linkTitle: "Stronghold",
-    navIcon: IndexPage,
-  },
-  {
-    to: PagePathname.basic,
-    linkTitle: "Basic Vaults",
-    navIcon: BasicPage,
-  },
-];
+// const shortOptions = [
+//   {
+//     to: PagePathname.thetaIndex,
+//     linkTitle: "Stronghold",
+//     navIcon: IndexPage,
+//   },
+//   {
+//     to: PagePathname.basic,
+//     linkTitle: "Basic Vaults",
+//     navIcon: BasicPage,
+//   },
+// ];
 
-const longOptions = [
-  {
-    to: PagePathname.long,
-    linkTitle: "Long Vaults",
-    navIcon: LongPage,
-  },
+// const longOptions = [
+//   {
+//     to: PagePathname.long,
+//     linkTitle: "Long Vaults",
+//     navIcon: LongPage,
+//   },
 
-  // TODO: uncomment when ready to deploy long trade
-  // {
-  //   to: PagePathname.longTrade,
-  //   linkTitle: "Trade Long",
-  //   navIcon: LongTradePage,
-  // },
-];
+// TODO: uncomment when ready to deploy long trade
+// {
+//   to: PagePathname.longTrade,
+//   linkTitle: "Trade Long",
+//   navIcon: LongTradePage,
+// },
+// ];
 
 const exoticStrategies = [
   {
-    to: PagePathname.degen,
-    linkTitle: "Degen Vaults",
-    navIcon: DegenPage,
-    iconColor: "#EB5353",
+    to: PagePathname.basic,
+    linkTitle: <span style={{ paddingRight: "20px" }}>Basic Vaults</span>,
+    navIcon: BasicPage,
+    iconColor: "#1fffab",
   },
   {
     to: PagePathname.wheel,
-    linkTitle: "Wheel Vaults",
+    linkTitle: <span style={{ paddingRight: "20px" }}>Wheel Vaults</span>,
     navIcon: WheelPage,
+    iconColor: "#1fffab",
+  },
+  {
+    to: PagePathname.thetaIndex,
+
+    linkTitle: (
+      <span style={{ paddingRight: "20px" }}>Stronghold (Withdraw Only)</span>
+    ),
+
+    navIcon: IndexPage,
+    iconColor: "#1fffab",
+  },
+  {
+    to: PagePathname.long,
+
+    linkTitle: (
+      <span style={{ paddingRight: "20px" }}>Long Vaults (Withdraw Only)</span>
+    ),
+
+    navIcon: LongPage,
+    iconColor: "#1fffab",
+  },
+  {
+    to: PagePathname.degen,
+    linkTitle: "Degen Vaults (Withdraw Only)",
+    navIcon: DegenPage,
+    iconColor: "#1fffab",
   },
 ];
 
-const tools = [
-  {
-    to: PagePathname.portfolio,
-    linkTitle: "Portfolio",
-    navIcon: Portfolio,
-  },
-  {
-    to: links.analytics,
-    linkTitle: "Analytics",
-    navIcon: Analytics,
-    target: "_blank",
-  },
-];
+// const tools = [
+//   {
+//     to: PagePathname.portfolio,
+//     linkTitle: "Portfolio",
+//     navIcon: Portfolio,
+//   },
+//   {
+//     to: links.analytics,
+//     linkTitle: "Analytics",
+//     navIcon: Analytics,
+//     target: "_blank",
+//   },
+// ];
 
-const documentation = [
-  {
-    to: links.docs,
-    linkTitle: "DOCS",
-    navIcon: Documentation,
-    target: "_blank",
-  },
-];
+// const documentation = [
+//   {
+//     to: links.docs,
+//     linkTitle: "DOCS",
+//     navIcon: Documentation,
+//     target: "_blank",
+//   },
+// ];
 
-const socials = [
+// const socials = [
+//   {
+//     to: links.twitter,
+//     linkTitle: "Twitter",
+//     navIcon: Twitter,
+//     target: "_blank",
+//   },
+//   {
+//     to: links.medium,
+//     linkTitle: "Medium",
+//     navIcon: Medium,
+//     target: "_blank",
+//   },
+//   {
+//     to: links.discord,
+//     linkTitle: "Discord",
+//     navIcon: Discord,
+//     target: "_blank",
+//   },
+//   {
+//     to: links.substack,
+//     linkTitle: "Substack",
+//     navIcon: Substack,
+//     target: "_blank",
+//   },
+// ];
+
+const newDapp = [
   {
-    to: links.twitter,
-    linkTitle: "Twitter",
-    navIcon: Twitter,
-    target: "_blank",
-  },
-  {
-    to: links.medium,
-    linkTitle: "Medium",
-    navIcon: Medium,
-    target: "_blank",
-  },
-  {
-    to: links.discord,
-    linkTitle: "Discord",
-    navIcon: Discord,
-    target: "_blank",
-  },
-  {
-    to: links.substack,
-    linkTitle: "Substack",
-    navIcon: Substack,
-    target: "_blank",
+    to: "https://app.thetanuts.finance/",
+    linkTitle: "Access Thetanuts Finance v3",
+    navIcon: LongPage,
   },
 ];
 
@@ -136,17 +171,12 @@ export const Sidebar = () => {
             iconSize={13}
             iconType={CircleButtonIconType.cross}
             onClick={toggleIsShow}
-            primaryColor="#FFFFFF"
+            primaryColor="#1fffab"
           />
         </CircleButtonContainer>
       </LogoContainer>
-      <MainNavSection navItems={shortOptions} title="Short Options" />
-      <MainNavSection navItems={longOptions} title="Long Options" />
-      <MainNavSection navItems={exoticStrategies} title="Exotic Strategies" />
-      <MainNavSection navItems={tools} title="Tools" />
-      <MainNavSeparator />
-      <MainNavSection navItems={documentation} />
-      <MainNavSection navItems={socials} title="Socials" />
+      <MainNavSection navItems={exoticStrategies} title="Legacy Products" />
+      <MainNavSection navItems={newDapp} title="Thetanuts Finance v3 Upgrade" />
     </SidebarContainer>
   );
 };

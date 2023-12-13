@@ -26,7 +26,7 @@ export const { useGlobalState } = createGlobalState<GlobalState>({
   vaultModalState: {
     isShow: false,
     vaultType: VaultModalType.index,
-    tabType: TabType.deposit,
+    tabType: TabType.withdraw,
     vaultId: "",
     isBoostContentShown: false,
   },
