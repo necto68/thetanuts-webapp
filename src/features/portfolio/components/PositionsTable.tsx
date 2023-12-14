@@ -142,7 +142,7 @@ const columns: Column<PositionTableRow>[] = [
 
       return (
         <ButtonsContainer>
-          <DepositButton chainId={chainId} vaultId={id} vaultType={vaultType} />
+          {/* <DepositButton chainId={chainId} vaultId={id} vaultType={vaultType} /> */}
           <WithdrawButton
             chainId={chainId}
             vaultId={id}
