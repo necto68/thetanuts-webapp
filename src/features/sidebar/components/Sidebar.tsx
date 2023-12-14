@@ -99,19 +99,19 @@ const exoticStrategies = [
   },
 ];
 
-// const tools = [
-//   {
-//     to: PagePathname.portfolio,
-//     linkTitle: "Portfolio",
-//     navIcon: Portfolio,
-//   },
-//   {
-//     to: links.analytics,
-//     linkTitle: "Analytics",
-//     navIcon: Analytics,
-//     target: "_blank",
-//   },
-// ];
+const tools = [
+  {
+    to: PagePathname.portfolio,
+    linkTitle: "Portfolio",
+    navIcon: Portfolio,
+  },
+  // {
+  //   to: links.analytics,
+  //   linkTitle: "Analytics",
+  //   navIcon: Analytics,
+  //   target: "_blank",
+  // },
+];
 
 // const documentation = [
 //   {
@@ -176,6 +176,7 @@ export const Sidebar = () => {
         </CircleButtonContainer>
       </LogoContainer>
       <MainNavSection navItems={exoticStrategies} title="Legacy Products" />
+      <MainNavSection navItems={tools} title="Tools" />
       <MainNavSection navItems={newDapp} title="Thetanuts Finance v3 Upgrade" />
     </SidebarContainer>
   );
