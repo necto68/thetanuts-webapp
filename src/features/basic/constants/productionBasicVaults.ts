@@ -14,25 +14,25 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 
-  {
-    id: "TN-CSCCv1-ETHUSD-B",
-    basicVaultType: BasicVaultType.BASIC,
+  // {
+  //   id: "TN-CSCCv1-ETHUSD-B",
+  //   basicVaultType: BasicVaultType.BASIC,
 
-    source: {
-      chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0xcb317b4b7CB45ef6D5Aa4e43171d16760dFE5eeA",
-    },
-  },
+  //   source: {
+  //     chainId: ChainId.ETHEREUM,
+  //     basicVaultAddress: "0xcb317b4b7CB45ef6D5Aa4e43171d16760dFE5eeA",
+  //   },
+  // },
 
-  {
-    id: "TN-CSCCv1-ETHUSD-C",
-    basicVaultType: BasicVaultType.BASIC,
+  // {
+  //   id: "TN-CSCCv1-ETHUSD-C",
+  //   basicVaultType: BasicVaultType.BASIC,
 
-    source: {
-      chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0x71F5d6fa67c2C9D2b76246569093390d02F80678",
-    },
-  },
+  //   source: {
+  //     chainId: ChainId.ETHEREUM,
+  //     basicVaultAddress: "0x71F5d6fa67c2C9D2b76246569093390d02F80678",
+  //   },
+  // },
 
   // mainnet - btc call a/b/c
   {
@@ -45,25 +45,25 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 
-  {
-    id: "TN-CSCCv1-BTCUSD-B",
-    basicVaultType: BasicVaultType.BASIC,
+  // {
+  //   id: "TN-CSCCv1-BTCUSD-B",
+  //   basicVaultType: BasicVaultType.BASIC,
 
-    source: {
-      chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0xB2d3102944dEc6c4D7B0d87cA9De6eB13B70c11e",
-    },
-  },
+  //   source: {
+  //     chainId: ChainId.ETHEREUM,
+  //     basicVaultAddress: "0xB2d3102944dEc6c4D7B0d87cA9De6eB13B70c11e",
+  //   },
+  // },
 
-  {
-    id: "TN-CSCCv1-BTCUSD-C",
-    basicVaultType: BasicVaultType.BASIC,
+  // {
+  //   id: "TN-CSCCv1-BTCUSD-C",
+  //   basicVaultType: BasicVaultType.BASIC,
 
-    source: {
-      chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0xB1105529305f166531b7d857B1d6f28000278aff",
-    },
-  },
+  //   source: {
+  //     chainId: ChainId.ETHEREUM,
+  //     basicVaultAddress: "0xB1105529305f166531b7d857B1d6f28000278aff",
+  //   },
+  // },
 
   // mainnet - eth put a/b
   {
@@ -76,15 +76,15 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 
-  {
-    id: "TN-CSCPv1-ETHUSD-B",
-    basicVaultType: BasicVaultType.BASIC,
+  // {
+  //   id: "TN-CSCPv1-ETHUSD-B",
+  //   basicVaultType: BasicVaultType.BASIC,
 
-    source: {
-      chainId: ChainId.ETHEREUM,
-      basicVaultAddress: "0xE1c93dE547cc85CBD568295f6CC322B1dbBCf8Ae",
-    },
-  },
+  //   source: {
+  //     chainId: ChainId.ETHEREUM,
+  //     basicVaultAddress: "0xE1c93dE547cc85CBD568295f6CC322B1dbBCf8Ae",
+  //   },
+  // },
 
   // mainnet - btc put
   {
