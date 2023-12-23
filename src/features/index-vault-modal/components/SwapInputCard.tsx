@@ -175,8 +175,6 @@ export const SwapInputCard: FC<SwapInputCardProps> = ({
   const isPriceImpactError =
     isShowDirectDepositProposal || isShowDirectWithdrawProposal;
 
-    console.log('isShowDirectWithdrawProposal',isShowDirectWithdrawProposal)
-
   const assetLogo = getLogoBySymbol(currentData?.symbol);
 
   let symbolTitle = currentData?.symbol;
