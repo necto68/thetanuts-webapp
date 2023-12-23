@@ -92,7 +92,7 @@ export const CardWarning: FC<CardWarningProps> = ({
     contentType === ModalContentType.withdraw;
 
   const isShowDirectWithdrawProposal =
-    !isSource && isFlipped && isDirectModeBetterThanSwapMode && isOnSourceChain;
+    !isSource && isFlipped;
 
   const isShowPriceWarning =
     isShowDirectDepositProposal ||

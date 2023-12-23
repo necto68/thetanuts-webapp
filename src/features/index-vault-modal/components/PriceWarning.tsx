@@ -78,9 +78,9 @@ export const PriceWarning: FC<PriceWarningProps> = ({
   return (
     <Container>
       <IconContainer height={16} width={16}>
-        <Warning />
+        {/* <Warning /> */}
       </IconContainer>
-      {isShowDirectDepositProposal ? (
+      {/* {isShowDirectDepositProposal ? (
         <WarningTitle size={12}>
           High Price Impact!{" "}
           <WarningLink href={bridgeUrl} target="_blank">
@@ -89,22 +89,21 @@ export const PriceWarning: FC<PriceWarningProps> = ({
           {` to bridge your ${symbol} over to `}
           <WarningLink>{`${chainTitle} network`}</WarningLink> for optimal swap.
         </WarningTitle>
-      ) : null}
+      ) : null} */}
       {isShowDirectWithdrawProposal ? (
         <WarningTitle>
-          High Slippage.
           <WarningAction onClick={startWithdraw}>Click Here</WarningAction>
           &nbsp;to Direct Withdraw for minimal slippage
         </WarningTitle>
       ) : null}
-      {isShowSwapProposal ? (
+      {/* {isShowSwapProposal ? (
         <WarningTitle>
           Low Swap Value. Click Here
           <WarningAction onClick={backToSwap}>Click Here</WarningAction>
           &nbsp;to swap instead
         </WarningTitle>
-      ) : null}
-      {isShowMinInputValueTitle ? (
+      ) : null} */}
+      {/* {isShowMinInputValueTitle ? (
         <WarningTitle>
           You can&apos;t {depositTitle[vaultType]} less than{" "}
           <WarningLink>
@@ -121,7 +120,7 @@ export const PriceWarning: FC<PriceWarningProps> = ({
           . If you want to {depositTitle[vaultType]} more - please{" "}
           <WarningLink href={links.discord}>contact us</WarningLink>.
         </WarningTitle>
-      ) : null}
+      ) : null} */}
     </Container>
   );
 };
