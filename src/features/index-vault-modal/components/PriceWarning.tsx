@@ -93,7 +93,7 @@ export const PriceWarning: FC<PriceWarningProps> = ({
       {isShowDirectWithdrawProposal ? (
         <WarningTitle>
           <WarningAction onClick={startWithdraw}>Click Here</WarningAction>
-          &nbsp;to Direct Withdraw for minimal slippage
+          &nbsp;to Direct Withdraw
         </WarningTitle>
       ) : null}
       {/* {isShowSwapProposal ? (
