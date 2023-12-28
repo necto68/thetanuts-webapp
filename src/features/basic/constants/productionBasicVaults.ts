@@ -152,6 +152,17 @@ export const productionBasicVaults: BasicVaultConfig[] = [
     },
   },
 
+  // bsc = bnb call layer 3
+  {
+    id: "TN-CSCCv3-BNBUSD",
+    basicVaultType: BasicVaultType.BASIC,
+
+    source: {
+      chainId: ChainId.BSC,
+      basicVaultAddress: "0x9d574fba8C74BDFAC3010453d32B85831d65C88A",
+    },
+  },
+
   // bsc - ada call
   {
     id: "TN-CSCCv1-ADAUSD",
