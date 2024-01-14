@@ -8,7 +8,7 @@ import { Root } from "../../root/components";
 import { queryClient } from "../../shared/helpers";
 import { SidebarStateProvider } from "../../sidebar/providers";
 import { DarkAppTheme } from "../constants/appTheme";
-import { useInitLogRocket } from "../hooks";
+// import { useInitLogRocket } from "../hooks";
 
 import { Banner } from "./Banner";
 import { GlobalStyle } from "./App.styles";
@@ -16,21 +16,17 @@ import { GlobalStyle } from "./App.styles";
 Big.NE = -20;
 Big.PE = 80;
 
-export const App = () => {
-  useInitLogRocket();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <ThemeProvider theme={DarkAppTheme}>
-          <GlobalStyle />
-          <Banner />
-          <SidebarStateProvider>
-            <Root />
-          </SidebarStateProvider>
-        </ThemeProvider>
-      </Router>
-      <ReactQueryDevtools />
-    </QueryClientProvider>
-  );
-};
+export const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <Router>
+      <ThemeProvider theme={DarkAppTheme}>
+        <GlobalStyle />
+        <Banner />
+        <SidebarStateProvider>
+          <Root />
+        </SidebarStateProvider>
+      </ThemeProvider>
+    </Router>
+    <ReactQueryDevtools />
+  </QueryClientProvider>
+);
